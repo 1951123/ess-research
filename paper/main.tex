@@ -1,0 +1,285 @@
+\documentclass[sigconf, nonacm]{acmart}
+
+%%% do not modify the following VLDB block %%%
+%%% VLDB block start %%%
+\usepackage{pvldb}
+%%% VLDB block end %%%
+
+\renewcommand\vldbdoi{XX.XX/XXX.XX}
+\renewcommand\vldbpages{XXX--XXX}
+\renewcommand\vldbavailabilityurl{}
+
+\newcommand{\E}{\mathcal{E}}
+
+\begin{document}
+\title{Budgeted Pessimistic Extended-Statistics Selection under Maintenance Constraints}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \city{Anonymous City}
+  \country{Anonymous Country}
+}
+
+\begin{abstract}
+Placeholder abstract for the problem-formulation manuscript.
+\end{abstract}
+
+\maketitle
+
+%%% do not modify the following VLDB block %%%
+%%% VLDB block start %%%
+\vldbtopmatter
+%%% VLDB block end %%%
+
+\section{Problem Formulation}
+
+\subsection{Cardinality-Estimation Tasks and Resources}
+
+Let $\mathcal I$ be a finite collection of cardinality-estimation tasks.
+Task $i\in\mathcal I$ identifies a specified relational cardinality target
+and its estimation context.  It may describe a selection, a join result, a
+logical intermediate result, or another explicitly defined relational
+expression.  A task is not necessarily an entire SQL query or a physical
+execution-plan node.  Its true cardinality is $N_i\geq 0$, its positive
+reference target is
+\[
+  T_i=\max\{1,N_i\},
+\]
+and its workload weight is $w_i>0$.
+
+Let $\E$ be a finite universe of candidate estimation resources.  The
+advisor chooses one global, unordered resource set $M\subseteq\E$ shared by
+all tasks.  No restriction on resource arity, representation, or internal
+implementation is imposed at this level.  The only resource constraint is a
+maintenance budget.  Let
+\[
+  \operatorname{Maint}:2^{\E}\longrightarrow\mathbb R_{\geq 0}
+\]
+be the additional maintenance cost relative to the baseline database
+maintenance process, normalized by
+$\operatorname{Maint}(\varnothing)=0$.  More generally, it may depend on
+fixed external conditions $\xi$, written
+$\operatorname{Maint}(M;\xi)$, including the database state, data-modification
+workload, refresh policy, evaluation horizon, and accounting convention.  We
+abbreviate the fixed-instance function to $\operatorname{Maint}(M)$ and
+require
+\[
+  \operatorname{Maint}(M)\leq B,\qquad B\geq 0.
+\]
+The function is not assumed to be additive, monotone, submodular, or
+determined by per-resource coefficients.
+
+\subsection{Admissible Schemes and Estimation Models}
+
+For each task $i$, let $\Omega_i$ be a finite universe of complete
+estimation schemes.  A scheme $\sigma\in\Omega_i$ contains all information
+needed to determine how the target is estimated; depending on the underlying
+system, it may encode selected resources, application order, predicate
+coverage, estimator-specific choices, and context.  Define the resources it
+requires by
+\[
+  \operatorname{used}(\sigma)\subseteq\E.
+\]
+The abstract admissibility interface is
+\[
+  \Gamma_i:2^{\E}\longrightarrow
+  2^{\Omega_i}\setminus\{\varnothing\},
+\]
+with the consistency condition
+\[
+  \sigma\in\Gamma_i(M)
+  \;\Longrightarrow\;
+  \operatorname{used}(\sigma)\subseteq M.
+\]
+We assume a baseline scheme is admissible for the empty set, so that
+$\Gamma_i(M)$ is nonempty for every $M$, including
+$M=\varnothing$.  No monotonicity is imposed: creating additional
+resources need not imply
+$\Gamma_i(M_1)\subseteq\Gamma_i(M_2)$ when
+$M_1\subseteq M_2$.  Thus, resources created by the advisor and resources
+actually used by an admissible scheme are distinct concepts.  Schemes are
+not required to be sets, matchings, sequences, or execution plans.
+
+Separately, let the black-box estimator be
+\[
+  \operatorname{Est}_i:\Omega_i\longrightarrow\mathbb R_{>0}.
+\]
+It returns the estimated cardinality of task $i$ under scheme $\sigma$.
+The generic formulation imposes no algebraic structure on this function:
+there is no assumption of multiplicative separability, statistical
+independence, additive resource effects, or database-specific output
+conversion.  Admissibility determines which schemes may occur, whereas
+$\operatorname{Est}_i$ determines the estimate produced by each scheme.
+Finally, let $\ell_i:\Omega_i\to\mathbb R_{\geq0}$ be a task-specific loss.
+The principal illustrative choice is absolute logarithmic error,
+\[
+  \ell_i(\sigma)=
+  \left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
+\]
+
+\subsection{General Pessimistic Selection}
+
+The estimator-agnostic budgeted pessimistic selection problem is
+\[
+\boxed{\begin{aligned}
+  \operatorname*{minimize}_{M\subseteq\E}\quad
+    &\sum_{i\in\mathcal I}w_i
+      \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma)\\
+  \text{subject to}\quad
+    &\operatorname{Maint}(M)\leq B.
+\end{aligned}}
+\]
+The decision is the created resource set $M$; the adversarial choice ranges
+only over admissible schemes, and the estimator and loss evaluate those
+schemes.  The individual task maxima are taken independently, so the model
+need not correspond to one globally consistent adversarial policy.  In
+particular, selecting more resources is not assumed to improve the objective
+monotonically.  The objective concerns cardinality-estimation accuracy, not
+physical plan selection or query execution time.
+
+If a family of actual policies $\Theta$ produces schemes
+$\sigma_i(M;\theta)$ satisfying
+$\sigma_i(M;\theta)\in\Gamma_i(M)$ for every relevant $i$, $M$, and
+$\theta$, then, for the same loss model,
+\[
+  \max_{\theta\in\Theta}\sum_{i\in\mathcal I}w_i
+    \ell_i\bigl(\sigma_i(M;\theta)\bigr)
+  \leq
+  \sum_{i\in\mathcal I}w_i
+    \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma).
+\]
+This conditional inequality may be strict when policy choices are coupled
+across tasks; it is not an unconditional guarantee about any particular
+database system.  If each SQL query contributes exactly one task, then
+$\mathcal I$ is equivalent to a query-indexed workload.  A query may instead
+contribute several logical cardinality tasks.  Such a task specifies what is
+estimated, an estimation scheme specifies how resources and estimator
+decisions are used, and a physical plan specifies how execution proceeds;
+these are distinct objects.
+
+\subsection{Pairwise PostgreSQL MCV Instantiation}
+
+We now specialize the abstract problem to the controlled single-table
+conjunctive cardinality-estimation tasks considered in this study.  This
+specialization is restricted to two-column PostgreSQL MCV statistics and
+does not define the generic problem.
+
+\paragraph{Pairwise admissibility.}
+Each candidate $e$ covers an attribute set $A_e$ with
+$|A_e|=2$.  For task $i$, let $\E_i\subseteq\E$ contain the candidates that
+are structurally eligible from their statistic kind, covered columns, and
+predicate operators.  These candidates form the edge-labeled multigraph
+\[
+  H_i=(V_i,\E_i),\qquad
+  V_i=\bigcup_{e\in\E_i}A_e.
+\]
+Every edge retains its candidate identity; distinct statistics with the same
+endpoints are parallel edges.  For a created set $M$, $H_i[M]$ contains the
+eligible edges in $M\cap\E_i$.
+
+The concrete admissibility rule is
+\[
+  \boxed{\Gamma_i^{\mathrm{MM}}(M)=
+    \operatorname{MaximalMatchings}(H_i[M]).}
+\]
+A matching is a set of edges with no shared endpoint.  It is maximal if no
+additional available edge can be added while preserving that property;
+maximal does not mean maximum cardinality.  The empty graph has the unique
+empty matching.  This rule is a deliberate abstraction of a restricted
+PostgreSQL estimator behavior motivated by compatible clause coverage.  It
+is not a universal characterization of PostgreSQL, arbitrary predicates,
+join or intermediate-result estimation, or statistics with more than two
+attributes.
+
+\paragraph{Pre-clamp multiplicative estimator.}
+Let $n_i^0>0$ be the baseline pre-clamp cardinality estimate and let
+$r_{e,i}>0$ be a fixed correction factor for each eligible candidate.  For a
+matching $P\in\Gamma_i^{\mathrm{MM}}(M)$, define
+\[
+  \boxed{\operatorname{Est}_i^{\mathrm{mult}}(P)=
+    n_i^0\prod_{e\in P}r_{e,i}.}
+\]
+The factors are calibrated from full-precision, pre-clamp estimation
+quantities rather than rounded displayed \texttt{Plan Rows}.  This is the
+explicit assumption of multiplicative separability: a factor is fixed for a
+task and does not depend on which other compatible resources are used.  It
+does not assert independence of the underlying attributes; a multivariate
+statistic may encode dependence within its own attribute group.  Define
+\[
+  \alpha_i=\log\frac{n_i^0}{T_i},\qquad
+  b_{e,i}=\log r_{e,i}.
+\]
+The resulting raw loss is
+\[
+  \ell_i^{\mathrm{raw}}(P)=
+  \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|.
+\]
+
+For comparison with finalized PostgreSQL row estimates, the concrete
+instantiation may apply the implementation-scoped transformation
+\[
+  C_{\mathrm{PG}}(x)=
+  \begin{cases}
+    1,&0<x\leq 1,\\
+    \operatorname{rint}(x),&1<x\leq x_{\max},
+  \end{cases}
+\]
+for finite positive $x$ in the ordinary regime.  Here $x_{\max}$ denotes
+the implementation's finite cap and $\operatorname{rint}$ follows its
+floating-point rounding mode; nonfinite inputs and other very-large-value
+paths are outside this instantiation.  The corresponding secondary plan
+loss is
+\[
+  \ell_i^{\mathrm{plan}}(P)=
+  \left|\log C_{\mathrm{PG}}
+    \bigl(\operatorname{Est}_i^{\mathrm{mult}}(P)\bigr)-\log T_i\right|.
+\]
+Raw and plan loss are distinct objectives and need not have the same
+optimizer.  In the remainder, raw loss is the primary theoretical
+convention.
+
+\paragraph{PostgreSQL maintenance cost.}
+For the controlled PostgreSQL instance, assume PostgreSQL 16.14, two-column
+MCV objects, a fixed shared \texttt{ANALYZE} sample configuration, unchanged
+shared sampling work when candidates are selected, fixed candidate
+definitions and effective statistics targets, and fixed refresh frequency
+and evaluation horizon.  Let $p_e\geq0$ be a per-refresh CPU-time
+coefficient for candidate $e$, and let $\nu_{t(e)}$ be the expected number
+of refreshes for its table during that horizon.  Define
+\[
+  \bar m_e=\nu_{t(e)}p_e,
+  \qquad
+  \widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)=
+    \sum_{e\in M}\bar m_e.
+\]
+This additive expression is the chosen structured approximation for the
+controlled PostgreSQL instance.  Shared sampling and sequential per-object
+MCV construction motivate object-level work, but do not prove that elapsed
+CPU time is exactly additive.  The coefficients have not yet been obtained
+or validated.  A future independent, catalog-free MCV profiling interface
+will estimate object-level CPU cost; a dry-run profiler that skips catalog
+writes does not directly measure catalog-update CPU overhead, which would
+need separate calibration for a full-refresh interpretation.  These remarks
+specify the cost-model status, not a profiler implementation.
+
+\paragraph{Concrete optimization problem.}
+Substituting the pairwise admissibility rule, raw loss, and PostgreSQL
+maintenance proxy into the general problem gives
+\[
+\boxed{\begin{aligned}
+  \operatorname*{minimize}_{M\subseteq\E}\quad
+    &\sum_{i\in\mathcal I}w_i
+      \max_{P\in\operatorname{MaximalMatchings}(H_i[M])}
+      \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|\\
+  \text{subject to}\quad
+    &\sum_{e\in M}\bar m_e\leq B.
+\end{aligned}}
+\]
+Here $B$ is measured in CPU-seconds over the fixed evaluation horizon.
+This is a concrete maintenance-cost specialization; it does not impose
+additivity on the abstract function $\operatorname{Maint}$.  The numerical
+cost coefficients and the resulting optimization are not claimed to have
+been empirically validated here.
+
+\end{document}
