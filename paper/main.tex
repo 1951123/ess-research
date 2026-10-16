@@ -92,10 +92,14 @@ with the consistency condition
   \;\Longrightarrow\;
   \operatorname{used}(\sigma)\subseteq M.
 \]
-We assume a baseline scheme is admissible for the empty set, so that
-$\Gamma_i(M)$ is nonempty for every $M$, including
-$M=\varnothing$.  No monotonicity is imposed: creating additional
-resources need not imply
+We require directly that
+\[
+  \forall i\in\mathcal I,\;\forall M\subseteq\E:
+  \qquad \Gamma_i(M)\neq\varnothing.
+\]
+A baseline scheme $\sigma_i^{\varnothing}\in\Gamma_i(\varnothing)$ is
+available at $M=\varnothing$, but it need not remain admissible for nonempty
+created sets.  No monotonicity is imposed: creating additional resources need not imply
 $\Gamma_i(M_1)\subseteq\Gamma_i(M_2)$ when
 $M_1\subseteq M_2$.  Thus, resources created by the advisor and resources
 actually used by an admissible scheme are distinct concepts.  Schemes are
@@ -138,7 +142,7 @@ particular, selecting more resources is not assumed to improve the objective
 monotonically.  The objective concerns cardinality-estimation accuracy, not
 physical plan selection or query execution time.
 
-If a family of actual policies $\Theta$ produces schemes
+For a nonempty family of actual policies $\Theta$ that produces schemes
 $\sigma_i(M;\theta)$ satisfying
 $\sigma_i(M;\theta)\in\Gamma_i(M)$ for every relevant $i$, $M$, and
 $\theta$, then, for the same loss model,
@@ -178,15 +182,28 @@ Every edge retains its candidate identity; distinct statistics with the same
 endpoints are parallel edges.  For a created set $M$, $H_i[M]$ contains the
 eligible edges in $M\cap\E_i$.
 
-The concrete admissibility rule is
+The concrete scheme universe and resource-use mapping are
+\[
+  \Omega_i^{\mathrm{MM}}=\operatorname{Matchings}(H_i),
+  \qquad \operatorname{used}(P)=P,
+\]
+where the matching universe includes the empty matching.  For a created set
+$M$, the concrete admissibility rule is
 \[
   \boxed{\Gamma_i^{\mathrm{MM}}(M)=
     \operatorname{MaximalMatchings}(H_i[M]).}
 \]
+Every maximal matching of $H_i[M]$ is a matching of the full graph, so
+$\Gamma_i^{\mathrm{MM}}(M)\subseteq\Omega_i^{\mathrm{MM}}$; moreover,
+$P\in\Gamma_i^{\mathrm{MM}}(M)$ implies
+$\operatorname{used}(P)=P\subseteq M$.  Finite graphs always have a maximal
+matching, including the unique empty matching of an edgeless graph, so this
+rule satisfies the generic nonemptiness requirement.
+
 A matching is a set of edges with no shared endpoint.  It is maximal if no
 additional available edge can be added while preserving that property;
-maximal does not mean maximum cardinality.  The empty graph has the unique
-empty matching.  This rule is a deliberate abstraction of a restricted
+maximal does not mean maximum cardinality.  This rule is a deliberate
+abstraction of a restricted
 PostgreSQL estimator behavior motivated by compatible clause coverage.  It
 is not a universal characterization of PostgreSQL, arbitrary predicates,
 join or intermediate-result estimation, or statistics with more than two
@@ -240,28 +257,59 @@ optimizer.  In the remainder, raw loss is the primary theoretical
 convention.
 
 \paragraph{PostgreSQL maintenance cost.}
-For the controlled PostgreSQL instance, assume PostgreSQL 16.14, two-column
-MCV objects, a fixed shared \texttt{ANALYZE} sample configuration, unchanged
-shared sampling work when candidates are selected, fixed candidate
-definitions and effective statistics targets, and fixed refresh frequency
-and evaluation horizon.  Let $p_e\geq0$ be a per-refresh CPU-time
-coefficient for candidate $e$, and let $\nu_{t(e)}$ be the expected number
-of refreshes for its table during that horizon.  Define
+For the controlled PostgreSQL instance, assume PostgreSQL 16.14 and
+two-column MCV objects.  For each relevant table $t$, let $S_t$ denote one
+fixed realized sample of table tuples, and let $\widehat R_t$ be its
+associated estimated total row count supplied to the statistics-building
+procedure.  Across compared resource selections, the actual tuple contents
+of $S_t$, including relevant attribute values, $\widehat R_t$, candidate
+definitions, effective statistics targets, relation schema, data types,
+collations, and other relevant build and estimator settings are fixed.  The
+reference sample must be adequate for the statistics-target requirements of
+all considered candidates.  Candidate selection does not change the shared
+sample-acquisition workload.  Thus, the complete sample-derived MCV build
+input, rather than only its tuple count, is controlled in the fixed
+evaluation environment.
+
+This is an experimental and mathematical control assumption, not a claim
+that standard PostgreSQL reuses identical random samples across repeated
+\texttt{ANALYZE} executions; no sample-fixing capability is presumed to be
+implemented here.  Fixing $S_t$ and its associated metadata makes candidate
+statistics comparable, but does not establish multiplicative separability.
+That separability remains the explicit estimator assumption above.  Likewise,
+fixed sampling and sequential per-object construction do not imply additive physical
+CPU time.
+
+Let $p_e(S_{t(e)})\geq0$ denote the modeled additional CPU work, in
+CPU-seconds, attributable to refreshing candidate MCV $e$ once, conditioned
+on the fixed reference sample and controlled PostgreSQL environment.  Its
+intended full-refresh scope includes candidate-specific build-data
+preparation, MCV construction, MCV serialization, and attributable CPU work
+of persisting the statistics result.  Shared sample acquisition and baseline
+single-column statistics maintenance are excluded.  CPU-seconds measure
+computing work, not wall-clock response time; memory peaks and I/O bytes are
+not additional terms in this scalar budget without a separate conversion
+model.  The coefficient is a defined, presently uncalibrated model
+parameter: a catalog-free offline profiler can directly measure
+construction-related work, but catalog-update overhead requires separate
+estimation or calibration if complete refresh overhead is intended.
+
+Let $\nu_t\geq0$ be the externally specified expected number of refreshes for
+table $t$ during the fixed evaluation horizon.  Define
 \[
-  \bar m_e=\nu_{t(e)}p_e,
+  \bar m_e=\nu_{t(e)}p_e(S_{t(e)}),
   \qquad
-  \widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)=
-    \sum_{e\in M}\bar m_e.
+  \boxed{\widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)=
+    \sum_{e\in M}\bar m_e.}
 \]
-This additive expression is the chosen structured approximation for the
-controlled PostgreSQL instance.  Shared sampling and sequential per-object
-MCV construction motivate object-level work, but do not prove that elapsed
-CPU time is exactly additive.  The coefficients have not yet been obtained
-or validated.  A future independent, catalog-free MCV profiling interface
-will estimate object-level CPU cost; a dry-run profiler that skips catalog
-writes does not directly measure catalog-update CPU overhead, which would
-need separate calibration for a full-refresh interpretation.  These remarks
-specify the cost-model status, not a profiler implementation.
+This is a reference-sample-based period-level proxy.  Using one per-refresh
+coefficient over multiple refreshes assumes that it is sufficiently
+representative of that period; it does not claim that future \texttt{ANALYZE}
+executions reuse the same tuples.  Changes in table contents, value widths,
+data distributions, or maintenance workload may change realized costs.
+The refresh counts and horizon are fixed external inputs, not advisor
+decisions, and neither the coefficients nor the representative-sample
+assumption has yet been experimentally validated.
 
 \paragraph{Concrete optimization problem.}
 Substituting the pairwise admissibility rule, raw loss, and PostgreSQL
