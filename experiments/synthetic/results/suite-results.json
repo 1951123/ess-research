@@ -1,0 +1,1218 @@
+{
+  "metadata": {
+    "configs": [
+      {
+        "attribute_count": 4,
+        "candidate_count": 5,
+        "exhaustive": true,
+        "instance_id": "tiny_mixed",
+        "mixed_sign": true,
+        "seed": 101,
+        "sign_mode": "mixed",
+        "task_count": 3,
+        "tight_budget": true,
+        "zero_cost": false
+      },
+      {
+        "attribute_count": 5,
+        "candidate_count": 7,
+        "exhaustive": true,
+        "instance_id": "small_shared",
+        "mixed_sign": true,
+        "seed": 202,
+        "sign_mode": "mixed",
+        "task_count": 4,
+        "tight_budget": true,
+        "zero_cost": false
+      },
+      {
+        "attribute_count": 4,
+        "candidate_count": 8,
+        "exhaustive": true,
+        "instance_id": "parallel_zero_cost",
+        "mixed_sign": true,
+        "seed": 303,
+        "sign_mode": "mixed",
+        "task_count": 4,
+        "tight_budget": false,
+        "zero_cost": true
+      },
+      {
+        "attribute_count": 5,
+        "candidate_count": 8,
+        "exhaustive": true,
+        "instance_id": "positive_sign",
+        "mixed_sign": false,
+        "seed": 404,
+        "sign_mode": "positive",
+        "task_count": 4,
+        "tight_budget": true,
+        "zero_cost": false
+      },
+      {
+        "attribute_count": 5,
+        "candidate_count": 12,
+        "exhaustive": false,
+        "instance_id": "medium_dense",
+        "mixed_sign": true,
+        "seed": 505,
+        "sign_mode": "mixed",
+        "task_count": 6,
+        "tight_budget": true,
+        "zero_cost": false
+      }
+    ],
+    "dependency_versions": {
+      "networkx": "3.7",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    },
+    "inner_time_limit_seconds": 5.0,
+    "installation_commands": [
+      "python3 -m venv .venv",
+      ".venv/bin/python -m pip install -r requirements.txt",
+      ".venv/bin/python -m pip install -e /home/wqts/projects/ess-advisor"
+    ],
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "time_limit_seconds": 10.0
+  },
+  "records": [
+    {
+      "budget": "7/3",
+      "candidate_count": 5,
+      "instance_id": "tiny_mixed",
+      "kind": "instance",
+      "seed": 101,
+      "task_count": 3,
+      "task_graphs": [
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 3,
+          "full_matching_scenarios": 4,
+          "task_id": "i000"
+        },
+        {
+          "distinct_attributes": 2,
+          "eligible_candidates": 1,
+          "full_matching_scenarios": 2,
+          "task_id": "i001"
+        },
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 4,
+          "full_matching_scenarios": 7,
+          "task_id": "i002"
+        }
+      ]
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 0,
+      "evaluated_subsets": 32,
+      "feasible_subsets": 9,
+      "inner_oracle_calls": 0,
+      "instance_id": "tiny_mixed",
+      "kind": "solver",
+      "lower_bound": 9.5,
+      "maintenance_cost": null,
+      "master_iterations": 0,
+      "objective": "19/2",
+      "runtime_seconds": 1.9199796952307224e-07,
+      "scenario_count": null,
+      "selected": [
+        [
+          "e002",
+          "e003"
+        ]
+      ],
+      "solver": "exhaustive_reference",
+      "status": "optimal",
+      "termination_reason": "complete finite enumeration",
+      "upper_bound": 9.5
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 13,
+      "inner_oracle_calls": 0,
+      "instance_id": "tiny_mixed",
+      "kind": "solver",
+      "lower_bound": 9.5,
+      "maintenance_cost": "2",
+      "master_iterations": 1,
+      "objective": "19/2",
+      "runtime_seconds": 0.006676003999018576,
+      "scenario_count": 13,
+      "selected": [
+        "e002",
+        "e003"
+      ],
+      "solver": "static_full_conditional",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.5,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "3/2",
+          "witness": [
+            "e002"
+          ]
+        },
+        "i001": {
+          "loss": "2",
+          "witness": []
+        },
+        "i002": {
+          "loss": "2",
+          "witness": [
+            "e003"
+          ]
+        }
+      },
+      "termination_reason": "static full conditional formulation solved",
+      "upper_bound": 9.5
+    },
+    {
+      "certified_early_exits": 10,
+      "distinct_cuts": 8,
+      "inner_oracle_calls": 10,
+      "instance_id": "tiny_mixed",
+      "kind": "solver",
+      "lower_bound": 9.5,
+      "maintenance_cost": "2",
+      "master_iterations": 5,
+      "objective": "19/2",
+      "runtime_seconds": 0.01990186899638502,
+      "scenario_count": 8,
+      "selected": [
+        "e002",
+        "e003"
+      ],
+      "solver": "master_oracle",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 9.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 9.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 9.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.5,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "3/2",
+          "witness": [
+            "e002"
+          ]
+        },
+        "i001": {
+          "loss": "2",
+          "witness": []
+        },
+        "i002": {
+          "loss": "2",
+          "witness": [
+            "e003"
+          ]
+        }
+      },
+      "termination_reason": "no violated conditional cut",
+      "upper_bound": 9.5
+    },
+    {
+      "budget": "13/3",
+      "candidate_count": 7,
+      "instance_id": "small_shared",
+      "kind": "instance",
+      "seed": 202,
+      "task_count": 4,
+      "task_graphs": [
+        {
+          "distinct_attributes": 3,
+          "eligible_candidates": 3,
+          "full_matching_scenarios": 4,
+          "task_id": "i000"
+        },
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 4,
+          "full_matching_scenarios": 7,
+          "task_id": "i001"
+        },
+        {
+          "distinct_attributes": 3,
+          "eligible_candidates": 3,
+          "full_matching_scenarios": 4,
+          "task_id": "i002"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 6,
+          "full_matching_scenarios": 11,
+          "task_id": "i003"
+        }
+      ]
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 0,
+      "evaluated_subsets": 128,
+      "feasible_subsets": 29,
+      "inner_oracle_calls": 0,
+      "instance_id": "small_shared",
+      "kind": "solver",
+      "lower_bound": 18.5,
+      "maintenance_cost": null,
+      "master_iterations": 0,
+      "objective": "37/2",
+      "runtime_seconds": 3.759996616281569e-07,
+      "scenario_count": null,
+      "selected": [
+        [
+          "e002"
+        ],
+        [
+          "e002",
+          "e004"
+        ],
+        [
+          "e002",
+          "e006"
+        ]
+      ],
+      "solver": "exhaustive_reference",
+      "status": "optimal",
+      "termination_reason": "complete finite enumeration",
+      "upper_bound": 18.5
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 26,
+      "inner_oracle_calls": 0,
+      "instance_id": "small_shared",
+      "kind": "solver",
+      "lower_bound": 18.5,
+      "maintenance_cost": "3",
+      "master_iterations": 1,
+      "objective": "37/2",
+      "runtime_seconds": 0.005535343996598385,
+      "scenario_count": 26,
+      "selected": [
+        "e002",
+        "e006"
+      ],
+      "solver": "static_full_conditional",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 18.5,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "4",
+          "witness": [
+            "e002"
+          ]
+        },
+        "i001": {
+          "loss": "3/2",
+          "witness": [
+            "e002",
+            "e006"
+          ]
+        },
+        "i002": {
+          "loss": "2",
+          "witness": []
+        },
+        "i003": {
+          "loss": "5/2",
+          "witness": [
+            "e002",
+            "e006"
+          ]
+        }
+      },
+      "termination_reason": "static full conditional formulation solved",
+      "upper_bound": 18.5
+    },
+    {
+      "certified_early_exits": 30,
+      "distinct_cuts": 17,
+      "inner_oracle_calls": 12,
+      "instance_id": "small_shared",
+      "kind": "solver",
+      "lower_bound": 18.499999000000003,
+      "maintenance_cost": "1",
+      "master_iterations": 9,
+      "objective": "37/2",
+      "runtime_seconds": 0.04578464299993357,
+      "scenario_count": 17,
+      "selected": [
+        "e002"
+      ],
+      "solver": "master_oracle",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 15.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 15.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 15.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 15.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 16.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 16.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 17.499999000000003,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 17.499999000000003,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 18.499999000000003,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "4",
+          "witness": [
+            "e002"
+          ]
+        },
+        "i001": {
+          "loss": "3/2",
+          "witness": [
+            "e002"
+          ]
+        },
+        "i002": {
+          "loss": "2",
+          "witness": []
+        },
+        "i003": {
+          "loss": "5/2",
+          "witness": [
+            "e002"
+          ]
+        }
+      },
+      "termination_reason": "no violated conditional cut",
+      "upper_bound": 18.5
+    },
+    {
+      "budget": "6",
+      "candidate_count": 8,
+      "instance_id": "parallel_zero_cost",
+      "kind": "instance",
+      "seed": 303,
+      "task_count": 4,
+      "task_graphs": [
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 5,
+          "full_matching_scenarios": 9,
+          "task_id": "i000"
+        },
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 5,
+          "full_matching_scenarios": 9,
+          "task_id": "i001"
+        },
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 6,
+          "full_matching_scenarios": 10,
+          "task_id": "i002"
+        },
+        {
+          "distinct_attributes": 4,
+          "eligible_candidates": 5,
+          "full_matching_scenarios": 9,
+          "task_id": "i003"
+        }
+      ]
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 0,
+      "evaluated_subsets": 256,
+      "feasible_subsets": 146,
+      "inner_oracle_calls": 0,
+      "instance_id": "parallel_zero_cost",
+      "kind": "solver",
+      "lower_bound": 10.5,
+      "maintenance_cost": null,
+      "master_iterations": 0,
+      "objective": "21/2",
+      "runtime_seconds": 2.1899904822930694e-07,
+      "scenario_count": null,
+      "selected": [
+        [
+          "e003",
+          "e004"
+        ],
+        [
+          "e004"
+        ]
+      ],
+      "solver": "exhaustive_reference",
+      "status": "optimal",
+      "termination_reason": "complete finite enumeration",
+      "upper_bound": 10.5
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 37,
+      "inner_oracle_calls": 0,
+      "instance_id": "parallel_zero_cost",
+      "kind": "solver",
+      "lower_bound": 10.5,
+      "maintenance_cost": "1",
+      "master_iterations": 1,
+      "objective": "21/2",
+      "runtime_seconds": 0.010842226001841482,
+      "scenario_count": 37,
+      "selected": [
+        "e004"
+      ],
+      "solver": "static_full_conditional",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 10.5,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "1/2",
+          "witness": [
+            "e004"
+          ]
+        },
+        "i001": {
+          "loss": "3/2",
+          "witness": [
+            "e004"
+          ]
+        },
+        "i002": {
+          "loss": "0",
+          "witness": []
+        },
+        "i003": {
+          "loss": "3/2",
+          "witness": [
+            "e004"
+          ]
+        }
+      },
+      "termination_reason": "static full conditional formulation solved",
+      "upper_bound": 10.5
+    },
+    {
+      "certified_early_exits": 18,
+      "distinct_cuts": 24,
+      "inner_oracle_calls": 36,
+      "instance_id": "parallel_zero_cost",
+      "kind": "solver",
+      "lower_bound": 10.499999,
+      "maintenance_cost": "1",
+      "master_iterations": 9,
+      "objective": "21/2",
+      "runtime_seconds": 0.07945520600333111,
+      "scenario_count": 24,
+      "selected": [
+        "e004"
+      ],
+      "solver": "master_oracle",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 4.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 9.5238095166819e-08,
+          "mip_node_count": 1,
+          "objective": 10.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 10.499999,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "1/2",
+          "witness": [
+            "e004"
+          ]
+        },
+        "i001": {
+          "loss": "3/2",
+          "witness": [
+            "e004"
+          ]
+        },
+        "i002": {
+          "loss": "0",
+          "witness": []
+        },
+        "i003": {
+          "loss": "3/2",
+          "witness": [
+            "e004"
+          ]
+        }
+      },
+      "termination_reason": "no violated conditional cut",
+      "upper_bound": 10.5
+    },
+    {
+      "budget": "4",
+      "candidate_count": 8,
+      "instance_id": "positive_sign",
+      "kind": "instance",
+      "seed": 404,
+      "task_count": 4,
+      "task_graphs": [
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 6,
+          "full_matching_scenarios": 15,
+          "task_id": "i000"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 7,
+          "full_matching_scenarios": 18,
+          "task_id": "i001"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 6,
+          "full_matching_scenarios": 12,
+          "task_id": "i002"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 5,
+          "full_matching_scenarios": 10,
+          "task_id": "i003"
+        }
+      ]
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 0,
+      "evaluated_subsets": 256,
+      "feasible_subsets": 70,
+      "inner_oracle_calls": 0,
+      "instance_id": "positive_sign",
+      "kind": "solver",
+      "lower_bound": 12.0,
+      "maintenance_cost": null,
+      "master_iterations": 0,
+      "objective": "12",
+      "runtime_seconds": 2.0500010577961802e-07,
+      "scenario_count": null,
+      "selected": [
+        []
+      ],
+      "solver": "exhaustive_reference",
+      "status": "optimal",
+      "termination_reason": "complete finite enumeration",
+      "upper_bound": 12.0
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 55,
+      "inner_oracle_calls": 0,
+      "instance_id": "positive_sign",
+      "kind": "solver",
+      "lower_bound": 12.0,
+      "maintenance_cost": "0",
+      "master_iterations": 1,
+      "objective": "12",
+      "runtime_seconds": 0.004844442999456078,
+      "scenario_count": 55,
+      "selected": [],
+      "solver": "static_full_conditional",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 12.0,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "2",
+          "witness": []
+        },
+        "i001": {
+          "loss": "0",
+          "witness": []
+        },
+        "i002": {
+          "loss": "2",
+          "witness": []
+        },
+        "i003": {
+          "loss": "3",
+          "witness": []
+        }
+      },
+      "termination_reason": "static full conditional formulation solved",
+      "upper_bound": 12.0
+    },
+    {
+      "certified_early_exits": 4,
+      "distinct_cuts": 0,
+      "inner_oracle_calls": 0,
+      "instance_id": "positive_sign",
+      "kind": "solver",
+      "lower_bound": 12.0,
+      "maintenance_cost": "0",
+      "master_iterations": 1,
+      "objective": "12",
+      "runtime_seconds": 0.0012645599999814294,
+      "scenario_count": 0,
+      "selected": [],
+      "solver": "master_oracle",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 12.0,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "2",
+          "witness": []
+        },
+        "i001": {
+          "loss": "0",
+          "witness": []
+        },
+        "i002": {
+          "loss": "2",
+          "witness": []
+        },
+        "i003": {
+          "loss": "3",
+          "witness": []
+        }
+      },
+      "termination_reason": "no violated conditional cut",
+      "upper_bound": 12.0
+    },
+    {
+      "budget": "28/3",
+      "candidate_count": 12,
+      "instance_id": "medium_dense",
+      "kind": "instance",
+      "seed": 505,
+      "task_count": 6,
+      "task_graphs": [
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 7,
+          "full_matching_scenarios": 18,
+          "task_id": "i000"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 9,
+          "full_matching_scenarios": 25,
+          "task_id": "i001"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 7,
+          "full_matching_scenarios": 18,
+          "task_id": "i002"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 10,
+          "full_matching_scenarios": 32,
+          "task_id": "i003"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 5,
+          "full_matching_scenarios": 12,
+          "task_id": "i004"
+        },
+        {
+          "distinct_attributes": 5,
+          "eligible_candidates": 7,
+          "full_matching_scenarios": 15,
+          "task_id": "i005"
+        }
+      ]
+    },
+    {
+      "certified_early_exits": 0,
+      "distinct_cuts": 120,
+      "inner_oracle_calls": 0,
+      "instance_id": "medium_dense",
+      "kind": "solver",
+      "lower_bound": 24.999999,
+      "maintenance_cost": "5",
+      "master_iterations": 1,
+      "objective": "25",
+      "runtime_seconds": 0.054603566000878345,
+      "scenario_count": 120,
+      "selected": [
+        "e005",
+        "e009"
+      ],
+      "solver": "static_full_conditional",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 17,
+          "objective": 24.999999,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "3",
+          "witness": [
+            "e009"
+          ]
+        },
+        "i001": {
+          "loss": "1/2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i002": {
+          "loss": "2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i003": {
+          "loss": "3",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i004": {
+          "loss": "9/2",
+          "witness": [
+            "e009"
+          ]
+        },
+        "i005": {
+          "loss": "1/2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        }
+      },
+      "termination_reason": "static full conditional formulation solved",
+      "upper_bound": 25.0
+    },
+    {
+      "certified_early_exits": 57,
+      "distinct_cuts": 96,
+      "inner_oracle_calls": 186,
+      "instance_id": "medium_dense",
+      "kind": "solver",
+      "lower_bound": 25.0,
+      "maintenance_cost": "5",
+      "master_iterations": 25,
+      "objective": "25",
+      "runtime_seconds": 0.7095857370004524,
+      "scenario_count": 96,
+      "selected": [
+        "e005",
+        "e009"
+      ],
+      "solver": "master_oracle",
+      "solver_statuses": [
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 9.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 1,
+          "objective": 11.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 11,
+          "objective": 12.999999,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 0,
+          "objective": 13.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 7,
+          "objective": 14.000000000000005,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 9,
+          "objective": 18.499999,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 10,
+          "objective": 18.499999999999986,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 11,
+          "objective": 19.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 13,
+          "objective": 20.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 14,
+          "objective": 20.99999999999995,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 24,
+          "objective": 20.999999999999993,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 24,
+          "objective": 21.999999999999993,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 14,
+          "objective": 23.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 23,
+          "objective": 23.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 24,
+          "objective": 24.0,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 25,
+          "objective": 24.5,
+          "status": 0
+        },
+        {
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "mip_node_count": 18,
+          "objective": 25.0,
+          "status": 0
+        }
+      ],
+      "status": "optimal",
+      "task_details": {
+        "i000": {
+          "loss": "3",
+          "witness": [
+            "e009"
+          ]
+        },
+        "i001": {
+          "loss": "1/2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i002": {
+          "loss": "2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i003": {
+          "loss": "3",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        },
+        "i004": {
+          "loss": "9/2",
+          "witness": [
+            "e009"
+          ]
+        },
+        "i005": {
+          "loss": "1/2",
+          "witness": [
+            "e005",
+            "e009"
+          ]
+        }
+      },
+      "termination_reason": "no violated conditional cut",
+      "upper_bound": 25.0
+    }
+  ]
+}

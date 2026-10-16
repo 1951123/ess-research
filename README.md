@@ -8,3 +8,9 @@ Related repositories:
 
 - [ess-postgresql](https://github.com/1951123/ess-postgresql): PostgreSQL source and future ESS integration work.
 - [ess-advisor](https://github.com/1951123/ess-advisor): implementation of admissibility, estimation, maintenance-cost, and optimization components.
+
+Synthetic prototype experiments are in
+experiments/synthetic/. Install the local Advisor package into this
+repository's independent virtual environment with
+.venv/bin/python -m pip install -e /home/wqts/projects/ess-advisor, then
+run experiments/synthetic/scripts/run_suite.py.

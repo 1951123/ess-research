@@ -1,0 +1,142 @@
+{
+  "budget": "13/3",
+  "candidates": [
+    {
+      "endpoints": [
+        "a3",
+        "a4"
+      ],
+      "id": "e000",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a4"
+      ],
+      "id": "e001",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a4"
+      ],
+      "id": "e002",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a4"
+      ],
+      "id": "e003",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a4"
+      ],
+      "id": "e004",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a3"
+      ],
+      "id": "e005",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a1"
+      ],
+      "id": "e006",
+      "maintenance_cost": "2",
+      "table": "t0"
+    }
+  ],
+  "tasks": [
+    {
+      "alpha": "-4",
+      "corrections": {
+        "e000": "1",
+        "e002": "0",
+        "e003": "-2"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e002",
+        "e003"
+      ],
+      "id": "i000",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "-1",
+      "corrections": {
+        "e000": "0",
+        "e001": "1/2",
+        "e002": "-1/2",
+        "e006": "0"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e002",
+        "e006"
+      ],
+      "id": "i001",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "2",
+      "corrections": {
+        "e000": "2",
+        "e001": "1/2",
+        "e005": "1/2"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e005"
+      ],
+      "id": "i002",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "4",
+      "corrections": {
+        "e000": "1",
+        "e001": "1/2",
+        "e002": "-3/2",
+        "e003": "0",
+        "e005": "-1",
+        "e006": "0"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e002",
+        "e003",
+        "e005",
+        "e006"
+      ],
+      "id": "i003",
+      "table": "t0",
+      "weight": "3"
+    }
+  ]
+}
