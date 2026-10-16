@@ -211,6 +211,64 @@ the formulation contains a conditional inequality for every one. The bound
 \(U_i\) is a correctness device, not an assertion that a resulting
 mixed-integer model will be numerically well conditioned.
 
+### Formulation strengthening: matching-specific and floor cuts
+
+The generic bound \(U_i\) can be tightened without changing the integer
+formulation. For a matching \(P\), write \(L=L_i(P)\) and
+\(\delta=\delta_i(P,x)\). Since \(0\leq L\leq U_i\) and \(\delta\geq0\),
+\[
+L(1-\delta)-\bigl(L-U_i\delta\bigr)
+=(U_i-L)\delta\geq0.
+\]
+Thus, with the common constraint \(z_i\geq0\), the
+matching-specific inequality
+\[
+\boxed{z_i\geq L_i(P)\bigl(1-\delta_i(P,x)\bigr)}
+\]
+dominates the \(U_i\)-based inequality throughout the continuous relaxation
+\(0\leq x\leq1\). For binary \(x\), an admissible matching has
+\(\delta=0\), while every inadmissible matching has integer
+\(\delta\geq1\). The displayed right-hand side is therefore \(L_i(P)\) for
+an admissible matching and is at most zero otherwise, proving exactness.
+
+A further unconditional lower bound follows from ordinary, not necessarily
+maximal, matching extrema:
+\[
+a_i^-=\min_{P\in\operatorname{Matchings}(H_i)}
+       \sum_{e\in P}b_{e,i},\qquad
+a_i^+=\max_{P\in\operatorname{Matchings}(H_i)}
+       \sum_{e\in P}b_{e,i},
+\]
+\[
+\lambda_i=\max\{0,\alpha_i+a_i^-,-\alpha_i-a_i^+\}.
+\]
+Every matching sum lies in \([a_i^-,a_i^+]\), so \(\lambda_i\) is the
+distance from zero to the interval
+\([\alpha_i+a_i^-,\alpha_i+a_i^+]\). Hence
+\(\lambda_i\leq L_i(P)\) for every full-graph matching \(P\), and
+\(0\leq\lambda_i\leq W_i(M)\) for every \(M\). The two extrema are ordinary
+weighted matching problems and are polynomial-time computable for exactly
+encoded rational or integer weights, including signed weights.
+
+The floor-strengthened family is
+\[
+\boxed{
+\quad z_i\geq\lambda_i,\qquad
+z_i\geq L_i(P)
+-(L_i(P)-\lambda_i)\delta_i(P,x).\quad}
+\]
+Because \(L_i(P)\geq\lambda_i\), its conditional right-hand side dominates
+the matching-specific one, and the floor also dominates \(z_i\geq0\);
+therefore it dominates both earlier formulations on their common
+continuous relaxation. For binary \(x\), it is exact: \(\delta=0\) activates
+the loss constraint, whereas \(\delta\geq1\) makes its right-hand side at
+most \(\lambda_i\). The coefficient \(L_i(P)-\lambda_i\) is the smallest
+uniform deactivation coefficient if the only information about an
+inadmissible binary pattern is \(\delta\geq1\). A smaller coefficient can be
+valid only after exploiting additional restrictions that rule out patterns
+with \(\delta=1\). This strengthening does not make the LP relaxation
+ideal.
+
 ## 4. Exact conditional constraint generation
 
 The matching-indexed formulation need not be materialized in advance. Let
