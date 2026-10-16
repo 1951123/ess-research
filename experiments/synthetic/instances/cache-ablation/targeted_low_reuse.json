@@ -1,0 +1,191 @@
+{
+  "budget": "5",
+  "candidates": [
+    {
+      "endpoints": [
+        "a0",
+        "a1"
+      ],
+      "id": "e000",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a1"
+      ],
+      "id": "e001",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a2"
+      ],
+      "id": "e002",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a3"
+      ],
+      "id": "e003",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a3"
+      ],
+      "id": "e004",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a4"
+      ],
+      "id": "e005",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a4"
+      ],
+      "id": "e006",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a4"
+      ],
+      "id": "e007",
+      "maintenance_cost": "1",
+      "table": "t0"
+    }
+  ],
+  "tasks": [
+    {
+      "alpha": "1",
+      "corrections": {
+        "e000": "-2",
+        "e002": "-1/2"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e002"
+      ],
+      "id": "i000",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "3",
+      "corrections": {
+        "e001": "-3/2",
+        "e003": "0"
+      },
+      "eligible_candidates": [
+        "e001",
+        "e003"
+      ],
+      "id": "i001",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "-2",
+      "corrections": {
+        "e002": "-1",
+        "e004": "1/2"
+      },
+      "eligible_candidates": [
+        "e002",
+        "e004"
+      ],
+      "id": "i002",
+      "table": "t0",
+      "weight": "3"
+    },
+    {
+      "alpha": "0",
+      "corrections": {
+        "e003": "-1/2",
+        "e005": "1"
+      },
+      "eligible_candidates": [
+        "e003",
+        "e005"
+      ],
+      "id": "i003",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "2",
+      "corrections": {
+        "e004": "0",
+        "e006": "3/2"
+      },
+      "eligible_candidates": [
+        "e004",
+        "e006"
+      ],
+      "id": "i004",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "-3",
+      "corrections": {
+        "e005": "1/2",
+        "e007": "2"
+      },
+      "eligible_candidates": [
+        "e005",
+        "e007"
+      ],
+      "id": "i005",
+      "table": "t0",
+      "weight": "3"
+    },
+    {
+      "alpha": "-1",
+      "corrections": {
+        "e000": "-2",
+        "e006": "1"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e006"
+      ],
+      "id": "i006",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "1",
+      "corrections": {
+        "e001": "-3/2",
+        "e007": "3/2"
+      },
+      "eligible_candidates": [
+        "e001",
+        "e007"
+      ],
+      "id": "i007",
+      "table": "t0",
+      "weight": "2"
+    }
+  ]
+}

@@ -172,8 +172,24 @@ def _outer_record(
         "inner_oracle_calls": result.inner_oracle_calls,
         "certified_early_exits": result.certified_early_exits,
         "task_evaluations": result.task_evaluations,
+        "task_evaluation_requests": result.task_evaluation_requests,
+        "task_evaluation_computations": result.task_evaluation_computations,
+        "distinct_task_local_configurations": (
+            result.distinct_task_local_configurations
+        ),
+        "cache_lookups": result.cache_lookups,
+        "cache_hits": result.cache_hits,
+        "cache_misses": result.cache_misses,
+        "cache_entries": result.cache_entries,
+        "cache_hit_rate": result.cache_hit_rate,
         "ordinary_matching_bound_evaluations": (
             result.ordinary_matching_bound_evaluations
+        ),
+        "full_graph_ordinary_matching_extrema_computations": (
+            result.full_graph_ordinary_matching_extrema_computations
+        ),
+        "task_local_ordinary_matching_bound_computations": (
+            result.task_local_ordinary_matching_bound_computations
         ),
         "exact_oracle_invocations": result.exact_oracle_invocations,
         "inner_mip_solve_calls": result.inner_mip_solve_calls,
@@ -188,6 +204,8 @@ def _outer_record(
             "exact_inner": result.exact_inner_seconds,
             "cut_construction": result.cut_construction_seconds,
             "validation": result.validation_seconds,
+            "invariant_precomputation": result.invariant_precomputation_seconds,
+            "cache_management": result.cache_management_seconds,
             "outer_internal_total": result.total_runtime_seconds,
         },
         "solver_statuses": _solver_statuses(result),
