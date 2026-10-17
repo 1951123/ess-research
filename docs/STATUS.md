@@ -35,10 +35,10 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and `trace_pairwise_mcv.sql`; **merged**.
 2. [ess-postgresql #1](https://github.com/1951123/ess-postgresql/pull/1) — DEBUG1 instrumentation; **open draft, unmerged**. The branch has now been built and executed, but the instrumentation remains separate from `main`.
 3. [ess-research #2](https://github.com/1951123/ess-research/pull/2) — context, decision log, status, Codex instructions, README entry; **merged**.
+4. [ess-research #4](https://github.com/1951123/ess-research/pull/4) — runtime trace evidence and report; **open draft, unmerged**.
 
-The new runtime evidence is being submitted separately on branch
-`experiment/pg-mcv-trace-20261017`; no merge is performed by the experiment
-runner. Recheck PR state when resuming.
+The new runtime evidence is on branch `experiment/pg-mcv-trace-20261017`; no
+merge is performed by the experiment runner. Recheck PR state when resuming.
 
 ## 4. Completed PG tracing checkpoint
 
