@@ -1,0 +1,13 @@
+{
+  "source_commit": "0d1c00c624fa7367d4a895f44381887757289682",
+  "postgres_binary": "/tmp/extstats-advisor-stock-pg16.14/bin/postgres",
+  "postgres_binary_sha256": "5810ae37bb014b08b4ac0332f6d19273b74a8bbe441f094f367f5faa1a0f6c98",
+  "psql_binary": "/tmp/extstats-advisor-stock-pg16.14/bin/psql",
+  "psql_binary_sha256": "eddb35e5385fe72938765f7857c822b9d111caacbb1f73c61c1428845dd244ce",
+  "database": "ess_issue7_v5_target300",
+  "socket_dir": "/tmp/ess-issue7-v5-target300-20261017/socket",
+  "port": 55451,
+  "database_absent_while_server_running": true,
+  "server_stopped": true,
+  "temporary_root": "/tmp/ess-issue7-v5-target300-20261017"
+}

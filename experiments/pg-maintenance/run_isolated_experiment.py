@@ -118,6 +118,28 @@ def main() -> int:
     fixture = run(base + ["-d", args.database, "-f", str(args.fixture)], lifecycle_dir, "fixture", environment=env)
     if fixture.returncode != 0:
         return fixture.returncode
+    fixture_metrics_dir = args.output_dir / "fixture-metrics"
+    fixture_metrics = run(
+        [
+            sys.executable,
+            str(args.fixture.parent / "fixture_metrics.py"),
+            "--psql",
+            str(psql),
+            "--host",
+            str(socket_dir),
+            "--port",
+            str(args.port),
+            "--database",
+            args.database,
+            "--output-dir",
+            str(fixture_metrics_dir),
+        ],
+        lifecycle_dir,
+        "fixture-metrics",
+        environment=env,
+    )
+    if fixture_metrics.returncode != 0:
+        return fixture_metrics.returncode
     benchmark = run(
         [
             sys.executable,
@@ -140,6 +162,8 @@ def main() -> int:
             args.source_commit,
             "--postgres-binary-sha256",
             sha256(bin_dir / "postgres"),
+            "--fixture-metrics",
+            str(fixture_metrics_dir / "fixture-metrics.json"),
         ],
         lifecycle_dir,
         "benchmark-wrapper",

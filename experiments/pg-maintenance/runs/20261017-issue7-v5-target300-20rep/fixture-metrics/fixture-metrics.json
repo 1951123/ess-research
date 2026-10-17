@@ -1,0 +1,55 @@
+{
+  "association_metric": "Cramer's V computed from the exact categorical contingency table; pair_distinct is the number of distinct observed value pairs",
+  "realized_sample_rows_observed": false,
+  "regimes": {
+    "correlated": {
+      "pairs": {
+        "ab": {
+          "cramers_v": 0.9976239552258169,
+          "nonzero_cells": 100,
+          "pair_distinct": 100,
+          "total_count_from_groups": 200000
+        },
+        "bc": {
+          "cramers_v": 0.15518845235929138,
+          "nonzero_cells": 394,
+          "pair_distinct": 394,
+          "total_count_from_groups": 200000
+        },
+        "cd": {
+          "cramers_v": 0.7023715365920081,
+          "nonzero_cells": 200,
+          "pair_distinct": 200,
+          "total_count_from_groups": 200000
+        }
+      }
+    },
+    "weakassoc": {
+      "pairs": {
+        "ab": {
+          "cramers_v": 0.018661381859738663,
+          "nonzero_cells": 5041,
+          "pair_distinct": 5041,
+          "total_count_from_groups": 200000
+        },
+        "bc": {
+          "cramers_v": 0.01872157941840891,
+          "nonzero_cells": 5041,
+          "pair_distinct": 5041,
+          "total_count_from_groups": 200000
+        },
+        "cd": {
+          "cramers_v": 0.018919788854830654,
+          "nonzero_cells": 5041,
+          "pair_distinct": 5041,
+          "total_count_from_groups": 200000
+        }
+      }
+    }
+  },
+  "row_counts": {
+    "correlated": 200000,
+    "weakassoc": 200000
+  },
+  "schema_version": 1
+}

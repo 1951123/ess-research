@@ -1,0 +1,14 @@
+2026-10-17 23:05:49.773 CST [15104] LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-17 23:05:49.774 CST [15104] LOG:  listening on IPv4 address "127.0.0.1", port 55451
+2026-10-17 23:05:49.774 CST [15104] LOG:  listening on Unix socket "/tmp/ess-issue7-v5-target300-20261017/socket/.s.PGSQL.55451"
+2026-10-17 23:05:49.776 CST [15107] LOG:  database system was shut down at 2026-10-17 23:05:49 CST
+2026-10-17 23:05:49.778 CST [15104] LOG:  database system is ready to accept connections
+2026-10-17 23:07:52.066 CST [15105] LOG:  checkpoint starting: immediate force wait
+2026-10-17 23:07:52.072 CST [15105] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 3 recycled; write=0.002 s, sync=0.001 s, total=0.006 s; sync files=5, longest=0.001 s, average=0.001 s; distance=51460 kB, estimate=51460 kB; lsn=0/47347B8, redo lsn=0/4734780
+2026-10-17 23:07:52.081 CST [15104] LOG:  received fast shutdown request
+2026-10-17 23:07:52.082 CST [15104] LOG:  aborting any active transactions
+2026-10-17 23:07:52.082 CST [15104] LOG:  background worker "logical replication launcher" (PID 15109) exited with exit code 1
+2026-10-17 23:07:52.082 CST [15105] LOG:  shutting down
+2026-10-17 23:07:52.083 CST [15105] LOG:  checkpoint starting: shutdown immediate
+2026-10-17 23:07:52.086 CST [15105] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.004 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=46314 kB; lsn=0/47348C0, redo lsn=0/47348C0
+2026-10-17 23:07:52.088 CST [15104] LOG:  database system is shut down

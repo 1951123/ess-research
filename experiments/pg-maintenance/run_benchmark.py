@@ -23,7 +23,7 @@ from typing import Iterable
 
 
 TABLES = {
-    "lowcorr": "ess_mcv_lowcorr",
+    "weakassoc": "ess_mcv_weakassoc",
     "correlated": "ess_mcv_correlated",
 }
 EDGES = ("ab", "bc", "cd")
@@ -31,9 +31,16 @@ TARGET_MODES = {
     "uniform10": {edge: 10 for edge in EDGES},
     "uniform100": {edge: 100 for edge in EDGES},
     "mixed_10_100_10": {"ab": 10, "bc": 100, "cd": 10},
+    "uniform300": {edge: 300 for edge in EDGES},
+    "mixed_10_300_10": {"ab": 10, "bc": 300, "cd": 10},
 }
 TIME_RE = re.compile(r"^Time: ([0-9]+(?:\.[0-9]+)?) ms$")
-META_RE = re.compile(r"^META\|([^|]+)\|([^|]+)(?:\|([0-9]+)\|([^|]+)\|([^|]+))?$")
+META_RE_WITH_REPETITION = re.compile(
+    r"^META\|([^|]+)\|([0-9]+)\|([^|]+)(?:\|([0-9]+)\|([^|]+)\|([^|]+))?$"
+)
+META_RE_LEGACY = re.compile(
+    r"^META\|([^|]+)\|([^|]+)(?:\|([0-9]+)\|([^|]+)\|([^|]+))?$"
+)
 RUN_RE = re.compile(r"^RUN\|([^|]+)\|([0-9]+)\|([0-9]+)$")
 
 
@@ -108,7 +115,7 @@ def setup_sql(condition: Condition) -> str:
     return "\n".join(lines) + "\n"
 
 
-def metadata_sql(condition: Condition) -> str:
+def metadata_sql(condition: Condition, repetition: int) -> str:
     table = sql_ident(condition.table)
     names = ", ".join(
         "'" + object_name(table, edge).replace("'", "''") + "'" for edge in EDGES
@@ -117,7 +124,9 @@ def metadata_sql(condition: Condition) -> str:
     return (
         "SELECT 'META|' || '"
         + cid
-        + "' || '|' || e.stxname || '|' || e.oid::text || '|' || "
+        + "' || '|' || "
+        + str(repetition)
+        + "::text || '|' || e.stxname || '|' || e.oid::text || '|' || "
         "COALESCE(e.stxstattarget::text, 'NULL') || '|' || "
         "(d.stxdmcv IS NOT NULL)::text "
         "FROM pg_statistic_ext e "
@@ -126,7 +135,9 @@ def metadata_sql(condition: Condition) -> str:
         "ORDER BY e.stxname;\n"
         "SELECT 'META|' || '"
         + cid
-        + "' || '|NONE' WHERE NOT EXISTS ("
+        + "' || '|' || "
+        + str(repetition)
+        + "::text || '|NONE' WHERE NOT EXISTS ("
         "SELECT 1 FROM pg_statistic_ext e "
         f"WHERE e.stxrelid = '{table}'::regclass AND e.stxname IN ({names})"
         ");\n"
@@ -152,7 +163,7 @@ def schedule_sql(schedule: list[tuple[Condition, int, int]]) -> str:
         # Read payload metadata only after the untimed ANALYZE has built the
         # newly created objects.  Reading it before warm-up would only prove
         # that the objects exist, not that their MCV payloads were built.
-        lines.append(metadata_sql(condition).rstrip())
+        lines.append(metadata_sql(condition, repetition).rstrip())
         lines.append("\\timing on")
         lines.append(f"\\echo RUN|{condition.condition_id}|{repetition}|{order_index}")
         lines.append(f"ANALYZE {sql_ident(condition.table)};")
@@ -238,12 +249,21 @@ def parse_output(stdout: str, expected_runs: int) -> tuple[list[dict], list[dict
             observations.append(row)
             pending_run = None
             continue
-        match = META_RE.match(line)
+        match = META_RE_WITH_REPETITION.match(line)
+        legacy = False
+        if match is None:
+            match = META_RE_LEGACY.match(line)
+            legacy = match is not None
         if match:
-            condition_id, name, oid, target, built = match.groups()
+            if legacy:
+                condition_id, name, oid, target, built = match.groups()
+                repetition = None
+            else:
+                condition_id, repetition, name, oid, target, built = match.groups()
             metadata.append(
                 {
                     "condition_id": condition_id,
+                    "repetition": None if repetition is None else int(repetition),
                     "name": None if name == "NONE" else name,
                     "oid": None if name == "NONE" else int(oid),
                     "statistics_target": None if name == "NONE" else int(target),
@@ -271,6 +291,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repetitions", type=int, default=7)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--postgres-binary-sha256", required=True)
+    parser.add_argument("--fixture-metrics", type=Path)
     return parser.parse_args()
 
 
@@ -334,6 +355,10 @@ def main() -> int:
         "metadata_observations": metadata,
         "observations": observations,
     }
+    if args.fixture_metrics:
+        payload["fixture_metrics"] = json.loads(
+            args.fixture_metrics.read_text(encoding="utf-8")
+        )
     output = args.output_dir / "raw-observations.json"
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"wrote {output} ({len(observations)} timed observations)")
