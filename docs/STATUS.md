@@ -18,21 +18,21 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 | Work / claim | State | Evidence and next action |
 |---|---|---|
-| Generic \(\min_M\sum_iw_i\max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma)\) framework | **Defined** | \`paper/main.tex\`; no generic efficiency claim for arbitrary black-box interfaces. |
-| Non-nested admissibility and conditional maximal-matching constraints | **Model-internal analysis** | \`notes/structural-foundations.md\`, \`notes/conditional-adversarial-constraints.md\`, \`notes/master-oracle-algorithm-design.md\`. Proof details must be reviewed before paper claims. |
+| Generic \(\min_M\sum_iw_i\max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma)\) framework | **Defined** | `paper/main.tex`; no generic efficiency claim for arbitrary black-box interfaces. |
+| Non-nested admissibility and conditional maximal-matching constraints | **Model-internal analysis** | `notes/structural-foundations.md`, `notes/conditional-adversarial-constraints.md`, `notes/master-oracle-algorithm-design.md`. Proof details must be reviewed before paper claims. |
 | Restricted PG 16.14 greedy MCV selection \(\Rightarrow\) a maximal matching | **Source-derived, runtime pending** | [ess-research Draft PR #1](https://github.com/1951123/ess-research/pull/1); exact hypotheses specified in the proposed note. |
 | All maximal matchings obtainable under freely permuted *abstract* candidate priority order | **Model-internal proposition, runtime scope limited** | Same PR #1; must **not** be restated as a guarantee about a fixed PG catalog or consistent cross-task global order. |
-| DEBUG1 tracing of selected MCV OIDs and claimed clause indices | **Proposed code, not built** | [ess-postgresql Draft PR #1](https://github.com/1951123/ess-postgresql/pull/1); instrumentation is on a separate development branch, not \`main\`. |
-| Two-order path-graph SQL fixture | **Proposed, not executed** | In ess-research Draft PR #1: \`experiments/pg-tracing/trace_pairwise_mcv.sql\`; predicted matchings \(\{ab,cd\}\) and \(\{bc\}\). |
-| Synthetic Advisor objective correctness | **Experimentally observed on recorded small instances** | \`experiments/synthetic/cache-ablation-report.md\` and checked-in results: exact Fraction exhaustive reference for \`medium_dense\` objective \(25\). Re-run is pending for new environments. |
-| Master–Oracle scalability superiority | **Not established** | Recorded \`medium_dense\` medians: static full conditional MILP about \(0.0575\,s\), combined cache+precompute Master–Oracle about \(0.6704\,s\). |
-| Positive, separable pre-clamp pairwise MCV correction factors | **Restricted source-derived argument; calibration pending** | Source in \`extended_stats.c\`, \`mcv.c\`, \`clausesel.c\`; scope, positivity, effect of clamping and rounding require testing. |
+| DEBUG1 tracing of selected MCV OIDs and claimed clause indices | **Proposed code, not built** | [ess-postgresql Draft PR #1](https://github.com/1951123/ess-postgresql/pull/1); instrumentation is on a separate development branch, not `main`. |
+| Two-order path-graph SQL fixture | **Proposed, not executed** | In ess-research Draft PR #1: `experiments/pg-tracing/trace_pairwise_mcv.sql`; predicted matchings \(\{ab,cd\}\) and \(\{bc\}\). |
+| Synthetic Advisor objective correctness | **Experimentally observed on recorded small instances** | `experiments/synthetic/cache-ablation-report.md` and checked-in results: exact Fraction exhaustive reference for `medium_dense` objective \(25\). Re-run is pending for new environments. |
+| Master–Oracle scalability superiority | **Not established** | Recorded `medium_dense` medians: static full conditional MILP about \(0.0575\,s\), combined cache+precompute Master–Oracle about \(0.6704\,s\). |
+| Positive, separable pre-clamp pairwise MCV correction factors | **Restricted source-derived argument; calibration pending** | Source in `extended_stats.c`, `mcv.c`, `clausesel.c`; scope, positivity, effect of clamping and rounding require testing. |
 | Additive maintenance cost proxy vs actual ANALYZE cost | **Model assumption; real validation pending** | Sample size can depend on the maximum extended-statistics target; measure actual refresh costs rather than asserting additivity. |
 | Decision quality under admissibility-rule misspecification | **Open research direction** | Compare worst loss / regret across plausible policies, nominal choices and pessimistic choices; avoid real-policy coverage claims without evidence. |
 
 ## 3. Draft PRs to review before doing PG experiments
 
-1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and \`trace_pairwise_mcv.sql\`; remains separate from main.
+1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and `trace_pairwise_mcv.sql`; remains separate from main.
 2. [ess-postgresql #1](https://github.com/1951123/ess-postgresql/pull/1) — DEBUG1 instrumentation; remains separate from main.
 3. The collaboration-bootstrap PR that introduces this document (number recorded on GitHub when opened): context, decision log, status, Codex instructions, README entry.
 
@@ -40,18 +40,18 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 ## 4. Next executable task: PG tracing
 
-**Target:** PostgreSQL 16.14 development build of \`ess-postgresql\` tracing branch + matching SQL fixture from \`ess-research\` PR #1.
+**Target:** PostgreSQL 16.14 development build of `ess-postgresql` tracing branch + matching SQL fixture from `ess-research` PR #1.
 
 **Suggested sequence:**
 
-1. In the local clones, \`git fetch origin\` and inspect the relevant remote research branches; do not overwrite uncommitted local work.
+1. In the local clones, `git fetch origin` and inspect the relevant remote research branches; do not overwrite uncommitted local work.
 2. Review/build the instrumented PG branch and install/start a **disposable, isolated** development instance (never run the drop/create fixture against production).
-3. Run the SQL fixture in \`psql\` with \`client_min_messages=debug1\`. Retain PG \`--version\`, Git commit IDs, database/settings, full \`psql\` output and \`ESS_MCV_TRACE\` messages.
-4. For each run, map OIDs back to \`pg_statistic_ext.stxname\`; verify built MCV data, selected statistics, consumed clause indices and termination.
+3. Run the SQL fixture in `psql` with `client_min_messages=debug1`. Retain PG `--version`, Git commit IDs, database/settings, full `psql` output and `ESS_MCV_TRACE` messages.
+4. For each run, map OIDs back to `pg_statistic_ext.stxname`; verify built MCV data, selected statistics, consumed clause indices and termination.
 5. Independently verify that output sets are matching/maximal and compare with the two predicted outcomes. Record assumptions/counterexamples.
-6. Add a dated, reproducible evidence report (commands, environment, raw log references, assertion outcomes, limitations) in \`ess-research\`. Report failures rather than force a pass.
+6. Add a dated, reproducible evidence report (commands, environment, raw log references, assertion outcomes, limitations) in `ess-research`. Report failures rather than force a pass.
 
-**Acceptance criteria:** Actual trace demonstrates or falsifies scoped proposition on specified fixtures, raw evidence is kept, version and assumptions are documented. \`EXPLAIN\` Plan Rows by itself does not meet acceptance criteria.
+**Acceptance criteria:** Actual trace demonstrates or falsifies scoped proposition on specified fixtures, raw evidence is kept, version and assumptions are documented. `EXPLAIN` Plan Rows by itself does not meet acceptance criteria.
 
 ## 5. Follow-up research after tracing
 
