@@ -1,5 +1,5 @@
 -- Execute only on a disposable PostgreSQL development database.
--- Requires the instrumented ess-postgresql branch research/ess-mcv-trace-20261017.
+-- Requires a PostgreSQL build containing ESS_MCV_TRACE instrumentation (merged into ess-postgresql/main via PR #1; not present in pristine upstream PostgreSQL).
 -- DEBUG1 messages with prefix ESS_MCV_TRACE expose actual selected OIDs
 -- and claimed zero-based clause indices. Do not interpret Plan Rows as a trace.
 \set ON_ERROR_STOP on
