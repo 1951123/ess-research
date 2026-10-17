@@ -1,0 +1,37 @@
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:7: DEBUG:  relation "ess_mcv_numeric_t" does not exist
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:7: NOTICE:  table "ess_mcv_numeric_t" does not exist, skipping
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated

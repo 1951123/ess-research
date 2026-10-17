@@ -1,0 +1,157 @@
+2026-10-17 20:14:41.091 CST [52365] @ DEBUG:  registering background worker "logical replication launcher"
+2026-10-17 20:14:41.091 CST [52365] @ DEBUG:  mmap(150994944) with MAP_HUGETLB failed, huge pages disabled: Cannot allocate memory
+2026-10-17 20:14:41.097 CST [52365] @ LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-17 20:14:41.097 CST [52365] @ LOG:  listening on IPv4 address "127.0.0.1", port 55435
+2026-10-17 20:14:41.098 CST [52365] @ LOG:  listening on Unix socket "/tmp/ess-pg-mcv-numeric-socket-3/.s.PGSQL.55435"
+2026-10-17 20:14:41.100 CST [52368] @ LOG:  database system was shut down at 2026-10-17 20:14:41 CST
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  checkpoint record is at 0/14F36E0
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  redo record is at 0/14F36E0; shutdown true
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  next transaction ID: 730; next OID: 13657
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  next MultiXactId: 1; next MultiXactOffset: 0
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  oldest unfrozen transaction ID: 722, in database 1
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  oldest MultiXactId: 1, in database 1
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  commit timestamp Xid oldest/newest: 0/0
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  transaction ID wrap limit is 2147484369, limited by database with OID 1
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  MultiXactId wrap limit is 2147483648, limited by database with OID 1
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  starting up replication slots
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  xmin required by slots: data 0, catalog 0
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  MultiXactId wrap limit is 2147483648, limited by database with OID 1
+2026-10-17 20:14:41.100 CST [52368] @ DEBUG:  MultiXact member stop limit is now 4294914944 based on MultiXact 1
+2026-10-17 20:14:41.102 CST [52365] @ DEBUG:  starting background worker process "logical replication launcher"
+2026-10-17 20:14:41.102 CST [52365] @ LOG:  database system is ready to accept connections
+2026-10-17 20:14:41.102 CST [52370] @ DEBUG:  autovacuum launcher started
+2026-10-17 20:14:41.102 CST [52371] @ DEBUG:  logical replication launcher started
+2026-10-17 20:14:41.195 CST [52373] wqts@postgres DEBUG:  relation "ess_mcv_numeric_t" does not exist
+2026-10-17 20:14:41.195 CST [52373] wqts@postgres NOTICE:  table "ess_mcv_numeric_t" does not exist, skipping
+2026-10-17 20:14:41.453 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.1009666696190834 nrows_preclamp=10096.66696190834 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:single_a */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 3;
+2026-10-17 20:14:41.453 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.1009666696190834 nrows_preclamp=10096.66696190834 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:single_b */
+	SELECT * FROM ess_mcv_numeric_t WHERE b = 3;
+2026-10-17 20:14:41.453 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.1009666696190834 nrows_preclamp=10096.66696190834 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:single_c */
+	SELECT * FROM ess_mcv_numeric_t WHERE c = 3;
+2026-10-17 20:14:41.453 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.1009666696190834 nrows_preclamp=10096.66696190834 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:single_d */
+	SELECT * FROM ess_mcv_numeric_t WHERE d = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16387 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 3 AND b = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.10096666666666666 nrows_preclamp=10096.666666666666 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 3 AND b = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=0
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_bc */
+	SELECT * FROM ess_mcv_numeric_t WHERE b = 3 AND c = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.10096666666666666 nrows_preclamp=10096.666666666666 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_bc */
+	SELECT * FROM ess_mcv_numeric_t WHERE b = 3 AND c = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=1
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_cd */
+	SELECT * FROM ess_mcv_numeric_t WHERE c = 3 AND d = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.10096666666666666 nrows_preclamp=10096.666666666666 rows_postclamp=10097 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_cd */
+	SELECT * FROM ess_mcv_numeric_t WHERE c = 3 AND d = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16387 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_all */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_all */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.454 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.010194267777777778 nrows_preclamp=1019.4267777777778 rows_postclamp=1019 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_all */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0 nrows_preclamp=0 rows_postclamp=1 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:single_a_rare */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 1000000;
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16387 stat_clause_count=2 simple_sel=0 mcv_sel=0 mcv_basesel=0 mcv_totalsel=1 stat_sel=0 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab_rare */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 1000000 AND b = 1000000;
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.455 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0 nrows_preclamp=0 rows_postclamp=1 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab_rare */
+	SELECT * FROM ess_mcv_numeric_t WHERE a = 1000000 AND b = 1000000;
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=2
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_bc */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.456 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0010292812968250842 nrows_preclamp=102.92812968250843 rows_postclamp=103 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_bc */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16387 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_ab */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.457 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0010292812968250842 nrows_preclamp=102.92812968250843 rows_postclamp=103 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_ab */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.01019426837396914 mcv_sel=0.10096666666666666 mcv_basesel=0.010194267777777778 mcv_totalsel=1 stat_sel=0.10096666666666666 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_cd */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 20:14:41.458 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0010292812968250842 nrows_preclamp=102.92812968250843 rows_postclamp=103 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_cd */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.459 CST [52373] wqts@postgres DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00010392310768050742 nrows_preclamp=10.392310768050741 rows_postclamp=10 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_none */
+	SELECT * FROM ess_mcv_numeric_t
+	WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+2026-10-17 20:14:41.462 CST [52365] @ LOG:  received fast shutdown request
+2026-10-17 20:14:41.463 CST [52365] @ LOG:  aborting any active transactions
+2026-10-17 20:14:41.463 CST [52371] @ DEBUG:  logical replication launcher shutting down
+2026-10-17 20:14:41.463 CST [52370] @ DEBUG:  autovacuum launcher shutting down
+2026-10-17 20:14:41.463 CST [52365] @ LOG:  background worker "logical replication launcher" (PID 52371) exited with exit code 1
+2026-10-17 20:14:41.463 CST [52366] @ LOG:  shutting down
+2026-10-17 20:14:41.464 CST [52366] @ LOG:  checkpoint starting: shutdown immediate
+2026-10-17 20:14:41.464 CST [52366] @ DEBUG:  performing replication slot checkpoint
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=1 file=base/5/2703 time=0.294 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=2 file=base/5/1259 time=0.004 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=3 file=base/5/2673 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=4 file=base/5/2663 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=5 file=base/5/3429 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=6 file=base/5/2608_vm time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=7 file=base/5/1247 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=8 file=base/5/3380 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=9 file=base/5/3381 time=0.001 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=10 file=base/5/1259_vm time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=11 file=base/5/1247_vm time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=12 file=base/5/2659 time=0.001 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=13 file=base/5/16384_fsm time=0.659 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=14 file=base/5/2704 time=0.003 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=15 file=base/5/3433 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=16 file=base/5/2608 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=17 file=base/5/2608_fsm time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=18 file=base/5/2696 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=19 file=base/5/3455 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=20 file=base/5/3379 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=21 file=base/5/3997 time=0.002 ms
+2026-10-17 20:14:41.474 CST [52366] @ DEBUG:  checkpoint sync: number=22 file=base/5/2674 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=23 file=pg_multixact/offsets/0000 time=0.102 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=24 file=base/5/1249_vm time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=25 file=base/5/2619_vm time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=26 file=base/5/1249 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=27 file=base/5/2658 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=28 file=pg_xact/0000 time=0.084 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=29 file=base/5/2662 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=30 file=base/5/16384 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ DEBUG:  checkpoint sync: number=31 file=base/5/2619 time=0.002 ms
+2026-10-17 20:14:41.475 CST [52366] @ LOG:  checkpoint complete: wrote 580 buffers (3.5%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.002 s, total=0.012 s; sync files=31, longest=0.001 s, average=0.001 s; distance=7171 kB, estimate=7171 kB; lsn=0/1BF4670, redo lsn=0/1BF4670
+2026-10-17 20:14:41.477 CST [52365] @ LOG:  database system is shut down

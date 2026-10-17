@@ -1,0 +1,193 @@
+Pager usage is off.
+SET
+SET
+DROP TABLE
+CREATE TABLE
+INSERT 0 100000
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ANALYZE
+=== snapshot:settings-and-catalog ===
+ server_version 
+----------------
+ 16.14
+(1 row)
+
+ default_statistics_target 
+---------------------------
+ 100
+(1 row)
+
+ object | relation_oid | reltuples | relpages | actual_rows | min_a | max_a 
+--------+--------------+-----------+----------+-------------+-------+-------
+ table  |        16384 |    100000 |      541 |      100000 |     0 |     9
+(1 row)
+
+  stxname   | statistic_oid | stxkeys | stxkind | stxstattarget | built_mcv | mcv_bytes 
+------------+---------------+---------+---------+---------------+-----------+-----------
+ ess_num_ab |         16387 | 1 2     | {m}     |           100 | t         |       366
+ ess_num_bc |         16388 | 2 3     | {m}     |           100 | t         |       366
+ ess_num_cd |         16389 | 3 4     | {m}     |           100 | t         |       366
+(3 rows)
+
+            key             |           fingerprint            
+----------------------------+----------------------------------
+ ordinary_stats_fingerprint | 67b46933d3b28b200e887b9fb210fc6e
+(1 row)
+
+=== measurement:single_a ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..1791.00 rows=10097 width=16)
+   Filter: (a = 3)
+(2 rows)
+
+=== measurement:single_b ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..1791.00 rows=10097 width=16)
+   Filter: (b = 3)
+(2 rows)
+
+=== measurement:single_c ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..1791.00 rows=10097 width=16)
+   Filter: (c = 3)
+(2 rows)
+
+=== measurement:single_d ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..1791.00 rows=10097 width=16)
+   Filter: (d = 3)
+(2 rows)
+
+=== measurement:pair_ab ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2041.00 rows=10097 width=16)
+   Filter: ((a = 3) AND (b = 3))
+(2 rows)
+
+=== measurement:pair_bc ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2041.00 rows=10097 width=16)
+   Filter: ((b = 3) AND (c = 3))
+(2 rows)
+
+=== measurement:pair_cd ===
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2041.00 rows=10097 width=16)
+   Filter: ((c = 3) AND (d = 3))
+(2 rows)
+
+=== measurement:full_all ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2541.00 rows=1019 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+=== measurement:single_a_rare ===
+                             QUERY PLAN                              
+---------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..1791.00 rows=1 width=16)
+   Filter: (a = 1000000)
+(2 rows)
+
+=== measurement:pair_ab_rare ===
+                             QUERY PLAN                              
+---------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2041.00 rows=1 width=16)
+   Filter: ((a = 1000000) AND (b = 1000000))
+(2 rows)
+
+=== scenario:only_bc ===
+BEGIN
+DROP STATISTICS
+        marker         | visible_statistics 
+-----------------------+--------------------
+ only_bc_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2541.00 rows=103 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== scenario:only_ab ===
+BEGIN
+DROP STATISTICS
+        marker         | visible_statistics 
+-----------------------+--------------------
+ only_ab_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2541.00 rows=103 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== scenario:only_cd ===
+BEGIN
+DROP STATISTICS
+        marker         | visible_statistics 
+-----------------------+--------------------
+ only_cd_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2541.00 rows=103 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== scenario:none ===
+BEGIN
+DROP STATISTICS
+       marker       | visible_statistics 
+--------------------+--------------------
+ none_catalog_count |                  0
+(1 row)
+
+                              QUERY PLAN                              
+----------------------------------------------------------------------
+ Seq Scan on ess_mcv_numeric_t  (cost=0.00..2541.00 rows=10 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== snapshot:after-all-rollbacks ===
+  stxname   | statistic_oid | stxkeys | stxkind | stxstattarget | built_mcv | mcv_bytes 
+------------+---------------+---------+---------+---------------+-----------+-----------
+ ess_num_ab |         16387 | 1 2     | {m}     |           100 | t         |       366
+ ess_num_bc |         16388 | 2 3     | {m}     |           100 | t         |       366
+ ess_num_cd |         16389 | 3 4     | {m}     |           100 | t         |       366
+(3 rows)
+
+                    key                     |           fingerprint            
+--------------------------------------------+----------------------------------
+ ordinary_stats_fingerprint_after_rollbacks | 67b46933d3b28b200e887b9fb210fc6e
+(1 row)
+
+=== numeric snapshot fixture complete ===

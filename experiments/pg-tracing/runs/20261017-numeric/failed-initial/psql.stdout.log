@@ -1,0 +1,40 @@
+Pager usage is off.
+SET
+SET
+DROP TABLE
+CREATE TABLE
+INSERT 0 100000
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ANALYZE
+=== snapshot:settings-and-catalog ===
+ server_version 
+----------------
+ 16.14
+(1 row)
+
+ default_statistics_target 
+---------------------------
+ 100
+(1 row)
+
+ object | relation_oid | reltuples | relpages | actual_rows | min_a | max_a 
+--------+--------------+-----------+----------+-------------+-------+-------
+ table  |        16384 |    100000 |      541 |      100000 |     0 |     9
+(1 row)
+
+  stxname   | statistic_oid | stxkeys | stxkind | stxstattarget | built_mcv | mcv_bytes 
+------------+---------------+---------+---------+---------------+-----------+-----------
+ ess_num_ab |         16387 | 1 2     | {m}     |           100 | t         |       366
+ ess_num_bc |         16388 | 2 3     | {m}     |           100 | t         |       366
+ ess_num_cd |         16389 | 3 4     | {m}     |           100 | t         |       366
+(3 rows)
+
