@@ -78,8 +78,8 @@ The *structured* budget uses a controlled, **additive proxy** \(\sum_{e\in M}\ba
 
 Source review targeted PostgreSQL **REL_16_14**:
 
-- \`choose_best_statistics\` ranks remaining MCV candidates by newly covered attributes, then narrowness, then list order on a tie.
-- \`statext_mcv_clauselist_selectivity\` repeatedly selects an object and excludes its consumed clauses.
+- `choose_best_statistics` ranks remaining MCV candidates by newly covered attributes, then narrowness, then list order on a tie.
+- `statext_mcv_clauselist_selectivity` repeatedly selects an object and excludes its consumed clauses.
 - The statistics-object list is normally ordered by OID.
 - The AND-path can multiply estimates from separate selected MCV objects; each MCV object's internal selectivity correction is more involved than blindly multiplying individual column factors.
 - ANALYZE's sampling requirement depends on statistics targets across the set of objects, hence **physical maintenance is not generally additive**.
@@ -115,7 +115,7 @@ Reference source paths:
 - [ess-postgresql](https://github.com/1951123/ess-postgresql): PG source and research tracing branch; do not assume end-to-end ESS integration.
 - [ess-research](https://github.com/1951123/ess-research) (**this repo**): central research decisions, paper, notes, synthetic experimental records, cross-repo status and planned validation.
 
-The [cache ablation report](../experiments/synthetic/cache-ablation-report.md) contains seeded synthetic and independent exhaustive references. For \`medium_dense\`, reference optimum is 25; report median runtimes are approximately 0.0575 s (static MILP) versus 0.6704 s (precompute+cache Master–Oracle). **Do not claim the Master–Oracle is faster on this benchmark** or that synthetic results establish real PG benefits.
+The [cache ablation report](../experiments/synthetic/cache-ablation-report.md) contains seeded synthetic and independent exhaustive references. For `medium_dense`, reference optimum is 25; report median runtimes are approximately 0.0575 s (static MILP) versus 0.6704 s (precompute+cache Master–Oracle). **Do not claim the Master–Oracle is faster on this benchmark** or that synthetic results establish real PG benefits.
 
 ## 7. Current research checkpoints
 
@@ -126,12 +126,12 @@ See [STATUS.md](STATUS.md) for up-to-date blocking items and [DECISIONS.md](DECI
 3. Benchmark and bound the additivity error of fixed-sample maintenance-cost proxies.
 4. Improve and compare algorithms on independently certified larger instances; compare *robust resource selections* with nominal/greedy alternatives and evaluate the price of pessimism.
 
-**Do not** infer an unobserved query plan or selected statistic solely from \`EXPLAIN\` row counts. **Do not** present unchecked compiler or test results as completed experiments.
+**Do not** infer an unobserved query plan or selected statistic solely from `EXPLAIN` row counts. **Do not** present unchecked compiler or test results as completed experiments.
 
 ## 8. New-chat resumption instruction
 
 Suggested first message:
 
-> We are continuing ESS Research. Read \`docs/RESEARCH_CONTEXT.md\`, \`docs/DECISIONS.md\`, \`docs/STATUS.md\`, and relevant open PRs in \`1951123/ess-research\`; use \`1951123/ess-advisor\` and \`1951123/ess-postgresql\` for implementations. Separate mathematical proofs, source-derived claims, tested observations, and open hypotheses. Summarize current blockers and continue from the recorded state. Do not infer changes that have not been merged or executed.
+> We are continuing ESS Research. Read `docs/RESEARCH_CONTEXT.md`, `docs/DECISIONS.md`, `docs/STATUS.md`, and relevant open PRs in `1951123/ess-research`; use `1951123/ess-advisor` and `1951123/ess-postgresql` for implementations. Separate mathematical proofs, source-derived claims, tested observations, and open hypotheses. Summarize current blockers and continue from the recorded state. Do not infer changes that have not been merged or executed.
 
 Update this document only for *durable* changes to the research's fundamentals; everyday task progress belongs in STATUS and related Issues/PRs.
