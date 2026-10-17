@@ -34,7 +34,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and `trace_pairwise_mcv.sql`; remains separate from main.
 2. [ess-postgresql #1](https://github.com/1951123/ess-postgresql/pull/1) — DEBUG1 instrumentation; remains separate from main.
-3. The collaboration-bootstrap PR that introduces this document (number recorded on GitHub when opened): context, decision log, status, Codex instructions, README entry.
+3. [ess-research Draft PR #2](https://github.com/1951123/ess-research/pull/2) — context, decision log, status, Codex instructions, README entry. This is the **workflow-bootstrap PR**.
 
 **Do not treat any Draft PR as merged or successfully compiled.** If a new session finds a changed state, update this table and link the evidence.
 
