@@ -48,7 +48,8 @@ For theorem edits, check every assumption and separate the math statement from i
 - At delivery, report changed paths, commits/branch/PR, tests **actually run** and their outcomes, any unresolved warnings, and the next validation step.
 - Keep agent-prompts *bounded*: specify goal, assumptions, in-scope files, out-of-scope files, acceptance tests, and required output.
 - A task in another repo requires explicit scope and work there; do not alter `ess-advisor` or `ess-postgresql` merely because they are related.
-- Never claim a remote GitHub edit automatically synchronized to the user's local VS Code clone. The researcher must fetch/pull or merge the changes locally.
+- **Remote and local repository states are independent.** A GitHub commit or PR merge does not automatically update any local working tree. Changes must be fetched and, when appropriate, integrated into the relevant local branch, either through explicit user action or configured tooling. Never assume synchronization has occurred without verifying the repository state.
+- A remote-tracking ref such as `origin/main` records the remote branch state last observed locally (typically updated by `git fetch origin`); it is not a live mirror and does not itself advance local `main` or update the working tree.
 
 ## 5. Where information belongs
 
