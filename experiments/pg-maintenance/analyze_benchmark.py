@@ -46,12 +46,47 @@ def summary(values: list[float]) -> dict:
     }
 
 
+def aggregate_summaries(additive: list[dict]) -> list[dict]:
+    """Build report-level summaries using conventional statistics.median."""
+    grouped: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for row in additive:
+        grouped[(row["regime"], row["target_mode"])].append(row)
+    output = []
+    for (regime, target_mode), rows in sorted(grouped.items()):
+        absolute_errors = [row["absolute_additivity_error_ms"] for row in rows]
+        ratios = [
+            row["error_bootstrap"]["error_to_uncertainty_ratio"]
+            for row in rows
+            if row["error_bootstrap"]["error_to_uncertainty_ratio"] is not None
+        ]
+        output.append(
+            {
+                "regime": regime,
+                "target_mode": target_mode,
+                "comparison_count": len(rows),
+                "median_absolute_additivity_error_ms": median(absolute_errors),
+                "max_absolute_additivity_error_ms": max(absolute_errors),
+                "median_error_to_uncertainty_ratio": median(ratios) if ratios else None,
+                "ratio_count": len(ratios),
+                "intervals_including_zero": sum(
+                    row["error_bootstrap"]["includes_zero"] for row in rows
+                ),
+            }
+        )
+    return output
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("raw_json", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--bootstrap-repetitions", type=int, default=5000)
     parser.add_argument("--bootstrap-seed", type=int, default=20261017)
+    parser.add_argument(
+        "--fixture-metrics",
+        type=Path,
+        help="use a regenerated derived fixture-metrics JSON instead of the raw payload copy",
+    )
     return parser.parse_args()
 
 
@@ -265,14 +300,22 @@ def main() -> int:
             for subset, values in bootstraps.items():
                 additive.append(make_comparison(regime, target_mode, subset, by_key, values))
 
+    aggregate = aggregate_summaries(additive)
+    fixture_metrics = payload.get("fixture_metrics")
+    fixture_metrics_source = "embedded raw observation payload"
+    if args.fixture_metrics is not None:
+        fixture_metrics = json.loads(args.fixture_metrics.read_text(encoding="utf-8"))
+        fixture_metrics_source = str(args.fixture_metrics)
     result = {
         "schema_version": 2,
         "source_raw": str(args.raw_json),
         "provenance": payload["provenance"],
         "timing_method": payload["timing_method"],
-        "fixture_metrics": payload.get("fixture_metrics"),
+        "fixture_metrics": fixture_metrics,
+        "fixture_metrics_source": fixture_metrics_source,
         "condition_summaries": sorted(rows, key=lambda row: row["condition_id"]),
         "additive_comparisons": additive,
+        "aggregate_summaries": aggregate,
         "bootstrap": {
             "replications": args.bootstrap_repetitions,
             "seed": args.bootstrap_seed,
@@ -314,6 +357,26 @@ def main() -> int:
             f"{'yes' if bootstrap['includes_zero'] else 'no'} | "
             f"{'n/a' if ratio is None else f'{ratio:.2f}'} | "
             f"{'detectable' if row['increment_detectability'] else 'noise-scale'} |"
+        )
+    lines.extend([
+        "",
+        "## Programmatic aggregate summaries",
+        "",
+        "The following summaries are computed from the complete comparison rows. "
+        "All medians use the conventional median, including the arithmetic mean "
+        "of the two middle values when there are four comparisons.",
+        "",
+        "| Regime | Targets | Comparisons | Median absolute D ms | Max absolute D ms | Median error/uncertainty | D intervals including zero |",
+        "|---|---|---:|---:|---:|---:|---:|",
+    ])
+    for row in aggregate:
+        ratio = row["median_error_to_uncertainty_ratio"]
+        lines.append(
+            f"| {row['regime']} | {row['target_mode']} | {row['comparison_count']} | "
+            f"{row['median_absolute_additivity_error_ms']:.5f} | "
+            f"{row['max_absolute_additivity_error_ms']:.5f} | "
+            f"{'n/a' if ratio is None else f'{ratio:.5f}'} | "
+            f"{row['intervals_including_zero']}/{row['comparison_count']} |"
         )
     lines.extend([
         "",

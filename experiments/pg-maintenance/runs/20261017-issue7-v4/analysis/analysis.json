@@ -991,6 +991,68 @@
       "target_mode": "uniform100"
     }
   ],
+  "aggregate_summaries": [
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 2.667,
+      "median_absolute_additivity_error_ms": 1.8710000000000004,
+      "median_error_to_uncertainty_ratio": 2.986285531569878,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "mixed_10_100_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 5.261999999999999,
+      "median_absolute_additivity_error_ms": 2.679,
+      "median_error_to_uncertainty_ratio": 6.226896292113691,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "uniform10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 37.846000000000004,
+      "median_absolute_additivity_error_ms": 19.8305,
+      "median_error_to_uncertainty_ratio": 14.70273928430289,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "uniform100"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 2,
+      "max_absolute_additivity_error_ms": 3.311,
+      "median_absolute_additivity_error_ms": 0.9265000000000008,
+      "median_error_to_uncertainty_ratio": 1.0760864394404788,
+      "ratio_count": 4,
+      "regime": "lowcorr",
+      "target_mode": "mixed_10_100_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 5.633999999999999,
+      "median_absolute_additivity_error_ms": 2.8405,
+      "median_error_to_uncertainty_ratio": 5.240284076954561,
+      "ratio_count": 4,
+      "regime": "lowcorr",
+      "target_mode": "uniform10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 45.138999999999996,
+      "median_absolute_additivity_error_ms": 22.869,
+      "median_error_to_uncertainty_ratio": 18.814212343833994,
+      "ratio_count": 4,
+      "regime": "lowcorr",
+      "target_mode": "uniform100"
+    }
+  ],
   "bootstrap": {
     "block_definition": "one randomized condition order per repetition; resample complete repetition blocks",
     "interpretation": "descriptive interval for median-based D; not a formal significance test",
@@ -2236,6 +2298,7 @@
     }
   ],
   "fixture_metrics": null,
+  "fixture_metrics_source": "embedded raw observation payload",
   "interpretation_policy": {
     "additivity_error_detectability": "D(M)=sum singleton medians - T(M) - (k-1)T(empty), with block bootstrap over all contributing conditions",
     "central_estimate": "median of timed runs per condition",

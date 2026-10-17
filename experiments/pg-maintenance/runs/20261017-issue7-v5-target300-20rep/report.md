@@ -33,9 +33,9 @@ construction for each attribute.  Exact pair diagnostics are:
 | weakassoc | ab | 5,041 | 0.01866 |
 | weakassoc | bc | 5,041 | 0.01872 |
 | weakassoc | cd | 5,041 | 0.01892 |
-| correlated | ab | 100 | 0.99762 |
-| correlated | bc | 394 | 0.15519 |
-| correlated | cd | 200 | 0.70237 |
+| correlated | ab | 100 | 1.00000 |
+| correlated | bc | 394 | 0.16637 |
+| correlated | cd | 200 | 0.70330 |
 
 The historical v4 raw label `lowcorr` is therefore reclassified as a
 functionally dependent/modular regime and is not used as weak-association
@@ -74,18 +74,24 @@ recomputes all singleton medians, the current median, and the repeated baseline
 term `(k-1)T(empty)` for every `D(M)`.  It is a descriptive interval under an
 exchangeable-block assumption, not a formal significance test.
 
+The aggregate table is regenerated from `analysis/analysis.json`; its
+four-way summaries use the conventional median, including the arithmetic mean
+of the two middle values.  The fixture metrics are independently rebuilt from
+the preserved `fixture-metrics/psql.stdout.log`; the raw grouped output and raw
+timing JSON are unchanged.
+
 | Regime | Mode | Median absolute D (ms) | Max absolute D (ms) | Median error/uncertainty ratio | D intervals including zero |
 |---|---|---:|---:|---:|---:|
-| weakassoc | uniform10 | 3.131 | 5.681 | 5.18 | 0/4 |
-| weakassoc | uniform100 | 22.858 | 42.047 | 4.11 | 0/4 |
-| weakassoc | uniform300 | 86.269 | 155.708 | 5.38 | 0/4 |
-| weakassoc | mixed10/100/10 | 3.061 | 3.470 | 0.70 | 3/4 |
-| weakassoc | mixed10/300/10 | 13.497 | 18.392 | 1.60 | 1/4 |
-| correlated | uniform10 | 2.992 | 5.726 | 6.43 | 0/4 |
-| correlated | uniform100 | 17.592 | 34.111 | 7.83 | 0/4 |
-| correlated | uniform300 | 60.184 | 116.910 | 6.71 | 0/4 |
-| correlated | mixed10/100/10 | 1.657 | 2.979 | 0.72 | 2/4 |
-| correlated | mixed10/300/10 | 5.540 | 6.713 | 0.39 | 3/4 |
+| weakassoc | uniform10 | 3.115 | 5.681 | 5.09 | 0/4 |
+| weakassoc | uniform100 | 22.209 | 42.048 | 4.09 | 0/4 |
+| weakassoc | uniform300 | 85.217 | 155.709 | 4.75 | 0/4 |
+| weakassoc | mixed10/100/10 | 2.606 | 3.470 | 0.52 | 3/4 |
+| weakassoc | mixed10/300/10 | 9.295 | 18.392 | 1.24 | 1/4 |
+| correlated | uniform10 | 2.959 | 5.726 | 5.91 | 0/4 |
+| correlated | uniform100 | 17.432 | 34.112 | 6.71 | 0/4 |
+| correlated | uniform300 | 54.652 | 116.910 | 6.16 | 0/4 |
+| correlated | mixed10/100/10 | 1.411 | 2.979 | 0.61 | 2/4 |
+| correlated | mixed10/300/10 | 4.580 | 6.714 | 0.35 | 3/4 |
 
 Uniform-target additive overprediction increases in absolute milliseconds from
 target 10 to 100 to 300 in both regimes, but this is an observed result of

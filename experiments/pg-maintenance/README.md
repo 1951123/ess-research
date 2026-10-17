@@ -42,3 +42,9 @@ this sequence:
    the median-based discrepancy
    `D(M)=sum_e T({e})-T(M)-(k-1)T(empty)`;
 5. stop the cluster and record that the data directory and server are gone.
+
+For a derived-only rebuild, `fixture_metrics.py --offline-stdout PATH
+--output-dir DIR` recomputes Cramer's V from a preserved grouped `psql`
+stdout log without starting PostgreSQL.  `analyze_benchmark.py` accepts
+`--fixture-metrics PATH` when a corrected derived metrics file must replace
+the copy embedded in an immutable raw observation payload.

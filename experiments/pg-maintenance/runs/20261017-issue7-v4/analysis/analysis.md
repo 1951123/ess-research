@@ -31,6 +31,19 @@ This report uses 7 separately timed post-warm-up refreshes per condition. The ce
 | lowcorr | uniform100 | bc,cd | 28.970 | 51.634 | 22.664 | 0.8090 | [21.913, 24.339] | no | 18.68 | detectable |
 | lowcorr | uniform100 | ab,bc,cd | 31.712 | 76.851 | 45.139 | 1.4676 | [43.290, 46.371] | no | 29.30 | detectable |
 
+## Programmatic aggregate summaries
+
+The following summaries are computed from the complete comparison rows. All medians use the conventional median, including the arithmetic mean of the two middle values when there are four comparisons.
+
+| Regime | Targets | Comparisons | Median absolute D ms | Max absolute D ms | Median error/uncertainty | D intervals including zero |
+|---|---|---:|---:|---:|---:|---:|
+| correlated | mixed_10_100_10 | 4 | 1.87100 | 2.66700 | 2.98629 | 0/4 |
+| correlated | uniform10 | 4 | 2.67900 | 5.26200 | 6.22690 | 0/4 |
+| correlated | uniform100 | 4 | 19.83050 | 37.84600 | 14.70274 | 0/4 |
+| lowcorr | mixed_10_100_10 | 4 | 0.92650 | 3.31100 | 1.07609 | 2/4 |
+| lowcorr | uniform10 | 4 | 2.84050 | 5.63400 | 5.24028 | 0/4 |
+| lowcorr | uniform100 | 4 | 22.86900 | 45.13900 | 18.81421 | 0/4 |
+
 ## Interpretation
 
 The additive proxy is Ĉ(M)=sum_e[T({e})-T(empty)] using medians within the same regime and target mode. The model discrepancy is D(M)=Ĉ(M)-C(M), not C(M) itself. The block bootstrap preserves complete randomized repetition blocks when recomputing all contributing medians; it does not establish a formal significance level. The benchmark measures scoped ANALYZE wall-clock time, does not observe realized sample rows, and does not establish a universal PostgreSQL CPU-cost law.

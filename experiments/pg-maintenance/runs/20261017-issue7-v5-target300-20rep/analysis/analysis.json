@@ -1651,6 +1651,108 @@
       "target_mode": "uniform300"
     }
   ],
+  "aggregate_summaries": [
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 2,
+      "max_absolute_additivity_error_ms": 2.9789999999999996,
+      "median_absolute_additivity_error_ms": 1.4109999999999996,
+      "median_error_to_uncertainty_ratio": 0.6118991514078043,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "mixed_10_100_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 3,
+      "max_absolute_additivity_error_ms": 6.713499999999996,
+      "median_absolute_additivity_error_ms": 4.579750000000004,
+      "median_error_to_uncertainty_ratio": 0.35278702491289304,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "mixed_10_300_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 5.7255,
+      "median_absolute_additivity_error_ms": 2.9590000000000005,
+      "median_error_to_uncertainty_ratio": 5.9065778765274475,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "uniform10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 34.11149999999999,
+      "median_absolute_additivity_error_ms": 17.4315,
+      "median_error_to_uncertainty_ratio": 6.714037350891482,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "uniform100"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 116.91,
+      "median_absolute_additivity_error_ms": 54.65199999999998,
+      "median_error_to_uncertainty_ratio": 6.157649448986961,
+      "ratio_count": 4,
+      "regime": "correlated",
+      "target_mode": "uniform300"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 3,
+      "max_absolute_additivity_error_ms": 3.469999999999999,
+      "median_absolute_additivity_error_ms": 2.606250000000001,
+      "median_error_to_uncertainty_ratio": 0.5204262526937515,
+      "ratio_count": 4,
+      "regime": "weakassoc",
+      "target_mode": "mixed_10_100_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 1,
+      "max_absolute_additivity_error_ms": 18.391999999999996,
+      "median_absolute_additivity_error_ms": 9.294500000000006,
+      "median_error_to_uncertainty_ratio": 1.239658967673478,
+      "ratio_count": 4,
+      "regime": "weakassoc",
+      "target_mode": "mixed_10_300_10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 5.681,
+      "median_absolute_additivity_error_ms": 3.1149999999999998,
+      "median_error_to_uncertainty_ratio": 5.093272697792745,
+      "ratio_count": 4,
+      "regime": "weakassoc",
+      "target_mode": "uniform10"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 42.0475,
+      "median_absolute_additivity_error_ms": 22.209,
+      "median_error_to_uncertainty_ratio": 4.091177653554512,
+      "ratio_count": 4,
+      "regime": "weakassoc",
+      "target_mode": "uniform100"
+    },
+    {
+      "comparison_count": 4,
+      "intervals_including_zero": 0,
+      "max_absolute_additivity_error_ms": 155.70849999999996,
+      "median_absolute_additivity_error_ms": 85.21674999999999,
+      "median_error_to_uncertainty_ratio": 4.752669578514542,
+      "ratio_count": 4,
+      "regime": "weakassoc",
+      "target_mode": "uniform300"
+    }
+  ],
   "bootstrap": {
     "block_definition": "one randomized condition order per repetition; resample complete repetition blocks",
     "interpretation": "descriptive interval for median-based D; not a formal significance test",
@@ -3726,19 +3828,19 @@
       "correlated": {
         "pairs": {
           "ab": {
-            "cramers_v": 0.9976239552258169,
+            "cramers_v": 1.0,
             "nonzero_cells": 100,
             "pair_distinct": 100,
             "total_count_from_groups": 200000
           },
           "bc": {
-            "cramers_v": 0.15518845235929138,
+            "cramers_v": 0.16636512227419692,
             "nonzero_cells": 394,
             "pair_distinct": 394,
             "total_count_from_groups": 200000
           },
           "cd": {
-            "cramers_v": 0.7023715365920081,
+            "cramers_v": 0.7033042338102532,
             "nonzero_cells": 200,
             "pair_distinct": 200,
             "total_count_from_groups": 200000
@@ -3748,19 +3850,19 @@
       "weakassoc": {
         "pairs": {
           "ab": {
-            "cramers_v": 0.018661381859738663,
+            "cramers_v": 0.018661381859738684,
             "nonzero_cells": 5041,
             "pair_distinct": 5041,
             "total_count_from_groups": 200000
           },
           "bc": {
-            "cramers_v": 0.01872157941840891,
+            "cramers_v": 0.01872157941840889,
             "nonzero_cells": 5041,
             "pair_distinct": 5041,
             "total_count_from_groups": 200000
           },
           "cd": {
-            "cramers_v": 0.018919788854830654,
+            "cramers_v": 0.018919788854830685,
             "nonzero_cells": 5041,
             "pair_distinct": 5041,
             "total_count_from_groups": 200000
@@ -3774,6 +3876,7 @@
     },
     "schema_version": 1
   },
+  "fixture_metrics_source": "experiments/pg-maintenance/runs/20261017-issue7-v5-target300-20rep/fixture-metrics/fixture-metrics.json",
   "interpretation_policy": {
     "additivity_error_detectability": "D(M)=sum singleton medians - T(M) - (k-1)T(empty), with block bootstrap over all contributing conditions",
     "central_estimate": "median of timed runs per condition",

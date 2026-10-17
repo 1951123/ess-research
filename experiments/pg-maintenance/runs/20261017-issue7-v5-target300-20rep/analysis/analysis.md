@@ -47,6 +47,23 @@ This report uses 20 separately timed post-warm-up refreshes per condition. The c
 | weakassoc | uniform300 | bc,cd | 106.660 | 190.824 | 84.164 | 0.7961 | [55.213, 95.969] | no | 4.13 | detectable |
 | weakassoc | uniform300 | ab,bc,cd | 129.484 | 285.192 | 155.708 | 1.2113 | [126.737, 169.133] | no | 7.35 | detectable |
 
+## Programmatic aggregate summaries
+
+The following summaries are computed from the complete comparison rows. All medians use the conventional median, including the arithmetic mean of the two middle values when there are four comparisons.
+
+| Regime | Targets | Comparisons | Median absolute D ms | Max absolute D ms | Median error/uncertainty | D intervals including zero |
+|---|---|---:|---:|---:|---:|---:|
+| correlated | mixed_10_100_10 | 4 | 1.41100 | 2.97900 | 0.61190 | 2/4 |
+| correlated | mixed_10_300_10 | 4 | 4.57975 | 6.71350 | 0.35279 | 3/4 |
+| correlated | uniform10 | 4 | 2.95900 | 5.72550 | 5.90658 | 0/4 |
+| correlated | uniform100 | 4 | 17.43150 | 34.11150 | 6.71404 | 0/4 |
+| correlated | uniform300 | 4 | 54.65200 | 116.91000 | 6.15765 | 0/4 |
+| weakassoc | mixed_10_100_10 | 4 | 2.60625 | 3.47000 | 0.52043 | 3/4 |
+| weakassoc | mixed_10_300_10 | 4 | 9.29450 | 18.39200 | 1.23966 | 1/4 |
+| weakassoc | uniform10 | 4 | 3.11500 | 5.68100 | 5.09327 | 0/4 |
+| weakassoc | uniform100 | 4 | 22.20900 | 42.04750 | 4.09118 | 0/4 |
+| weakassoc | uniform300 | 4 | 85.21675 | 155.70850 | 4.75267 | 0/4 |
+
 ## Interpretation
 
 The additive proxy is Ĉ(M)=sum_e[T({e})-T(empty)] using medians within the same regime and target mode. The model discrepancy is D(M)=Ĉ(M)-C(M), not C(M) itself. The block bootstrap preserves complete randomized repetition blocks when recomputing all contributing medians; it does not establish a formal significance level. The benchmark measures scoped ANALYZE wall-clock time, does not observe realized sample rows, and does not establish a universal PostgreSQL CPU-cost law.
