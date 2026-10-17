@@ -1,21 +1,21 @@
 # Agent instructions — ESS Research
 
-This file applies to **this repository** (\`1951123/ess-research\`) and is intended for Codex in VS Code and other coding/research agents. It is not an authorization to alter the other repositories.
+This file applies to **this repository** (`1951123/ess-research`) and is intended for Codex in VS Code and other coding/research agents. It is not an authorization to alter the other repositories.
 
 ## 1. Mandatory context before changing research artifacts
 
 Read in order:
 
-1. \`docs/RESEARCH_CONTEXT.md\` — stable definitions and cross-repo roles.
-2. \`docs/DECISIONS.md\` — accepted decisions and reasons.
-3. \`docs/STATUS.md\` — current work and unverified items.
-4. Relevant \`paper/main.tex\`, \`notes/\`, and \`experiments/\` files for the requested task.
+1. `docs/RESEARCH_CONTEXT.md` — stable definitions and cross-repo roles.
+2. `docs/DECISIONS.md` — accepted decisions and reasons.
+3. `docs/STATUS.md` — current work and unverified items.
+4. Relevant `paper/main.tex`, `notes/`, and `experiments/` files for the requested task.
 
 Check current git status and branch before editing. If files are missing because this workflow PR has not yet merged, inspect the workflow branch/PR rather than assuming a different research direction.
 
 ## 2. Research correctness rules
 
-- Preserve the **generic** interface: unordered resource choice \`M\`, complete admissible schemes \(\Gamma_i(M)\), nonnegative task loss, and abstract nonadditive maintenance cost. Do not silently replace the generic model with a PG-specific or additive one.
+- Preserve the **generic** interface: unordered resource choice `M`, complete admissible schemes \(\Gamma_i(M)\), nonnegative task loss, and abstract nonadditive maintenance cost. Do not silently replace the generic model with a PG-specific or additive one.
 - A PostgreSQL maximal-matching model is an **instance**; do not claim it describes all PostgreSQL queries, all card estimators, or fixed-PG behavior under every catalog.
 - Do not confuse **maximal matching** with **maximum-cardinality matching**.
 - Do not replace the task-wise sum of worst-case losses with a shared-policy global worst case without explicitly proposing and justifying that model change.
@@ -36,28 +36,28 @@ Every substantive claim must be labeled appropriately:
 
 Do **not** invent numerical results, runtime traces, successful compilation, performance improvements, or literature novelty. Do not overwrite old experiment reports without preserving provenance; compare independent baselines and keep raw data.
 
-For theorem edits, check every assumption and separate the math statement from its PostgreSQL interpretation. For experiments, record enough to reproduce; treat \`EXPLAIN\` output alone as insufficient evidence for which PG statistics objects were actually selected.
+For theorem edits, check every assumption and separate the math statement from its PostgreSQL interpretation. For experiments, record enough to reproduce; treat `EXPLAIN` output alone as insufficient evidence for which PG statistics objects were actually selected.
 
 ## 4. Minimal Git/Codex collaboration protocol
 
 - The researcher retains the final choice of research direction and merge.
-- **Default for nontrivial code/research work:** one small task → short-lived branch → tests/evidence → reviewable **Draft PR**; use \`main\` directly only for simple, low-risk edits when expressly appropriate.
-- Recommended branch prefixes: \`research/\`, \`experiment/\`, \`fix/\`, \`docs/\` or \`workflow/\`.
-- Before starting, inspect \`git status\` and existing branches. Never reset, clean, force-push, overwrite uncommitted work, or merge a draft PR as a shortcut.
+- **Default for nontrivial code/research work:** one small task → short-lived branch → tests/evidence → reviewable **Draft PR**; use `main` directly only for simple, low-risk edits when expressly appropriate.
+- Recommended branch prefixes: `research/`, `experiment/`, `fix/`, `docs/` or `workflow/`.
+- Before starting, inspect `git status` and existing branches. Never reset, clean, force-push, overwrite uncommitted work, or merge a draft PR as a shortcut.
 - Make smallest scoped changes that satisfy the task. Preserve unrelated work, file structure, and LaTeX manuscript template.
 - At delivery, report changed paths, commits/branch/PR, tests **actually run** and their outcomes, any unresolved warnings, and the next validation step.
 - Keep agent-prompts *bounded*: specify goal, assumptions, in-scope files, out-of-scope files, acceptance tests, and required output.
-- A task in another repo requires explicit scope and work there; do not alter \`ess-advisor\` or \`ess-postgresql\` merely because they are related.
+- A task in another repo requires explicit scope and work there; do not alter `ess-advisor` or `ess-postgresql` merely because they are related.
 - Never claim a remote GitHub edit automatically synchronized to the user's local VS Code clone. The researcher must fetch/pull or merge the changes locally.
 
 ## 5. Where information belongs
 
-- \`docs/RESEARCH_CONTEXT.md\`: durable goals, notation, major cross-repo facts.
-- \`docs/DECISIONS.md\`: accepted decisions and revisit triggers.
-- \`docs/STATUS.md\`: short live checkpoint, unmerged PRs, next work, evidence labels.
-- \`notes/\`: complete mathematical arguments and exploratory results.
-- \`paper/main.tex\`: paper-ready claims that have been independently checked.
-- \`experiments/\`: scripts, seeds, raw measurements and reports.
+- `docs/RESEARCH_CONTEXT.md`: durable goals, notation, major cross-repo facts.
+- `docs/DECISIONS.md`: accepted decisions and revisit triggers.
+- `docs/STATUS.md`: short live checkpoint, unmerged PRs, next work, evidence labels.
+- `notes/`: complete mathematical arguments and exploratory results.
+- `paper/main.tex`: paper-ready claims that have been independently checked.
+- `experiments/`: scripts, seeds, raw measurements and reports.
 - GitHub Issue: a bounded *problem and acceptance criterion* (optional for small tasks).
 - Draft PR: *proposed changes and review/evidence*; **not** automatically a validated or merged research result.
 
