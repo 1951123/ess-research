@@ -62,7 +62,7 @@ PostgreSQL claim.
 
 ## 5. Follow-up research after tracing
 
-- **Estimator calibration:** test positive raw-selectivity factors and log-loss against PG internals and/or controlled estimates, including zero selectivity and output clamping.
+- **Estimator calibration (active [Issue #5](https://github.com/1951123/ess-research/issues/5)):** validate an independently reconstructed, fixed-ANALYZE-snapshot raw-selectivity product from ordinary single-column and MCV pair-query factors; compare full-query pre-clamp estimates and clamp/zero boundary behavior. **Source-derived formula; execution pending.**
 - **Maintenance:** vary target, objects, sample size and refresh runs; measure CPU time and possible nonadditivity.
 - **Optimization:** investigate bound-first master separation without invalidating exact objective evaluation; compare static MILP and Master–Oracle against independent references at larger scales.
 - **Decision robustness:** explicit priority-order cases and cross-task consistency; benchmark worst-case loss vs nominal strategies and costs of conservatism.
