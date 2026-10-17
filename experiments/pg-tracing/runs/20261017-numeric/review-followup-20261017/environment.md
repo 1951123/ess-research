@@ -90,7 +90,7 @@ database was contacted.
 
 ```text
 c7c22a4e0fd4503e021b667a855558e8587eb76b0934cffe369566fec8f673a  experiments/pg-tracing/mcv_numeric_followup.sql
-13df6ba5f75b22331b57aaeed3581d4c8f6dc21c37c6f8d68ed184c495f7145b  experiments/pg-tracing/analyze_mcv_numeric_followup.py
+3622d7470a3bbdded13ee0ba2f2c1c79e0ef6934463d7231040f88c2820d8244  experiments/pg-tracing/analyze_mcv_numeric_followup.py
 ```
 
 The raw logs and analysis output are checksummed in

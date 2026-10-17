@@ -206,8 +206,12 @@ It exits nonzero on missing or duplicate required traces, unexpected statistic
 OIDs or consumed clause indices, inconsistent `R`, missing partial coverage,
 missing factor heterogeneity, failed clamp reconstruction, failed rollback
 catalog counts, or raw selectivity/row reconstruction outside those
-tolerances.  It uses pre-clamp values only; final Plan Rows are checked as a
-separate post-composition result.
+tolerances.  It requires the complete expected numeric-marker set, including
+two traces for each `full_all` and none for singleton or `full_none` queries.
+It parses the displayed `EXPLAIN` Plan Rows independently from stdout and
+compares them with both the trace's post-clamp value and the predicted
+post-composition value.  It uses pre-clamp values only for factors; final Plan
+Rows are checked as a separate post-composition result.
 
 ### Partial-MCV fixture
 
@@ -311,6 +315,42 @@ branches, real-cardinality accuracy, or validity outside the traced
 two-column MCV AND path.  The earlier zero-selectivity controls remain
 separate: their raw selectivity was zero and no logarithm was formed.
 
+### Checker correction and negative tests
+
+The second review found two checker defects, both fixed in the same PR:
+
+1. The heterogeneity gate now uses the actual fixture identifier `hetero`; it
+   is no longer unreachable.  The absolute factor-spread threshold is
+   `0.1`.  This is a deliberately conservative materiality rule for the
+   synthetic factors of order 2--7: it is many orders above parser/trace
+   floating-point noise, while rejecting factors that are numerically close
+   rather than calling them heterogeneous.  It is a validation threshold,
+   not a statistical test or a claim of universal effect size.
+2. The parser now extracts exactly one displayed `rows=...` value for every
+   expected measurement marker from stdout.  It rejects missing, duplicate,
+   unexpected, or inconsistent displayed rows; the previous implementation
+   incorrectly copied the trace value into the `explain_rows` result.
+3. The expected numeric MCV marker set is now checked before reconstruction,
+   so a missing or duplicate pair/full-statistic trace cannot be silently
+   accepted.
+
+Offline mutation evidence is in
+[`test_analyze_mcv_numeric_followup.py`](../../test_analyze_mcv_numeric_followup.py)
+and the accompanying
+[`negative-tests.md`](review-followup-20261017/negative-tests.md).  Four
+pytest tests pass: equal factors are rejected, a mutated EXPLAIN row is
+rejected, and missing or duplicate numeric MCV markers are rejected.  Direct
+CLI mutations that remove only the `hetero_pair_bc` numeric line or change a
+displayed `rows=185` to `rows=184` both return nonzero.
+
+The source formula and clamp/cap reconstruction are tested independently, but
+the follow-up data does not contain a case in which the **upper** cap itself
+binds (`other_sel > 1-mcv_totalsel`).  The positive non-MCV remainder and the
+lower clamp are observed; upper-cap activation remains an explicit limitation
+of this PR.  The optional post-rollback payload fingerprint was not added;
+transactional rollback plus the per-scenario catalog counts remain the
+recorded restoration evidence.
+
 ## Evidence files
 
 - Fixture SQL: [`mcv_numeric_snapshot.sql`](../../mcv_numeric_snapshot.sql)
@@ -322,6 +362,10 @@ separate: their raw selectivity was zero and no logarithm was formed.
 - Follow-up SQL: [`mcv_numeric_followup.sql`](../../mcv_numeric_followup.sql)
 - Follow-up strict checker: [`analyze_mcv_numeric_followup.py`](../../analyze_mcv_numeric_followup.py)
 - Follow-up raw evidence and analysis: [`review-followup-20261017/`](review-followup-20261017/)
+- Follow-up checker mutation tests: [`test_analyze_mcv_numeric_followup.py`](../../test_analyze_mcv_numeric_followup.py)
+
+The current follow-up analysis JSON SHA256 is
+`f3763d75e3f64d74b08e7449b4dc652ba4c4d39fcf611cc0b3f47845656adcc6`.
 
 The valid stderr SHA256 is
 `1a90c60ca90b1fc9f23b51b1ca9de05032a9ef454544c1f02d439a765b2df44e`; valid

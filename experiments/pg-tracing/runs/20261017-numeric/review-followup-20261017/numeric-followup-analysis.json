@@ -97,6 +97,7 @@
           "relative_deviation": 0.0
         }
       },
+      "heterogeneity_threshold_absolute": 0.1,
       "mcv_numeric_traces": {
         "hetero_full_all": [
           {
@@ -434,6 +435,7 @@
           "relative_deviation": -1.6185342172402473e-16
         }
       },
+      "heterogeneity_threshold_absolute": 0.1,
       "mcv_numeric_traces": {
         "partial_full_all": [
           {

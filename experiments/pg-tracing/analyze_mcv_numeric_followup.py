@@ -20,6 +20,7 @@ from pathlib import Path
 
 ABS_TOL = 1e-15
 REL_TOL = 1e-12
+HETEROGENEITY_THRESHOLD = 0.1
 
 BASE_RE = re.compile(
     r"ESS_MCV_NUMERIC_TRACE: base_relation_oid=(?P<oid>\d+) "
@@ -53,6 +54,7 @@ COUNT_RE = re.compile(
     r"^\s*(?P<marker>(?:partial|hetero)_(?:only_bc|only_ab|only_cd|none)_catalog_count)"
     r"\s*\|\s*(?P<count>\d+)\s*$"
 )
+HEADING_RE = re.compile(r"^=== (?P<fixture>partial|heterogeneous):(?P<name>[A-Za-z0-9_]+) ===$")
 
 
 def marker(query: str) -> str:
@@ -101,6 +103,7 @@ def parse_logs(stdout: str, stderr: str) -> tuple[dict, dict, dict, dict]:
     mcv: dict[str, list[dict]] = {}
     catalog: dict[str, dict] = {}
     rollback_counts: dict[str, int] = {}
+    plan_rows: dict[str, list[int]] = {}
     selection_events: dict[str, list[dict]] = {}
     pending: list[dict] = []
 
@@ -170,7 +173,25 @@ def parse_logs(stdout: str, stderr: str) -> tuple[dict, dict, dict, dict]:
             selection_events[item["marker"]] = pending
             pending = []
 
+    current_plan_marker: str | None = None
+    scenario_names = {
+        "scenario_only_bc": "full_only_bc",
+        "scenario_only_ab": "full_only_ab",
+        "scenario_only_cd": "full_only_cd",
+        "scenario_none": "full_none",
+    }
     for line in stdout.splitlines():
+        heading = HEADING_RE.match(line)
+        if heading:
+            fixture = "hetero" if heading.group("fixture") == "heterogeneous" else heading.group("fixture")
+            name = scenario_names.get(heading.group("name"), heading.group("name"))
+            current_plan_marker = None if name == "snapshot" else f"{fixture}_{name}"
+            continue
+        if current_plan_marker is not None:
+            rows_match = ROWS_RE.search(line)
+            if rows_match:
+                plan_rows.setdefault(current_plan_marker, []).append(int(rows_match.group("rows")))
+                continue
         catalog_match = CATALOG_RE.match(line)
         if catalog_match:
             data = catalog_match.groupdict()
@@ -187,7 +208,11 @@ def parse_logs(stdout: str, stderr: str) -> tuple[dict, dict, dict, dict]:
             data = count_match.groupdict()
             rollback_counts[data["marker"]] = int(data["count"])
 
-    return base, mcv, catalog, {"selection_events": selection_events, "rollback_counts": rollback_counts}
+    return base, mcv, catalog, {
+        "selection_events": selection_events,
+        "rollback_counts": rollback_counts,
+        "plan_rows": plan_rows,
+    }
 
 
 def one(mapping: dict[str, list[dict]], key: str) -> dict:
@@ -232,6 +257,28 @@ def check_fixture(prefix: str, base: dict, mcv: dict, catalog: dict,
     for key in required:
         one(base, key)
 
+    expected_plan_markers = set(required)
+    actual_plan_markers = {
+        key for key in metadata["plan_rows"] if key.startswith(prefix + "_")
+    }
+    if actual_plan_markers != expected_plan_markers:
+        raise ValueError(
+            f"{prefix}: expected exactly one EXPLAIN Plan Rows marker for each "
+            f"measurement; missing={sorted(expected_plan_markers - actual_plan_markers)}, "
+            f"unexpected={sorted(actual_plan_markers - expected_plan_markers)}"
+        )
+    for key in required:
+        values = metadata["plan_rows"].get(key, [])
+        if len(values) != 1:
+            raise ValueError(f"{prefix}: expected one EXPLAIN Plan Rows value for {key}, got {values}")
+        observation = one(base, key)
+        expected_rows = expected_plan_rows(observation["nrows_preclamp"])
+        if values[0] != expected_rows or values[0] != int(observation["rows_postclamp"]):
+            raise ValueError(
+                f"{prefix}: EXPLAIN Plan Rows mismatch for {key}: stdout={values[0]}, "
+                f"trace={observation['rows_postclamp']}, predicted={expected_rows}"
+            )
+
     all_base = [
         item
         for key, values in base.items()
@@ -273,11 +320,28 @@ def check_fixture(prefix: str, base: dict, mcv: dict, catalog: dict,
             )
         selection_summary[key] = {"selected_stat_oids": selected, "claimed_clause_indices": consumed}
 
+    expected_mcv_counts = {
+        f"{prefix}_pair_ab" + ("_mcv" if prefix == "partial" else ""): 1,
+        f"{prefix}_pair_bc": 1,
+        f"{prefix}_pair_cd": 1,
+        f"{prefix}_full_all": 2,
+        f"{prefix}_full_only_bc": 1,
+        f"{prefix}_full_only_ab": 1,
+        f"{prefix}_full_only_cd": 1,
+    }
+    if prefix == "partial":
+        expected_mcv_counts[f"{prefix}_pair_ab_nonmcv"] = 1
+    actual_mcv_keys = {key for key in mcv if key.startswith(prefix + "_")}
+    if actual_mcv_keys != set(expected_mcv_counts):
+        raise ValueError(
+            f"{prefix}: numeric MCV marker set mismatch; "
+            f"missing={sorted(set(expected_mcv_counts) - actual_mcv_keys)}, "
+            f"unexpected={sorted(actual_mcv_keys - set(expected_mcv_counts))}"
+        )
+
     reconstructed_mcv = {}
-    for key, values in mcv.items():
-        if not key.startswith(prefix + "_"):
-            continue
-        expected_count = 2 if key == f"{prefix}_full_all" else 1
+    for key, expected_count in expected_mcv_counts.items():
+        values = mcv.get(key, [])
         if len(values) != expected_count:
             raise ValueError(
                 f"{prefix}: expected {expected_count} MCV numeric traces for {key}, got {len(values)}"
@@ -354,7 +418,7 @@ def check_fixture(prefix: str, base: dict, mcv: dict, catalog: dict,
     }
     if not all(finite_positive(value) for value in [*singles.values(), *pairs.values(), *factors.values()]):
         raise ValueError(f"{prefix}: non-positive or non-finite positive observations")
-    if prefix == "heterogeneous" and max(factors.values()) - min(factors.values()) <= 0.1:
+    if prefix == "hetero" and max(factors.values()) - min(factors.values()) <= HETEROGENEITY_THRESHOLD:
         raise ValueError(f"heterogeneous: correction factors are not materially different: {factors}")
 
     expected_counts = {
@@ -382,6 +446,7 @@ def check_fixture(prefix: str, base: dict, mcv: dict, catalog: dict,
         "full_scenario_comparisons": comparisons,
         "rollback_catalog_counts": {key: metadata["rollback_counts"][key] for key in expected_counts},
         "tolerance": {"relative": REL_TOL, "absolute": ABS_TOL},
+        "heterogeneity_threshold_absolute": HETEROGENEITY_THRESHOLD,
     }
 
 
