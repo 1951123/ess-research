@@ -86,7 +86,7 @@ Source review targeted PostgreSQL **REL_16_14**:
 
 With narrowly scoped single-table, simple-AND, one-clause-per-distinct-attribute, already-built two-key MCV objects and no estimator interference, source control-flow supports the proposition that **a fixed PG run selects a maximal matching**. Under *arbitrary abstract candidate priority orders*, every maximal matching can be produced by a greedy selector. This is **not** a claim that a fixed PG database realizes all such matchings.
 
-Draft proof/experimental design: [PG maximal-matching correspondence PR #1](https://github.com/1951123/ess-research/pull/1). Draft PG instrumentation: [ess-postgresql PR #1](https://github.com/1951123/ess-postgresql/pull/1). **Both remain unmerged and tracing execution is pending** as of 2026-10-17.
+**Current evidence (2026-10-17):** the scoped [correspondence note](../notes/pg-mcv-maximal-matching-correspondence.md) and [SQL fixture](../experiments/pg-tracing/trace_pairwise_mcv.sql) were merged via [ess-research PR #1](https://github.com/1951123/ess-research/pull/1); the [instrumentation](https://github.com/1951123/ess-postgresql/pull/1) was built and exercised on its research branch before that PG PR was merged. The [runtime report and raw logs](../experiments/pg-tracing/runs/20261017/report.md) were merged via [ess-research PR #4](https://github.com/1951123/ess-research/pull/4). Two OID-order fixtures observed `{ab,cd}` and `{bc}` with actual `ESS_MCV_TRACE` logs. This is fixture-scoped empirical support, **not** a proof for unrestricted PostgreSQL queries or independent worst-case scheme choices across tasks.
 
 Reference source paths:
 
@@ -112,7 +112,7 @@ Reference source paths:
 **Implementation / experimentation:**
 
 - [ess-advisor](https://github.com/1951123/ess-advisor): synthetic model, matching enumeration, Fraction-based exhaustive reference, static conditional MILP, numerical HiGHS Master–Oracle. Code validation is not a physical PG validation.
-- [ess-postgresql](https://github.com/1951123/ess-postgresql): PG source and research tracing branch; do not assume end-to-end ESS integration.
+- [ess-postgresql](https://github.com/1951123/ess-postgresql): PG source with DEBUG1 MCV research tracing instrumentation now merged into `main` (PR #1); not pristine upstream PG, and not evidence of end-to-end ESS integration.
 - [ess-research](https://github.com/1951123/ess-research) (**this repo**): central research decisions, paper, notes, synthetic experimental records, cross-repo status and planned validation.
 
 The [cache ablation report](../experiments/synthetic/cache-ablation-report.md) contains seeded synthetic and independent exhaustive references. For `medium_dense`, reference optimum is 25; report median runtimes are approximately 0.0575 s (static MILP) versus 0.6704 s (precompute+cache Master–Oracle). **Do not claim the Master–Oracle is faster on this benchmark** or that synthetic results establish real PG benefits.
@@ -121,7 +121,7 @@ The [cache ablation report](../experiments/synthetic/cache-ablation-report.md) c
 
 See [STATUS.md](STATUS.md) for up-to-date blocking items and [DECISIONS.md](DECISIONS.md) for choices/revisit conditions. High-priority agenda:
 
-1. Validate scoped PG-to-maximal-matching claim with **runtime tracing** and a reviewable evidence table.
+1. **Completed for the four-attribute path fixture:** validate scoped PG-to-maximal-matching behavior with runtime tracing; see the [2026-10-17 evidence report](../experiments/pg-tracing/runs/20261017/report.md). Extend the fixture suite only when new semantic boundaries require testing.
 2. Separate the PG estimator's real values from positive pre-clamp multiplicative abstractions; calibrate and test their validity.
 3. Benchmark and bound the additivity error of fixed-sample maintenance-cost proxies.
 4. Improve and compare algorithms on independently certified larger instances; compare *robust resource selections* with nominal/greedy alternatives and evaluate the price of pessimism.
