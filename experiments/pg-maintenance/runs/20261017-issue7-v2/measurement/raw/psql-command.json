@@ -1,0 +1,14 @@
+[
+  "/tmp/extstats-advisor-stock-pg16.14/bin/psql",
+  "-X",
+  "-v",
+  "ON_ERROR_STOP=1",
+  "-h",
+  "/tmp/ess-issue7-20261017-v2/socket",
+  "-p",
+  "55448",
+  "-U",
+  "postgres",
+  "-d",
+  "ess_issue7_v2"
+]

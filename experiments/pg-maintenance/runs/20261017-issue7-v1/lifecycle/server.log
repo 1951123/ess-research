@@ -1,0 +1,13 @@
+2026-10-17 22:33:26.721 CST [10164] LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-17 22:33:26.721 CST [10164] LOG:  listening on IPv4 address "127.0.0.1", port 55447
+2026-10-17 22:33:26.722 CST [10164] LOG:  listening on Unix socket "/tmp/ess-issue7-20261017-v1/socket/.s.PGSQL.55447"
+2026-10-17 22:33:26.723 CST [10167] LOG:  database system was shut down at 2026-10-17 22:33:26 CST
+2026-10-17 22:33:26.725 CST [10164] LOG:  database system is ready to accept connections
+2026-10-17 22:33:26.800 CST [10171] FATAL:  role "postgres" does not exist
+2026-10-17 22:33:37.606 CST [10164] LOG:  received fast shutdown request
+2026-10-17 22:33:37.607 CST [10164] LOG:  aborting any active transactions
+2026-10-17 22:33:37.607 CST [10164] LOG:  background worker "logical replication launcher" (PID 10169) exited with exit code 1
+2026-10-17 22:33:37.607 CST [10165] LOG:  shutting down
+2026-10-17 22:33:37.608 CST [10165] LOG:  checkpoint starting: shutdown immediate
+2026-10-17 22:33:37.612 CST [10165] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.005 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F3758, redo lsn=0/14F3758
+2026-10-17 22:33:37.613 CST [10164] LOG:  database system is shut down
