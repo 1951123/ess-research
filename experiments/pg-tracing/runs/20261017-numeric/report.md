@@ -182,6 +182,135 @@ other estimator branches, or future data snapshots. It also does not identify
 all internal policy choices beyond the trace records in this fixture. A
 broader calibration matrix remains a separate follow-up.
 
+## Review follow-up: partial coverage and heterogeneous factors
+
+The review follow-up is retained separately under
+[`review-followup-20261017/`](review-followup-20261017/).  It uses the same
+opt-in instrumentation commit as the original valid run, but two new tables
+and two independent fixed snapshots.  Each table receives exactly one
+`ANALYZE`; all availability changes thereafter use transactional
+`DROP STATISTICS` followed by `ROLLBACK`.  The factors from one table are
+never combined with the other table.
+
+The PostgreSQL source formula used by the strict checker is the pinned
+`mcv_combine_selectivities()` implementation:
+
+```text
+other_sel = clamp(simple_sel - mcv_basesel, 0, 1)
+other_sel = min(other_sel, 1 - mcv_totalsel)
+stat_sel  = clamp(mcv_sel + other_sel, 0, 1)
+```
+
+The checker uses relative tolerance `1e-12` and absolute tolerance `1e-15`.
+It exits nonzero on missing or duplicate required traces, unexpected statistic
+OIDs or consumed clause indices, inconsistent `R`, missing partial coverage,
+missing factor heterogeneity, failed clamp reconstruction, failed rollback
+catalog counts, or raw selectivity/row reconstruction outside those
+tolerances.  It uses pre-clamp values only; final Plan Rows are checked as a
+separate post-composition result.
+
+### Partial-MCV fixture
+
+The `ess_mcv_partial_t` snapshot has 100,000 rows and three built MCV
+statistics with target 10.  The selected pair statistics report
+`mcv_totalsel = 0.5213333333333333` (`ab`/`bc`) and
+`0.529` (`cd`), so the MCV lists cover a strict subset of the relation.  The
+positive MCV pair `a=3 AND b=3` reports:
+
+| Field | Value |
+|---|---:|
+| `simple_sel` | 0.003200000151991844 |
+| `mcv_sel` | 0.052333333333333336 |
+| `mcv_basesel` | 0.0033493333333333335 |
+| `mcv_totalsel` | 0.5213333333333333 |
+| reconstructed `other_sel` | 0 |
+| `stat_sel` | 0.052333333333333336 |
+
+The explicit non-MCV pair `a=4 AND b=0` has positive raw selectivity and no
+matching MCV item:
+
+| Field | Value |
+|---|---:|
+| `simple_sel` | 0.002950000017881394 |
+| `mcv_sel` | 0 |
+| `mcv_basesel` | 0 |
+| `mcv_totalsel` | 0.5213333333333333 |
+| reconstructed `other_sel` | 0.002950000017881394 |
+| `stat_sel` | 0.002950000017881394 |
+
+Thus the non-MCV remainder branch is exercised with a positive, strictly
+partial MCV coverage cap, rather than inferred from the configured target.
+The full-query reconstruction also passed:
+
+| Scenario | Actual raw selectivity | Predicted raw selectivity | Actual/Predicted rows before clamp | Final rows |
+|---|---:|---:|---:|---:|
+| `full_all` | 0.002738777777777778 | 0.002738777777777779 | 273.8777777777778 / 273.8777777777779 | 274 |
+| `full_only_bc` | 0.00013083333333333336 | 0.00013083333333333336 | 13.083333333333336 / 13.083333333333336 | 13 |
+| `full_only_ab` | 0.00013083333333333336 | 0.00013083333333333336 | 13.083333333333336 / 13.083333333333336 | 13 |
+| `full_only_cd` | 0.0001674666746209065 | 0.00016746667462090654 | 16.746667462090652 / 16.746667462090652 | 17 |
+| `full_none` | 0.000008000000379979612 | 0.000008000000379979612 | 0.8000000379979612 / 0.8000000379979612 | 1 |
+
+The small `full_all` difference is `8.67e-19` in the parsed double values;
+all checks pass the documented tolerance.
+
+### Heterogeneous-correction fixture
+
+The `ess_mcv_heterogeneous_t` snapshot also has 100,000 rows and three built
+target-10 MCV statistics.  All three pair MCV traces have
+`mcv_totalsel = 0.613`.  The singleton and pair pre-clamp selectivities for
+the tested zero constants are:
+
+```text
+s_a = 0.195333331823349
+s_b = 0.10366666316986084
+s_c = 0.055666666477918625
+s_d = 0.1979999989271164
+S_ab = S_bc = S_cd = 0.043
+```
+
+Consequently, the measured positive correction factors are:
+
+```text
+r_ab = 2.123503484551743
+r_bc = 7.451335548186979
+r_cd = 3.901288366793627
+```
+
+All three differ materially.  The independent composition checks passed for
+`full_all`, all three one-statistic availability scenarios, and `full_none`;
+their raw-selectivity deviations were zero in the recorded decimal values.
+For `full_all`, PostgreSQL selected the `ab` and `cd` OIDs and consumed clause
+indices `0,1,2,3`; for the one-statistic cases it selected exactly the named
+OID and consumed its two clause indices.  The no-statistic case selected no
+OID and consumed no clauses.
+
+### Selection, rollback and provenance checks
+
+For both fixtures, the strict checker verified the expected OID-to-statistic
+mapping, the clause indices, and termination events wherever the selector was
+invoked.  Each singleton availability transaction saw one visible statistic;
+the empty availability transaction saw zero.  The common relation multiplier
+was `R=100000` within each fixture, and all three MCV payloads were built.
+The raw stderr contains the original `ESS_MCV_TRACE` selection and
+clause-consumption lines; the analysis JSON preserves their marker-level
+association.
+
+The run used PostgreSQL 16.14 from the PR #2 instrumentation patch applied to
+the upstream parent.  No PostgreSQL source change was needed for this
+follow-up.  The isolated server used port `55436`, socket directory
+`/tmp/ess-pg-mcv-followup-socket`, data directory
+`/tmp/ess-pg-mcv-followup-data`, and database `ess_followup`.  After shutdown,
+`pg_ctl status` reported `no server running` (exit 3) and
+`postmaster.pid` was absent.  The run directory contains stdout, stderr,
+server/initdb/stop/cleanup logs, analysis JSON, and `SHA256SUMS`.
+
+These observations strengthen the claim only for the two controlled fixed
+snapshots.  They do not establish universal PostgreSQL multiplicative
+separability, behavior for overlapping or non-MCV-only clauses in all
+branches, real-cardinality accuracy, or validity outside the traced
+two-column MCV AND path.  The earlier zero-selectivity controls remain
+separate: their raw selectivity was zero and no logarithm was formed.
+
 ## Evidence files
 
 - Fixture SQL: [`mcv_numeric_snapshot.sql`](../../mcv_numeric_snapshot.sql)
@@ -190,6 +319,9 @@ broader calibration matrix remains a separate follow-up.
 - Valid raw stderr: [`success-instrumented/psql.stderr.log`](success-instrumented/psql.stderr.log)
 - Valid numeric analysis: [`success-instrumented/numeric-analysis.json`](success-instrumented/numeric-analysis.json)
 - Initial failed attempt logs: [`failed-initial/`](failed-initial/)
+- Follow-up SQL: [`mcv_numeric_followup.sql`](../../mcv_numeric_followup.sql)
+- Follow-up strict checker: [`analyze_mcv_numeric_followup.py`](../../analyze_mcv_numeric_followup.py)
+- Follow-up raw evidence and analysis: [`review-followup-20261017/`](review-followup-20261017/)
 
 The valid stderr SHA256 is
 `1a90c60ca90b1fc9f23b51b1ca9de05032a9ef454544c1f02d439a765b2df44e`; valid
