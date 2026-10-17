@@ -22,17 +22,17 @@
 
 **Revisit if:** a specified application can access and control the real policy, or a refined uncertainty rule gives meaningfully better decision quality.
 
-## D-003 — Maximal matching is a structured research abstraction (2026-10-17; accepted as research model, PG validation pending)
+## D-003 — Maximal matching is a structured research abstraction (2026-10-17; accepted, fixture-level PG validation completed)
 
 **Decision:** Study pairwise labeled-edge maximal-matchings as the first structured admissibility model, justified by the *restricted* greedy MCV selection control flow in PostgreSQL 16.14.
 
 **Why:** Under simple single-table AND conditions and eligible built two-key MCV objects, PG repeatedly chooses an object covering two still-unestimated attributes and stops when none remain. A fixed catalog order selects **one** maximal matching. All maximal matchings are realizable if the **abstract tie order** is allowed to vary freely; this does **not** assert actual PG nondeterminism or arbitrary order realization in one fixed catalog.
 
-**Primary artifact:** [source-grounded correspondence proposal](https://github.com/1951123/ess-research/pull/1). Companion [DEBUG1 tracing proposal](https://github.com/1951123/ess-postgresql/pull/1).
+**Primary artifacts:** [merged correspondence note](../notes/pg-mcv-maximal-matching-correspondence.md) ([ess-research PR #1](https://github.com/1951123/ess-research/pull/1)); [merged DEBUG1 instrumentation](https://github.com/1951123/ess-postgresql/pull/1); [fixture-level runtime report and raw evidence](../experiments/pg-tracing/runs/20261017/report.md) ([ess-research PR #4](https://github.com/1951123/ess-research/pull/4)).
 
-**Evidence status:** source-derived scoped propositions; **not yet runtime verified**. The full theorem and assumptions currently live in an unmerged Draft PR, not on `main`.
+**Evidence status (updated 2026-10-17):** conditional propositions are source-derived for PostgreSQL 16.14; **runtime observations support the four-attribute path fixture** under two statistics-object OID orderings (`{ab,cd}` and `{bc}`). The experimental run used the tracing branch before instrumentation was merged to PG `main`. This does not establish the assumptions for arbitrary queries or realize all abstract orderings simultaneously for a multi-task workload.
 
-**Revisit if:** runtime tracing contradicts scoped assumptions or the matching abstraction has unacceptable misspecification/decision regret. Broaden or replace the *instance* rather than silently weakening the generic framework.
+**Revisit if:** further runtime tracing contradicts scoped assumptions or the matching abstraction has unacceptable misspecification/decision regret. Broaden or replace the *instance* rather than silently weakening the generic framework.
 
 ## D-004 — Separate mathematical idealization from DBMS claims (2026-10-17; accepted)
 
