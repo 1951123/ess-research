@@ -1,0 +1,14 @@
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:8: DEBUG:  relation "ess_trace_t" does not exist
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:8: NOTICE:  table "ess_trace_t" does not exist, skipping
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:31: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:49: DEBUG:  rehashing catalog cache id 60 for pg_statistic_ext_data; 9 tups, 4 buckets
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:49: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 keys=2
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:49: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 claimed_clause_index=1
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:49: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 claimed_clause_index=2
+psql:experiments/pg-tracing/trace_pairwise_mcv.sql:49: DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
