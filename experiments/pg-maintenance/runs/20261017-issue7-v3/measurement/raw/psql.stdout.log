@@ -1,0 +1,5591 @@
+Pager usage is off.
+Output format is unaligned.
+SET
+SET
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|1|1
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|1|1
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16391|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16392|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16393|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|1|1
+ANALYZE
+Time: 39.465 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|1|2
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|1|2
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16394|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16395|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|1|2
+ANALYZE
+Time: 3.944 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|1|3
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|1|3
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16396|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|1|3
+ANALYZE
+Time: 3.803 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|1|4
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|1|4
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16397|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|1|4
+ANALYZE
+Time: 4.850 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|1|5
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|1|5
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16398|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16399|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|1|5
+ANALYZE
+Time: 32.851 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|1|6
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|1|6
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16400|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|1|6
+ANALYZE
+Time: 28.151 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|1|7
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|1|7
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16401|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|1|7
+ANALYZE
+Time: 4.237 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|1|8
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|1|8
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16402|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16403|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|1|8
+ANALYZE
+Time: 26.305 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|1|9
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|1|9
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16404|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16405|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|1|9
+ANALYZE
+Time: 23.174 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|1|10
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|1|10
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16406|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16407|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|1|10
+ANALYZE
+Time: 5.291 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|1|11
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|1|11
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16408|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|1|11
+ANALYZE
+Time: 22.173 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|1|12
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|1|12
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|1|12
+ANALYZE
+Time: 0.888 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|1|13
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|1|13
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16409|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16410|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|1|13
+ANALYZE
+Time: 30.607 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|1|14
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|1|14
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16411|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16412|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|1|14
+ANALYZE
+Time: 23.886 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|1|15
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|1|15
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16413|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16414|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16415|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|1|15
+ANALYZE
+Time: 36.580 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|1|16
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|1|16
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16416|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16417|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|1|16
+ANALYZE
+Time: 32.664 ms
+Timing is off.
+SETUP|correlated__none__uniform10|1|17
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|1|17
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|1|17
+ANALYZE
+Time: 0.980 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|1|18
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|1|18
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16418|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|1|18
+ANALYZE
+Time: 3.701 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|1|19
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|1|19
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|1|19
+ANALYZE
+Time: 0.831 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|1|20
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|1|20
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16419|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16420|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|1|20
+ANALYZE
+Time: 4.794 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|1|21
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|1|21
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16421|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16422|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|1|21
+ANALYZE
+Time: 4.471 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|1|22
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|1|22
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16423|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16424|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|1|22
+ANALYZE
+Time: 35.787 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|1|23
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|1|23
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16425|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|1|23
+ANALYZE
+Time: 29.449 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|1|24
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|1|24
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|1|24
+ANALYZE
+Time: 0.849 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|1|25
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|1|25
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16426|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|1|25
+ANALYZE
+Time: 4.000 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|1|26
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|1|26
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16427|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|1|26
+ANALYZE
+Time: 3.813 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|1|27
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|1|27
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16428|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16429|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|1|27
+ANALYZE
+Time: 34.230 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|1|28
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|1|28
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16430|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16431|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|1|28
+ANALYZE
+Time: 4.960 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|1|29
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|1|29
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16432|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|1|29
+ANALYZE
+Time: 3.920 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|1|30
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|1|30
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16433|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|1|30
+ANALYZE
+Time: 30.552 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|1|31
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|1|31
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16434|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16435|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16436|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|1|31
+ANALYZE
+Time: 30.936 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|1|32
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|1|32
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16437|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|1|32
+ANALYZE
+Time: 3.855 ms
+Timing is off.
+SETUP|correlated__none__uniform100|1|33
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|1|33
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|1|33
+ANALYZE
+Time: 0.940 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|1|34
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|1|34
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16438|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16439|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|1|34
+ANALYZE
+Time: 4.445 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|1|35
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|1|35
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16440|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16441|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|1|35
+ANALYZE
+Time: 27.497 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|1|36
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|1|36
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16442|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16443|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|1|36
+ANALYZE
+Time: 4.795 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|1|37
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|1|37
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16444|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16445|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|1|37
+ANALYZE
+Time: 24.501 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|1|38
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|1|38
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16446|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|1|38
+ANALYZE
+Time: 23.040 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|1|39
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|1|39
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16447|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16448|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16449|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|1|39
+ANALYZE
+Time: 29.045 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|1|40
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|1|40
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|1|40
+ANALYZE
+Time: 1.022 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|1|41
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|1|41
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16450|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|1|41
+ANALYZE
+Time: 22.602 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|1|42
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|1|42
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16451|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16452|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16453|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|1|42
+ANALYZE
+Time: 4.365 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|1|43
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|1|43
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16454|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16455|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16456|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|1|43
+ANALYZE
+Time: 5.254 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|1|44
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|1|44
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16457|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|1|44
+ANALYZE
+Time: 21.363 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|1|45
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|1|45
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16458|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|1|45
+ANALYZE
+Time: 29.180 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|1|46
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|1|46
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16459|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16460|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|1|46
+ANALYZE
+Time: 4.164 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|1|47
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|1|47
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16461|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|1|47
+ANALYZE
+Time: 4.164 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|1|48
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|1|48
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16462|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|1|48
+ANALYZE
+Time: 4.813 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|2|49
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|2|49
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16463|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|2|49
+ANALYZE
+Time: 4.704 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|2|50
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|2|50
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16464|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|2|50
+ANALYZE
+Time: 4.735 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|2|51
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|2|51
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16465|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|2|51
+ANALYZE
+Time: 31.170 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|2|52
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|2|52
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16466|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|2|52
+ANALYZE
+Time: 4.558 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|2|53
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|2|53
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16467|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16468|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|2|53
+ANALYZE
+Time: 4.003 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|2|54
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|2|54
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|2|54
+ANALYZE
+Time: 0.815 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|2|55
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|2|55
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|2|55
+ANALYZE
+Time: 1.017 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|2|56
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|2|56
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16469|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16470|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16471|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|2|56
+ANALYZE
+Time: 4.961 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|2|57
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|2|57
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16472|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16473|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|2|57
+ANALYZE
+Time: 23.974 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|2|58
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|2|58
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16474|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16475|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|2|58
+ANALYZE
+Time: 4.062 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|2|59
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|2|59
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16476|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|2|59
+ANALYZE
+Time: 22.498 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|2|60
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|2|60
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16477|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16478|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|2|60
+ANALYZE
+Time: 4.697 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|2|61
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|2|61
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16479|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|2|61
+ANALYZE
+Time: 21.934 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|2|62
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|2|62
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16480|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16481|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|2|62
+ANALYZE
+Time: 55.404 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|2|63
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|2|63
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16482|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|2|63
+ANALYZE
+Time: 4.294 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|2|64
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|2|64
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16483|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16484|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|2|64
+ANALYZE
+Time: 24.033 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|2|65
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|2|65
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16485|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16486|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|2|65
+ANALYZE
+Time: 28.018 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|2|66
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|2|66
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16487|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16488|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16489|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|2|66
+ANALYZE
+Time: 4.291 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|2|67
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|2|67
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16490|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16491|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16492|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|2|67
+ANALYZE
+Time: 37.641 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|2|68
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|2|68
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16493|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16494|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|2|68
+ANALYZE
+Time: 4.747 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|2|69
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|2|69
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|2|69
+ANALYZE
+Time: 0.845 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|2|70
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|2|70
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16495|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16496|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|2|70
+ANALYZE
+Time: 23.714 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|2|71
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|2|71
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16497|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|2|71
+ANALYZE
+Time: 3.993 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|2|72
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|2|72
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16498|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|2|72
+ANALYZE
+Time: 19.999 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|2|73
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|2|73
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16499|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16500|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|2|73
+ANALYZE
+Time: 32.123 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|2|74
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|2|74
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16501|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16502|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|2|74
+ANALYZE
+Time: 4.386 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|2|75
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|2|75
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16503|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|2|75
+ANALYZE
+Time: 21.537 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|2|76
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|2|76
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16504|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16505|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|2|76
+ANALYZE
+Time: 30.430 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|2|77
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|2|77
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16506|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16507|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|2|77
+ANALYZE
+Time: 3.803 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|2|78
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|2|78
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16508|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16509|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|2|78
+ANALYZE
+Time: 4.353 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|2|79
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|2|79
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16510|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|2|79
+ANALYZE
+Time: 27.667 ms
+Timing is off.
+SETUP|correlated__none__uniform100|2|80
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|2|80
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|2|80
+ANALYZE
+Time: 0.831 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|2|81
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|2|81
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16511|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|2|81
+ANALYZE
+Time: 27.479 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|2|82
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|2|82
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16512|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|2|82
+ANALYZE
+Time: 4.408 ms
+Timing is off.
+SETUP|correlated__none__uniform10|2|83
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|2|83
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|2|83
+ANALYZE
+Time: 0.779 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|2|84
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|2|84
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16513|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|2|84
+ANALYZE
+Time: 3.687 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|2|85
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|2|85
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16514|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16515|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16516|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|2|85
+ANALYZE
+Time: 24.059 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|2|86
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|2|86
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16517|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16518|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16519|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|2|86
+ANALYZE
+Time: 25.616 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|2|87
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|2|87
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16520|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|2|87
+ANALYZE
+Time: 31.584 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|2|88
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|2|88
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16521|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16522|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|2|88
+ANALYZE
+Time: 24.076 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|2|89
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|2|89
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|2|89
+ANALYZE
+Time: 1.019 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|2|90
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|2|90
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16523|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16524|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|2|90
+ANALYZE
+Time: 4.472 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|2|91
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|2|91
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16525|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16526|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16527|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|2|91
+ANALYZE
+Time: 34.994 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|2|92
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|2|92
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16528|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|2|92
+ANALYZE
+Time: 4.305 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|2|93
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|2|93
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16529|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|2|93
+ANALYZE
+Time: 3.825 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|2|94
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|2|94
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16530|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16531|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|2|94
+ANALYZE
+Time: 32.884 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|2|95
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|2|95
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16532|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|2|95
+ANALYZE
+Time: 3.670 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|2|96
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|2|96
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16533|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16534|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|2|96
+ANALYZE
+Time: 32.470 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|3|97
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|3|97
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16535|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|3|97
+ANALYZE
+Time: 23.123 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|3|98
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|3|98
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16536|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|3|98
+ANALYZE
+Time: 27.841 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|3|99
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|3|99
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16537|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|3|99
+ANALYZE
+Time: 4.084 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|3|100
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|3|100
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16538|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16539|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|3|100
+ANALYZE
+Time: 3.886 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|3|101
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|3|101
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|3|101
+ANALYZE
+Time: 0.842 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|3|102
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|3|102
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16540|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16541|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|3|102
+ANALYZE
+Time: 4.605 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|3|103
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|3|103
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16542|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16543|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|3|103
+ANALYZE
+Time: 4.020 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|3|104
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|3|104
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16544|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16545|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|3|104
+ANALYZE
+Time: 23.262 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|3|105
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|3|105
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16546|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16547|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|3|105
+ANALYZE
+Time: 31.161 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|3|106
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|3|106
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16548|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16549|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|3|106
+ANALYZE
+Time: 4.546 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|3|107
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|3|107
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16550|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16551|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16552|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|3|107
+ANALYZE
+Time: 29.386 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|3|108
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|3|108
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16553|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|3|108
+ANALYZE
+Time: 4.280 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|3|109
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|3|109
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16554|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|3|109
+ANALYZE
+Time: 3.748 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|3|110
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|3|110
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|3|110
+ANALYZE
+Time: 0.849 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|3|111
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|3|111
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16555|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16556|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|3|111
+ANALYZE
+Time: 31.641 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|3|112
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|3|112
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16557|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|3|112
+ANALYZE
+Time: 4.324 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|3|113
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|3|113
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16558|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16559|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16560|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|3|113
+ANALYZE
+Time: 35.668 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|3|114
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|3|114
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16561|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|3|114
+ANALYZE
+Time: 3.655 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|3|115
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|3|115
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16562|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16563|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16564|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|3|115
+ANALYZE
+Time: 35.739 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|3|116
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|3|116
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16565|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16566|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|3|116
+ANALYZE
+Time: 23.704 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|3|117
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|3|117
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16567|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16568|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16569|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|3|117
+ANALYZE
+Time: 26.288 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|3|118
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|3|118
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16570|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16571|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|3|118
+ANALYZE
+Time: 31.933 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|3|119
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|3|119
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16572|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|3|119
+ANALYZE
+Time: 3.720 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|3|120
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|3|120
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|3|120
+ANALYZE
+Time: 0.944 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|3|121
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|3|121
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16573|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|3|121
+ANALYZE
+Time: 4.038 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|3|122
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|3|122
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16574|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|3|122
+ANALYZE
+Time: 21.077 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|3|123
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|3|123
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16575|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16576|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16577|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|3|123
+ANALYZE
+Time: 4.020 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|3|124
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|3|124
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16578|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16579|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|3|124
+ANALYZE
+Time: 3.780 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|3|125
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|3|125
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16580|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16581|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|3|125
+ANALYZE
+Time: 6.024 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|3|126
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|3|126
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16582|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16583|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|3|126
+ANALYZE
+Time: 23.300 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|3|127
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|3|127
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16584|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16585|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|3|127
+ANALYZE
+Time: 31.859 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|3|128
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|3|128
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|3|128
+ANALYZE
+Time: 0.859 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|3|129
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|3|129
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16586|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|3|129
+ANALYZE
+Time: 3.978 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|3|130
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|3|130
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16587|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16588|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|3|130
+ANALYZE
+Time: 24.700 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|3|131
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|3|131
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16589|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|3|131
+ANALYZE
+Time: 28.165 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|3|132
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|3|132
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16590|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16591|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|3|132
+ANALYZE
+Time: 31.746 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|3|133
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|3|133
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16592|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16593|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16594|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|3|133
+ANALYZE
+Time: 5.398 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|3|134
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|3|134
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16595|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|3|134
+ANALYZE
+Time: 22.224 ms
+Timing is off.
+SETUP|correlated__none__uniform100|3|135
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|3|135
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|3|135
+ANALYZE
+Time: 0.831 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|3|136
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|3|136
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16596|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|3|136
+ANALYZE
+Time: 3.560 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|3|137
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|3|137
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16597|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16598|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|3|137
+ANALYZE
+Time: 4.176 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|3|138
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|3|138
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16599|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|3|138
+ANALYZE
+Time: 27.656 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|3|139
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|3|139
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16600|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16601|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|3|139
+ANALYZE
+Time: 22.966 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|3|140
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|3|140
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16602|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|3|140
+ANALYZE
+Time: 21.097 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|3|141
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|3|141
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16603|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16604|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|3|141
+ANALYZE
+Time: 4.800 ms
+Timing is off.
+SETUP|correlated__none__uniform10|3|142
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|3|142
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|3|142
+ANALYZE
+Time: 1.116 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|3|143
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|3|143
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16605|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|3|143
+ANALYZE
+Time: 4.060 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|3|144
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|3|144
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16606|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|3|144
+ANALYZE
+Time: 27.611 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|4|145
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|4|145
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16607|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16608|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|4|145
+ANALYZE
+Time: 22.894 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|4|146
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|4|146
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16609|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16610|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16611|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|4|146
+ANALYZE
+Time: 4.237 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|4|147
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|4|147
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16612|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16613|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|4|147
+ANALYZE
+Time: 4.158 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|4|148
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|4|148
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16614|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16615|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|4|148
+ANALYZE
+Time: 23.882 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|4|149
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|4|149
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16616|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|4|149
+ANALYZE
+Time: 3.748 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|4|150
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|4|150
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16617|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16618|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|4|150
+ANALYZE
+Time: 35.248 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|4|151
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|4|151
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|4|151
+ANALYZE
+Time: 0.913 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|4|152
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|4|152
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16619|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16620|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|4|152
+ANALYZE
+Time: 4.598 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|4|153
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|4|153
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16621|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|4|153
+ANALYZE
+Time: 28.061 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|4|154
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|4|154
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16622|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|4|154
+ANALYZE
+Time: 4.156 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|4|155
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|4|155
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16623|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16624|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|4|155
+ANALYZE
+Time: 32.185 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|4|156
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|4|156
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16625|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16626|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|4|156
+ANALYZE
+Time: 32.371 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|4|157
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|4|157
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|4|157
+ANALYZE
+Time: 1.685 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|4|158
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|4|158
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16627|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16628|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|4|158
+ANALYZE
+Time: 4.416 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|4|159
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|4|159
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16629|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|4|159
+ANALYZE
+Time: 4.024 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|4|160
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|4|160
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16630|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16631|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|4|160
+ANALYZE
+Time: 26.019 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|4|161
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|4|161
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16632|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16633|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16634|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|4|161
+ANALYZE
+Time: 38.584 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|4|162
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|4|162
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16635|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16636|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|4|162
+ANALYZE
+Time: 4.860 ms
+Timing is off.
+SETUP|correlated__none__uniform100|4|163
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|4|163
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|4|163
+ANALYZE
+Time: 0.890 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|4|164
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|4|164
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16637|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16638|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16639|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|4|164
+ANALYZE
+Time: 5.092 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|4|165
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|4|165
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16640|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16641|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16642|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|4|165
+ANALYZE
+Time: 36.427 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|4|166
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|4|166
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16643|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|4|166
+ANALYZE
+Time: 27.859 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|4|167
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|4|167
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16644|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|4|167
+ANALYZE
+Time: 4.451 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|4|168
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|4|168
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16645|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16646|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|4|168
+ANALYZE
+Time: 31.307 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|4|169
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|4|169
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16647|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16648|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|4|169
+ANALYZE
+Time: 4.030 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|4|170
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|4|170
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16649|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|4|170
+ANALYZE
+Time: 20.235 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|4|171
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|4|171
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16650|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16651|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|4|171
+ANALYZE
+Time: 4.945 ms
+Timing is off.
+SETUP|correlated__none__uniform10|4|172
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|4|172
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|4|172
+ANALYZE
+Time: 0.799 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|4|173
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|4|173
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|4|173
+ANALYZE
+Time: 0.784 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|4|174
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|4|174
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16652|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|4|174
+ANALYZE
+Time: 3.840 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|4|175
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|4|175
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16653|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|4|175
+ANALYZE
+Time: 3.657 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|4|176
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|4|176
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16654|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|4|176
+ANALYZE
+Time: 21.534 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|4|177
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|4|177
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|4|177
+ANALYZE
+Time: 0.818 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|4|178
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|4|178
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16655|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16656|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16657|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|4|178
+ANALYZE
+Time: 25.435 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|4|179
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|4|179
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16658|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|4|179
+ANALYZE
+Time: 22.250 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|4|180
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|4|180
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16659|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16660|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|4|180
+ANALYZE
+Time: 22.871 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|4|181
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|4|181
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16661|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|4|181
+ANALYZE
+Time: 4.009 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|4|182
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|4|182
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16662|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|4|182
+ANALYZE
+Time: 4.498 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|4|183
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|4|183
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16663|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16664|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|4|183
+ANALYZE
+Time: 3.798 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|4|184
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|4|184
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16665|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|4|184
+ANALYZE
+Time: 4.243 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|4|185
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|4|185
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16666|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|4|185
+ANALYZE
+Time: 28.944 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|4|186
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|4|186
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16667|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|4|186
+ANALYZE
+Time: 5.127 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|4|187
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|4|187
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16668|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16669|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|4|187
+ANALYZE
+Time: 3.789 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|4|188
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|4|188
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16670|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16671|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|4|188
+ANALYZE
+Time: 31.719 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|4|189
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|4|189
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16672|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|4|189
+ANALYZE
+Time: 21.625 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|4|190
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|4|190
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16673|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16674|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|4|190
+ANALYZE
+Time: 23.081 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|4|191
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|4|191
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16675|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16676|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16677|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|4|191
+ANALYZE
+Time: 25.273 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|4|192
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|4|192
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16678|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|4|192
+ANALYZE
+Time: 27.438 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|5|193
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|5|193
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16679|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|5|193
+ANALYZE
+Time: 4.030 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|5|194
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|5|194
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16680|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|5|194
+ANALYZE
+Time: 3.685 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|5|195
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|5|195
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16681|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|5|195
+ANALYZE
+Time: 28.509 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|5|196
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|5|196
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16682|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|5|196
+ANALYZE
+Time: 4.013 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|5|197
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|5|197
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16683|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16684|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|5|197
+ANALYZE
+Time: 32.255 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|5|198
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|5|198
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16685|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|5|198
+ANALYZE
+Time: 4.267 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|5|199
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|5|199
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16686|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|5|199
+ANALYZE
+Time: 4.256 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|5|200
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|5|200
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16687|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16688|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16689|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|5|200
+ANALYZE
+Time: 4.900 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|5|201
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|5|201
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16690|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16691|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|5|201
+ANALYZE
+Time: 23.539 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|5|202
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|5|202
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16692|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16693|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|5|202
+ANALYZE
+Time: 22.596 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|5|203
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|5|203
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16694|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16695|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|5|203
+ANALYZE
+Time: 4.870 ms
+Timing is off.
+SETUP|correlated__none__uniform10|5|204
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|5|204
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|5|204
+ANALYZE
+Time: 1.005 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|5|205
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|5|205
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16696|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16697|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|5|205
+ANALYZE
+Time: 3.836 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|5|206
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|5|206
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|5|206
+ANALYZE
+Time: 1.277 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|5|207
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|5|207
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16698|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16699|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|5|207
+ANALYZE
+Time: 24.065 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|5|208
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|5|208
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16700|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16701|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|5|208
+ANALYZE
+Time: 32.105 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|5|209
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|5|209
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16702|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|5|209
+ANALYZE
+Time: 3.846 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|5|210
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|5|210
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16703|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|5|210
+ANALYZE
+Time: 27.384 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|5|211
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|5|211
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16704|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16705|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|5|211
+ANALYZE
+Time: 4.453 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|5|212
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|5|212
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16706|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16707|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|5|212
+ANALYZE
+Time: 4.616 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|5|213
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|5|213
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16708|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|5|213
+ANALYZE
+Time: 4.014 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|5|214
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|5|214
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16709|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16710|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|5|214
+ANALYZE
+Time: 4.077 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|5|215
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|5|215
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16711|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16712|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16713|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|5|215
+ANALYZE
+Time: 34.307 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|5|216
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|5|216
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|5|216
+ANALYZE
+Time: 0.800 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|5|217
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|5|217
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16714|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16715|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16716|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|5|217
+ANALYZE
+Time: 24.035 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|5|218
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|5|218
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16717|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16718|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|5|218
+ANALYZE
+Time: 31.168 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|5|219
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|5|219
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|5|219
+ANALYZE
+Time: 1.195 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|5|220
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|5|220
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16719|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16720|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|5|220
+ANALYZE
+Time: 31.059 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|5|221
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|5|221
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16721|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|5|221
+ANALYZE
+Time: 3.573 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|5|222
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|5|222
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16722|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|5|222
+ANALYZE
+Time: 26.721 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|5|223
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|5|223
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16723|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16724|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16725|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|5|223
+ANALYZE
+Time: 35.193 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|5|224
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|5|224
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16726|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|5|224
+ANALYZE
+Time: 21.072 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|5|225
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|5|225
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16727|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16728|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|5|225
+ANALYZE
+Time: 22.532 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|5|226
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|5|226
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16729|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16730|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|5|226
+ANALYZE
+Time: 23.331 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|5|227
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|5|227
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16731|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16732|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16733|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|5|227
+ANALYZE
+Time: 4.013 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|5|228
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|5|228
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16734|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|5|228
+ANALYZE
+Time: 21.019 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|5|229
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|5|229
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16735|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|5|229
+ANALYZE
+Time: 4.114 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|5|230
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|5|230
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16736|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16737|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|5|230
+ANALYZE
+Time: 4.418 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|5|231
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|5|231
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16738|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|5|231
+ANALYZE
+Time: 27.815 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|5|232
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|5|232
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16739|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16740|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16741|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|5|232
+ANALYZE
+Time: 24.421 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|5|233
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|5|233
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16742|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|5|233
+ANALYZE
+Time: 4.265 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|5|234
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|5|234
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|5|234
+ANALYZE
+Time: 0.897 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|5|235
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|5|235
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16743|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16744|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|5|235
+ANALYZE
+Time: 3.883 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|5|236
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|5|236
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16745|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16746|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|5|236
+ANALYZE
+Time: 3.822 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|5|237
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|5|237
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16747|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|5|237
+ANALYZE
+Time: 22.021 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|5|238
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|5|238
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16748|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|5|238
+ANALYZE
+Time: 21.085 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|5|239
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|5|239
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16749|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16750|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|5|239
+ANALYZE
+Time: 30.880 ms
+Timing is off.
+SETUP|correlated__none__uniform100|5|240
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|5|240
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|5|240
+ANALYZE
+Time: 0.841 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|6|241
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|6|241
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|6|241
+ANALYZE
+Time: 0.825 ms
+Timing is off.
+SETUP|correlated__none__uniform100|6|242
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|6|242
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|6|242
+ANALYZE
+Time: 0.959 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|6|243
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|6|243
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16751|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|6|243
+ANALYZE
+Time: 3.907 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|6|244
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|6|244
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16752|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|6|244
+ANALYZE
+Time: 27.094 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|6|245
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|6|245
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16753|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|6|245
+ANALYZE
+Time: 21.001 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|6|246
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|6|246
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|6|246
+ANALYZE
+Time: 0.851 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|6|247
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|6|247
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16754|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|6|247
+ANALYZE
+Time: 3.965 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|6|248
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|6|248
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|6|248
+ANALYZE
+Time: 0.770 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|6|249
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|6|249
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16755|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16756|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|6|249
+ANALYZE
+Time: 4.313 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|6|250
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|6|250
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16757|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16758|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|6|250
+ANALYZE
+Time: 22.776 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|6|251
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|6|251
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16759|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16760|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|6|251
+ANALYZE
+Time: 4.694 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|6|252
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|6|252
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16761|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16762|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|6|252
+ANALYZE
+Time: 31.677 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|6|253
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|6|253
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16763|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|6|253
+ANALYZE
+Time: 4.323 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|6|254
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|6|254
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16764|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16765|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|6|254
+ANALYZE
+Time: 23.991 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|6|255
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|6|255
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|6|255
+ANALYZE
+Time: 0.847 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|6|256
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|6|256
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16766|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|6|256
+ANALYZE
+Time: 4.731 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|6|257
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|6|257
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16767|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|6|257
+ANALYZE
+Time: 28.213 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|6|258
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|6|258
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16768|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|6|258
+ANALYZE
+Time: 3.798 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|6|259
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|6|259
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16769|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|6|259
+ANALYZE
+Time: 3.684 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|6|260
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|6|260
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16770|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16771|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|6|260
+ANALYZE
+Time: 3.792 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|6|261
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|6|261
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16772|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16773|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|6|261
+ANALYZE
+Time: 3.915 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|6|262
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|6|262
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16774|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16775|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16776|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|6|262
+ANALYZE
+Time: 4.054 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|6|263
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|6|263
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16777|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16778|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|6|263
+ANALYZE
+Time: 32.531 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|6|264
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|6|264
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16779|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16780|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|6|264
+ANALYZE
+Time: 31.745 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|6|265
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|6|265
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16781|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16782|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|6|265
+ANALYZE
+Time: 4.361 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|6|266
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|6|266
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16783|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|6|266
+ANALYZE
+Time: 27.800 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|6|267
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|6|267
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16784|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16785|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16786|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|6|267
+ANALYZE
+Time: 35.747 ms
+Timing is off.
+SETUP|correlated__none__uniform10|6|268
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|6|268
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|6|268
+ANALYZE
+Time: 0.878 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|6|269
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|6|269
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16787|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16788|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|6|269
+ANALYZE
+Time: 24.356 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|6|270
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|6|270
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16789|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16790|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|6|270
+ANALYZE
+Time: 24.334 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|6|271
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|6|271
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16791|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16792|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|6|271
+ANALYZE
+Time: 33.077 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|6|272
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|6|272
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16793|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|6|272
+ANALYZE
+Time: 4.271 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|6|273
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|6|273
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16794|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|6|273
+ANALYZE
+Time: 22.290 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|6|274
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|6|274
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16795|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16796|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16797|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|6|274
+ANALYZE
+Time: 29.050 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|6|275
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|6|275
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16798|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16799|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|6|275
+ANALYZE
+Time: 4.345 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|6|276
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|6|276
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16800|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|6|276
+ANALYZE
+Time: 23.433 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|6|277
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|6|277
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16801|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16802|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16803|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|6|277
+ANALYZE
+Time: 40.257 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|6|278
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|6|278
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16804|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16805|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|6|278
+ANALYZE
+Time: 5.795 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|6|279
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|6|279
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16806|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16807|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16808|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|6|279
+ANALYZE
+Time: 8.932 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|6|280
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|6|280
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16809|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16810|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|6|280
+ANALYZE
+Time: 102.921 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|6|281
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|6|281
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16811|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|6|281
+ANALYZE
+Time: 38.392 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|6|282
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|6|282
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16812|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|6|282
+ANALYZE
+Time: 40.501 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|6|283
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|6|283
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16813|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|6|283
+ANALYZE
+Time: 5.822 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|6|284
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|6|284
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16814|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|6|284
+ANALYZE
+Time: 6.861 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|6|285
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|6|285
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16815|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16816|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|6|285
+ANALYZE
+Time: 6.054 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|6|286
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|6|286
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16817|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16818|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|6|286
+ANALYZE
+Time: 35.830 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|6|287
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|6|287
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16819|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16820|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16821|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|6|287
+ANALYZE
+Time: 36.110 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|6|288
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|6|288
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16822|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|6|288
+ANALYZE
+Time: 5.153 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform100|7|289
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform100|7|289
+ANALYZE
+META|lowcorr__cd__uniform100|ess_mcv_lowcorr_cd|16823|100|true
+Timing is on.
+RUN|lowcorr__cd__uniform100|7|289
+ANALYZE
+Time: 32.253 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform100|7|290
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform100|7|290
+ANALYZE
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_ab|16824|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_bc|16825|100|true
+META|correlated__ab_bc_cd__uniform100|ess_mcv_correlated_cd|16826|100|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform100|7|290
+ANALYZE
+Time: 32.289 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform100|7|291
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform100|7|291
+ANALYZE
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_ab|16827|100|true
+META|correlated__ab_bc__uniform100|ess_mcv_correlated_bc|16828|100|true
+Timing is on.
+RUN|correlated__ab_bc__uniform100|7|291
+ANALYZE
+Time: 26.142 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__uniform10|7|292
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__uniform10|7|292
+ANALYZE
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_ab|16829|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_bc|16830|10|true
+META|correlated__ab_bc_cd__uniform10|ess_mcv_correlated_cd|16831|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__uniform10|7|292
+ANALYZE
+Time: 5.241 ms
+Timing is off.
+SETUP|lowcorr__none__uniform10|7|293
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform10|7|293
+ANALYZE
+META|lowcorr__none__uniform10|NONE
+Timing is on.
+RUN|lowcorr__none__uniform10|7|293
+ANALYZE
+Time: 1.126 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform100|7|294
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform100|7|294
+ANALYZE
+META|lowcorr__ab__uniform100|ess_mcv_lowcorr_ab|16832|100|true
+Timing is on.
+RUN|lowcorr__ab__uniform100|7|294
+ANALYZE
+Time: 35.589 ms
+Timing is off.
+SETUP|lowcorr__cd__mixed_10_100_10|7|295
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__mixed_10_100_10|7|295
+ANALYZE
+META|lowcorr__cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16833|10|false
+Timing is on.
+RUN|lowcorr__cd__mixed_10_100_10|7|295
+ANALYZE
+Time: 4.814 ms
+Timing is off.
+SETUP|lowcorr__none__mixed_10_100_10|7|296
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__mixed_10_100_10|7|296
+ANALYZE
+META|lowcorr__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|lowcorr__none__mixed_10_100_10|7|296
+ANALYZE
+Time: 0.929 ms
+Timing is off.
+SETUP|lowcorr__bc__mixed_10_100_10|7|297
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__mixed_10_100_10|7|297
+ANALYZE
+META|lowcorr__bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16834|100|true
+Timing is on.
+RUN|lowcorr__bc__mixed_10_100_10|7|297
+ANALYZE
+Time: 30.485 ms
+Timing is off.
+SETUP|lowcorr__none__uniform100|7|298
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|lowcorr__none__uniform100|7|298
+ANALYZE
+META|lowcorr__none__uniform100|NONE
+Timing is on.
+RUN|lowcorr__none__uniform100|7|298
+ANALYZE
+Time: 0.962 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform100|7|299
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform100|7|299
+ANALYZE
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_ab|16835|100|true
+META|lowcorr__ab_bc__uniform100|ess_mcv_lowcorr_bc|16836|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__uniform100|7|299
+ANALYZE
+Time: 33.928 ms
+Timing is off.
+SETUP|lowcorr__cd__uniform10|7|300
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__cd__uniform10|7|300
+ANALYZE
+META|lowcorr__cd__uniform10|ess_mcv_lowcorr_cd|16837|10|false
+Timing is on.
+RUN|lowcorr__cd__uniform10|7|300
+ANALYZE
+Time: 4.546 ms
+Timing is off.
+SETUP|correlated__bc__mixed_10_100_10|7|301
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__mixed_10_100_10|7|301
+ANALYZE
+META|correlated__bc__mixed_10_100_10|ess_mcv_correlated_bc|16838|100|true
+Timing is on.
+RUN|correlated__bc__mixed_10_100_10|7|301
+ANALYZE
+Time: 23.497 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__uniform10|7|302
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__uniform10|7|302
+ANALYZE
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_ab|16839|10|false
+META|lowcorr__ab_bc__uniform10|ess_mcv_lowcorr_bc|16840|10|false
+Timing is on.
+RUN|lowcorr__ab_bc__uniform10|7|302
+ANALYZE
+Time: 4.926 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform100|7|303
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform100|7|303
+ANALYZE
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_bc|16841|100|true
+META|correlated__bc_cd__uniform100|ess_mcv_correlated_cd|16842|100|true
+Timing is on.
+RUN|correlated__bc_cd__uniform100|7|303
+ANALYZE
+Time: 24.839 ms
+Timing is off.
+SETUP|correlated__ab__mixed_10_100_10|7|304
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__mixed_10_100_10|7|304
+ANALYZE
+META|correlated__ab__mixed_10_100_10|ess_mcv_correlated_ab|16843|10|true
+Timing is on.
+RUN|correlated__ab__mixed_10_100_10|7|304
+ANALYZE
+Time: 3.927 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__mixed_10_100_10|7|305
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__mixed_10_100_10|7|305
+ANALYZE
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16844|10|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16845|100|true
+META|lowcorr__ab_bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16846|10|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__mixed_10_100_10|7|305
+ANALYZE
+Time: 36.319 ms
+Timing is off.
+SETUP|correlated__ab_bc__uniform10|7|306
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__uniform10|7|306
+ANALYZE
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_ab|16847|10|true
+META|correlated__ab_bc__uniform10|ess_mcv_correlated_bc|16848|10|true
+Timing is on.
+RUN|correlated__ab_bc__uniform10|7|306
+ANALYZE
+Time: 4.196 ms
+Timing is off.
+SETUP|lowcorr__ab__mixed_10_100_10|7|307
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__mixed_10_100_10|7|307
+ANALYZE
+META|lowcorr__ab__mixed_10_100_10|ess_mcv_lowcorr_ab|16849|10|false
+Timing is on.
+RUN|lowcorr__ab__mixed_10_100_10|7|307
+ANALYZE
+Time: 4.188 ms
+Timing is off.
+SETUP|correlated__bc_cd__uniform10|7|308
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__uniform10|7|308
+ANALYZE
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_bc|16850|10|true
+META|correlated__bc_cd__uniform10|ess_mcv_correlated_cd|16851|10|true
+Timing is on.
+RUN|correlated__bc_cd__uniform10|7|308
+ANALYZE
+Time: 4.139 ms
+Timing is off.
+SETUP|lowcorr__ab_bc__mixed_10_100_10|7|309
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc__mixed_10_100_10|7|309
+ANALYZE
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_ab|16852|10|true
+META|lowcorr__ab_bc__mixed_10_100_10|ess_mcv_lowcorr_bc|16853|100|true
+Timing is on.
+RUN|lowcorr__ab_bc__mixed_10_100_10|7|309
+ANALYZE
+Time: 32.646 ms
+Timing is off.
+SETUP|correlated__bc_cd__mixed_10_100_10|7|310
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc_cd__mixed_10_100_10|7|310
+ANALYZE
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16854|100|true
+META|correlated__bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16855|10|true
+Timing is on.
+RUN|correlated__bc_cd__mixed_10_100_10|7|310
+ANALYZE
+Time: 24.782 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform100|7|311
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform100|7|311
+ANALYZE
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_bc|16856|100|true
+META|lowcorr__bc_cd__uniform100|ess_mcv_lowcorr_cd|16857|100|true
+Timing is on.
+RUN|lowcorr__bc_cd__uniform100|7|311
+ANALYZE
+Time: 31.737 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform100|7|312
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform100|7|312
+ANALYZE
+META|lowcorr__bc__uniform100|ess_mcv_lowcorr_bc|16858|100|true
+Timing is on.
+RUN|lowcorr__bc__uniform100|7|312
+ANALYZE
+Time: 27.971 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__mixed_10_100_10|7|313
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__mixed_10_100_10|7|313
+ANALYZE
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_ab|16859|10|false
+META|lowcorr__ab_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16860|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__mixed_10_100_10|7|313
+ANALYZE
+Time: 4.693 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform100|7|314
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform100|7|314
+ANALYZE
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_ab|16861|100|true
+META|correlated__ab_cd__uniform100|ess_mcv_correlated_cd|16862|100|true
+Timing is on.
+RUN|correlated__ab_cd__uniform100|7|314
+ANALYZE
+Time: 25.104 ms
+Timing is off.
+SETUP|correlated__none__uniform100|7|315
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform100|7|315
+ANALYZE
+META|correlated__none__uniform100|NONE
+Timing is on.
+RUN|correlated__none__uniform100|7|315
+ANALYZE
+Time: 0.864 ms
+Timing is off.
+SETUP|correlated__bc__uniform10|7|316
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform10|7|316
+ANALYZE
+META|correlated__bc__uniform10|ess_mcv_correlated_bc|16863|10|true
+Timing is on.
+RUN|correlated__bc__uniform10|7|316
+ANALYZE
+Time: 4.029 ms
+Timing is off.
+SETUP|correlated__ab__uniform10|7|317
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform10|7|317
+ANALYZE
+META|correlated__ab__uniform10|ess_mcv_correlated_ab|16864|10|true
+Timing is on.
+RUN|correlated__ab__uniform10|7|317
+ANALYZE
+Time: 3.611 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform10|7|318
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform10|7|318
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_ab|16865|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_bc|16866|10|false
+META|lowcorr__ab_bc_cd__uniform10|ess_mcv_lowcorr_cd|16867|10|false
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform10|7|318
+ANALYZE
+Time: 5.050 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform10|7|319
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform10|7|319
+ANALYZE
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_ab|16868|10|false
+META|lowcorr__ab_cd__uniform10|ess_mcv_lowcorr_cd|16869|10|false
+Timing is on.
+RUN|lowcorr__ab_cd__uniform10|7|319
+ANALYZE
+Time: 4.835 ms
+Timing is off.
+SETUP|correlated__none__mixed_10_100_10|7|320
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__mixed_10_100_10|7|320
+ANALYZE
+META|correlated__none__mixed_10_100_10|NONE
+Timing is on.
+RUN|correlated__none__mixed_10_100_10|7|320
+ANALYZE
+Time: 0.871 ms
+Timing is off.
+SETUP|correlated__bc__uniform100|7|321
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__bc__uniform100|7|321
+ANALYZE
+META|correlated__bc__uniform100|ess_mcv_correlated_bc|16870|100|true
+Timing is on.
+RUN|correlated__bc__uniform100|7|321
+ANALYZE
+Time: 27.837 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__uniform10|7|322
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__uniform10|7|322
+ANALYZE
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_bc|16871|10|false
+META|lowcorr__bc_cd__uniform10|ess_mcv_lowcorr_cd|16872|10|false
+Timing is on.
+RUN|lowcorr__bc_cd__uniform10|7|322
+ANALYZE
+Time: 4.978 ms
+Timing is off.
+SETUP|correlated__cd__mixed_10_100_10|7|323
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__mixed_10_100_10|7|323
+ANALYZE
+META|correlated__cd__mixed_10_100_10|ess_mcv_correlated_cd|16873|10|true
+Timing is on.
+RUN|correlated__cd__mixed_10_100_10|7|323
+ANALYZE
+Time: 4.198 ms
+Timing is off.
+SETUP|correlated__ab_cd__mixed_10_100_10|7|324
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__mixed_10_100_10|7|324
+ANALYZE
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_ab|16874|10|true
+META|correlated__ab_cd__mixed_10_100_10|ess_mcv_correlated_cd|16875|10|true
+Timing is on.
+RUN|correlated__ab_cd__mixed_10_100_10|7|324
+ANALYZE
+Time: 4.085 ms
+Timing is off.
+SETUP|correlated__cd__uniform100|7|325
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform100|7|325
+ANALYZE
+META|correlated__cd__uniform100|ess_mcv_correlated_cd|16876|100|true
+Timing is on.
+RUN|correlated__cd__uniform100|7|325
+ANALYZE
+Time: 21.513 ms
+Timing is off.
+SETUP|lowcorr__ab_cd__uniform100|7|326
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_cd__uniform100|7|326
+ANALYZE
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_ab|16877|100|true
+META|lowcorr__ab_cd__uniform100|ess_mcv_lowcorr_cd|16878|100|true
+Timing is on.
+RUN|lowcorr__ab_cd__uniform100|7|326
+ANALYZE
+Time: 31.339 ms
+Timing is off.
+SETUP|correlated__ab_bc__mixed_10_100_10|7|327
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc__mixed_10_100_10|7|327
+ANALYZE
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_ab|16879|10|true
+META|correlated__ab_bc__mixed_10_100_10|ess_mcv_correlated_bc|16880|100|true
+Timing is on.
+RUN|correlated__ab_bc__mixed_10_100_10|7|327
+ANALYZE
+Time: 23.839 ms
+Timing is off.
+SETUP|lowcorr__ab_bc_cd__uniform100|7|328
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab_bc_cd__uniform100|7|328
+ANALYZE
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_ab|16881|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_bc|16882|100|true
+META|lowcorr__ab_bc_cd__uniform100|ess_mcv_lowcorr_cd|16883|100|true
+Timing is on.
+RUN|lowcorr__ab_bc_cd__uniform100|7|328
+ANALYZE
+Time: 36.527 ms
+Timing is off.
+SETUP|correlated__ab__uniform100|7|329
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab__uniform100|7|329
+ANALYZE
+META|correlated__ab__uniform100|ess_mcv_correlated_ab|16884|100|true
+Timing is on.
+RUN|correlated__ab__uniform100|7|329
+ANALYZE
+Time: 22.501 ms
+Timing is off.
+SETUP|lowcorr__bc_cd__mixed_10_100_10|7|330
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc_cd__mixed_10_100_10|7|330
+ANALYZE
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_bc|16885|100|true
+META|lowcorr__bc_cd__mixed_10_100_10|ess_mcv_lowcorr_cd|16886|10|true
+Timing is on.
+RUN|lowcorr__bc_cd__mixed_10_100_10|7|330
+ANALYZE
+Time: 31.469 ms
+Timing is off.
+SETUP|correlated__ab_bc_cd__mixed_10_100_10|7|331
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_bc_cd__mixed_10_100_10|7|331
+ANALYZE
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_ab|16887|10|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_bc|16888|100|true
+META|correlated__ab_bc_cd__mixed_10_100_10|ess_mcv_correlated_cd|16889|10|true
+Timing is on.
+RUN|correlated__ab_bc_cd__mixed_10_100_10|7|331
+ANALYZE
+Time: 26.413 ms
+Timing is off.
+SETUP|correlated__cd__uniform10|7|332
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__cd__uniform10|7|332
+ANALYZE
+META|correlated__cd__uniform10|ess_mcv_correlated_cd|16890|10|true
+Timing is on.
+RUN|correlated__cd__uniform10|7|332
+ANALYZE
+Time: 4.079 ms
+Timing is off.
+SETUP|lowcorr__ab__uniform10|7|333
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__ab__uniform10|7|333
+ANALYZE
+META|lowcorr__ab__uniform10|ess_mcv_lowcorr_ab|16891|10|false
+Timing is on.
+RUN|lowcorr__ab__uniform10|7|333
+ANALYZE
+Time: 4.115 ms
+Timing is off.
+SETUP|correlated__none__uniform10|7|334
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+WARMUP|correlated__none__uniform10|7|334
+ANALYZE
+META|correlated__none__uniform10|NONE
+Timing is on.
+RUN|correlated__none__uniform10|7|334
+ANALYZE
+Time: 0.927 ms
+Timing is off.
+SETUP|lowcorr__bc__uniform10|7|335
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|lowcorr__bc__uniform10|7|335
+ANALYZE
+META|lowcorr__bc__uniform10|ess_mcv_lowcorr_bc|16892|10|false
+Timing is on.
+RUN|lowcorr__bc__uniform10|7|335
+ANALYZE
+Time: 4.540 ms
+Timing is off.
+SETUP|correlated__ab_cd__uniform10|7|336
+Timing is off.
+DROP STATISTICS
+DROP STATISTICS
+DROP STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+WARMUP|correlated__ab_cd__uniform10|7|336
+ANALYZE
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_ab|16893|10|true
+META|correlated__ab_cd__uniform10|ess_mcv_correlated_cd|16894|10|true
+Timing is on.
+RUN|correlated__ab_cd__uniform10|7|336
+ANALYZE
+Time: 3.861 ms
+Timing is off.

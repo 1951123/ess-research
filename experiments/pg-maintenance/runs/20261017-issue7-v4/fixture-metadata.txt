@@ -1,0 +1,7 @@
+# Metadata-only fixture check, separate from timed benchmark
+server_version|16.14
+# relname|reltuples_after_fixture_analyze|pg_relation_size|pg_table_size|pg_total_relation_size
+ess_mcv_correlated|200018|10436608|10461184|10461184
+ess_mcv_lowcorr|200018|10436608|10461184|10461184
+# Exact inserted row count from fixture.sql: 200000 per table.
+# The reltuples value is PostgreSQL's post-setup estimate, not the exact count.

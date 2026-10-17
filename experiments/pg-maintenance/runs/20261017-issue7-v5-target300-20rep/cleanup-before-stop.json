@@ -1,0 +1,6 @@
+{
+  "drop_database_returncode": 0,
+  "database_absence_query_returncode": 0,
+  "database_absence_stdout": "",
+  "database_absent_while_server_running": true
+}
