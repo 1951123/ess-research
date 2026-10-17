@@ -1,6 +1,6 @@
 # Restricted PostgreSQL MCV selection as maximal matching
 
-Status: **source-grounded proposition, pending executable tracing confirmation**.
+Status (updated 2026-10-17): **source-grounded conditional propositions, with fixture-level PostgreSQL 16.14 runtime confirmation for two creation orders**. See [2026-10-17 experiment report](../experiments/pg-tracing/runs/20261017/report.md) and merged [research PR #4](https://github.com/1951123/ess-research/pull/4).
 Scope: upstream PostgreSQL **REL_16_14**, *not* a claim about all PostgreSQL estimates or other RDBMSs.
 
 ## 1. Why this note exists
@@ -149,7 +149,7 @@ Therefore the greedy algorithm terminates with exactly \(P\). \(\square\)
    into planner metadata.
    https://github.com/postgres/postgres/blob/REL_16_14/src/backend/optimizer/util/plancat.c#L1439-L1535
 
-## 6. Falsification-oriented tracing plan
+## 6. Falsification-oriented tracing plan and completed fixture check
 
 Use a controlled 4-attribute path with statistics
 \(\{s_{ab},s_{bc},s_{cd}\}\). Its maximal matchings are precisely
@@ -172,14 +172,15 @@ Use a controlled 4-attribute path with statistics
    physical maintenance cost.
 
 Runnable SQL fixture: [experiments/pg-tracing/trace_pairwise_mcv.sql](../experiments/pg-tracing/trace_pairwise_mcv.sql).
-Instrumentation belongs on a **separate development branch** of
-\`ess-postgresql\`; it must not be confused with unmodified upstream behavior.
+Instrumentation was tested on an **isolated development branch** of
+`ess-postgresql`, then merged to `ess-postgresql/main` via [PR #1](https://github.com/1951123/ess-postgresql/pull/1). It must not be confused with unmodified upstream behavior.
+
+**Observed fixture result (2026-10-17):** Phase A created ab, bc, cd (OIDs 16387–16389) and selected `{ab,cd}` with consumed clause indices 0,1,2,3; Phase B created bc, ab, cd (OIDs 16390–16392) and selected `{bc}` with indices 1,2. Both traces terminated with `candidate=none`. All six per-phase MCV object observations reported built data. Raw client and server logs are retained in [experiments/pg-tracing/runs/20261017/](../experiments/pg-tracing/runs/20261017/). This validates only the specific fixture, not universal PG behavior.
 
 ## 7. Paper claim and evidence status
 
 - **Established from control flow under A1–A4:** Propositions 1–2.
-- **To test in an actual PG process:** OID-dependent path example and
-  corresponding DEBUG1 selection / clause trace.
+- **Experimentally observed on one scoped PG 16.14 fixture:** two OID-dependent path outcomes and the corresponding DEBUG1 selection / clause traces; see the [recorded report](../experiments/pg-tracing/runs/20261017/report.md).
 - **Not established by these propositions:** accuracy of the numeric
   estimator, empirical realism of unknown policy families, independence
   across tasks, log-loss positivity, maintenance-cost additivity,
