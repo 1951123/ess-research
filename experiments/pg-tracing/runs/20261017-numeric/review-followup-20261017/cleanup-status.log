@@ -1,0 +1,3 @@
+pg_ctl: no server running
+pg_ctl_status_exit=3
+postmaster_pid_absent

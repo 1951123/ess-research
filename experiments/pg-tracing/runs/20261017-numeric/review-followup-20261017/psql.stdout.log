@@ -1,0 +1,307 @@
+Pager usage is off.
+SET
+SET
+=== fixture:partial ===
+DROP TABLE
+CREATE TABLE
+INSERT 0 100000
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ANALYZE
+=== partial:snapshot ===
+    object     | relation_oid | reltuples | actual_rows 
+---------------+--------------+-----------+-------------
+ partial_table |        16385 |    100000 |      100000
+(1 row)
+
+    stxname     | statistic_oid | stxkeys | stxkind | stxstattarget | built_mcv | mcv_bytes 
+----------------+---------------+---------+---------+---------------+-----------+-----------
+ ess_partial_ab |         16388 | 1 2     | {m}     |            10 | t         |       366
+ ess_partial_bc |         16389 | 2 3     | {m}     |            10 | t         |       366
+ ess_partial_cd |         16390 | 3 4     | {m}     |            10 | t         |       366
+(3 rows)
+
+=== partial:single_a ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..1791.00 rows=5000 width=16)
+   Filter: (a = 3)
+(2 rows)
+
+=== partial:single_b ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..1791.00 rows=6400 width=16)
+   Filter: (b = 3)
+(2 rows)
+
+=== partial:single_c ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..1791.00 rows=5000 width=16)
+   Filter: (c = 3)
+(2 rows)
+
+=== partial:single_d ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..1791.00 rows=5000 width=16)
+   Filter: (d = 3)
+(2 rows)
+
+=== partial:pair_ab_mcv ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2041.00 rows=5233 width=16)
+   Filter: ((a = 3) AND (b = 3))
+(2 rows)
+
+=== partial:pair_ab_nonmcv ===
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2041.00 rows=295 width=16)
+   Filter: ((a = 4) AND (b = 0))
+(2 rows)
+
+=== partial:pair_bc ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2041.00 rows=5233 width=16)
+   Filter: ((b = 3) AND (c = 3))
+(2 rows)
+
+=== partial:pair_cd ===
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2041.00 rows=5233 width=16)
+   Filter: ((c = 3) AND (d = 3))
+(2 rows)
+
+=== partial:full_all ===
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2541.00 rows=274 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+=== partial:scenario_only_bc ===
+BEGIN
+DROP STATISTICS
+            marker             | visible_statistics 
+-------------------------------+--------------------
+ partial_only_bc_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                              
+----------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2541.00 rows=13 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== partial:scenario_only_ab ===
+BEGIN
+DROP STATISTICS
+            marker             | visible_statistics 
+-------------------------------+--------------------
+ partial_only_ab_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                              
+----------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2541.00 rows=13 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== partial:scenario_only_cd ===
+BEGIN
+DROP STATISTICS
+            marker             | visible_statistics 
+-------------------------------+--------------------
+ partial_only_cd_catalog_count |                  1
+(1 row)
+
+                              QUERY PLAN                              
+----------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2541.00 rows=17 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== partial:scenario_none ===
+BEGIN
+DROP STATISTICS
+           marker           | visible_statistics 
+----------------------------+--------------------
+ partial_none_catalog_count |                  0
+(1 row)
+
+                             QUERY PLAN                              
+---------------------------------------------------------------------
+ Seq Scan on ess_mcv_partial_t  (cost=0.00..2541.00 rows=1 width=16)
+   Filter: ((a = 3) AND (b = 3) AND (c = 3) AND (d = 3))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== fixture:heterogeneous ===
+DROP TABLE
+CREATE TABLE
+INSERT 0 100000
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ALTER STATISTICS
+ANALYZE
+=== heterogeneous:snapshot ===
+       object        | relation_oid | reltuples | actual_rows 
+---------------------+--------------+-----------+-------------
+ heterogeneous_table |        16391 |    100000 |      100000
+(1 row)
+
+    stxname    | statistic_oid | stxkeys | stxkind | stxstattarget | built_mcv | mcv_bytes 
+---------------+---------------+---------+---------+---------------+-----------+-----------
+ ess_hetero_ab |         16394 | 1 2     | {m}     |            10 | t         |       350
+ ess_hetero_bc |         16395 | 2 3     | {m}     |            10 | t         |       358
+ ess_hetero_cd |         16396 | 3 4     | {m}     |            10 | t         |       362
+(3 rows)
+
+=== heterogeneous:single_a ===
+                                  QUERY PLAN                                   
+-------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..1791.00 rows=19533 width=16)
+   Filter: (a = 0)
+(2 rows)
+
+=== heterogeneous:single_b ===
+                                  QUERY PLAN                                   
+-------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..1791.00 rows=10367 width=16)
+   Filter: (b = 0)
+(2 rows)
+
+=== heterogeneous:single_c ===
+                                  QUERY PLAN                                  
+------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..1791.00 rows=5567 width=16)
+   Filter: (c = 0)
+(2 rows)
+
+=== heterogeneous:single_d ===
+                                  QUERY PLAN                                   
+-------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..1791.00 rows=19800 width=16)
+   Filter: (d = 0)
+(2 rows)
+
+=== heterogeneous:pair_ab ===
+                                  QUERY PLAN                                  
+------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2041.00 rows=4300 width=16)
+   Filter: ((a = 0) AND (b = 0))
+(2 rows)
+
+=== heterogeneous:pair_bc ===
+                                  QUERY PLAN                                  
+------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2041.00 rows=4300 width=16)
+   Filter: ((b = 0) AND (c = 0))
+(2 rows)
+
+=== heterogeneous:pair_cd ===
+                                  QUERY PLAN                                  
+------------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2041.00 rows=4300 width=16)
+   Filter: ((c = 0) AND (d = 0))
+(2 rows)
+
+=== heterogeneous:full_all ===
+                                 QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2541.00 rows=185 width=16)
+   Filter: ((a = 0) AND (b = 0) AND (c = 0) AND (d = 0))
+(2 rows)
+
+=== heterogeneous:scenario_only_bc ===
+BEGIN
+DROP STATISTICS
+            marker            | visible_statistics 
+------------------------------+--------------------
+ hetero_only_bc_catalog_count |                  1
+(1 row)
+
+                                 QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2541.00 rows=166 width=16)
+   Filter: ((a = 0) AND (b = 0) AND (c = 0) AND (d = 0))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== heterogeneous:scenario_only_ab ===
+BEGIN
+DROP STATISTICS
+            marker            | visible_statistics 
+------------------------------+--------------------
+ hetero_only_ab_catalog_count |                  1
+(1 row)
+
+                                 QUERY PLAN                                 
+----------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2541.00 rows=47 width=16)
+   Filter: ((a = 0) AND (b = 0) AND (c = 0) AND (d = 0))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== heterogeneous:scenario_only_cd ===
+BEGIN
+DROP STATISTICS
+            marker            | visible_statistics 
+------------------------------+--------------------
+ hetero_only_cd_catalog_count |                  1
+(1 row)
+
+                                 QUERY PLAN                                 
+----------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2541.00 rows=87 width=16)
+   Filter: ((a = 0) AND (b = 0) AND (c = 0) AND (d = 0))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== heterogeneous:scenario_none ===
+BEGIN
+DROP STATISTICS
+          marker           | visible_statistics 
+---------------------------+--------------------
+ hetero_none_catalog_count |                  0
+(1 row)
+
+                                 QUERY PLAN                                 
+----------------------------------------------------------------------------
+ Seq Scan on ess_mcv_heterogeneous_t  (cost=0.00..2541.00 rows=22 width=16)
+   Filter: ((a = 0) AND (b = 0) AND (c = 0) AND (d = 0))
+(2 rows)
+
+ROLLBACK
+DISCARD PLANS
+=== followup fixtures complete ===

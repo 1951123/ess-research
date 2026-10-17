@@ -1,0 +1,522 @@
+{
+  "base_trace_counts": {
+    "full_all": 1,
+    "full_none": 1,
+    "full_only_ab": 1,
+    "full_only_bc": 1,
+    "full_only_cd": 1,
+    "pair_ab": 1,
+    "pair_ab_rare": 1,
+    "pair_bc": 1,
+    "pair_cd": 1,
+    "single_a": 1,
+    "single_a_rare": 1,
+    "single_b": 1,
+    "single_c": 1,
+    "single_d": 1
+  },
+  "common_relation_multiplier": true,
+  "existing_selection_trace_lines": [
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:87: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=0",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:93: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=1",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:98: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:105: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 keys=2",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=1",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:115: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16388 claimed_clause_index=2",
+      "selected_stat_oid": 16388
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:127: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1",
+      "selected_stat_oid": 16387
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2",
+      "selected_stat_oid": 16389
+    },
+    {
+      "base_relation_oid": 16384,
+      "query": null,
+      "raw_line": "psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:139: DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3",
+      "selected_stat_oid": 16389
+    }
+  ],
+  "full_scenario_comparisons": {
+    "full_all": {
+      "absolute_deviation": 0.0,
+      "actual": 0.010194267777777778,
+      "finite_positive_actual": true,
+      "finite_positive_predicted": true,
+      "log_residual": 0.0,
+      "predicted": 0.010194267777777778,
+      "relative_deviation": 0.0
+    },
+    "full_none": {
+      "absolute_deviation": 0.0,
+      "actual": 0.00010392310768050742,
+      "finite_positive_actual": true,
+      "finite_positive_predicted": true,
+      "log_residual": 0.0,
+      "predicted": 0.00010392310768050742,
+      "relative_deviation": 0.0
+    },
+    "full_only_ab": {
+      "absolute_deviation": 0.0,
+      "actual": 0.0010292812968250842,
+      "finite_positive_actual": true,
+      "finite_positive_predicted": true,
+      "log_residual": 0.0,
+      "predicted": 0.0010292812968250842,
+      "relative_deviation": 0.0
+    },
+    "full_only_bc": {
+      "absolute_deviation": 0.0,
+      "actual": 0.0010292812968250842,
+      "finite_positive_actual": true,
+      "finite_positive_predicted": true,
+      "log_residual": 0.0,
+      "predicted": 0.0010292812968250842,
+      "relative_deviation": 0.0
+    },
+    "full_only_cd": {
+      "absolute_deviation": 0.0,
+      "actual": 0.0010292812968250842,
+      "finite_positive_actual": true,
+      "finite_positive_predicted": true,
+      "log_residual": 0.0,
+      "predicted": 0.0010292812968250842,
+      "relative_deviation": 0.0
+    }
+  },
+  "full_scenario_raw_rows": {
+    "full_all": {
+      "actual": 1019.4267777777778,
+      "explain_rows": 1019,
+      "plan_rows": 1019.0,
+      "predicted": 1019.4267777777778,
+      "relative_deviation": 0.0
+    },
+    "full_none": {
+      "actual": 10.392310768050741,
+      "explain_rows": 10,
+      "plan_rows": 10.0,
+      "predicted": 10.392310768050741,
+      "relative_deviation": 0.0
+    },
+    "full_only_ab": {
+      "actual": 102.92812968250843,
+      "explain_rows": 103,
+      "plan_rows": 103.0,
+      "predicted": 102.92812968250843,
+      "relative_deviation": 0.0
+    },
+    "full_only_bc": {
+      "actual": 102.92812968250843,
+      "explain_rows": 103,
+      "plan_rows": 103.0,
+      "predicted": 102.92812968250843,
+      "relative_deviation": 0.0
+    },
+    "full_only_cd": {
+      "actual": 102.92812968250843,
+      "explain_rows": 103,
+      "plan_rows": 103.0,
+      "predicted": 102.92812968250843,
+      "relative_deviation": 0.0
+    }
+  },
+  "mcv_numeric_traces": {
+    "full_all": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_all */",
+        "selected_stat_oid": 16387,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      },
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_all */",
+        "selected_stat_oid": 16389,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "full_only_ab": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_ab */",
+        "selected_stat_oid": 16387,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "full_only_bc": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_bc */",
+        "selected_stat_oid": 16388,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "full_only_cd": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:full_only_cd */",
+        "selected_stat_oid": 16389,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "pair_ab": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab */",
+        "selected_stat_oid": 16387,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "pair_ab_rare": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.0,
+        "mcv_sel": 0.0,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab_rare */",
+        "selected_stat_oid": 16387,
+        "simple_sel": 0.0,
+        "stat_clause_count": 2,
+        "stat_sel": 0.0
+      }
+    ],
+    "pair_bc": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_bc */",
+        "selected_stat_oid": 16388,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ],
+    "pair_cd": [
+      {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_cd */",
+        "selected_stat_oid": 16389,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    ]
+  },
+  "mcv_trace_counts": {
+    "full_all": 2,
+    "full_only_ab": 1,
+    "full_only_bc": 1,
+    "full_only_cd": 1,
+    "pair_ab": 1,
+    "pair_ab_rare": 1,
+    "pair_bc": 1,
+    "pair_cd": 1
+  },
+  "pair_mcv_combine_checks": {
+    "pair_ab": {
+      "raw_selectivity": 0.10096666666666666,
+      "residual": 0.0,
+      "stat_sel": 0.10096666666666666,
+      "trace": {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_ab */",
+        "selected_stat_oid": 16387,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    },
+    "pair_bc": {
+      "raw_selectivity": 0.10096666666666666,
+      "residual": 0.0,
+      "stat_sel": 0.10096666666666666,
+      "trace": {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_bc */",
+        "selected_stat_oid": 16388,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    },
+    "pair_cd": {
+      "raw_selectivity": 0.10096666666666666,
+      "residual": 0.0,
+      "stat_sel": 0.10096666666666666,
+      "trace": {
+        "base_relation_oid": 16384,
+        "mcv_basesel": 0.010194267777777778,
+        "mcv_sel": 0.10096666666666666,
+        "mcv_totalsel": 1.0,
+        "query": "EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:pair_cd */",
+        "selected_stat_oid": 16389,
+        "simple_sel": 0.01019426837396914,
+        "stat_clause_count": 2,
+        "stat_sel": 0.10096666666666666
+      }
+    }
+  },
+  "pair_raw_selectivities": {
+    "ab": 0.10096666666666666,
+    "bc": 0.10096666666666666,
+    "cd": 0.10096666666666666
+  },
+  "plan_rows": {
+    "full_all": 1019,
+    "full_none": 10,
+    "full_only_ab": 103,
+    "full_only_bc": 103,
+    "full_only_cd": 103,
+    "pair_ab": 10097,
+    "pair_ab_rare": 1,
+    "pair_bc": 10097,
+    "pair_cd": 10097,
+    "single_a": 10097,
+    "single_a_rare": 1,
+    "single_b": 10097,
+    "single_c": 10097,
+    "single_d": 10097
+  },
+  "positivity": {
+    "ordinary": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+    },
+    "pairs": {
+      "ab": true,
+      "bc": true,
+      "cd": true
+    },
+    "rare_pair_ab": 0.0,
+    "rare_single_a": 0.0
+  },
+  "relation_multiplier_values": [
+    100000.0
+  ],
+  "selected_statistics_by_marker": {
+    "full_all": [
+      16387,
+      16389
+    ],
+    "full_only_ab": [
+      16387
+    ],
+    "full_only_bc": [
+      16388
+    ],
+    "full_only_cd": [
+      16389
+    ],
+    "pair_ab": [
+      16387
+    ],
+    "pair_ab_rare": [
+      16387
+    ],
+    "pair_bc": [
+      16388
+    ],
+    "pair_cd": [
+      16389
+    ]
+  },
+  "single_raw_selectivities": {
+    "a": 0.1009666696190834,
+    "b": 0.1009666696190834,
+    "c": 0.1009666696190834,
+    "d": 0.1009666696190834
+  },
+  "singleton_product_correction_factors": {
+    "ab": 9.904258252066724,
+    "bc": 9.904258252066724,
+    "cd": 9.904258252066724
+  },
+  "source": "pre-clamp ESS_MCV_NUMERIC_TRACE observations"
+}

@@ -10,7 +10,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 **Chosen paper direction:** a general, estimator-agnostic pessimistic admissibility-aware resource-selection framework; a pairwise labeled maximal-matching instantiation; exact/structured algorithms; PostgreSQL model/estimation/cost validation.
 
-**Completed milestone:** the scoped PostgreSQL 16.14 MCV-selector \(\to\) maximal-matching correspondence is source-grounded and experimentally observed on the controlled four-attribute path fixture. The validated report and raw logs are now merged into `main` under `experiments/pg-tracing/runs/20261017/` (ess-research PR #4). **Next milestone:** calibrate the restricted positive, pre-clamp multiplicative MCV selectivity model and distinguish it from rounded/clamped planner row estimates.
+**Completed milestones:** the scoped PostgreSQL 16.14 MCV-selector \(\to\) maximal-matching correspondence is source-grounded and experimentally observed on the controlled four-attribute path fixture; and Issue #5's fixed-snapshot numeric validation now covers the original positive fixture plus partial-MCV remainder and heterogeneous-correction follow-ups. The earlier correspondence report remains merged under `experiments/pg-tracing/runs/20261017/` (ess-research PR #4); the numeric evidence and review follow-up remain on the draft branch documented below. **Next milestone:** broaden calibration beyond these controlled snapshots while keeping zero-selectivity cases separate.
 
 **Workflow:** GitHub is the durable research collaboration center; researcher uses VS Code + Codex for local code execution, ChatGPT for design and review. The local clone is not synchronized by creating GitHub commits: explicitly fetch/checkout branches or pull **after** review/merge.
 
@@ -27,6 +27,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 | Synthetic Advisor objective correctness | **Experimentally observed on recorded small instances** | `experiments/synthetic/cache-ablation-report.md` and checked-in results: exact Fraction exhaustive reference for `medium_dense` objective \(25\). Re-run is pending for new environments. |
 | Master–Oracle scalability superiority | **Not established** | Recorded `medium_dense` medians: static full conditional MILP about \(0.0575\,s\), combined cache+precompute Master–Oracle about \(0.6704\,s\). |
 | Positive, separable pre-clamp pairwise MCV correction factors | **Restricted source-derived argument; calibration pending** | Source in `extended_stats.c`, `mcv.c`, `clausesel.c`; scope, positivity, effect of clamping and rounding require testing. |
+| Fixed-snapshot positive MCV factor reconstruction (Issue #5) | **Experimentally observed for three controlled fixtures; not universal** | `experiments/pg-tracing/runs/20261017-numeric/report.md`. The original fixture had `mcv_totalsel=1`; the review follow-up adds `mcv_totalsel=0.521333...`/`0.529` and `0.613`, with a positive non-MCV remainder and measured heterogeneous factors `2.1235`, `7.4513`, `3.9013`. Strict raw reconstruction, OID/clause, `R`, clamp/cap and rollback checks pass under relative `1e-12` / absolute `1e-15`. Rare controls remain raw-zero and outside logarithms. Broader query/statistics coverage remains open. |
 | Additive maintenance cost proxy vs actual ANALYZE cost | **Model assumption; real validation pending** | Sample size can depend on the maximum extended-statistics target; measure actual refresh costs rather than asserting additivity. |
 | Decision quality under admissibility-rule misspecification | **Open research direction** | Compare worst loss / regret across plausible policies, nominal choices and pessimistic choices; avoid real-policy coverage claims without evidence. |
 
@@ -37,6 +38,8 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 3. [ess-research #2](https://github.com/1951123/ess-research/pull/2) — context, decision log, status, Codex instructions, README entry; **merged**.
 4. [ess-research #4](https://github.com/1951123/ess-research/pull/4) — runtime trace evidence and report; **merged 2026-10-17** into `ess-research/main`.
 5. [ess-research #3](https://github.com/1951123/ess-research/pull/3) — correct Git local/remote synchronization description in `AGENTS.md`; **merged 2026-10-17**.
+6. Draft [ess-postgresql #2](https://github.com/1951123/ess-postgresql/pull/2) — opt-in pre-clamp MCV numeric tracing for Issue #5; **open draft**, not merged.
+7. Draft [ess-research #6](https://github.com/1951123/ess-research/pull/6) — fixed-snapshot SQL, offline reconstruction and raw evidence; **open draft**, not merged.
 
 The runtime evidence was originally committed on `experiment/pg-mcv-trace-20261017` and has since been merged into `ess-research/main`. The PostgreSQL instrumentation was likewise merged into `ess-postgresql/main`; local clones are independent and require fetching/integrating these updates. Recheck PR state when resuming.
 
@@ -62,7 +65,8 @@ PostgreSQL claim.
 
 ## 5. Follow-up research after tracing
 
-- **Estimator calibration (active [Issue #5](https://github.com/1951123/ess-research/issues/5)):** validate an independently reconstructed, fixed-ANALYZE-snapshot raw-selectivity product from ordinary single-column and MCV pair-query factors; compare full-query pre-clamp estimates and clamp/zero boundary behavior. **Source-derived formula; execution pending.**
+- **Estimator calibration ([Issue #5](https://github.com/1951123/ess-research/issues/5)):** the controlled positive fixture was executed with one fixed ANALYZE snapshot. Singleton/pair/full pre-clamp products matched at recorded double precision; zero-selectivity rare controls correctly remained outside log space. Generalization to other data and query shapes is pending.
+- **Estimator calibration review follow-up:** `experiments/pg-tracing/runs/20261017-numeric/review-followup-20261017/` contains two new fixed table snapshots, one `ANALYZE` per table, original stdout/stderr/server/cleanup logs, source/binary provenance, and a strict nonzero-on-failure checker. The partial fixture exercises `other_sel` with `0<mcv_totalsel<1`; the heterogeneous fixture measures three materially different positive correction factors. No PostgreSQL source change was needed beyond PR #2. Universal separability and real-cardinality accuracy remain unclaimed.
 - **Maintenance:** vary target, objects, sample size and refresh runs; measure CPU time and possible nonadditivity.
 - **Optimization:** investigate bound-first master separation without invalidating exact objective evaluation; compare static MILP and Master–Oracle against independent references at larger scales.
 - **Decision robustness:** explicit priority-order cases and cross-task consistency; benchmark worst-case loss vs nominal strategies and costs of conservatism.

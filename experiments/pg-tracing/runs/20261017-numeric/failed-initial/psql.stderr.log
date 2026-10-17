@@ -1,0 +1,5 @@
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:7: DEBUG:  relation "ess_mcv_numeric_t" does not exist
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:7: NOTICE:  table "ess_mcv_numeric_t" does not exist, skipping
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_snapshot.sql:70: ERROR:  column "most_common_vals" does not exist
+LINE 8:                   coalesce(most_common_vals::text, ''),
+                                   ^
