@@ -39,7 +39,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 4. [ess-research #4](https://github.com/1951123/ess-research/pull/4) — runtime trace evidence and report; **merged 2026-10-17** into `ess-research/main`.
 5. [ess-research #3](https://github.com/1951123/ess-research/pull/3) — correct Git local/remote synchronization description in `AGENTS.md`; **merged 2026-10-17**.
 6. Draft [ess-postgresql #2](https://github.com/1951123/ess-postgresql/pull/2) — opt-in pre-clamp MCV numeric tracing for Issue #5; **open draft**, not merged.
-7. Draft ess-research PR for Issue #5 — fixed-snapshot SQL, offline reconstruction and raw evidence; link added after GitHub creation; **open draft**, not merged.
+7. Draft [ess-research #6](https://github.com/1951123/ess-research/pull/6) — fixed-snapshot SQL, offline reconstruction and raw evidence; **open draft**, not merged.
 
 The runtime evidence was originally committed on `experiment/pg-mcv-trace-20261017` and has since been merged into `ess-research/main`. The PostgreSQL instrumentation was likewise merged into `ess-postgresql/main`; local clones are independent and require fetching/integrating these updates. Recheck PR state when resuming.
 
