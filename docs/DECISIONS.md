@@ -30,7 +30,7 @@
 
 **Primary artifact:** [source-grounded correspondence proposal](https://github.com/1951123/ess-research/pull/1). Companion [DEBUG1 tracing proposal](https://github.com/1951123/ess-postgresql/pull/1).
 
-**Evidence status:** source-derived scoped propositions; **not yet runtime verified**. The full theorem and assumptions currently live in an unmerged Draft PR, not on \`main\`.
+**Evidence status:** source-derived scoped propositions; **not yet runtime verified**. The full theorem and assumptions currently live in an unmerged Draft PR, not on `main`.
 
 **Revisit if:** runtime tracing contradicts scoped assumptions or the matching abstraction has unacceptable misspecification/decision regret. Broaden or replace the *instance* rather than silently weakening the generic framework.
 
@@ -46,9 +46,9 @@
 
 **Decision:** Keep **VS Code + local Codex** for execution, builds and experiments; use **ChatGPT** primarily for research planning, theorem review, task specifications and PR review; use **GitHub** as the durable collaboration and evidence center across multiple chat sessions.
 
-**Repository roles:** \`ess-research\` owns cross-repo context/decisions/status/paper; \`ess-advisor\` owns optimization implementation/tests; \`ess-postgresql\` owns PG source/instrumentation.
+**Repository roles:** `ess-research` owns cross-repo context/decisions/status/paper; `ess-advisor` owns optimization implementation/tests; `ess-postgresql` owns PG source/instrumentation.
 
-**Minimum protocol:** One small, reviewable scope per task/branch; branch + Draft PR for risky or agent-created cross-repo work; direct-to-\`main\` is permissible for small, well-understood edits if the researcher prefers. No compulsory Git Flow or GitHub Projects. Only the researcher decides whether a draft PR is ready to merge.
+**Minimum protocol:** One small, reviewable scope per task/branch; branch + Draft PR for risky or agent-created cross-repo work; direct-to-`main` is permissible for small, well-understood edits if the researcher prefers. No compulsory Git Flow or GitHub Projects. Only the researcher decides whether a draft PR is ready to merge.
 
 **Why:** Chat sessions have finite context and are not a durable research record. Commit decisions/verified outcomes and links to evidence, rather than full chat dumps.
 
@@ -65,4 +65,4 @@ Use these terms consistently:
 - **Open / pending:** unverified question or task.
 - **Refuted / superseded:** disproven or replaced, with a link to the counterexample/newer decision.
 
-Do not describe a source-derived claim as experimentally observed, an unmerged PR as accepted \`main\` content, or a floating-point MIP solver status as an exact-arithmetic proof.
+Do not describe a source-derived claim as experimentally observed, an unmerged PR as accepted `main` content, or a floating-point MIP solver status as an exact-arithmetic proof.
