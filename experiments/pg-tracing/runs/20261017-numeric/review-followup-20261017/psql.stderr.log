@@ -1,0 +1,176 @@
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:13: DEBUG:  relation "ess_mcv_partial_t" does not exist
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:13: NOTICE:  table "ess_mcv_partial_t" does not exist, skipping
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:56: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.050000000000000003 nrows_preclamp=5000 rows_postclamp=5000 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_single_a */
+SELECT * FROM ess_mcv_partial_t WHERE a = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:59: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.064000003039836884 nrows_preclamp=6400.0003039836884 rows_postclamp=6400 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_single_b */
+SELECT * FROM ess_mcv_partial_t WHERE b = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:62: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.050000000000000003 nrows_preclamp=5000 rows_postclamp=5000 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_single_c */
+SELECT * FROM ess_mcv_partial_t WHERE c = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:65: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.050000000000000003 nrows_preclamp=5000 rows_postclamp=5000 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_single_d */
+SELECT * FROM ess_mcv_partial_t WHERE d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.0032000001519918442 mcv_sel=0.052333333333333336 mcv_basesel=0.0033493333333333335 mcv_totalsel=0.52133333333333332 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_ab_mcv */
+SELECT * FROM ess_mcv_partial_t WHERE a = 3 AND b = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:68: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.052333333333333336 nrows_preclamp=5233.3333333333339 rows_postclamp=5233 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_ab_mcv */
+SELECT * FROM ess_mcv_partial_t WHERE a = 3 AND b = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.0029500000178813938 mcv_sel=0 mcv_basesel=0 mcv_totalsel=0.52133333333333332 stat_sel=0.0029500000178813938 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_ab_nonmcv */
+SELECT * FROM ess_mcv_partial_t WHERE a = 4 AND b = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:71: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0029500000178813938 nrows_preclamp=295.0000017881394 rows_postclamp=295 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_ab_nonmcv */
+SELECT * FROM ess_mcv_partial_t WHERE a = 4 AND b = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.0032000001519918442 mcv_sel=0.052333333333333336 mcv_basesel=0.0033493333333333335 mcv_totalsel=0.52133333333333332 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_bc */
+SELECT * FROM ess_mcv_partial_t WHERE b = 3 AND c = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:74: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.052333333333333336 nrows_preclamp=5233.3333333333339 rows_postclamp=5233 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_bc */
+SELECT * FROM ess_mcv_partial_t WHERE b = 3 AND c = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16390 stat_clause_count=2 simple_sel=0.0025000000000000005 mcv_sel=0.052333333333333336 mcv_basesel=0.0027387777777777779 mcv_totalsel=0.52900000000000003 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_cd */
+SELECT * FROM ess_mcv_partial_t WHERE c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:77: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.052333333333333336 nrows_preclamp=5233.3333333333339 rows_postclamp=5233 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_pair_cd */
+SELECT * FROM ess_mcv_partial_t WHERE c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.0032000001519918442 mcv_sel=0.052333333333333336 mcv_basesel=0.0033493333333333335 mcv_totalsel=0.52133333333333332 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_all */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16390 stat_clause_count=2 simple_sel=0.0025000000000000005 mcv_sel=0.052333333333333336 mcv_basesel=0.0027387777777777779 mcv_totalsel=0.52900000000000003 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_all */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:81: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0027387777777777779 nrows_preclamp=273.87777777777779 rows_postclamp=274 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_all */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16389 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.0032000001519918442 mcv_sel=0.052333333333333336 mcv_basesel=0.0033493333333333335 mcv_totalsel=0.52133333333333332 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_bc */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:90: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00013083333333333336 nrows_preclamp=13.083333333333336 rows_postclamp=13 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_bc */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16388 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16388 stat_clause_count=2 simple_sel=0.0032000001519918442 mcv_sel=0.052333333333333336 mcv_basesel=0.0033493333333333335 mcv_totalsel=0.52133333333333332 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_ab */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:101: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00013083333333333336 nrows_preclamp=13.083333333333336 rows_postclamp=13 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_ab */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_TRACE: relid=16385 selected_stat_oid=16390 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16385 selected_stat_oid=16390 stat_clause_count=2 simple_sel=0.0025000000000000005 mcv_sel=0.052333333333333336 mcv_basesel=0.0027387777777777779 mcv_totalsel=0.52900000000000003 stat_sel=0.052333333333333336 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_cd */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_TRACE: relid=16385 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:112: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00016746667462090651 nrows_preclamp=16.746667462090652 rows_postclamp=17 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_only_cd */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:123: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16385 rte_index=1 rel_tuples=100000 selectivity_preclamp=8.0000003799796117e-06 nrows_preclamp=0.80000003799796116 rows_postclamp=1 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:partial_full_none */
+SELECT * FROM ess_mcv_partial_t
+WHERE a = 3 AND b = 3 AND c = 3 AND d = 3;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:128: DEBUG:  relation "ess_mcv_heterogeneous_t" does not exist
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:128: NOTICE:  table "ess_mcv_heterogeneous_t" does not exist, skipping
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:188: DEBUG:  rehashing catalog cache id 60 for pg_statistic_ext_data; 9 tups, 4 buckets
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:199: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.195333331823349 nrows_preclamp=19533.3331823349 rows_postclamp=19533 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_single_a */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE a = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:202: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.10366666316986084 nrows_preclamp=10366.666316986084 rows_postclamp=10367 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_single_b */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE b = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:205: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.055666666477918625 nrows_preclamp=5566.6666477918625 rows_postclamp=5567 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_single_c */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE c = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:208: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.19799999892711639 nrows_preclamp=19799.999892711639 rows_postclamp=19800 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_single_d */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.02024955471597778 mcv_sel=0.042999999999999997 mcv_basesel=0.020249555555555555 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_ab */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE a = 0 AND b = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:211: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.042999999999999997 nrows_preclamp=4300 rows_postclamp=4300 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_ab */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE a = 0 AND b = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16395 stat_clause_count=2 simple_sel=0.0057707775635553737 mcv_sel=0.042999999999999997 mcv_basesel=0.0057707777777777783 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_bc */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE b = 0 AND c = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:214: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.042999999999999997 nrows_preclamp=4300 rows_postclamp=4300 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_bc */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE b = 0 AND c = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16396 stat_clause_count=2 simple_sel=0.011021999902904034 mcv_sel=0.042999999999999997 mcv_basesel=0.011022000000000001 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_cd */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:217: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.042999999999999997 nrows_preclamp=4300 rows_postclamp=4300 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_pair_cd */
+SELECT * FROM ess_mcv_heterogeneous_t WHERE c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.02024955471597778 mcv_sel=0.042999999999999997 mcv_basesel=0.020249555555555555 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_all */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16396 stat_clause_count=2 simple_sel=0.011021999902904034 mcv_sel=0.042999999999999997 mcv_basesel=0.011022000000000001 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_all */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:221: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0018489999999999997 nrows_preclamp=184.89999999999998 rows_postclamp=185 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_all */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16395 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16395 stat_clause_count=2 simple_sel=0.0057707775635553737 mcv_sel=0.042999999999999997 mcv_basesel=0.0057707777777777783 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_bc */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:230: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.0016630679781324861 nrows_preclamp=166.30679781324861 rows_postclamp=166 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_bc */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=0
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16394 claimed_clause_index=1
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.02024955471597778 mcv_sel=0.042999999999999997 mcv_basesel=0.020249555555555555 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_ab */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:241: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00047394599582487338 nrows_preclamp=47.394599582487338 rows_postclamp=47 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_ab */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 keys=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=2
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_TRACE: relid=16391 selected_stat_oid=16396 claimed_clause_index=3
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16391 selected_stat_oid=16396 stat_clause_count=2 simple_sel=0.011021999902904034 mcv_sel=0.042999999999999997 mcv_basesel=0.011022000000000001 mcv_totalsel=0.61299999999999999 stat_sel=0.042999999999999997 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_cd */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_TRACE: relid=16391 candidate=none; iteration terminated
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:252: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00087073085278704444 nrows_preclamp=87.07308527870444 rows_postclamp=87 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_only_cd */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:258: DEBUG:  rehashing catalog cache id 61 for pg_statistic_ext; 9 tups, 4 buckets
+psql:/home/wqts/projects/ess-research/experiments/pg-tracing/mcv_numeric_followup.sql:263: DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16391 rte_index=1 rel_tuples=100000 selectivity_preclamp=0.00022319059011335701 nrows_preclamp=22.3190590113357 rows_postclamp=22 query=EXPLAIN (SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE:hetero_full_none */
+SELECT * FROM ess_mcv_heterogeneous_t
+WHERE a = 0 AND b = 0 AND c = 0 AND d = 0;
