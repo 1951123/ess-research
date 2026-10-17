@@ -17,9 +17,12 @@ PostgreSQL instance.
 - build: `make -j2`
 - install: `make install`
 
-The build was performed from the clean tracing branch checkout. The source
-diff relative to the upstream parent is the reviewed 13-line `DEBUG1`
-instrumentation in `src/backend/statistics/extended_stats.c`.
+The effective build directory was the clean
+`/home/wqts/projects/ess-postgresql` worktree checked out at the tracing
+branch. A detached `/tmp/ess-pg-trace-src` worktree at the same commit supplied
+the source path for the configure invocation. The source diff relative to the
+upstream parent is the reviewed 13-line `DEBUG1` instrumentation in
+`src/backend/statistics/extended_stats.c`.
 
 ## Isolated runtime
 
@@ -37,7 +40,8 @@ Commands used:
 ```text
 git fetch origin research/ess-mcv-trace-20261017
 git switch research/ess-mcv-trace-20261017
-configure --prefix=/tmp/ess-pg-trace-install --enable-debug --enable-cassert --without-readline --without-zlib
+cd /home/wqts/projects/ess-postgresql
+/tmp/ess-pg-trace-src/configure --prefix=/tmp/ess-pg-trace-install --enable-debug --enable-cassert --without-readline --without-zlib
 make -j2
 make install
 initdb -D /tmp/ess-pg-trace-data --no-locale --encoding=UTF8 -U wqts
