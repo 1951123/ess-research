@@ -14,3 +14,21 @@ experiments/synthetic/. Install the local Advisor package into this
 repository's independent virtual environment with
 .venv/bin/python -m pip install -e /home/wqts/projects/ess-advisor, then
 run experiments/synthetic/scripts/run_suite.py.
+
+
+## Research collaboration and continuity
+
+This repository is the **durable research context** shared by the researcher,
+ChatGPT (theory/design/review), and local VS Code/Codex (implementation and
+experimental execution). Start with:
+
+- [Research context](docs/RESEARCH_CONTEXT.md) — problem definition, scope, cross-repo roles, and primary evidence.
+- [Decision log](docs/DECISIONS.md) — accepted directions, rejected alternatives, and revisit conditions.
+- [Current status](docs/STATUS.md) — active work, draft PRs, evidence status, and next actionable task.
+- [Agent instructions](AGENTS.md) — safe, reproducible Codex/research-agent task rules.
+
+A new ChatGPT conversation should read these files and check linked open PRs
+before giving project-specific advice. Status claims must distinguish mathematical
+results, version-scoped source inspection, executed experiments, and open questions.
+Changes proposed in a Draft PR have **not** yet entered `main` or automatically
+synchronized to the researcher's local clone.
