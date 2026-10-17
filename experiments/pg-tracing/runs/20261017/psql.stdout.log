@@ -1,0 +1,47 @@
+SET
+SET
+DROP TABLE
+CREATE TABLE
+INSERT 0 100000
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+=== ESS phase A: ab,bc,cd ===
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ANALYZE
+ stxname |  oid  | keys | built_mcv 
+---------+-------+------+-----------
+ ess_ab  | 16387 | 1 2  | t
+ ess_bc  | 16388 | 2 3  | t
+ ess_cd  | 16389 | 3 4  | t
+(3 rows)
+
+                       QUERY PLAN                        
+---------------------------------------------------------
+ Seq Scan on ess_trace_t
+   Filter: ((a = 7) AND (b = 7) AND (c = 7) AND (d = 7))
+(2 rows)
+
+DROP STATISTICS
+=== ESS phase B: bc,ab,cd ===
+CREATE STATISTICS
+CREATE STATISTICS
+CREATE STATISTICS
+ANALYZE
+ stxname |  oid  | keys | built_mcv 
+---------+-------+------+-----------
+ ess_bc  | 16390 | 2 3  | t
+ ess_ab  | 16391 | 1 2  | t
+ ess_cd  | 16392 | 3 4  | t
+(3 rows)
+
+                       QUERY PLAN                        
+---------------------------------------------------------
+ Seq Scan on ess_trace_t
+   Filter: ((a = 7) AND (b = 7) AND (c = 7) AND (d = 7))
+(2 rows)
+
+=== ESS tracing done ===

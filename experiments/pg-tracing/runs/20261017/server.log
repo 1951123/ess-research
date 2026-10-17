@@ -1,0 +1,37 @@
+2026-10-17 19:01:26.694 CST [20179] @ DEBUG:  registering background worker "logical replication launcher"
+2026-10-17 19:01:26.694 CST [20179] @ DEBUG:  mmap(150994944) with MAP_HUGETLB failed, huge pages disabled: Cannot allocate memory
+2026-10-17 19:01:26.701 CST [20179] @ LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-10-17 19:01:26.701 CST [20179] @ LOG:  listening on IPv4 address "127.0.0.1", port 55432
+2026-10-17 19:01:26.702 CST [20179] @ LOG:  listening on Unix socket "/tmp/ess-pg-trace-socket/.s.PGSQL.55432"
+2026-10-17 19:01:26.703 CST [20182] @ LOG:  database system was shut down at 2026-10-17 19:01:21 CST
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  checkpoint record is at 0/14F36E0
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  redo record is at 0/14F36E0; shutdown true
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  next transaction ID: 730; next OID: 13657
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  next MultiXactId: 1; next MultiXactOffset: 0
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  oldest unfrozen transaction ID: 722, in database 1
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  oldest MultiXactId: 1, in database 1
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  commit timestamp Xid oldest/newest: 0/0
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  transaction ID wrap limit is 2147484369, limited by database with OID 1
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  MultiXactId wrap limit is 2147483648, limited by database with OID 1
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  starting up replication slots
+2026-10-17 19:01:26.703 CST [20182] @ DEBUG:  xmin required by slots: data 0, catalog 0
+2026-10-17 19:01:26.704 CST [20182] @ DEBUG:  MultiXactId wrap limit is 2147483648, limited by database with OID 1
+2026-10-17 19:01:26.704 CST [20182] @ DEBUG:  MultiXact member stop limit is now 4294914944 based on MultiXact 1
+2026-10-17 19:01:26.705 CST [20179] @ DEBUG:  starting background worker process "logical replication launcher"
+2026-10-17 19:01:26.705 CST [20179] @ LOG:  database system is ready to accept connections
+2026-10-17 19:01:26.705 CST [20184] @ DEBUG:  autovacuum launcher started
+2026-10-17 19:01:26.705 CST [20185] @ DEBUG:  logical replication launcher started
+2026-10-17 19:01:31.654 CST [20220] wqts@postgres DEBUG:  relation "ess_trace_t" does not exist
+2026-10-17 19:01:31.654 CST [20220] wqts@postgres NOTICE:  table "ess_trace_t" does not exist, skipping
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 keys=2
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=0
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16387 claimed_clause_index=1
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=2
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=3
+2026-10-17 19:01:31.748 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
+2026-10-17 19:01:31.780 CST [20220] wqts@postgres DEBUG:  rehashing catalog cache id 60 for pg_statistic_ext_data; 9 tups, 4 buckets
+2026-10-17 19:01:31.780 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 keys=2
+2026-10-17 19:01:31.780 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 claimed_clause_index=1
+2026-10-17 19:01:31.780 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16390 claimed_clause_index=2
+2026-10-17 19:01:31.780 CST [20220] wqts@postgres DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated
