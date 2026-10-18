@@ -58,7 +58,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 16. [ess-research PR #20](https://github.com/1951123/ess-research/pull/20) — Issue #14 model-level decision value matrix and exact shared-order evaluation; **merged 2026-10-18** into `ess-research/main`.
 17. [ess-research PR #21](https://github.com/1951123/ess-research/pull/21) — Issue #19 Census13/DMV11/Power7 real-data ETL; **Draft, local evidence complete, researcher review/merge pending**.
 18. [ess-research Issue #14](https://github.com/1951123/ess-research/issues/14) — decision value and price of pessimism; **open**.
-19. Current Issue #23 branch `experiment/issue23-exact-comparison` — model-only exact decision comparison; **Draft PR pending**. Real Forest10/PG calibration remains explicitly blocked in this Worktree.
+19. [ess-research PR #24](https://github.com/1951123/ess-research/pull/24) — Issue #23 model-only exact decision comparison; **Draft, review pending**. Real Forest10/PG calibration remains explicitly blocked in this Worktree.
 
 The runtime evidence was originally committed on `experiment/pg-mcv-trace-20261017` and has since been merged into `ess-research/main`. The PostgreSQL instrumentation was likewise merged into `ess-postgresql/main`; local clones are independent and require fetching/integrating these updates. Recheck PR state when resuming.
 
