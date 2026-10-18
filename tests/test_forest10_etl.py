@@ -169,6 +169,13 @@ def test_sql_adaptation_changes_only_contractual_identifiers_and_projection():
         )
 
 
+def test_sql_adaptation_preserves_source_pinned_forest10_relation():
+    source = 'SELECT COUNT(*) FROM public."forest10" WHERE "Elevation" > 0;'
+    assert forest10.adapt_query_sql(source) == (
+        'SELECT * FROM public.forest10 WHERE "elevation" > 0;'
+    )
+
+
 def test_sql_adaptation_preserves_literals_comments_and_escaped_quotes():
     source = (
         'SELECT COUNT(*) FROM public."forest10_original" '
@@ -180,6 +187,34 @@ def test_sql_adaptation_preserves_literals_comments_and_escaped_quotes():
     assert '/* "Aspect" */' in adapted
     assert '-- "unknown"' in adapted
     assert 'AND "slope" > 0' in adapted
+
+
+@pytest.mark.parametrize(
+    "literal",
+    [
+        '$$"Elevation"$$',
+        '$tag$"Elevation"$tag$',
+    ],
+)
+def test_sql_adaptation_preserves_dollar_quoted_literals(literal):
+    source = (
+        'SELECT COUNT(*) FROM public."forest10_original" '
+        f'WHERE "Elevation" > 0 AND {literal} = \'"elevation"\';'
+    )
+    adapted = forest10.adapt_query_sql(source)
+    assert literal in adapted
+    assert '$$"elevation"$$' not in adapted
+    assert '$tag$"elevation"$tag$' not in adapted
+    assert f"AND {literal} = '\"elevation\"';" in adapted
+
+
+def test_sql_adaptation_rejects_unterminated_dollar_quoted_literal():
+    source = (
+        'SELECT COUNT(*) FROM public."forest10_original" '
+        'WHERE "Elevation" > 0 AND $$"Elevation" = \'"elevation"\';'
+    )
+    with pytest.raises(forest10.InputContractError, match="dollar-quoted"):
+        forest10.adapt_query_sql(source)
 
 
 def test_historical_audit_layout_is_normalized(tmp_path, monkeypatch):

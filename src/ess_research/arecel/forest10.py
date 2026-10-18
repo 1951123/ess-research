@@ -42,6 +42,7 @@ TRANSFORMATION_VERSION = "forest10-etl-v1"
 RELATION = "public.forest10"
 SOURCE_RELATIONS = frozenset(
     {
+        'public."forest10"',
         'public."forest10_original"',
         "public.forest10_original",
         '"forest10_original"',
@@ -432,6 +433,7 @@ def _rewrite_sql_identifiers(sql: str) -> str:
     output: list[str] = []
     state = "normal"
     block_depth = 0
+    dollar_delimiter = ""
     index = 0
     while index < len(sql):
         character = sql[index]
@@ -471,6 +473,15 @@ def _rewrite_sql_identifiers(sql: str) -> str:
                 output.append(character)
                 index += 1
             continue
+        if state == "dollar-quote":
+            end = sql.find(dollar_delimiter, index)
+            if end == -1:
+                raise InputContractError("unterminated dollar-quoted SQL string")
+            output.append(sql[index : end + len(dollar_delimiter)])
+            index = end + len(dollar_delimiter)
+            state = "normal"
+            dollar_delimiter = ""
+            continue
         if sql.startswith("--", index):
             output.append("--")
             state = "line-comment"
@@ -487,6 +498,14 @@ def _rewrite_sql_identifiers(sql: str) -> str:
             state = "single"
             index += 1
             continue
+        if character == "$":
+            dollar_match = re.match(r"\$(?:[A-Za-z_][A-Za-z0-9_]*)?\$", sql[index:])
+            if dollar_match is not None:
+                dollar_delimiter = dollar_match.group(0)
+                output.append(dollar_delimiter)
+                index += len(dollar_delimiter)
+                state = "dollar-quote"
+                continue
         if character != '"':
             output.append(character)
             index += 1
@@ -521,6 +540,8 @@ def _rewrite_sql_identifiers(sql: str) -> str:
         raise InputContractError("unterminated SQL string literal")
     if state == "block-comment":
         raise InputContractError("unterminated SQL block comment")
+    if state == "dollar-quote":
+        raise InputContractError("unterminated dollar-quoted SQL string")
     return "".join(output)
 
 
