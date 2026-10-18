@@ -1,6 +1,6 @@
 {
-  "format": "arecel-issue17-acquisition-v1",
-  "status": "BLOCKED_CANONICAL_WORKLOAD_MISSING",
+  "format": "arecel-issue17-acquisition-v2",
+  "status": "VERIFIED_DERIVED_CANONICAL_ETL",
   "executed_at": "2026-10-18",
   "upstream": {
     "repository": "https://github.com/sfu-db/AreCELearnedYet",
@@ -34,52 +34,99 @@
     "workload_pickle": {
       "sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
       "expected_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
-      "loaded_or_deserialized": false
+      "loaded_or_deserialized": true,
+      "deserialization_scope": "one-time controlled conversion of this exact SHA256-pinned file only"
     },
     "label_pickle": {
       "sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
       "expected_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
-      "loaded_or_deserialized": false
+      "loaded_or_deserialized": true,
+      "deserialization_scope": "one-time controlled conversion of this exact SHA256-pinned file only"
     },
     "canonical_jsonl_gz": {
-      "actual_sha256": null,
-      "expected_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
-      "present": false,
-      "independent_identity_validated": false,
-      "blocker": "The pinned archive contains only the opaque workload and label pickles; no canonical JSONL.gz was supplied."
+      "format": "arecel-forest10-derived-canonical-v1",
+      "actual_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+      "historical_reference_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+      "historical_hash_match": false,
+      "present": true,
+      "independent_identity_validated": true,
+      "records": 20000,
+      "split_counts": {"valid": 10000, "test": 10000},
+      "conversion_script_sha256_at_execution": "62d762331f26e3bd3f8e976575c47b723a0da5221c093f659bd33cba3ff3af6d",
+      "conversion_script_sha256_current": "8bb894256124cb94c9695c3140963fedfeabf18ba8ae281ecbb6439cdf14fc45",
+      "post_execution_source_change": "Ruff formatting, a type annotation, an invalid-record exception-class cleanup, and use of the non-deprecated NumPy internal import; no valid-input conversion semantics changed.",
+      "conversion": {
+        "authorization": "Issue #17 researcher decision 2026-10-18",
+        "network": "systemd user unit PrivateNetwork=yes",
+        "resource_limits": {"cpu": "120s", "memory": "2G"},
+        "allowlist": "Query, Label, OrderedDict, NumPy scalar and dtype",
+        "input_mode": "exact SHA256-verified regular files; no input writes",
+        "output_mode": "atomic output publication in experiment-owned temporary root",
+        "weight_policy": "unit-weight-v1; source pickles contain no task weights"
+      },
+      "reason_for_new_hash": "The historical canonical artifact was unavailable; deterministic JSONL serialization, gzip metadata, and the explicit derived record contract are not asserted byte-identical to the historical artifact."
     }
   },
   "etl": {
     "inspect": {
-      "status": "BLOCKED_MISSING_INPUT",
-      "missing_inputs": ["arecel/audit-v1/forest10.canonical.jsonl.gz"]
+      "status": "PASSED",
+      "missing_inputs": [],
+      "command_exit_status": 0
     },
     "validate_source": {
-      "exit_status": 2,
-      "error": "InputContractError: missing required input: <DATA_ROOT>/arecel/audit-v1/forest10.canonical.jsonl.gz"
+      "exit_status": 0,
+      "canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+      "split_counts": {"valid": 10000, "test": 10000}
     },
     "build_valid": {
       "executed": true,
-      "exit_status": 2,
-      "result": "blocked before output publication"
+      "exit_status": 0,
+      "record_count": 10000,
+      "manifest_sha256": "62c14c7de8db1d1c7fa8a0b9a138951c7b28c1fac72a2bf30d1b0fde9d8adb20",
+      "workload_sha256": "803469c0de351211abd330fbfdb650f3805880605c8f38956a81f7e106085515",
+      "truth_sha256": "768fe20a91b8e140a08cbe421cbccc7c8ffe16144b4c02418982c81143383c4b"
     },
     "build_test": {
       "executed": true,
-      "exit_status": 2,
-      "result": "blocked before output publication"
+      "exit_status": 0,
+      "record_count": 10000,
+      "manifest_sha256": "66a3744ad816b74d5c6282f0c8b5fdec22d2311d39541c44ba804dc927ce789f",
+      "workload_sha256": "4c059f5321491e34eb9b64a6e6636163071adda8bbef5036ca93f02e7d3b0180",
+      "truth_sha256": "a962f13c7163e698048428df42aea5c1ea80824409cf979accea726fe83e14ef"
     },
-    "output_directories_created": false
+    "output_directories_created": true,
+    "output_root": "<DATA_ROOT>/etl-output/"
   },
   "eligibility": {
-    "status": "BLOCKED_DOWNSTREAM",
-    "reason": "Canonical query records, predicates, labels and split membership are unavailable; no pairwise-MCV eligibility count is claimed."
+    "status": "ASSESSED_READ_ONLY_SYNTAX_SCREEN",
+    "diagnostic_format": "arecel-forest10-pairwise-scope-diagnostic-v1",
+    "diagnostic_sha256": "5bd612015d5c9c79d4c78ae9cb9b7a364d3bdef26138b72ecad9b263f7ec2396",
+    "canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "counts": {
+      "total": 20000,
+      "valid": 10000,
+      "test": 10000,
+      "single_table_conjunctive": 20000,
+      "supported_predicate_syntax": 20000,
+      "at_least_two_predicate_attributes": 18011,
+      "eligible_for_restricted_pairwise_mcv": 18011
+    },
+    "interpretation": "Syntactic screen only; it does not establish PostgreSQL statistic selection or matching behavior."
   },
   "safety": {
     "postgresql_accessed": false,
     "database_accessed": false,
     "other_project_checkouts_accessed": false,
     "raw_or_pickle_files_committed": false,
-    "credentials_or_dsns_recorded": false
+    "credentials_or_dsns_recorded": false,
+    "controlled_pickle_deserialization": true,
+    "conversion_process": "network-disabled user service with no-new-privileges and CPU/memory limits; stronger mount-namespace isolation was attempted but unavailable on this host, so the converter's exact-input/read-only/write-scope checks were used and documented"
   },
-  "next_action": "Supply the independently audited canonical JSONL.gz artifact whose SHA256 is a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74 under the declared data root, then rerun inspect and both split builds."
+  "historical_blocker_record": {
+    "inspect_status": "BLOCKED_MISSING_INPUT",
+    "validate_source_exit_status": 2,
+    "build_exit_statuses": {"valid": 2, "test": 2},
+    "preserved_reason": "The archive did not contain the historical canonical JSONL.gz; the prior fail-closed evidence remains described in issue17-real-data-validation.md."
+  },
+  "next_action": "Review the derived canonical contract and its one-time conversion evidence in PR #18; do not treat the syntactic eligibility count as PostgreSQL runtime validation."
 }
