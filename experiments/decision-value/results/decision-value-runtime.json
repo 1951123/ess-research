@@ -1,0 +1,163 @@
+{
+  "artifact_type": "nondeterministic_optimizer_runtime_observation",
+  "execution_command": "python3 experiments/decision-value/run_experiment.py",
+  "experiment": "Issue #14 decision value and price of pessimism",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "records": [
+    {
+      "budget": "0",
+      "feasible_sets_evaluated": 1,
+      "fixture_id": "hand_mixed_hurts",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 1.7067999579012394e-05,
+        "nominal": 7.090399958542548e-05,
+        "pessimistic": 8.760299897403456e-05
+      }
+    },
+    {
+      "budget": "2",
+      "feasible_sets_evaluated": 7,
+      "fixture_id": "hand_mixed_hurts",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00016495000090799294,
+        "nominal": 0.0001671819991315715,
+        "pessimistic": 0.00022840200108475983
+      }
+    },
+    {
+      "budget": "4",
+      "feasible_sets_evaluated": 19,
+      "fixture_id": "hand_mixed_hurts",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00027548399884835817,
+        "nominal": 0.00046820300121908076,
+        "pessimistic": 0.0004810960017493926
+      }
+    },
+    {
+      "budget": "0",
+      "feasible_sets_evaluated": 1,
+      "fixture_id": "hand_mixed_coincides",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 1.7733000277075917e-05,
+        "nominal": 9.061700257007033e-05,
+        "pessimistic": 7.764499969198368e-05
+      }
+    },
+    {
+      "budget": "2",
+      "feasible_sets_evaluated": 5,
+      "fixture_id": "hand_mixed_coincides",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00011411500236135907,
+        "nominal": 0.0001853359972301405,
+        "pessimistic": 0.0001682799993432127
+      }
+    },
+    {
+      "budget": "5",
+      "feasible_sets_evaluated": 18,
+      "fixture_id": "hand_mixed_coincides",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00026106799850822426,
+        "nominal": 0.0005011280009057373,
+        "pessimistic": 0.0004666919994633645
+      }
+    },
+    {
+      "budget": "0",
+      "feasible_sets_evaluated": 1,
+      "fixture_id": "positive_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 2.2920001356396824e-05,
+        "nominal": 0.0001370069985568989,
+        "pessimistic": 0.00015552100012428127
+      }
+    },
+    {
+      "budget": "2",
+      "feasible_sets_evaluated": 13,
+      "fixture_id": "positive_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00011134699889225885,
+        "nominal": 0.00034234800114063546,
+        "pessimistic": 0.0004405369982123375
+      }
+    },
+    {
+      "budget": "4",
+      "feasible_sets_evaluated": 39,
+      "fixture_id": "positive_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00010610399840516038,
+        "nominal": 0.0010491559987713117,
+        "pessimistic": 0.0012461439982871525
+      }
+    },
+    {
+      "budget": "0",
+      "feasible_sets_evaluated": 1,
+      "fixture_id": "negative_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 1.8990998796653003e-05,
+        "nominal": 0.000145464000524953,
+        "pessimistic": 0.00015504799739574082
+      }
+    },
+    {
+      "budget": "2",
+      "feasible_sets_evaluated": 13,
+      "fixture_id": "negative_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.0001767409994499758,
+        "nominal": 0.00037821600199094974,
+        "pessimistic": 0.00047091799933696166
+      }
+    },
+    {
+      "budget": "4",
+      "feasible_sets_evaluated": 39,
+      "fixture_id": "negative_sign",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.0001102070018532686,
+        "nominal": 0.0011298640019958839,
+        "pessimistic": 0.0012447439985407982
+      }
+    },
+    {
+      "budget": "0",
+      "feasible_sets_evaluated": 1,
+      "fixture_id": "conflict_shared_order",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 1.2663997040363029e-05,
+        "nominal": 2.4140001187333837e-05,
+        "pessimistic": 3.6581001040758565e-05
+      }
+    },
+    {
+      "budget": "3",
+      "feasible_sets_evaluated": 8,
+      "fixture_id": "conflict_shared_order",
+      "optimizer_runtime_seconds": {
+        "empty": 0.0,
+        "greedy_nominal": 0.00014457400175160728,
+        "nominal": 0.00013636200310429558,
+        "pessimistic": 0.0001664020019234158
+      }
+    }
+  ]
+}

@@ -1,0 +1,1281 @@
+{
+  "fixtures": [
+    {
+      "budgets": [
+        {
+          "budget": "0",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 1,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "29",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "2",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 7,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "23/2",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "7/2",
+              "max_tested_loss": "25",
+              "mean_tested_loss": "85/4",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 7,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "7/2",
+              "max_tested_loss": "25",
+              "mean_tested_loss": "85/4",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 7,
+              "maintenance_cost": "1",
+              "max_scenario_regret": "4",
+              "max_tested_loss": "43/2",
+              "mean_tested_loss": "43/2",
+              "min_tested_loss": "43/2",
+              "nominal_order_loss": "43/2",
+              "selected": [
+                "e0"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "4",
+          "pessimistic_bound": "43/2",
+          "pessimistic_bound_witnesses": {
+            "i0": [
+              "e0"
+            ],
+            "i1": [
+              "e0"
+            ],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": false,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "4/29",
+            "nominal": "4/29",
+            "pessimistic": "15/58"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "7/2"
+          }
+        },
+        {
+          "budget": "4",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 19,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "23/2",
+              "max_tested_loss": "29",
+              "mean_tested_loss": "29",
+              "min_tested_loss": "29",
+              "nominal_order_loss": "29",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "11/2",
+              "max_tested_loss": "25",
+              "mean_tested_loss": "85/4",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 19,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "11/2",
+              "max_tested_loss": "25",
+              "mean_tested_loss": "85/4",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 19,
+              "maintenance_cost": "1",
+              "max_scenario_regret": "4",
+              "max_tested_loss": "43/2",
+              "mean_tested_loss": "43/2",
+              "min_tested_loss": "43/2",
+              "nominal_order_loss": "43/2",
+              "selected": [
+                "e0"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "4",
+          "pessimistic_bound": "43/2",
+          "pessimistic_bound_witnesses": {
+            "i0": [
+              "e0"
+            ],
+            "i1": [
+              "e0"
+            ],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": false,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "4/29",
+            "nominal": "4/29",
+            "pessimistic": "15/58"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "7/2"
+          }
+        }
+      ],
+      "candidate_count": 5,
+      "candidate_ids": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ],
+      "conflict_probe": null,
+      "description": "hand-constructed mixed-sign stress case",
+      "global_order_count": 120,
+      "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
+      "instance_id": "hand_mixed_hurts",
+      "instance_sha256": "b9f939718ed0504704b3786a0e68801613337b1d44b3e457d77488871eed1d18",
+      "task_count": 3
+    },
+    {
+      "budgets": [
+        {
+          "budget": "0",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 1,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "24",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "2",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 5,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "4",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "1",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "20",
+              "mean_tested_loss": "20",
+              "min_tested_loss": "20",
+              "nominal_order_loss": "20",
+              "selected": [
+                "e0"
+              ],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 5,
+              "maintenance_cost": "1",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "20",
+              "mean_tested_loss": "20",
+              "min_tested_loss": "20",
+              "nominal_order_loss": "20",
+              "selected": [
+                "e0"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 5,
+              "maintenance_cost": "1",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "20",
+              "mean_tested_loss": "20",
+              "min_tested_loss": "20",
+              "nominal_order_loss": "20",
+              "selected": [
+                "e0"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "20",
+          "pessimistic_bound_witnesses": {
+            "i0": [
+              "e0"
+            ],
+            "i1": [
+              "e0"
+            ],
+            "i2": [
+              "e0"
+            ]
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "1/6",
+            "nominal": "1/6",
+            "pessimistic": "1/6"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "5",
+          "exhaustive_subset_evaluations": 32,
+          "feasible_set_count": 18,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "7",
+              "max_tested_loss": "24",
+              "mean_tested_loss": "24",
+              "min_tested_loss": "24",
+              "nominal_order_loss": "24",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 120
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "3",
+              "max_scenario_regret": "1/2",
+              "max_tested_loss": "35/2",
+              "mean_tested_loss": "35/2",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e4"
+              ],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 120
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 18,
+              "maintenance_cost": "3",
+              "max_scenario_regret": "1/2",
+              "max_tested_loss": "35/2",
+              "mean_tested_loss": "35/2",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e4"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 18,
+              "maintenance_cost": "3",
+              "max_scenario_regret": "1/2",
+              "max_tested_loss": "35/2",
+              "mean_tested_loss": "35/2",
+              "min_tested_loss": "35/2",
+              "nominal_order_loss": "35/2",
+              "selected": [
+                "e0",
+                "e4"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 120
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "35/2",
+          "pessimistic_bound_witnesses": {
+            "i0": [
+              "e0",
+              "e4"
+            ],
+            "i1": [
+              "e0"
+            ],
+            "i2": [
+              "e0",
+              "e4"
+            ]
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "13/48",
+            "nominal": "13/48",
+            "pessimistic": "13/48"
+          },
+          "scenario_observation_count": 120,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        }
+      ],
+      "candidate_count": 5,
+      "candidate_ids": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ],
+      "conflict_probe": null,
+      "description": "hand-constructed mixed-sign neutral case",
+      "global_order_count": 120,
+      "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
+      "instance_id": "hand_mixed_coincides",
+      "instance_sha256": "1afe1afdf41ba48b1d5e09cacad5f7df29cd8ed04985ed3b91a00aac8a4ae1b2",
+      "task_count": 3
+    },
+    {
+      "budgets": [
+        {
+          "budget": "0",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 1,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "5",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "2",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 13,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 13,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 13,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "5",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "4",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 39,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 39,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 39,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "5",
+              "mean_tested_loss": "5",
+              "min_tested_loss": "5",
+              "nominal_order_loss": "5",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "5",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        }
+      ],
+      "candidate_count": 6,
+      "candidate_ids": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e4",
+        "e5"
+      ],
+      "conflict_probe": null,
+      "description": "hand-constructed nonnegative-sign case",
+      "global_order_count": 720,
+      "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
+      "instance_id": "positive_sign",
+      "instance_sha256": "e60638eea4833325cf963983d39ea6f54a7bc69995ae98fef4277774efc52f36",
+      "task_count": 3
+    },
+    {
+      "budgets": [
+        {
+          "budget": "0",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 1,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "16",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "2",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 13,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 13,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 13,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "16",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "4",
+          "exhaustive_subset_evaluations": 64,
+          "feasible_set_count": 39,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 720
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 720
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 39,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 39,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "16",
+              "mean_tested_loss": "16",
+              "min_tested_loss": "16",
+              "nominal_order_loss": "16",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 720
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "16",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": [],
+            "i2": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 720,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        }
+      ],
+      "candidate_count": 6,
+      "candidate_ids": [
+        "e0",
+        "e1",
+        "e2",
+        "e3",
+        "e4",
+        "e5"
+      ],
+      "conflict_probe": null,
+      "description": "hand-constructed nonpositive-sign case",
+      "global_order_count": 720,
+      "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
+      "instance_id": "negative_sign",
+      "instance_sha256": "0e8b8c8156cb9502c4802c2cb12488214f4ad239e0659314d2e411c72981ba04",
+      "task_count": 3
+    },
+    {
+      "budgets": [
+        {
+          "budget": "0",
+          "exhaustive_subset_evaluations": 8,
+          "feasible_set_count": 1,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "8",
+              "mean_tested_loss": "8",
+              "min_tested_loss": "8",
+              "nominal_order_loss": "8",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 6
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "8",
+              "mean_tested_loss": "8",
+              "min_tested_loss": "8",
+              "nominal_order_loss": "8",
+              "selected": [],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 6
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "8",
+              "mean_tested_loss": "8",
+              "min_tested_loss": "8",
+              "nominal_order_loss": "8",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 6
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 1,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "8",
+              "mean_tested_loss": "8",
+              "min_tested_loss": "8",
+              "nominal_order_loss": "8",
+              "selected": [],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 6
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "8",
+          "pessimistic_bound_witnesses": {
+            "i0": [],
+            "i1": []
+          },
+          "pessimistic_equals_nominal": true,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "0",
+            "nominal": "0",
+            "pessimistic": "0"
+          },
+          "scenario_observation_count": 6,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "0",
+            "pessimistic_benefit": "0"
+          }
+        },
+        {
+          "budget": "3",
+          "exhaustive_subset_evaluations": 8,
+          "feasible_set_count": 8,
+          "independent_vs_joint_conservatism_gap": "0",
+          "method_summary": {
+            "empty": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "0",
+              "max_scenario_regret": "5",
+              "max_tested_loss": "8",
+              "mean_tested_loss": "8",
+              "min_tested_loss": "8",
+              "nominal_order_loss": "8",
+              "selected": [],
+              "solver_status": "fixed",
+              "tested_order_count": 6
+            },
+            "greedy_nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "3",
+              "mean_tested_loss": "3",
+              "min_tested_loss": "3",
+              "nominal_order_loss": "3",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "deterministic_complete",
+              "tested_order_count": 6
+            },
+            "nominal": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 8,
+              "maintenance_cost": "3",
+              "max_scenario_regret": "1",
+              "max_tested_loss": "4",
+              "mean_tested_loss": "10/3",
+              "min_tested_loss": "3",
+              "nominal_order_loss": "3",
+              "selected": [
+                "e0",
+                "e1",
+                "e2"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 6
+            },
+            "pessimistic": {
+              "all_scenario_regrets_nonnegative": true,
+              "feasible_sets_evaluated": 8,
+              "maintenance_cost": "2",
+              "max_scenario_regret": "0",
+              "max_tested_loss": "3",
+              "mean_tested_loss": "3",
+              "min_tested_loss": "3",
+              "nominal_order_loss": "3",
+              "selected": [
+                "e0",
+                "e2"
+              ],
+              "solver_status": "exact_exhaustive",
+              "tested_order_count": 6
+            }
+          },
+          "nominal_price_of_pessimism": "0",
+          "pessimistic_bound": "3",
+          "pessimistic_bound_witnesses": {
+            "i0": [
+              "e0",
+              "e2"
+            ],
+            "i1": [
+              "e0",
+              "e2"
+            ]
+          },
+          "pessimistic_equals_nominal": false,
+          "relative_worst_tested_improvement_vs_empty": {
+            "empty": "0",
+            "greedy_nominal": "5/8",
+            "nominal": "1/2",
+            "pessimistic": "5/8"
+          },
+          "scenario_observation_count": 6,
+          "worst_tested_delta_vs_nominal": {
+            "greedy_benefit": "1",
+            "pessimistic_benefit": "1"
+          }
+        }
+      ],
+      "candidate_count": 3,
+      "candidate_ids": [
+        "e0",
+        "e1",
+        "e2"
+      ],
+      "conflict_probe": {
+        "gap": "1",
+        "independent_taskwise_bound": "5",
+        "max_shared_order_loss": "4",
+        "no_shared_order_realizes_all_taskwise_witnesses": true,
+        "selected": [
+          "e0",
+          "e1",
+          "e2"
+        ],
+        "shared_order_count": 6,
+        "taskwise_worst_witnesses": {
+          "i0": [
+            "e0",
+            "e2"
+          ],
+          "i1": [
+            "e1"
+          ]
+        }
+      },
+      "description": "controlled shared-order conflict probe",
+      "global_order_count": 6,
+      "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
+      "instance_id": "conflict_shared_order",
+      "instance_sha256": "a7e2893c3eea9cd82327b4be6c749e0032c3c8c2ae3e40bcbb6f7cfef1e0196e",
+      "task_count": 2
+    }
+  ],
+  "metadata": {
+    "arithmetic": "exact Fraction throughout; serialized rational values",
+    "experiment": "Issue #14 decision value and price of pessimism",
+    "external_dependencies": "none; standard library only",
+    "fixture_count": 5,
+    "large_conservatism_gap_threshold": "1",
+    "model_scope": "pairwise labeled-edge maximal-matching instantiation with additive maintenance proxy",
+    "nominal_order": "lexicographically sorted candidate IDs",
+    "pessimism_definition": "sum of task-wise maxima over all maximal matchings; not a shared-policy global maximum",
+    "policy_scope": "all globally consistent candidate permutations, one shared order per scenario",
+    "raw_record_count": 5058,
+    "raw_record_types": {
+      "conflict_probe_observation": 6,
+      "shared_order_observation": 5052
+    },
+    "tie_break": "lexicographically smallest sorted selected-set tuple"
+  }
+}
