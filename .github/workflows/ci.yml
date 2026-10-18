@@ -30,7 +30,8 @@ jobs:
             ci/test_theory_star_reductions.py \
             experiments/pg-maintenance/test_analyze_benchmark.py \
             experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py \
-            experiments/pg-tracing/test_analyze_mcv_numeric_followup.py
+            experiments/pg-tracing/test_analyze_mcv_numeric_followup.py \
+            experiments/theory/test_degree_two_oracle.py
       - name: Verify preserved experimental evidence
         run: python ci/check_evidence.py
 
