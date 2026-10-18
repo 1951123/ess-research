@@ -1,0 +1,89 @@
+{
+  "format": "forest10-schema-shaped-model-v1",
+  "status": "MODEL_ONLY_SYNTHETIC_PARAMETERS",
+  "dataset_identity": {
+    "dataset": "Forest10",
+    "source_table": "public.forest10",
+    "schema_contract": "10 ordered DOUBLE PRECISION columns, nullable",
+    "source_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "historical_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "historical_canonical_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+    "derived_canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "real_input_available_in_this_worktree": false,
+    "real_query_ids_used": false,
+    "real_truth_cardinalities_used": false
+  },
+  "candidate_rule": {
+    "rule": "six distinct two-column MCV shapes on adjacent or wraparound Forest10 column positions",
+    "precommitted_before_strategy_evaluation": true,
+    "candidate_ids": ["e01", "e05", "e12", "e23", "e34", "e45"],
+    "attribute_names_are": "schema-position labels only; not observed PostgreSQL statistic objects",
+    "statistic_kind": "two-column MCV",
+    "statistics_target": "not calibrated or measured; omitted from model",
+    "duplicate_endpoint_pairs": false
+  },
+  "nominal_order": ["e01", "e05", "e12", "e23", "e34", "e45"],
+  "budgets": ["0", "2", "3", "5"],
+  "maintenance_proxy": {
+    "kind": "additive proxy",
+    "interpretation": "precommitted resource-selection cost units only",
+    "not_physical_analyze_time": true
+  },
+  "parameter_provenance": {
+    "alpha_and_corrections": "controlled exact rational model inputs, selected before evaluating any strategy",
+    "pg_measurement_source": null,
+    "positive_preclamp_conditions": "interpretable only as n0/T>0 and r_e>0; no PG n0, T, or r_e was measured here",
+    "weights": "controlled exact rational model inputs; not source workload weights",
+    "truth": "no real Forest10 truth was loaded; alpha/corrections are not claimed to be cardinality calibration"
+  },
+  "candidates": [
+    {"id": "e01", "table": "public.forest10", "endpoints": ["c0", "c1"], "maintenance_cost": "1"},
+    {"id": "e05", "table": "public.forest10", "endpoints": ["c0", "c5"], "maintenance_cost": "2"},
+    {"id": "e12", "table": "public.forest10", "endpoints": ["c1", "c2"], "maintenance_cost": "1"},
+    {"id": "e23", "table": "public.forest10", "endpoints": ["c2", "c3"], "maintenance_cost": "1"},
+    {"id": "e34", "table": "public.forest10", "endpoints": ["c3", "c4"], "maintenance_cost": "2"},
+    {"id": "e45", "table": "public.forest10", "endpoints": ["c4", "c5"], "maintenance_cost": "2"}
+  ],
+  "tasks": [
+    {
+      "id": "model_task_0",
+      "source_query_id": null,
+      "split": "model_only",
+      "table": "public.forest10",
+      "weight": "2",
+      "alpha": "-3",
+      "eligible_candidates": ["e01", "e12", "e23", "e34"],
+      "corrections": {"e01": "-2", "e12": "1/2", "e23": "-2", "e34": "3/2"}
+    },
+    {
+      "id": "model_task_1",
+      "source_query_id": null,
+      "split": "model_only",
+      "table": "public.forest10",
+      "weight": "3",
+      "alpha": "-4",
+      "eligible_candidates": ["e01", "e05", "e23", "e45"],
+      "corrections": {"e01": "2", "e05": "-1", "e23": "-1/2", "e45": "3/2"}
+    },
+    {
+      "id": "model_task_2",
+      "source_query_id": null,
+      "split": "model_only",
+      "table": "public.forest10",
+      "weight": "1",
+      "alpha": "-4",
+      "eligible_candidates": ["e05", "e12", "e34", "e45"],
+      "corrections": {"e05": "-1", "e12": "1", "e34": "2", "e45": "-3/2"}
+    },
+    {
+      "id": "model_task_3",
+      "source_query_id": null,
+      "split": "model_only",
+      "table": "public.forest10",
+      "weight": "1",
+      "alpha": "3",
+      "eligible_candidates": ["e01", "e12", "e34", "e45"],
+      "corrections": {"e01": "-1", "e12": "-1", "e34": "-2", "e45": "-1/2"}
+    }
+  ]
+}

@@ -1,0 +1,703 @@
+{
+  "budgets": [
+    {
+      "budget": "0",
+      "decision_differences": {
+        "nominal_vs_joint_robust": false,
+        "pess_vs_joint_robust": false,
+        "pess_vs_nominal": false
+      },
+      "joint_robust_price_vs_pess": "0",
+      "method_results": {
+        "empty": {
+          "exact_certificate": {
+            "status": "fixed_reference"
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "joint_robust": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 1,
+            "objective": "25",
+            "optimal_sets": [
+              []
+            ],
+            "order_count_used_by_objective": 720,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "nominal": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 1,
+            "objective": "25",
+            "optimal_sets": [
+              []
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "pess": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 1,
+            "objective": "25",
+            "optimal_sets": [
+              []
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        }
+      },
+      "nominal_price_of_pessimism": "0",
+      "shared_order_count": 720
+    },
+    {
+      "budget": "2",
+      "decision_differences": {
+        "nominal_vs_joint_robust": false,
+        "pess_vs_joint_robust": false,
+        "pess_vs_nominal": false
+      },
+      "joint_robust_price_vs_pess": "0",
+      "method_results": {
+        "empty": {
+          "exact_certificate": {
+            "status": "fixed_reference"
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "joint_robust": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 10,
+            "objective": "18",
+            "optimal_sets": [
+              [
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": 720,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "2",
+          "max_shared_order_loss": "18",
+          "mean_shared_order_loss": "18",
+          "min_shared_order_loss": "18",
+          "nominal_order_loss": "18",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "18",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e34"
+            ],
+            "model_task_1": [],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e34"
+            ]
+          },
+          "selected": [
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "18": 720
+          }
+        },
+        "nominal": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 10,
+            "objective": "18",
+            "optimal_sets": [
+              [
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "2",
+          "max_shared_order_loss": "18",
+          "mean_shared_order_loss": "18",
+          "min_shared_order_loss": "18",
+          "nominal_order_loss": "18",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "18",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e34"
+            ],
+            "model_task_1": [],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e34"
+            ]
+          },
+          "selected": [
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "18": 720
+          }
+        },
+        "pess": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 10,
+            "objective": "18",
+            "optimal_sets": [
+              [
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "2",
+          "max_shared_order_loss": "18",
+          "mean_shared_order_loss": "18",
+          "min_shared_order_loss": "18",
+          "nominal_order_loss": "18",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "18",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e34"
+            ],
+            "model_task_1": [],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e34"
+            ]
+          },
+          "selected": [
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "18": 720
+          }
+        }
+      },
+      "nominal_price_of_pessimism": "0",
+      "shared_order_count": 720
+    },
+    {
+      "budget": "3",
+      "decision_differences": {
+        "nominal_vs_joint_robust": false,
+        "pess_vs_joint_robust": false,
+        "pess_vs_nominal": false
+      },
+      "joint_robust_price_vs_pess": "0",
+      "method_results": {
+        "empty": {
+          "exact_certificate": {
+            "status": "fixed_reference"
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "joint_robust": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 20,
+            "objective": "15",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e12",
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": 720,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 2
+          },
+          "maintenance_cost": "3",
+          "max_shared_order_loss": "15",
+          "mean_shared_order_loss": "15",
+          "min_shared_order_loss": "15",
+          "nominal_order_loss": "15",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "15",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01"
+            ],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e01",
+              "e34"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "15": 720
+          }
+        },
+        "nominal": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 20,
+            "objective": "15",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e12",
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 2
+          },
+          "maintenance_cost": "3",
+          "max_shared_order_loss": "15",
+          "mean_shared_order_loss": "15",
+          "min_shared_order_loss": "15",
+          "nominal_order_loss": "15",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "15",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01"
+            ],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e01",
+              "e34"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "15": 720
+          }
+        },
+        "pess": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 20,
+            "objective": "15",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e12",
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 2
+          },
+          "maintenance_cost": "3",
+          "max_shared_order_loss": "15",
+          "mean_shared_order_loss": "15",
+          "min_shared_order_loss": "15",
+          "nominal_order_loss": "15",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "15",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01"
+            ],
+            "model_task_2": [
+              "e34"
+            ],
+            "model_task_3": [
+              "e01",
+              "e34"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "15": 720
+          }
+        }
+      },
+      "nominal_price_of_pessimism": "0",
+      "shared_order_count": 720
+    },
+    {
+      "budget": "5",
+      "decision_differences": {
+        "nominal_vs_joint_robust": true,
+        "pess_vs_joint_robust": false,
+        "pess_vs_nominal": true
+      },
+      "joint_robust_price_vs_pess": "0",
+      "method_results": {
+        "empty": {
+          "exact_certificate": {
+            "status": "fixed_reference"
+          },
+          "maintenance_cost": "0",
+          "max_shared_order_loss": "25",
+          "mean_shared_order_loss": "25",
+          "min_shared_order_loss": "25",
+          "nominal_order_loss": "25",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "25",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [],
+            "model_task_1": [],
+            "model_task_2": [],
+            "model_task_3": []
+          },
+          "selected": [],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "25": 720
+          }
+        },
+        "joint_robust": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 44,
+            "objective": "14",
+            "optimal_sets": [
+              [
+                "e01",
+                "e12",
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": 720,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "4",
+          "max_shared_order_loss": "14",
+          "mean_shared_order_loss": "23/2",
+          "min_shared_order_loss": "9",
+          "nominal_order_loss": "14",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "14",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01"
+            ],
+            "model_task_2": [
+              "e12",
+              "e34"
+            ],
+            "model_task_3": [
+              "e01",
+              "e34"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e12",
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "14": 360,
+            "9": 360
+          }
+        },
+        "nominal": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 44,
+            "objective": "21/2",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34",
+                "e45"
+              ],
+              [
+                "e12",
+                "e34",
+                "e45"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 2
+          },
+          "maintenance_cost": "5",
+          "max_shared_order_loss": "31/2",
+          "mean_shared_order_loss": "13",
+          "min_shared_order_loss": "21/2",
+          "nominal_order_loss": "21/2",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "31/2",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01",
+              "e45"
+            ],
+            "model_task_2": [
+              "e45"
+            ],
+            "model_task_3": [
+              "e01",
+              "e45"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e34",
+            "e45"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "21/2": 360,
+            "31/2": 360
+          }
+        },
+        "pess": {
+          "exact_certificate": {
+            "all_subset_count": 64,
+            "feasible_subset_count": 44,
+            "objective": "14",
+            "optimal_sets": [
+              [
+                "e01",
+                "e12",
+                "e34"
+              ]
+            ],
+            "order_count_used_by_objective": null,
+            "status": "exact_exhaustive_fraction",
+            "tie_count": 1
+          },
+          "maintenance_cost": "4",
+          "max_shared_order_loss": "14",
+          "mean_shared_order_loss": "23/2",
+          "min_shared_order_loss": "9",
+          "nominal_order_loss": "14",
+          "pessimistic_bound_minus_shared_order_max": "0",
+          "pessimistic_taskwise_bound": "14",
+          "pessimistic_taskwise_witnesses": {
+            "model_task_0": [
+              "e01",
+              "e34"
+            ],
+            "model_task_1": [
+              "e01"
+            ],
+            "model_task_2": [
+              "e12",
+              "e34"
+            ],
+            "model_task_3": [
+              "e01",
+              "e34"
+            ]
+          },
+          "selected": [
+            "e01",
+            "e12",
+            "e34"
+          ],
+          "shared_order_count": 720,
+          "shared_order_histogram": {
+            "14": 360,
+            "9": 360
+          }
+        }
+      },
+      "nominal_price_of_pessimism": "7/2",
+      "shared_order_count": 720
+    }
+  ],
+  "metadata": {
+    "arithmetic": "exact Fraction throughout; rational serialization",
+    "candidate_count": 6,
+    "data_root_validation": {
+      "action": "no filesystem path inspected; provide --data-root for the real-stage gate",
+      "example_command": "PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect --data-root /ABSOLUTE/ROOT",
+      "required_for_real_stage": true,
+      "status": "not_supplied"
+    },
+    "empty_reference": true,
+    "experiment": "Issue #23 Forest10 schema-shaped model-level decision comparison",
+    "instance_format": "forest10-schema-shaped-model-v1",
+    "instance_sha256": "afa2f6e21ba35e48352df70ee4287d1a4c71b2fed568cb78ae6d7e24d5929cad",
+    "objective_methods": [
+      "pess",
+      "nominal",
+      "joint_robust",
+      "empty"
+    ],
+    "order_count": 720,
+    "pg_calibration_status": "blocked_missing_explicit_forest10_data_root_and_real_pg_fixture",
+    "raw_record_count": 11520,
+    "raw_record_type_counts": {
+      "common_shared_order_observation": 11520
+    },
+    "shared_order_policy": "all permutations of full candidate universe, one shared order restricted per task",
+    "task_count": 4
+  }
+}
