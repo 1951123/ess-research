@@ -1,0 +1,85 @@
+{
+  "format": "arecel-issue17-acquisition-v1",
+  "status": "BLOCKED_CANONICAL_WORKLOAD_MISSING",
+  "executed_at": "2026-10-18",
+  "upstream": {
+    "repository": "https://github.com/sfu-db/AreCELearnedYet",
+    "commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "code_license_at_pinned_commit": "MIT",
+    "readme_download_reference": "https://www.dropbox.com/s/5bmvc1si5hysapf/data.tar.gz?dl=0",
+    "data_license_status": "No separate data-redistribution license was identified in the pinned README or repository LICENSE; raw data is not redistributed."
+  },
+  "archive": {
+    "url": "https://www.dropbox.com/s/5bmvc1si5hysapf/data.tar.gz?dl=0",
+    "downloaded_locally": true,
+    "committed": false,
+    "bytes": 118265504,
+    "sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "member_safety": {
+      "path_traversal_or_absolute_members": false,
+      "non_regular_or_directory_members": false,
+      "forest10_required_members_present": true,
+      "extraction_scope": "Only the three required Forest10 regular files were extracted into an experiment-owned temporary root."
+    }
+  },
+  "forest10_files": {
+    "csv": {
+      "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "expected_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "rows": 581012,
+      "columns": 10,
+      "header_and_types": "validated by the existing strict CSV validator",
+      "null_counts": 0
+    },
+    "workload_pickle": {
+      "sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+      "expected_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+      "loaded_or_deserialized": false
+    },
+    "label_pickle": {
+      "sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+      "expected_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+      "loaded_or_deserialized": false
+    },
+    "canonical_jsonl_gz": {
+      "actual_sha256": null,
+      "expected_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+      "present": false,
+      "independent_identity_validated": false,
+      "blocker": "The pinned archive contains only the opaque workload and label pickles; no canonical JSONL.gz was supplied."
+    }
+  },
+  "etl": {
+    "inspect": {
+      "status": "BLOCKED_MISSING_INPUT",
+      "missing_inputs": ["arecel/audit-v1/forest10.canonical.jsonl.gz"]
+    },
+    "validate_source": {
+      "exit_status": 2,
+      "error": "InputContractError: missing required input: <DATA_ROOT>/arecel/audit-v1/forest10.canonical.jsonl.gz"
+    },
+    "build_valid": {
+      "executed": true,
+      "exit_status": 2,
+      "result": "blocked before output publication"
+    },
+    "build_test": {
+      "executed": true,
+      "exit_status": 2,
+      "result": "blocked before output publication"
+    },
+    "output_directories_created": false
+  },
+  "eligibility": {
+    "status": "BLOCKED_DOWNSTREAM",
+    "reason": "Canonical query records, predicates, labels and split membership are unavailable; no pairwise-MCV eligibility count is claimed."
+  },
+  "safety": {
+    "postgresql_accessed": false,
+    "database_accessed": false,
+    "other_project_checkouts_accessed": false,
+    "raw_or_pickle_files_committed": false,
+    "credentials_or_dsns_recorded": false
+  },
+  "next_action": "Supply the independently audited canonical JSONL.gz artifact whose SHA256 is a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74 under the declared data root, then rerun inspect and both split builds."
+}
