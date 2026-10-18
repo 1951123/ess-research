@@ -18,6 +18,12 @@ _SPEC = importlib.util.spec_from_file_location(
 assert _SPEC is not None and _SPEC.loader is not None
 experiment = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(experiment)
+_REFERENCE_SPEC = importlib.util.spec_from_file_location(
+    "issue23_forest10_decision_reference", SCRIPT_DIR / "verify_reference.py"
+)
+assert _REFERENCE_SPEC is not None and _REFERENCE_SPEC.loader is not None
+reference = importlib.util.module_from_spec(_REFERENCE_SPEC)
+_REFERENCE_SPEC.loader.exec_module(reference)
 
 
 def test_frozen_instance_is_explicitly_model_only() -> None:
@@ -97,3 +103,11 @@ def test_raw_artifact_is_lossless_and_reported_hashes_match(tmp_path: Path) -> N
     assert len(records) == payload["metadata"]["raw_record_count"]
     assert all(record["record_type"] == "common_shared_order_observation" for record in records)
     assert hashlib.sha256(raw_path.read_bytes()).hexdigest() in (tmp_path / "report.md").read_text()
+
+
+def test_independent_reference_recomputes_all_objective_certificates(tmp_path: Path) -> None:
+    output = tmp_path / "results"
+    experiment.run(output, include_execution=False)
+    assert reference.verify_summary(
+        SCRIPT_DIR / "instance.json", output / "forest10-decision-summary.json"
+    ) == 12

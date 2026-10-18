@@ -675,6 +675,12 @@
   "metadata": {
     "arithmetic": "exact Fraction throughout; rational serialization",
     "candidate_count": 6,
+    "data_root_validation": {
+      "action": "no filesystem path inspected; provide --data-root for the real-stage gate",
+      "example_command": "PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect --data-root /ABSOLUTE/ROOT",
+      "required_for_real_stage": true,
+      "status": "not_supplied"
+    },
     "empty_reference": true,
     "experiment": "Issue #23 Forest10 schema-shaped model-level decision comparison",
     "instance_format": "forest10-schema-shaped-model-v1",

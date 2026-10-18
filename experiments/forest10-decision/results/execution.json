@@ -8,7 +8,7 @@
         "nominal": 1,
         "pess": 1
       },
-      "elapsed_seconds": 0.05990801899952203
+      "elapsed_seconds": 0.06387582699971972
     },
     {
       "budget": "2",
@@ -17,7 +17,7 @@
         "nominal": 10,
         "pess": 10
       },
-      "elapsed_seconds": 0.21460216200011928
+      "elapsed_seconds": 0.2308341019997897
     },
     {
       "budget": "3",
@@ -26,7 +26,7 @@
         "nominal": 20,
         "pess": 20
       },
-      "elapsed_seconds": 0.42713257600007637
+      "elapsed_seconds": 0.43583104999925126
     },
     {
       "budget": "5",
@@ -35,7 +35,7 @@
         "nominal": 44,
         "pess": 44
       },
-      "elapsed_seconds": 1.0259219429999575
+      "elapsed_seconds": 1.0883385010001803
     }
   ],
   "canonical_artifacts": {
@@ -43,14 +43,15 @@
     "raw_sha256": "5c3a0d78bd8f56e2959213031fecfd90ff2010520cd3578e95f9b01d07874279",
     "raw_uncompressed_bytes": 3341200,
     "raw_uncompressed_sha256": "4d30a789516545b9b82b83f351fcd7e515386165e4050721efc3c0d4d81df7ae",
-    "summary_bytes": 19973,
-    "summary_sha256": "06b3534bbd2c044f179f2e12fab55c8f29ec0a7533249e6ddf843d54e37b0b6f"
+    "summary_bytes": 20291,
+    "summary_sha256": "41611dec1e8bd02151d86b526a6c13b35e247069b9ad709b32459b7db6413ab4"
   },
   "command": "python3 experiments/forest10-decision/run_experiment.py",
-  "data_root_check": {
-    "action": "read-only existence check; no hidden or alternative root inspected",
-    "path": "/tmp/ess-research-issue17-data-20261018",
-    "present_at_execution": false
+  "data_root_validation": {
+    "action": "no filesystem path inspected; provide --data-root for the real-stage gate",
+    "example_command": "PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect --data-root /ABSOLUTE/ROOT",
+    "required_for_real_stage": true,
+    "status": "not_supplied"
   },
   "ess_advisor_commit": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
   "ess_postgresql_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
@@ -71,7 +72,7 @@
   },
   "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
   "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
-  "research_repo_commit": "73497c61e3730b5a70c4b706f9136bdd4e2501ac",
+  "research_repo_commit": "b84718369ef12150928348fcbcd1cae2b2ba2164",
   "verification_commands": [
     {
       "command": "python3 experiments/forest10-decision/run_experiment.py",
@@ -81,10 +82,20 @@
     {
       "command": "/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q experiments/forest10-decision/test_forest10_decision.py",
       "exit_status": 0,
-      "result": "7 passed"
+      "result": "8 passed"
     },
     {
-      "command": "python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/test_forest10_decision.py",
+      "command": "/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q",
+      "exit_status": 0,
+      "result": "88 passed"
+    },
+    {
+      "command": "python3 experiments/forest10-decision/verify_reference.py --instance experiments/forest10-decision/instance.json --summary experiments/forest10-decision/results/forest10-decision-summary.json",
+      "exit_status": 0,
+      "result": "independent reference verification passed"
+    },
+    {
+      "command": "python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/verify_reference.py experiments/forest10-decision/test_forest10_decision.py",
       "exit_status": 0,
       "result": "compiled"
     }

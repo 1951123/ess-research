@@ -1,12 +1,14 @@
 # Issue #23 Forest10 decision comparison
 
-This directory contains the bounded, independently checkable fallback for
-Issue #23.  It is a model-level exact experiment, not a PostgreSQL result.
+This directory contains the bounded, independently checkable **synthetic model
+smoke pilot** for Issue #23. It is not a completed real-Forest10 or PostgreSQL
+result.
 
-The repository's explicit Forest10 data root was not present in the execution
-environment.  The committed ETL and acquisition records therefore could not
-provide real query IDs, truth cardinalities, selected MCV contents, or
-PostgreSQL-calibrated coefficients.  The instance below is intentionally
+The real Forest10 stage is gated by an explicit caller-provided data root; no
+machine-specific path is inferred or probed. The committed ETL and acquisition
+records therefore could not provide real query IDs, truth cardinalities,
+selected MCV contents, or PostgreSQL-calibrated coefficients in this pilot. The
+instance below is intentionally
 labelled `forest10-schema-shaped-model-v1`: it uses the ten-column Forest10
 schema identity and a precommitted set of six two-column candidate shapes, but
 its task IDs, coefficients, weights, and maintenance costs are controlled
@@ -26,12 +28,32 @@ smallest selected set is reported.  The raw compressed JSONL keeps every
 common-order observation for the four reported choices and is losslessly
 checked by the tests.
 
+An independent reference checker (`verify_reference.py`) recomputes all 12
+PESS/Nominal/Joint-Robust objective certificates, optimal-set tie lists, and
+selected-set evaluation values without importing the runner. This is an
+independent optimality cross-check, not a claim that the synthetic parameters
+are PostgreSQL measurements.
+
 Run from the repository root:
 
 ```text
 python3 experiments/forest10-decision/run_experiment.py
 python3 -m pytest -q experiments/forest10-decision/test_forest10_decision.py
+python3 experiments/forest10-decision/verify_reference.py \
+  --instance experiments/forest10-decision/instance.json \
+  --summary experiments/forest10-decision/results/forest10-decision-summary.json
 ```
+
+The runner accepts `--data-root /ABSOLUTE/ROOT` only to execute and record the
+ETL's fail-closed `inspect` gate. Omitting it records `not_supplied`; it never
+falls back to a guessed path. The exact real-stage inputs, hashes, and commands
+are in [real-stage-handoff.md](real-stage-handoff.md). No real PG calibration
+was run for this pilot.
+
+The frozen synthetic instance has no positive task-wise PESS-versus-shared-order
+gap and no PESS-versus-Joint-Robust decision difference. This is a neutral
+instance-level result, not evidence that per-task conservatism is free in
+general.
 
 The canonical summary, raw observations, instance, and report are deterministic
 and checked by SHA-256.  Execution metadata and elapsed time are kept in the

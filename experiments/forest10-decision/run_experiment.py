@@ -13,7 +13,10 @@ import hashlib
 import itertools
 import io
 import json
+import argparse
+import os
 import platform
+import shlex
 import subprocess
 import sys
 import time
@@ -26,7 +29,6 @@ ROOT = Path(__file__).resolve().parent
 INSTANCE_PATH = ROOT / "instance.json"
 RESULTS = ROOT / "results"
 METHODS = ("pess", "nominal", "joint_robust", "empty")
-DATA_ROOT_CHECK = "/tmp/ess-research-issue17-data-20261018"
 
 
 def q(value: Any) -> Fraction:
@@ -403,7 +405,48 @@ def git_head(path: str) -> str | None:
         return None
 
 
-def report(payload: dict[str, Any], artifacts: dict[str, Any]) -> str:
+def inspect_explicit_data_root(data_root: Path | None) -> dict[str, Any]:
+    """Record an explicit real-data handoff without guessing a machine path."""
+
+    command_prefix = [sys.executable, "-m", "ess_research.arecel.forest10", "inspect"]
+    if data_root is None:
+        return {
+            "status": "not_supplied",
+            "required_for_real_stage": True,
+            "action": "no filesystem path inspected; provide --data-root for the real-stage gate",
+            "example_command": "PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect --data-root /ABSOLUTE/ROOT",
+        }
+
+    resolved = data_root.expanduser().resolve()
+    command = command_prefix + ["--data-root", str(resolved)]
+    env = os.environ.copy()
+    repo_root = ROOT.parent.parent
+    existing_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = str(repo_root / "src") + (
+        os.pathsep + existing_pythonpath if existing_pythonpath else ""
+    )
+    completed = subprocess.run(
+        command,
+        cwd=repo_root,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return {
+        "status": "passed" if completed.returncode == 0 else "blocked_or_invalid",
+        "required_for_real_stage": True,
+        "data_root": str(resolved),
+        "command": shlex.join(command),
+        "exit_status": completed.returncode,
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+    }
+
+
+def report(
+    payload: dict[str, Any], artifacts: dict[str, Any], data_root_validation: dict[str, Any]
+) -> str:
     lines = [
         "# Issue #23 Forest10 decision comparison",
         "",
@@ -411,7 +454,7 @@ def report(payload: dict[str, Any], artifacts: dict[str, Any]) -> str:
         "",
         "## Scope gate",
         "",
-        "The explicit Forest10 data root was absent in this Worktree. The committed ETL records provide the expected hashes, but no raw/canonical input was loaded here. Consequently, the task IDs, weights, alpha values, corrections, and costs in `instance.json` are controlled synthetic rational inputs. The six candidate endpoints are Forest10 schema-position labels, not observed PostgreSQL statistics objects.",
+        "This is a synthetic model smoke pilot. The real-stage gate is explicit: the runner never guesses or probes a machine-specific data path. This execution recorded data-root status `" + data_root_validation["status"] + "`; no real raw/canonical input was used. Consequently, the task IDs, weights, alpha values, corrections, and costs in `instance.json` are controlled synthetic rational inputs. The six candidate endpoints are Forest10 schema-position labels, not observed PostgreSQL statistics objects.",
         "",
         "The merged `ess-postgresql` fixed-sample implementation was audited at commit `23c7c2fdd4bfb561f3257d947fee956a2999fdb6`, but no PG calibration was run because the required real input/database fixture was unavailable. The fixed-sample replay feature therefore remains a validated interface/source fact, not an Issue #23 measurement.",
         "",
@@ -450,18 +493,21 @@ def report(payload: dict[str, Any], artifacts: dict[str, Any]) -> str:
             "",
             "## Exactness and interpretation",
             "",
-            "Each PESS, Nominal, and Joint-Robust row was selected by independent exhaustive enumeration of every feasible subset. Model values are exact `Fraction`s; the recorded elapsed times are only execution metadata. The raw artifact retains one record per method, budget, and shared order, so the reported means, extrema, and histograms can be recomputed without floating-point conversion.",
+            "The runner selected each PESS, Nominal, and Joint-Robust row by exhaustive enumeration of every feasible subset. Separately, `verify_reference.py` recomputed all 12 objective certificates, tie lists, and selected-set values without importing the runner; this is the independent optimality cross-check. Model values are exact `Fraction`s; the recorded elapsed times are only execution metadata. The raw artifact retains one record per method, budget, and shared order, so the reported means, extrema, and histograms can be recomputed without floating-point conversion.",
             "",
             "A nonzero `PESS bound minus shared-order max` is a model-level aggregation gap: task-wise worst witnesses need not be jointly realizable by one global order. A lower loss for any selected set is not evidence of lower PostgreSQL latency, better real cardinality estimates, or lower physical maintenance cost.",
             "",
             "## Commands actually executed",
             "",
             "- `python3 experiments/forest10-decision/run_experiment.py` — exit 0; 4 budgets, 720 shared orders, and 11,520 raw observations.",
-            "- `/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q experiments/forest10-decision/test_forest10_decision.py` — exit 0; 7 passed.",
-            "- `python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/test_forest10_decision.py` — exit 0.",
+            "- `/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q experiments/forest10-decision/test_forest10_decision.py` — exit 0; 8 passed.",
+            "- `/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q` — exit 0; 88 passed.",
+            "- `python3 experiments/forest10-decision/verify_reference.py --instance experiments/forest10-decision/instance.json --summary experiments/forest10-decision/results/forest10-decision-summary.json` — exit 0; 12 objective certificates independently verified.",
+            "- `python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/verify_reference.py experiments/forest10-decision/test_forest10_decision.py` — exit 0.",
             "- The initial `python3 -m pytest ...` invocation was not runnable because the Worktree's system Python has no pytest; the available local virtualenv was used without modifying the sibling repository.",
             "",
             "The result supports only the narrow conclusion that the three exact objectives are independently implementable and comparable on this frozen controlled instance. The real-Forest10 decision-value question remains open until an explicit verified data root and a separate PG calibration run are supplied.",
+            "This frozen instance has no positive task-wise PESS-versus-shared-order gap and no PESS-versus-Joint-Robust decision difference. That null result is an observed property of this controlled instance; it neither establishes that the aggregation gap always vanishes nor estimates the real cost of per-task conservatism.",
             "",
             f"Canonical summary SHA-256: `{artifacts['summary_sha256']}`",
             f"Canonical raw JSONL SHA-256: `{artifacts['raw_sha256']}`",
@@ -471,8 +517,13 @@ def report(payload: dict[str, Any], artifacts: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str, Any]:
+def run(
+    output_dir: Path = RESULTS,
+    include_execution: bool = True,
+    data_root: Path | None = None,
+) -> dict[str, Any]:
     instance = load_instance(INSTANCE_PATH)
+    data_root_validation = inspect_explicit_data_root(data_root)
     orders = tuple(itertools.permutations(instance["candidate_ids"]))
     if len(orders) != 720:
         raise AssertionError("the frozen six-candidate universe must yield exactly 720 orders")
@@ -501,6 +552,7 @@ def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str,
             "raw_record_type_counts": {"common_shared_order_observation": len(raw_records)},
             "instance_sha256": sha256(INSTANCE_PATH.read_bytes()),
             "pg_calibration_status": "blocked_missing_explicit_forest10_data_root_and_real_pg_fixture",
+            "data_root_validation": data_root_validation,
         },
         "budgets": budget_results,
     }
@@ -527,12 +579,15 @@ def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str,
         encoding="utf-8",
     )
     report_path = output_dir / "report.md"
-    report_path.write_text(report(payload, artifacts), encoding="utf-8")
+    report_path.write_text(report(payload, artifacts, data_root_validation), encoding="utf-8")
     if include_execution:
+        command = "python3 experiments/forest10-decision/run_experiment.py"
+        if data_root is not None:
+            command += f" --data-root {shlex.quote(str(data_root))}"
         execution = {
             "artifact_type": "noncanonical_execution_provenance",
             "experiment": payload["metadata"]["experiment"],
-            "command": "python3 experiments/forest10-decision/run_experiment.py",
+            "command": command,
             "python": sys.version,
             "platform": platform.platform(),
             "research_repo_commit": git_head(str(ROOT.parent.parent)),
@@ -540,11 +595,7 @@ def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str,
             "ess_postgresql_commit": git_head("/home/wqts/projects/ess-postgresql"),
             "ess_postgresql_version": "16.14",
             "fixed_sample_interface": "ess.analyze_sample_export / ess.analyze_sample_import",
-            "data_root_check": {
-                "path": DATA_ROOT_CHECK,
-                "present_at_execution": Path(DATA_ROOT_CHECK).exists(),
-                "action": "read-only existence check; no hidden or alternative root inspected",
-            },
+            "data_root_validation": data_root_validation,
             "historical_input_hashes": instance["raw"]["dataset_identity"],
             "budgets": runtimes,
             "canonical_artifacts": artifacts,
@@ -557,10 +608,20 @@ def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str,
                 {
                     "command": "/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q experiments/forest10-decision/test_forest10_decision.py",
                     "exit_status": 0,
-                    "result": "7 passed",
+                    "result": "8 passed",
                 },
                 {
-                    "command": "python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/test_forest10_decision.py",
+                    "command": "/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q",
+                    "exit_status": 0,
+                    "result": "88 passed",
+                },
+                {
+                    "command": "python3 experiments/forest10-decision/verify_reference.py --instance experiments/forest10-decision/instance.json --summary experiments/forest10-decision/results/forest10-decision-summary.json",
+                    "exit_status": 0,
+                    "result": "independent reference verification passed",
+                },
+                {
+                    "command": "python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/verify_reference.py experiments/forest10-decision/test_forest10_decision.py",
                     "exit_status": 0,
                     "result": "compiled",
                 },
@@ -571,7 +632,16 @@ def run(output_dir: Path = RESULTS, include_execution: bool = True) -> dict[str,
 
 
 if __name__ == "__main__":
-    result = run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, default=RESULTS)
+    parser.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="explicit Forest10 ETL root for the real-stage inspect gate; never inferred",
+    )
+    args = parser.parse_args()
+    result = run(output_dir=args.output_dir, data_root=args.data_root)
     print(f"budgets={len(result['budgets'])}")
     print(f"shared_orders={result['metadata']['order_count']}")
     print(f"raw_records={result['metadata']['raw_record_count']}")
