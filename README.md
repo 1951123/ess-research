@@ -15,6 +15,12 @@ repository's independent virtual environment with
 .venv/bin/python -m pip install -e /home/wqts/projects/ess-advisor, then
 run experiments/synthetic/scripts/run_suite.py.
 
+The bounded Forest10 ETL input boundary is documented in
+[docs/arecel-forest10-etl.md](docs/arecel-forest10-etl.md), with the four-dataset
+source inventory in [docs/arecel-asset-inventory.md](docs/arecel-asset-inventory.md).
+It requires an explicit, independently verified data root; no historical
+checkout or hidden benchmark-data default is used.
+
 
 ## Research collaboration and continuity
 
