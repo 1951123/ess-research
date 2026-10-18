@@ -258,7 +258,18 @@ convention.
 
 \paragraph{PostgreSQL maintenance cost.}
 For the controlled PostgreSQL instance, assume PostgreSQL 16.14 and
-two-column MCV objects.  For each relevant table $t$, let $S_t$ denote one
+two-column MCV objects.  All analyzed ordinary single-column statistics and
+all candidate MCV objects use the same fixed, positive effective statistics
+target $\tau$, with candidate-object targets explicitly specified.  The
+advisor selects only the object set $M$, not statistics targets; this is a
+restriction of the PostgreSQL instantiation, not of the general problem.
+With all other sampling requirements fixed, including when $M=\varnothing$,
+this common target keeps the source-derived requested sampling requirement
+unchanged across resource selections.  Equal targets alone do not ensure
+identical realized samples; the fixed-reference-sample assumption below is
+separate and stronger.
+
+For each relevant table $t$, let $S_t$ denote one
 fixed realized sample of table tuples, and let $\widehat R_t$ be its
 associated estimated total row count supplied to the statistics-building
 procedure.  Across compared resource selections, the actual tuple contents
