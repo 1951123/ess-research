@@ -1,0 +1,9 @@
+[
+  "/tmp/ess-pg-issue9-install/bin/pg_ctl",
+  "-D",
+  "/tmp/ess-pg-issue9-cpu-20261018/data",
+  "-m",
+  "fast",
+  "stop",
+  "-w"
+]

@@ -1,0 +1,16 @@
+[
+  "/tmp/ess-pg-issue9-install/bin/psql",
+  "-X",
+  "-v",
+  "ON_ERROR_STOP=1",
+  "-h",
+  "/tmp/ess-pg-issue9-cpu-20261018/socket",
+  "-p",
+  "55439",
+  "-U",
+  "postgres",
+  "-d",
+  "postgres",
+  "-c",
+  "CREATE DATABASE ess_issue9_cpu;"
+]

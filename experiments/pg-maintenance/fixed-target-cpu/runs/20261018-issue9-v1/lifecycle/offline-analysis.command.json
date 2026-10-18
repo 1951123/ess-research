@@ -1,0 +1,7 @@
+[
+  "/home/wqts/projects/ess-research/.venv/bin/python",
+  "/home/wqts/projects/ess-research/experiments/pg-maintenance/fixed-target-cpu/analyze_fixed_target_cpu.py",
+  "experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1/measurement/raw-observations.json",
+  "--output-dir",
+  "experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1/analysis"
+]

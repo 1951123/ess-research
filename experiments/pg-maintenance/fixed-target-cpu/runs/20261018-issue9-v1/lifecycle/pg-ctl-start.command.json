@@ -1,0 +1,11 @@
+[
+  "/tmp/ess-pg-issue9-install/bin/pg_ctl",
+  "-D",
+  "/tmp/ess-pg-issue9-cpu-20261018/data",
+  "-o",
+  "-k /tmp/ess-pg-issue9-cpu-20261018/socket -p 55439 -c autovacuum=off",
+  "-l",
+  "experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1/lifecycle/server.log",
+  "start",
+  "-w"
+]

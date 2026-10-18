@@ -1,0 +1,363 @@
+{
+  "bootstrap": {
+    "interval": "percentile 95% interval for signed predicted-minus-observed median incremental CPU error",
+    "replicates": 5000,
+    "resampling_seed_derivation": "campaign seed + target*1000 + len(regime)*17 + subset cardinality",
+    "unit": "randomized repetition block containing all 32 conditions"
+  },
+  "comparison_definition": {
+    "baseline": "median CPU(empty)",
+    "observed_increment": "median CPU(M) - median CPU(empty)",
+    "predicted_increment": "sum_e median CPU({e}) - (|M|-1)*median CPU(empty)",
+    "primary_unit": "backend user+system CPU microseconds",
+    "signed_error": "predicted_increment - observed_increment",
+    "wall_round_trip_not_used": true
+  },
+  "comparisons": [
+    {
+      "absolute_additivity_error_cpu_us": 159.5,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        40.0,
+        319.5124999999998
+      ],
+      "bootstrap_error_median_cpu_us": 158.5,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 9901.5,
+      "predicted_median_increment_cpu_us": 10061.0,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.01610867040347422,
+      "signed_additivity_error_cpu_us": 159.5,
+      "subset": [
+        "ab",
+        "bc"
+      ],
+      "subset_id": "ab+bc",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 49.0,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -186.0,
+        282.0124999999998
+      ],
+      "bootstrap_error_median_cpu_us": 31.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 9980.0,
+      "predicted_median_increment_cpu_us": 10029.0,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.004909819639278557,
+      "signed_additivity_error_cpu_us": 49.0,
+      "subset": [
+        "ab",
+        "cd"
+      ],
+      "subset_id": "ab+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 200.0,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        44.487500000000004,
+        379.5
+      ],
+      "bootstrap_error_median_cpu_us": 201.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 9821.0,
+      "predicted_median_increment_cpu_us": 10021.0,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.020364524997454433,
+      "signed_additivity_error_cpu_us": 200.0,
+      "subset": [
+        "bc",
+        "cd"
+      ],
+      "subset_id": "bc+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 56.5,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -101.02499999999999,
+        424.5124999999998
+      ],
+      "bootstrap_error_median_cpu_us": 65.5,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 14999.0,
+      "predicted_median_increment_cpu_us": 15055.5,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.003766917794519635,
+      "signed_additivity_error_cpu_us": 56.5,
+      "subset": [
+        "ab",
+        "bc",
+        "cd"
+      ],
+      "subset_id": "ab+bc+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 1364.0,
+      "baseline_median_cpu_us": 7.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -562.3625,
+        2581.0249999999996
+      ],
+      "bootstrap_error_median_cpu_us": 1208.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 30195.5,
+      "predicted_median_increment_cpu_us": 31559.5,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.04517229388485039,
+      "signed_additivity_error_cpu_us": 1364.0,
+      "subset": [
+        "ab",
+        "bc"
+      ],
+      "subset_id": "ab+bc",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 165.5,
+      "baseline_median_cpu_us": 7.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -1476.5,
+        2105.649999999998
+      ],
+      "bootstrap_error_median_cpu_us": -84.5,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 31251.0,
+      "predicted_median_increment_cpu_us": 31085.5,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": -0.0052958305334229305,
+      "signed_additivity_error_cpu_us": -165.5,
+      "subset": [
+        "ab",
+        "cd"
+      ],
+      "subset_id": "ab+cd",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 1335.0,
+      "baseline_median_cpu_us": 7.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -9.562499999999979,
+        2688.0249999999996
+      ],
+      "bootstrap_error_median_cpu_us": 1335.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 30572.0,
+      "predicted_median_increment_cpu_us": 31907.0,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.043667408085830174,
+      "signed_additivity_error_cpu_us": 1335.0,
+      "subset": [
+        "bc",
+        "cd"
+      ],
+      "subset_id": "bc+cd",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 3917.0,
+      "baseline_median_cpu_us": 7.0,
+      "bootstrap_error_ci95_cpu_us": [
+        2884.4249999999997,
+        5365.137499999998
+      ],
+      "bootstrap_error_median_cpu_us": 3959.25,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 43359.0,
+      "predicted_median_increment_cpu_us": 47276.0,
+      "regime": "weakassoc",
+      "relative_error_to_observed_increment": 0.09033879932655274,
+      "signed_additivity_error_cpu_us": 3917.0,
+      "subset": [
+        "ab",
+        "bc",
+        "cd"
+      ],
+      "subset_id": "ab+bc+cd",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 17.5,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -99.5,
+        141.01249999999982
+      ],
+      "bootstrap_error_median_cpu_us": 14.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 4483.5,
+      "predicted_median_increment_cpu_us": 4501.0,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.0039032006245121,
+      "signed_additivity_error_cpu_us": 17.5,
+      "subset": [
+        "ab",
+        "bc"
+      ],
+      "subset_id": "ab+bc",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 163.0,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        38.5,
+        320.5124999999998
+      ],
+      "bootstrap_error_median_cpu_us": 178.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 4237.5,
+      "predicted_median_increment_cpu_us": 4400.5,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.03846607669616519,
+      "signed_additivity_error_cpu_us": 163.0,
+      "subset": [
+        "ab",
+        "cd"
+      ],
+      "subset_id": "ab+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 201.0,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -56.512499999999996,
+        305.5
+      ],
+      "bootstrap_error_median_cpu_us": 172.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 4750.5,
+      "predicted_median_increment_cpu_us": 4951.5,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.04231133564887907,
+      "signed_additivity_error_cpu_us": 201.0,
+      "subset": [
+        "bc",
+        "cd"
+      ],
+      "subset_id": "bc+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 151.5,
+      "baseline_median_cpu_us": 5.0,
+      "bootstrap_error_ci95_cpu_us": [
+        -16.512499999999996,
+        320.0
+      ],
+      "bootstrap_error_median_cpu_us": 141.0,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 6775.0,
+      "predicted_median_increment_cpu_us": 6926.5,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.022361623616236163,
+      "signed_additivity_error_cpu_us": 151.5,
+      "subset": [
+        "ab",
+        "bc",
+        "cd"
+      ],
+      "subset_id": "ab+bc+cd",
+      "target": 100
+    },
+    {
+      "absolute_additivity_error_cpu_us": 1513.5,
+      "baseline_median_cpu_us": 6.5,
+      "bootstrap_error_ci95_cpu_us": [
+        563.5,
+        2791.5249999999996
+      ],
+      "bootstrap_error_median_cpu_us": 1629.5,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 14364.5,
+      "predicted_median_increment_cpu_us": 15878.0,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.10536391799227261,
+      "signed_additivity_error_cpu_us": 1513.5,
+      "subset": [
+        "ab",
+        "bc"
+      ],
+      "subset_id": "ab+bc",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 1328.0,
+      "baseline_median_cpu_us": 6.5,
+      "bootstrap_error_ci95_cpu_us": [
+        460.425,
+        2272.5125
+      ],
+      "bootstrap_error_median_cpu_us": 1320.25,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 14404.5,
+      "predicted_median_increment_cpu_us": 15732.5,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.09219341178104065,
+      "signed_additivity_error_cpu_us": 1328.0,
+      "subset": [
+        "ab",
+        "cd"
+      ],
+      "subset_id": "ab+cd",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 776.0,
+      "baseline_median_cpu_us": 6.5,
+      "bootstrap_error_ci95_cpu_us": [
+        -603.075,
+        2318.5125
+      ],
+      "bootstrap_error_median_cpu_us": 756.5,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 16511.5,
+      "predicted_median_increment_cpu_us": 17287.5,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.04699754716409775,
+      "signed_additivity_error_cpu_us": 776.0,
+      "subset": [
+        "bc",
+        "cd"
+      ],
+      "subset_id": "bc+cd",
+      "target": 300
+    },
+    {
+      "absolute_additivity_error_cpu_us": 1251.0,
+      "baseline_median_cpu_us": 6.5,
+      "bootstrap_error_ci95_cpu_us": [
+        -471.59999999999997,
+        3165.5249999999996
+      ],
+      "bootstrap_error_median_cpu_us": 1534.25,
+      "bootstrap_replicates": 5000,
+      "observed_median_increment_cpu_us": 23198.0,
+      "predicted_median_increment_cpu_us": 24449.0,
+      "regime": "correlated",
+      "relative_error_to_observed_increment": 0.05392706267781705,
+      "signed_additivity_error_cpu_us": 1251.0,
+      "subset": [
+        "ab",
+        "bc",
+        "cd"
+      ],
+      "subset_id": "ab+bc+cd",
+      "target": 300
+    }
+  ],
+  "experiment": "issue-9-pg16-fixed-target-extstats-cpu",
+  "raw_observations_sha256": "1aaf7d750c09d99958fc60f33528f014a9451a83007d66dc1c3ffaa2ed8e24b5",
+  "repetitions": 20,
+  "schema_version": 1,
+  "seed": 20261018
+}
