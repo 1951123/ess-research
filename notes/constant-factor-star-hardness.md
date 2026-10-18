@@ -253,6 +253,13 @@ A local stdlib-Python combinatorial cross-check was performed on
   of uncovered elements; each optimum agreed with maximum coverage
   under the same cardinality budget.
 
+An executable, independently enumerating version of these checks is now
+committed as [`ci/test_theory_star_reductions.py`](../ci/test_theory_star_reductions.py).
+Run it with `python -m pytest -q ci/test_theory_star_reductions.py`;
+GitHub Actions lists this test explicitly in the offline test job. It
+enumerates maximal matchings rather than assuming (1) as an oracle, checks
+each selected subset, and verifies the two case/selection counts quoted above.
+
 These are arithmetic/graph-combinatorics checks of the reductions,
 **not** experimental measurements of PostgreSQL and not formal proofs
 or a claim of certified solver output. The proofs above stand
