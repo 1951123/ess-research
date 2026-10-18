@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only integrity checks for committed PostgreSQL experiment evidence.
+"""Read-only integrity checks for committed experiment evidence.
 
 The historical manifests use two path conventions: paths relative to the
 manifest's directory, and repository-root-relative paths beginning with
@@ -95,7 +95,7 @@ def verify_manifest(manifest: Path, root: Path, *, complete: bool = False) -> tu
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     historical = [root / path for path in EXPECTED_MANIFESTS]
-    discovered = sorted((root / "experiments").rglob("SHA256SUMS"))
+    discovered = sorted((root / "experiments").rglob("*SHA256SUMS"))
     manifests = sorted(set(historical).union(discovered))
     errors: list[str] = []
     files_checked = 0
