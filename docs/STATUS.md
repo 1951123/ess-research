@@ -54,6 +54,7 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 14. [ess-research PR #16](https://github.com/1951123/ess-research/pull/16) — bounded Forest10 offline ETL and CI; **merged 2026-10-18**. [Issue #15](https://github.com/1951123/ess-research/issues/15) acceptance allows explicit missing-input blocker; optional full-data check remains **BLOCKED / NOT RUN**.
 15. [ess-research PR #18](https://github.com/1951123/ess-research/pull/18) — Issue #17 real Forest10 acquisition and ETL validation; **Draft, derived canonical and strict split ETL verified, latest review follow-up implemented on the original branch**.
 16. [ess-research Issue #14](https://github.com/1951123/ess-research/issues/14) — decision value and price of pessimism; **open**.
+17. [ess-research PR #20](https://github.com/1951123/ess-research/pull/20) — Issue #14 model-level decision value matrix and exact shared-order evaluation; **Draft, unmerged** on `experiment/issue14`.
 
 The runtime evidence was originally committed on `experiment/pg-mcv-trace-20261017` and has since been merged into `ess-research/main`. The PostgreSQL instrumentation was likewise merged into `ess-postgresql/main`; local clones are independent and require fetching/integrating these updates. Recheck PR state when resuming.
 
