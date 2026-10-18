@@ -113,6 +113,30 @@ type/invalid-record diagnostics; its current SHA256 is
 change did not affect valid-input conversion semantics, and the hashes are
 recorded separately rather than pretending the post-run file was executed.
 
+## Committed-script replay
+
+To resolve the script-provenance distinction, the checked-in converter at the
+PR head was rerun against the same two exact SHA256-pinned inputs, writing only
+to a new experiment-owned temporary output. The replay used Python 3.12.3 and
+NumPy 2.5.4, with the same network-disabled user-service restrictions. The
+script hash at replay was
+`8bb894256124cb94c9695c3140963fedfeabf18ba8ae281ecbb6439cdf14fc45`.
+
+The replay output SHA256 was
+`a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3`, with
+4,657,261 bytes, and was byte-for-byte identical to the preserved v1 derived
+artifact. Rebuilding both splits through the ordinary ETL path into fresh
+temporary directories produced byte-identical valid and test manifests,
+workloads, and truth artifacts:
+
+| Split | Manifest | Workload | Truth |
+|---|---|---|---|
+| valid | `62c14c7de8db1d1c7fa8a0b9a138951c7b28c1fac72a2bf30d1b0fde9d8adb20` | `803469c0de351211abd330fbfdb650f3805880605c8f38956a81f7e106085515` | `768fe20a91b8e140a08cbe421cbccc7c8ffe16144b4c02418982c81143383c4b` |
+| test | `66a3744ad816b74d5c6282f0c8b5fdec22d2311d39541c44ba804dc927ce789f` | `4c059f5321491e34eb9b64a6e6636163071adda8bbef5036ca93f02e7d3b0180` | `a962f13c7163e698048428df42aea5c1ea80824409cf979accea726fe83e14ef` |
+
+This establishes reproducibility of the committed script without relabeling
+the earlier v1 artifact as having been produced by that later source file.
+
 ## Independent record checks
 
 An independent read-only check verified:
@@ -123,7 +147,7 @@ An independent read-only check verified:
 | Valid/test split | 10,000 / 10,000 |
 | Unique stable IDs | 20,000 |
 | Contiguous source order in each split | pass |
-| Source-SQL SHA256 matches | 20,000 / 20,000 |
+| Stored source-SQL self-hashes | 20,000 / 20,000 |
 | Exact nonnegative truth cardinalities | 20,000 / 20,000 |
 | Finite positive weights | 20,000 / 20,000 |
 
@@ -131,9 +155,15 @@ IDs are `arecel:forest10:{split}:{index:06d}` in the canonical source and
 `arecel_forest10_{split}_{index:06d}` in ETL output. Predicate provenance,
 reconstructed COUNT SQL, source-label cardinality/selectivity, split, source
 order, and the unit-weight policy are retained. The pinned `Query` objects do
-not contain SQL strings; therefore the COUNT SQL is a deterministic
-reconstruction of their ordered predicate map under the documented source
-renderer, and is then preserved and SHA256-bound as canonical provenance.
+not contain SQL strings. The pinned upstream renderer preserves ordered
+predicates, emits one parenthesized `BETWEEN` expression for `[]` when
+`split=False`, and otherwise emits the original operator/value. The v1
+canonical renderer is an adapted contract for this ETL: it adds
+`public.` qualification, quotes source identifiers, removes the redundant
+`BETWEEN` parentheses, and adds a semicolon. Thus the stored SQL is a
+deterministic reconstruction with preserved predicate semantics and order, not
+claimed byte-for-byte original SQL. Its self-hash is SHA256-bound as canonical
+provenance.
 
 ## Strict ETL execution
 
@@ -198,10 +228,10 @@ selection, maximal-matching behavior, or runtime-model applicability.
 
 ## Tests and remaining limitation
 
-The focused ETL suite, including positive and negative derived-audit tests,
-passed: **20 passed**. The converter's no-flag negative gate returned exit 2
-without creating output. The full CI-equivalent offline selection passed:
-**51 passed**, and the standalone evidence checker verified **4 manifests / 131
+The focused ETL and converter-boundary suite passed after the replay: **26
+passed**. The converter's no-flag negative gate returned exit 2 without
+creating output. The full CI-equivalent offline selection passed: **57
+passed**, and the standalone evidence checker verified **4 manifests / 131
 committed evidence files**. Raw data, pickle inputs, and large derived outputs
 remain outside Git. The result is a versioned derived canonical contract, not
 the unavailable historical canonical byte stream. The eligibility count must

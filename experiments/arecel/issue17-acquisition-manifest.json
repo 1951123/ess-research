@@ -55,6 +55,35 @@
       "conversion_script_sha256_at_execution": "62d762331f26e3bd3f8e976575c47b723a0da5221c093f659bd33cba3ff3af6d",
       "conversion_script_sha256_current": "8bb894256124cb94c9695c3140963fedfeabf18ba8ae281ecbb6439cdf14fc45",
       "post_execution_source_change": "Ruff formatting, a type annotation, an invalid-record exception-class cleanup, and use of the non-deprecated NumPy internal import; no valid-input conversion semantics changed.",
+      "replay_verification": {
+        "executed_at": "2026-10-18",
+        "script_sha256": "8bb894256124cb94c9695c3140963fedfeabf18ba8ae281ecbb6439cdf14fc45",
+        "python_version": "3.12.3",
+        "numpy_version": "2.5.4",
+        "output_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+        "output_bytes": 4657261,
+        "byte_identical_to_preserved_v1": true,
+        "valid_split_outputs_byte_identical": true,
+        "test_split_outputs_byte_identical": true,
+        "etl_replay_artifact_hashes": {
+          "valid_manifest": "62c14c7de8db1d1c7fa8a0b9a138951c7b28c1fac72a2bf30d1b0fde9d8adb20",
+          "valid_workload": "803469c0de351211abd330fbfdb650f3805880605c8f38956a81f7e106085515",
+          "valid_truth": "768fe20a91b8e140a08cbe421cbccc7c8ffe16144b4c02418982c81143383c4b",
+          "test_manifest": "66a3744ad816b74d5c6282f0c8b5fdec22d2311d39541c44ba804dc927ce789f",
+          "test_workload": "4c059f5321491e34eb9b64a6e6636163071adda8bbef5036ca93f02e7d3b0180",
+          "test_truth": "a962f13c7163e698048428df42aea5c1ea80824409cf979accea726fe83e14ef"
+        }
+      },
+      "source_sql_reconstruction": {
+        "format": "arecel-source-sql-reconstruction-v1",
+        "raw_sql_present_in_query_pickle": false,
+        "predicate_order": "ordered Query.predicates insertion order",
+        "pinned_renderer_reference": "lecarb.workload.workload.query_2_sql(query, table, aggregate=True, split=False, dbms='postgres') at the pinned upstream commit",
+        "operator_semantics": "[] is one parenthesized BETWEEN predicate when split=False; other supported operators are emitted unchanged",
+        "forest10_value_semantics": "all source columns are numeric in the pinned Forest10 table, so the upstream categorical-quoting branch is not used",
+        "derived_renderer_contract": "The v1 canonical SQL is an adapted COUNT-SQL reconstruction: it adds public qualification, quotes source identifiers, omits the renderer's redundant BETWEEN parentheses, and terminates with a semicolon. It is not claimed to be the original SQL byte stream or byte-identical to query_2_sql.",
+        "preserved_evidence": "predicate values, operators, and order are retained in source_query and the emitted SQL is SHA256-bound within each canonical record"
+      },
       "conversion": {
         "authorization": "Issue #17 researcher decision 2026-10-18",
         "network": "systemd user unit PrivateNetwork=yes",

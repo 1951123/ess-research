@@ -87,6 +87,16 @@ pickles contain no task weights. This conversion is an acquisition exception,
 not a relaxation of the normal ETL trust boundary or an invitation to load
 arbitrary pickle files.
 
+The pinned `Query` objects do not contain raw SQL strings. At the pinned
+upstream commit, `query_2_sql(..., aggregate=True, split=False, dbms='postgres')`
+iterates the ordered predicate mapping, emits `[]` as one parenthesized
+`BETWEEN` predicate, and leaves the other operators and values unchanged. The
+derived v1 renderer deliberately adapts this to the ETL source contract by
+adding `public.` qualification, quoting source identifiers, omitting redundant
+`BETWEEN` parentheses, and adding a semicolon. Consequently, canonical records
+preserve predicate values, operators, and order but do not claim byte-for-byte
+preservation of unavailable original SQL.
+
 ## Commands
 
 From the repository root:
