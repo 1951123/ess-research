@@ -21,11 +21,13 @@ max(100, 300 * max(ordinary target, extended-stat target)); the realized
 sample tuple count is not claimed to be observed.
 
 The primary measurement is the opt-in ESS_EXT_CPU_TRACE DEBUG1 record from
-the Issue #9 PostgreSQL branch. It uses backend getrusage(RUSAGE_SELF) and
-starts before the extended-statistics catalog scan and ends after statistics
-objects are serialized and persisted. The psql round-trip time is retained
-as a secondary diagnostic only. Singleton medians independently predict each
-multi-object incremental median:
+the Issue #9 PostgreSQL branch. The current instrumentation is named for MCV
+tracing but wraps the complete extended-statistics phase; this fixture enables
+only MCV objects. It uses backend getrusage(RUSAGE_SELF) and starts before the
+extended-statistics catalog scan and ends after statistics objects are
+serialized and persisted. The psql round-trip time is retained as a secondary
+diagnostic only. Singleton medians independently predict each multi-object
+incremental median:
 
 sum_e median(CPU({e})) - (|M|-1) * median(CPU(empty)).
 
@@ -35,12 +37,37 @@ run.
 
 ## Offline preflight
 
-From the repository root:
+From the repository root (pytest-style tests must be invoked through pytest):
 
-    python3 experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py
+    .venv/bin/python -m pytest -q experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py
 
-The tests validate the 640-cell schedule and replay a synthetic complete
-matrix through the same validation and bootstrap analysis path.
+The tests validate the 640-cell schedule, replay the committed v1 matrix
+through the strict validator, and exercise negative metadata and trace-order
+cases. The parser requires all CPU telemetry to be present in one ordered
+stream; the v1 logs contain all 1,280 traces in stderr.
+
+The recorded validation environment used pytest 8.4.2. The actual final test
+outputs were:
+
+    $ .venv/bin/python -m pytest --version
+    pytest 8.4.2
+    $ .venv/bin/python -m pytest -q experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py
+    ........                                                                 [100%]
+    8 passed in 0.62s
+    # exit status: 0
+    $ .venv/bin/python -m pytest -q experiments/pg-maintenance/test_analyze_benchmark.py experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py
+    ..............                                                           [100%]
+    14 passed in 0.68s
+    # exit status: 0
+
+The complete v1 run directory is covered by `SHA256SUMS`, except for the
+manifest itself and the `checksums-verify.txt` transcript. Regenerate and
+verify the derived manifest without touching raw measurements with:
+
+    .venv/bin/python experiments/pg-maintenance/fixed-target-cpu/make_manifest.py \
+      experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1
+    .venv/bin/python experiments/pg-maintenance/fixed-target-cpu/make_manifest.py \
+      experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1 --verify
 
 ## Isolated campaign
 

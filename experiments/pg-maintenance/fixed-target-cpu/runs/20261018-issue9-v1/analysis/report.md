@@ -10,7 +10,7 @@ This report uses the opt-in backend getrusage(RUSAGE_SELF) trace around the comp
 - Environment and binary provenance: ../environment.json; checksums: ../SHA256SUMS.
 - Cleanup evidence: ../cleanup-status.json; the database was absent while the private server was running and the server then stopped.
 - Every cell has one warm-up and one timed CPU trace; metadata validates ordinary targets, MCV targets, payload presence, OIDs, and trace relation identity.
-- Requested sample rows are source-derived as max(100, 300 * max(target)): 30,000 at target 100 and 90,000 at target 300. Realized sample rows were not claimed or measured.
+- Requested sample rows are source-derived as max(100, 300 * max(target)): 30,000 at target 100 and 90,000 at target 300. Realized sample rows were not claimed or measured. The fixed-target control therefore fixes the requested sampling target, not the actual realized tuple sample (S_t); standard ANALYZE sampling was not replaced by a captured-and-replayed sample.
 
 ## Independent singleton prediction
 
@@ -38,12 +38,19 @@ Signed error is predicted incremental CPU minus observed incremental CPU; positi
 Using a transparent descriptive tolerance of 10% relative error against the
 observed incremental CPU (only where that denominator is nonzero), 15 of 16
 comparisons are within the tolerance; correlated/target-300/ab+bc is the one
-slightly above it at 10.54%. Six of 16 bootstrap intervals exclude zero. These
-counts are fixture-scoped summaries, not an equivalence test or a claim that
-the other ten intervals establish exact additivity.
+slightly above it at 10.54%. Six of 16 bootstrap intervals exclude zero. The
+10% count is only a descriptive point estimate, not an equivalence confidence
+statement: for example, the correlated/target-300/ab+bc bootstrap interval is
+[563.5, 2791.5] us while its observed increment is 14364.5 us, so its upper
+endpoint is about 19.4% of the observed increment. These counts are
+fixture-scoped summaries, not an equivalence test or a claim that the other
+ten intervals establish exact additivity.
 
 ## Interpretation boundary
 
 The singleton construction is an independent prediction of whole-phase CPU medians; it does not add per-object timings from the same multi-object run. A confidence interval containing zero does not prove exact additivity, and an interval excluding zero is evidence only for the stated fixture, target, build, and horizon. The campaign does not measure future refreshes or establish a universal PostgreSQL maintenance law.
 
-The fixed target controls ordinary-column and explicit MCV statistics targets. The source-derived requested sample formula is a control invariant, not an observation of the realized sample tuple count.
+The fixed target controls ordinary-column and explicit MCV statistics targets.
+The source-derived requested sample formula is a control invariant, not an
+observation of the realized sample tuple count; consequently, this campaign
+does not establish equivalence for a fixed realized reference sample.

@@ -236,16 +236,21 @@ def parse_psql_output(
     if len(runs) != expected or len(times) != expected:
         raise RuntimeError(f"expected {expected} RUN/Time lines, found {len(runs)}/{len(times)}")
 
-    traces = []
+    stream_traces = {}
     for stream_name, stream in (("stdout", stdout), ("stderr", stderr)):
-        for line in stream.splitlines():
-            match = TRACE_RE.search(line)
-            if match:
-                traces.append((stream_name, match))
-    if len(traces) != 2 * expected:
+        matches = [match for line in stream.splitlines() if (match := TRACE_RE.search(line))]
+        if matches:
+            stream_traces[stream_name] = matches
+    if len(stream_traces) != 1:
         raise RuntimeError(
-            f"expected {2 * expected} CPU traces (warmup + timed), found {len(traces)}; "
-            "raw logs are retained for diagnosis"
+            "CPU telemetry must be present in exactly one ordered stream; "
+            f"found streams: {sorted(stream_traces)}"
+        )
+    trace_stream, trace_matches = next(iter(stream_traces.items()))
+    if len(trace_matches) != 2 * expected:
+        raise RuntimeError(
+            f"expected {2 * expected} CPU traces (warmup + timed), found {len(trace_matches)}; "
+            f"stream={trace_stream}; raw logs are retained for diagnosis"
         )
 
     observations: list[dict] = []
@@ -256,17 +261,15 @@ def parse_psql_output(
             run["condition_id"], run["repetition"], run["order_index"]
         ):
             raise RuntimeError(f"RUN routing mismatch at schedule index {index}: {run}")
-        warmup_stream, warmup_match = traces[2 * index]
-        timed_stream, timed_match = traces[2 * index + 1]
-        warmup = _trace_record(warmup_stream, warmup_match)
-        timed = _trace_record(timed_stream, timed_match)
+        warmup = _trace_record(trace_stream, trace_matches[2 * index])
+        timed = _trace_record(trace_stream, trace_matches[2 * index + 1])
         if warmup["relid"] != timed["relid"]:
             raise RuntimeError(f"warmup/timed relation mismatch at {condition.condition_id}")
         row = asdict(condition)
         row.update(run)
         row.update({
             "psql_elapsed_ms": elapsed_ms,
-            "trace_stream": timed_stream,
+            "trace_stream": trace_stream,
             "warmup_cpu_trace": warmup,
             "cpu_trace": timed,
         })
@@ -308,7 +311,7 @@ def parse_psql_output(
                 "targets": target_map,
             })
     return observations, metadata, [
-        {"stream": stream, "text": match.group(0)} for stream, match in traces
+        {"stream": trace_stream, "text": match.group(0)} for match in trace_matches
     ]
 
 
@@ -325,24 +328,43 @@ def _trace_record(stream: str, match: re.Match[str]) -> dict:
     }
 
 
+def validate_cpu_trace_pair(row: dict, condition: Condition) -> None:
+    expected_count = len(condition.subset)
+    warmup = row["warmup_cpu_trace"]
+    timed = row["cpu_trace"]
+    if warmup["stream"] != timed["stream"]:
+        raise RuntimeError(f"warmup/timed trace stream mismatch for {condition.condition_id}")
+    if row.get("trace_stream") != timed["stream"]:
+        raise RuntimeError(f"observation/trace stream mismatch for {condition.condition_id}")
+    for phase, trace in (("warmup", warmup), ("timed", timed)):
+        if trace["stats_count"] != expected_count or trace["built_count"] != expected_count:
+            raise RuntimeError(f"{phase} trace count mismatch for {condition.condition_id}")
+        if trace["relid"] <= 0:
+            raise RuntimeError(f"invalid {phase} trace relation for {condition.condition_id}")
+        if trace["cpu_us"] < 0 or trace["user_us"] < 0 or trace["system_us"] < 0:
+            raise RuntimeError(f"negative {phase} CPU measurement for {condition.condition_id}")
+        if trace["cpu_us"] != trace["user_us"] + trace["system_us"]:
+            raise RuntimeError(f"{phase} CPU decomposition mismatch for {condition.condition_id}")
+
+
 def validate(observations: list[dict], metadata: list[dict], repetitions: int) -> None:
     conditions = {condition.condition_id: condition for condition in condition_list()}
     expected = len(conditions) * repetitions
     if len(observations) != expected:
         raise RuntimeError(f"expected {expected} observations, found {len(observations)}")
     keys = {(row["condition_id"], row["repetition"]) for row in observations}
-    if len(keys) != expected:
-        raise RuntimeError("duplicate or missing condition/repetition observation")
+    expected_keys = {
+        (condition_id, repetition)
+        for condition_id in conditions
+        for repetition in range(1, repetitions + 1)
+    }
+    if keys != expected_keys:
+        raise RuntimeError("duplicate, missing, or unexpected condition/repetition observation")
     for row in observations:
+        if row["condition_id"] not in conditions:
+            raise RuntimeError(f"unknown condition in observation: {row['condition_id']}")
         condition = conditions[row["condition_id"]]
-        trace = row["cpu_trace"]
-        expected_count = len(condition.subset)
-        if trace["stats_count"] != expected_count or trace["built_count"] != expected_count:
-            raise RuntimeError(f"trace count mismatch for {row['condition_id']}")
-        if trace["cpu_us"] < 0 or trace["user_us"] < 0 or trace["system_us"] < 0:
-            raise RuntimeError(f"negative CPU measurement for {row['condition_id']}")
-        if trace["cpu_us"] != trace["user_us"] + trace["system_us"]:
-            raise RuntimeError(f"CPU decomposition mismatch for {row['condition_id']}")
+        validate_cpu_trace_pair(row, condition)
     ordinary = [row for row in metadata if row["kind"] == "ordinary"]
     extended = [row for row in metadata if row["kind"] == "extended"]
     if len(ordinary) != expected:
@@ -363,21 +385,33 @@ def validate(observations: list[dict], metadata: list[dict], repetitions: int) -
             raise RuntimeError(f"ordinary target mismatch for {row['condition_id']}")
     for cell, rows in extended_by_cell.items():
         condition = conditions[cell[0]]
-        names = {object_name(condition.table, edge) for edge in condition.subset}
-        if len(rows) != 1 and not names:
-            raise RuntimeError(f"multiple empty metadata records for {cell}")
-        observed_names = {row["name"] for row in rows}
-        if not names:
-            if observed_names != {None}:
-                raise RuntimeError(f"unexpected MCV metadata for empty {cell}")
-        elif observed_names != names:
-            raise RuntimeError(f"MCV object coverage mismatch for {cell}")
-        for row in rows:
-            if row["name"] is not None and (
-                row["statistics_target"] != condition.target
-                or not row["mcv_payload_built"]
+        expected_names = [object_name(condition.table, edge) for edge in condition.subset]
+        expected_name_set = set(expected_names)
+        if not expected_names:
+            if len(rows) != 1 or rows[0]["name"] is not None:
+                raise RuntimeError(f"expected exactly one empty MCV metadata record for {cell}")
+        else:
+            observed_names = [row["name"] for row in rows]
+            if (
+                len(rows) != len(expected_names)
+                or any(name not in expected_name_set for name in observed_names)
+                or len(observed_names) != len(set(observed_names))
+                or set(observed_names) != expected_name_set
             ):
-                raise RuntimeError(f"MCV target/payload mismatch for {cell}")
+                raise RuntimeError(f"MCV object coverage mismatch for {cell}")
+        for row in rows:
+            if row["name"] is not None:
+                if row["statistics_target"] != condition.target or not row["mcv_payload_built"]:
+                    raise RuntimeError(f"MCV target/payload mismatch for {cell}")
+                if (
+                    not isinstance(row["oid"], int)
+                    or isinstance(row["oid"], bool)
+                    or row["oid"] <= 0
+                ):
+                    raise RuntimeError(f"invalid MCV object OID for {cell}")
+    nonempty_oids = [row["oid"] for row in extended if row["name"] is not None]
+    if len(nonempty_oids) != len(set(nonempty_oids)):
+        raise RuntimeError("duplicate MCV object OID across metadata records")
     for row in observations:
         cell = (row["condition_id"], row["repetition"])
         if row["cpu_trace"]["relid"] != ordinary_by_cell[cell]["table_oid"]:
