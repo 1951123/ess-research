@@ -8,7 +8,7 @@
         "nominal": 1,
         "pess": 1
       },
-      "elapsed_seconds": 0.06387582699971972
+      "elapsed_seconds": 0.06329720600115252
     },
     {
       "budget": "2",
@@ -17,7 +17,7 @@
         "nominal": 10,
         "pess": 10
       },
-      "elapsed_seconds": 0.2308341019997897
+      "elapsed_seconds": 0.2218999110009463
     },
     {
       "budget": "3",
@@ -26,7 +26,7 @@
         "nominal": 20,
         "pess": 20
       },
-      "elapsed_seconds": 0.43583104999925126
+      "elapsed_seconds": 0.42663333699965733
     },
     {
       "budget": "5",
@@ -35,7 +35,7 @@
         "nominal": 44,
         "pess": 44
       },
-      "elapsed_seconds": 1.0883385010001803
+      "elapsed_seconds": 1.0169039590000466
     }
   ],
   "canonical_artifacts": {
@@ -72,7 +72,7 @@
   },
   "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
   "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
-  "research_repo_commit": "b84718369ef12150928348fcbcd1cae2b2ba2164",
+  "research_repo_commit": "8ae1c6e29db660fbbeca0073c0537640ac3e0915",
   "verification_commands": [
     {
       "command": "python3 experiments/forest10-decision/run_experiment.py",
