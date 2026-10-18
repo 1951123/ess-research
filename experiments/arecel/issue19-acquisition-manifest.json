@@ -1,0 +1,114 @@
+{
+  "format": "arecel-issue19-acquisition-manifest-v1",
+  "issue": 19,
+  "upstream": {
+    "repository": "https://github.com/sfu-db/AreCELearnedYet",
+    "commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "code_license": "MIT",
+    "data_license_status": "Pinned README supplies a download URL but no separate data-redistribution license statement"
+  },
+  "archive": {
+    "url": "https://www.dropbox.com/s/5bmvc1si5hysapf/data.tar.gz?dl=0",
+    "sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "acquisition_status": "reused from the separately verified Issue #17 local staging root; SHA and members rechecked",
+    "raw_data_committed": false
+  },
+  "execution": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "pytest": "8.4.2",
+    "ruff": "0.17.1",
+    "converter_script_sha256": "398e969faaa37e49a5cf65189c678662839797fd4ae4155fdcc2e6cbe9017c77",
+    "etl_module_sha256": "c9a70dc79ddf5343cdb131493896cb636e131630677f63bcf6378f37636cdd1d",
+    "pairwise_script_sha256": "06a97a830ca763de50cf13da11b59707cae457b760a5bdfb7907736cc6def5fb",
+    "pickle_conversion_controls": {
+      "private_network": true,
+      "no_new_privileges": true,
+      "restrict_address_families": ["AF_UNIX"],
+      "memory_max": "2G",
+      "cpu_limit": "120s",
+      "regular_etl_deserializes_pickle": false
+    },
+    "audit_manifest_sha256": "51be8e2bc6782af5facf726cc292d46ad82a2063d1a195dfa535373f7b1b1a68"
+  },
+  "datasets": {
+    "census13": {
+      "benchmark_id": "arecel-census13",
+      "relation": "public.census13",
+      "rows": 48842,
+      "columns": [
+        ["age", "DOUBLE PRECISION"], ["workclass", "VARCHAR(64)"], ["education", "VARCHAR(64)"], ["education_num", "DOUBLE PRECISION"], ["marital_status", "VARCHAR(64)"], ["occupation", "VARCHAR(64)"], ["relationship", "VARCHAR(64)"], ["race", "VARCHAR(64)"], ["sex", "VARCHAR(64)"], ["capital_gain", "DOUBLE PRECISION"], ["capital_loss", "DOUBLE PRECISION"], ["hours_per_week", "DOUBLE PRECISION"], ["native_country", "VARCHAR(64)"]
+      ],
+      "type_counts": {"DOUBLE PRECISION": 5, "VARCHAR(64)": 8},
+      "not_null": true,
+      "null_counts": 0,
+      "source_sha256": {
+        "csv": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+        "workload_pickle": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba",
+        "label_pickle": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451",
+        "derived_canonical": "fc31f94d1deb83ba67cc1144d2628f0f8fe9d1f17597d766e2829f0e83788035",
+        "historical_canonical_reference": "9bcfc868effee9a796fff08454eeb85f135049e862ee0eb2dd801831d7df9388"
+      },
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "pairwise_scope": {"eligible": 110802, "total": 120000, "diagnostic_sha256": "038913aac86ac5cd9046293b3ed9054ee6265a2da847a816e3a11523a6822c43"},
+      "etl_artifacts": {
+        "train": {"manifest": "2cc47472823359f97133f32e1cf3f3ec32a67b8aaf730008f2eecc1f7cdd632f", "workload": "e5b77142da55207710b32fd25f5cccad357b6927c1f287d7551db91e3336386a", "truth": "be796bf6e23ed37770308179dd2c7ae5878558da480c6d935af88ba0b2e852bf"},
+        "valid": {"manifest": "c1555233640fcd1a59de58ca4e4248e09816030dcb95f9cc364cb65718032ae6", "workload": "c1979d527e0d07c501d4fda7c1a05279a6ab78281bb2e92dd28a3f982abf9760", "truth": "80d42a0bff90256834b2a7e1f3d1c1181fbb54137ed2e608150591ab12b56544"},
+        "test": {"manifest": "c03abe317da7c628a6abdae9fdbceb6b910e9b9f56466c7a236b8106103137f1", "workload": "bcae8b5722b3c09f02209227aeedaf887ca90b21336890116fe7ce575ec6804c", "truth": "03c296df23bf11cd5981b0f21f2af202a08fb0b46056e242f2e3808480d59e25"}
+      }
+    },
+    "dmv11": {
+      "benchmark_id": "arecel-dmv11",
+      "relation": "public.dmv11",
+      "rows": 11591877,
+      "columns": [["record_type", "VARCHAR(64)"], ["registration_class", "VARCHAR(64)"], ["state", "VARCHAR(64)"], ["county", "VARCHAR(64)"], ["body_type", "VARCHAR(64)"], ["fuel_type", "VARCHAR(64)"], ["reg_valid_date", "DOUBLE PRECISION"], ["color", "VARCHAR(64)"], ["scofflaw_indicator", "VARCHAR(64)"], ["suspension_indicator", "VARCHAR(64)"], ["revocation_indicator", "VARCHAR(64)"]],
+      "type_counts": {"DOUBLE PRECISION": 1, "VARCHAR(64)": 10},
+      "not_null": false,
+      "null_counts": 0,
+      "source_sha256": {
+        "csv": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+        "workload_pickle": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc",
+        "label_pickle": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+        "derived_canonical": "f4e6f5747248b0ead853fa71c7f9931c8db79a16dea219c44e53ddf449850632",
+        "historical_canonical_reference": "71bb6e3c61da5ab1096cc52d41e7f696d486e4a3ba1c4586c01119df26fe9f40"
+      },
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "pairwise_scope": {"eligible": 109129, "total": 120000, "diagnostic_sha256": "74313e7da113508cb1e0368001ba4f39cb2e099543285fe870c0262ded86d580"},
+      "etl_artifacts": {
+        "train": {"manifest": "6a7037a823456ff55535ba26fc1af8e0f2a340f71a4cbbd240524b761b9ee4a4", "workload": "3385fa81196afc27edf757a24ad79a286ab649f2d5a892e5cc14c70e1e80d058", "truth": "f95a6a0c1db8af795c2161ac1b538222dbedfd135c38c014f98d859cdf8b4bfd"},
+        "valid": {"manifest": "9b7945a4c79130e6783e3a144c7377fdd824e68809d8744cf8c44d1f9f5de923", "workload": "bdc3ae46844f23351c2b5193dd2ebe8a44895222b711c5f8787bd525ae8befc9", "truth": "08c732d5c036c76763e8739d5d97c2a949aa7834903cd20cc416a6069998b362"},
+        "test": {"manifest": "95eb62c1c02eef38e462ddaeedc05550207d1f8718bcca6bd34287c56ed444b0", "workload": "f5984d3233dd8c87ace8494059234257ea75369107a503647a9c28b3f0ebeccf", "truth": "497ba05500bdc7188b3d8ed063670924f42729bbf228a2db1220bb7e4adc875f"}
+      }
+    },
+    "power7": {
+      "benchmark_id": "arecel-power7",
+      "relation": "public.power7",
+      "rows": 2075259,
+      "columns": [["global_active_power", "DOUBLE PRECISION"], ["global_reactive_power", "DOUBLE PRECISION"], ["voltage", "DOUBLE PRECISION"], ["global_intensity", "DOUBLE PRECISION"], ["sub_metering_1", "DOUBLE PRECISION"], ["sub_metering_2", "DOUBLE PRECISION"], ["sub_metering_3", "DOUBLE PRECISION"]],
+      "type_counts": {"DOUBLE PRECISION": 7},
+      "not_null": false,
+      "null_counts": 0,
+      "source_sha256": {
+        "csv": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9",
+        "workload_pickle": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5",
+        "label_pickle": "d7369b34d2ddc866dbb16c3b2f5147cb10a86832dba54c905ef400bc3514cdf5",
+        "derived_canonical": "332f645d9aafaf1e1068c79898bec690446aeb484f59099d1d0b8109db2df64c",
+        "historical_canonical_reference": "9f1b11d72bcefe9d76cd83b1f995a6d6f4e0922434975550e2d5783425152327"
+      },
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "pairwise_scope": {"eligible": 102967, "total": 120000, "diagnostic_sha256": "b8787a9773cba72e6f9155facddffd723e16c7de055c8b9101258c9fb66fd14f"},
+      "etl_artifacts": {
+        "train": {"manifest": "5e687dc8c28921ff837565e07c651ee2a0b9b5f63c35692d6ac9969aaddc0d92", "workload": "65b7925f69f3f9a77100c946df5a0f7a6b5901a91e667df5be99cf65e0b69bf7", "truth": "687950c5dc65581a91e72bf17855f94d4e2636919a494738bf214e7bfb693e1b"},
+        "valid": {"manifest": "44ceab9a2020eaeba8296aca986fac6440724c3746509e82fc1945db5d83b084", "workload": "69aeb034f19ef10bc5a782941cd837c67470d5bc3a2b40d3ad0c0432dac7e3d5", "truth": "8aa1424ec8258aa18fc2bf83934b7da46bf4ffc89e3f84538952408a1a0b4af0"},
+        "test": {"manifest": "72852230be926d7c8928ca039b94b2be58bd4dfde1e8ba963fd3eda817e3592c", "workload": "8607b554788dac990718680168679656b90785615628829bde52433651e98238", "truth": "2b0df3700cbc643284472bb33f616fa9dea4f4b013223d466ba112a3580227d5"}
+      }
+    }
+  },
+  "limitations": [
+    "Derived canonical hashes are not byte-identical historical canonical hashes; the historical values remain references only.",
+    "The source Query objects did not contain raw SQL; stored source_sql is a deterministic reconstruction preserving predicate values, operators, and order.",
+    "The pairwise counts are syntax screens, not PostgreSQL statistic-selection or maximal-matching runtime evidence.",
+    "No PostgreSQL process/database operation was performed for Issue #19.",
+    "Raw data and all large derived artifacts remain outside Git because the pinned upstream does not state a separate data-redistribution license."
+  ]
+}
