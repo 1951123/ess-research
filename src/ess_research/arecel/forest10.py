@@ -35,6 +35,8 @@ LABEL_PICKLE_SHA256 = "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58
 CANONICAL_WORKLOAD_SHA256 = (
     "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74"
 )
+DERIVED_CANONICAL_FORMAT = "arecel-forest10-derived-canonical-v1"
+DERIVED_AUDIT_FORMAT = "arecel-source-audit-derived-canonical-v1"
 EXPECTED_ROWS = 581_012
 EXPECTED_SPLIT_COUNTS = {"valid": 10_000, "test": 10_000}
 SCHEMA_CONTRACT_ID = "arecel-forest10-postgres-schema-v1"
@@ -202,14 +204,17 @@ def _normalise_audit_metadata(audit: dict[str, Any]) -> dict[str, Any]:
     normalizer; no arbitrary legacy metadata is treated as equivalent.
     """
 
-    if audit.get("format") == "arecel-source-audit-v1":
+    if audit.get("format") in {
+        "arecel-source-audit-v1",
+        DERIVED_AUDIT_FORMAT,
+    }:
         upstream = audit.get("upstream")
         archive = audit.get("archive")
         dataset = audit.get("datasets", {}).get(BENCHMARK_ID)
         if not isinstance(upstream, dict) or not isinstance(archive, dict):
             raise InputContractError("current audit metadata is incomplete")
         normalized = {
-            "format": "arecel-source-audit-v1",
+            "format": audit.get("format"),
             "upstream_commit": upstream.get("commit"),
             "upstream_repository": upstream.get("repository"),
             "archive_sha256": archive.get("sha256"),
@@ -295,6 +300,7 @@ def _normalise_audit_metadata(audit: dict[str, Any]) -> dict[str, Any]:
     if normalized["format"] in {
         "arecel-source-audit-v1",
         "historical-authoritative-observations-audit-v1",
+        DERIVED_AUDIT_FORMAT,
     }:
         workload = dataset.get("workload")
         workload_hashes = (
@@ -337,11 +343,39 @@ def _normalise_audit_metadata(audit: dict[str, Any]) -> dict[str, Any]:
             ),
         )
         schema_id = dataset.get("schema_contract_id", SCHEMA_CONTRACT_ID)
-    if workload_hashes != (
-        WORKLOAD_PICKLE_SHA256,
-        LABEL_PICKLE_SHA256,
-        CANONICAL_WORKLOAD_SHA256,
-    ):
+    canonical_sha256 = workload_hashes[2]
+    if normalized["format"] == DERIVED_AUDIT_FORMAT:
+        workload = dataset.get("workload")
+        if not isinstance(workload, dict):
+            raise InputContractError("derived canonical workload metadata is missing")
+        if workload.get("canonical_format") != DERIVED_CANONICAL_FORMAT:
+            raise InputContractError(
+                "derived canonical workload format is not the pinned version"
+            )
+        if (
+            _hash_field(
+                workload,
+                ("historical_canonical_sha256",),
+                "historical canonical workload SHA256",
+            )
+            != CANONICAL_WORKLOAD_SHA256
+        ):
+            raise InputContractError(
+                "historical canonical workload SHA256 reference is invalid"
+            )
+        conversion = workload.get("conversion")
+        if (
+            not isinstance(conversion, dict)
+            or conversion.get("format") != DERIVED_CANONICAL_FORMAT
+        ):
+            raise InputContractError(
+                "derived canonical conversion provenance is missing"
+            )
+    elif canonical_sha256 != CANONICAL_WORKLOAD_SHA256:
+        raise InputContractError(
+            "audit workload artifact hashes do not match the frozen contract"
+        )
+    if workload_hashes[:2] != (WORKLOAD_PICKLE_SHA256, LABEL_PICKLE_SHA256):
         raise InputContractError(
             "audit workload artifact hashes do not match the frozen contract"
         )
@@ -349,6 +383,18 @@ def _normalise_audit_metadata(audit: dict[str, Any]) -> dict[str, Any]:
         raise InputContractError(
             "audit schema contract does not match the frozen contract"
         )
+    normalized["canonical_sha256"] = canonical_sha256
+    normalized["canonical_format"] = (
+        dataset.get("workload", {}).get("canonical_format", "historical-canonical-v1")
+        if isinstance(dataset.get("workload"), dict)
+        else "historical-canonical-v1"
+    )
+    normalized["historical_canonical_sha256"] = (
+        dataset.get("workload", {}).get("historical_canonical_sha256")
+        if normalized["format"] == DERIVED_AUDIT_FORMAT
+        and isinstance(dataset.get("workload"), dict)
+        else CANONICAL_WORKLOAD_SHA256
+    )
     return normalized
 
 
@@ -685,7 +731,7 @@ def validate_source(data_root: Path | str | None) -> dict[str, Any]:
     """Validate all declared Forest10 source inputs without deserializing pickles."""
 
     paths = _paths(data_root)
-    _audit_metadata(paths["audit"])
+    audit = _audit_metadata(paths["audit"])
     archive_sha256 = sha256_file(paths["archive"])
     if archive_sha256 != ARCHIVE_SHA256:
         raise InputContractError(
@@ -702,14 +748,14 @@ def validate_source(data_root: Path | str | None) -> dict[str, Any]:
     expected_hashes = {
         "workload_pickle": WORKLOAD_PICKLE_SHA256,
         "label_pickle": LABEL_PICKLE_SHA256,
-        "canonical_workload": CANONICAL_WORKLOAD_SHA256,
+        "canonical_workload": audit["canonical_sha256"],
     }
     for name, expected in expected_hashes.items():
         if source_hashes[name] != expected:
             raise InputContractError(
                 f"{name} SHA256 mismatch: expected {expected}, got {source_hashes[name]}"
             )
-    records = _canonical_records(paths["canonical"], CANONICAL_WORKLOAD_SHA256)
+    records = _canonical_records(paths["canonical"], audit["canonical_sha256"])
     split_records = {
         split: _validate_split(records, split) for split in EXPECTED_SPLIT_COUNTS
     }
@@ -731,6 +777,8 @@ def validate_source(data_root: Path | str | None) -> dict[str, Any]:
         "schema_contract": schema_contract(),
         "csv": csv,
         "source_file_sha256": source_hashes,
+        "canonical_workload_format": audit["canonical_format"],
+        "historical_canonical_workload_sha256": audit["historical_canonical_sha256"],
         "split_counts": {split: len(rows) for split, rows in split_records.items()},
         "audit_metadata_sha256": sha256_file(paths["audit"]),
         "transformation_version": TRANSFORMATION_VERSION,
@@ -775,6 +823,10 @@ def _source_contract(validation: dict[str, Any]) -> dict[str, Any]:
         "archive_sha256": validation["archive"]["sha256"],
         "source_file_sha256": validation["source_file_sha256"],
         "schema_contract_id": SCHEMA_CONTRACT_ID,
+        "canonical_workload_format": validation["canonical_workload_format"],
+        "historical_canonical_workload_sha256": validation[
+            "historical_canonical_workload_sha256"
+        ],
         "transformation_version": TRANSFORMATION_VERSION,
     }
 
@@ -857,7 +909,10 @@ def build_artifacts(
     validation = validate_source(data_root)
     paths = _paths(data_root)
     records = _validate_split(
-        _canonical_records(paths["canonical"], CANONICAL_WORKLOAD_SHA256), split
+        _canonical_records(
+            paths["canonical"], validation["source_file_sha256"]["canonical_workload"]
+        ),
+        split,
     )
     output = Path(output_dir).expanduser().resolve(strict=False)
     try:

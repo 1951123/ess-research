@@ -275,6 +275,43 @@ def test_historical_authoritative_audit_layout_is_normalized(tmp_path, monkeypat
     assert forest10.validate_source(root)["split_counts"] == {"valid": 1, "test": 1}
 
 
+def test_derived_canonical_audit_contract_is_explicit(tmp_path, monkeypatch):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    audit_path = root / "arecel" / "audit-v1" / "audit.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    dataset = audit["datasets"][forest10.BENCHMARK_ID]
+    workload = dataset["workload"]
+    audit["format"] = forest10.DERIVED_AUDIT_FORMAT
+    workload["canonical_format"] = forest10.DERIVED_CANONICAL_FORMAT
+    workload["historical_canonical_sha256"] = forest10.CANONICAL_WORKLOAD_SHA256
+    workload["conversion"] = {"format": forest10.DERIVED_CANONICAL_FORMAT}
+    audit_path.write_text(json.dumps(audit), encoding="utf-8")
+    validation = forest10.validate_source(root)
+    assert validation["canonical_workload_format"] == forest10.DERIVED_CANONICAL_FORMAT
+    assert (
+        validation["historical_canonical_workload_sha256"]
+        == forest10.CANONICAL_WORKLOAD_SHA256
+    )
+
+
+def test_derived_canonical_audit_rejects_wrong_historical_reference(
+    tmp_path, monkeypatch
+):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    audit_path = root / "arecel" / "audit-v1" / "audit.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    workload = audit["datasets"][forest10.BENCHMARK_ID]["workload"]
+    audit["format"] = forest10.DERIVED_AUDIT_FORMAT
+    workload["canonical_format"] = forest10.DERIVED_CANONICAL_FORMAT
+    workload["historical_canonical_sha256"] = "0" * 64
+    workload["conversion"] = {"format": forest10.DERIVED_CANONICAL_FORMAT}
+    audit_path.write_text(json.dumps(audit), encoding="utf-8")
+    with pytest.raises(
+        forest10.InputContractError, match="historical canonical workload SHA256"
+    ):
+        forest10.validate_source(root)
+
+
 @pytest.mark.parametrize("literal", ["NaN", "Infinity", "-Infinity"])
 def test_nonfinite_weights_are_rejected(tmp_path, monkeypatch, literal):
     root = _write_synthetic_input(tmp_path, monkeypatch)

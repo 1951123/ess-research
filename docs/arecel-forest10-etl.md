@@ -66,6 +66,37 @@ The generated artifacts preserve source order and use IDs of the form
 declared eligible for the pairwise maximal-matching study; later analysis must
 apply its own structural query-scope validator.
 
+## Authorized derived canonical conversion
+
+The regular parser and CI never deserialize pickle inputs. Issue #17 contains
+a narrow researcher authorization for a one-time conversion of only the two
+verified Forest10 pickle hashes. The gated converter is
+`experiments/arecel/convert_verified_pickle.py`; it requires
+`--allow-pinned-pickle-conversion`, checks the exact workload and label SHA256
+values before loading, uses a restricted class allowlist, and refuses an
+existing output. It is intended for a disposable network-disabled process
+with read-only approved inputs and a temporary writable output. The resulting
+`arecel-forest10-derived-canonical-v1` artifact has its own SHA256 and must
+retain the historical canonical SHA256 as a reference; the two hashes must
+never be conflated.
+
+The derived contract records 10,000 valid and 10,000 test records, source
+order, stable IDs, source SQL and its hash, exact nonnegative truth, finite
+source selectivity, and an explicit unit-weight policy because the source
+pickles contain no task weights. This conversion is an acquisition exception,
+not a relaxation of the normal ETL trust boundary or an invitation to load
+arbitrary pickle files.
+
+The pinned `Query` objects do not contain raw SQL strings. At the pinned
+upstream commit, `query_2_sql(..., aggregate=True, split=False, dbms='postgres')`
+iterates the ordered predicate mapping, emits `[]` as one parenthesized
+`BETWEEN` predicate, and leaves the other operators and values unchanged. The
+derived v1 renderer deliberately adapts this to the ETL source contract by
+adding `public.` qualification, quoting source identifiers, omitting redundant
+`BETWEEN` parentheses, and adding a semicolon. Consequently, canonical records
+preserve predicate values, operators, and order but do not claim byte-for-byte
+preservation of unavailable original SQL.
+
 ## Commands
 
 From the repository root:
