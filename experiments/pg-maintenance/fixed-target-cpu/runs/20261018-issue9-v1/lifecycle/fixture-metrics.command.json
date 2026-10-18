@@ -1,0 +1,14 @@
+[
+  "/home/wqts/projects/ess-research/.venv/bin/python",
+  "experiments/pg-maintenance/fixture_metrics.py",
+  "--psql",
+  "/tmp/ess-pg-issue9-install/bin/psql",
+  "--host",
+  "/tmp/ess-pg-issue9-cpu-20261018/socket",
+  "--port",
+  "55439",
+  "--database",
+  "ess_issue9_cpu",
+  "--output-dir",
+  "experiments/pg-maintenance/fixed-target-cpu/runs/20261018-issue9-v1/fixture-metrics"
+]

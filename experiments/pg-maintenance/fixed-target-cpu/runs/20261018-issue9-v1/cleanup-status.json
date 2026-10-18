@@ -1,0 +1,21 @@
+{
+  "experiment": "issue-9-pg16-fixed-target-extstats-cpu",
+  "source_commit": "4ba5fcafe6ed62ecd40f34bbc2fdef3c917081a4",
+  "postgres_binary": "/tmp/ess-pg-issue9-install/bin/postgres",
+  "postgres_binary_sha256": "3aaf990ff0008bdf25175b8d4eeb70996e80edccd3f6810c4be4f52b12b084d9",
+  "psql_binary": "/tmp/ess-pg-issue9-install/bin/psql",
+  "psql_binary_sha256": "bdc4d397c43df26d757ab95890818235c71b75a8ce37642dce8c5b67aabbacf8",
+  "fixture_sha256": "922c6e5263dc2f9a06c595631d2d27f250465b92629909f595b513df77a7b5f0",
+  "database": "ess_issue9_cpu",
+  "socket_dir": "/tmp/ess-pg-issue9-cpu-20261018/socket",
+  "port": 55439,
+  "repetitions": 20,
+  "seed": 20261018,
+  "failure_stage": null,
+  "benchmark_returncode": 0,
+  "analysis_returncode": 0,
+  "database_absent_while_server_running": true,
+  "server_stopped": true,
+  "complete": true,
+  "temporary_root": "/tmp/ess-pg-issue9-cpu-20261018"
+}
