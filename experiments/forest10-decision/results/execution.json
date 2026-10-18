@@ -1,0 +1,92 @@
+{
+  "artifact_type": "noncanonical_execution_provenance",
+  "budgets": [
+    {
+      "budget": "0",
+      "cache_sizes": {
+        "joint_robust": 1,
+        "nominal": 1,
+        "pess": 1
+      },
+      "elapsed_seconds": 0.05990801899952203
+    },
+    {
+      "budget": "2",
+      "cache_sizes": {
+        "joint_robust": 10,
+        "nominal": 10,
+        "pess": 10
+      },
+      "elapsed_seconds": 0.21460216200011928
+    },
+    {
+      "budget": "3",
+      "cache_sizes": {
+        "joint_robust": 20,
+        "nominal": 20,
+        "pess": 20
+      },
+      "elapsed_seconds": 0.42713257600007637
+    },
+    {
+      "budget": "5",
+      "cache_sizes": {
+        "joint_robust": 44,
+        "nominal": 44,
+        "pess": 44
+      },
+      "elapsed_seconds": 1.0259219429999575
+    }
+  ],
+  "canonical_artifacts": {
+    "raw_bytes": 79432,
+    "raw_sha256": "5c3a0d78bd8f56e2959213031fecfd90ff2010520cd3578e95f9b01d07874279",
+    "raw_uncompressed_bytes": 3341200,
+    "raw_uncompressed_sha256": "4d30a789516545b9b82b83f351fcd7e515386165e4050721efc3c0d4d81df7ae",
+    "summary_bytes": 19973,
+    "summary_sha256": "06b3534bbd2c044f179f2e12fab55c8f29ec0a7533249e6ddf843d54e37b0b6f"
+  },
+  "command": "python3 experiments/forest10-decision/run_experiment.py",
+  "data_root_check": {
+    "action": "read-only existence check; no hidden or alternative root inspected",
+    "path": "/tmp/ess-research-issue17-data-20261018",
+    "present_at_execution": false
+  },
+  "ess_advisor_commit": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+  "ess_postgresql_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+  "ess_postgresql_version": "16.14",
+  "experiment": "Issue #23 Forest10 schema-shaped model-level decision comparison",
+  "fixed_sample_interface": "ess.analyze_sample_export / ess.analyze_sample_import",
+  "historical_input_hashes": {
+    "dataset": "Forest10",
+    "derived_canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "historical_canonical_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+    "historical_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "real_input_available_in_this_worktree": false,
+    "real_query_ids_used": false,
+    "real_truth_cardinalities_used": false,
+    "schema_contract": "10 ordered DOUBLE PRECISION columns, nullable",
+    "source_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "source_table": "public.forest10"
+  },
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "research_repo_commit": "73497c61e3730b5a70c4b706f9136bdd4e2501ac",
+  "verification_commands": [
+    {
+      "command": "python3 experiments/forest10-decision/run_experiment.py",
+      "exit_status": 0,
+      "result": "4 budgets; 720 shared orders; 11520 raw observations"
+    },
+    {
+      "command": "/home/wqts/projects/ess-advisor/.venv/bin/python -m pytest -q experiments/forest10-decision/test_forest10_decision.py",
+      "exit_status": 0,
+      "result": "7 passed"
+    },
+    {
+      "command": "python3 -m py_compile experiments/forest10-decision/run_experiment.py experiments/forest10-decision/test_forest10_decision.py",
+      "exit_status": 0,
+      "result": "compiled"
+    }
+  ]
+}
