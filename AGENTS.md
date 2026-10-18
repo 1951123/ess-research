@@ -51,6 +51,10 @@ For theorem edits, check every assumption and separate the math statement from i
 - **Remote and local repository states are independent.** A GitHub commit or PR merge does not automatically update any local working tree. Changes must be fetched and, when appropriate, integrated into the relevant local branch, either through explicit user action or configured tooling. Never assume synchronization has occurred without verifying the repository state.
 - A remote-tracking ref such as `origin/main` records the remote branch state last observed locally (typically updated by `git fetch origin`); it is not a live mirror and does not itself advance local `main` or update the working tree.
 
+### Parallel development with Git Worktree
+
+For concurrent nontrivial tasks, use **one Issue → one task branch → one Git Worktree → one Codex session → one Draft PR**. The main checkout stays stable; each task's editor, virtual environment and outputs should be isolated. Git Worktrees do **not** isolate shared databases or services. Always check local branch/status before editing; never modify or remove another task's Worktree. After a parallel PR merges, fetch and merge the newest `origin/main` into remaining active task branches, preserving both sides of documentation/evidence conflicts. The researcher approves merges and controls clean-up. Full setup, conflict-resolution and safe deletion instructions: [docs/git-worktree-workflow.md](docs/git-worktree-workflow.md).
+
 ## 5. Where information belongs
 
 - `docs/RESEARCH_CONTEXT.md`: durable goals, notation, major cross-repo facts.
