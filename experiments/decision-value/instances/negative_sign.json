@@ -1,0 +1,16 @@
+{
+  "budget": "4",
+  "candidates": [
+    {"id": "e0", "table": "t0", "endpoints": ["a0", "a1"], "maintenance_cost": "1"},
+    {"id": "e1", "table": "t0", "endpoints": ["a1", "a2"], "maintenance_cost": "1"},
+    {"id": "e2", "table": "t0", "endpoints": ["a2", "a3"], "maintenance_cost": "2"},
+    {"id": "e3", "table": "t0", "endpoints": ["a0", "a3"], "maintenance_cost": "2"},
+    {"id": "e4", "table": "t0", "endpoints": ["a0", "a2"], "maintenance_cost": "1"},
+    {"id": "e5", "table": "t0", "endpoints": ["a1", "a3"], "maintenance_cost": "1"}
+  ],
+  "tasks": [
+    {"id": "i0", "table": "t0", "weight": "1", "alpha": "-5", "eligible_candidates": ["e0", "e1", "e2", "e4"], "corrections": {"e0": "-1", "e1": "-1", "e2": "-2", "e4": "-1"}},
+    {"id": "i1", "table": "t0", "weight": "2", "alpha": "-4", "eligible_candidates": ["e0", "e3", "e5"], "corrections": {"e0": "-2", "e3": "-1", "e5": "-1"}},
+    {"id": "i2", "table": "t0", "weight": "1", "alpha": "-3", "eligible_candidates": ["e1", "e2", "e3", "e4", "e5"], "corrections": {"e1": "-1", "e2": "-1", "e3": "-2", "e4": "-1", "e5": "-2"}}
+  ]
+}
