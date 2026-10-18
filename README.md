@@ -38,3 +38,7 @@ before giving project-specific advice. Status claims must distinguish mathematic
 results, version-scoped source inspection, executed experiments, and open questions.
 Changes proposed in a Draft PR have **not** yet entered `main` or automatically
 synchronized to the researcher's local clone.
+
+## Parallel development with Git Worktree
+
+For independent research and engineering tasks, we use **one Issue → one branch → one Git Worktree → one Codex session → one Draft PR**. Keep `main` as the stable integration checkout; review and merge are researcher-controlled. See the [Git Worktree + Codex workflow](docs/git-worktree-workflow.md) for creation, isolated environments, parallel PR conflict handling, and safe cleanup.
