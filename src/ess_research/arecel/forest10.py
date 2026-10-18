@@ -72,12 +72,18 @@ EXPECTED_ARCHIVE_MEMBERS = frozenset(
     }
 )
 HEX64 = re.compile(r"^[0-9a-fA-F]{64}$")
+PROTECTED_PROJECT_NAMES = (
+    "ess-advisor",
+    "ess-postgresql",
+    "extstats-advisor",
+    "extstats-advisor-research",
+    "postgresql-pgextadv",
+)
 COUNT_FROM = re.compile(
     r"\A(?P<prefix>\s*SELECT\s+COUNT\s*\(\s*\*\s*\)\s+FROM\s+)"
     r"(?P<relation>[^\s]+)(?P<tail>.*)\Z",
     re.IGNORECASE | re.DOTALL,
 )
-QUOTED_IDENTIFIER = re.compile(r'"([^"\r\n]+)"')
 
 
 class InputContractError(ValueError):
@@ -92,14 +98,31 @@ def _root(value: Path | str | None) -> Path:
     root = Path(value).expanduser().resolve()
     if root == Path("/"):
         raise InputContractError("the data root may not be the filesystem root")
+    projects_root = Path(__file__).resolve().parents[3].parent
+    protected = {(projects_root / name).resolve() for name in PROTECTED_PROJECT_NAMES}
+    if any(root == path or path in root.parents for path in protected):
+        raise InputContractError(
+            "the data root may not be inside another ESS or legacy project"
+        )
     return root
+
+
+def _contained_path(root: Path, path: Path, label: str) -> Path:
+    resolved = path.resolve(strict=False)
+    try:
+        resolved.relative_to(root)
+    except ValueError as exc:
+        raise InputContractError(
+            f"{label} resolves outside the explicit data root: {path}"
+        ) from exc
+    return resolved
 
 
 def _paths(value: Path | str | None) -> dict[str, Path]:
     root = _root(value)
     forest = root / "arecel" / "raw" / "data" / "forest10"
     audit = root / "arecel" / "audit-v1"
-    return {
+    paths = {
         "root": root,
         "archive": root / "arecel" / "incoming" / "arecel-data.tar.gz",
         "audit": audit / "audit.json",
@@ -107,6 +130,10 @@ def _paths(value: Path | str | None) -> dict[str, Path]:
         "csv": forest / "original.csv",
         "workload_pickle": forest / "workload" / "base.pkl",
         "label_pickle": forest / "workload" / "base-original-label.pkl",
+    }
+    return {
+        name: path if name == "root" else _contained_path(root, path, name)
+        for name, path in paths.items()
     }
 
 
@@ -154,56 +181,178 @@ def _require_hex(value: Any, label: str) -> str:
     return value.lower()
 
 
-def _audit_metadata(path: Path) -> dict[str, Any]:
-    audit = _read_json(path)
-    if audit.get("format") != "arecel-source-audit-v1":
-        raise InputContractError("audit format is not arecel-source-audit-v1")
-    upstream = audit.get("upstream")
-    archive = audit.get("archive")
-    dataset = audit.get("datasets", {}).get(BENCHMARK_ID)
-    if not isinstance(upstream, dict) or upstream.get("commit") != UPSTREAM_COMMIT:
+def _hash_field(container: Any, keys: tuple[str, ...], label: str) -> str:
+    if isinstance(container, str):
+        return _require_hex(container, label)
+    if not isinstance(container, dict):
+        raise InputContractError(f"{label} metadata is missing")
+    for key in keys:
+        if key in container:
+            return _require_hex(container[key], label)
+    raise InputContractError(f"{label} metadata is missing")
+
+
+def _normalise_audit_metadata(audit: dict[str, Any]) -> dict[str, Any]:
+    """Normalize the current and pinned historical audit layouts.
+
+    The historical adapter used ``archive_expected_sha256``,
+    ``upstream.AreCELearnedYet``, and ``datasets.forest10.{csv,pickles}``.
+    These names are accepted only through this explicit, source-pinned
+    normalizer; no arbitrary legacy metadata is treated as equivalent.
+    """
+
+    if audit.get("format") == "arecel-source-audit-v1":
+        upstream = audit.get("upstream")
+        archive = audit.get("archive")
+        dataset = audit.get("datasets", {}).get(BENCHMARK_ID)
+        if not isinstance(upstream, dict) or not isinstance(archive, dict):
+            raise InputContractError("current audit metadata is incomplete")
+        normalized = {
+            "format": "arecel-source-audit-v1",
+            "upstream_commit": upstream.get("commit"),
+            "upstream_repository": upstream.get("repository"),
+            "archive_sha256": archive.get("sha256"),
+            "archive_url": archive.get("url"),
+            "dataset": dataset,
+        }
+    elif "archive_expected_sha256" in audit:
+        upstream = audit.get("upstream", {}).get("AreCELearnedYet")
+        dataset = audit.get("datasets", {}).get("forest10")
+        if not isinstance(upstream, dict) or not isinstance(dataset, dict):
+            raise InputContractError("historical audit metadata is incomplete")
+        normalized = {
+            "format": "historical-arecel-adapter-audit-v1",
+            "upstream_commit": upstream.get("commit"),
+            "upstream_repository": upstream.get("repository", UPSTREAM_URL),
+            "archive_sha256": audit.get("archive_expected_sha256"),
+            "archive_url": audit.get("archive_url", ARCHIVE_URL),
+            "dataset": dataset,
+        }
+    elif audit.get("format_version") == "arecel-authoritative-observations-audit-v1":
+        if audit.get("benchmark_id") != BENCHMARK_ID:
+            raise InputContractError(
+                "historical authoritative audit benchmark ID is invalid"
+            )
+        normalized = {
+            "format": "historical-authoritative-observations-audit-v1",
+            "upstream_commit": audit.get("upstream_commit"),
+            "upstream_repository": audit.get("authority_url", UPSTREAM_URL),
+            "archive_sha256": ARCHIVE_SHA256,
+            "archive_url": ARCHIVE_URL,
+            "dataset": {
+                "csv": {"sha256": CSV_SHA256, "rows": EXPECTED_ROWS},
+                "workload": {
+                    "pickle_sha256": audit.get("source_workload_pickle_sha256"),
+                    "label_pickle_sha256": audit.get("source_label_pickle_sha256"),
+                    "canonical_sha256": audit.get("canonical_workload_sha256"),
+                },
+                "schema_contract_id": SCHEMA_CONTRACT_ID,
+            },
+        }
+    else:
+        raise InputContractError(
+            "audit metadata is neither the current nor the pinned historical format"
+        )
+
+    if normalized["upstream_commit"] != UPSTREAM_COMMIT:
         raise InputContractError(
             "audit upstream commit does not match the frozen contract"
         )
-    if upstream.get("repository") != UPSTREAM_URL:
+    if normalized["upstream_repository"] != UPSTREAM_URL:
         raise InputContractError(
             "audit upstream repository does not match the frozen contract"
         )
-    if not isinstance(archive, dict):
-        raise InputContractError("audit archive metadata is missing")
-    if archive.get("url") != ARCHIVE_URL:
+    if normalized["archive_url"] != ARCHIVE_URL:
         raise InputContractError("audit archive URL is not the pinned source URL")
-    if _require_hex(archive.get("sha256"), "audit archive SHA256") != ARCHIVE_SHA256:
+    if (
+        _require_hex(normalized["archive_sha256"], "audit archive SHA256")
+        != ARCHIVE_SHA256
+    ):
         raise InputContractError(
             "audit archive SHA256 does not match the frozen contract"
         )
+
+    dataset = normalized["dataset"]
     if not isinstance(dataset, dict):
         raise InputContractError("audit Forest10 dataset metadata is missing")
-    if dataset.get("csv", {}).get("sha256") != CSV_SHA256:
+    csv_metadata = dataset.get("csv")
+    if (
+        _hash_field(csv_metadata, ("sha256", "expected_sha256"), "audit CSV SHA256")
+        != CSV_SHA256
+    ):
         raise InputContractError(
             "audit Forest10 CSV SHA256 does not match the frozen contract"
         )
-    if dataset.get("csv", {}).get("rows") != EXPECTED_ROWS:
+    csv_rows = csv_metadata.get("rows") if isinstance(csv_metadata, dict) else None
+    if csv_rows is None:
+        csv_rows = dataset.get("rows", dataset.get("row_count"))
+    if csv_rows != EXPECTED_ROWS:
         raise InputContractError(
             "audit Forest10 row count does not match the frozen contract"
         )
-    if dataset.get("workload", {}).get("pickle_sha256") != WORKLOAD_PICKLE_SHA256:
-        raise InputContractError(
-            "audit workload pickle SHA256 does not match the frozen contract"
+
+    if normalized["format"] in {
+        "arecel-source-audit-v1",
+        "historical-authoritative-observations-audit-v1",
+    }:
+        workload = dataset.get("workload")
+        workload_hashes = (
+            _hash_field(workload, ("pickle_sha256",), "audit workload pickle SHA256"),
+            _hash_field(
+                workload, ("label_pickle_sha256",), "audit label pickle SHA256"
+            ),
+            _hash_field(
+                workload, ("canonical_sha256",), "audit canonical workload SHA256"
+            ),
         )
-    if dataset.get("workload", {}).get("label_pickle_sha256") != LABEL_PICKLE_SHA256:
-        raise InputContractError(
-            "audit label pickle SHA256 does not match the frozen contract"
+        schema_id = dataset.get("schema_contract_id")
+    else:
+        pickles = dataset.get("pickles")
+        workload_hashes = (
+            _hash_field(
+                pickles,
+                ("workload", "base", "base.pkl", "workload_pickle_sha256"),
+                "audit workload pickle SHA256",
+            ),
+            _hash_field(
+                pickles,
+                (
+                    "label",
+                    "base-original-label",
+                    "base-original-label.pkl",
+                    "label_pickle_sha256",
+                ),
+                "audit label pickle SHA256",
+            ),
+            _hash_field(
+                pickles,
+                (
+                    "canonical",
+                    "canonical_workload",
+                    "canonical_sha256",
+                    "canonical_workload_sha256",
+                ),
+                "audit canonical workload SHA256",
+            ),
         )
-    if dataset.get("workload", {}).get("canonical_sha256") != CANONICAL_WORKLOAD_SHA256:
+        schema_id = dataset.get("schema_contract_id", SCHEMA_CONTRACT_ID)
+    if workload_hashes != (
+        WORKLOAD_PICKLE_SHA256,
+        LABEL_PICKLE_SHA256,
+        CANONICAL_WORKLOAD_SHA256,
+    ):
         raise InputContractError(
-            "audit canonical workload SHA256 does not match the frozen contract"
+            "audit workload artifact hashes do not match the frozen contract"
         )
-    if dataset.get("schema_contract_id") != SCHEMA_CONTRACT_ID:
+    if schema_id != SCHEMA_CONTRACT_ID:
         raise InputContractError(
             "audit schema contract does not match the frozen contract"
         )
-    return audit
+    return normalized
+
+
+def _audit_metadata(path: Path) -> dict[str, Any]:
+    return _normalise_audit_metadata(_read_json(path))
 
 
 def _archive_members(path: Path) -> list[str]:
@@ -277,6 +426,104 @@ def _csv_metadata(
     }
 
 
+def _rewrite_sql_identifiers(sql: str) -> str:
+    """Rewrite only delimited identifiers outside literals and comments."""
+
+    output: list[str] = []
+    state = "normal"
+    block_depth = 0
+    index = 0
+    while index < len(sql):
+        character = sql[index]
+        next_character = sql[index + 1] if index + 1 < len(sql) else ""
+        if state == "single":
+            output.append(character)
+            if character == "\\" and next_character:
+                output.append(next_character)
+                index += 2
+                continue
+            if character == "'":
+                if next_character == "'":
+                    output.append(next_character)
+                    index += 2
+                    continue
+                state = "normal"
+            index += 1
+            continue
+        if state == "line-comment":
+            output.append(character)
+            index += 1
+            if character == "\n":
+                state = "normal"
+            continue
+        if state == "block-comment":
+            if sql.startswith("/*", index):
+                output.append("/*")
+                block_depth += 1
+                index += 2
+            elif sql.startswith("*/", index):
+                output.append("*/")
+                block_depth -= 1
+                index += 2
+                if block_depth == 0:
+                    state = "normal"
+            else:
+                output.append(character)
+                index += 1
+            continue
+        if sql.startswith("--", index):
+            output.append("--")
+            state = "line-comment"
+            index += 2
+            continue
+        if sql.startswith("/*", index):
+            output.append("/*")
+            state = "block-comment"
+            block_depth = 1
+            index += 2
+            continue
+        if character == "'":
+            output.append(character)
+            state = "single"
+            index += 1
+            continue
+        if character != '"':
+            output.append(character)
+            index += 1
+            continue
+
+        identifier: list[str] = []
+        index += 1
+        while index < len(sql):
+            character = sql[index]
+            next_character = sql[index + 1] if index + 1 < len(sql) else ""
+            if character == '"':
+                if next_character == '"':
+                    identifier.append('"')
+                    index += 2
+                    continue
+                break
+            if character in "\r\n":
+                raise InputContractError("unterminated quoted SQL identifier")
+            identifier.append(character)
+            index += 1
+        if index >= len(sql) or sql[index] != '"':
+            raise InputContractError("unterminated quoted SQL identifier")
+        source_name = "".join(identifier)
+        if source_name not in SOURCE_TO_CATALOG:
+            raise InputContractError(
+                f"quoted SQL identifier is outside the Forest10 schema: {source_name}"
+            )
+        output.append('"' + SOURCE_TO_CATALOG[source_name] + '"')
+        index += 1
+
+    if state == "single":
+        raise InputContractError("unterminated SQL string literal")
+    if state == "block-comment":
+        raise InputContractError("unterminated SQL block comment")
+    return "".join(output)
+
+
 def adapt_query_sql(source_sql: str) -> str:
     """Convert audited COUNT truth SQL to SELECT * estimator SQL.
 
@@ -295,16 +542,7 @@ def adapt_query_sql(source_sql: str) -> str:
         )
     tail = match.group("tail")
     projected = "SELECT * FROM " + RELATION + tail
-
-    def replace_identifier(identifier_match: re.Match[str]) -> str:
-        source_name = identifier_match.group(1)
-        if source_name not in SOURCE_TO_CATALOG:
-            raise InputContractError(
-                f"quoted SQL identifier is outside the Forest10 schema: {source_name}"
-            )
-        return '"' + SOURCE_TO_CATALOG[source_name] + '"'
-
-    return QUOTED_IDENTIFIER.sub(replace_identifier, projected)
+    return _rewrite_sql_identifiers(projected)
 
 
 def _canonical_records(
@@ -370,13 +608,19 @@ def _canonical_records(
                         f"source query provenance is missing at line {line_number}"
                     )
                 weight = record.get("weight", 1.0)
-                if (
-                    not isinstance(weight, (int, float))
-                    or isinstance(weight, bool)
-                    or weight <= 0
-                ):
+                if not isinstance(weight, (int, float)) or isinstance(weight, bool):
                     raise InputContractError(
                         f"query weight is invalid at line {line_number}"
+                    )
+                try:
+                    numeric_weight = float(weight)
+                except (OverflowError, ValueError) as exc:
+                    raise InputContractError(
+                        f"query weight is invalid at line {line_number}"
+                    ) from exc
+                if not math.isfinite(numeric_weight) or numeric_weight <= 0:
+                    raise InputContractError(
+                        f"query weight must be finite and positive at line {line_number}"
                     )
                 records.append(
                     {
@@ -389,7 +633,7 @@ def _canonical_records(
                         "source_query_sha256": source_query_hash,
                         "source_label": label,
                         "true_cardinality": truth,
-                        "weight": float(weight),
+                        "weight": numeric_weight,
                     }
                 )
     except (OSError, EOFError) as exc:
@@ -594,7 +838,20 @@ def build_artifacts(
     records = _validate_split(
         _canonical_records(paths["canonical"], CANONICAL_WORKLOAD_SHA256), split
     )
-    output = Path(output_dir).expanduser().resolve()
+    output = Path(output_dir).expanduser().resolve(strict=False)
+    try:
+        relative_output = output.relative_to(_root(data_root))
+    except ValueError as exc:
+        raise InputContractError(
+            "output directory must be inside the explicit data root"
+        ) from exc
+    if not relative_output.parts or relative_output.parts[0] not in {
+        "etl-output",
+        "experiment-data",
+    }:
+        raise InputContractError(
+            "output directory must be under data-root/etl-output or data-root/experiment-data"
+        )
     if output.exists():
         raise InputContractError(
             f"refusing to overwrite existing output directory: {output}"

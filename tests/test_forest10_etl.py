@@ -128,7 +128,7 @@ def test_synthetic_source_round_trip_and_truth_separation(tmp_path, monkeypatch)
     validation = forest10.validate_source(root)
     assert validation["split_counts"] == {"valid": 1, "test": 1}
 
-    output = tmp_path / "output"
+    output = root / "etl-output" / "forest10-test"
     manifest = forest10.build_artifacts(root, output, split="test")
     workload = json.loads((output / "workload.json").read_text(encoding="utf-8"))
     truth = json.loads((output / "truth.json").read_text(encoding="utf-8"))
@@ -143,6 +143,10 @@ def test_synthetic_source_round_trip_and_truth_separation(tmp_path, monkeypatch)
     assert truth["truth"][0]["truth_sql"] == workload["queries"][0]["source_sql"]
     with pytest.raises(forest10.InputContractError, match="overwrite"):
         forest10.build_artifacts(root, output, split="test")
+    with pytest.raises(
+        forest10.InputContractError, match="inside the explicit data root"
+    ):
+        forest10.build_artifacts(root, tmp_path / "outside", split="test")
 
 
 def test_sql_adaptation_changes_only_contractual_identifiers_and_projection():
@@ -163,6 +167,103 @@ def test_sql_adaptation_changes_only_contractual_identifiers_and_projection():
         forest10.adapt_query_sql(
             'SELECT COUNT(*) FROM public."forest10_original" WHERE "unknown" = 1'
         )
+
+
+def test_sql_adaptation_preserves_literals_comments_and_escaped_quotes():
+    source = (
+        'SELECT COUNT(*) FROM public."forest10_original" '
+        "WHERE 'it''s \"Elevation\"' = 'it''s \"Elevation\"' "
+        '/* "Aspect" */ AND "Slope" > 0 -- "unknown"\n'
+    )
+    adapted = forest10.adapt_query_sql(source)
+    assert "'it''s \"Elevation\"' = 'it''s \"Elevation\"'" in adapted
+    assert '/* "Aspect" */' in adapted
+    assert '-- "unknown"' in adapted
+    assert 'AND "slope" > 0' in adapted
+
+
+def test_historical_audit_layout_is_normalized(tmp_path, monkeypatch):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    audit_path = root / "arecel" / "audit-v1" / "audit.json"
+    current = json.loads(audit_path.read_text(encoding="utf-8"))
+    legacy = {
+        "archive_expected_sha256": current["archive"]["sha256"],
+        "upstream": {
+            "AreCELearnedYet": {
+                "commit": forest10.UPSTREAM_COMMIT,
+                "repository": forest10.UPSTREAM_URL,
+            }
+        },
+        "datasets": {
+            "forest10": {
+                "csv": {
+                    "sha256": current["datasets"][forest10.BENCHMARK_ID]["csv"][
+                        "sha256"
+                    ],
+                    "rows": 2,
+                },
+                "pickles": {
+                    "base.pkl": current["datasets"][forest10.BENCHMARK_ID]["workload"][
+                        "pickle_sha256"
+                    ],
+                    "base-original-label.pkl": current["datasets"][
+                        forest10.BENCHMARK_ID
+                    ]["workload"]["label_pickle_sha256"],
+                    "canonical_sha256": current["datasets"][forest10.BENCHMARK_ID][
+                        "workload"
+                    ]["canonical_sha256"],
+                },
+                "schema_contract_id": forest10.SCHEMA_CONTRACT_ID,
+            }
+        },
+    }
+    audit_path.write_text(json.dumps(legacy), encoding="utf-8")
+    assert forest10.validate_source(root)["split_counts"] == {"valid": 1, "test": 1}
+
+
+def test_historical_authoritative_audit_layout_is_normalized(tmp_path, monkeypatch):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    audit_path = root / "arecel" / "audit-v1" / "audit.json"
+    current = json.loads(audit_path.read_text(encoding="utf-8"))
+    dataset = current["datasets"][forest10.BENCHMARK_ID]
+    historical = {
+        "format_version": "arecel-authoritative-observations-audit-v1",
+        "benchmark_id": forest10.BENCHMARK_ID,
+        "authority": "sfu-db/AreCELearnedYet",
+        "authority_url": forest10.UPSTREAM_URL,
+        "upstream_commit": forest10.UPSTREAM_COMMIT,
+        "source_workload_pickle_sha256": dataset["workload"]["pickle_sha256"],
+        "source_label_pickle_sha256": dataset["workload"]["label_pickle_sha256"],
+        "canonical_workload_sha256": dataset["workload"]["canonical_sha256"],
+    }
+    audit_path.write_text(json.dumps(historical), encoding="utf-8")
+    assert forest10.validate_source(root)["split_counts"] == {"valid": 1, "test": 1}
+
+
+@pytest.mark.parametrize("literal", ["NaN", "Infinity", "-Infinity"])
+def test_nonfinite_weights_are_rejected(tmp_path, monkeypatch, literal):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    canonical = root / "arecel" / "audit-v1" / "forest10.canonical.jsonl.gz"
+    with gzip.open(canonical, "rt", encoding="utf-8") as stream:
+        lines = stream.readlines()
+    lines[0] = lines[0].replace('"weight": 2.0', f'"weight": {literal}')
+    with gzip.open(canonical, "wt", encoding="utf-8") as stream:
+        stream.writelines(lines)
+    with pytest.raises(forest10.InputContractError, match="finite and positive"):
+        forest10._canonical_records(canonical)
+
+
+def test_input_symlink_outside_explicit_root_is_rejected(tmp_path, monkeypatch):
+    root = _write_synthetic_input(tmp_path, monkeypatch)
+    csv_path = root / "arecel" / "raw" / "data" / "forest10" / "original.csv"
+    outside = tmp_path / "outside.csv"
+    outside.write_bytes(csv_path.read_bytes())
+    csv_path.unlink()
+    csv_path.symlink_to(outside)
+    with pytest.raises(
+        forest10.InputContractError, match="outside the explicit data root"
+    ):
+        forest10.validate_source(root)
 
 
 def test_csv_hash_mismatch_is_rejected(tmp_path, monkeypatch):

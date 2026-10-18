@@ -27,6 +27,13 @@ only after a human supplies the pinned archive and audit metadata under an
 explicit root. It must retain the archive/file hashes, exact counts, license
 decision, and generated artifact manifest.
 
+The parser accepts the normalized audit-v1 contract and the pinned historical
+adapter layout through an explicit normalizer. It does not infer one format
+from a filename, regenerate canonical JSONL.gz from pickle bytes, or
+deserialize either pickle. Output publication is restricted to an
+`etl-output/` or `experiment-data/` child of the explicit root, and source
+symlinks resolving outside that root are rejected.
+
 The executed evidence in this PR is offline synthetic validation in
 `tests/test_forest10_etl.py`; it is not full-data validation and makes no
 claim about the original Forest10 dataset contents.
