@@ -19,7 +19,7 @@ The source schemas audited from the pinned historical adapters are:
 
 | Dataset | Relation | Rows | Columns | Nullability |
 |---|---|---:|---:|---|
-| Census13 | `public.census13` | 48,842 | 13; 8 `DOUBLE PRECISION`, 5 `VARCHAR(64)` | not-null contract; observed CSV has no empty cells |
+| Census13 | `public.census13` | 48,842 | 13; 5 `DOUBLE PRECISION`, 8 `VARCHAR(64)` | not-null contract; observed CSV has no empty cells |
 | DMV11 | `public.dmv11` | 11,591,877 | 10 `VARCHAR(64)`, 1 `DOUBLE PRECISION` | nullable; observed CSV has no empty cells |
 | Power7 | `public.power7` | 2,075,259 | 7 `DOUBLE PRECISION` | nullable; observed CSV has no empty cells |
 
@@ -73,9 +73,13 @@ historical canonical reference SHA; no historical byte identity is claimed.
 
 The Query objects do not contain raw SQL.  The converter reconstructs a
 deterministic COUNT SQL record while preserving predicate values, operators,
-and mapping order.  The ETL then adapts only the audited projection, relation,
-and schema identifiers.  Thus `source_sql` is an auditable reconstruction,
-not a claim to preserve unavailable original SQL bytes.
+and mapping order.  Its pinned-renderer regression tests cover the
+dataset-specific quoted source identifiers, escaped apostrophes in string
+literals, `between` range predicates, and original predicate order for the
+mixed-type Census13 and DMV11 cases.  The ETL then adapts only the audited
+projection, relation, and schema identifiers.  Thus `source_sql` is an
+auditable reconstruction, not a claim to preserve unavailable original SQL
+bytes.
 
 ## Pairwise scope diagnostic
 

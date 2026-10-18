@@ -29,6 +29,17 @@ def test_frozen_schema_and_sql_contracts(dataset):
     spec = real.SPECS[dataset]
     contract = real.schema_contract(spec)
     assert len(contract["columns"]) == len(spec.source_columns)
+    expected_type_counts = {
+        "census13": {"DOUBLE PRECISION": 5, "VARCHAR(64)": 8},
+        "dmv11": {"DOUBLE PRECISION": 1, "VARCHAR(64)": 10},
+        "power7": {"DOUBLE PRECISION": 7},
+    }[dataset]
+    actual_type_counts = {}
+    for column in contract["columns"]:
+        actual_type_counts[column["postgres_type"]] = (
+            actual_type_counts.get(column["postgres_type"], 0) + 1
+        )
+    assert actual_type_counts == expected_type_counts
     assert contract["not_null"] is spec.not_null
     first, second = spec.source_columns[:2]
     source = (
@@ -105,6 +116,61 @@ def _tiny_query(spec):
             ]
         ),
         2,
+    )
+
+
+def test_pinned_renderer_preserves_census_range_apostrophe_and_order():
+    spec = real.SPECS["census13"]
+    query = _CONVERTER.SafeQuery(
+        OrderedDict(
+            [
+                ("age", ("[]", (18, 65))),
+                ("workclass", ("=", "O'Brien")),
+            ]
+        ),
+        2,
+    )
+
+    source_sql, provenance = _CONVERTER._source_sql(query, spec)
+
+    assert source_sql == (
+        "SELECT COUNT(*) FROM public.census13 WHERE "
+        '"age" between 18 and 65 AND "workclass" = \'O\'\'Brien\';'
+    )
+    assert [item["column"] for item in provenance] == ["age", "workclass"]
+    assert real.adapt_query_sql(source_sql, spec) == (
+        "SELECT * FROM public.census13 WHERE "
+        '"age" between 18 and 65 AND "workclass" = \'O\'\'Brien\';'
+    )
+
+
+def test_pinned_renderer_preserves_dmv_range_apostrophe_and_identifiers():
+    spec = real.SPECS["dmv11"]
+    query = _CONVERTER.SafeQuery(
+        OrderedDict(
+            [
+                ("Reg_Valid_Date", ("[]", (20100101, 20200101))),
+                ("Record_Type", ("=", "O'Reilly")),
+            ]
+        ),
+        2,
+    )
+
+    source_sql, provenance = _CONVERTER._source_sql(query, spec)
+
+    assert source_sql == (
+        'SELECT COUNT(*) FROM public."dmv11_original" WHERE '
+        '"Reg_Valid_Date" between 20100101 and 20200101 '
+        'AND "Record_Type" = \'O\'\'Reilly\';'
+    )
+    assert [item["column"] for item in provenance] == [
+        "Reg_Valid_Date",
+        "Record_Type",
+    ]
+    assert real.adapt_query_sql(source_sql, spec) == (
+        "SELECT * FROM public.dmv11 WHERE "
+        '"reg_valid_date" between 20100101 and 20200101 '
+        'AND "record_type" = \'O\'\'Reilly\';'
     )
 
 

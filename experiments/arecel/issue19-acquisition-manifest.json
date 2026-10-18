@@ -39,6 +39,7 @@
       "columns": [
         ["age", "DOUBLE PRECISION"], ["workclass", "VARCHAR(64)"], ["education", "VARCHAR(64)"], ["education_num", "DOUBLE PRECISION"], ["marital_status", "VARCHAR(64)"], ["occupation", "VARCHAR(64)"], ["relationship", "VARCHAR(64)"], ["race", "VARCHAR(64)"], ["sex", "VARCHAR(64)"], ["capital_gain", "DOUBLE PRECISION"], ["capital_loss", "DOUBLE PRECISION"], ["hours_per_week", "DOUBLE PRECISION"], ["native_country", "VARCHAR(64)"]
       ],
+      "type_counts": {"DOUBLE PRECISION": 5, "VARCHAR(64)": 8},
       "not_null": true,
       "null_counts": 0,
       "source_sha256": {
@@ -61,6 +62,7 @@
       "relation": "public.dmv11",
       "rows": 11591877,
       "columns": [["record_type", "VARCHAR(64)"], ["registration_class", "VARCHAR(64)"], ["state", "VARCHAR(64)"], ["county", "VARCHAR(64)"], ["body_type", "VARCHAR(64)"], ["fuel_type", "VARCHAR(64)"], ["reg_valid_date", "DOUBLE PRECISION"], ["color", "VARCHAR(64)"], ["scofflaw_indicator", "VARCHAR(64)"], ["suspension_indicator", "VARCHAR(64)"], ["revocation_indicator", "VARCHAR(64)"]],
+      "type_counts": {"DOUBLE PRECISION": 1, "VARCHAR(64)": 10},
       "not_null": false,
       "null_counts": 0,
       "source_sha256": {
@@ -83,6 +85,7 @@
       "relation": "public.power7",
       "rows": 2075259,
       "columns": [["global_active_power", "DOUBLE PRECISION"], ["global_reactive_power", "DOUBLE PRECISION"], ["voltage", "DOUBLE PRECISION"], ["global_intensity", "DOUBLE PRECISION"], ["sub_metering_1", "DOUBLE PRECISION"], ["sub_metering_2", "DOUBLE PRECISION"], ["sub_metering_3", "DOUBLE PRECISION"]],
+      "type_counts": {"DOUBLE PRECISION": 7},
       "not_null": false,
       "null_counts": 0,
       "source_sha256": {
