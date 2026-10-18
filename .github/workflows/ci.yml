@@ -1,0 +1,56 @@
+name: Lightweight CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-evidence:
+    name: Python tests and evidence integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install test runner
+        run: python -m pip install 'pytest==8.4.2'
+      - name: Run offline regression tests
+        run: |
+          python -m pytest -q \
+            ci/test_check_evidence.py \
+            experiments/pg-maintenance/test_analyze_benchmark.py \
+            experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py \
+            experiments/pg-tracing/test_analyze_mcv_numeric_followup.py
+      - name: Verify preserved experimental evidence
+        run: python ci/check_evidence.py
+
+  paper:
+    name: Build paper PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Compile bundled PVLDB LaTeX template
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: main.tex
+          working_directory: paper
+          texlive_version: '2026'
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+      - name: Save compiled PDF
+        uses: actions/upload-artifact@v6
+        with:
+          name: paper-preview
+          path: paper/main.pdf
+          if-no-files-found: error
+          retention-days: 7
