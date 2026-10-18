@@ -8,7 +8,9 @@ exhaustive reference experiment, not a floating-point MILP claim.
 from __future__ import annotations
 
 import hashlib
+import gzip
 import itertools
+import io
 import json
 import platform
 import sys
@@ -20,7 +22,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent
 INSTANCE_DIR = ROOT / "instances"
-RESULT_PATH = ROOT / "results" / "decision-value-results.json"
+SUMMARY_PATH = ROOT / "results" / "decision-value-summary.json"
+RAW_PATH = ROOT / "results" / "decision-value-observations.jsonl.gz"
+RUNTIME_PATH = ROOT / "results" / "decision-value-runtime.json"
+CHECKSUM_PATH = ROOT / "results" / "SHA256SUMS"
+RUNTIME_CHECKSUM_PATH = ROOT / "results" / "RUNTIME-SHA256SUMS"
 REPORT_PATH = ROOT / "report.md"
 
 FIXTURES = (
@@ -28,6 +34,7 @@ FIXTURES = (
     ("hand_mixed_coincides", ("0", "2", "5"), "hand-constructed mixed-sign neutral case"),
     ("positive_sign", ("0", "2", "4"), "hand-constructed nonnegative-sign case"),
     ("negative_sign", ("0", "2", "4"), "hand-constructed nonpositive-sign case"),
+    ("conflict_shared_order", ("0", "3"), "controlled shared-order conflict probe"),
 )
 METHODS = ("pessimistic", "nominal", "greedy_nominal", "empty")
 
@@ -63,6 +70,9 @@ def load_instance(path: Path) -> dict[str, Any]:
         "cost": {key: q(item["maintenance_cost"]) for key, item in candidates.items()},
         "endpoints": {key: tuple(item["endpoints"]) for key, item in candidates.items()},
         "tasks": tuple(sorted(tasks, key=lambda item: item["id"])),
+        "probe_selected": (
+            tuple(sorted(raw["probe_selected"])) if "probe_selected" in raw else None
+        ),
     }
 
 
@@ -204,12 +214,19 @@ def serialize_schemes(schemes: dict[str, frozenset[str]]) -> dict[str, list[str]
     return {task_id: sorted(scheme) for task_id, scheme in sorted(schemes.items())}
 
 
-def evaluate_fixture(name: str, budget_texts: tuple[str, ...], description: str, path: Path) -> dict[str, Any]:
+def evaluate_fixture(
+    name: str,
+    budget_texts: tuple[str, ...],
+    description: str,
+    path: Path,
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
     instance = load_instance(path)
     theta0 = instance["candidate_ids"]
     orders = tuple(itertools.permutations(instance["candidate_ids"]))
     budgets = tuple(q(item) for item in budget_texts)
     budget_results = []
+    raw_records: list[dict[str, Any]] = []
+    runtime_records: list[dict[str, Any]] = []
 
     for budget in budgets:
         feasible_sets = tuple(selected for selected in subsets(instance["candidate_ids"]) if feasible(instance, selected, budget))
@@ -282,17 +299,13 @@ def evaluate_fixture(name: str, budget_texts: tuple[str, ...], description: str,
                 "all_scenario_regrets_nonnegative": all(value >= 0 for value in method_regrets[method]),
             }
         method_summary["pessimistic"].update(
-            {"solver_status": "exact_exhaustive", "optimizer_runtime_seconds": pess_runtime, "feasible_sets_evaluated": evaluated}
+            {"solver_status": "exact_exhaustive", "feasible_sets_evaluated": evaluated}
         )
         method_summary["nominal"].update(
-            {"solver_status": "exact_exhaustive", "optimizer_runtime_seconds": nominal_runtime, "feasible_sets_evaluated": evaluated}
+            {"solver_status": "exact_exhaustive", "feasible_sets_evaluated": evaluated}
         )
-        method_summary["greedy_nominal"].update(
-            {"solver_status": "deterministic_complete", "optimizer_runtime_seconds": greedy_runtime}
-        )
-        method_summary["empty"].update(
-            {"solver_status": "fixed", "optimizer_runtime_seconds": 0.0}
-        )
+        method_summary["greedy_nominal"].update({"solver_status": "deterministic_complete"})
+        method_summary["empty"].update({"solver_status": "fixed"})
 
         empty_max = max(method_losses["empty"])
         pess_max = max(method_losses["pessimistic"])
@@ -303,6 +316,28 @@ def evaluate_fixture(name: str, budget_texts: tuple[str, ...], description: str,
         gap = pess_bound - pess_max
         if gap < 0:
             raise AssertionError("task-wise PESS bound must dominate every tested shared order")
+        for observation in scenario_observations:
+            raw_records.append(
+                {
+                    "record_type": "shared_order_observation",
+                    "fixture_id": name,
+                    "budget": as_json(budget),
+                    **observation,
+                }
+            )
+        runtime_records.append(
+            {
+                "fixture_id": name,
+                "budget": as_json(budget),
+                "feasible_sets_evaluated": evaluated,
+                "optimizer_runtime_seconds": {
+                    "pessimistic": pess_runtime,
+                    "nominal": nominal_runtime,
+                    "greedy_nominal": greedy_runtime,
+                    "empty": 0.0,
+                },
+            }
+        )
         budget_results.append(
             {
                 "budget": as_json(budget),
@@ -324,11 +359,51 @@ def evaluate_fixture(name: str, budget_texts: tuple[str, ...], description: str,
                     for method in METHODS
                 },
                 "pessimistic_equals_nominal": pess_selected == nominal_selected,
-                "scenario_observations": scenario_observations,
+                "scenario_observation_count": len(scenario_observations),
             }
         )
 
-    return {
+    conflict_probe = None
+    if instance["probe_selected"] is not None:
+        probe_selected = frozenset(instance["probe_selected"])
+        probe_bound, probe_details = robust_objective(instance, probe_selected)
+        probe_observations = []
+        for order_index, order in enumerate(orders):
+            value, schemes = ordered_objective(instance, probe_selected, order)
+            observation = {
+                "order_index": order_index,
+                "global_order": list(order),
+                "loss": as_json(value),
+                "task_schemes": serialize_schemes(schemes),
+            }
+            probe_observations.append(observation)
+            raw_records.append(
+                {
+                    "record_type": "conflict_probe_observation",
+                    "fixture_id": name,
+                    "selected": sorted(probe_selected),
+                    **observation,
+                }
+            )
+        joint_max = max(q(item["loss"]) for item in probe_observations)
+        worst_witnesses = {task_id: sorted(witness) for task_id, (_, witness) in probe_details.items()}
+        conflict_probe = {
+            "selected": sorted(probe_selected),
+            "independent_taskwise_bound": as_json(probe_bound),
+            "max_shared_order_loss": as_json(joint_max),
+            "gap": as_json(probe_bound - joint_max),
+            "taskwise_worst_witnesses": worst_witnesses,
+            "shared_order_count": len(probe_observations),
+            "no_shared_order_realizes_all_taskwise_witnesses": all(
+                any(
+                    observation["task_schemes"].get(task_id) != witness
+                    for task_id, witness in worst_witnesses.items()
+                )
+                for observation in probe_observations
+            ),
+        }
+
+    result = {
         "instance_id": name,
         "description": description,
         "instance_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
@@ -338,21 +413,25 @@ def evaluate_fixture(name: str, budget_texts: tuple[str, ...], description: str,
         "global_order_coverage": "exact: all permutations of the full candidate universe; one shared order per scenario",
         "global_order_count": len(orders),
         "budgets": list(budget_results),
+        "conflict_probe": conflict_probe,
     }
+    return result, raw_records, runtime_records
 
 
-def report(payload: dict[str, Any]) -> str:
+def report(payload: dict[str, Any], artifact_info: dict[str, Any]) -> str:
     lines = [
         "# Issue #14 model-level decision value study",
         "",
         "Evidence label: **Experimentally observed** for the executed fixed JSON matrix below; the mathematical definitions and exact Fraction computations are model-internal. This study does not use PostgreSQL or real data.",
         "",
-        f"- Python: `{payload['metadata']['python'].splitlines()[0]}`",
-        f"- Platform: `{payload['metadata']['platform']}`",
         "- Arithmetic: exact `Fraction` inputs and objective calculations; no MILP solver was used.",
         "- Policy scenarios: exact enumeration of every permutation of the full candidate universe, with one shared order restricted to every task.",
         "- Nominal order: sorted candidate IDs.",
         "- Maintenance: additive proxy from the instance JSON; no claim about generic nonadditive `Maint(M)` or physical ANALYZE cost.",
+        f"- Canonical summary: `{artifact_info['summary_name']}`, {artifact_info['summary_bytes']} bytes, SHA-256 `{artifact_info['summary_sha256']}`.",
+        f"- Canonical raw JSONL: {artifact_info['raw_uncompressed_bytes']} bytes before compression, logical SHA-256 `{artifact_info['raw_uncompressed_sha256']}`.",
+        f"- Canonical compressed raw JSONL: `{artifact_info['raw_name']}`, {artifact_info['raw_bytes']} bytes, SHA-256 `{artifact_info['raw_sha256']}`.",
+        "- Optimizer runtimes are isolated in the nondeterministic `decision-value-runtime.json` artifact and are not part of canonical evidence.",
         "",
         "## Method definitions",
         "",
@@ -398,26 +477,68 @@ def report(payload: dict[str, Any]) -> str:
             "",
             "## Interpretation and limits",
             "",
-            "The raw JSON preserves each shared-order observation, selected set, task scheme, tested loss, and scenario regret. Scenario regret is certified here because the comparator is exhaustively solved for each tested order and budget. The PESS bound is the independent task-wise maximum over all maximal matchings; it is not asserted to be achievable by one shared policy. The observed gap therefore measures conservatism of this model-level aggregation over the enumerated shared orders.",
+            "The compressed raw JSONL preserves each shared-order observation, selected set, task scheme, tested loss, and scenario regret. Scenario regret is certified here because the comparator is exhaustively solved for each tested order and budget. The PESS bound is the independent task-wise maximum over all maximal matchings; it is not asserted to be achievable by one shared policy. The observed gap therefore measures conservatism of this model-level aggregation over the enumerated shared orders.",
             "",
-            "The hand cases intentionally include a PESS/nominal decision difference, a coincidence case, positive-sign and negative-sign controls, and multiple budgets. They are stress cases, not PostgreSQL-calibrated measurements. In particular, a lower modeled loss is not evidence of query-latency benefit, real PostgreSQL policy coverage, or physical maintenance-cost additivity. The next validation step is independent review of the instance matrix and, only if warranted, a separately scoped coupling to already recorded PostgreSQL snapshots.",
+        "For the optimizer-selected rows, every independent-task versus shared-order gap is exactly zero in this matrix; this is a property of these selected sets, not a general tightness result. The separate `conflict_shared_order` probe has independent bound 5, maximum shared-order loss 4, and gap 1: task `i0`'s worst witness is `{e0,e2}` while task `i1`'s is `{e1}`, and no one global order realizes both. Thus the general conservatism question is demonstrated as nontrivial but remains open beyond this controlled probe.",
+        "",
+        "The hand cases intentionally include a PESS/nominal decision difference, a coincidence case, positive-sign and negative-sign controls, and multiple budgets. They are stress cases, not PostgreSQL-calibrated measurements. In particular, a lower modeled loss is not evidence of query-latency benefit, real PostgreSQL policy coverage, or physical maintenance-cost additivity. The next validation step is independent review of the instance matrix and, only if warranted, a separately scoped coupling to already recorded PostgreSQL snapshots.",
             "",
         ]
     )
     return "\n".join(lines)
 
 
-def run() -> dict[str, Any]:
+def _json_bytes(value: Any) -> bytes:
+    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _jsonl_bytes(records: list[dict[str, Any]]) -> bytes:
+    return b"".join(
+        (json.dumps(record, separators=(",", ":"), sort_keys=True) + "\n").encode("utf-8")
+        for record in records
+    )
+
+
+def _gzip_bytes(value: bytes) -> bytes:
+    target = io.BytesIO()
+    with gzip.GzipFile(fileobj=target, mode="wb", filename="", mtime=0) as stream:
+        stream.write(value)
+    return target.getvalue()
+
+
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def run(
+    output_dir: Path | None = None,
+    report_path: Path | None = None,
+    *,
+    include_runtime: bool = True,
+) -> dict[str, Any]:
+    """Run once, writing canonical evidence to the caller-selected directory.
+
+    Canonical summary and compressed JSONL bytes contain no machine timings.
+    Runtime observations are optional and are written as a separate artifact.
+    Tests pass a temporary directory and `include_runtime=False` so they never
+    overwrite tracked evidence.
+    """
+    output_dir = Path(output_dir) if output_dir is not None else SUMMARY_PATH.parent
+    output_dir.mkdir(parents=True, exist_ok=True)
     fixtures = []
+    raw_records: list[dict[str, Any]] = []
+    runtime_records: list[dict[str, Any]] = []
     for name, budgets, description in FIXTURES:
-        fixtures.append(evaluate_fixture(name, budgets, description, INSTANCE_DIR / f"{name}.json"))
+        fixture, fixture_raw, fixture_runtime = evaluate_fixture(
+            name, budgets, description, INSTANCE_DIR / f"{name}.json"
+        )
+        fixtures.append(fixture)
+        raw_records.extend(fixture_raw)
+        runtime_records.extend(fixture_runtime)
     payload = {
         "metadata": {
             "experiment": "Issue #14 decision value and price of pessimism",
-            "python": sys.version,
-            "platform": platform.platform(),
             "arithmetic": "exact Fraction throughout; serialized rational values",
-            "execution_command": "python3 experiments/decision-value/run_experiment.py",
             "external_dependencies": "none; standard library only",
             "model_scope": "pairwise labeled-edge maximal-matching instantiation with additive maintenance proxy",
             "policy_scope": "all globally consistent candidate permutations, one shared order per scenario",
@@ -426,17 +547,64 @@ def run() -> dict[str, Any]:
             "large_conservatism_gap_threshold": "1",
             "pessimism_definition": "sum of task-wise maxima over all maximal matchings; not a shared-policy global maximum",
             "fixture_count": len(fixtures),
+            "raw_record_count": len(raw_records),
+            "raw_record_types": {
+                record_type: sum(item["record_type"] == record_type for item in raw_records)
+                for record_type in sorted({item["record_type"] for item in raw_records})
+            },
         },
         "fixtures": fixtures,
     }
-    RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    RESULT_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    REPORT_PATH.write_text(report(payload), encoding="utf-8")
+    summary_bytes = _json_bytes(payload)
+    raw_uncompressed = _jsonl_bytes(raw_records)
+    raw_compressed = _gzip_bytes(raw_uncompressed)
+    summary_path = output_dir / SUMMARY_PATH.name
+    raw_path = output_dir / RAW_PATH.name
+    checksum_path = output_dir / CHECKSUM_PATH.name
+    summary_path.write_bytes(summary_bytes)
+    raw_path.write_bytes(raw_compressed)
+    artifact_info = {
+        "summary_name": summary_path.name,
+        "summary_bytes": len(summary_bytes),
+        "summary_sha256": _sha256_bytes(summary_bytes),
+        "raw_name": raw_path.name,
+        "raw_uncompressed_bytes": len(raw_uncompressed),
+        "raw_uncompressed_sha256": _sha256_bytes(raw_uncompressed),
+        "raw_bytes": len(raw_compressed),
+        "raw_sha256": _sha256_bytes(raw_compressed),
+    }
+    checksum_path.write_text(
+        f"{artifact_info['summary_sha256']}  {summary_path.name}\n"
+        f"{artifact_info['raw_sha256']}  {raw_path.name}\n",
+        encoding="utf-8",
+    )
+    selected_report_path = Path(report_path) if report_path is not None else (
+        REPORT_PATH if output_dir == SUMMARY_PATH.parent else output_dir / REPORT_PATH.name
+    )
+    selected_report_path.write_text(report(payload, artifact_info), encoding="utf-8")
+    if include_runtime:
+        runtime_payload = {
+            "artifact_type": "nondeterministic_optimizer_runtime_observation",
+            "experiment": payload["metadata"]["experiment"],
+            "python": sys.version,
+            "platform": platform.platform(),
+            "execution_command": "python3 experiments/decision-value/run_experiment.py",
+            "records": runtime_records,
+        }
+        runtime_path = output_dir / RUNTIME_PATH.name
+        runtime_bytes = _json_bytes(runtime_payload)
+        runtime_path.write_bytes(runtime_bytes)
+        (output_dir / RUNTIME_CHECKSUM_PATH.name).write_text(
+            f"{_sha256_bytes(runtime_bytes)}  {runtime_path.name}\n",
+            encoding="utf-8",
+        )
     return payload
 
 
 if __name__ == "__main__":
     result = run()
-    print(f"wrote {RESULT_PATH}")
+    print(f"wrote {SUMMARY_PATH}")
+    print(f"wrote {RAW_PATH}")
     print(f"wrote {REPORT_PATH}")
+    print(f"wrote {RUNTIME_PATH}")
     print(f"fixtures={len(result['fixtures'])}")

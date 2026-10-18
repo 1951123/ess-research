@@ -19,7 +19,11 @@ For every fixture and budget, all permutations of the global candidate order
 are evaluated. These are shared orders: the same order is restricted to each
 task, rather than choosing an independent order per task. The raw JSON keeps
 the per-order observations for every method, plus the independently solved
-per-order optimum used for scenario regret.
+per-order optimum used for scenario regret. The checked-in raw evidence is a
+deterministic compressed JSONL artifact; its logical and compressed hashes are
+reported in `report.md` and `results/SHA256SUMS`. Optimizer runtimes are kept
+separately in the clearly labeled, nondeterministic
+`results/decision-value-runtime.json` artifact.
 
 Run from the repository root:
 
@@ -27,6 +31,10 @@ Run from the repository root:
 python3 experiments/decision-value/run_experiment.py
 python3 -m pytest -q experiments/decision-value/test_decision_value.py
 ```
+
+The runner accepts an output directory for isolated regeneration; tests use a
+temporary directory and never overwrite the checked-in results. The canonical
+summary, compressed JSONL, checksums, and report are byte-stable across runs.
 
 The experiment is deliberately standard-library-only so the research
 repository's offline CI can execute its tests without installing the separate
