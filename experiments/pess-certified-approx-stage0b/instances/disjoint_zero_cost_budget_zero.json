@@ -1,0 +1,52 @@
+{
+  "budget": "0",
+  "maintenance": {
+    "e0": "0",
+    "e1": "0",
+    "e2": "1",
+    "e3": "2"
+  },
+  "name": "disjoint_zero_cost_budget_zero",
+  "resources": [
+    "e0",
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tasks": [
+    {
+      "alpha": "-1",
+      "coefficients": {
+        "e0": "1",
+        "e1": "0",
+        "e2": "-1",
+        "e3": "2"
+      },
+      "edges": [
+        [
+          "e0",
+          "a",
+          "b"
+        ],
+        [
+          "e1",
+          "c",
+          "d"
+        ],
+        [
+          "e2",
+          "e",
+          "f"
+        ],
+        [
+          "e3",
+          "g",
+          "h"
+        ]
+      ],
+      "name": "t0",
+      "weight": "2"
+    }
+  ],
+  "tier": "small"
+}

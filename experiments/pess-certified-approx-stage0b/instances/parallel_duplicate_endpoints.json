@@ -1,0 +1,52 @@
+{
+  "budget": "2",
+  "maintenance": {
+    "e0": "1",
+    "e1": "1",
+    "e2": "1",
+    "e3": "1"
+  },
+  "name": "parallel_duplicate_endpoints",
+  "resources": [
+    "e0",
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tasks": [
+    {
+      "alpha": "0",
+      "coefficients": {
+        "e0": "3",
+        "e1": "-2",
+        "e2": "1",
+        "e3": "-1"
+      },
+      "edges": [
+        [
+          "e0",
+          "a",
+          "b"
+        ],
+        [
+          "e1",
+          "a",
+          "b"
+        ],
+        [
+          "e2",
+          "b",
+          "c"
+        ],
+        [
+          "e3",
+          "c",
+          "d"
+        ]
+      ],
+      "name": "t0",
+      "weight": "1"
+    }
+  ],
+  "tier": "small"
+}

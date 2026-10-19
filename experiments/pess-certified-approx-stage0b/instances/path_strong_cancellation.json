@@ -1,0 +1,52 @@
+{
+  "budget": "2",
+  "maintenance": {
+    "e0": "1",
+    "e1": "1",
+    "e2": "1",
+    "e3": "1"
+  },
+  "name": "path_strong_cancellation",
+  "resources": [
+    "e0",
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tasks": [
+    {
+      "alpha": "1",
+      "coefficients": {
+        "e0": "-1",
+        "e1": "1",
+        "e2": "-2",
+        "e3": "2"
+      },
+      "edges": [
+        [
+          "e0",
+          "a",
+          "b"
+        ],
+        [
+          "e1",
+          "b",
+          "c"
+        ],
+        [
+          "e2",
+          "c",
+          "d"
+        ],
+        [
+          "e3",
+          "d",
+          "e"
+        ]
+      ],
+      "name": "t0",
+      "weight": "1"
+    }
+  ],
+  "tier": "small"
+}
