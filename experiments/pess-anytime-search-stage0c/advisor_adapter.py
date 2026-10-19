@@ -13,10 +13,8 @@ from typing import Any
 import networkx
 import numpy
 import scipy
-
 from pess_ess.model import read_instance
 from pess_ess.solvers_v2 import MasterOracleOptions, solve_master_oracle, solve_static
-
 
 ADVISOR_SHA = "1052ff4a46270c90414d76b32d6f6b37e5908f6a"
 

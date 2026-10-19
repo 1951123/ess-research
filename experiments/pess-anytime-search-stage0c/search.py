@@ -5,16 +5,14 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass
 from fractions import Fraction
-from typing import Any, Callable
+from typing import Any
 
 from reference import (
     feasible,
-    frac,
     maintenance,
     objective,
     signed_extrema_objective_bound,
 )
-
 
 CHECKPOINTS = (0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0)
 

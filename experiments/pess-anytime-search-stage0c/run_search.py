@@ -13,7 +13,6 @@ from pathlib import Path
 from reference import exhaustive, load, verify_selected
 from search import run_method
 
-
 METHODS = ("empty", "singleton", "greedy", "basic", "cache_only", "pess_order", "pess_order_cache")
 SEEDS = (3501, 3502, 3503)
 

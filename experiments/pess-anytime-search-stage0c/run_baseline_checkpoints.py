@@ -15,7 +15,6 @@ from pathlib import Path
 from advisor_adapter import run_solver
 from reference import load, verify_selected
 
-
 CHECKPOINTS = (0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0)
 METHODS = ("static", "master_oracle")
 SEEDS = (3501, 3502, 3503)
