@@ -140,6 +140,8 @@ class BoundSnapshot:
     witness_greedy_seconds: float
     witness_exact_seconds: float
     f_forced_seconds: float
+    sensitivity_exact_seconds: float
+    sensitivity_fractional_seconds: float
 
 
 def evaluate_bounds(
@@ -161,8 +163,12 @@ def evaluate_bounds(
     }
     if remaining_budget < 0:
         raise ValueError("infeasible forced set")
+    start = perf_counter()
     exact_k = knapsack_exact(instance, undecided, remaining_budget, values)
+    exact_k_seconds = perf_counter() - start
+    start = perf_counter()
     fractional_k = knapsack_fractional(instance, undecided, remaining_budget, values)
+    fractional_k_seconds = perf_counter() - start
     start = perf_counter()
     greedy, _, greedy_meta = witness_bound(instance, forced, undecided, "greedy")
     greedy_seconds = perf_counter() - start
@@ -175,12 +181,14 @@ def evaluate_bounds(
         sensitivity_fractional=max(Fraction(0), f_forced - fractional_k),
         witness_greedy=greedy,
         witness_exact=exact,
-        exact_prefix_optimum=instance.objective(forced),
+        exact_prefix_optimum=f_forced,
         f_forced=f_forced,
         q_calls_greedy=greedy_meta["q_extrema_calls"],
         q_calls_exact=exact_meta["q_extrema_calls"],
         witness_greedy_seconds=greedy_seconds,
         witness_exact_seconds=exact_seconds,
         f_forced_seconds=f_seconds,
+        sensitivity_exact_seconds=exact_k_seconds,
+        sensitivity_fractional_seconds=fractional_k_seconds,
     )
 
