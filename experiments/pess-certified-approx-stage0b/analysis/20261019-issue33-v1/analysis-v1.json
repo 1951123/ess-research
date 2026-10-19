@@ -1,0 +1,246 @@
+{
+  "by_setup": {
+    "coarse_uniform_delta_1": {
+      "end_to_end_method_time": "NOT_MEASURED_V1",
+      "matching_oracle_call_basis": "source-derived exact count: three certificate matching computations per task, plus one nu computation per task for matching-aware delta setup",
+      "matching_oracle_calls": 93,
+      "recorded_partial_core_plus_certificate_time": {
+        "count": 15,
+        "median_seconds": 0.0002296700004080776,
+        "sum_seconds": 0.03732315000161179
+      },
+      "rounded_solver_core_time": {
+        "count": 12,
+        "median_seconds": 0.000177439998878981,
+        "sum_seconds": 0.02281252099419362
+      },
+      "rows": 15,
+      "stress_global_gap": "NO_GLOBAL_GAP",
+      "stress_objective_calls": "NOT_RECORDED_V1_GREEDY_NEIGHBOR_EVALUATIONS",
+      "stress_original_feasible_score": {
+        "count": 3,
+        "max": "13/6",
+        "mean": "11/9",
+        "median": "1",
+        "min": "1/2"
+      },
+      "stress_rows": 3,
+      "timing_variance": "NOT_ESTIMATED_SINGLE_RUN",
+      "tiny_original_certified_gap": {
+        "count": 12,
+        "max": "1",
+        "mean": "83/288",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_original_incumbent": {
+        "count": 12,
+        "max": "9/2",
+        "mean": "241/288",
+        "median": "5/12",
+        "min": "0"
+      },
+      "tiny_rounded_objective_calls": 710,
+      "tiny_rows": 12,
+      "tiny_state_counts": [
+        42,
+        4,
+        2,
+        11,
+        11,
+        512,
+        58,
+        16,
+        16,
+        16,
+        10,
+        12
+      ],
+      "tiny_tau_attainment": 8
+    },
+    "matching_aware_eta_1_2": {
+      "end_to_end_method_time": "NOT_MEASURED_V1",
+      "matching_oracle_call_basis": "source-derived exact count: three certificate matching computations per task, plus one nu computation per task for matching-aware delta setup",
+      "matching_oracle_calls": 124,
+      "recorded_partial_core_plus_certificate_time": {
+        "count": 15,
+        "median_seconds": 0.0002786840013868641,
+        "sum_seconds": 0.03850819301442243
+      },
+      "rounded_solver_core_time": {
+        "count": 12,
+        "median_seconds": 0.00018604000069899485,
+        "sum_seconds": 0.02327640700605116
+      },
+      "rows": 15,
+      "stress_global_gap": "NO_GLOBAL_GAP",
+      "stress_objective_calls": "NOT_RECORDED_V1_GREEDY_NEIGHBOR_EVALUATIONS",
+      "stress_original_feasible_score": {
+        "count": 3,
+        "max": "19/12",
+        "mean": "7/9",
+        "median": "1/2",
+        "min": "1/4"
+      },
+      "stress_rows": 3,
+      "timing_variance": "NOT_ESTIMATED_SINGLE_RUN",
+      "tiny_original_certified_gap": {
+        "count": 12,
+        "max": "3/4",
+        "mean": "11/144",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_original_incumbent": {
+        "count": 12,
+        "max": "9/2",
+        "mean": "233/288",
+        "median": "1/3",
+        "min": "0"
+      },
+      "tiny_rounded_objective_calls": 710,
+      "tiny_rows": 12,
+      "tiny_state_counts": [
+        42,
+        4,
+        2,
+        11,
+        11,
+        512,
+        58,
+        16,
+        16,
+        16,
+        10,
+        12
+      ],
+      "tiny_tau_attainment": 11
+    },
+    "matching_aware_eta_1_4": {
+      "end_to_end_method_time": "NOT_MEASURED_V1",
+      "matching_oracle_call_basis": "source-derived exact count: three certificate matching computations per task, plus one nu computation per task for matching-aware delta setup",
+      "matching_oracle_calls": 124,
+      "recorded_partial_core_plus_certificate_time": {
+        "count": 15,
+        "median_seconds": 0.0002720560041780118,
+        "sum_seconds": 0.037877948008826934
+      },
+      "rounded_solver_core_time": {
+        "count": 12,
+        "median_seconds": 0.00016511000103491824,
+        "sum_seconds": 0.022843481001473265
+      },
+      "rows": 15,
+      "stress_global_gap": "NO_GLOBAL_GAP",
+      "stress_objective_calls": "NOT_RECORDED_V1_GREEDY_NEIGHBOR_EVALUATIONS",
+      "stress_original_feasible_score": {
+        "count": 3,
+        "max": "19/12",
+        "mean": "7/9",
+        "median": "1/2",
+        "min": "1/4"
+      },
+      "stress_rows": 3,
+      "timing_variance": "NOT_ESTIMATED_SINGLE_RUN",
+      "tiny_original_certified_gap": {
+        "count": 12,
+        "max": "1/16",
+        "mean": "1/192",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_original_incumbent": {
+        "count": 12,
+        "max": "9/2",
+        "mean": "215/288",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_rounded_objective_calls": 710,
+      "tiny_rows": 12,
+      "tiny_state_counts": [
+        42,
+        4,
+        2,
+        11,
+        11,
+        512,
+        58,
+        16,
+        16,
+        16,
+        10,
+        12
+      ],
+      "tiny_tau_attainment": 12
+    },
+    "unrounded": {
+      "end_to_end_method_time": "NOT_MEASURED_V1",
+      "matching_oracle_call_basis": "source-derived exact count: three certificate matching computations per task, plus one nu computation per task for matching-aware delta setup",
+      "matching_oracle_calls": 93,
+      "recorded_partial_core_plus_certificate_time": {
+        "count": 15,
+        "median_seconds": 0.0002495869994163513,
+        "sum_seconds": 0.038737073988158954
+      },
+      "rounded_solver_core_time": {
+        "count": 12,
+        "median_seconds": 0.00018256099974678364,
+        "sum_seconds": 0.023483610995754134
+      },
+      "rows": 15,
+      "stress_global_gap": "NO_GLOBAL_GAP",
+      "stress_objective_calls": "NOT_RECORDED_V1_GREEDY_NEIGHBOR_EVALUATIONS",
+      "stress_original_feasible_score": {
+        "count": 3,
+        "max": "19/12",
+        "mean": "7/9",
+        "median": "1/2",
+        "min": "1/4"
+      },
+      "stress_rows": 3,
+      "timing_variance": "NOT_ESTIMATED_SINGLE_RUN",
+      "tiny_original_certified_gap": {
+        "count": 12,
+        "max": "0",
+        "mean": "0",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_original_incumbent": {
+        "count": 12,
+        "max": "9/2",
+        "mean": "215/288",
+        "median": "0",
+        "min": "0"
+      },
+      "tiny_rounded_objective_calls": 710,
+      "tiny_rows": 12,
+      "tiny_state_counts": [
+        42,
+        4,
+        2,
+        11,
+        11,
+        512,
+        58,
+        16,
+        16,
+        16,
+        10,
+        12
+      ],
+      "tiny_tau_attainment": 12
+    }
+  },
+  "decision": "INCONCLUSIVE",
+  "decision_reason": "The matched tiny engines enumerate the same state space and have no measured end-to-end timing; Reference B is unavailable and stress rows have no global rounded lower bound.",
+  "end_to_end_comparison_status": "NOT_MEASURED",
+  "end_to_end_reason": "v1 starts the recorded timers after delta setup/quantization and does not record every greedy neighbor objective call or peak memory; solver-core timings are diagnostic only",
+  "memory_cap_status": "NOT_ENFORCED_IN_V1",
+  "resource_cap_status": "SELECTION_ENGINE_ONLY_IN_V1",
+  "rows": 60,
+  "source_evidence_preserved": true,
+  "source_run": "experiments/pess-certified-approx-stage0b/runs/20261019-issue33-v1",
+  "tiny_state_counts_equal_across_setups": true
+}

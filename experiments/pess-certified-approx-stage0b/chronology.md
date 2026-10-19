@@ -18,6 +18,8 @@ The Issue branch chronology is intentionally explicit:
    `f65eead` refreshed the v1 evidence with that current code SHA.
 6. Draft PR #34 was created after the local/live/PR HEAD checks; it remains
    open and unmerged for researcher review.
+7. The post-review `analysis/20261019-issue33-v1/` files are derived from the
+   preserved v1 JSONL; they add no new comparisons and do not overwrite v1.
 
 The protocol commit is recorded in `environment.json`, `manifest-copy.json`,
 `summary.json`, and `report.md`. No GitHub Contents/Git-data API was used to

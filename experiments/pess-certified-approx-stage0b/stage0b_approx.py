@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from fractions import Fraction
 from time import perf_counter
-from typing import Mapping
 
 from stage0b_reference import Instance, OptimizationResult, exact_outer_optimum
 

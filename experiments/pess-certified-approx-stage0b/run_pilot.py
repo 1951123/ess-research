@@ -6,10 +6,9 @@ import argparse
 import hashlib
 import json
 import platform
-import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from fractions import Fraction
 from pathlib import Path
 from time import perf_counter
@@ -17,8 +16,12 @@ from time import perf_counter
 from stage0b_approx import solve_rounded
 from stage0b_quantization import certify_matching_errors, quantized_coefficients
 from stage0b_reference import Instance, exact_outer_optimum
-from stage0b_serialization import fraction_text, instance_from_json, read_json, write_json
-
+from stage0b_serialization import (
+    fraction_text,
+    instance_from_json,
+    read_json,
+    write_json,
+)
 
 ROOT = Path(__file__).resolve().parent
 MANIFEST = ROOT / "pilot-manifest-v1.json"
@@ -161,7 +164,7 @@ def run(run_dir: Path) -> None:
     current = git_sha()
     write_json(run_dir / "manifest-copy.json", manifest)
     environment = {
-        "captured_at_utc": datetime.now(timezone.utc).isoformat(),
+        "captured_at_utc": datetime.now(UTC).isoformat(),
         "python": sys.version,
         "platform": platform.platform(),
         "processor": platform.processor(),

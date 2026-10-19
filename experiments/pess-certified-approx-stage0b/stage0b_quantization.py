@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from fractions import Fraction
-from typing import Mapping
 
 from stage0b_reference import Edge, Instance, Task, matching_labels
 

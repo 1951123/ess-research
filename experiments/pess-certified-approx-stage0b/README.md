@@ -40,3 +40,9 @@ an equal-clock same-objective computational benefit.
 
 See `proof.md` for the uniform perturbation and LB/UB transfer argument and
 `counterexamples.json` for preserved failures of tempting incorrect variants.
+
+The review follow-up in `analysis/20261019-issue33-v1/` is derived from the
+preserved v1 JSONL. It reports the matched original-objective ablation and
+negative no-state-reduction result, while explicitly marking end-to-end method
+time and complete oracle accounting as **NOT MEASURED** for v1; it does not
+rewrite the frozen evidence.

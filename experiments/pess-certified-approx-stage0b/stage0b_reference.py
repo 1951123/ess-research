@@ -7,12 +7,11 @@ uses the definition of maximality on the selected graph.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from fractions import Fraction
 from itertools import combinations
 from time import perf_counter
-from typing import Iterable, Iterator, Mapping, Sequence
-
 
 Edge = tuple[str, str, str]
 Matching = tuple[str, ...]

@@ -14,7 +14,7 @@ def fraction_text(value: Fraction) -> str:
     return str(value.numerator) if value.denominator == 1 else f"{value.numerator}/{value.denominator}"
 
 
-def parse_fraction(value: str | int | float) -> Fraction:
+def parse_fraction(value: str | float) -> Fraction:
     if isinstance(value, int):
         return Fraction(value)
     if isinstance(value, float):

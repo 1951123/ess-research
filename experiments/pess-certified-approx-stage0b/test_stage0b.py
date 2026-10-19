@@ -11,10 +11,21 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
-from stage0b_approx import solve_rounded
-from stage0b_quantization import certify_matching_errors, quantized_coefficients, rho_exhaustive, rho_independent
-from stage0b_reference import Instance, Task, exact_outer_optimum, maximal_matching_labels, task_loss
 from run_pilot import setup_deltas
+from stage0b_approx import solve_rounded
+from stage0b_quantization import (
+    certify_matching_errors,
+    quantized_coefficients,
+    rho_exhaustive,
+    rho_independent,
+)
+from stage0b_reference import (
+    Instance,
+    Task,
+    exact_outer_optimum,
+    maximal_matching_labels,
+    task_loss,
+)
 from stage0b_serialization import instance_from_json, read_json
 
 
@@ -99,6 +110,18 @@ class ReferenceAndCertificateTests(unittest.TestCase):
         self.assertEqual(row["corollary_rhs"], Fraction(1))
         self.assertTrue(row["corollary_holds"])
 
+    def test_rounded_zero_conflict_edge_must_remain_eligible(self):
+        # Both selected edges share b.  Keeping the rounded-zero e0 preserves
+        # maximal singleton outcomes; deleting it changes the admissible family.
+        edges = (("e0", "a", "b"), ("e1", "b", "c"))
+        original = {"e0": Fraction(1, 3), "e1": Fraction(-2)}
+        rounded = {"e0": Fraction(0), "e1": Fraction(-2)}
+        kept = task_loss(Fraction(2), edges, rounded)
+        dropped = task_loss(Fraction(2), (edges[1],), {"e1": rounded["e1"]})
+        self.assertEqual(kept, Fraction(2))
+        self.assertEqual(dropped, Fraction(0))
+        self.assertNotEqual(original["e0"], rounded["e0"])
+
     def test_empty_task_and_zero_sum_are_well_defined(self):
         task = Task("empty", Fraction(1), Fraction(-2), (), {})
         self.assertEqual(task_loss(task.alpha, task.edges, task.coefficients), Fraction(2))
@@ -120,7 +143,6 @@ class CounterexampleTests(unittest.TestCase):
 
     def test_naive_signed_cancellation_fails(self):
         instance = one_task("signed", "0", (("e0", "a", "b"), ("e1", "b", "c")), ("1", "-1"))
-        rounded = {"t0": {"e0": Fraction(0), "e1": Fraction(0)}}
         self.assertEqual(instance.objective({"e0", "e1"}), Fraction(1))
         self.assertEqual(abs((Fraction(1) - 0) + (Fraction(-1) - 0)), Fraction(0))
 
