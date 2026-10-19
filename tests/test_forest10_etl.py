@@ -113,9 +113,17 @@ def _write_synthetic_input(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> P
     return root
 
 
-def test_explicit_data_root_is_required_and_missing_inputs_fail_closed(tmp_path):
-    with pytest.raises(forest10.InputContractError, match="explicit"):
+def test_data_root_environment_fallback_and_cli_precedence(tmp_path, monkeypatch):
+    monkeypatch.setenv("ESS_DATA_ROOT", str(tmp_path / "from-env"))
+    assert forest10._paths(None)["root"] == (tmp_path / "from-env").resolve()
+    cli_root = tmp_path / "from-cli"
+    assert forest10._paths(cli_root)["root"] == cli_root.resolve()
+    monkeypatch.setenv("ESS_DATA_ROOT", "")
+    with pytest.raises(forest10.InputContractError, match="--data-root or ESS_DATA_ROOT"):
         forest10.validate_source(None)
+
+
+def test_missing_inputs_fail_closed(tmp_path):
     report = forest10.inspect_source(tmp_path / "does-not-exist")
     assert report["source_present"] is False
     assert report["status"] == "BLOCKED_MISSING_INPUT"

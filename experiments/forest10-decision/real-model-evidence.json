@@ -1,0 +1,499 @@
+{
+  "candidate_rule": {
+    "budgets": [
+      "0",
+      "2",
+      "3",
+      "5"
+    ],
+    "candidates": [
+      {
+        "endpoints": [
+          "Elevation",
+          "Aspect"
+        ],
+        "id": "e01",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      },
+      {
+        "endpoints": [
+          "Aspect",
+          "Slope"
+        ],
+        "id": "e12",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      },
+      {
+        "endpoints": [
+          "Slope",
+          "Horizontal_Distance_To_Hydrology"
+        ],
+        "id": "e23",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      },
+      {
+        "endpoints": [
+          "Horizontal_Distance_To_Hydrology",
+          "Vertical_Distance_To_Hydrology"
+        ],
+        "id": "e34",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      },
+      {
+        "endpoints": [
+          "Vertical_Distance_To_Hydrology",
+          "Horizontal_Distance_To_Roadways"
+        ],
+        "id": "e45",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      },
+      {
+        "endpoints": [
+          "Horizontal_Distance_To_Roadways",
+          "Hillshade_9am"
+        ],
+        "id": "e56",
+        "maintenance_cost": "1",
+        "table": "public.forest10_original"
+      }
+    ],
+    "nominal_order": [
+      "e01",
+      "e12",
+      "e23",
+      "e34",
+      "e45",
+      "e56"
+    ]
+  },
+  "evidence_label": "author_reported_locally_observed_exact_model_artifact",
+  "format": "ess-issue23-forest10-real-model-evidence-v1",
+  "objective_results": [
+    {
+      "budget": "0",
+      "methods": {
+        "joint_robust": {
+          "max_shared_order_loss": "14672700091697225791/1000000000000000000",
+          "nominal_order_loss": "14672700091697225791/1000000000000000000",
+          "objective": "14672700091697225791/1000000000000000000",
+          "optimal_sets": [
+            []
+          ],
+          "pessimistic_taskwise_bound": "14672700091697225791/1000000000000000000",
+          "selected": [],
+          "tie_count": 1
+        },
+        "nominal": {
+          "max_shared_order_loss": "14672700091697225791/1000000000000000000",
+          "nominal_order_loss": "14672700091697225791/1000000000000000000",
+          "objective": "14672700091697225791/1000000000000000000",
+          "optimal_sets": [
+            []
+          ],
+          "pessimistic_taskwise_bound": "14672700091697225791/1000000000000000000",
+          "selected": [],
+          "tie_count": 1
+        },
+        "pess": {
+          "max_shared_order_loss": "14672700091697225791/1000000000000000000",
+          "nominal_order_loss": "14672700091697225791/1000000000000000000",
+          "objective": "14672700091697225791/1000000000000000000",
+          "optimal_sets": [
+            []
+          ],
+          "pessimistic_taskwise_bound": "14672700091697225791/1000000000000000000",
+          "selected": [],
+          "tie_count": 1
+        }
+      }
+    },
+    {
+      "budget": "2",
+      "methods": {
+        "joint_robust": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 3
+        },
+        "nominal": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e45"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 4
+        },
+        "pess": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 3
+        }
+      }
+    },
+    {
+      "budget": "3",
+      "methods": {
+        "joint_robust": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e01",
+              "e34",
+              "e56"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 4
+        },
+        "nominal": {
+          "max_shared_order_loss": "706243996172685143/50000000000000000",
+          "nominal_order_loss": "13303092326884799533/1000000000000000000",
+          "objective": "13303092326884799533/1000000000000000000",
+          "optimal_sets": [
+            [
+              "e12",
+              "e23",
+              "e34"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "14320233961846001243/1000000000000000000",
+          "selected": [
+            "e12",
+            "e23",
+            "e34"
+          ],
+          "tie_count": 1
+        },
+        "pess": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e01",
+              "e34",
+              "e56"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 4
+        }
+      }
+    },
+    {
+      "budget": "5",
+      "methods": {
+        "joint_robust": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e01",
+              "e34",
+              "e56"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 4
+        },
+        "nominal": {
+          "max_shared_order_loss": "706243996172685143/50000000000000000",
+          "nominal_order_loss": "13303092326884799533/1000000000000000000",
+          "objective": "13303092326884799533/1000000000000000000",
+          "optimal_sets": [
+            [
+              "e12",
+              "e23",
+              "e34"
+            ],
+            [
+              "e12",
+              "e23",
+              "e34",
+              "e45"
+            ],
+            [
+              "e12",
+              "e23",
+              "e34",
+              "e45",
+              "e56"
+            ],
+            [
+              "e12",
+              "e23",
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "14320233961846001243/1000000000000000000",
+          "selected": [
+            "e12",
+            "e23",
+            "e34"
+          ],
+          "tie_count": 4
+        },
+        "pess": {
+          "max_shared_order_loss": "2699689273055419537/200000000000000000",
+          "nominal_order_loss": "2699689273055419537/200000000000000000",
+          "objective": "2699689273055419537/200000000000000000",
+          "optimal_sets": [
+            [
+              "e01",
+              "e34"
+            ],
+            [
+              "e01",
+              "e34",
+              "e56"
+            ],
+            [
+              "e34"
+            ],
+            [
+              "e34",
+              "e56"
+            ]
+          ],
+          "pessimistic_taskwise_bound": "2699689273055419537/200000000000000000",
+          "selected": [
+            "e01",
+            "e34"
+          ],
+          "tie_count": 4
+        }
+      }
+    }
+  ],
+  "scope": "small derived model-only package; no raw CSV, pickle, MCV rows, PG logs, or credentials",
+  "source_artifacts": {
+    "calibration_sha256": "636d363792d36f27d5b2ff6ea5f9311437ea4f8d04dd9646d7a6be12a8cffd3e",
+    "instance_sha256": "848eb7e43714399e8c711cfe7601815e0caa5996ad20e4c022db6ff5bdee03a3",
+    "manifest_sha256": "bae9202b1807c05932f17e62acaec4e09121fa5a58c994862323562f44e0c71b",
+    "summary_sha256": "267cac4c37275b43bed7d7e52dc3452af995cf579b19b3d15f47c8f04da98270"
+  },
+  "tasks": [
+    {
+      "alpha": "-6.009729007549566450",
+      "corrections": {
+        "e01": "0.000000000000000000",
+        "e12": "-0.000000000000000231",
+        "e23": "-0.147591321211422862",
+        "e34": "0.674196275357480696",
+        "e45": "0.000000000000000000"
+      },
+      "eligible_candidates": [
+        "e01",
+        "e12",
+        "e23",
+        "e34",
+        "e45"
+      ],
+      "id": "real_task_e01",
+      "source_query_id": "arecel:forest10:valid:000005",
+      "split": "valid",
+      "target_cardinality": 3,
+      "truth_cardinality": 3,
+      "weight": "1"
+    },
+    {
+      "alpha": "-2.858021447226336891",
+      "corrections": {
+        "e12": "0.000000000000000000"
+      },
+      "eligible_candidates": [
+        "e12"
+      ],
+      "id": "real_task_e12",
+      "source_query_id": "arecel:forest10:valid:000003",
+      "split": "valid",
+      "target_cardinality": 1,
+      "truth_cardinality": 0,
+      "weight": "1"
+    },
+    {
+      "alpha": "-0.015514112499850929",
+      "corrections": {
+        "e23": "-0.014138041617494489",
+        "e34": "0.240520305009494730"
+      },
+      "eligible_candidates": [
+        "e23",
+        "e34"
+      ],
+      "id": "real_task_e23",
+      "source_query_id": "arecel:forest10:valid:000009",
+      "split": "valid",
+      "target_cardinality": 119625,
+      "truth_cardinality": 119625,
+      "weight": "1"
+    },
+    {
+      "alpha": "-1.255292781802657598",
+      "corrections": {
+        "e34": "0.709549531072440282"
+      },
+      "eligible_candidates": [
+        "e34"
+      ],
+      "id": "real_task_e34",
+      "source_query_id": "arecel:forest10:valid:000001",
+      "split": "valid",
+      "target_cardinality": 343,
+      "truth_cardinality": 343,
+      "weight": "1"
+    },
+    {
+      "alpha": "-0.615926982953209615",
+      "corrections": {
+        "e45": "0.000000000000000000",
+        "e56": "0.000000000000000000"
+      },
+      "eligible_candidates": [
+        "e45",
+        "e56"
+      ],
+      "id": "real_task_e45",
+      "source_query_id": "arecel:forest10:valid:000010",
+      "split": "valid",
+      "target_cardinality": 12916,
+      "truth_cardinality": 12916,
+      "weight": "1"
+    },
+    {
+      "alpha": "-3.918215759665604308",
+      "corrections": {
+        "e45": "0.000000000000000000",
+        "e56": "0.000000000000000000"
+      },
+      "eligible_candidates": [
+        "e45",
+        "e56"
+      ],
+      "id": "real_task_e56",
+      "source_query_id": "arecel:forest10:valid:000011",
+      "split": "valid",
+      "target_cardinality": 8,
+      "truth_cardinality": 8,
+      "weight": "1"
+    }
+  ],
+  "truth_floor": "T_i=max(1,N_i); zero-truth task is retained with T_i=1",
+  "verification": {
+    "independent_reference": "verified_objective_certificates=12",
+    "raw_record_count": 11520,
+    "shared_order_count": 720
+  }
+}
