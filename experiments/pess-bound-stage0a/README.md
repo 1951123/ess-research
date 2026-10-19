@@ -25,16 +25,33 @@ Run the unit tests:
 python3 -m unittest discover -s experiments/pess-bound-stage0a -p 'test_*.py' -v
 ```
 
-Re-run the frozen pilot:
+Verify the committed evidence before re-executing either pilot:
 
 ```sh
-python3 experiments/pess-bound-stage0a/run_stage0a.py
 (cd experiments/pess-bound-stage0a/runs/20261019-issue30-v1 && sha256sum -c SHA256SUMS)
-python3 experiments/pess-bound-stage0a/run_stage0a.py \
-  --manifest experiments/pess-bound-stage0a/pilot-manifest-v2.json \
-  --run-dir experiments/pess-bound-stage0a/runs/20261019-issue30-v2
 (cd experiments/pess-bound-stage0a/runs/20261019-issue30-v2 && sha256sum -c SHA256SUMS)
 ```
+
+Re-run into new scratch directories; never pass either committed historical
+directory as `--run-dir`:
+
+```sh
+scratch_v1="$(mktemp -d /tmp/ess-stage0a-v1.XXXXXX)"
+python3 experiments/pess-bound-stage0a/run_stage0a.py \
+  --run-dir "$scratch_v1"
+(cd "$scratch_v1" && sha256sum -c SHA256SUMS)
+
+scratch_v2="$(mktemp -d /tmp/ess-stage0a-v2.XXXXXX)"
+python3 experiments/pess-bound-stage0a/run_stage0a.py \
+  --manifest experiments/pess-bound-stage0a/pilot-manifest-v2.json \
+  --run-dir "$scratch_v2"
+(cd "$scratch_v2" && sha256sum -c SHA256SUMS)
+```
+
+The runner refuses the preserved v1/v2 directories. Across environments,
+the exact observations, objectives, and failure counts should agree, while
+wall-clock timings and raw-output bytes/hashes may differ; keep any new
+scratch output separately instead of replacing the committed evidence.
 
 The restricted-master comparator D is intentionally recorded as not executed:
 the issue forbids modifying `ess-advisor` or building a new solver for this
