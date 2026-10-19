@@ -52,7 +52,7 @@ def _greedy(
         if not candidates:
             stop_reason = "NO_FEASIBLE_EXTENSION"
             break
-        candidates.sort(key=lambda row: (row[0], tuple(-ord(c) for c in row[1])))
+        candidates.sort(key=lambda row: (row[0], row[1]))
         candidate_value, _, candidate = candidates[0]
         states += 1
         if candidate_value >= value:
