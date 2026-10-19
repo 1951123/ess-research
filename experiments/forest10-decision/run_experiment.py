@@ -530,9 +530,9 @@ def real_report(
     lines = [
         "# Issue #23 Forest10 real-input decision comparison",
         "",
-        "Evidence label: **Experimentally observed exact model comparison over a measured-input rationalization**. PostgreSQL calibration observations and real-query estimate behavior are separate artifacts; this report only summarizes the exact Fraction optimization over the generated model instance.",
+        "Evidence label: **Author-reported, locally observed exact model comparison over a measured-input rationalization**. PostgreSQL calibration observations and real-query estimate behavior are separate artifacts; this report only summarizes the exact Fraction optimization over the generated model instance.",
         "",
-        f"Retained positive-truth tasks: `{len(instance['tasks'])}`. Excluded frozen task(s): `{len(instance['raw'].get('parameter_provenance', {}).get('excluded_tasks', []))}` because the primary pre-clamp log model requires `T_i > 0`; the zero-truth task remains in the PostgreSQL calibration artifact.",
+        f"Tasks in the model: `{len(instance['tasks'])}`. The target uses the Issue #23 floor `T_i=max(1,N_i)`; the zero-truth task is retained with `T_i=1` because all measured eligible pre-clamp estimates are positive.",
         "",
         "The candidate universe, budgets, nominal order, all shared orders, maximal-matching admissibility, lexicographic tie-break, and exhaustive Fraction/reference framework are inherited from the frozen protocol. Maintenance is the one-unit additive proxy only; these rows do not measure physical ANALYZE cost.",
         "",
@@ -551,7 +551,7 @@ def real_report(
     lines.extend(
         [
             "",
-            "The model values are exact Fraction results after the explicitly recorded 18-decimal rationalization of measured natural-log coefficients. They are not claims that every abstract maximal matching is realized by one fixed PostgreSQL catalog, nor are they PostgreSQL plan-row or latency results.",
+            "The model values are exact Fraction results after the explicitly recorded 18-decimal rationalization of measured natural-log coefficients. The six valid tasks are a narrow construction sample, not a representative or test-split robustness study; the 720 shared orders are abstract scenarios, not verified PG catalog orderings. These results are not claims that every abstract maximal matching is realized by one fixed PostgreSQL catalog, nor are they PostgreSQL plan-row or latency results.",
             "",
             f"Summary SHA-256: `{artifacts['summary_sha256']}`; raw observation SHA-256: `{artifacts['raw_sha256']}`.",
         ]

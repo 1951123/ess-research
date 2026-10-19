@@ -89,8 +89,9 @@ physical maintenance cost.
 
 The real stage must distinguish three evidence layers: exact mathematical
 optimization, PG calibration observations, and real PostgreSQL estimate
-behavior. The completed run retained one zero-truth task in the PG measurement
-layer but excluded it from the primary positive pre-clamp log model because
-`log(n_i^0/T_i)` requires `T_i>0`; no replacement or synthetic truth was used.
+behavior. The completed run retained the zero-truth task with the prescribed
+`T_i=max(1,N_i)=1` floor; its measured baseline and eligible candidate
+pre-clamp estimates were positive, so no replacement or synthetic truth was
+used.
 If a future replay or source contract differs, leave the affected layer blocked
 and do not substitute synthetic coefficients.

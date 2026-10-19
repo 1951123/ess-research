@@ -1,6 +1,6 @@
 # Issue #23 Forest10 real-stage evidence
 
-Snapshot: 2026-10-19, Asia/Shanghai. Evidence labels below distinguish source-derived facts, PostgreSQL measurements, and model-internal exact results. Raw data and PostgreSQL outputs are outside Git under `ESS_DATA_ROOT=/home/wqts/ess-data`.
+Snapshot: 2026-10-19, Asia/Shanghai. Evidence labels below distinguish source-derived facts, PostgreSQL measurements, and model-internal exact results. The PostgreSQL and ETL measurements are **author-reported, locally observed** in this worktree; they were not independently rerun by the reviewer. Raw data and PostgreSQL outputs are outside Git under `ESS_DATA_ROOT=/home/wqts/ess-data`.
 
 ## Source and data gate
 
@@ -35,7 +35,7 @@ The frozen input manifest is [real-input-manifest.json](real-input-manifest.json
 | e45 | `arecel:forest10:valid:000010` | valid | 12916 |
 | e56 | `arecel:forest10:valid:000011` | valid | 8 |
 
-The test split was not used for selection or calibration.
+The six valid queries are a narrow construction sample selected by the earliest-unused rule, not a representative workload or a held-out robustness study. The test split was not used for selection or calibration, and no test-split evaluation is claimed. The 720 shared orders are abstract model scenarios; they are not verified PostgreSQL catalog/OID orderings.
 
 ## PostgreSQL measurement layer
 
@@ -45,13 +45,17 @@ The exported fixed sample is `/home/wqts/ess-data/pg-calibration/issue23/forest1
 
 Observed examples: `e01`, `e45`, and `e56` produced no two-column MCV items under this fixed sample (`stxdmcv` null); `e12`, `e23`, and `e34` produced 300, 300, and 300 MCV items respectively. The trace, rather than `EXPLAIN` alone, showed actual selection. Replaying the same sample reproduced MCV contents and numeric values after ignoring recreated statistic OIDs and query markers. These are fixed-table/fixed-sample observations and do not establish universal PostgreSQL behavior or physical maintenance additivity.
 
+The bounded composition check is `/home/wqts/ess-data/pg-calibration/issue23/composition-check.json`, SHA-256 `f7e9d711a1f5dbc1f15a58ae601645d54199ec833fe22a43d563a90607518dee`. For `e12+e34` on `arecel:forest10:valid:000005`, PostgreSQL selected both disjoint statistics and the actual pre-clamp estimate differed from the product of the two single-statistic ratios by relative `-1.84e-16`. For the overlapping `e12+e23` and `e23+e34` subsets, PostgreSQL selected only one statistic in each case; the single-statistic product predictions differed from actual pre-clamp behavior by relative `0.1590` and `-0.4904`. The selected endpoint sets were disjoint in all observed runs (a singleton is vacuously disjoint). This supports only a scoped approximation check and explicitly shows that single-statistic log corrections are not a PostgreSQL behavioral identity.
+
 ## Exact model layer
 
-The measured-input model instance is `/home/wqts/ess-data/experiment-data/forest10-real-pg-instance.json`, SHA-256 `5e56416429586f7dd56deaf70e05576bbfa461f8cd300d8ba0f1ec733ff3bf11`. It uses the existing `run_experiment.py` and `verify_reference.py` exhaustive framework. Measured positive pre-clamp ratios were converted to natural logs with 80-digit `Decimal` arithmetic, quantized to 18 decimal places, and then represented as exact `Fraction` strings. Therefore the optimization is exact for that recorded rationalized instance; the original binary floating-point PostgreSQL values and transcendental logs remain measurement provenance, not exact rational inputs.
+The measured-input model instance is `/home/wqts/ess-data/experiment-data/forest10-real-pg-instance.json`, SHA-256 `848eb7e43714399e8c711cfe7601815e0caa5996ad20e4c022db6ff5bdee03a3`. It uses the existing `run_experiment.py` and `verify_reference.py` exhaustive framework. Measured positive pre-clamp ratios were converted to natural logs with 80-digit `Decimal` arithmetic, quantized to 18 decimal places, and then represented as exact `Fraction` strings. Therefore the optimization is exact for that recorded rationalized instance; the original binary floating-point PostgreSQL values and transcendental logs remain measurement provenance, not exact rational inputs.
 
-The frozen zero-truth task `arecel:forest10:valid:000003` is retained in the PG artifact but excluded from this primary log-loss model because `T_i > 0` is required before taking `log(n_i^0/T_i)`. No replacement truth or synthetic value was introduced. The retained model has five positive-truth tasks. The model result artifacts are under `/home/wqts/ess-data/experiment-data/forest10-real-decision-results/`: summary SHA-256 `d8b2533dc735d4032f44b304bd95373c4ea2fecd99351b6a2749d0c2ef576294`, raw common-order observations SHA-256 `4303e0b581a9b29c853c3476c3de2b145e11789f5e2a6068d1b755cceaba248d`. The independent verifier returned `verified_objective_certificates=12`.
+The frozen zero-truth task `arecel:forest10:valid:000003` is retained in the PG artifact and in the model with the prescribed target floor `T_i=max(1,N_i)=1`. Its baseline and eligible candidate pre-clamp estimates were positive, so no task was dropped and no replacement truth was introduced. The model result artifacts are under `/home/wqts/ess-data/experiment-data/forest10-real-decision-results-v2/`: summary SHA-256 `267cac4c37275b43bed7d7e52dc3452af995cf579b19b3d15f47c8f04da98270`, raw common-order observations SHA-256 `370dd649402396ad52e9328c1120bd70364ebef0bcd9e6a647fc1c4e92b5e67e`. The independent verifier returned `verified_objective_certificates=12`.
 
-At budget 3, the real-input rationalized model selected `['e01','e34']` for PESS and Joint-Robust, while Nominal selected `['e12','e23','e34']`; at budgets 0, 2, and 5 the three methods' selected sets were respectively `[]`, `['e01','e34']`, and `['e01','e34']` for PESS/Joint-Robust, with the Nominal budget-5 set `['e12','e23','e34']`. These are model-level choices, not claims about which statistics a fixed PostgreSQL run will select under an arbitrary shared order.
+At budget 3, the real-input rationalized model selected `['e01','e34']` for PESS and Joint-Robust, while Nominal selected `['e12','e23','e34']`; at budgets 0, 2, and 5 the PESS/Joint-Robust selected sets were respectively `[]`, `['e01','e34']`, and `['e01','e34']`, with the Nominal budget-5 set `['e12','e23','e34']`. These are model-level choices, not claims about which statistics a fixed PostgreSQL run will select under an arbitrary shared order.
+
+The small committed evidence package [real-model-evidence.json](real-model-evidence.json) contains the rationalized task table, candidate rule, selected-set summaries, tie sets, exact objective strings, and provenance hashes. It contains no raw benchmark data, pickle content, MCV rows, PG logs, or credentials.
 
 ## Reproduction and remaining limits
 

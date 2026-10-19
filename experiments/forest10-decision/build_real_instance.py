@@ -94,30 +94,20 @@ def main() -> int:
     candidate_ids = [item["id"] for item in candidates]
     candidate_columns = {item["id"]: tuple(item["columns"]) for item in candidates}
     task_specs: list[dict[str, Any]] = []
-    excluded: list[dict[str, Any]] = []
     provenance: list[dict[str, Any]] = []
 
     for frozen in manifest["selection_tasks"]["tasks"]:
         query = tasks[frozen["query_id"]]
         truth = int(frozen["truth"])
+        target = max(1, truth)
         predicate_columns = {item["column"] for item in query["source_query"]["predicates"]}
-        if truth <= 0:
-            excluded.append(
-                {
-                    "candidate_id": frozen["candidate_id"],
-                    "query_id": frozen["query_id"],
-                    "truth": truth,
-                    "reason": "positive pre-clamp log-loss target condition T_i>0 failed",
-                }
-            )
-            continue
         task_id = f"real_task_{frozen['candidate_id']}"
         baseline_record = measurements[("baseline", frozen["candidate_id"])]
         baseline_trace = final_trace(baseline_record)
         n0 = Fraction(baseline_trace["nrows_preclamp"])
         if n0 <= 0:
             raise ValueError(f"nonpositive baseline pre-clamp estimate for {task_id}")
-        alpha = dec_ln(n0 / truth)
+        alpha = dec_ln(n0 / target)
         corrections: dict[str, str] = {}
         eligible: list[str] = []
         task_measurements: dict[str, Any] = {}
@@ -150,6 +140,7 @@ def main() -> int:
                 "eligible_candidates": eligible,
                 "corrections": corrections,
                 "truth_cardinality": truth,
+                "target_cardinality": target,
                 "source_query_sha256": frozen["source_query_sha256"],
                 "measurement": {
                     "baseline_nrows_preclamp": baseline_trace["nrows_preclamp"],
@@ -162,14 +153,15 @@ def main() -> int:
                 "task_id": task_id,
                 "source_query_id": frozen["query_id"],
                 "truth": truth,
+                "target": target,
                 "baseline_nrows_preclamp": baseline_trace["nrows_preclamp"],
-                "positive_log_conditions": {"n0_gt_0": True, "truth_gt_0": True},
+                "positive_log_conditions": {"n0_gt_0": True, "target_gt_0": True},
             }
         )
 
     instance = {
         "format": "forest10-real-pg-calibrated-model-v1",
-        "status": "REAL_PG_CALIBRATED_INPUTS_EXCLUDING_NONPOSITIVE_TRUTH_TASKS",
+        "status": "REAL_PG_CALIBRATED_INPUTS_WITH_ISSUE23_TRUTH_FLOOR",
         "dataset_identity": {
             "dataset": "Forest10",
             "source_table": "public.forest10_original",
@@ -178,6 +170,7 @@ def main() -> int:
             "derived_canonical_sha256": manifest["source"]["derived_canonical_sha256"],
             "real_query_ids_used": [item["source_query_id"] for item in task_specs],
             "truth_cardinalities_used": [item["truth_cardinality"] for item in task_specs],
+            "target_cardinalities_used": [item["target_cardinality"] for item in task_specs],
         },
         "candidate_rule": {
             "kind": manifest["candidate_rule"]["kind"],
@@ -194,9 +187,9 @@ def main() -> int:
         "parameter_provenance": {
             "alpha_and_corrections": "Decimal natural logs of measured positive pre-clamp ratios, quantized to 18 decimal places and then consumed as exact Fraction strings",
             "pg_measurement_source": str(args.calibration),
-            "positive_preclamp_conditions": "all retained tasks have n0>0, T>0, and every eligible measured n1>0; zero/clamped Plan Rows are not used",
+            "positive_preclamp_conditions": "all tasks use T=max(1,N), all have n0>0 and T>0, and every eligible measured n1>0; zero/clamped Plan Rows are not used",
             "weights": "unit weight from frozen protocol",
-            "excluded_tasks": excluded,
+            "truth_floor": "T_i=max(1,N_i) as prescribed by Issue #23; the e12 task has N_i=0 and T_i=1",
             "independent_reference": "run_experiment.py and verify_reference.py remain the optimization/reference implementations",
         },
         "candidates": [
@@ -220,7 +213,7 @@ def main() -> int:
         },
     }
     args.output.write_text(json.dumps(instance, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(args.output), "sha256": sha256_file(args.output), "retained_tasks": len(task_specs), "excluded_tasks": excluded}, sort_keys=True))
+    print(json.dumps({"output": str(args.output), "sha256": sha256_file(args.output), "retained_tasks": len(task_specs), "truth_floor_tasks": [item["query_id"] for item in manifest["selection_tasks"]["tasks"] if item["truth"] <= 0]}, sort_keys=True))
     return 0
 
 
