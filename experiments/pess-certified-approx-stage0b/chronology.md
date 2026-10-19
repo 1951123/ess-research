@@ -12,8 +12,12 @@ The Issue branch chronology is intentionally explicit:
 4. The first complete comparison was executed only after step 1 and the
    implementation commits, then rerun as the preserved v1 evidence under
    `runs/20261019-issue33-v1/`.
-5. `77aa490` — committed the SHA256-checked v1 evidence; `89f04f9` — added
-   the short `docs/STATUS.md` checkpoint after evidence was committed.
+5. `77aa490` — committed the first SHA256-checked v1 evidence; `89f04f9` —
+   added the short `docs/STATUS.md` checkpoint after evidence was committed.
+   `8547cfa` isolated Stage 0B module names for full pytest collection, and
+   `f65eead` refreshed the v1 evidence with that current code SHA.
+6. Draft PR #34 was created after the local/live/PR HEAD checks; it remains
+   open and unmerged for researcher review.
 
 The protocol commit is recorded in `environment.json`, `manifest-copy.json`,
 `summary.json`, and `report.md`. No GitHub Contents/Git-data API was used to
