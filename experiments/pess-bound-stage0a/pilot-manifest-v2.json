@@ -1,0 +1,45 @@
+{
+  "manifest_version": "stage0a-pilot-v2-balanced",
+  "committed_before_comparison_run": true,
+  "scope": "Issue #30 Stage 0A balanced follow-up to preserve the original v1 evidence",
+  "arithmetic": "fractions.Fraction for every correctness value; float timings are diagnostic only",
+  "corpus": {
+    "deterministic_cases": [
+      "path3_mixed_signs",
+      "parallel_disconnected",
+      "star_zero_cost",
+      "cycle_conflict"
+    ],
+    "random_seeds": [3019, 3020, 3021, 3022],
+    "random_resources_min": 4,
+    "random_resources_max": 8,
+    "random_tasks_min": 1,
+    "random_tasks_max": 4,
+    "random_coefficients": [-3, -2, -1, 0, 1, 2, 3],
+    "random_maintenance": [0, 1, 2],
+    "random_budget_max": 8,
+    "parallel_label_probability": 0.18,
+    "task_edge_probability": 0.70
+  },
+  "branch_states": {
+    "enumeration": "balanced deterministic round-robin over first-resource status, assigned depth, and forced-selected count",
+    "max_nodes_per_instance": 300,
+    "include_infeasible_forced_states": true,
+    "feasible_completion_oracle": "exhaustive subsets of undecided resources under additive proxy budget"
+  },
+  "diagnostics": [
+    "A_global_floor",
+    "B_exact_knapsack_sensitivity",
+    "B_fractional_knapsack_upper_sensitivity",
+    "C_greedy_witness_completion",
+    "C_exact_worst_prefix_witness",
+    "D_restricted_master_not_executed"
+  ],
+  "limits": {
+    "wall_time_seconds": 120,
+    "fail_closed_on_timeout": true
+  },
+  "frozen_on": "2026-10-19",
+  "random_generator": "Python random.Random(seed), version-independent integer draws only",
+  "relationship_to_v1": "v1 remains unchanged; v2 adds balanced status/depth coverage and complete bound-cost accounting"
+}
