@@ -12,6 +12,13 @@ state cap, arithmetic, and wall-time cap before comparison results are run.
 The pilot uses only tiny synthetic instances; it does not require PostgreSQL,
 `ess-advisor`, a solver, or real dataset roots.
 
+The original v1 run is preserved. Because its first GitHub API publication
+used a large-file transport that changed the raw blob, the corrective PR
+commit restores the exact local bytes and records that reconciliation in the
+v1 report. The predeclared `pilot-manifest-v2.json` adds a balanced follow-up
+sample across resource-status, assigned-depth, and forced-selected strata;
+v2 does not replace v1.
+
 Run the unit tests:
 
 ```sh
@@ -22,7 +29,11 @@ Re-run the frozen pilot:
 
 ```sh
 python3 experiments/pess-bound-stage0a/run_stage0a.py
-sha256sum -c experiments/pess-bound-stage0a/runs/20261019-issue30-v1/SHA256SUMS
+(cd experiments/pess-bound-stage0a/runs/20261019-issue30-v1 && sha256sum -c SHA256SUMS)
+python3 experiments/pess-bound-stage0a/run_stage0a.py \
+  --manifest experiments/pess-bound-stage0a/pilot-manifest-v2.json \
+  --run-dir experiments/pess-bound-stage0a/runs/20261019-issue30-v2
+(cd experiments/pess-bound-stage0a/runs/20261019-issue30-v2 && sha256sum -c SHA256SUMS)
 ```
 
 The restricted-master comparator D is intentionally recorded as not executed:
