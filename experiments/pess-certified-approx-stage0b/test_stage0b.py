@@ -90,6 +90,15 @@ class ReferenceAndCertificateTests(unittest.TestCase):
         self.assertEqual(original_incumbent, Fraction(0))
         self.assertEqual(truth.best_value, Fraction(0))
 
+    def test_nearest_grid_corollary_is_checked_when_delta_is_known(self):
+        instance = one_task("corollary", "0", (("e0", "a", "b"), ("e1", "c", "d")), ("1/3", "-1/2"))
+        rounded = {"t0": {"e0": Fraction(0), "e1": Fraction(0)}}
+        result = certify_matching_errors(instance, rounded, {"t0": Fraction(1)})
+        row = result["tasks"][0]
+        self.assertEqual(row["nu"], Fraction(2))
+        self.assertEqual(row["corollary_rhs"], Fraction(1))
+        self.assertTrue(row["corollary_holds"])
+
     def test_empty_task_and_zero_sum_are_well_defined(self):
         task = Task("empty", Fraction(1), Fraction(-2), (), {})
         self.assertEqual(task_loss(task.alpha, task.edges, task.coefficients), Fraction(2))

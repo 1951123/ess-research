@@ -82,6 +82,7 @@ def rho_independent(task: Task, rounded: Mapping[str, Fraction]) -> tuple[Fracti
 def certify_matching_errors(
     instance: Instance,
     rounded_by_task: Mapping[str, Mapping[str, Fraction]],
+    deltas: Mapping[str, Fraction | None] | None = None,
 ) -> dict[str, object]:
     rows = []
     eta = Fraction(0)
@@ -94,6 +95,8 @@ def certify_matching_errors(
             task.edges, {label: Fraction(1) for label in task.coefficients}
         )
         eta += task.weight * rho_a
+        delta = None if deltas is None else deltas[task.name]
+        corollary_rhs = None if delta is None else Fraction(nu) * delta / 2
         rows.append(
             {
                 "task": task.name,
@@ -102,7 +105,9 @@ def certify_matching_errors(
                 "rho_independent_witness": witness_b,
                 "nu": nu,
                 "nu_matching": nu_matching,
-                "corollary_rhs": Fraction(0),
+                "delta": delta,
+                "corollary_rhs": corollary_rhs,
+                "corollary_holds": None if corollary_rhs is None else rho_a <= corollary_rhs,
             }
         )
     return {"eta": eta, "tasks": rows}

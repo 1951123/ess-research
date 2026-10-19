@@ -85,7 +85,7 @@ def evaluate_instance(instance: Instance, setup_id: str, manifest: dict) -> dict
     deltas = setup_deltas(instance, setup_id)
     rounded = quantized_coefficients(instance, deltas)
     cert_start = perf_counter()
-    perturbation = certify_matching_errors(instance, rounded)
+    perturbation = certify_matching_errors(instance, rounded, deltas)
     cert_seconds = perf_counter() - cert_start
     approx = solve_rounded(
         instance,
@@ -97,6 +97,7 @@ def evaluate_instance(instance: Instance, setup_id: str, manifest: dict) -> dict
     original_value = None
     if approx.selection is not None:
         original_value = instance.objective(approx.selection)
+    actual_error = None if original_value is None or approx.rounded_value is None else abs(original_value - approx.rounded_value)
 
     rounded_lower = approx.rounded_value if approx.complete_global_search else None
     rounded_upper = approx.rounded_value if approx.selection is not None else None
@@ -131,6 +132,7 @@ def evaluate_instance(instance: Instance, setup_id: str, manifest: dict) -> dict
         },
         "original": {
             "incumbent_value": original_value,
+            "actual_perturbation_error": actual_error,
             "lower": lower,
             "upper": upper,
             "gap": gap,
@@ -138,6 +140,11 @@ def evaluate_instance(instance: Instance, setup_id: str, manifest: dict) -> dict
             "status": status,
             "target_tau": tau,
             "target_reached": certified and gap <= tau,
+        },
+        "timing": {
+            "repeat_count": 1,
+            "variance_seconds": None,
+            "variance_status": "NOT_ESTIMATED_SINGLE_RUN",
         },
         "certificate_overhead_seconds": cert_seconds,
     })
@@ -200,12 +207,30 @@ def run(run_dir: Path) -> None:
         for record in records:
             handle.write(json.dumps(record, sort_keys=True) + "\n")
 
+    by_setup = {}
+    for setup_id in ("unrounded", "coarse_uniform_delta_1", "matching_aware_eta_1_2", "matching_aware_eta_1_4"):
+        setup_rows = [record for record in records if record["setup"] == setup_id]
+        eta_values = [Fraction(record["perturbation"]["eta"]) for record in setup_rows]
+        error_values = [
+            Fraction(record["original"]["actual_perturbation_error"])
+            for record in setup_rows
+            if record["original"]["actual_perturbation_error"] is not None
+        ]
+        by_setup[setup_id] = {
+            "runs": len(setup_rows),
+            "certified_runs": sum(record["original"]["certified"] for record in setup_rows),
+            "target_reached_runs": sum(record["original"]["target_reached"] for record in setup_rows),
+            "max_eta": fraction_text(max(eta_values, default=Fraction(0))),
+            "max_actual_perturbation_error": fraction_text(max(error_values, default=Fraction(0))),
+            "unavailable_global_rounded_lower_bound_runs": sum(not record["approximation"]["global_rounded_search_certified"] for record in setup_rows),
+        }
     summary = {
         "instances": len({record["instance"] for record in records}),
         "runs": len(records),
         "certificate_violations": sum(record["original"]["status"] == "NO-GO_CERTIFICATE_VIOLATION" for record in records),
         "certified_runs": sum(record["original"]["certified"] for record in records),
         "target_reached_runs": sum(record["original"]["target_reached"] for record in records),
+        "by_setup": by_setup,
         "reference_b": "NOT_EXECUTED",
         "decision": "INCONCLUSIVE",
         "decision_reason": "The pilot has no equal-clock unchanged solver baseline; approximate stress results without a global rounded lower bound are not global optimality certificates.",
