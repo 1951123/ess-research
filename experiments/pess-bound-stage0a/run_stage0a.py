@@ -10,10 +10,12 @@ import platform
 import random
 import sys
 import time
+import argparse
 from fractions import Fraction
 from pathlib import Path
 
 from bounds import evaluate_bounds, witness_bound
+from bitmask_reference import exact_completion_optimum as bitmask_completion_optimum
 from reference import Edge, Instance, Task, all_subsets, exact_completion_optimum, global_floor, is_maximal
 
 ROOT = Path(__file__).resolve().parent
@@ -136,9 +138,10 @@ def instance_json(name: str, instance: Instance) -> dict[str, object]:
     }
 
 
-def branch_states(instance: Instance, maximum: int) -> list[tuple[set[str], set[str], set[str]]]:
+def branch_states(instance: Instance, maximum: int, balanced: bool = False) -> list[tuple[set[str], set[str], set[str]]]:
     labels = tuple(instance.resources)
     states = [(set(), set(labels), set())]
+    all_states = []
     for status in itertools.product(range(3), repeat=len(labels)):
         state = (
             {label for label, value in zip(labels, status) if value == 2},
@@ -147,8 +150,26 @@ def branch_states(instance: Instance, maximum: int) -> list[tuple[set[str], set[
         )
         if state[1] == set(labels):
             continue
-        states.append(state)
-        if len(states) >= maximum:
+        all_states.append((status, state))
+    if not balanced:
+        states.extend(state for _, state in all_states[: maximum - 1])
+        return states
+    buckets: dict[tuple[int, int, int], list[tuple[tuple[int, ...], tuple[set[str], set[str], set[str]]]]] = {}
+    for status, state in all_states:
+        key = (status[0], sum(value != 1 for value in status), sum(value == 2 for value in status))
+        buckets.setdefault(key, []).append((status, state))
+    for values in buckets.values():
+        values.sort(key=lambda item: item[0])
+    keys = sorted(buckets)
+    while len(states) < maximum and keys:
+        progressed = False
+        for key in keys:
+            if buckets[key]:
+                states.append(buckets[key].pop(0)[1])
+                progressed = True
+                if len(states) >= maximum:
+                    break
+        if not progressed:
             break
     return states
 
@@ -175,19 +196,29 @@ def write_json(path: Path, value: object) -> None:
 
 
 def main() -> int:
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
+    parser.add_argument("--run-dir", type=Path, default=RUN_DIR)
+    args = parser.parse_args()
+    manifest_path = args.manifest if args.manifest.is_absolute() else (
+        args.manifest if args.manifest.exists() else ROOT / args.manifest
+    )
+    run_dir = args.run_dir if args.run_dir.is_absolute() else (
+        args.run_dir if args.run_dir.parent != Path(".") else ROOT / args.run_dir
+    )
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     started = time.monotonic()
     timeout = float(manifest["limits"]["wall_time_seconds"])
     instances = deterministic_instances() + [random_instance(seed) for seed in manifest["corpus"]["random_seeds"]]
-    RUN_DIR.mkdir(parents=True, exist_ok=True)
-    write_json(RUN_DIR / "environment.json", {
+    run_dir.mkdir(parents=True, exist_ok=True)
+    write_json(run_dir / "environment.json", {
         "python": sys.version,
         "platform": platform.platform(),
         "executable": sys.executable,
         "command": "python3 experiments/pess-bound-stage0a/run_stage0a.py",
-        "manifest_sha256": sha256(MANIFEST_PATH),
+        "manifest_sha256": sha256(manifest_path),
     })
-    write_json(RUN_DIR / "frozen-instances.json", [instance_json(name, instance) for name, instance in instances])
+    write_json(run_dir / "frozen-instances.json", [instance_json(name, instance) for name, instance in instances])
 
     observations: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
@@ -204,18 +235,25 @@ def main() -> int:
         "witness_exact_seconds": 0.0,
         "q_extrema_calls_greedy": 0,
         "q_extrema_calls_exact": 0,
+        "sensitivity_exact_seconds": 0.0,
+        "sensitivity_fractional_seconds": 0.0,
+        "global_floor_seconds": 0.0,
     }
     ordinary_extrema = {"global_floor_precomputation": 0, "per_node_q_extrema": 0, "total": 0}
+    sampling = {"first_resource_status": {"excluded": 0, "undecided": 0, "forced_selected": 0}, "assigned_depth": {}}
     pairwise = {"C_greedy_gt_A": 0, "C_greedy_gt_B_exact": 0, "C_exact_gt_C_greedy": 0}
     rejected = 0
     timed_out = False
 
     for instance_name, instance in instances:
+        floor_start = time.perf_counter()
         instance_floor = global_floor(instance)
+        timing["global_floor_seconds"] += time.perf_counter() - floor_start
         ordinary_extrema["global_floor_precomputation"] += len(instance.tasks)
         feasible_subsets = [selected for selected in all_subsets(instance.resources) if instance.feasible(selected)]
         incumbent = min(instance.objective(set(selected)) for selected in feasible_subsets)
-        for forced, undecided, excluded in branch_states(instance, int(manifest["branch_states"]["max_nodes_per_instance"])):
+        balanced = manifest["branch_states"]["enumeration"].startswith("balanced")
+        for forced, undecided, excluded in branch_states(instance, int(manifest["branch_states"]["max_nodes_per_instance"]), balanced=balanced):
             if time.monotonic() - started > timeout:
                 timed_out = True
                 break
@@ -225,6 +263,11 @@ def main() -> int:
                 "undecided": sorted(undecided),
                 "excluded": sorted(excluded),
             }
+            first_resource = instance.resources[0]
+            first_status = "forced_selected" if first_resource in forced else "undecided" if first_resource in undecided else "excluded"
+            sampling["first_resource_status"][first_status] += 1
+            depth = len(forced) + len(excluded)
+            sampling["assigned_depth"][str(depth)] = sampling["assigned_depth"].get(str(depth), 0) + 1
             if not instance.feasible(forced):
                 rejected += 1
                 observations.append({**base, "status": "rejected_infeasible_forced"})
@@ -232,8 +275,9 @@ def main() -> int:
             completions = completion_values(instance, forced, undecided)
             exact_opt = min(value for _, value in completions)
             oracle_opt = exact_completion_optimum(instance, forced, undecided)
-            if oracle_opt != exact_opt:
-                failures.append({**base, "kind": "reference_completion_mismatch", "enumerated": str(exact_opt), "oracle": str(oracle_opt)})
+            bitmask_opt = bitmask_completion_optimum(instance, forced, undecided)
+            if oracle_opt != exact_opt or bitmask_opt != exact_opt:
+                failures.append({**base, "kind": "completion_reference_mismatch", "enumerated": str(exact_opt), "definition_reference": str(oracle_opt), "bitmask_reference": str(bitmask_opt)})
             snapshot = evaluate_bounds(instance, forced, undecided, floor_override=instance_floor)
             for strategy in ("greedy", "exact"):
                 _, witnesses, _ = witness_bound(instance, forced, undecided, strategy)
@@ -270,6 +314,8 @@ def main() -> int:
             timing["witness_exact_seconds"] += snapshot.witness_exact_seconds
             timing["q_extrema_calls_greedy"] += snapshot.q_calls_greedy
             timing["q_extrema_calls_exact"] += snapshot.q_calls_exact
+            timing["sensitivity_exact_seconds"] += snapshot.sensitivity_exact_seconds
+            timing["sensitivity_fractional_seconds"] += snapshot.sensitivity_fractional_seconds
             ordinary_extrema["per_node_q_extrema"] += snapshot.q_calls_greedy + snapshot.q_calls_exact
             observations.append({
                 **base,
@@ -281,6 +327,8 @@ def main() -> int:
                 "completion_count": len(completions),
                 "timings_seconds": {
                     "f_forced": snapshot.f_forced_seconds,
+                    "sensitivity_exact": snapshot.sensitivity_exact_seconds,
+                    "sensitivity_fractional": snapshot.sensitivity_fractional_seconds,
                     "witness_greedy": snapshot.witness_greedy_seconds,
                     "witness_exact": snapshot.witness_exact_seconds,
                 },
@@ -288,11 +336,11 @@ def main() -> int:
         if timed_out:
             break
 
-    write_json(RUN_DIR / "raw-observations.json", observations)
-    write_json(RUN_DIR / "counterexamples.json", failures)
+    write_json(run_dir / "raw-observations.json", observations)
+    write_json(run_dir / "counterexamples.json", failures)
     summary = {
         "status": "TIMEOUT" if timed_out else ("FAIL" if failures else "PASS"),
-        "manifest_sha256": sha256(MANIFEST_PATH),
+        "manifest_sha256": sha256(manifest_path),
         "instance_count": len(instances),
         "evaluated_nodes": sum(item["nodes"] for item in aggregate.values()) // 5,
         "rejected_infeasible_forced_nodes": rejected,
@@ -305,12 +353,24 @@ def main() -> int:
             **ordinary_extrema,
             "total": ordinary_extrema["global_floor_precomputation"] + ordinary_extrema["per_node_q_extrema"],
         },
+        "sampling": sampling,
         "restricted_master": {
             "status": "not_executed",
             "reason": "Issue #30 forbids modifying ess-advisor or building a new solver for this bounded experiment.",
         },
     }
-    write_json(RUN_DIR / "summary.json", summary)
+    summary["method_seconds"] = {
+        "A_global_floor": timing["global_floor_seconds"],
+        "B_exact_sensitivity": timing["f_forced_seconds"] + timing["sensitivity_exact_seconds"],
+        "B_fractional_sensitivity": timing["f_forced_seconds"] + timing["sensitivity_fractional_seconds"],
+        "C_greedy_witness": timing["witness_greedy_seconds"],
+        "C_exact_witness": timing["witness_exact_seconds"],
+    }
+    summary["pruned_nodes_per_second"] = {
+        label: (aggregate[label]["prunable"] / seconds if seconds else None)
+        for label, seconds in summary["method_seconds"].items()
+    }
+    write_json(run_dir / "summary.json", summary)
 
     total_nodes = summary["evaluated_nodes"]
     greedy_exact_rate = aggregate["C_greedy_witness"]["exact"] / total_nodes if total_nodes else 0.0
@@ -323,6 +383,11 @@ def main() -> int:
     else:
         recommendation = "INCONCLUSIVE"
         recommendation_reason = "The exact reference passed, but the tiny corpus and lack of a fair restricted-master comparator cannot establish end-to-end value."
+    if balanced:
+        sampling_note = "This v2 run uses the predeclared balanced round-robin sampler over first-resource status, assigned depth, and forced-selected count."
+    else:
+        sampling_note = "This preserved v1 run uses the first 300 lexicographically enumerated ternary states after root; this creates resource-order/depth sampling bias, so its comparison counts are descriptive only and are not generalized empirical claims."
+    integrity_note = "The balanced v2 artifact was generated and hashed in this run." if balanced else "The first PR publication of this v1 raw file used a large-file API transport that changed its bytes. The corrective commit restored the exact local blob and updated the evidence record without rerunning or changing the v1 observations."
     report = f"""# Stage 0A pilot report
 
 This report is an experimentally observed result from the frozen Issue #30
@@ -330,11 +395,14 @@ pilot, not a theorem or a novelty claim.
 
 ## Scope and provenance
 
-- Manifest: pilot-manifest.json (SHA-256 {summary["manifest_sha256"]}).
+- Manifest: {manifest_path.name} (SHA-256 {summary["manifest_sha256"]}).
 - Instances: {summary["instance_count"]} (four deterministic strata and four frozen seeds).
 - Evaluated feasible branch states: {summary["evaluated_nodes"]}; rejected forced-infeasible states: {summary["rejected_infeasible_forced_nodes"]}.
 - Arithmetic: exact Fraction for objectives, matching extrema, bounds and feasibility; timings are diagnostic floating-point measurements only.
-- Independent branch optimum: exhaustive completions, cross-checked through reference.exact_completion_optimum.
+- Branch optimum: exhaustive completions, cross-checked by the definition reference and a separate bitmask implementation; this validates graph enumeration independently, not every arithmetic subroutine.
+- Sampling: {sampling_note}
+- Sampling counts: first-resource status {sampling["first_resource_status"]}; assigned-depth counts {sampling["assigned_depth"]}.
+- Integrity: {integrity_note}
 - Run status: **{summary["status"]}**; counterexamples: {summary["failures"]}.
 
 ## Correctness
@@ -375,6 +443,18 @@ and q-extrema calls ({timing["q_extrema_calls_greedy"]} greedy,
 {timing["q_extrema_calls_exact"]} exact). These are tiny-instance local
 measurements, not a system performance claim.
 
+| Method | Total bound time (seconds) | Pruned nodes / second |
+|---|---:|---:|
+""" + "\n".join(
+        f"| {label} | {summary['method_seconds'][label]:.6f} | {summary['pruned_nodes_per_second'][label] if summary['pruned_nodes_per_second'][label] is not None else 'n/a'} |"
+        for label in summary["method_seconds"]
+    ) + f"""
+
+B totals include the exact F(M) acquisition cost, as required by the fair
+comparison contract. C exact includes both greedy and exhaustive worst-prefix
+witness work. These costs are diagnostic tiny-instance measurements only;
+they do not establish end-to-end branch-and-bound speed.
+
 Ordinary-matching extrema calls were separated into {ordinary_extrema["global_floor_precomputation"]}
 global-floor precomputation calls, {ordinary_extrema["per_node_q_extrema"]} per-node
 q-extrema calls, and {ordinary_extrema["global_floor_precomputation"] + ordinary_extrema["per_node_q_extrema"]}
@@ -395,10 +475,10 @@ solver. It is a separately scoped follow-up, not silently approximated here.
 The result supports only the bounded mathematical diagnostic. It does not
 prove theorem novelty, PostgreSQL behavior, or end-to-end optimizer speedup.
 """
-    (RUN_DIR / "report.md").write_text(report, encoding="utf-8")
-    files = sorted(path for path in RUN_DIR.rglob("*") if path.is_file() and path.name != "SHA256SUMS")
-    (RUN_DIR / "SHA256SUMS").write_text(
-        "".join(f"{sha256(path)}  {path.relative_to(RUN_DIR)}\n" for path in files),
+    (run_dir / "report.md").write_text(report, encoding="utf-8")
+    files = sorted(path for path in run_dir.rglob("*") if path.is_file() and path.name != "SHA256SUMS")
+    (run_dir / "SHA256SUMS").write_text(
+        "".join(f"{sha256(path)}  {path.relative_to(run_dir)}\n" for path in files),
         encoding="utf-8",
     )
     return 0 if summary["status"] == "PASS" else 1
