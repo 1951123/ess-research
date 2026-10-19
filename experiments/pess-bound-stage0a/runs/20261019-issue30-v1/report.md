@@ -9,7 +9,9 @@ pilot, not a theorem or a novelty claim.
 - Instances: 8 (four deterministic strata and four frozen seeds).
 - Evaluated feasible branch states: 1708; rejected forced-infeasible states: 200.
 - Arithmetic: exact Fraction for objectives, matching extrema, bounds and feasibility; timings are diagnostic floating-point measurements only.
-- Independent branch optimum: exhaustive completions, cross-checked through reference.exact_completion_optimum.
+- Branch optimum: exhaustive completions, cross-checked by the definition reference and a separate bitmask implementation in the follow-up validation; this qualifies graph-enumeration independence, not every arithmetic subroutine.
+- Sampling limitation: v1 uses the first 300 lexicographically enumerated ternary states after root. For larger instances this strongly overrepresents early excluded-resource statuses and does not include balanced forced-selected/depth strata. Its comparison counts are descriptive only and are not generalized empirical claims.
+- Integrity reconciliation: the first PR publication used a large-file API transport that changed the raw blob bytes, causing CI to reject the committed SHA. A corrective commit restored the exact local raw blob and retained the original v1 observations; v1 was not silently rerun or changed.
 - Run status: **PASS**; counterexamples: 0.
 
 ## Correctness
@@ -50,6 +52,11 @@ worst-prefix witness/q-extrema time (0.077270s),
 and q-extrema calls (4020 greedy,
 4609 exact). These are tiny-instance local
 measurements, not a system performance claim.
+
+The v1 run did not time exact/fractional knapsack separately and did not
+report pruned nodes per second. Its results therefore establish bounded
+tightness diagnostics only. The predeclared v2 follow-up adds balanced
+sampling and complete method-cost accounting without replacing v1.
 
 Ordinary-matching extrema calls were separated into 18
 global-floor precomputation calls, 8629 per-node
