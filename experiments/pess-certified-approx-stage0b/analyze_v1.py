@@ -14,6 +14,8 @@ from fractions import Fraction
 from pathlib import Path
 from statistics import median
 
+from stage0b_serialization import instance_from_json, read_json
+
 SETUPS = (
     "unrounded",
     "coarse_uniform_delta_1",
@@ -56,6 +58,80 @@ def float_stats(values: list[float]) -> dict[str, float | None]:
     return {"count": len(values), "sum_seconds": sum(values), "median_seconds": median(values)}
 
 
+def naive_eta(instance, rounded_by_task: dict[str, dict[str, Fraction]]) -> Fraction:
+    """Use the same rounded coefficients with an all-eligible-edge bound."""
+
+    return sum(
+        (
+            task.weight
+            * sum(
+                (
+                    abs(task.coefficients[label] - rounded_by_task[task.name][label])
+                    for label in task.coefficients
+                ),
+                Fraction(0),
+            )
+            for task in instance.tasks
+        ),
+        Fraction(0),
+    )
+
+
+def same_rounded_bound_ablation(rows: list[dict], run_dir: Path) -> dict:
+    """Compare matching-aware eta with a naive all-edge eta on each frozen row."""
+
+    instances = {}
+    records = []
+    for row in rows:
+        instance = instances.setdefault(
+            row["instance"],
+            instance_from_json(
+                read_json(run_dir.parent.parent / "instances" / f"{row['instance']}.json")
+            ),
+        )
+        rounded = {
+            task: {label: Fraction(value) for label, value in coefficients.items()}
+            for task, coefficients in row["rounded_coefficients"].items()
+        }
+        matching_eta = fraction(row["perturbation"]["eta"])
+        all_edge_eta = naive_eta(instance, rounded)
+        if matching_eta is None:
+            raise AssertionError("v1 eta must be present for the same-rounded ablation")
+        if matching_eta > all_edge_eta:
+            raise AssertionError(
+                f"matching-aware eta exceeded naive eta for {row['setup']} / {row['instance']}"
+            )
+        records.append(
+            {
+                "setup": row["setup"],
+                "tier": row["tier"],
+                "instance": row["instance"],
+                "matching_aware_eta": text(matching_eta),
+                "naive_all_edge_eta": text(all_edge_eta),
+                "tightening": text(all_edge_eta - matching_eta),
+                "strictly_tighter": matching_eta < all_edge_eta,
+            }
+        )
+
+    by_setup = {}
+    for setup in SETUPS:
+        selected = [record for record in records if record["setup"] == setup]
+        gains = [fraction(record["tightening"]) for record in selected]
+        positive = [record for record in selected if record["strictly_tighter"]]
+        zero = [record for record in selected if not record["strictly_tighter"]]
+        by_setup[setup] = {
+            "rows": len(selected),
+            "strictly_tighter_count": len(positive),
+            "equal_count": len(zero),
+            "total_tightening": text(sum(gains, Fraction(0))),
+            "mean_tightening": text(sum(gains, Fraction(0)) / len(gains)),
+            "max_tightening": text(max(gains, default=Fraction(0))),
+            "strictly_tighter_rows": positive,
+            "zero_gain_rows": zero,
+        }
+    return {"by_setup": by_setup, "rows": records}
+
+
 def analyze(run_dir: Path) -> dict:
     rows = [json.loads(line) for line in (run_dir / "observations.jsonl").read_text().splitlines()]
     by_setup = {}
@@ -71,9 +147,9 @@ def analyze(run_dir: Path) -> dict:
             * (4 if setup.startswith("matching_aware") else 3)
             for row in selected
         )
-        partial_seconds = [
+        tiny_partial_seconds = [
             row["approximation"]["elapsed_seconds"] + row["certificate_overhead_seconds"]
-            for row in selected
+            for row in tiny
         ]
         tiny_core_seconds = [row["approximation"]["elapsed_seconds"] for row in tiny]
         state_counts = [row["approximation"]["states"] for row in tiny]
@@ -87,7 +163,7 @@ def analyze(run_dir: Path) -> dict:
             "stress_original_feasible_score": exact_stats(stress_incumbents),
             "stress_global_gap": "NO_GLOBAL_GAP",
             "rounded_solver_core_time": float_stats(tiny_core_seconds),
-            "recorded_partial_core_plus_certificate_time": float_stats(partial_seconds),
+            "recorded_partial_core_plus_certificate_time": float_stats(tiny_partial_seconds),
             "end_to_end_method_time": "NOT_MEASURED_V1",
             "timing_variance": "NOT_ESTIMATED_SINGLE_RUN",
             "tiny_rounded_objective_calls": sum(state_counts),
@@ -105,11 +181,13 @@ def analyze(run_dir: Path) -> dict:
         }
         tiny_by_instance[instance] = counts
     no_state_reduction = all(len(set(counts.values())) == 1 for counts in tiny_by_instance.values())
+    bound_ablation = same_rounded_bound_ablation(rows, run_dir)
     return {
         "source_run": str(run_dir),
         "source_evidence_preserved": True,
         "rows": len(rows),
         "by_setup": by_setup,
+        "same_rounded_bound_ablation": bound_ablation,
         "tiny_state_counts_equal_across_setups": no_state_reduction,
         "end_to_end_comparison_status": "NOT_MEASURED",
         "end_to_end_reason": "v1 starts the recorded timers after delta setup/quantization and does not record every greedy neighbor objective call or peak memory; solver-core timings are diagnostic only",
@@ -128,7 +206,7 @@ def markdown(analysis: dict) -> str:
         "",
         "## Matched tiny ablation",
         "",
-        "| setup | original incumbent mean/median | certified gap mean/median | tau | rounded-core seconds (sum/median) | recorded partial seconds (sum/median) |",
+        "| setup | original incumbent mean/median | certified gap mean/median | tau | rounded-core seconds (sum/median) | recorded partial seconds, tiny n=12 (sum/median) |",
         "|---|---|---|---:|---:|---:|",
     ]
     for setup in SETUPS:
@@ -143,6 +221,34 @@ def markdown(analysis: dict) -> str:
     lines += [
         "",
         f"All tiny setups used the same feasible state count per instance: `{analysis['tiny_state_counts_equal_across_setups']}`. This is a negative result for state-space reduction; the recorded solver-core times are single-run diagnostics and are not end-to-end method times.",
+        "",
+        "## Same-rounded perturbation-bound ablation",
+        "",
+        "For every frozen v1 row, the matching-aware `eta = sum_i w_i max_ordinary_matching(sum_e |error_e|)` is compared with `eta_naive = sum_i w_i sum_{eligible e} |error_e|` using the identical recorded rounded coefficients. The exact row-level values are retained in `analysis-v1.json`.",
+        "",
+        "| setup | matching-aware strictly tighter | equal / zero gain | rows | total tightening | mean tightening | max tightening |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    for setup in SETUPS:
+        row = analysis["same_rounded_bound_ablation"]["by_setup"][setup]
+        lines.append(
+            f"| `{setup}` | {row['strictly_tighter_count']} | {row['equal_count']} | {row['rows']} | {row['total_tightening']} | {row['mean_tightening']} | {row['max_tightening']} |"
+        )
+    lines += [
+        "",
+        "Positive gains are listed exactly below; all other rows are explicit zero-gain cases in the JSON report:",
+    ]
+    for setup in SETUPS:
+        positive = analysis["same_rounded_bound_ablation"]["by_setup"][setup]["strictly_tighter_rows"]
+        if not positive:
+            lines.append(f"- `{setup}`: no strict tightening; all rows are zero-gain.")
+            continue
+        details = ", ".join(
+            f"`{record['instance']}` ({record['tier']}): {record['matching_aware_eta']} -> {record['naive_all_edge_eta']} (gain {record['tightening']})"
+            for record in positive
+        )
+        lines.append(f"- `{setup}`: {details}.")
+    lines += [
         "",
         "## Stress tier",
         "",

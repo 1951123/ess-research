@@ -11,6 +11,7 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
+from analyze_v1 import analyze
 from run_pilot import setup_deltas
 from stage0b_approx import solve_rounded
 from stage0b_quantization import (
@@ -121,6 +122,38 @@ class ReferenceAndCertificateTests(unittest.TestCase):
         self.assertEqual(kept, Fraction(2))
         self.assertEqual(dropped, Fraction(0))
         self.assertNotEqual(original["e0"], rounded["e0"])
+
+
+class DerivedV1AnalysisTests(unittest.TestCase):
+    def test_tiny_timing_columns_match_labeled_tier(self):
+        run_dir = HERE / "runs" / "20261019-issue33-v1"
+        result = analyze(run_dir)
+        for summary in result["by_setup"].values():
+            self.assertEqual(summary["tiny_rows"], 12)
+            self.assertEqual(summary["rounded_solver_core_time"]["count"], 12)
+            self.assertEqual(summary["recorded_partial_core_plus_certificate_time"]["count"], 12)
+
+    def test_matching_aware_bound_is_never_looser_on_same_rounded_coefficients(self):
+        run_dir = HERE / "runs" / "20261019-issue33-v1"
+        result = analyze(run_dir)
+        expected_strict_counts = {
+            "unrounded": 0,
+            "coarse_uniform_delta_1": 6,
+            "matching_aware_eta_1_2": 2,
+            "matching_aware_eta_1_4": 0,
+        }
+        ablation = result["same_rounded_bound_ablation"]
+        for setup, summary in ablation["by_setup"].items():
+            self.assertEqual(summary["rows"], 15)
+            self.assertEqual(summary["strictly_tighter_count"], expected_strict_counts[setup])
+            self.assertEqual(
+                summary["equal_count"], 15 - expected_strict_counts[setup]
+            )
+            for row in summary["strictly_tighter_rows"] + summary["zero_gain_rows"]:
+                self.assertLessEqual(
+                    Fraction(row["matching_aware_eta"]),
+                    Fraction(row["naive_all_edge_eta"]),
+                )
 
     def test_empty_task_and_zero_sum_are_well_defined(self):
         task = Task("empty", Fraction(1), Fraction(-2), (), {})
