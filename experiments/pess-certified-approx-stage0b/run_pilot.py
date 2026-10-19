@@ -30,8 +30,9 @@ def git_sha() -> str:
 
 
 def protocol_sha() -> str:
+    repo_root = Path(subprocess.check_output(["git", "rev-parse", "--show-toplevel"], cwd=ROOT, text=True).strip())
     sha = subprocess.check_output(
-        ["git", "log", "-1", "--format=%H", "--", str(MANIFEST.relative_to(ROOT.parent.parent))],
+        ["git", "log", "-1", "--format=%H", "--", str(MANIFEST.relative_to(repo_root))],
         cwd=ROOT,
         text=True,
     ).strip()

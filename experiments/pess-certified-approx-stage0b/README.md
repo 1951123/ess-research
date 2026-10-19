@@ -23,7 +23,7 @@ python3 -m unittest discover -s experiments/pess-certified-approx-stage0b -p 'te
 Run the pilot into a new directory (the runner refuses to overwrite one):
 
 ```sh
-scratch_dir="$(mktemp -d /tmp/ess-stage0b.XXXXXX)"
+scratch_dir="/tmp/ess-stage0b-$(date +%s)-$$"
 python3 experiments/pess-certified-approx-stage0b/run_pilot.py --run-dir "$scratch_dir"
 (cd "$scratch_dir" && sha256sum -c SHA256SUMS)
 ```
