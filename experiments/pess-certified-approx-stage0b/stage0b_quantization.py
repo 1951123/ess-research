@@ -5,7 +5,7 @@ from __future__ import annotations
 from fractions import Fraction
 from typing import Mapping
 
-from reference import Edge, Instance, Task, matching_labels
+from stage0b_reference import Edge, Instance, Task, matching_labels
 
 
 def nearest_multiple_ties_to_zero(value: Fraction, delta: Fraction) -> Fraction:

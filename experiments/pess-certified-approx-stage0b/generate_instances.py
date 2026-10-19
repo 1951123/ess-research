@@ -6,8 +6,8 @@ import random
 from fractions import Fraction
 from pathlib import Path
 
-from reference import Edge, Instance, Task
-from serialization import write_json, instance_to_json
+from stage0b_reference import Edge, Instance, Task
+from stage0b_serialization import write_json, instance_to_json
 
 
 ROOT = Path(__file__).resolve().parent

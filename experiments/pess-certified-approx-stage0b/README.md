@@ -9,7 +9,7 @@ additive maintenance proxy. It does not modify `ess-advisor`,
 
 The protocol was frozen before comparisons in `pilot-manifest-v1.json`; the
 first commit on the Issue branch is the protocol commit. Frozen inputs are in
-`instances/`. `reference.py` is definition-driven and Fraction-only. The
+`instances/`. `stage0b_reference.py` is definition-driven and Fraction-only. The
 rounded solver is separate: tiny cases use exhaustive rounded search only as a
 certificate proof-of-concept, while stress cases use a deterministic bounded
 greedy search. A heuristic result is never called globally optimal.

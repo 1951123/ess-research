@@ -14,10 +14,10 @@ from fractions import Fraction
 from pathlib import Path
 from time import perf_counter
 
-from approx import solve_rounded
-from quantization import certify_matching_errors, quantized_coefficients
-from reference import Instance, exact_outer_optimum
-from serialization import fraction_text, instance_from_json, read_json, write_json
+from stage0b_approx import solve_rounded
+from stage0b_quantization import certify_matching_errors, quantized_coefficients
+from stage0b_reference import Instance, exact_outer_optimum
+from stage0b_serialization import fraction_text, instance_from_json, read_json, write_json
 
 
 ROOT = Path(__file__).resolve().parent
@@ -50,7 +50,7 @@ def setup_deltas(instance: Instance, setup_id: str) -> dict[str, Fraction | None
     if setup_id not in {"matching_aware_eta_1_2", "matching_aware_eta_1_4"}:
         raise ValueError(setup_id)
     eta_budget = Fraction(1, 2) if setup_id.endswith("1_2") else Fraction(1, 4)
-    from quantization import ordinary_matching_max_weight_recursive
+    from stage0b_quantization import ordinary_matching_max_weight_recursive
 
     result: dict[str, Fraction | None] = {}
     for task in instance.tasks:

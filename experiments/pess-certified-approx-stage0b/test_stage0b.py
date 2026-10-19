@@ -11,11 +11,11 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
-from approx import solve_rounded
-from quantization import certify_matching_errors, quantized_coefficients, rho_exhaustive, rho_independent
-from reference import Instance, Task, exact_outer_optimum, maximal_matching_labels, task_loss
+from stage0b_approx import solve_rounded
+from stage0b_quantization import certify_matching_errors, quantized_coefficients, rho_exhaustive, rho_independent
+from stage0b_reference import Instance, Task, exact_outer_optimum, maximal_matching_labels, task_loss
 from run_pilot import setup_deltas
-from serialization import instance_from_json, read_json
+from stage0b_serialization import instance_from_json, read_json
 
 
 def one_task(name, alpha, edges, coefficients, budget=1):
@@ -132,7 +132,8 @@ class CounterexampleTests(unittest.TestCase):
     def test_maximum_cardinality_is_not_maximum_weight(self):
         edges = (("e0", "a", "b"), ("e1", "b", "c"), ("e2", "c", "d"))
         weights = {"e0": Fraction(1), "e1": Fraction(100), "e2": Fraction(1)}
-        ordinary_best = max(sum((weights[label] for label in matching), Fraction(0)) for matching in __import__("reference").matching_labels(edges))
+        from stage0b_reference import matching_labels
+        ordinary_best = max(sum((weights[label] for label in matching), Fraction(0)) for matching in matching_labels(edges))
         maximum_cardinality_value = sum(weights[label] for label in ("e0", "e2"))
         self.assertEqual(ordinary_best, Fraction(100))
         self.assertEqual(maximum_cardinality_value, Fraction(2))

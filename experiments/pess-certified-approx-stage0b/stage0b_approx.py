@@ -7,7 +7,7 @@ from fractions import Fraction
 from time import perf_counter
 from typing import Mapping
 
-from reference import Instance, OptimizationResult, exact_outer_optimum
+from stage0b_reference import Instance, OptimizationResult, exact_outer_optimum
 
 
 @dataclass(frozen=True)

@@ -7,7 +7,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
-from reference import Edge, Instance, Task
+from stage0b_reference import Edge, Instance, Task
 
 
 def fraction_text(value: Fraction) -> str:
