@@ -56,6 +56,15 @@ because the issue forbids modifying `ess-advisor` or building a new solver.
 This is **experimentally observed bounded evidence**, not a theorem novelty or
 end-to-end speed claim. The current recommendation is **INCONCLUSIVE**.
 
+Review follow-up in the same Draft PR: the original v1 raw blob was restored
+byte-for-byte after a large-file API publication mismatch, with the cause and
+non-rerun preservation documented in the v1 report. A predeclared balanced v2
+manifest/run adds separate bitmask completion checks, balanced first-resource
+status/depth strata, complete B/C timing, and pruned-nodes-per-second metrics.
+The v2 run passed with 1,552 feasible nodes, 356 rejected forced-infeasible
+states, and zero counterexamples. This remains bounded tightness/cost evidence,
+not an end-to-end speed result; comparator D remains out of scope.
+
 1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and `trace_pairwise_mcv.sql`; **merged**.
 2. [ess-postgresql #1](https://github.com/1951123/ess-postgresql/pull/1) — DEBUG1 instrumentation; **merged 2026-10-17** into `ess-postgresql/main`, after the controlled branch build/trace.
 3. [ess-research #2](https://github.com/1951123/ess-research/pull/2) — context, decision log, status, Codex instructions, README entry; **merged**.
