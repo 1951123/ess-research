@@ -238,11 +238,22 @@ def run(run_dir: Path) -> None:
         "git_sha_at_run": current,
     }
     write_json(run_dir / "summary.json", summary)
+    setup_lines = ["| setup | runs | certified | tau reached | max eta | max actual perturbation | no global rounded LB |", "|---|---:|---:|---:|---:|---:|---:|"]
+    for setup_id, values in by_setup.items():
+        setup_lines.append(
+            f"| `{setup_id}` | {values['runs']} | {values['certified_runs']} | {values['target_reached_runs']} | {values['max_eta']} | {values['max_actual_perturbation_error']} | {values['unavailable_global_rounded_lower_bound_runs']} |"
+        )
     (run_dir / "report.md").write_text(
         "# Stage 0B pilot run\n\n"
-        f"Protocol commit: `{protocol}`.\n\n"
+        f"Protocol commit: `{protocol}`. Code/input commit: `{current}`.\n\n"
+        "## Decision and scope\n\n"
         "Reference B is explicitly **NOT EXECUTED** because this child task does not modify `ess-advisor` or add production solver code. Small-tier exhaustive rounded searches produce valid scoped certificates; stress-tier greedy rows without a proven global rounded lower bound remain `UNCERTIFIED_INCONCLUSIVE`. No heuristic is labeled globally optimal.\n\n"
-        "The decision is **INCONCLUSIVE**, not a solver-speedup claim. See `observations.jsonl` for original-model values, rounded values, eta, and failures/timeouts.\n",
+        "The decision is **INCONCLUSIVE**, not a solver-speedup claim: the required equal-clock unchanged same-objective baseline is unavailable. This is model-internal evidence only, not PostgreSQL maintenance or physical ANALYZE evidence.\n\n"
+        "## Deterministic summary\n\n"
+        + "\n".join(setup_lines)
+        + "\n\n"
+        f"Across {summary['runs']} rows, {summary['certified_runs']} had original-model certificates, {summary['certificate_violations']} certificate violations occurred, and {summary['target_reached_runs']} reached the predeclared tau. Eight stress rows report `TRUTH_UNAVAILABLE` at the declared state cap; the remaining stress exact references completed. Timing variance is marked not estimated because each row has one diagnostic run.\n\n"
+        "See `observations.jsonl` for per-instance original-model values, rounded values, eta, actual perturbation error, state counts, and failure/timeout statuses.\n",
         encoding="utf-8",
     )
     digest_lines = []
