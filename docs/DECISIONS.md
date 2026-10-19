@@ -66,3 +66,33 @@ Use these terms consistently:
 - **Refuted / superseded:** disproven or replaced, with a link to the counterexample/newer decision.
 
 Do not describe a source-derived claim as experimentally observed, an unmerged PR as accepted `main` content, or a floating-point MIP solver status as an exact-arithmetic proof.
+
+## D-007 — Match the optimization objective to policy knowledge (2026-10-19; accepted, revisable)
+
+**Decision:** Nominal, Joint-Robust, and task-wise PESS are **different, conditionally justified optimization problems**, not methods with a universal ranking of decision quality. The objective should reflect what is defensibly known about the estimator's *complete scheme-selection behavior*:
+
+- **Nominal:** The actual policy (or the task-wise schemes it induces for each candidate resource set) is known and predictable. Optimize loss under that specified policy.
+- **Joint-Robust:** The policy is unknown, but all tasks are known to be coupled by **one shared global policy parameter** \(\theta\in\Theta\), such as a common candidate-priority order. Optimize worst aggregate loss over this justified shared family. Merely saying the implementation is deterministic or "fixed" is insufficient: the assumed global coupling and policy family must also be justified.
+- **PESS:** Only the admissible complete-scheme family \(\Gamma_i(M)\) can be justified for each task, without a trustworthy cross-task shared-policy constraint. Minimize the sum of **independent task-wise worst losses**. This is appropriate for inaccessible or potentially varying policies, including possible task-/run-dependent choices, provided the prescribed family safely contains the choices being evaluated. It does not assert that PostgreSQL selects MCVs randomly.
+
+For a fixed feasible unordered resource set \(M\), denote the schemes selected by shared policy \(\theta\) as \(\sigma_i(M;\theta)\), and define
+
+\[
+\begin{aligned}
+F_{\rm Nom}(M)&=\sum_i w_i\ell_i(\sigma_i(M;\theta_0)),\\
+F_{\rm Joint}(M)&=\max_{\theta\in\Theta}\sum_i w_i\ell_i(\sigma_i(M;\theta)),\\
+F_{\rm PESS}(M)&=\sum_i w_i\max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma).
+\end{aligned}
+\]
+
+**Conditional relation:** If \(\theta_0\in\Theta\), and \(\sigma_i(M;\theta)\in\Gamma_i(M)\) for **every** task \(i\), feasible \(M\), and \(\theta\in\Theta\), then
+\(F_{\rm Nom}(M)\le F_{\rm Joint}(M)\le F_{\rm PESS}(M)\) pointwise.
+These inequalities express the inclusion of modeled uncertainties; they do **not** imply a universal ranking of the **selected resource sets** under an external or actual policy. If the shared family is misspecified, its robust guarantee need not cover the real behavior. Likewise, PESS bounds real worst-case losses only under justified inclusion \(\mathcal R_i(M)\subseteq\Gamma_i(M)\) and aligned estimator/loss assumptions (D-002).
+
+**Rationale:** Greater policy knowledge can legitimately permit a less conservative objective; weaker knowledge motivates a broader admissibility-based worst case. Comparing the three objectives tests the consequences and sensitivity of **different information assumptions**, not whether PESS must outperform Nominal or Joint-Robust everywhere. If a trustworthy stochastic distribution is known, expectation- or risk-sensitive objectives may also be appropriate; PESS is not a universal optimizer for stochastic settings.
+
+**Consequences for the first paper:** Retain **PESS under unknown/inaccessible policy** as the main algorithmic research focus, with Nominal and Joint-Robust serving as explicitly assumption-scoped comparisons. Study (a) correctness/adequacy of each modeled scheme family, (b) decision and conservatism gaps under *common evaluation conditions*, (c) robustness to misspecified shared-policy assumptions, and (d) new algorithms for the structured PESS problem. Never present coincident PESS/Joint selections as a failure, treat all abstract shared orders as physically realizable PG OID orders, or promote PG-calibrated model losses to actual latency benefits. The unordered resource set remains the decision, not an OID/creation order (D-002/D-003).
+
+**Context:** [Issue #14](https://github.com/1951123/ess-research/issues/14) (decision value / price of pessimism) and [completed Issue #23](https://github.com/1951123/ess-research/issues/23) (real Forest10 measured-input model comparison). Neither supplies a policy-agnostic empirical dominance claim.
+
+**Revisit if:** New source/runtime evidence establishes stronger shared-policy constraints, disproves the chosen admissibility coverage, or motivates a different justified uncertainty or stochastic model.
