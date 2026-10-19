@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 from advisor_adapter import run_solver
+from protocol import input_paths, write_json_once
 from reference import load, verify_selected
 
 CHECKPOINTS = (0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0)
@@ -28,10 +29,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path(__file__).parent)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--protocol", default="stage0c-v1")
+    parser.add_argument("--protocol", default="stage0c-v3")
     args = parser.parse_args()
     rows: list[dict[str, object]] = []
-    for path in sorted((args.root / "instances").glob("*.json")):
+    for path in input_paths(args.root, args.protocol):
         instance = load(path)
         for seed in SEEDS:
             for method in METHODS:
@@ -49,8 +50,7 @@ def main() -> None:
                 rows.append({"instance": path.name, "instance_sha256": sha256(path), "seed": seed, "method": method, "trace_type": "independent_endpoint_at_budget", "endpoints": endpoints})
                 print(path.name, seed, method, flush=True)
     payload = {"protocol": args.protocol, "checkpoints": CHECKPOINTS, "rows": rows}
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_once(args.output, payload)
     print(json.dumps({"rows": len(rows), "output": str(args.output)}, sort_keys=True))
 
 

@@ -10,8 +10,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+from protocol import input_paths, write_json_once
 from reference import exhaustive, load, verify_selected
-from search import run_method
+from search_timed import run_method
 
 METHODS = ("empty", "singleton", "greedy", "basic", "cache_only", "pess_order", "pess_order_cache")
 SEEDS = (3501, 3502, 3503)
@@ -30,10 +31,10 @@ def main() -> None:
     parser.add_argument("--root", type=Path, default=Path(__file__).parent)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--wall-cap", type=float, default=10.0)
-    parser.add_argument("--protocol", default="stage0c-v1")
+    parser.add_argument("--protocol", default="stage0c-v3")
     args = parser.parse_args()
     root = args.root
-    paths = sorted((root / "instances").glob("*.json"))
+    paths = input_paths(root, args.protocol)
     records: list[dict[str, object]] = []
     for path in paths:
         instance = load(path)
@@ -41,9 +42,13 @@ def main() -> None:
         for seed in SEEDS:
             for method in METHODS:
                 result = run_method(instance, method, args.wall_cap)
-                check = verify_selected(instance, result["selected"], result["objective"])
-                if check["objective"] != result["objective"]:
-                    raise AssertionError(f"independent check mismatch for {path.name}/{seed}/{method}")
+                if result["selected"] is not None and result["objective"] is not None:
+                    check = verify_selected(instance, result["selected"], result["objective"])
+                    if check["objective"] != result["objective"]:
+                        raise AssertionError(f"independent check mismatch for {path.name}/{seed}/{method}")
+                else:
+                    check = {"status": "NO_VALID_INCUMBENT", "objective": None}
+                result["independent_original_pess_check"] = check
                 if truth is not None:
                     result["reference_optimum"] = str(truth["objective"])
                     result["regret"] = str(__import__("fractions").Fraction(result["objective"]) - truth["objective"])
@@ -69,8 +74,7 @@ def main() -> None:
         "seeds": SEEDS,
         "records": records,
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_once(args.output, payload)
     print(json.dumps({"records": len(records), "output": str(args.output), "code_sha": payload["code_sha"]}, sort_keys=True))
 
 

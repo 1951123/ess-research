@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 
 from advisor_adapter import run_solver
+from protocol import input_paths, write_json_once
 from reference import load, verify_selected
 
 METHODS = ("static", "master_oracle")
@@ -25,10 +26,10 @@ def main() -> None:
     parser.add_argument("--root", type=Path, default=Path(__file__).parent)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit", type=float, default=10.0)
-    parser.add_argument("--protocol", default="stage0c-v1")
+    parser.add_argument("--protocol", default="stage0c-v3")
     args = parser.parse_args()
     records: list[dict[str, object]] = []
-    for path in sorted((args.root / "instances").glob("*.json")):
+    for path in input_paths(args.root, args.protocol):
         instance = load(path)
         for seed in SEEDS:
             for method in METHODS:
@@ -59,8 +60,7 @@ def main() -> None:
         "records": records,
         "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_once(args.output, payload)
     print(json.dumps({"records": len(records), "output": str(args.output)}, sort_keys=True))
 
 

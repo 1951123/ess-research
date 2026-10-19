@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from advisor_adapter import run_solver
+from protocol import input_paths, write_json_once
 from reference import exhaustive, load, verify_selected
 
 
@@ -15,10 +16,11 @@ def main() -> None:
     parser.add_argument("--root", type=Path, default=Path(__file__).parent)
     parser.add_argument("--limit", type=float, default=5.0)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--protocol", default="stage0c-v3")
     args = parser.parse_args()
 
     root = args.root
-    paths = sorted((root / "instances").glob("tiny_*.json"))
+    paths = input_paths(root, args.protocol, gate_a=True)
     records: list[dict[str, object]] = []
     failures: list[str] = []
     for path in paths:
@@ -59,8 +61,7 @@ def main() -> None:
         "records": records,
         "failures": failures,
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_once(args.output, payload)
     if failures:
         raise SystemExit("Gate A failed: " + "; ".join(failures))
     print(json.dumps({"gate": "A", "status": "PASS", "instances": len(records)}, sort_keys=True))

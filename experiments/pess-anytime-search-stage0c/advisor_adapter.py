@@ -43,6 +43,57 @@ def environment() -> dict[str, Any]:
     }
 
 
+def _compact_attempt(attempt: dict[str, Any] | None) -> dict[str, Any] | None:
+    if attempt is None:
+        return None
+    fields = (
+        "status", "message", "primal_objective", "dual_bound", "mip_gap",
+        "mip_node_count", "duration_seconds", "invocation_performed",
+        "presolve", "incumbent_returned", "optimality_reported",
+    )
+    return {key: attempt.get(key) for key in fields}
+
+
+def _compact_solver_status(status: dict[str, Any]) -> dict[str, Any]:
+    fields = (
+        "status", "message", "primal_objective", "dual_bound", "mip_gap",
+        "mip_node_count", "total_duration_seconds", "highs_invocations",
+        "presolve_fallback_attempted", "presolve_fallback_successes",
+        "selected_attempt",
+    )
+    compact = {key: status.get(key) for key in fields}
+    compact["initial_attempt"] = _compact_attempt(status.get("initial_attempt"))
+    compact["retry_attempt"] = _compact_attempt(status.get("retry_attempt"))
+    return compact
+
+
+def compact_result(result: Any) -> dict[str, Any]:
+    """Keep every decision/validation/timing field, omitting solver value vectors."""
+    raw = jsonable(result)
+    fields = (
+        "status", "termination_reason", "selected", "maintenance_cost", "objective",
+        "lower_bound", "upper_bound", "task_details", "master_iterations",
+        "distinct_cuts", "inner_oracle_calls", "exact_oracle_invocations",
+        "certified_early_exits", "scenario_count", "solver_reported_optimal",
+        "validated_feasible", "reference_agreement", "master_primal_bound",
+        "master_dual_bound", "master_mip_gap", "numerical_warnings",
+        "numerical_violation_count", "existing_cut_violation_count",
+        "total_runtime_seconds", "validation_seconds", "master_phase_seconds",
+        "exact_inner_seconds", "cut_construction_seconds", "cache_management_seconds",
+        "invariant_precomputation_seconds", "ordinary_matching_seconds",
+        "task_evaluation_requests", "task_evaluation_computations", "task_evaluations",
+        "task_local_ordinary_matching_bound_computations",
+        "full_graph_ordinary_matching_extrema_computations",
+        "ordinary_matching_bound_evaluations", "distinct_task_local_configurations",
+        "inner_mip_solve_calls", "highs_invocations", "cache_entries", "cache_lookups",
+        "cache_hits", "cache_misses", "cache_hit_rate", "presolve_fallback_attempts",
+        "presolve_fallback_successes",
+    )
+    compact = {key: raw.get(key) for key in fields if key in raw}
+    compact["solver_statuses"] = [_compact_solver_status(item) for item in raw.get("solver_statuses", [])]
+    return compact
+
+
 def run_solver(
     instance_path: str | Path,
     method: str,
@@ -79,9 +130,13 @@ def run_solver(
         "wall_seconds": wall,
         "within_total_limit": wall <= total_time_limit + 0.25,
         "environment": environment(),
-        "result": jsonable(result),
+        "result": compact_result(result),
     }
 
 
 def write_result(path: str | Path, record: dict[str, Any]) -> None:
-    Path(path).write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open("x", encoding="utf-8") as handle:
+        json.dump(record, handle, indent=2, sort_keys=True)
+        handle.write("\n")
