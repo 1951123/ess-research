@@ -37,7 +37,7 @@
   "certified_runs": 48,
   "decision": "INCONCLUSIVE",
   "decision_reason": "The pilot has no equal-clock unchanged solver baseline; approximate stress results without a global rounded lower bound are not global optimality certificates.",
-  "git_sha_at_run": "6e50876baed576d8fe6933ceda2202c35df51a11",
+  "git_sha_at_run": "8547cfa56105b8db9e6a6a6e20c43ef58794d388",
   "instances": 15,
   "protocol_commit": "b57bfc2c5f16ecdb42a6ee28d82e4f3855ab6da7",
   "reference_b": "NOT_EXECUTED",

@@ -1,6 +1,6 @@
 # Stage 0B pilot run
 
-Protocol commit: `b57bfc2c5f16ecdb42a6ee28d82e4f3855ab6da7`. Code/input commit: `6e50876baed576d8fe6933ceda2202c35df51a11`.
+Protocol commit: `b57bfc2c5f16ecdb42a6ee28d82e4f3855ab6da7`. Code/input commit: `8547cfa56105b8db9e6a6a6e20c43ef58794d388`.
 
 ## Decision and scope
 
