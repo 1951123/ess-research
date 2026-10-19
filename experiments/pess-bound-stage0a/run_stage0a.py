@@ -21,6 +21,10 @@ from reference import Edge, Instance, Task, all_subsets, exact_completion_optimu
 ROOT = Path(__file__).resolve().parent
 MANIFEST_PATH = ROOT / "pilot-manifest.json"
 RUN_DIR = ROOT / "runs" / "20261019-issue30-v1"
+PRESERVED_RUN_DIRS = {
+    (ROOT / "runs" / "20261019-issue30-v1").resolve(),
+    (ROOT / "runs" / "20261019-issue30-v2").resolve(),
+}
 
 
 def make_task(name: str, weight: int, alpha: int, edges: tuple[Edge, ...], coefficients: dict[str, int]) -> Task:
@@ -206,6 +210,11 @@ def main() -> int:
     run_dir = args.run_dir if args.run_dir.is_absolute() else (
         args.run_dir if args.run_dir.parent != Path(".") else ROOT / args.run_dir
     )
+    if run_dir.resolve() in PRESERVED_RUN_DIRS:
+        raise SystemExit(
+            f"refusing to overwrite preserved evidence directory: {run_dir}; "
+            "choose a new scratch --run-dir"
+        )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     started = time.monotonic()
     timeout = float(manifest["limits"]["wall_time_seconds"])
