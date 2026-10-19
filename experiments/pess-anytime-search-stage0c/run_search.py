@@ -8,6 +8,7 @@ import json
 import platform
 import subprocess
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 from protocol import input_paths, write_json_once
@@ -24,6 +25,21 @@ def git_sha() -> str:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def add_reference_fields(result: dict[str, object], truth: dict[str, object] | None) -> None:
+    if truth is None:
+        result["reference_optimum"] = None
+        result["regret"] = None
+        result["optimal"] = None
+        return
+    result["reference_optimum"] = str(truth["objective"])
+    if result["objective"] is None:
+        result["regret"] = None
+        result["optimal"] = None
+    else:
+        result["regret"] = str(Fraction(result["objective"]) - truth["objective"])
+        result["optimal"] = result["objective"] == str(truth["objective"])
 
 
 def main() -> None:
@@ -49,14 +65,7 @@ def main() -> None:
                 else:
                     check = {"status": "NO_VALID_INCUMBENT", "objective": None}
                 result["independent_original_pess_check"] = check
-                if truth is not None:
-                    result["reference_optimum"] = str(truth["objective"])
-                    result["regret"] = str(__import__("fractions").Fraction(result["objective"]) - truth["objective"])
-                    result["optimal"] = result["objective"] == str(truth["objective"])
-                else:
-                    result["reference_optimum"] = None
-                    result["regret"] = None
-                    result["optimal"] = None
+                add_reference_fields(result, truth)
                 records.append({
                     "instance": path.name,
                     "instance_sha256": sha256(path),

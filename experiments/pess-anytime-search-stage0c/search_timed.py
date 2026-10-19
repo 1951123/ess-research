@@ -17,6 +17,9 @@ class SearchState:
     selected: frozenset[str] | None = None
     value: Fraction | None = None
     details: dict[str, tuple[Fraction, frozenset[str]]] = field(default_factory=dict)
+    best_evaluated_selected: frozenset[str] | None = None
+    best_evaluated_value: Fraction | None = None
+    best_evaluated_details: dict[str, tuple[Fraction, frozenset[str]]] = field(default_factory=dict)
     evaluations: int = 0
     cache_hits: int = 0
     cache_lookups: int = 0
@@ -45,7 +48,27 @@ def _history_entry(instance: dict[str, Any], selected: frozenset[str], value: Fr
         "maintenance": str(maintenance(instance, selected)),
         "objective": str(value),
         "task_details": {key: {"loss": str(loss), "witness": sorted(witness)} for key, (loss, witness) in details.items()},
+        "accepted_by_search": False,
     }
+
+
+def _consider_evaluated(instance: dict[str, Any], state: SearchState, selected: frozenset[str], value: Fraction, details: dict[str, tuple[Fraction, frozenset[str]]], completed: float) -> dict[str, Any] | None:
+    if state.best_evaluated_value is not None and value >= state.best_evaluated_value:
+        return None
+    state.best_evaluated_selected = selected
+    state.best_evaluated_value = value
+    state.best_evaluated_details = details
+    entry = _history_entry(instance, selected, value, details, completed)
+    state.incumbent_history.append(entry)
+    return entry
+
+
+def _adopt_best_evaluated(state: SearchState) -> None:
+    if state.best_evaluated_selected is None or state.best_evaluated_value is None:
+        return
+    state.selected = state.best_evaluated_selected
+    state.value = state.best_evaluated_value
+    state.details = state.best_evaluated_details
 
 
 def _trace_from_history(history: list[dict[str, Any]], checkpoints: tuple[float, ...]) -> list[dict[str, Any]]:
@@ -115,7 +138,9 @@ def _initialize(instance: dict[str, Any], state: SearchState, cache: dict[frozen
     state.selected = frozenset()
     state.value = value
     state.details = details
-    state.incumbent_history.append(_history_entry(instance, state.selected, value, details, completed))
+    entry = _consider_evaluated(instance, state, state.selected, value, details, completed)
+    assert entry is not None
+    entry["accepted_by_search"] = True
     return True
 
 
@@ -161,6 +186,8 @@ def _ordered_neighbors(instance: dict[str, Any], current: frozenset[str], neighb
 
 
 def _finish(instance: dict[str, Any], state: SearchState, method: str, ordering: str | None, cache_enabled: bool, started: float, wall_cap: float, checkpoints: tuple[float, ...]) -> dict[str, Any]:
+    if state.timed_out:
+        _adopt_best_evaluated(state)
     elapsed = _elapsed(started)
     return {
         "method_family": "neighborhood" if ordering is not None else "control",
@@ -217,7 +244,9 @@ def run_local(instance: dict[str, Any], *, cache_enabled: bool, ordering: str, w
                 state.value = value
                 state.details = details
                 state.accepted_moves += 1
-                state.incumbent_history.append(_history_entry(instance, neighbor, value, details, completed))
+                entry = _consider_evaluated(instance, state, neighbor, value, details, completed)
+                assert entry is not None
+                entry["accepted_by_search"] = True
                 improved = True
                 break
         if state.timed_out or not improved:
@@ -252,7 +281,9 @@ def run_singleton(instance: dict[str, Any], wall_cap: float, checkpoints: tuple[
             state.selected = selected
             state.value = value
             state.details = details
-            state.incumbent_history.append(_history_entry(instance, selected, value, details, completed))
+            entry = _consider_evaluated(instance, state, selected, value, details, completed)
+            assert entry is not None
+            entry["accepted_by_search"] = True
     return _finish(instance, state, "singleton", None, False, started, wall_cap, checkpoints)
 
 
@@ -265,7 +296,7 @@ def run_greedy(instance: dict[str, Any], wall_cap: float, checkpoints: tuple[flo
         if _deadline(started, wall_cap):
             state.timed_out = True
             break
-        best_move: tuple[Fraction, frozenset[str], dict[str, tuple[Fraction, frozenset[str]]], float] | None = None
+        best_move: tuple[Fraction, frozenset[str], dict[str, tuple[Fraction, frozenset[str]]], float, dict[str, Any] | None] | None = None
         for item in sorted(candidate["id"] for candidate in instance["candidates"]):
             if item in state.selected:
                 continue
@@ -276,16 +307,18 @@ def run_greedy(instance: dict[str, Any], wall_cap: float, checkpoints: tuple[flo
             if result is None:
                 break
             candidate_value, candidate_details, completed = result
+            entry = _consider_evaluated(instance, state, candidate, candidate_value, candidate_details, completed)
             if candidate_value < state.value and (best_move is None or (candidate_value, tuple(sorted(candidate))) < (best_move[0], tuple(sorted(best_move[1])))):
-                best_move = (candidate_value, candidate, candidate_details, completed)
+                best_move = (candidate_value, candidate, candidate_details, completed, entry)
         if state.timed_out or best_move is None:
             break
-        value, selected, details, completed = best_move
+        value, selected, details, _completed, entry = best_move
         state.selected = selected
         state.value = value
         state.details = details
         state.accepted_moves += 1
-        state.incumbent_history.append(_history_entry(instance, selected, value, details, completed))
+        if entry is not None:
+            entry["accepted_by_search"] = True
     return _finish(instance, state, "greedy", None, False, started, wall_cap, checkpoints)
 
 

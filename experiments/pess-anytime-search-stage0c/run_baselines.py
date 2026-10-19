@@ -36,7 +36,7 @@ def main() -> None:
                 started = time.perf_counter()
                 adapter = run_solver(path, method, args.limit, inner_time_limit=args.limit)
                 adapter["seed"] = seed
-                adapter["full_invocation_wall_seconds"] = time.perf_counter() - started
+                adapter["solver_adapter_wall_seconds"] = adapter["wall_seconds"]
                 result = adapter["result"]
                 check = None
                 if result.get("selected") is not None and result.get("objective") is not None:
@@ -45,6 +45,7 @@ def main() -> None:
                     except AssertionError as exc:
                         check = {"status": "FAIL", "error": str(exc)}
                 adapter["independent_original_pess_check"] = check
+                adapter["full_invocation_wall_seconds"] = time.perf_counter() - started
                 records.append({
                     "instance": path.name,
                     "instance_sha256": sha256(path),
