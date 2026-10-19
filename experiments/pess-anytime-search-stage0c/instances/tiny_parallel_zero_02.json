@@ -1,0 +1,16 @@
+{
+  "budget": "3",
+  "candidates": [
+    {"id": "p_ab_1", "table": "t0", "endpoints": ["a", "b"], "maintenance_cost": "0"},
+    {"id": "p_ab_2", "table": "t0", "endpoints": ["a", "b"], "maintenance_cost": "1"},
+    {"id": "p_bc", "table": "t0", "endpoints": ["b", "c"], "maintenance_cost": "1"},
+    {"id": "p_cd", "table": "t0", "endpoints": ["c", "d"], "maintenance_cost": "1"},
+    {"id": "p_de", "table": "t0", "endpoints": ["d", "e"], "maintenance_cost": "0"},
+    {"id": "p_ef", "table": "t0", "endpoints": ["e", "f"], "maintenance_cost": "1"},
+    {"id": "p_af", "table": "t0", "endpoints": ["a", "f"], "maintenance_cost": "1"}
+  ],
+  "tasks": [
+    {"id": "t_parallel", "table": "t0", "weight": "1", "alpha": "0", "eligible_candidates": ["p_ab_1", "p_ab_2", "p_cd", "p_ef"], "corrections": {"p_ab_1": "2", "p_ab_2": "-2", "p_cd": "1", "p_ef": "-1"}},
+    {"id": "t_cycle", "table": "t0", "weight": "1", "alpha": "-1", "eligible_candidates": ["p_ab_1", "p_bc", "p_cd", "p_de", "p_ef", "p_af"], "corrections": {"p_ab_1": "1", "p_bc": "-3/2", "p_cd": "2", "p_de": "-1/2", "p_ef": "1/2", "p_af": "-2"}}
+  ]
+}

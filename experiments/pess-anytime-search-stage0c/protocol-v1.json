@@ -1,0 +1,146 @@
+{
+  "protocol_id": "stage0c-v1",
+  "issue": 35,
+  "purpose": "Matched benchmark of anytime PESS outer search against the unchanged Static MILP and Master-Oracle implementations.",
+  "status": "FROZEN_BEFORE_COMPARISON",
+  "parent_main_sha": "9da5e80",
+  "model": {
+    "objective": "sum_i w_i max_{P in MaximalMatchings(H_i[M])} |alpha_i + sum_{e in P} b_{e,i}|",
+    "resource_choice": "one unordered global labeled resource set M",
+    "maintenance": "additive nonnegative proxy sum_e cost_e <= B; zero-cost candidates retained",
+    "matching_semantics": "labeled maximal matching, never maximum-cardinality matching",
+    "task_aggregation": "independent task-wise maxima followed by weighted sum",
+    "loss": "positive pre-clamp absolute log-error model; all frozen coefficients are finite exact rational stand-ins",
+    "scope": "model-level synthetic evidence; no PostgreSQL behavior or physical maintenance claim"
+  },
+  "corpus": {
+    "generation": "hand-authored deterministic JSON fixtures; no post-hoc filtering, resampling, or cherry-picking",
+    "seed": "stage0c-v1-hand-authored-20261019",
+    "tiers": {
+      "small": {
+        "resource_count": "5-8",
+        "task_count": "2-3",
+        "objective_evaluation": "independent exact Fraction enumeration of every feasible outer subset and every selected-graph labeled maximal matching",
+        "files": [
+          "tiny_mixed_01.json",
+          "tiny_parallel_zero_02.json",
+          "tiny_greedy_trap_03.json"
+        ]
+      },
+      "medium": {
+        "resource_count": "12",
+        "task_count": "4",
+        "objective_evaluation": "independent exact Fraction maximal-matching enumeration for every reported incumbent; full outer enumeration is a reference only where feasible",
+        "files": ["medium_strata_01.json"]
+      },
+      "exploratory_stress": {
+        "resource_count": "24",
+        "task_count": "6",
+        "objective_evaluation": "independent exact Fraction selected-graph maximal-matching enumeration for reported incumbents; unresolved timeout/orderings are UNCERTIFIED",
+        "files": ["stress_exploratory_01.json"]
+      }
+    },
+    "structural_strata": [
+      "stars",
+      "paths",
+      "cycles",
+      "disconnected components",
+      "parallel labeled edges",
+      "mixed conflict",
+      "high and low resource sharing",
+      "tight and loose budgets",
+      "zero-cost resources",
+      "zero and near-zero optima",
+      "signed cancellation"
+    ],
+    "predeclared_counterexample_checks": [
+      "At least one fixed corpus row must exhibit a nonmonotone greedy trap under the deterministic add-only greedy control; if none does, report the requirement as unmet rather than filtering or replacing rows.",
+      "At least one fixed corpus stratum must have the empty/singleton/greedy control or Static MILP strictly better than the specialized treatment on an independently certified objective or checkpoint; failures must be retained."
+    ],
+    "input_hashes": {
+      "tiny_mixed_01.json": "sha256:0075132ce299ecb63a69b002d4b7b121fea95cb24842e540e2453a15b955797f",
+      "tiny_parallel_zero_02.json": "sha256:5ec9d646ad785a74266020fcb31f4fb95767ed193e6f42931b9c50721b841c09",
+      "tiny_greedy_trap_03.json": "sha256:6484c7dceed263772d759ed7fb5bf55e4eedba90b56745dcd243f61e849331b3",
+      "medium_strata_01.json": "sha256:6fac13bd4de3e6a63dbd3e573539d1d061f3a9d52c145149f7c0cdf7671eb58a",
+      "stress_exploratory_01.json": "sha256:673daf3d95c6e98ce72afd657c8924b03fc124a69fc2a4678ceac7382d573261"
+    }
+  },
+  "methods": {
+    "truth": "independent Fraction exhaustive reference on small; exact selected-graph evaluator on medium/stress",
+    "controls": [
+      "empty selection",
+      "best feasible singleton with deterministic lexicographic tie break",
+      "deterministic add-only greedy, selecting the lexicographically first best strictly improving feasible addition; stop on no improvement; zero-cost candidates are considered"
+    ],
+    "generic_neighborhood": {
+      "name": "basic ADD/DELETE/1-for-1-SWAP local search",
+      "moves": "all globally budget-feasible neighbors in lexicographic resource order",
+      "acceptance": "strictly lower independently certified objective only",
+      "start": "empty selection",
+      "termination": "first-improvement pass repeats until no strict improvement or full-process deadline",
+      "plateau": "retain incumbent; no equal-objective move; report plateau and evaluated neighbors"
+    },
+    "treatment": {
+      "name": "PESS witness-sensitivity ordering plus canonical task-evaluation cache",
+      "hypothesis": "ordering candidates by deterministic descending task-wise signed-extrema sensitivity, with lexicographic tie break, reaches a better independently certified incumbent sooner at a matched wall-time budget than the same neighborhood with lexicographic ordering",
+      "falsification": "the hypothesis is false if the predeclared checkpoint aggregate shows no material improvement or if the treatment loses on fixed strata; all losses remain reported",
+      "ablations": ["basic neighborhood", "cache only", "PESS ordering only", "PESS ordering plus cache"],
+      "optional_2_resource_lookahead": "not run in v1"
+    },
+    "exact_references": [
+      "unchanged ess-advisor Static strengthened conditional MILP",
+      "unchanged ess-advisor Master-Oracle with precompute/cache switches recorded separately"
+    ]
+  },
+  "fairness": {
+    "repetitions": 3,
+    "seeds": [3501, 3502, 3503],
+    "full_process_wall_clock_cap_seconds": 10.0,
+    "checkpoint_seconds": [0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0],
+    "objective_target": "first independently certified incumbent at or below min(OPT + 1/10, 1.10 * max(OPT, 1)) for small; no target claim when OPT is unavailable",
+    "threads": "single-threaded process; HiGHS thread setting/default recorded and not changed between methods",
+    "memory_cap": "NOT ENFORCED in v1; process RSS recorded where available",
+    "timeout_scope": "one full invocation including preprocessing, objective evaluations, cache management, solver calls, validation, and serialization",
+    "total_pilot_cap": "bounded to the listed five fixtures, three repetitions, and listed checkpoints",
+    "comparison_rule": "compare only independently certified original PESS objectives; solver-reported numerical bounds are labeled separately and never upgraded to exact truth"
+  },
+  "advisor_gate_a": {
+    "repository": "1951123/ess-advisor",
+    "access": "read-only pinned checkout",
+    "commit_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+    "required_apis": ["pess_ess.solvers_v2.solve_static", "pess_ess.solvers_v2.solve_master_oracle"],
+    "adapter": "research-side only; no ess-advisor or ess-postgresql modifications",
+    "required_inputs": ["signed coefficients", "parallel labeled edges", "zero-cost edge", "shared-resource tasks", "tight budget"],
+    "required_checks": [
+      "returned selections are globally budget feasible",
+      "returned selections and original PESS losses agree with independent Fraction truth on tiny inputs",
+      "all solver statuses, tolerances, primal/dual bounds, warnings, and timings are retained",
+      "total_time_limit bounds full solver invocation, not only inner calls"
+    ],
+    "failure_policy": "if Static cannot run faithfully, Gate A is NO-GO/INCONCLUSIVE and no speedup claim; if Master-Oracle cannot run faithfully, record concrete blocker and NOT EXECUTED"
+  },
+  "protocol_chronology": [
+    {
+      "event": "protocol_and_inputs_commit",
+      "required_before": "any treatment or comparator result comparison",
+      "parent_sha": "9da5e80",
+      "protocol_commit": "recorded after commit",
+      "code_sha": "not applicable: input-only commit"
+    },
+    {
+      "event": "gate_a_validation",
+      "required_before": "approximate-search comparisons",
+      "parent_sha": "protocol commit",
+      "protocol_commit": "recorded in run manifest",
+      "code_sha": "recorded after adapter commit"
+    },
+    {
+      "event": "approximate_search_and_matched_benchmark",
+      "required_after": "Gate A pass or explicitly scoped INCONCLUSIVE decision",
+      "parent_sha": "Gate A code commit",
+      "protocol_commit": "stage0c-v1",
+      "code_sha": "recorded per run"
+    }
+  ],
+  "change_control": "v1 is preserved; any change to inputs, stopping rule, checkpoints, repetitions, objective target, or tier scope requires a new versioned v2 protocol and cannot overwrite v1 evidence"
+}
