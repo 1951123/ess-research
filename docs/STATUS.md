@@ -40,6 +40,31 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 ## 3. PR and branch status
 
+### Issue #30 Stage 0A (current research/issue30 branch)
+
+The standalone exact reference and frozen pilot are implemented under
+`experiments/pess-bound-stage0a/`. The committed manifest fixes four
+deterministic strata, seeds 3019–3022, 4–8 resources, 1–4 tasks, a 300-node
+per-instance cap, exact `Fraction` arithmetic, and a 120-second wall cap before
+comparison results. The 2026-10-19 run evaluated 1,708 feasible branch states
+across eight tiny instances, explicitly rejected 200 infeasible forced states,
+checked all feasible completions pointwise, and recorded zero counterexamples.
+The evidence bundle is hash-verified in
+`experiments/pess-bound-stage0a/runs/20261019-issue30-v1/`; the report records
+the exact formalized lemma, A/B/C results, witness costs, and D as not executed
+because the issue forbids modifying `ess-advisor` or building a new solver.
+This is **experimentally observed bounded evidence**, not a theorem novelty or
+end-to-end speed claim. The current recommendation is **INCONCLUSIVE**.
+
+Review follow-up in the same Draft PR: the original v1 raw blob was restored
+byte-for-byte after a large-file API publication mismatch, with the cause and
+non-rerun preservation documented in the v1 report. A predeclared balanced v2
+manifest/run adds separate bitmask completion checks, balanced first-resource
+status/depth strata, complete B/C timing, and pruned-nodes-per-second metrics.
+The v2 run passed with 1,552 feasible nodes, 356 rejected forced-infeasible
+states, and zero counterexamples. This remains bounded tightness/cost evidence,
+not an end-to-end speed result; comparator D remains out of scope.
+
 1. [ess-research #1](https://github.com/1951123/ess-research/pull/1) — restricted theorem note and `trace_pairwise_mcv.sql`; **merged**.
 2. [ess-postgresql #1](https://github.com/1951123/ess-postgresql/pull/1) — DEBUG1 instrumentation; **merged 2026-10-17** into `ess-postgresql/main`, after the controlled branch build/trace.
 3. [ess-research #2](https://github.com/1951123/ess-research/pull/2) — context, decision log, status, Codex instructions, README entry; **merged**.

@@ -1,0 +1,62 @@
+{
+  "aggregate": {
+    "A_global_floor": {
+      "exact": 19,
+      "nodes": 1708,
+      "positive_gap": 1689,
+      "prunable": 313
+    },
+    "B_exact_sensitivity": {
+      "exact": 479,
+      "nodes": 1708,
+      "positive_gap": 1229,
+      "prunable": 970
+    },
+    "B_fractional_sensitivity": {
+      "exact": 459,
+      "nodes": 1708,
+      "positive_gap": 1249,
+      "prunable": 966
+    },
+    "C_exact_witness": {
+      "exact": 1351,
+      "nodes": 1708,
+      "positive_gap": 357,
+      "prunable": 1491
+    },
+    "C_greedy_witness": {
+      "exact": 1068,
+      "nodes": 1708,
+      "positive_gap": 640,
+      "prunable": 1485
+    }
+  },
+  "evaluated_nodes": 1708,
+  "failures": 0,
+  "instance_count": 8,
+  "manifest_sha256": "83a26e8c818652a0b07d54ff2efeedcb4aca482cfc3ea634bc17f52877cd04a8",
+  "ordinary_matching_extrema_calls": {
+    "global_floor_precomputation": 18,
+    "per_node_q_extrema": 8629,
+    "total": 8647
+  },
+  "pairwise": {
+    "C_exact_gt_C_greedy": 297,
+    "C_greedy_gt_A": 1558,
+    "C_greedy_gt_B_exact": 1153
+  },
+  "rejected_infeasible_forced_nodes": 200,
+  "restricted_master": {
+    "reason": "Issue #30 forbids modifying ess-advisor or building a new solver for this bounded experiment.",
+    "status": "not_executed"
+  },
+  "status": "PASS",
+  "timed_out": false,
+  "timing": {
+    "f_forced_seconds": 0.028905957970891905,
+    "q_extrema_calls_exact": 4609,
+    "q_extrema_calls_greedy": 4020,
+    "witness_exact_seconds": 0.07726968500355724,
+    "witness_greedy_seconds": 0.05207473900009063
+  }
+}

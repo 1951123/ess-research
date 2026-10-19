@@ -1,0 +1,7 @@
+{
+  "command": "python3 experiments/pess-bound-stage0a/run_stage0a.py",
+  "executable": "/usr/bin/python3",
+  "manifest_sha256": "83a26e8c818652a0b07d54ff2efeedcb4aca482cfc3ea634bc17f52877cd04a8",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]"
+}
