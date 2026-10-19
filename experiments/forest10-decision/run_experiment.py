@@ -406,15 +406,21 @@ def git_head(path: str) -> str | None:
 
 
 def inspect_explicit_data_root(data_root: Path | None) -> dict[str, Any]:
-    """Record an explicit real-data handoff without guessing a machine path."""
+    """Run the real-data gate using CLI input, then ESS_DATA_ROOT as fallback."""
 
     command_prefix = [sys.executable, "-m", "ess_research.arecel.forest10", "inspect"]
+    data_root_source = "--data-root"
+    if data_root is None:
+        configured_root = os.environ.get("ESS_DATA_ROOT")
+        if configured_root and configured_root.strip():
+            data_root = Path(configured_root)
+            data_root_source = "ESS_DATA_ROOT"
     if data_root is None:
         return {
             "status": "not_supplied",
             "required_for_real_stage": True,
-            "action": "no filesystem path inspected; provide --data-root for the real-stage gate",
-            "example_command": "PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect --data-root /ABSOLUTE/ROOT",
+            "action": "no filesystem path inspected; provide --data-root or ESS_DATA_ROOT for the real-stage gate",
+            "example_command": "ESS_DATA_ROOT=/ABSOLUTE/ROOT PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect",
         }
 
     resolved = data_root.expanduser().resolve()
@@ -437,6 +443,7 @@ def inspect_explicit_data_root(data_root: Path | None) -> dict[str, Any]:
         "status": "passed" if completed.returncode == 0 else "blocked_or_invalid",
         "required_for_real_stage": True,
         "data_root": str(resolved),
+        "data_root_source": data_root_source,
         "command": shlex.join(command),
         "exit_status": completed.returncode,
         "stdout": completed.stdout,
@@ -517,12 +524,48 @@ def report(
     return "\n".join(lines) + "\n"
 
 
+def real_report(
+    payload: dict[str, Any], artifacts: dict[str, Any], instance: dict[str, Any]
+) -> str:
+    lines = [
+        "# Issue #23 Forest10 real-input decision comparison",
+        "",
+        "Evidence label: **Experimentally observed exact model comparison over a measured-input rationalization**. PostgreSQL calibration observations and real-query estimate behavior are separate artifacts; this report only summarizes the exact Fraction optimization over the generated model instance.",
+        "",
+        f"Retained positive-truth tasks: `{len(instance['tasks'])}`. Excluded frozen task(s): `{len(instance['raw'].get('parameter_provenance', {}).get('excluded_tasks', []))}` because the primary pre-clamp log model requires `T_i > 0`; the zero-truth task remains in the PostgreSQL calibration artifact.",
+        "",
+        "The candidate universe, budgets, nominal order, all shared orders, maximal-matching admissibility, lexicographic tie-break, and exhaustive Fraction/reference framework are inherited from the frozen protocol. Maintenance is the one-unit additive proxy only; these rows do not measure physical ANALYZE cost.",
+        "",
+        "| B | Method | Selected | Proxy cost | Exact objective | PESS taskwise bound |",
+        "|---:|---|---|---:|---:|---:|",
+    ]
+    labels = {"pess": "PESS", "nominal": "Nominal", "joint_robust": "Joint-Robust", "empty": "Empty"}
+    for budget in payload["budgets"]:
+        for method in METHODS:
+            item = budget["method_results"][method]
+            certificate = item["exact_certificate"]
+            lines.append(
+                f"| {budget['budget']} | {labels[method]} | {item['selected']} | {item['maintenance_cost']} | "
+                f"{certificate.get('objective', item['nominal_order_loss'])} | {item['pessimistic_taskwise_bound']} |"
+            )
+    lines.extend(
+        [
+            "",
+            "The model values are exact Fraction results after the explicitly recorded 18-decimal rationalization of measured natural-log coefficients. They are not claims that every abstract maximal matching is realized by one fixed PostgreSQL catalog, nor are they PostgreSQL plan-row or latency results.",
+            "",
+            f"Summary SHA-256: `{artifacts['summary_sha256']}`; raw observation SHA-256: `{artifacts['raw_sha256']}`.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
 def run(
     output_dir: Path = RESULTS,
     include_execution: bool = True,
     data_root: Path | None = None,
+    instance_path: Path = INSTANCE_PATH,
 ) -> dict[str, Any]:
-    instance = load_instance(INSTANCE_PATH)
+    instance = load_instance(instance_path)
     data_root_validation = inspect_explicit_data_root(data_root)
     orders = tuple(itertools.permutations(instance["candidate_ids"]))
     if len(orders) != 720:
@@ -550,8 +593,12 @@ def run(
             "task_count": len(instance["tasks"]),
             "raw_record_count": len(raw_records),
             "raw_record_type_counts": {"common_shared_order_observation": len(raw_records)},
-            "instance_sha256": sha256(INSTANCE_PATH.read_bytes()),
-            "pg_calibration_status": "blocked_missing_explicit_forest10_data_root_and_real_pg_fixture",
+            "instance_sha256": sha256(instance_path.read_bytes()),
+            "instance_path": str(instance_path),
+            "pg_calibration_status": (
+                "measured_real_pg_input" if instance["raw"]["status"].startswith("REAL_")
+                else "blocked_missing_explicit_forest10_data_root_and_real_pg_fixture"
+            ),
             "data_root_validation": data_root_validation,
         },
         "budgets": budget_results,
@@ -579,9 +626,16 @@ def run(
         encoding="utf-8",
     )
     report_path = output_dir / "report.md"
-    report_path.write_text(report(payload, artifacts, data_root_validation), encoding="utf-8")
+    report_text = (
+        real_report(payload, artifacts, instance)
+        if instance["raw"]["status"].startswith("REAL_")
+        else report(payload, artifacts, data_root_validation)
+    )
+    report_path.write_text(report_text, encoding="utf-8")
     if include_execution:
         command = "python3 experiments/forest10-decision/run_experiment.py"
+        if instance_path != INSTANCE_PATH:
+            command += f" --instance {shlex.quote(str(instance_path))}"
         if data_root is not None:
             command += f" --data-root {shlex.quote(str(data_root))}"
         execution = {
@@ -597,6 +651,7 @@ def run(
             "fixed_sample_interface": "ess.analyze_sample_export / ess.analyze_sample_import",
             "data_root_validation": data_root_validation,
             "historical_input_hashes": instance["raw"]["dataset_identity"],
+            "instance_path": str(instance_path),
             "budgets": runtimes,
             "canonical_artifacts": artifacts,
             "verification_commands": [
@@ -640,8 +695,14 @@ if __name__ == "__main__":
         default=None,
         help="explicit Forest10 ETL root for the real-stage inspect gate; never inferred",
     )
+    parser.add_argument(
+        "--instance",
+        type=Path,
+        default=INSTANCE_PATH,
+        help="model instance JSON; defaults to the checked-in synthetic pilot",
+    )
     args = parser.parse_args()
-    result = run(output_dir=args.output_dir, data_root=args.data_root)
+    result = run(output_dir=args.output_dir, data_root=args.data_root, instance_path=args.instance)
     print(f"budgets={len(result['budgets'])}")
     print(f"shared_orders={result['metadata']['order_count']}")
     print(f"raw_records={result['metadata']['raw_record_count']}")

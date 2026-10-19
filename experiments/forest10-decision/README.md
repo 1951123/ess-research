@@ -1,8 +1,10 @@
 # Issue #23 Forest10 decision comparison
 
-This directory contains the bounded, independently checkable **synthetic model
-smoke pilot** for Issue #23. It is not a completed real-Forest10 or PostgreSQL
-result.
+This directory contains the bounded, independently checkable synthetic pilot
+and the Issue #23 real-stage protocol. The synthetic instance remains a model
+smoke test; the real-stage evidence is summarized in
+[real-stage-report.md](real-stage-report.md) and keeps data acquisition,
+PostgreSQL measurements, and exact model optimization separate.
 
 The real Forest10 stage is gated by an explicit caller-provided data root; no
 machine-specific path is inferred or probed. The committed ETL and acquisition
@@ -44,11 +46,13 @@ python3 experiments/forest10-decision/verify_reference.py \
   --summary experiments/forest10-decision/results/forest10-decision-summary.json
 ```
 
-The runner accepts `--data-root /ABSOLUTE/ROOT` only to execute and record the
-ETL's fail-closed `inspect` gate. Omitting it records `not_supplied`; it never
-falls back to a guessed path. The exact real-stage inputs, hashes, and commands
-are in [real-stage-handoff.md](real-stage-handoff.md). No real PG calibration
-was run for this pilot.
+The runner accepts `--instance PATH` for a separately generated model input and
+`--data-root /ABSOLUTE/ROOT`; `--data-root` takes precedence over
+`ESS_DATA_ROOT`. The exact real-stage inputs, hashes, and commands are in
+[real-stage-report.md](real-stage-report.md) and
+[real-stage-handoff.md](real-stage-handoff.md). The real runner reuses the
+same exact optimizer and independent reference checker; it does not reimplement
+the algorithm.
 
 The frozen synthetic instance has no positive task-wise PESS-versus-shared-order
 gap and no PESS-versus-Joint-Robust decision difference. This is a neutral

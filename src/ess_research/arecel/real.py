@@ -202,7 +202,11 @@ def spec_for(value: str) -> DatasetSpec:
 
 def _root(value: Path | str | None) -> Path:
     if value is None:
-        raise InputContractError("an explicit --data-root is required")
+        value = os.environ.get("ESS_DATA_ROOT")
+    if value is None or not str(value).strip():
+        raise InputContractError(
+            "provide --data-root or ESS_DATA_ROOT; no other default is used"
+        )
     root = Path(value).expanduser().resolve()
     if root == Path("/"):
         raise InputContractError("the data root may not be the filesystem root")
@@ -1040,12 +1044,27 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
     audit = subparsers.add_parser("audit")
-    audit.add_argument("--data-root", type=Path, required=True)
+    audit.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="AreCEL data root; overrides ESS_DATA_ROOT",
+    )
     inspect = subparsers.add_parser("inspect")
-    inspect.add_argument("--data-root", type=Path, required=True)
+    inspect.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="AreCEL data root; overrides ESS_DATA_ROOT",
+    )
     inspect.add_argument("--dataset", choices=sorted(SPECS), required=True)
     build = subparsers.add_parser("build")
-    build.add_argument("--data-root", type=Path, required=True)
+    build.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="AreCEL data root; overrides ESS_DATA_ROOT",
+    )
     build.add_argument("--dataset", choices=sorted(SPECS), required=True)
     build.add_argument("--output-dir", type=Path, required=True)
     build.add_argument("--split", choices=SPLITS, required=True)

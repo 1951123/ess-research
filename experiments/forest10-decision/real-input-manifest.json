@@ -1,0 +1,79 @@
+{
+  "format": "ess-issue23-forest10-real-input-manifest-v1",
+  "status": "FROZEN_BEFORE_OBJECTIVE_EVALUATION",
+  "evidence_scope": "real Forest10 source and PostgreSQL calibration inputs; not yet an optimization result",
+  "data_root": "/home/wqts/ess-data",
+  "source": {
+    "upstream_repository": "https://github.com/sfu-db/AreCELearnedYet",
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "code_license": "MIT",
+    "data_license_status": "not stated by pinned upstream; local validation only",
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "workload_pickle_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+    "label_pickle_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+    "derived_canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "historical_canonical_reference_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+    "csv_rows": 581012,
+    "canonical_records": 20000,
+    "split_counts": {
+      "valid": 10000,
+      "test": 10000
+    },
+    "pairwise_scope_diagnostic_sha256": "5bd612015d5c9c79d4c78ae9cb9b7a364d3bdef26138b72ecad9b263f7ec2396",
+    "pairwise_scope_counts": {
+      "single_table_conjunctive": 20000,
+      "supported_predicate_syntax": 20000,
+      "eligible_for_restricted_pairwise_mcv": 18011
+    }
+  },
+  "candidate_rule": {
+    "universe_size": 6,
+    "kind": "two-column MCV extended statistic",
+    "columns_are_source_names": true,
+    "statistics_target": 300,
+    "candidate_cost_proxy": "one unit per candidate; additive proxy only, not physical ANALYZE cost",
+    "candidates": [
+      {"id": "e01", "columns": ["Elevation", "Aspect"]},
+      {"id": "e12", "columns": ["Aspect", "Slope"]},
+      {"id": "e23", "columns": ["Slope", "Horizontal_Distance_To_Hydrology"]},
+      {"id": "e34", "columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"]},
+      {"id": "e45", "columns": ["Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways"]},
+      {"id": "e56", "columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am"]}
+    ],
+    "construction_rule": "six adjacent source-column pairs in the frozen Forest10 schema order; chosen before objective evaluation"
+  },
+  "selection_tasks": {
+    "source_split": "valid",
+    "held_out_split": "test",
+    "selection_rule": "scan valid records in source order; for each candidate in candidate-id order, choose the first as-yet-unused query containing both endpoint columns",
+    "weight_rule": "unit weight; source pickles contain no task weights",
+    "tasks": [
+      {"candidate_id": "e01", "query_id": "arecel:forest10:valid:000005", "truth": 3, "source_query_sha256": "cfa59a022f0c55ecdf4bf9302b0fdbcdf6e65dfb5ef794241996517653c5ce96"},
+      {"candidate_id": "e12", "query_id": "arecel:forest10:valid:000003", "truth": 0, "source_query_sha256": "22f7a33bc2585d8e0e397f007468499b284c1e00110ebbc90bf77a04826c08da"},
+      {"candidate_id": "e23", "query_id": "arecel:forest10:valid:000009", "truth": 119625, "source_query_sha256": "10dc99adad4e59a628c98c67296c36a7bab1a3116262c18555051f69ddac8a9f"},
+      {"candidate_id": "e34", "query_id": "arecel:forest10:valid:000001", "truth": 343, "source_query_sha256": "1c7506e7258f6f31aaaeb95187fb208e9251b176fb45481114da1163b4381a27"},
+      {"candidate_id": "e45", "query_id": "arecel:forest10:valid:000010", "truth": 12916, "source_query_sha256": "b91afecc2c373b6245fa6b4e932db281524a0a02aa30095c466fb1844b3e1fb7"},
+      {"candidate_id": "e56", "query_id": "arecel:forest10:valid:000011", "truth": 8, "source_query_sha256": "6c9f6feb299bc0ea43c0aea9ee6414c7fbbe2ad32380338ab3df1241ddc85c97"}
+    ]
+  },
+  "decision_protocol": {
+    "budgets": [0, 2, 3, 5],
+    "nominal_order": ["e01", "e12", "e23", "e34", "e45", "e56"],
+    "shared_order_scenarios": "all 6! permutations of the full candidate universe; one shared order restricted per task",
+    "tie_break": "lexicographically smallest sorted selected-id tuple",
+    "empty_reference": true,
+    "test_queries_used_for_selection": false,
+    "optimization_scope": "reuse the merged exact exhaustive Fraction/reference framework; no algorithm reimplementation"
+  },
+  "postgresql_protocol": {
+    "repository_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "server_version": "16.14",
+    "table": "public.forest10_original",
+    "table_kind": "single heap table",
+    "fixed_sample_interface": "ess.analyze_sample_export / ess.analyze_sample_import",
+    "calibration_scope": "valid selection tasks only; test split held out",
+    "preclamp_requirement": "record positive measured baseline and candidate corrections before any log transform; zero/clamped values remain separate",
+    "maintenance_scope": "sample-replay ANALYZE observations are not physical maintenance cost"
+  }
+}

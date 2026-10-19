@@ -1,7 +1,9 @@
 # Issue #23 real Forest10 handoff
 
-Status: **blocked / not run in this PR**. This file is a reproducible handoff,
-not evidence that the real stage completed.
+Status: **completed on the continuation branch; review pending**. This file is
+the protocol handoff; measured hashes and results are in
+[real-stage-report.md](real-stage-report.md). Raw data and calibration output
+remain outside Git under `ESS_DATA_ROOT=/home/wqts/ess-data`.
 
 ## Required input contract
 
@@ -39,7 +41,7 @@ records separate from the held-out test split.
 From the repository root, with `DATA_ROOT` supplied by the researcher:
 
 ```bash
-DATA_ROOT=/absolute/path/to/arecel-root
+DATA_ROOT=/home/wqts/ess-data
 PYTHONPATH=src python3 -m ess_research.arecel.forest10 inspect \
   --data-root "$DATA_ROOT"
 PYTHONPATH=src python3 -m ess_research.arecel.forest10 build \
@@ -49,8 +51,22 @@ PYTHONPATH=src python3 -m ess_research.arecel.forest10 build \
 python3 experiments/arecel/classify_pairwise_scope.py \
   --canonical "$DATA_ROOT/arecel/audit-v1/forest10.canonical.jsonl.gz" \
   --output "$DATA_ROOT/experiment-data/forest10-pairwise-scope-issue23.json"
+python3 experiments/forest10-decision/run_pg_calibration.py \
+  --data-root "$DATA_ROOT" \
+  --pg-bin /tmp/ess-pg-forest10-issue23-prefix/bin \
+  --lib-dir /tmp/ess-postgresql-issue23-numeric/src/interfaces/libpq \
+  --socket-dir /tmp/ess-pg-forest10-issue23-socket \
+  --server-log "$DATA_ROOT/pg-calibration/issue23/server.log" \
+  --sample "$DATA_ROOT/pg-calibration/issue23/forest10.sample" \
+  --output-dir "$DATA_ROOT/pg-calibration/issue23"
+python3 experiments/forest10-decision/build_real_instance.py \
+  --data-root "$DATA_ROOT" \
+  --calibration "$DATA_ROOT/pg-calibration/issue23/calibration.json" \
+  --output "$DATA_ROOT/experiment-data/forest10-real-pg-instance.json"
 python3 experiments/forest10-decision/run_experiment.py \
-  --data-root "$DATA_ROOT"
+  --data-root "$DATA_ROOT" \
+  --instance "$DATA_ROOT/experiment-data/forest10-real-pg-instance.json" \
+  --output-dir "$DATA_ROOT/experiment-data/forest10-real-decision-results"
 ```
 
 The `inspect` and `build` commands are fail-closed and require outputs under
@@ -73,5 +89,8 @@ physical maintenance cost.
 
 The real stage must distinguish three evidence layers: exact mathematical
 optimization, PG calibration observations, and real PostgreSQL estimate
-behavior. If the database fixture or sample replay is unavailable, leave the
-PG calibration blocked and do not substitute synthetic coefficients.
+behavior. The completed run retained one zero-truth task in the PG measurement
+layer but excluded it from the primary positive pre-clamp log model because
+`log(n_i^0/T_i)` requires `T_i>0`; no replacement or synthetic truth was used.
+If a future replay or source contract differs, leave the affected layer blocked
+and do not substitute synthetic coefficients.

@@ -95,8 +95,10 @@ class InputContractError(ValueError):
 
 def _root(value: Path | str | None) -> Path:
     if value is None:
+        value = os.environ.get("ESS_DATA_ROOT")
+    if value is None or not str(value).strip():
         raise InputContractError(
-            "an explicit --data-root is required; no historical or environment default is used"
+            "provide --data-root or ESS_DATA_ROOT; no other default is used"
         )
     root = Path(value).expanduser().resolve()
     if root == Path("/"):
@@ -968,9 +970,19 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
     inspect_parser = subparsers.add_parser("inspect")
-    inspect_parser.add_argument("--data-root", type=Path, required=True)
+    inspect_parser.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="Forest10 root; overrides ESS_DATA_ROOT",
+    )
     build_parser = subparsers.add_parser("build")
-    build_parser.add_argument("--data-root", type=Path, required=True)
+    build_parser.add_argument(
+        "--data-root",
+        type=Path,
+        default=None,
+        help="Forest10 root; overrides ESS_DATA_ROOT",
+    )
     build_parser.add_argument("--output-dir", type=Path, required=True)
     build_parser.add_argument(
         "--split", choices=sorted(EXPECTED_SPLIT_COUNTS), default="test"
