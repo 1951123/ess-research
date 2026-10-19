@@ -1,0 +1,19 @@
+{
+  "protocol_id": "stage0c-v2",
+  "supersedes": "protocol-v1.json",
+  "reason_for_version": "v1's fixed corpus did not satisfy its predeclared requirement for an observed nonmonotone add-only-greedy trap. v1 inputs and raw results are retained unchanged; v2 adds one fixed hand-authored trap and reruns the complete corpus under the same methods, caps, repetitions, checkpoints, and objective rules.",
+  "parent_protocol_sha256": "sha256:f71c25d9a2f311344207e36d7db6c30b7ecaba81ecd94b07705b2a9ae7c1cfb2",
+  "input_change": {
+    "added_file": "instances/tiny_greedy_trap_04.json",
+    "seed": "stage0c-v2-fixed-counterexample-derived-from-seed-35035-trial-8",
+    "generation": "deterministic hand-authored transcription of the retained temporary search output; no v1 row removed or filtered",
+    "sha256": "sha256:db0d553b70225de59abc03ea6547050bcb964e545d51f2f88bdff705e759faf1"
+  },
+  "unchanged_rules": "All model semantics, structural strata, methods, deterministic tie rules, full-process wall cap, checkpoints, three repetitions, memory status, target definition, Gate A requirements, evidence labels, and change-control rules in protocol-v1.json remain in force.",
+  "v2_corpus": "All five v1 fixtures plus instances/tiny_greedy_trap_04.json; v1 raw evidence is a preserved baseline, not overwritten.",
+  "acceptance": {
+    "greedy_trap": "On the added fixed input, deterministic add-only greedy must retain empty selection at objective 4 while independent Fraction exhaustive truth is objective 0 at {g4,g5}; otherwise report unmet.",
+    "simple_or_static_wins": "Retain the v1 medium-stratum result where a simple method beats the basic neighborhood, and rerun it under v2.",
+    "no_cherry_picking": "Report all v1 and v2 rows, including failures, timeouts, and losses; do not replace v1 hashes or results."
+  }
+}

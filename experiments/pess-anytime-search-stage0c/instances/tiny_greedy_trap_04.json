@@ -1,0 +1,15 @@
+{
+  "budget": "4",
+  "candidates": [
+    {"id": "g0", "table": "t0", "endpoints": ["b", "d"], "maintenance_cost": "1"},
+    {"id": "g1", "table": "t0", "endpoints": ["d", "e"], "maintenance_cost": "2"},
+    {"id": "g2", "table": "t0", "endpoints": ["c", "d"], "maintenance_cost": "1"},
+    {"id": "g3", "table": "t0", "endpoints": ["b", "c"], "maintenance_cost": "2"},
+    {"id": "g4", "table": "t0", "endpoints": ["b", "e"], "maintenance_cost": "1"},
+    {"id": "g5", "table": "t0", "endpoints": ["a", "d"], "maintenance_cost": "2"}
+  ],
+  "tasks": [
+    {"id": "t0", "table": "t0", "weight": "2", "alpha": "1", "eligible_candidates": ["g0", "g1", "g2", "g3", "g4", "g5"], "corrections": {"g0": "2", "g1": "-2", "g2": "1", "g3": "2", "g4": "2", "g5": "-3"}},
+    {"id": "t1", "table": "t0", "weight": "2", "alpha": "-1", "eligible_candidates": ["g0", "g1", "g2", "g3", "g4", "g5"], "corrections": {"g0": "1", "g1": "-2", "g2": "-2", "g3": "-1", "g4": "-2", "g5": "3"}}
+  ]
+}

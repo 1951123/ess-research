@@ -31,6 +31,7 @@ def main() -> None:
     parser.add_argument("--root", type=Path, default=Path(__file__).parent)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--wall-cap", type=float, default=10.0)
+    parser.add_argument("--protocol", default="stage0c-v1")
     args = parser.parse_args()
     root = args.root
     paths = sorted((root / "instances").glob("*.json"))
@@ -60,7 +61,7 @@ def main() -> None:
                     "result": result,
                 })
     payload = {
-        "protocol": "stage0c-v1",
+        "protocol": args.protocol,
         "code_sha": git_sha(),
         "python": sys.version,
         "platform": platform.platform(),
