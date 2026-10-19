@@ -1,0 +1,57 @@
+{
+  "protocol_id": "stage0c-v3",
+  "supersedes": ["protocol-v1.json", "protocol-v2.json"],
+  "purpose": "Versioned corrected rerun: preserve v1/v2 raw observations while fixing causal anytime timing, explicit manifest selection, overwrite protection, and compact lossless advisor evidence.",
+  "scientific_model": "unchanged from protocol-v1 and protocol-v2; this version changes only evidence accounting and reproduction safeguards",
+  "corpora": {
+    "stage0c-v1": {
+      "files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json", "medium_strata_01.json", "stress_exploratory_01.json"],
+      "gate_a_files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json"],
+      "hashes": {
+        "tiny_mixed_01.json": "0075132ce299ecb63a69b002d4b7b121fea95cb24842e540e2453a15b955797f",
+        "tiny_parallel_zero_02.json": "5ec9d646ad785a74266020fcb31f4fb95767ed193e6f42931b9c50721b841c09",
+        "tiny_greedy_trap_03.json": "6484c7dceed263772d759ed7fb5bf55e4eedba90b56745dcd243f61e849331b3",
+        "medium_strata_01.json": "6fac13bd4de3e6a63dbd3e573539d1d061f3a9d52c145149f7c0cdf7671eb58a",
+        "stress_exploratory_01.json": "673daf3d95c6e98ce72afd657c8924b03fc124a69fc2a4678ceac7382d573261"
+      }
+    },
+    "stage0c-v2": {
+      "files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json", "tiny_greedy_trap_04.json", "medium_strata_01.json", "stress_exploratory_01.json"],
+      "gate_a_files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json", "tiny_greedy_trap_04.json"],
+      "hashes": {
+        "tiny_mixed_01.json": "0075132ce299ecb63a69b002d4b7b121fea95cb24842e540e2453a15b955797f",
+        "tiny_parallel_zero_02.json": "5ec9d646ad785a74266020fcb31f4fb95767ed193e6f42931b9c50721b841c09",
+        "tiny_greedy_trap_03.json": "6484c7dceed263772d759ed7fb5bf55e4eedba90b56745dcd243f61e849331b3",
+        "tiny_greedy_trap_04.json": "db0d553b70225de59abc03ea6547050bcb964e545d51f2f88bdff705e759faf1",
+        "medium_strata_01.json": "6fac13bd4de3e6a63dbd3e573539d1d061f3a9d52c145149f7c0cdf7671eb58a",
+        "stress_exploratory_01.json": "673daf3d95c6e98ce72afd657c8924b03fc124a69fc2a4678ceac7382d573261"
+      }
+    },
+    "stage0c-v3": {
+      "files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json", "tiny_greedy_trap_04.json", "medium_strata_01.json", "stress_exploratory_01.json"],
+      "gate_a_files": ["tiny_mixed_01.json", "tiny_parallel_zero_02.json", "tiny_greedy_trap_03.json", "tiny_greedy_trap_04.json"],
+      "hashes": {
+        "tiny_mixed_01.json": "0075132ce299ecb63a69b002d4b7b121fea95cb24842e540e2453a15b955797f",
+        "tiny_parallel_zero_02.json": "5ec9d646ad785a74266020fcb31f4fb95767ed193e6f42931b9c50721b841c09",
+        "tiny_greedy_trap_03.json": "6484c7dceed263772d759ed7fb5bf55e4eedba90b56745dcd243f61e849331b3",
+        "tiny_greedy_trap_04.json": "db0d553b70225de59abc03ea6547050bcb964e545d51f2f88bdff705e759faf1",
+        "medium_strata_01.json": "6fac13bd4de3e6a63dbd3e573539d1d061f3a9d52c145149f7c0cdf7671eb58a",
+        "stress_exploratory_01.json": "673daf3d95c6e98ce72afd657c8924b03fc124a69fc2a4678ceac7382d573261"
+      }
+    }
+  },
+  "timing_corrections": {
+    "clock_start": "before preprocessing and first objective evaluation",
+    "incumbent_history": "record actual completion elapsed seconds for initial and every accepted independently evaluated incumbent",
+    "checkpoint_rule": "checkpoint c may use only the last incumbent with completion_elapsed_seconds <= c; otherwise available=false",
+    "deadline": "do not accept an evaluation completing after the wall cap; record overshoot and retain the previous valid incumbent",
+    "slow_regression": "a test-only deterministic objective delay crosses 0.05 and 0.1 seconds; it is not benchmark evidence"
+  },
+  "evidence_policy": {
+    "output": "new output paths only; write_json_once refuses an existing path, including preserved v1/v2 names",
+    "scratch": "reruns must use a new explicitly named scratch output path; historical evidence is never overwritten",
+    "advisor_representation": "compact lossless summary of statuses, selections, objective checks, bounds, tolerances and timings; no repeated solver value arrays",
+    "raw_lineage": "v1/v2 raw JSON remains archival and timing-unfit for future time-to-target claims"
+  },
+  "unchanged": "methods, seeds 3501/3502/3503, 10-second cap, checkpoints 0.05/0.1/0.25/0.5/1/2/5/10, exact Fraction objective and NO-GO decision rule remain unchanged"
+}

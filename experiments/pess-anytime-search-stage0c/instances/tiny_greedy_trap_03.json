@@ -1,0 +1,15 @@
+{
+  "budget": "4",
+  "candidates": [
+    {"id": "g_ab", "table": "t0", "endpoints": ["a", "b"], "maintenance_cost": "2"},
+    {"id": "g_bc", "table": "t0", "endpoints": ["b", "c"], "maintenance_cost": "1"},
+    {"id": "g_cd", "table": "t0", "endpoints": ["c", "d"], "maintenance_cost": "1"},
+    {"id": "g_de", "table": "t0", "endpoints": ["d", "e"], "maintenance_cost": "1"},
+    {"id": "g_ac", "table": "t0", "endpoints": ["a", "c"], "maintenance_cost": "2"},
+    {"id": "g_bd", "table": "t0", "endpoints": ["b", "d"], "maintenance_cost": "1"}
+  ],
+  "tasks": [
+    {"id": "t_trap", "table": "t0", "weight": "1", "alpha": "-2", "eligible_candidates": ["g_ab", "g_bc", "g_cd", "g_de", "g_ac", "g_bd"], "corrections": {"g_ab": "2", "g_bc": "-2", "g_cd": "2", "g_de": "-2", "g_ac": "1", "g_bd": "-1"}},
+    {"id": "t_cancel", "table": "t0", "weight": "2", "alpha": "1/2", "eligible_candidates": ["g_ab", "g_cd", "g_ac", "g_bd"], "corrections": {"g_ab": "-1/2", "g_cd": "1/2", "g_ac": "-2", "g_bd": "2"}}
+  ]
+}

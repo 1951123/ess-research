@@ -1,0 +1,23 @@
+{
+  "budget": "7",
+  "candidates": [
+    {"id": "m01", "table": "t0", "endpoints": ["v0", "v1"], "maintenance_cost": "1"},
+    {"id": "m02", "table": "t0", "endpoints": ["v1", "v2"], "maintenance_cost": "1"},
+    {"id": "m03", "table": "t0", "endpoints": ["v2", "v3"], "maintenance_cost": "1"},
+    {"id": "m04", "table": "t0", "endpoints": ["v3", "v4"], "maintenance_cost": "1"},
+    {"id": "m05", "table": "t0", "endpoints": ["v4", "v5"], "maintenance_cost": "1"},
+    {"id": "m06", "table": "t0", "endpoints": ["v5", "v0"], "maintenance_cost": "1"},
+    {"id": "m07", "table": "t0", "endpoints": ["v0", "v3"], "maintenance_cost": "2"},
+    {"id": "m08", "table": "t0", "endpoints": ["v1", "v4"], "maintenance_cost": "2"},
+    {"id": "m09", "table": "t0", "endpoints": ["v2", "v5"], "maintenance_cost": "2"},
+    {"id": "m10", "table": "t0", "endpoints": ["v0", "v1"], "maintenance_cost": "0"},
+    {"id": "m11", "table": "t0", "endpoints": ["v2", "v3"], "maintenance_cost": "1"},
+    {"id": "m12", "table": "t0", "endpoints": ["v4", "v5"], "maintenance_cost": "1"}
+  ],
+  "tasks": [
+    {"id": "t_ring", "table": "t0", "weight": "1", "alpha": "-1", "eligible_candidates": ["m01", "m02", "m03", "m04", "m05", "m06", "m07", "m08", "m09"], "corrections": {"m01": "3/2", "m02": "-1", "m03": "2", "m04": "-3/2", "m05": "1", "m06": "-1/2", "m07": "2/3", "m08": "-2/3", "m09": "1/3"}},
+    {"id": "t_parallel", "table": "t0", "weight": "3/2", "alpha": "1/2", "eligible_candidates": ["m01", "m03", "m05", "m10", "m11", "m12"], "corrections": {"m01": "-2", "m03": "3/2", "m05": "-1", "m10": "1", "m11": "-3/2", "m12": "2"}},
+    {"id": "t_star", "table": "t0", "weight": "2", "alpha": "-2", "eligible_candidates": ["m01", "m02", "m03", "m04", "m05", "m06"], "corrections": {"m01": "1", "m02": "-1/2", "m03": "1/2", "m04": "-1", "m05": "3/2", "m06": "-3/2"}},
+    {"id": "t_cross", "table": "t0", "weight": "1/2", "alpha": "0", "eligible_candidates": ["m07", "m08", "m09", "m10", "m11", "m12"], "corrections": {"m07": "1", "m08": "-1", "m09": "2", "m10": "-2", "m11": "3/2", "m12": "-3/2"}}
+  ]
+}

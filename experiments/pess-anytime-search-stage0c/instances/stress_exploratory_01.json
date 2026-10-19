@@ -1,0 +1,37 @@
+{
+  "budget": "13",
+  "candidates": [
+    {"id": "s01", "table": "t0", "endpoints": ["v0", "v1"], "maintenance_cost": "1"},
+    {"id": "s02", "table": "t0", "endpoints": ["v1", "v2"], "maintenance_cost": "1"},
+    {"id": "s03", "table": "t0", "endpoints": ["v2", "v3"], "maintenance_cost": "1"},
+    {"id": "s04", "table": "t0", "endpoints": ["v3", "v4"], "maintenance_cost": "1"},
+    {"id": "s05", "table": "t0", "endpoints": ["v4", "v5"], "maintenance_cost": "1"},
+    {"id": "s06", "table": "t0", "endpoints": ["v5", "v6"], "maintenance_cost": "1"},
+    {"id": "s07", "table": "t0", "endpoints": ["v6", "v7"], "maintenance_cost": "1"},
+    {"id": "s08", "table": "t0", "endpoints": ["v7", "v0"], "maintenance_cost": "1"},
+    {"id": "s09", "table": "t0", "endpoints": ["v0", "v4"], "maintenance_cost": "2"},
+    {"id": "s10", "table": "t0", "endpoints": ["v1", "v5"], "maintenance_cost": "2"},
+    {"id": "s11", "table": "t0", "endpoints": ["v2", "v6"], "maintenance_cost": "2"},
+    {"id": "s12", "table": "t0", "endpoints": ["v3", "v7"], "maintenance_cost": "2"},
+    {"id": "s13", "table": "t0", "endpoints": ["v0", "v2"], "maintenance_cost": "1"},
+    {"id": "s14", "table": "t0", "endpoints": ["v1", "v3"], "maintenance_cost": "1"},
+    {"id": "s15", "table": "t0", "endpoints": ["v2", "v4"], "maintenance_cost": "1"},
+    {"id": "s16", "table": "t0", "endpoints": ["v3", "v5"], "maintenance_cost": "1"},
+    {"id": "s17", "table": "t0", "endpoints": ["v4", "v6"], "maintenance_cost": "1"},
+    {"id": "s18", "table": "t0", "endpoints": ["v5", "v7"], "maintenance_cost": "1"},
+    {"id": "s19", "table": "t0", "endpoints": ["v0", "v1"], "maintenance_cost": "0"},
+    {"id": "s20", "table": "t0", "endpoints": ["v2", "v3"], "maintenance_cost": "0"},
+    {"id": "s21", "table": "t0", "endpoints": ["v4", "v5"], "maintenance_cost": "0"},
+    {"id": "s22", "table": "t0", "endpoints": ["v6", "v7"], "maintenance_cost": "0"},
+    {"id": "s23", "table": "t0", "endpoints": ["v0", "v7"], "maintenance_cost": "1"},
+    {"id": "s24", "table": "t0", "endpoints": ["v1", "v6"], "maintenance_cost": "1"}
+  ],
+  "tasks": [
+    {"id": "t0", "table": "t0", "weight": "1", "alpha": "-2", "eligible_candidates": ["s01", "s02", "s03", "s04", "s05", "s06", "s07", "s08", "s09", "s10", "s11", "s12"], "corrections": {"s01": "1", "s02": "-1", "s03": "3/2", "s04": "-3/2", "s05": "2", "s06": "-2", "s07": "1/2", "s08": "-1/2", "s09": "1", "s10": "-1", "s11": "2/3", "s12": "-2/3"}},
+    {"id": "t1", "table": "t0", "weight": "1", "alpha": "1", "eligible_candidates": ["s13", "s14", "s15", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24"], "corrections": {"s13": "-1", "s14": "2", "s15": "-2", "s16": "1", "s17": "-1/2", "s18": "1/2", "s19": "-1", "s20": "1", "s21": "-3/2", "s22": "3/2", "s23": "2", "s24": "-2"}},
+    {"id": "t2", "table": "t0", "weight": "3/2", "alpha": "-1/2", "eligible_candidates": ["s01", "s03", "s05", "s07", "s09", "s11", "s13", "s15", "s17", "s19", "s21", "s23"], "corrections": {"s01": "2", "s03": "-2", "s05": "1", "s07": "-1", "s09": "3/2", "s11": "-3/2", "s13": "1/2", "s15": "-1/2", "s17": "2/3", "s19": "-2/3", "s21": "1", "s23": "-1"}},
+    {"id": "t3", "table": "t0", "weight": "2", "alpha": "0", "eligible_candidates": ["s02", "s04", "s06", "s08", "s10", "s12", "s14", "s16", "s18", "s20", "s22", "s24"], "corrections": {"s02": "1", "s04": "-1", "s06": "2", "s08": "-2", "s10": "1/2", "s12": "-1/2", "s14": "3/2", "s16": "-3/2", "s18": "1", "s20": "-1", "s22": "2/3", "s24": "-2/3"}},
+    {"id": "t4", "table": "t0", "weight": "1/2", "alpha": "3/4", "eligible_candidates": ["s01", "s04", "s07", "s10", "s13", "s16", "s19", "s22"], "corrections": {"s01": "-3/4", "s04": "3/4", "s07": "-1", "s10": "1", "s13": "-2", "s16": "2", "s19": "-1/2", "s22": "1/2"}},
+    {"id": "t5", "table": "t0", "weight": "1", "alpha": "-3/4", "eligible_candidates": ["s02", "s05", "s08", "s11", "s14", "s17", "s20", "s23"], "corrections": {"s02": "-1/2", "s05": "1/2", "s08": "-3/2", "s11": "3/2", "s14": "1", "s17": "-1", "s20": "2", "s23": "-2"}}
+  ]
+}

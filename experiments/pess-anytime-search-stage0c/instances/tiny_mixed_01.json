@@ -1,0 +1,16 @@
+{
+  "budget": "4",
+  "candidates": [
+    {"id": "e_ab", "table": "t0", "endpoints": ["a", "b"], "maintenance_cost": "1"},
+    {"id": "e_bc", "table": "t0", "endpoints": ["b", "c"], "maintenance_cost": "1"},
+    {"id": "e_cd", "table": "t0", "endpoints": ["c", "d"], "maintenance_cost": "2"},
+    {"id": "e_de", "table": "t0", "endpoints": ["d", "e"], "maintenance_cost": "0"},
+    {"id": "e_ac", "table": "t0", "endpoints": ["a", "c"], "maintenance_cost": "1"},
+    {"id": "e_bd", "table": "t0", "endpoints": ["b", "d"], "maintenance_cost": "2"}
+  ],
+  "tasks": [
+    {"id": "t_path", "table": "t0", "weight": "1", "alpha": "-3/2", "eligible_candidates": ["e_ab", "e_bc", "e_cd", "e_de"], "corrections": {"e_ab": "2", "e_bc": "-3/2", "e_cd": "1", "e_de": "-1/2"}},
+    {"id": "t_cross", "table": "t0", "weight": "2", "alpha": "1", "eligible_candidates": ["e_ab", "e_cd", "e_ac", "e_bd"], "corrections": {"e_ab": "-2", "e_cd": "3/2", "e_ac": "1/2", "e_bd": "-1"}},
+    {"id": "t_disconnected", "table": "t0", "weight": "3/2", "alpha": "-1/4", "eligible_candidates": ["e_ab", "e_cd", "e_de"], "corrections": {"e_ab": "1/4", "e_cd": "-1/2", "e_de": "3/4"}}
+  ]
+}
