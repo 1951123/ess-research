@@ -1,0 +1,3123 @@
+{
+  "failures": [],
+  "gate": "A",
+  "independent_reference": "Fraction exhaustive outer and labeled maximal-matching evaluation",
+  "records": [
+    {
+      "fraction_truth": {
+        "evaluated_subsets": 64,
+        "feasible_subsets": 46,
+        "objective": "15/8",
+        "optimal_sets": [
+          [
+            "e_bd"
+          ]
+        ]
+      },
+      "instance": "tiny_mixed_01.json",
+      "methods": {
+        "master_oracle": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_mixed_01.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "master_oracle",
+            "options": {
+              "precompute_invariants": false,
+              "task_local_cache": false
+            },
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 0.00012818598406738602,
+              "cache_misses": 0,
+              "certified_early_exits": 15,
+              "cut_construction_seconds": 0.0032829390074766707,
+              "distinct_cuts": 15,
+              "distinct_task_local_configurations": 17,
+              "exact_inner_seconds": 0.0072274160011147615,
+              "exact_oracle_invocations": 6,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 21,
+              "highs_invocations": 19,
+              "inner_mip_solve_calls": 12,
+              "inner_oracle_calls": 6,
+              "invariant_precomputation_seconds": 3.2500247471034527e-07,
+              "lower_bound": 1.875,
+              "maintenance_cost": "2",
+              "master_dual_bound": 1.875,
+              "master_iterations": 7,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.02539178399456432,
+              "master_primal_bound": 1.875,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "15/8",
+              "ordinary_matching_bound_evaluations": 27,
+              "ordinary_matching_seconds": 0.0036503179944702424,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 15,
+              "selected": [
+                "e_bd"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0006106210021243896,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006277749998844229
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005422779977379832,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005556859978241846
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005757010003435425,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005907019985897932
+                },
+                {
+                  "dual_bound": -0.25,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -0.25,
+                    "duration_seconds": 0.0005289199980325066,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -0.25,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -0.25,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005435749990283512
+                },
+                {
+                  "dual_bound": 0.25,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.25,
+                    "duration_seconds": 0.0004407109991007019,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.25,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.25,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.00045367199709289707
+                },
+                {
+                  "dual_bound": -2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -2.0,
+                    "duration_seconds": 0.00047267699846997857,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004862790010520257
+                },
+                {
+                  "dual_bound": 2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 2.0,
+                    "duration_seconds": 0.0005116180000186432,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005264729988994077
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0034900760001619346,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003508369998598937
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0038463330020022113,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0038657670011161827
+                },
+                {
+                  "dual_bound": 0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.5,
+                    "duration_seconds": 0.0005510899973160122,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005665019998559728
+                },
+                {
+                  "dual_bound": -0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -0.5,
+                    "duration_seconds": 0.0005354790009732824,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005509990005521104
+                },
+                {
+                  "dual_bound": -3.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -3.0,
+                    "duration_seconds": 0.0005529350019060075,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -3.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -3.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005717460007872432
+                },
+                {
+                  "dual_bound": 1.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.5,
+                    "duration_seconds": 0.00048680100007914007,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005006550018151756
+                },
+                {
+                  "dual_bound": 0.375,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.375,
+                    "duration_seconds": 0.004038621002109721,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.375,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.375,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.004057052999996813
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0005026070029998664,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005157150008017197
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0005156000006536487,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005296790004649665
+                },
+                {
+                  "dual_bound": 1.875,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.875,
+                    "duration_seconds": 0.012167106997367227,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.875,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.875,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.012186430998553988
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0004971810012648348,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005109720004838891
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0004507099984039087,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004640689985535573
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cross": [
+                  "0",
+                  [
+                    "e_bd"
+                  ]
+                ],
+                "t_disconnected": [
+                  "1/4",
+                  []
+                ],
+                "t_path": [
+                  "3/2",
+                  []
+                ]
+              },
+              "task_evaluation_computations": 21,
+              "task_evaluation_requests": 21,
+              "task_evaluations": 21,
+              "task_local_ordinary_matching_bound_computations": 27,
+              "termination_reason": "no violated conditional cut",
+              "total_runtime_seconds": 0.04057169799853,
+              "upper_bound": 1.875,
+              "validated_feasible": true,
+              "validation_seconds": 2.8173999453429133e-05
+            },
+            "wall_seconds": 0.0406019349975395,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "2",
+            "objective": "15/8",
+            "selected": [
+              "e_bd"
+            ],
+            "task_details": {
+              "t_cross": {
+                "loss": "0",
+                "witness": [
+                  "e_bd"
+                ]
+              },
+              "t_disconnected": {
+                "loss": "1/4",
+                "witness": []
+              },
+              "t_path": {
+                "loss": "3/2",
+                "witness": []
+              }
+            }
+          }
+        },
+        "static": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_mixed_01.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "static",
+            "options": {},
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 0.0,
+              "cache_misses": 0,
+              "certified_early_exits": 0,
+              "cut_construction_seconds": 0.0008766610008024145,
+              "distinct_cuts": 21,
+              "distinct_task_local_configurations": 0,
+              "exact_inner_seconds": 0.0,
+              "exact_oracle_invocations": 0,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 0,
+              "highs_invocations": 1,
+              "inner_mip_solve_calls": 0,
+              "inner_oracle_calls": 0,
+              "invariant_precomputation_seconds": 0.0,
+              "lower_bound": 1.875,
+              "maintenance_cost": "2",
+              "master_dual_bound": 1.875,
+              "master_iterations": 1,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.009442587997909868,
+              "master_primal_bound": 1.875,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "15/8",
+              "ordinary_matching_bound_evaluations": 0,
+              "ordinary_matching_seconds": 0.0,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 21,
+              "selected": [
+                "e_bd"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 1.875,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.875,
+                    "duration_seconds": 0.009413088002474979,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.875,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.875,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.009442587997909868
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cross": [
+                  "0",
+                  [
+                    "e_bd"
+                  ]
+                ],
+                "t_disconnected": [
+                  "1/4",
+                  []
+                ],
+                "t_path": [
+                  "3/2",
+                  []
+                ]
+              },
+              "task_evaluation_computations": 0,
+              "task_evaluation_requests": 0,
+              "task_evaluations": 0,
+              "task_local_ordinary_matching_bound_computations": 0,
+              "termination_reason": "static full conditional formulation solved",
+              "total_runtime_seconds": 0.010718399000325007,
+              "upper_bound": 1.875,
+              "validated_feasible": true,
+              "validation_seconds": 0.00010299399946234189
+            },
+            "wall_seconds": 0.010768892996566137,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "2",
+            "objective": "15/8",
+            "selected": [
+              "e_bd"
+            ],
+            "task_details": {
+              "t_cross": {
+                "loss": "0",
+                "witness": [
+                  "e_bd"
+                ]
+              },
+              "t_disconnected": {
+                "loss": "1/4",
+                "witness": []
+              },
+              "t_path": {
+                "loss": "3/2",
+                "witness": []
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "fraction_truth": {
+        "evaluated_subsets": 128,
+        "feasible_subsets": 104,
+        "objective": "1",
+        "optimal_sets": [
+          []
+        ]
+      },
+      "instance": "tiny_parallel_zero_02.json",
+      "methods": {
+        "master_oracle": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_parallel_zero_02.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "master_oracle",
+            "options": {
+              "precompute_invariants": false,
+              "task_local_cache": false
+            },
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 5.905800935579464e-05,
+              "cache_misses": 0,
+              "certified_early_exits": 26,
+              "cut_construction_seconds": 0.008223332992201904,
+              "distinct_cuts": 26,
+              "distinct_task_local_configurations": 28,
+              "exact_inner_seconds": 0.012451899005100131,
+              "exact_oracle_invocations": 10,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 36,
+              "highs_invocations": 38,
+              "inner_mip_solve_calls": 20,
+              "inner_oracle_calls": 10,
+              "invariant_precomputation_seconds": 2.580018190201372e-07,
+              "lower_bound": 1.0,
+              "maintenance_cost": "0",
+              "master_dual_bound": 1.0,
+              "master_iterations": 18,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.05535661000976688,
+              "master_primal_bound": 1.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "1",
+              "ordinary_matching_bound_evaluations": 46,
+              "ordinary_matching_seconds": 0.0069533439964288846,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 26,
+              "selected": [],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005538900004466996,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005684860007022507
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.00058468399947742,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006007670017424971
+                },
+                {
+                  "dual_bound": -0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -0.5,
+                    "duration_seconds": 0.0005226030007179361,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005366639998101164
+                },
+                {
+                  "dual_bound": 0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.5,
+                    "duration_seconds": 0.0005068870013928972,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005207489994063508
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0006296900028246455,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006453220012190286
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0005694530009350274,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005961300012131687
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0005555099996854551,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005706949996238109
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0006202160002430901,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006362940002873074
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.00362523500007228,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003641904997493839
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0036860769978375174,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0037201890008873306
+                },
+                {
+                  "dual_bound": -3.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -3.5,
+                    "duration_seconds": 0.000503088998812018,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -3.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -3.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005169149990251753
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.000494010000693379,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005104000010760501
+                },
+                {
+                  "dual_bound": -2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -2.0,
+                    "duration_seconds": 0.0004929499991703779,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005059949980932288
+                },
+                {
+                  "dual_bound": 2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 2.0,
+                    "duration_seconds": 0.00047578699741279706,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004892559991276357
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.003430233999097254,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0034480719987186603
+                },
+                {
+                  "dual_bound": -0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -0.5,
+                    "duration_seconds": 0.0005313319998094812,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005459319982037414
+                },
+                {
+                  "dual_bound": 0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.5,
+                    "duration_seconds": 0.00047020899728522636,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004832980011997279
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0034690319989749696,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003496655001072213
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.003575366998120444,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003593245000956813
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0035265309998067096,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003544634997524554
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0035889629980374593,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.00360872200326412
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.003635336997831473,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003653264000604395
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005183640023460612,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005321259995980654
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.00048672800039639696,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005004310005460866
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.003463638000539504,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0034874080010922626
+                },
+                {
+                  "dual_bound": -1.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.5,
+                    "duration_seconds": 0.0004897489998256788,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005027459992561489
+                },
+                {
+                  "dual_bound": 1.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.5,
+                    "duration_seconds": 0.00048451100155944005,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004974469993612729
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0004985000014130492,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005125330026203301
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0004571530007524416,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0004693650007538963
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0036358190009195823,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003653911000583321
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.00370275399836828,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0037224010011414066
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0035891080005967524,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003607078000641195
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0036274269987188745,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0036452390013437252
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005680769972968847,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005831220005347859
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.000517420001415303,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005311239983711857
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0005538900004466996,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005794830030936282
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0005254850002529565,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005403899995144457
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0060636239977611694,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 3,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 3,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.006083017000491964
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cycle": [
+                  "1",
+                  []
+                ],
+                "t_parallel": [
+                  "0",
+                  []
+                ]
+              },
+              "task_evaluation_computations": 36,
+              "task_evaluation_requests": 36,
+              "task_evaluations": 36,
+              "task_local_ordinary_matching_bound_computations": 46,
+              "termination_reason": "no violated conditional cut",
+              "total_runtime_seconds": 0.0849648490002437,
+              "upper_bound": 1.0,
+              "validated_feasible": true,
+              "validation_seconds": 2.427999788778834e-05
+            },
+            "wall_seconds": 0.08503199500046321,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "0",
+            "objective": "1",
+            "selected": [],
+            "task_details": {
+              "t_cycle": {
+                "loss": "1",
+                "witness": []
+              },
+              "t_parallel": {
+                "loss": "0",
+                "witness": []
+              }
+            }
+          }
+        },
+        "static": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_parallel_zero_02.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "static",
+            "options": {},
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 0.0,
+              "cache_misses": 0,
+              "certified_early_exits": 0,
+              "cut_construction_seconds": 0.000763512998673832,
+              "distinct_cuts": 30,
+              "distinct_task_local_configurations": 0,
+              "exact_inner_seconds": 0.0,
+              "exact_oracle_invocations": 0,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 0,
+              "highs_invocations": 1,
+              "inner_mip_solve_calls": 0,
+              "inner_oracle_calls": 0,
+              "invariant_precomputation_seconds": 0.0,
+              "lower_bound": 1.0,
+              "maintenance_cost": "0",
+              "master_dual_bound": 1.0,
+              "master_iterations": 1,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.01020310999956564,
+              "master_primal_bound": 1.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "1",
+              "ordinary_matching_bound_evaluations": 0,
+              "ordinary_matching_seconds": 0.0,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 30,
+              "selected": [],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.010176878000493161,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 3,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 3,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.01020310999956564
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cycle": [
+                  "1",
+                  []
+                ],
+                "t_parallel": [
+                  "0",
+                  []
+                ]
+              },
+              "task_evaluation_computations": 0,
+              "task_evaluation_requests": 0,
+              "task_evaluations": 0,
+              "task_local_ordinary_matching_bound_computations": 0,
+              "termination_reason": "static full conditional formulation solved",
+              "total_runtime_seconds": 0.011161133999848971,
+              "upper_bound": 1.0,
+              "validated_feasible": true,
+              "validation_seconds": 6.652100273640826e-05
+            },
+            "wall_seconds": 0.011232572000153596,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "0",
+            "objective": "1",
+            "selected": [],
+            "task_details": {
+              "t_cycle": {
+                "loss": "1",
+                "witness": []
+              },
+              "t_parallel": {
+                "loss": "0",
+                "witness": []
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "fraction_truth": {
+        "evaluated_subsets": 64,
+        "feasible_subsets": 39,
+        "objective": "0",
+        "optimal_sets": [
+          [
+            "g_ab"
+          ]
+        ]
+      },
+      "instance": "tiny_greedy_trap_03.json",
+      "methods": {
+        "master_oracle": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_greedy_trap_03.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "master_oracle",
+            "options": {
+              "precompute_invariants": false,
+              "task_local_cache": false
+            },
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 1.3025990483583882e-05,
+              "cache_misses": 0,
+              "certified_early_exits": 6,
+              "cut_construction_seconds": 0.001500632002716884,
+              "distinct_cuts": 7,
+              "distinct_task_local_configurations": 10,
+              "exact_inner_seconds": 0.004947114004608011,
+              "exact_oracle_invocations": 4,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 10,
+              "highs_invocations": 13,
+              "inner_mip_solve_calls": 8,
+              "inner_oracle_calls": 4,
+              "invariant_precomputation_seconds": 2.3399843485094607e-07,
+              "lower_bound": 0.0,
+              "maintenance_cost": "2",
+              "master_dual_bound": 0.0,
+              "master_iterations": 5,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.009585842002707068,
+              "master_primal_bound": 0.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "0",
+              "ordinary_matching_bound_evaluations": 14,
+              "ordinary_matching_seconds": 0.002007966995734023,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 7,
+              "selected": [
+                "g_ab"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005420909983513411,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005556819996854756
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005583810016105417,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005719839973608032
+                },
+                {
+                  "dual_bound": -2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -2.0,
+                    "duration_seconds": 0.0005240860009507742,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005374060019676108
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0004873340003541671,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005006680003134534
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0005353470005502459,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005491160009114537
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.004355787001259159,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.004371810002339771
+                },
+                {
+                  "dual_bound": -2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -2.0,
+                    "duration_seconds": 0.0005275879993860144,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005416099993453827
+                },
+                {
+                  "dual_bound": 2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 2.0,
+                    "duration_seconds": 0.0004571470017253887,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.00046941800246713683
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0035227139997004997,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0035372500024095643
+                },
+                {
+                  "dual_bound": 0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.5,
+                    "duration_seconds": 0.0005470599971886259,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005627069986076094
+                },
+                {
+                  "dual_bound": -0.5,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -0.5,
+                    "duration_seconds": 0.0005343120028555859,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -0.5,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -0.5,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005495469995366875
+                },
+                {
+                  "dual_bound": -2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -2.0,
+                    "duration_seconds": 0.0005245829997875262,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005394770014390815
+                },
+                {
+                  "dual_bound": 2.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 2.0,
+                    "duration_seconds": 0.0005357280024327338,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 2.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 2.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.000550516000657808
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cancel": [
+                  "0",
+                  [
+                    "g_ab"
+                  ]
+                ],
+                "t_trap": [
+                  "0",
+                  [
+                    "g_ab"
+                  ]
+                ]
+              },
+              "task_evaluation_computations": 10,
+              "task_evaluation_requests": 10,
+              "task_evaluations": 10,
+              "task_local_ordinary_matching_bound_computations": 14,
+              "termination_reason": "no violated conditional cut",
+              "total_runtime_seconds": 0.018546688002970768,
+              "upper_bound": 0.0,
+              "validated_feasible": true,
+              "validation_seconds": 2.5336001272080466e-05
+            },
+            "wall_seconds": 0.018575853999209357,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "2",
+            "objective": "0",
+            "selected": [
+              "g_ab"
+            ],
+            "task_details": {
+              "t_cancel": {
+                "loss": "0",
+                "witness": [
+                  "g_ab"
+                ]
+              },
+              "t_trap": {
+                "loss": "0",
+                "witness": [
+                  "g_ab"
+                ]
+              }
+            }
+          }
+        },
+        "static": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_greedy_trap_03.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "static",
+            "options": {},
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 0.0,
+              "cache_misses": 0,
+              "certified_early_exits": 0,
+              "cut_construction_seconds": 0.0004256940010236576,
+              "distinct_cuts": 19,
+              "distinct_task_local_configurations": 0,
+              "exact_inner_seconds": 0.0,
+              "exact_oracle_invocations": 0,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 0,
+              "highs_invocations": 1,
+              "inner_mip_solve_calls": 0,
+              "inner_oracle_calls": 0,
+              "invariant_precomputation_seconds": 0.0,
+              "lower_bound": 0.0,
+              "maintenance_cost": "2",
+              "master_dual_bound": 0.0,
+              "master_iterations": 1,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.003589387000829447,
+              "master_primal_bound": 0.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "0",
+              "ordinary_matching_bound_evaluations": 0,
+              "ordinary_matching_seconds": 0.0,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 19,
+              "selected": [
+                "g_ab"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0035628600016934797,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 1,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 1,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.003589387000829447
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t_cancel": [
+                  "0",
+                  [
+                    "g_ab"
+                  ]
+                ],
+                "t_trap": [
+                  "0",
+                  [
+                    "g_ab"
+                  ]
+                ]
+              },
+              "task_evaluation_computations": 0,
+              "task_evaluation_requests": 0,
+              "task_evaluations": 0,
+              "task_local_ordinary_matching_bound_computations": 0,
+              "termination_reason": "static full conditional formulation solved",
+              "total_runtime_seconds": 0.0042035670012410264,
+              "upper_bound": 0.0,
+              "validated_feasible": true,
+              "validation_seconds": 8.207099745050073e-05
+            },
+            "wall_seconds": 0.0042626270005712286,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "2",
+            "objective": "0",
+            "selected": [
+              "g_ab"
+            ],
+            "task_details": {
+              "t_cancel": {
+                "loss": "0",
+                "witness": [
+                  "g_ab"
+                ]
+              },
+              "t_trap": {
+                "loss": "0",
+                "witness": [
+                  "g_ab"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "fraction_truth": {
+        "evaluated_subsets": 64,
+        "feasible_subsets": 32,
+        "objective": "0",
+        "optimal_sets": [
+          [
+            "g4",
+            "g5"
+          ]
+        ]
+      },
+      "instance": "tiny_greedy_trap_04.json",
+      "methods": {
+        "master_oracle": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_greedy_trap_04.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "master_oracle",
+            "options": {
+              "precompute_invariants": false,
+              "task_local_cache": false
+            },
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 3.842499427264556e-05,
+              "cache_misses": 0,
+              "certified_early_exits": 2,
+              "cut_construction_seconds": 0.0008067950002441648,
+              "distinct_cuts": 2,
+              "distinct_task_local_configurations": 4,
+              "exact_inner_seconds": 0.002744249995885184,
+              "exact_oracle_invocations": 2,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 4,
+              "highs_invocations": 6,
+              "inner_mip_solve_calls": 4,
+              "inner_oracle_calls": 2,
+              "invariant_precomputation_seconds": 4.67000063508749e-07,
+              "lower_bound": 0.0,
+              "maintenance_cost": "3",
+              "master_dual_bound": 0.0,
+              "master_iterations": 2,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.0013861520019418094,
+              "master_primal_bound": 0.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "0",
+              "ordinary_matching_bound_evaluations": 6,
+              "ordinary_matching_seconds": 0.001259499003936071,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 2,
+              "selected": [
+                "g4",
+                "g5"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0007200869986263569,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0007398570014629513
+                },
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.0006302729998424184,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006462950004788581
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0005438980006147176,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005584479986282531
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0005304539990902413,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005466149996209424
+                },
+                {
+                  "dual_bound": -1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": -1.0,
+                    "duration_seconds": 0.0006256849992496427,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": -1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": -1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0006428410015359987
+                },
+                {
+                  "dual_bound": 1.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 1.0,
+                    "duration_seconds": 0.0005252820010355208,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 1.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 1.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.0005400970003393013
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t0": [
+                  "0",
+                  [
+                    "g4",
+                    "g5"
+                  ]
+                ],
+                "t1": [
+                  "0",
+                  [
+                    "g4",
+                    "g5"
+                  ]
+                ]
+              },
+              "task_evaluation_computations": 4,
+              "task_evaluation_requests": 4,
+              "task_evaluations": 4,
+              "task_local_ordinary_matching_bound_computations": 6,
+              "termination_reason": "no violated conditional cut",
+              "total_runtime_seconds": 0.0065505409984325524,
+              "upper_bound": 0.0,
+              "validated_feasible": true,
+              "validation_seconds": 2.8734000807162374e-05
+            },
+            "wall_seconds": 0.006580245000805007,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "3",
+            "objective": "0",
+            "selected": [
+              "g4",
+              "g5"
+            ],
+            "task_details": {
+              "t0": {
+                "loss": "0",
+                "witness": [
+                  "g4",
+                  "g5"
+                ]
+              },
+              "t1": {
+                "loss": "0",
+                "witness": [
+                  "g4",
+                  "g5"
+                ]
+              }
+            }
+          }
+        },
+        "static": {
+          "adapter": {
+            "environment": {
+              "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+              "highs": "SciPy 1.18.1 bundled HiGHS; standalone HiGHS version is not exposed by the SciPy Python API",
+              "networkx": "3.7",
+              "numpy": "2.5.4",
+              "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+              "python": "3.12.3",
+              "scipy": "1.18.1"
+            },
+            "instance": "experiments/pess-anytime-search-stage0c/instances/tiny_greedy_trap_04.json",
+            "limits": {
+              "certification_tolerance": 0.0,
+              "cut_tolerance": 1e-06,
+              "inner_time_limit": 5.0,
+              "total_time_limit": 5.0
+            },
+            "method": "static",
+            "options": {},
+            "result": {
+              "cache_entries": 0,
+              "cache_hit_rate": 0.0,
+              "cache_hits": 0,
+              "cache_lookups": 0,
+              "cache_management_seconds": 0.0,
+              "cache_misses": 0,
+              "certified_early_exits": 0,
+              "cut_construction_seconds": 0.0005720289991586469,
+              "distinct_cuts": 22,
+              "distinct_task_local_configurations": 0,
+              "exact_inner_seconds": 0.0,
+              "exact_oracle_invocations": 0,
+              "existing_cut_violation_count": 0,
+              "full_graph_ordinary_matching_extrema_computations": 0,
+              "highs_invocations": 1,
+              "inner_mip_solve_calls": 0,
+              "inner_oracle_calls": 0,
+              "invariant_precomputation_seconds": 0.0,
+              "lower_bound": 0.0,
+              "maintenance_cost": "3",
+              "master_dual_bound": 0.0,
+              "master_iterations": 1,
+              "master_mip_gap": 0.0,
+              "master_phase_seconds": 0.005729317999794148,
+              "master_primal_bound": 0.0,
+              "numerical_violation_count": 0,
+              "numerical_warnings": [],
+              "objective": "0",
+              "ordinary_matching_bound_evaluations": 0,
+              "ordinary_matching_seconds": 0.0,
+              "presolve_fallback_attempts": 0,
+              "presolve_fallback_successes": 0,
+              "reference_agreement": null,
+              "scenario_count": 22,
+              "selected": [
+                "g4",
+                "g5"
+              ],
+              "solver_reported_optimal": true,
+              "solver_statuses": [
+                {
+                  "dual_bound": 0.0,
+                  "highs_invocations": 1,
+                  "initial_attempt": {
+                    "dual_bound": 0.0,
+                    "duration_seconds": 0.005697587999748066,
+                    "incumbent_returned": true,
+                    "invocation_performed": true,
+                    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                    "mip_gap": 0.0,
+                    "mip_node_count": 0,
+                    "optimality_reported": true,
+                    "presolve": null,
+                    "primal_objective": 0.0,
+                    "status": 0
+                  },
+                  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+                  "mip_gap": 0.0,
+                  "mip_node_count": 0,
+                  "presolve_fallback_attempted": false,
+                  "presolve_fallback_successes": 0,
+                  "primal_objective": 0.0,
+                  "retry_attempt": null,
+                  "selected_attempt": "initial",
+                  "status": 0,
+                  "total_duration_seconds": 0.005729317999794148
+                }
+              ],
+              "status": "optimal",
+              "task_details": {
+                "t0": [
+                  "0",
+                  [
+                    "g4",
+                    "g5"
+                  ]
+                ],
+                "t1": [
+                  "0",
+                  [
+                    "g4",
+                    "g5"
+                  ]
+                ]
+              },
+              "task_evaluation_computations": 0,
+              "task_evaluation_requests": 0,
+              "task_evaluations": 0,
+              "task_local_ordinary_matching_bound_computations": 0,
+              "termination_reason": "static full conditional formulation solved",
+              "total_runtime_seconds": 0.006534586998895975,
+              "upper_bound": 0.0,
+              "validated_feasible": true,
+              "validation_seconds": 0.00010092299999087118
+            },
+            "wall_seconds": 0.00660277200222481,
+            "within_total_limit": true
+          },
+          "independent_check": {
+            "maintenance": "3",
+            "objective": "0",
+            "selected": [
+              "g4",
+              "g5"
+            ],
+            "task_details": {
+              "t0": {
+                "loss": "0",
+                "witness": [
+                  "g4",
+                  "g5"
+                ]
+              },
+              "t1": {
+                "loss": "0",
+                "witness": [
+                  "g4",
+                  "g5"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "status": "PASS"
+}
