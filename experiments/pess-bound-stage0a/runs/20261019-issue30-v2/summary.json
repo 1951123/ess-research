@@ -1,0 +1,97 @@
+{
+  "aggregate": {
+    "A_global_floor": {
+      "exact": 42,
+      "nodes": 1552,
+      "positive_gap": 1510,
+      "prunable": 303
+    },
+    "B_exact_sensitivity": {
+      "exact": 472,
+      "nodes": 1552,
+      "positive_gap": 1080,
+      "prunable": 878
+    },
+    "B_fractional_sensitivity": {
+      "exact": 448,
+      "nodes": 1552,
+      "positive_gap": 1104,
+      "prunable": 870
+    },
+    "C_exact_witness": {
+      "exact": 1183,
+      "nodes": 1552,
+      "positive_gap": 369,
+      "prunable": 1361
+    },
+    "C_greedy_witness": {
+      "exact": 906,
+      "nodes": 1552,
+      "positive_gap": 646,
+      "prunable": 1355
+    }
+  },
+  "evaluated_nodes": 1552,
+  "failures": 0,
+  "instance_count": 8,
+  "manifest_sha256": "8b776eaa83bd3dd6bab8fc4bf37ed0833eb9f1abc07c0226c8530d5508e4c650",
+  "method_seconds": {
+    "A_global_floor": 0.0003854490005323896,
+    "B_exact_sensitivity": 0.07489447200259747,
+    "B_fractional_sensitivity": 0.04337374198985344,
+    "C_exact_witness": 0.07362486202873697,
+    "C_greedy_witness": 0.04747115800273605
+  },
+  "ordinary_matching_extrema_calls": {
+    "global_floor_precomputation": 18,
+    "per_node_q_extrema": 7781,
+    "total": 7799
+  },
+  "pairwise": {
+    "C_exact_gt_C_greedy": 319,
+    "C_greedy_gt_A": 1320,
+    "C_greedy_gt_B_exact": 959
+  },
+  "pruned_nodes_per_second": {
+    "A_global_floor": 786096.2139777001,
+    "B_exact_sensitivity": 11723.161623591517,
+    "B_fractional_sensitivity": 20058.218638445396,
+    "C_exact_witness": 18485.603402133096,
+    "C_greedy_witness": 28543.647490585827
+  },
+  "rejected_infeasible_forced_nodes": 356,
+  "restricted_master": {
+    "reason": "Issue #30 forbids modifying ess-advisor or building a new solver for this bounded experiment.",
+    "status": "not_executed"
+  },
+  "sampling": {
+    "assigned_depth": {
+      "0": 8,
+      "1": 78,
+      "2": 227,
+      "3": 321,
+      "4": 372,
+      "5": 401,
+      "6": 327,
+      "7": 140,
+      "8": 34
+    },
+    "first_resource_status": {
+      "excluded": 659,
+      "forced_selected": 599,
+      "undecided": 650
+    }
+  },
+  "status": "PASS",
+  "timed_out": false,
+  "timing": {
+    "f_forced_seconds": 0.03235152599609137,
+    "global_floor_seconds": 0.0003854490005323896,
+    "q_extrema_calls_exact": 4186,
+    "q_extrema_calls_greedy": 3595,
+    "sensitivity_exact_seconds": 0.0425429460065061,
+    "sensitivity_fractional_seconds": 0.011022215993762075,
+    "witness_exact_seconds": 0.07362486202873697,
+    "witness_greedy_seconds": 0.04747115800273605
+  }
+}
