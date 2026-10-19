@@ -81,6 +81,72 @@ python3 -m venv .venv
 
 Inspect `pyproject.toml` and the project's real dependency instructions before choosing an install command. Do **not** assume `.[dev]` exists or silently borrow `ess-advisor/.venv`. Capture the Python executable/version, resolved dependency versions and exact test commands; use pinned dependency versions or a lock/constraints file for numerical reproducibility. For cross-repository calls, execute each project with its **own** environment or a deliberately documented, pinned integration environment. Do not commit the virtual environment itself.
 
+## Mandatory Git push / GitHub PR synchronization gate
+
+**Canonical source-writer: local Issue Worktree Git only.** This applies to Codex even when GitHub API/MCP permissions are available. Edit and commit repository files (including research evidence) locally, then push the exact local commit. GitHub API/MCP may inspect repository state and create/update Issue or PR metadata and comments; **never use contents/Git-data APIs to create or edit source files, create task commits, or construct a parallel remote history** without explicit task-specific authorization. Approval to use GitHub API generally is **not** approval to write source commits through it. In the exceptional authorized API-write case, stop and coordinate fetch/integration into the same local branch before another local edit; record the resulting SHA chain.
+
+### Start: bind the Issue branch to its same-named remote, not `origin/main`
+
+```sh
+# Execute INSIDE the Issue's dedicated Worktree, after replacing the placeholder.
+BRANCH=research/issueNN
+test "$(git branch --show-current)" = "$BRANCH" || exit 1
+git rev-parse --show-toplevel
+git status --short
+git worktree list
+git branch -vv
+
+# If upstream is wrong (e.g., origin/main) but the remote Issue branch EXISTS:
+# git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+# If the remote Issue branch does not yet exist, the first successful push -u
+# below establishes the correct upstream. Never assume origin/main is valid.
+```
+
+Do not change upstream or push until you have checked for a live, possibly divergent remote branch. A branch created with `git worktree add -b ... origin/main` may initially track `origin/main`, so the branch name alone is **not** evidence of correct upstream configuration.
+
+### Before handing off or updating a Draft PR: three-way SHA gate
+
+```sh
+# Replace with the real current task branch, and run in its own Worktree.
+BRANCH=research/issueNN
+test "$(git branch --show-current)" = "$BRANCH" || exit 1
+test -z "$(git status --porcelain)" || {
+  echo "FAIL: Worktree contains uncommitted/untracked files; inspect first"
+  exit 1
+}
+
+# Inspect live remote BEFORE pushing. If it exists and is not an ancestor of
+# HEAD, STOP and investigate. Do not force-push or overwrite API-created commits.
+git fetch --prune origin
+REMOTE_BEFORE=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+if test -n "$REMOTE_BEFORE"; then
+  git merge-base --is-ancestor "$REMOTE_BEFORE" HEAD || {
+    echo "FAIL: remote HEAD is not in local history; resolve divergence"
+    exit 1
+  }
+fi
+
+# Only after the pre-push check passes:
+git push -u origin "HEAD:refs/heads/$BRANCH" || exit 1
+LOCAL_SHA=$(git rev-parse HEAD)
+REMOTE_SHA=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+test -n "$REMOTE_SHA" && test "$LOCAL_SHA" = "$REMOTE_SHA" || {
+  echo "FAIL: local and live remote HEAD differ"
+  exit 1
+}
+echo "PASS: local and live remote HEAD = $LOCAL_SHA"
+```
+
+**Then check the actual GitHub PR `head.sha` using GitHub API/CLI or the PR page.** It must equal `LOCAL_SHA`; check again before final review or researcher merge. A local `origin/$BRANCH` remote-tracking reference may be stale and does **not** substitute for `git ls-remote`. If another actor changes the remote after verification, re-run this gate. Never report "pushed/ready" without these checks.
+
+At PR handoff, report: repository/Worktree path, Issue and branch, clean/dirty status, local SHA, live remote SHA, PR head SHA, tests actually run, and any exceptions. Source-changing PRs created by this workflow should use the same real branch as the local Worktree.
+
+### Divergence and merge cleanup
+
+If local and remote HEAD disagree, **stop all writes** and inspect `git log --left-right --graph --oneline HEAD...origin/<issue-branch>` after fetch, `git branch -vv`, the live remote SHA, and the PR head SHA. Do not automatically reset/rebase, cherry-pick blindly, force-push, or create an API-only alternative history. Ask the researcher to approve the reconciliation plan.
+
+After PR merge, remote task branches may be deleted; `origin/<issue-branch>` can remain as a stale ref until `git fetch --prune origin`. Verify the PR's recorded final `head.sha`, its merge commit, and whether the local branch's HEAD is in the merged ancestry. With **Create a merge commit**, matching local PR HEAD normally lets `git branch -d` work; if the local branch has later unmerged commits or a parallel history, `-d` correctly refuses even if file trees match. For **Squash** or **Rebase and merge**, identical final content does not imply commit ancestry; a careful, researcher-approved `-D` may be warranted only after confirming no unmatched work/evidence remains. Do not create archive branches by default or delete Worktrees with unsaved outputs.
+
 ## Concurrent work and PR review
 
 - Scope tasks to avoid editing the same files when possible. Changes to common status or documentation may still conflict; this is normal and must be resolved semantically.
