@@ -1,0 +1,10 @@
+{
+  "captured_at_utc": "2026-10-19T10:52:51.294801+00:00",
+  "command": "experiments/pess-certified-approx-stage0b/run_pilot.py --run-dir experiments/pess-certified-approx-stage0b/runs/20261019-issue33-v1-final",
+  "dependencies": "stdlib-only correctness/pilot runner",
+  "git_sha_at_run": "6e50876baed576d8fe6933ceda2202c35df51a11",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "processor": "x86_64",
+  "protocol_commit": "b57bfc2c5f16ecdb42a6ee28d82e4f3855ab6da7",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]"
+}
