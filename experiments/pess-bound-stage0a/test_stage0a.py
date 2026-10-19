@@ -5,6 +5,7 @@ import unittest
 from fractions import Fraction
 
 from bounds import evaluate_bounds, exact_worst_prefix_witness, greedy_witness, witness_bound
+from bitmask_reference import exact_completion_optimum as bitmask_completion_optimum
 from reference import Edge, Instance, Task, exact_completion_optimum, global_floor, is_maximal, maximal_matching_labels
 
 
@@ -62,6 +63,24 @@ class Stage0AReferenceTests(unittest.TestCase):
                     picked = {label for index, label in enumerate(sorted(undecided)) if completion & (1 << index)}
                     if instance.cost(picked) <= instance.budget - instance.cost(forced):
                         self.assertLessEqual(bound, instance.objective(forced | picked), (trial, strategy, forced, picked))
+
+    def test_bitmask_reference_matches_definition_reference(self) -> None:
+        rng = random.Random(3029)
+        for trial in range(30):
+            resources = tuple(f"e{i}" for i in range(5))
+            edges = tuple((label, ("a", "b", "c", "d", "e")[i], ("b", "c", "d", "e", "a")[i]) for i, label in enumerate(resources))
+            chosen_tasks = []
+            for task_index in range(1 + trial % 2):
+                task_edges = tuple(edge for edge in edges if rng.random() < 0.8) or (edges[0],)
+                chosen_tasks.append(task(f"t{task_index}", task_edges, {edge[0]: rng.randint(-2, 2) for edge in task_edges}, rng.randint(-2, 2)))
+            instance = Instance(resources, tuple(chosen_tasks), {label: Fraction(rng.randint(0, 2)) for label in resources}, Fraction(3))
+            forced = {label for label in resources if rng.random() < 0.4}
+            undecided = set(resources) - forced
+            if instance.feasible(forced):
+                self.assertEqual(
+                    exact_completion_optimum(instance, forced, undecided),
+                    bitmask_completion_optimum(instance, forced, undecided),
+                )
 
 
 if __name__ == "__main__":
