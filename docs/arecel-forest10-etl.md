@@ -6,8 +6,11 @@ cardinality-estimation result.
 
 ## Explicit input contract
 
-Every command requires `--data-root`. There is no environment-variable or
-absolute-path default. Under the supplied root the validator expects:
+For real-data commands, use explicit `--data-root` if provided; otherwise use
+`ESS_DATA_ROOT`, a researcher-approved persistent data-root environment
+variable. If neither is set, fail closed rather than searching conventional or
+historical paths. The path alone never bypasses file identity verification.
+Under the resolved root the validator expects:
 
 ```text
 <root>/arecel/incoming/arecel-data.tar.gz
@@ -102,12 +105,13 @@ preservation of unavailable original SQL.
 From the repository root:
 
 ```sh
+export ESS_DATA_ROOT=/absolute/path/to/persistent/research-data
 PYTHONPATH=src .venv/bin/python -m ess_research.arecel.forest10 inspect \
-  --data-root /absolute/path/to/explicit/arecel-root
+  --data-root "$ESS_DATA_ROOT"
 
 PYTHONPATH=src .venv/bin/python -m ess_research.arecel.forest10 build \
-  --data-root /absolute/path/to/explicit/arecel-root \
-  --output-dir /absolute/path/to/explicit/arecel-root/etl-output/forest10-test-v1 \
+  --data-root "$ESS_DATA_ROOT" \
+  --output-dir "$ESS_DATA_ROOT/etl-output/forest10-test-v1" \
   --split test
 ```
 
@@ -117,3 +121,25 @@ root is incomplete. `build` writes only below `<data-root>/etl-output/` or
 directory.
 There is no download command in this PR: acquisition must be a separately
 authorized, pinned, hash-checked and license-reviewed action.
+
+## Shared data / isolated experiment execution
+
+The verified archive, CSV, pinned pickles and canonical audit are **immutable
+read-only inputs** under `ESS_DATA_ROOT`; they may be reused across Issues
+without downloading again. Never regenerate them in place or confuse the
+historical and derived canonical hashes. Sharing inputs does **not** mean
+sharing a PostgreSQL database, `PGDATA`, statistics objects, sample replay
+file, `ANALYZE` state, scratch outputs, or Python environment.
+
+Use a separate `ESS_ISSUE_ROOT` and a separate PostgreSQL cluster, socket,
+port, logs and disposable database for **each Issue**. Import the frozen
+Forest10 source into that Issue's own PG instance. Keep temporary calibration,
+fixed samples and mutable results under the Issue root. Use a separate
+`.venv` per Git Worktree, with pinned dependencies and reproducible commands.
+See [Git Worktree + Codex workflow](git-worktree-workflow.md) for the complete
+runtime-isolation and cleanup policy.
+
+The actual archive and canonical assets must still pass strict SHA-256 and
+manifest checks, including when the root is supplied through the environment.
+Neither an unset data root nor missing data should trigger implicit downloads,
+searches of old machine paths, or fallback to synthetic experiment results.
