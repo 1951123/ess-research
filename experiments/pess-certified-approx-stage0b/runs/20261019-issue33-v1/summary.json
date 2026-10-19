@@ -1,0 +1,46 @@
+{
+  "by_setup": {
+    "coarse_uniform_delta_1": {
+      "certified_runs": 12,
+      "max_actual_perturbation_error": "2/3",
+      "max_eta": "11/4",
+      "runs": 15,
+      "target_reached_runs": 8,
+      "unavailable_global_rounded_lower_bound_runs": 3
+    },
+    "matching_aware_eta_1_2": {
+      "certified_runs": 12,
+      "max_actual_perturbation_error": "1/3",
+      "max_eta": "1/2",
+      "runs": 15,
+      "target_reached_runs": 11,
+      "unavailable_global_rounded_lower_bound_runs": 3
+    },
+    "matching_aware_eta_1_4": {
+      "certified_runs": 12,
+      "max_actual_perturbation_error": "1/6",
+      "max_eta": "1/4",
+      "runs": 15,
+      "target_reached_runs": 12,
+      "unavailable_global_rounded_lower_bound_runs": 3
+    },
+    "unrounded": {
+      "certified_runs": 12,
+      "max_actual_perturbation_error": "0",
+      "max_eta": "0",
+      "runs": 15,
+      "target_reached_runs": 12,
+      "unavailable_global_rounded_lower_bound_runs": 3
+    }
+  },
+  "certificate_violations": 0,
+  "certified_runs": 48,
+  "decision": "INCONCLUSIVE",
+  "decision_reason": "The pilot has no equal-clock unchanged solver baseline; approximate stress results without a global rounded lower bound are not global optimality certificates.",
+  "git_sha_at_run": "8547cfa56105b8db9e6a6a6e20c43ef58794d388",
+  "instances": 15,
+  "protocol_commit": "b57bfc2c5f16ecdb42a6ee28d82e4f3855ab6da7",
+  "reference_b": "NOT_EXECUTED",
+  "runs": 60,
+  "target_reached_runs": 43
+}

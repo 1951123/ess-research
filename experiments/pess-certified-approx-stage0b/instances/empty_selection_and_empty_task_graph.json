@@ -1,0 +1,41 @@
+{
+  "budget": "0",
+  "maintenance": {
+    "e0": "0",
+    "e1": "1",
+    "e2": "1",
+    "e3": "1"
+  },
+  "name": "empty_selection_and_empty_task_graph",
+  "resources": [
+    "e0",
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tasks": [
+    {
+      "alpha": "-2",
+      "coefficients": {},
+      "edges": [],
+      "name": "empty",
+      "weight": "1"
+    },
+    {
+      "alpha": "0",
+      "coefficients": {
+        "e0": "0"
+      },
+      "edges": [
+        [
+          "e0",
+          "a",
+          "b"
+        ]
+      ],
+      "name": "t1",
+      "weight": "1"
+    }
+  ],
+  "tier": "small"
+}

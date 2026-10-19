@@ -1,0 +1,67 @@
+{
+  "budget": "2",
+  "maintenance": {
+    "e0": "1",
+    "e1": "1",
+    "e2": "0",
+    "e3": "2"
+  },
+  "name": "shared_resources_separate_task_adversaries",
+  "resources": [
+    "e0",
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tasks": [
+    {
+      "alpha": "1",
+      "coefficients": {
+        "e0": "-1",
+        "e1": "3"
+      },
+      "edges": [
+        [
+          "e0",
+          "a",
+          "b"
+        ],
+        [
+          "e1",
+          "b",
+          "c"
+        ]
+      ],
+      "name": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "-1",
+      "coefficients": {
+        "e0": "1",
+        "e2": "-2",
+        "e3": "1/2"
+      },
+      "edges": [
+        [
+          "e0",
+          "x",
+          "y"
+        ],
+        [
+          "e2",
+          "y",
+          "z"
+        ],
+        [
+          "e3",
+          "z",
+          "q"
+        ]
+      ],
+      "name": "t1",
+      "weight": "2"
+    }
+  ],
+  "tier": "small"
+}

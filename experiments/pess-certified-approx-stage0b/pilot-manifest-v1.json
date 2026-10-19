@@ -1,0 +1,165 @@
+{
+  "manifest_version": "stage0b-pilot-v1",
+  "issue": 33,
+  "parent_issue": 29,
+  "umbrella_issue": 28,
+  "status": "input_only_protocol_frozen_before_comparisons",
+  "committed_before_comparison_run": true,
+  "scope": "Bounded falsification-first pilot for certified approximate task-wise PESS solutions; no production solver, PostgreSQL measurement, or paper claim.",
+  "model": {
+    "objective": "sum_i w_i max_{P in MaximalMatchings(H_i[M])} abs(alpha_i + sum_{e in P} b[e,i])",
+    "outer_selection": "one globally shared unordered labeled resource set M",
+    "admissibility": "task-wise maximal matchings of the selected labeled task graph",
+    "matching_semantics": "maximal, not maximum-cardinality; parallel labeled edges remain distinct; rounded-zero edges remain eligible",
+    "maintenance": "nonnegative additive proxy sum_e maintenance[e] <= budget; zero-cost resources allowed",
+    "adversaries": "independent task-wise maxima; no shared adversarial policy is introduced",
+    "arithmetic": "fractions.Fraction for every correctness value; float timing is diagnostic only"
+  },
+  "corpus": {
+    "small_tier": {
+      "resources_min": 4,
+      "resources_max": 10,
+      "tasks_min": 1,
+      "tasks_max": 4,
+      "exhaustive_outer_reference_required": true,
+      "strata": [
+        "path",
+        "star",
+        "disjoint_components",
+        "cycle",
+        "parallel_labeled_edges",
+        "mixed_structure"
+      ],
+      "deterministic_cases": [
+        "path_strong_cancellation",
+        "star_zero_near_optimum",
+        "disjoint_zero_cost_budget_zero",
+        "cycle_signed_mixed",
+        "parallel_duplicate_endpoints",
+        "rounded_zero_selected_edge",
+        "shared_resources_separate_task_adversaries",
+        "empty_selection_and_empty_task_graph"
+      ],
+      "random_seeds": [33101, 33102, 33103, 33104],
+      "random_generator": "Python random.Random(seed); integer draws and explicit candidate lists only",
+      "random_rules": {
+        "resource_count": "uniform integer in [4,10]",
+        "task_count": "uniform integer in [1,4]",
+        "vertex_count": "uniform integer in [3,10]",
+        "edge_shape": "stratum-specific path/star/disjoint/cycle/mixed templates; labels e0..e(n-1), duplicate endpoint labels permitted",
+        "task_resource_sharing": "each task independently samples eligible labeled resources with probability 0.70, then retains at least one edge unless the explicit empty-task case is used",
+        "coefficients": "signed rationals from {-3,-2,-1,-1/3,0,1/4,1/2,1,2,3}; deterministic cancellation fixtures may use alpha and coefficients with exact denominators 2,3,4",
+        "alpha": "signed rationals including negative baselines, zero, strong cancellation, and near-zero optimum",
+        "weights": "positive rationals from {1/2,1,2}",
+        "maintenance": "nonnegative rationals from {0,1/2,1,2}; zero-cost candidates are mandatory",
+        "budget": "selected from {0,1/2,1,2,3,4,6,8} and clipped to the instance cost range"
+      },
+      "ordinary_matching_cardinality_strata": [
+        "nu_i=0 empty graph",
+        "nu_i=1 single-edge task",
+        "nu_i=2 path/star or disjoint pair",
+        "nu_i>=3 path/cycle/mixed task"
+      ]
+    },
+    "exploratory_stress_tier": {
+      "resources": [12,14,16],
+      "tasks": [2,4],
+      "seeds": [33201,33202,33203],
+      "purpose": "bounded stress only; exact original truth is expected to be unavailable or timeout for some rows",
+      "truth_policy": "record TRUTH_UNAVAILABLE or TIMEOUT explicitly; never infer a global optimum from a heuristic or inherited tiny truth",
+      "wall_time_seconds": 5,
+      "memory_limit_mb": 512
+    }
+  },
+  "edge_case_requirements": [
+    "empty selection",
+    "empty task graph",
+    "sum_abs_b_zero",
+    "negative alpha and signed cancellation",
+    "rounded-to-zero selected edge retained in graph",
+    "parallel edges with duplicate endpoints",
+    "multiple tasks sharing resources but separate adversaries",
+    "zero-cost resources",
+    "budget zero and fully slack budget",
+    "failure and timeout are first-class outcomes"
+  ],
+  "quantization_setups": [
+    {
+      "id": "unrounded",
+      "kind": "identity",
+      "delta_policy": "no coefficient perturbation"
+    },
+    {
+      "id": "coarse_uniform_delta_1",
+      "kind": "uniform",
+      "delta_by_task": "delta_i=1 for every task",
+      "rounding": "nearest multiple of delta_i; exact Fraction arithmetic; half-way ties toward zero"
+    },
+    {
+      "id": "matching_aware_eta_1_2",
+      "kind": "task_aware_matching_cardinality",
+      "eta_budget": "1/2",
+      "delta_policy": "delta_i=min(1, 2*eta_budget/(number_of_tasks*max(1,w_i*nu_i)))",
+      "rounding": "nearest multiple of task-specific delta_i; exact Fraction arithmetic; half-way ties toward zero",
+      "nu_definition": "ordinary maximum matching cardinality of the full eligible task graph, independently cross-checked by exhaustive ordinary matchings"
+    },
+    {
+      "id": "matching_aware_eta_1_4",
+      "kind": "task_aware_matching_cardinality",
+      "eta_budget": "1/4",
+      "delta_policy": "delta_i=min(1, 2*eta_budget/(number_of_tasks*max(1,w_i*nu_i)))",
+      "rounding": "nearest multiple of task-specific delta_i; exact Fraction arithmetic; half-way ties toward zero",
+      "nu_definition": "ordinary maximum matching cardinality of the full eligible task graph, independently cross-checked by exhaustive ordinary matchings"
+    }
+  ],
+  "comparison_design": {
+    "reference_a": "independent exact Fraction original-model exhaustive outer subsets plus labeled ordinary/maximal matching enumeration on the small tier",
+    "reference_b": "NOT EXECUTED unless an unchanged reproducible external solver adapter can be used without changing ess-advisor or adding production code; no speed comparison if unavailable",
+    "approx_c": "deterministic exhaustive rounded-model optimizer on tiny cases; bounded greedy/branch enumeration on stress cases; rounded global lower bound is used only when the search exhausts the rounded feasible space",
+    "ablation_d": "identity vs coarse uniform vs matching-aware task-aware quantization with the same selection engine and exact original evaluation charged to runtime",
+    "fairness": "same frozen original instance, budget, seed, wall-clock cap, and environment metadata for each method/setup; no post-hoc corpus or threshold tuning",
+    "required_metrics": [
+      "original-model feasible selection and exact loss",
+      "certified original lower bound and upper bound when valid",
+      "reported absolute gap and gap-vs-time",
+      "time to first feasible solution",
+      "time to declared tau",
+      "memory",
+      "matching-oracle calls and state counts",
+      "quantization and certification overhead",
+      "timing variance",
+      "failures and timeouts",
+      "actual perturbation error versus predicted eta"
+    ]
+  },
+  "quality_targets": {
+    "small_tau": "1/4",
+    "stress_tau": "1",
+    "decision_rule": "GO only if no certificate violations, a predeclared nontrivial tau is reached with an original-model certified bound, and an equal-clock same-objective reference shows observed computational benefit; otherwise INCONCLUSIVE or NO-GO as specified by the evidence",
+    "no_multiplicative_claim": true,
+    "no_polynomial_stopping_claim": true
+  },
+  "resource_caps": {
+    "small_wall_time_seconds": 30,
+    "small_memory_limit_mb": 512,
+    "stress_wall_time_seconds": 5,
+    "stress_memory_limit_mb": 512,
+    "exact_outer_state_cap_small": 4096,
+    "approx_state_cap_stress": 200000
+  },
+  "environment_policy": {
+    "capture_at_run": ["python_version", "platform", "cpu", "memory", "git_sha", "command_lines", "dependency_versions"],
+    "dependencies": "stdlib-first; no non-stdlib dependency is required for correctness or the pilot",
+    "timing_interpretation": "diagnostic and environment-dependent; timing bytes need not hash identically across reruns"
+  },
+  "evidence_policy": {
+    "new_directory_only": true,
+    "raw_observations": "one deterministic JSON record per instance/setup/run",
+    "hashes": "SHA256SUMS over committed evidence and manifests",
+    "rerun_policy": "verify committed evidence before re-execution; rerun only into a new scratch directory; never overwrite preserved evidence",
+    "forbidden_paths": ["ess-advisor", "ess-postgresql", "paper/main.tex", "historical Stage 0A evidence directories", "real data roots", "PostgreSQL runtime/state"],
+    "negative_results": "preserve counterexamples, vacuous bounds, unavailable truth, failures, and timeouts"
+  },
+  "protocol_change_policy": "preserve v1; any changed corpus, quantization, threshold, or stopping rule must be a clearly versioned v2 manifest and a separate protocol commit",
+  "frozen_on": "2026-10-19"
+}
