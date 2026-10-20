@@ -59,6 +59,15 @@
     "aggregate_missing_supported_predicate": 1804,
     "observations_with_outside_gate_resource": 232
   },
+  "eligibility_audit_provenance": {
+    "source_observations_path": "/tmp/ess-issue40-stage1c-v8/results/observations.jsonl",
+    "source_observations_sha256": "7a6ed7c1d2d2710b2d5a03c66583f226d5be8c6f22b6405de983c01d576ea6b9",
+    "derived_crosswalk_path": "/tmp/ess-issue40-stage1c-v8/results/eligibility-reclassification-v2.json",
+    "derived_crosswalk_sha256": "c170802c68958406be2a3087fd242caf7a79024f760e519309be833a51bae5e7",
+    "redacted_ledger_path": "experiments/pg-mcv-composition-stage1c/eligibility-reclassification-ledger.jsonl",
+    "redacted_ledger_sha256": "67b793fbf3751d311ec8b262127c4dcde92a6317ae4e642ed455e771938b6879",
+    "redacted_ledger_rows": 340
+  },
   "composition_abs_relative_residual_max": {
     "q_star_disjoint": "1.84321962144687294658102923281608148368920924522738794134316e-16",
     "q_star_overlap": "0.159039124853925981545103657938630791764799614930095454889885",

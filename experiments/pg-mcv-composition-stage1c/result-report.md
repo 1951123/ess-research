@@ -45,6 +45,24 @@ indices, but does not emit a positive candidate-considered line for every
 unselected statistic.  Thus the crosswalk is necessary eligibility evidence,
 not a complete certificate of planner consideration.
 
+In both the live runner and the offline reclassifier, a selected candidate
+outside the screened set is retained rather than filtered away and is marked
+`INCONCLUSIVE_SELECTED_OUTSIDE_ELIGIBILITY`; an unmapped selected OID is
+marked `INCONCLUSIVE_UNMAPPED_SELECTED_OID`.  Accordingly,
+`SUPPORTED_FOR_ELIGIBLE_GRAPH` means only consistency with the syntactically
+screened reduced graph.  It is not a verified full-PostgreSQL candidate
+consideration result and does not pass the preregistered equality-only gate.
+
+Evidence-audit provenance is hash-bound: the preserved v8
+`observations.jsonl`, fresh v2 derived crosswalk, and committed 340-row
+redacted ledger have their exact SHA-256 values in
+`eligibility-reclassification-summary.json` and `result-summary.json`.  The
+redacted ledger contains row identity, selected OIDs and labels, claimed
+clause indices, screened eligible/outside candidate IDs, legacy status, and
+new status/reason, but no raw SQL or PostgreSQL log payload.  The reclassifier
+uses exclusive-create output paths and refuses to overwrite an existing
+derived artifact.
+
 ## Composition audit
 
 All 28 frozen joint records were positive pre-clamp.  The residual is the

@@ -82,6 +82,12 @@ syntactic eligibility check, not a replacement for planner candidate-
 consideration traces; therefore it does not upgrade the 28 cases to a proven
 restricted-gate violation.
 
+The 340-row redacted classification ledger is committed as
+`eligibility-reclassification-ledger.jsonl`; its SHA-256 and the SHA-256 values
+of the preserved `observations.jsonl` and fresh v2 derived crosswalk are in the
+summary.  The reclassification tool uses exclusive-create output paths and
+refuses to overwrite an existing derived artifact.
+
 All 28 composition records were in the positive pre-clamp domain.  The
 single-resource product is retained only as a tested reconstruction heuristic:
 it matched the disjoint pair and parallel cases to floating-point/decimal

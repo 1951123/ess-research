@@ -387,7 +387,9 @@ class Runner:
             }]
         available = [item for item in requested if ledger.get(item, {}).get("built_mcv")]
         unusable = [item for item in requested if item not in available]
+        selected_not_installed = [item for item in selected if item not in ledger]
         task_selected = [item for item in selected if item in requested]
+        selected_outside = [item for item in selected if item not in requested or item in selected_not_installed]
         record = {
             "task_id": task_id,
             "predicate_clauses": [clause.__dict__ for clause in clauses],
@@ -396,11 +398,18 @@ class Runner:
             "outside_restricted_gate_candidate_ids": outside,
             "available_built_mcv_candidate_ids": available,
             "requested_without_mcv_payload": unusable,
-            "selected_candidate_ids": task_selected,
+            "selected_candidate_ids": selected,
+            "eligible_selected_candidate_ids": task_selected,
+            "selected_outside_restricted_gate_candidate_ids": selected_outside,
+            "selected_not_installed_candidate_ids": selected_not_installed,
         }
         if observation["unmapped_selected_stat_oids"]:
             record["eligibility_status"] = "INCONCLUSIVE_UNMAPPED_SELECTED_OID"
             record["unmapped_selected_stat_oids"] = observation["unmapped_selected_stat_oids"]
+            record["status"] = "INCONCLUSIVE"
+            return [record]
+        if selected_outside:
+            record["eligibility_status"] = "INCONCLUSIVE_SELECTED_OUTSIDE_ELIGIBILITY"
             record["status"] = "INCONCLUSIVE"
             return [record]
         record["eligibility_status"] = "PASS"

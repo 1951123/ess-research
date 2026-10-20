@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
@@ -11,6 +12,48 @@ from typing import Any
 
 from matching_verifier import MatchingVerificationError, verify_maximal_matching
 from predicate_eligibility import eligible_candidate_edges
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def write_exclusive(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(content)
+
+
+def require_fresh_outputs(paths: list[Path]) -> None:
+    existing = [str(path) for path in paths if path.exists()]
+    if existing:
+        raise FileExistsError("refusing to overwrite derived evidence: " + ", ".join(existing))
+
+
+def redacted_record(record: dict[str, Any]) -> dict[str, Any]:
+    """Keep row identity and classification evidence, excluding SQL/log payloads."""
+
+    return {
+        "scenario": record["scenario"],
+        "task_id": record["task_id"],
+        "resources": record["resources"],
+        "repetition": record["repetition"],
+        "order_index": record["order_index"],
+        "selected_stat_oids": record["trace_selected_stat_oids"],
+        "selected_candidate_ids": record["selected_candidate_ids"],
+        "trace_claimed_clauses": record["trace_claimed_clauses"],
+        "trace_candidate_none_seen": record["trace_candidate_none_seen"],
+        "eligible_candidate_ids": record["requested_eligible_candidate_ids"],
+        "outside_restricted_gate_candidate_ids": record["outside_restricted_gate_candidate_ids"],
+        "legacy_graph_failed": record["legacy_graph_failed"],
+        "legacy_statuses": record.get("legacy_statuses", []),
+        "status": record["status"],
+        "reason": record.get("reason", ""),
+    }
 
 
 def reclassify(manifest: dict[str, Any], observations: list[dict[str, Any]], query_sql: dict[str, str]) -> dict[str, Any]:
@@ -32,6 +75,7 @@ def reclassify(manifest: dict[str, Any], observations: list[dict[str, Any]], que
         selected = [oid_to_candidate[str(oid)] for oid in selected_oids if str(oid) in oid_to_candidate]
         selected_outside = [item for item in selected if item not in requested]
         legacy_failed = any(item.get("status") == "FAIL" for item in observation.get("graph_checks", []))
+        legacy_statuses = [item.get("status", "") for item in observation.get("graph_checks", [])]
         record: dict[str, Any] = {
             "scenario": observation["scenario"],
             "task_id": observation["task_id"],
@@ -50,7 +94,12 @@ def reclassify(manifest: dict[str, Any], observations: list[dict[str, Any]], que
             "trace_claimed_clauses": observation["trace"].get("claimed_clauses", []),
             "trace_candidate_none_seen": observation["trace"].get("candidate_none_seen", False),
             "legacy_graph_failed": legacy_failed,
-            "status": "INCONCLUSIVE" if unmapped_oids or selected_outside else "SUPPORTED_FOR_ELIGIBLE_GRAPH",
+            "legacy_statuses": legacy_statuses,
+            "status": (
+                "INCONCLUSIVE_UNMAPPED_SELECTED_OID" if unmapped_oids
+                else "INCONCLUSIVE_SELECTED_OUTSIDE_ELIGIBILITY" if selected_outside
+                else "SUPPORTED_FOR_ELIGIBLE_GRAPH"
+            ),
         }
         if unmapped_oids:
             record["reason"] = "unmapped_selected_stat_oid"
@@ -89,6 +138,7 @@ def main() -> int:
     parser.add_argument("--canonical", type=Path, required=True)
     parser.add_argument("--observations", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--redacted-ledger", type=Path, required=True)
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     observations = [json.loads(line) for line in args.observations.read_text(encoding="utf-8").splitlines() if line]
@@ -101,7 +151,18 @@ def main() -> int:
                 query_sql[item["query_id"]] = item["sql"]
     if query_sql.keys() != wanted:
         raise RuntimeError("canonical query SQL is incomplete")
-    args.output.write_text(json.dumps(reclassify(manifest, observations, query_sql), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    require_fresh_outputs([args.output, args.redacted_ledger])
+    result = reclassify(manifest, observations, query_sql)
+    ledger_text = "".join(json.dumps(redacted_record(item), sort_keys=True) + "\n" for item in result["records"])
+    write_exclusive(args.redacted_ledger, ledger_text)
+    result["provenance"] = {
+        "source_observations_path": str(args.observations),
+        "source_observations_sha256": sha256_file(args.observations),
+        "redacted_ledger_path": str(args.redacted_ledger),
+        "redacted_ledger_sha256": sha256_file(args.redacted_ledger),
+    }
+    output_text = json.dumps(result, indent=2, sort_keys=True) + "\n"
+    write_exclusive(args.output, output_text)
     return 0
 
 
