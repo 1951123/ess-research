@@ -83,6 +83,13 @@
     "raw_runtime_outside_git": true,
     "cleanup_required": true
   },
+  "smoke": {
+    "setup_id": "path3_conflict",
+    "order_index": 0,
+    "repetition": 1,
+    "queries": ["q_path3"],
+    "purpose": "verify isolated cluster, catalog/OID mapping, selected trace, claimed clause indices, and source-ledger reconciliation before full batch"
+  },
   "acceptance": {
     "statuses": ["WITHIN_GATE_PASS", "WITHIN_GATE_COUNTEREXAMPLE", "OUTSIDE_GATE", "INCONCLUSIVE", "NOT_EXECUTED", "BLOCKED"],
     "positive_mcv_required": true,

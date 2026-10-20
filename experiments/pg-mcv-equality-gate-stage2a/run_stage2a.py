@@ -46,12 +46,13 @@ def sha256(path: Path) -> str:
 
 
 class Stage2ARunner:
-    def __init__(self, root: Path, pg_bin: Path, manifest_path: Path, repetitions: int | None) -> None:
+    def __init__(self, root: Path, pg_bin: Path, manifest_path: Path, repetitions: int | None, smoke: bool = False) -> None:
         self.root = root
         self.pg_bin = pg_bin
         self.manifest_path = manifest_path
         self.manifest = json.loads(manifest_path.read_text())
         self.repetitions = repetitions or int(self.manifest["execution"]["repetitions_per_setup_order"])
+        self.smoke = smoke
         self.data = root / "pgdata"
         self.socket = root / "socket"
         self.logs = root / "logs"
@@ -235,13 +236,25 @@ ORDER BY s.oid;
         self.start()
         try:
             self.setup_table()
-            for setup in self.manifest["setups"]:
-                for order_index, resource_order in enumerate(setup["orders"]):
+            setups = self.manifest["setups"]
+            if self.smoke:
+                smoke = self.manifest["smoke"]
+                setups = [setup for setup in setups if setup["id"] == smoke["setup_id"]]
+            for setup in setups:
+                order_items = list(enumerate(setup["orders"]))
+                if self.smoke:
+                    order_items = [item for item in order_items if item[0] == int(self.manifest["smoke"]["order_index"])]
+                for order_index, resource_order in order_items:
                     for repetition in range(1, self.repetitions + 1):
+                        if self.smoke and repetition != int(self.manifest["smoke"]["repetition"]):
+                            continue
                         self.drop_statistics()
                         self.current_resources = list(resource_order)
                         self.create_statistics(resource_order)
-                        for query_id in setup["queries"]:
+                        query_ids = setup["queries"]
+                        if self.smoke:
+                            query_ids = self.manifest["smoke"]["queries"]
+                        for query_id in query_ids:
                             records.append(self.one_observation(setup, order_index, list(resource_order), repetition, query_id))
             output = self.results / "observations.jsonl"
             with output.open("x", encoding="utf-8") as stream:
@@ -272,8 +285,9 @@ def main() -> int:
     parser.add_argument("--pg-bin", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, default=Path(__file__).with_name("protocol-manifest.json"))
     parser.add_argument("--repetitions", type=int)
+    parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
-    runner = Stage2ARunner(args.issue_root, args.pg_bin, args.manifest, args.repetitions)
+    runner = Stage2ARunner(args.issue_root, args.pg_bin, args.manifest, args.repetitions, args.smoke)
     summary = runner.run()
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
