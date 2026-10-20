@@ -1,0 +1,5 @@
+313d66cc8be29aff447795333d64645dfff8713874c36bdcd3c2948a81422f52  experiments/pg-mcv-equality-gate-stage2a/evidence-v3/observations.jsonl
+6cd4a48d4f51884387f9dcf5096f863ff279a446e371d134ae2dd3cd285046a8  experiments/pg-mcv-equality-gate-stage2a/evidence-v3/runner-summary.json
+e5950d85a95a8d77aea5a533be8c29f8c9dabd9e4bcfa56385bac4c063a5143b  experiments/pg-mcv-equality-gate-stage2a/evidence-v3/independent-audit.json
+6fd9d556cb84a3e6439c33da691c082f4d897a9982ee019fd2e3fea6caa893be  experiments/pg-mcv-equality-gate-stage2a/protocol-manifest.json
+dffb6d9577db676631b2e300c14546a7284bf82bb1f61e2ab0288af40ac3b589  experiments/pg-mcv-equality-gate-stage2a/fixture.sql

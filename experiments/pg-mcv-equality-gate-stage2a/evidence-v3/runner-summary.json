@@ -1,0 +1,13 @@
+{
+  "format": "ess-issue47-stage2a-result-summary-v1",
+  "observation_count": 32,
+  "observations_sha256": "313d66cc8be29aff447795333d64645dfff8713874c36bdcd3c2948a81422f52",
+  "pg_version": "postgres (PostgreSQL) 16.14",
+  "runtime_root": "/tmp/ess-issue47-stage2a-v3",
+  "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+  "status_counts": {
+    "INCONCLUSIVE": 4,
+    "OUTSIDE_GATE": 2,
+    "WITHIN_GATE_PASS": 26
+  }
+}
