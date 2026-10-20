@@ -50,9 +50,12 @@ target-0 no-MCV control; `e05` was the positive-MCV missing-endpoint control.
 | `INCONCLUSIVE` | 4 | Empty resource setup returned before the MCV loop, so no `candidate=none` trace exists. |
 | `NOT_EXECUTED` | 0 | All declared v3 observations executed. |
 
-The independent audit recomputed all 32 ledgers and statuses from the redacted
-catalog/trace records: zero ledger mismatches and zero maximality-verifier
-errors. It observed no `WITHIN_GATE_COUNTEREXAMPLE`.
+The offline replay audit recomputed all 32 ledgers and statuses from the redacted
+catalog/trace records and independently reran the graph maximality cross-check:
+zero ledger mismatches and zero maximality-verifier errors. It observed no
+`WITHIN_GATE_COUNTEREXAMPLE`. It reuses the runner's source-ledger functions; it
+is not an independent implementation or separate proof of PostgreSQL's complete
+candidate-considered/rejected control flow.
 
 ## Observed selection patterns
 

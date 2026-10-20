@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Independently re-audit redacted Stage 2A observations."""
+"""Offline-replay audit for redacted Stage 2A observations."""
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 from collections import Counter
 from pathlib import Path
 
@@ -57,14 +58,55 @@ def audit(observations: Path, manifest: Path) -> dict[str, object]:
     }
 
 
+def canonical_bytes(result: dict[str, object]) -> bytes:
+    return (json.dumps(result, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def write_exclusive(path: Path, result: dict[str, object]) -> None:
+    """Create a new audit artifact without following or replacing a link."""
+
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    try:
+        descriptor = os.open(path, flags, 0o644)
+    except FileExistsError as error:
+        raise RuntimeError(f"refusing to overwrite existing audit output: {path}") from error
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(canonical_bytes(result))
+    except Exception:
+        try:
+            path.unlink()
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def verify_existing(path: Path, result: dict[str, object]) -> None:
+    """Compare against an existing frozen artifact without modifying it."""
+
+    if path.is_symlink():
+        raise RuntimeError(f"refusing to verify through symlink: {path}")
+    if not path.is_file():
+        raise RuntimeError(f"existing audit artifact is not a regular file: {path}")
+    if path.read_bytes() != canonical_bytes(result):
+        raise RuntimeError(f"frozen audit artifact differs from recomputed bytes: {path}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--observations", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    destination = parser.add_mutually_exclusive_group(required=True)
+    destination.add_argument("--output", type=Path, help="new scratch output; refuses existing files and symlinks")
+    destination.add_argument("--verify-existing", type=Path, help="read-only byte comparison against a frozen artifact")
     args = parser.parse_args()
     result = audit(args.observations, args.manifest)
-    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    if args.output is not None:
+        write_exclusive(args.output, result)
+    else:
+        verify_existing(args.verify_existing, result)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if not result["ledger_mismatch_count"] and not result["matching_error_count"] else 1
 

@@ -1,5 +1,8 @@
+import tempfile
 import unittest
+from pathlib import Path
 
+from audit_stage2a import canonical_bytes, verify_existing, write_exclusive
 from matching_verifier import MatchingVerificationError, verify_maximal_matching
 from source_ledger import (
     LedgerError,
@@ -64,6 +67,39 @@ class Stage2ATests(unittest.TestCase):
         ledger = build_source_ledger(rows, clauses)
         result = verify_trace_against_ledger(ledger, rows, {"selected_stat_oids": [10], "claimed_clause_indices": [0, 1], "candidate_none": False, "query_error": "not yet built"})
         self.assertEqual(result["status"], "OUTSIDE_GATE")
+
+
+class AuditOutputTests(unittest.TestCase):
+    def test_exclusive_output_refuses_existing_file_and_preserves_bytes(self):
+        result = {"format": "test", "value": 1}
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "audit.json"
+            path.write_bytes(b"frozen-bytes\n")
+            with self.assertRaisesRegex(RuntimeError, "refusing to overwrite"):
+                write_exclusive(path, result)
+            self.assertEqual(path.read_bytes(), b"frozen-bytes\n")
+
+    def test_exclusive_output_refuses_dangling_symlink(self):
+        result = {"format": "test", "value": 1}
+        with tempfile.TemporaryDirectory() as root:
+            root_path = Path(root)
+            target = root_path / "target.json"
+            link = root_path / "audit.json"
+            link.symlink_to(target)
+            with self.assertRaisesRegex(RuntimeError, "refusing to overwrite"):
+                write_exclusive(link, result)
+            self.assertTrue(link.is_symlink())
+            self.assertFalse(target.exists())
+
+    def test_verify_existing_requires_exact_frozen_bytes(self):
+        result = {"format": "test", "value": 1}
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "audit.json"
+            path.write_bytes(canonical_bytes(result))
+            verify_existing(path, result)
+            path.write_bytes(b"changed\n")
+            with self.assertRaisesRegex(RuntimeError, "differs from recomputed bytes"):
+                verify_existing(path, result)
 
 
 if __name__ == "__main__":
