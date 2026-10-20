@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Freeze the Stage 2B outcome protocol from workload-only inputs.
 
 This command deliberately reads only archive-first ``workload.json`` files.
@@ -19,7 +18,6 @@ from pathlib import Path
 from typing import Any
 
 from ess_research.arecel import prepare
-
 
 HERE = Path(__file__).resolve().parent
 DATASETS = ("forest10", "census13")
