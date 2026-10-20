@@ -6,17 +6,28 @@
 **Evidence label:** experimentally observed on the frozen synthetic corpus;
 source-derived for the pinned advisor cache implementation.
 
-## Correction to v1
+## Correction to v1 and status of v2
 
 The original matched evidence in `runs/20261020-matched-v1/` is retained as
 historical evidence. Its `wall_seconds` values measured the solver call only,
 and its fixed in-process method order is not used for the final timing claim.
 This v2 rerun uses the same frozen eight inputs, three repetitions, 5-second
-endpoint, and pinned advisor source, but runs each method in a fresh process
-and uses a balanced deterministic permutation of method order across
-repetitions. It records both `solver_call_wall_seconds` and
+endpoint, and pinned advisor source, and runs each method in a fresh process.
+Its deterministic permutation schedule was subsequently found to be
+unbalanced: uncached Master was first in zero of the 24 case/repetition
+blocks. Therefore v2 is retained as exploratory historical evidence and is
+not used for a balanced timing claim. It records both
+`solver_call_wall_seconds` and
 `full_verified_wall_seconds`; the latter includes the independent Fraction
 objective check and witness extraction.
+Both metrics start immediately before the solver call, after `read_instance`,
+and exclude subprocess launch/import, instance loading, parent JSON parsing,
+and output writing. They are solver-plus-verifier times, not full
+process-launch-to-output times.
+
+The predeclared v3 rerun in `matched-v3-protocol.json` corrects this with a
+cyclic schedule in which each method occupies each position once per case.
+The v3 report and raw evidence are the final matched-comparison artifacts.
 
 The v2 raw evidence contains 24 JSONL records and is hashed by
 `runs/20261020-matched-v2/SHA256SUMS-raw`. The derived summary is

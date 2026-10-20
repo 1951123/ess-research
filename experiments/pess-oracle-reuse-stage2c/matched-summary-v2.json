@@ -972,6 +972,12 @@
     }
   },
   "fresh_process_per_method": true,
-  "balanced_method_order": true,
+  "balanced_method_order": false,
+  "order_schedule": "unbalanced-permutation-v2",
+  "method_position_counts": {
+    "master_oracle_existing_task_cache": [16, 0, 8],
+    "master_oracle_uncached": [0, 16, 8],
+    "static": [8, 8, 8]
+  },
   "raw_record_count": 24
 }
