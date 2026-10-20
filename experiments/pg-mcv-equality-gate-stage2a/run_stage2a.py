@@ -193,6 +193,7 @@ ORDER BY s.oid;
                 "inherit": inherit.lower() in {"t", "true", "1"},
                 "mcv_item_count": int(item_count),
                 "mcv_payload_present": payload_present == "1",
+                "source_loaded": payload_present == "1",
             })
         expected_names = {f"ess2a_{item}" for item in self.current_resources}
         if {str(row["name"]) for row in rows} != expected_names:

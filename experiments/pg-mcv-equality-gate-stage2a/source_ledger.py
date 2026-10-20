@@ -99,6 +99,8 @@ def build_source_ledger(
             reasons: list[str] = []
             if not _is_mcv(row):
                 reasons.append("wrong_kind")
+            if not bool(row.get("source_loaded", True)):
+                reasons.append("mcv_kind_not_built")
             if bool(row.get("inherit", False)):
                 reasons.append("inheritance_mismatch")
             if len(keys) != 2:
@@ -121,7 +123,7 @@ def build_source_ledger(
                 "num_matched_attributes": num_matched,
                 "num_keys": len(keys),
                 "selector_eligible": selector_eligible,
-                "usable_edge": bool(row.get("mcv_item_count", 0) > 0) and selector_eligible,
+                "usable_edge": bool(row.get("source_loaded", True)) and bool(row.get("mcv_item_count", 0) > 0) and selector_eligible,
                 "skip_reasons": reasons,
             })
 
@@ -147,7 +149,8 @@ def build_source_ledger(
     usable_ids = [
         str(row["id"])
         for row in rows
-        if bool(row.get("mcv_item_count", 0) > 0)
+        if bool(row.get("source_loaded", True))
+        and bool(row.get("mcv_item_count", 0) > 0)
         and len(row.get("keys", [])) == 2
         and all(
             any(str(clause["column"]) == str(column) for clause in clauses)
@@ -176,6 +179,9 @@ def build_source_ledger(
             for index in item["selected_claimed_clause_indices"]
         ],
         "usable_ids": usable_ids,
+        "source_loaded_ids": [
+            str(row["id"]) for row in rows if bool(row.get("source_loaded", True))
+        ],
         "complete_considered_candidate_ledger": True,
     }
 
@@ -211,6 +217,10 @@ def verify_trace_against_ledger(
     if selected_outside:
         reasons.append("selected_outside_usable_edge_graph")
 
+    no_built_mcv_early_return = bool(catalog_by_oid) and not ledger.get("source_loaded_ids") and not trace.get("query_error")
+    if no_built_mcv_early_return:
+        reasons.append("no_built_mcv_kind_early_return")
+
     result: dict[str, object] = {
         "selected_stat_oids": selected_oids,
         "selected_candidate_ids": selected_ids,
@@ -220,7 +230,9 @@ def verify_trace_against_ledger(
         "source_ledger_complete": bool(ledger.get("complete_considered_candidate_ledger")),
         "reconciliation_reasons": reasons,
     }
-    if trace.get("query_error") and selected_outside:
+    if no_built_mcv_early_return:
+        result["status"] = "OUTSIDE_GATE"
+    elif trace.get("query_error") and selected_outside:
         result["status"] = "OUTSIDE_GATE"
     elif trace.get("query_error"):
         result["status"] = "INCONCLUSIVE"

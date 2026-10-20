@@ -1,5 +1,5 @@
 {
-  "format": "ess-issue47-stage2a-protocol-v1-amended-v2",
+  "format": "ess-issue47-stage2a-protocol-v1-amended-v3",
   "issue": 47,
   "status": "protocol_input_only_before_outcome_queries",
   "scope": "synthetic equality-only PostgreSQL 16.14 pairwise MCV eligibility and maximal-matching gate",
@@ -43,7 +43,8 @@
       {"id": "e13", "columns": ["b", "d"], "role": "positive"},
       {"id": "e23", "columns": ["c", "d"], "role": "positive"},
       {"id": "e34", "columns": ["d", "e"], "role": "positive"},
-      {"id": "e45", "columns": ["e", "f"], "role": "no_mcv_control", "statistics_target": 0}
+      {"id": "e45", "columns": ["e", "f"], "role": "no_mcv_control", "statistics_target": 0},
+      {"id": "e05", "columns": ["a", "f"], "role": "missing_endpoint_positive_control"}
     ],
     "queries": [
       {"id": "q_ab", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1;", "expected_columns": ["a", "b"]},
@@ -69,7 +70,7 @@
     {"id": "disconnected_pair", "resources": ["e01", "e34"], "orders": [["e01", "e34"], ["e34", "e01"]], "queries": ["q_disconnected"]},
     {"id": "parallel_pair", "resources": ["e01", "p01"], "orders": [["e01", "p01"], ["p01", "e01"]], "queries": ["q_parallel"]},
     {"id": "no_mcv_control", "resources": ["e45"], "orders": [["e45"]], "queries": ["q_no_mcv_control"]},
-    {"id": "missing_endpoint_control", "resources": ["e45"], "orders": [["e45"]], "queries": ["q_missing_endpoint_control"]}
+    {"id": "missing_endpoint_control", "resources": ["e05"], "orders": [["e05"]], "queries": ["q_missing_endpoint_control"]}
   ],
   "execution": {
     "repetitions_per_setup_order": 2,
@@ -101,7 +102,7 @@
     "candidate_considered_signal_absent_is_not_silent_pass": true
   },
   "controls": {
-    "missing_endpoint": "q_missing_endpoint_control omits f, so e45 is outside the graph regardless of being built",
+    "missing_endpoint": "q_missing_endpoint_control omits f, so positive-MCV e05 is outside the graph",
     "no_mcv": "e45 is expected to be reported as a built no-MCV control and never as a usable edge",
     "unsupported_sql": "negative parser/verifier test uses a range predicate and must fail closed",
     "trace_omission": "negative verifier test removes a required selected/termination event and must fail closed"
