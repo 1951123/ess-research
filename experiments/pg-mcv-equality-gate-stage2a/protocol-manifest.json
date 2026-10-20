@@ -1,0 +1,102 @@
+{
+  "format": "ess-issue47-stage2a-protocol-v1",
+  "issue": 47,
+  "status": "protocol_input_only_before_outcome_queries",
+  "scope": "synthetic equality-only PostgreSQL 16.14 pairwise MCV eligibility and maximal-matching gate",
+  "source": {
+    "repository": "1951123/ess-postgresql",
+    "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "version": "16.14",
+    "source_worktree": "/home/wqts/projects/ess-postgresql",
+    "required_locations": {
+      "compatibility": "src/backend/statistics/extended_stats.c:1363-1715",
+      "selector": "src/backend/statistics/extended_stats.c:1263-1360",
+      "mcv_loop": "src/backend/statistics/extended_stats.c:1768-1935",
+      "relcache_stats_order": "src/backend/utils/cache/relcache.c:4857-4934"
+    },
+    "instrumentation": [
+      "ESS_MCV_TRACE selected_stat_oid",
+      "ESS_MCV_TRACE claimed_clause_index",
+      "ESS_MCV_TRACE candidate=none",
+      "ESS_MCV_NUMERIC_TRACE selected statistic fields (optional; not an eligibility signal)"
+    ],
+    "build": {
+      "prefix": "/home/wqts/ess-runtime/issue38/pg-prefix",
+      "configure": "--prefix=/home/wqts/ess-runtime/issue38/pg-prefix --without-readline --without-zlib CFLAGS=-O2 -g -DESS_MCV_NUMERIC_TRACE",
+      "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "build_provenance": "existing read-only build; binary identity is recorded at execution",
+      "source_write_forbidden": true
+    }
+  },
+  "fixture": {
+    "sql_path": "fixture.sql",
+    "table": "ess_stage2a_t",
+    "seed": 4701,
+    "row_count": 20000,
+    "attributes": ["a", "b", "c", "d", "e", "f"],
+    "data_rule": "id=1..20000; a=id mod 3; b=floor(id/3) mod 3; c=id mod 4; d=floor(id/4) mod 4; e=id mod 5; f=id",
+    "targets": {"all_columns": 1000},
+    "candidate_definitions": [
+      {"id": "e01", "columns": ["a", "b"], "role": "positive"},
+      {"id": "p01", "columns": ["a", "b"], "role": "parallel_labeled_positive"},
+      {"id": "e12", "columns": ["b", "c"], "role": "positive"},
+      {"id": "e13", "columns": ["b", "d"], "role": "positive"},
+      {"id": "e23", "columns": ["c", "d"], "role": "positive"},
+      {"id": "e34", "columns": ["d", "e"], "role": "positive"},
+      {"id": "e45", "columns": ["e", "f"], "role": "no_mcv_control"}
+    ],
+    "queries": [
+      {"id": "q_ab", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1;", "expected_columns": ["a", "b"]},
+      {"id": "q_bc", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE b = 1 AND c = 1;", "expected_columns": ["b", "c"]},
+      {"id": "q_cd", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE c = 1 AND d = 1;", "expected_columns": ["c", "d"]},
+      {"id": "q_de", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE d = 1 AND e = 1;", "expected_columns": ["d", "e"]},
+      {"id": "q_path3", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1 AND c = 1 AND d = 1;", "expected_columns": ["a", "b", "c", "d"]},
+      {"id": "q_star", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1 AND c = 1 AND d = 1;", "expected_columns": ["a", "b", "c", "d"]},
+      {"id": "q_disconnected", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1 AND d = 1 AND e = 1;", "expected_columns": ["a", "b", "d", "e"]},
+      {"id": "q_parallel", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1;", "expected_columns": ["a", "b"]},
+      {"id": "q_no_mcv_control", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE e = 1 AND f = 1;", "expected_columns": ["e", "f"]},
+      {"id": "q_missing_endpoint_control", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1 AND c = 1 AND d = 1 AND e = 1;", "expected_columns": ["a", "b", "c", "d", "e"]}
+    ]
+  },
+  "setups": [
+    {"id": "empty", "resources": [], "orders": [[]], "queries": ["q_path3", "q_missing_endpoint_control"]},
+    {"id": "single_e01", "resources": ["e01"], "orders": [["e01"]], "queries": ["q_ab"]},
+    {"id": "single_e12", "resources": ["e12"], "orders": [["e12"]], "queries": ["q_bc"]},
+    {"id": "single_e23", "resources": ["e23"], "orders": [["e23"]], "queries": ["q_cd"]},
+    {"id": "single_e34", "resources": ["e34"], "orders": [["e34"]], "queries": ["q_de"]},
+    {"id": "path3_conflict", "resources": ["e01", "e12", "e23"], "orders": [["e01", "e12", "e23"], ["e23", "e12", "e01"]], "queries": ["q_path3"]},
+    {"id": "star_conflict", "resources": ["e01", "e12", "e13"], "orders": [["e01", "e12", "e13"], ["e13", "e12", "e01"]], "queries": ["q_star"]},
+    {"id": "disconnected_pair", "resources": ["e01", "e34"], "orders": [["e01", "e34"], ["e34", "e01"]], "queries": ["q_disconnected"]},
+    {"id": "parallel_pair", "resources": ["e01", "p01"], "orders": [["e01", "p01"], ["p01", "e01"]], "queries": ["q_parallel"]},
+    {"id": "no_mcv_control", "resources": ["e45"], "orders": [["e45"]], "queries": ["q_no_mcv_control"]},
+    {"id": "missing_endpoint_control", "resources": ["e12", "e34"], "orders": [["e12", "e34"]], "queries": ["q_missing_endpoint_control"]}
+  ],
+  "execution": {
+    "repetitions_per_setup_order": 2,
+    "runtime_root": "/tmp/ess-issue47-stage2a-v1",
+    "port": 55447,
+    "database": "ess_issue47_stage2a",
+    "socket": "${ESS_ISSUE_ROOT}/socket",
+    "log_min_messages": "debug1",
+    "query_mode": "EXPLAIN (COSTS OFF) with ESS_STAGE2A_QUERY marker",
+    "no_concurrent_pg_tasks": true,
+    "raw_runtime_outside_git": true,
+    "cleanup_required": true
+  },
+  "acceptance": {
+    "statuses": ["WITHIN_GATE_PASS", "WITHIN_GATE_COUNTEREXAMPLE", "OUTSIDE_GATE", "INCONCLUSIVE", "NOT_EXECUTED", "BLOCKED"],
+    "positive_mcv_required": true,
+    "selected_oids_must_map_uniquely": true,
+    "selected_edges_must_be_pairwise_disjoint": true,
+    "selected_edges_must_be_inclusion_wise_maximal": true,
+    "maximum_cardinality_is_not_checked": true,
+    "source_ledger_required": true,
+    "candidate_considered_signal_absent_is_not_silent_pass": true
+  },
+  "controls": {
+    "missing_endpoint": "q_missing_endpoint_control omits f, so e45 is outside the graph regardless of being built",
+    "no_mcv": "e45 is expected to be reported as a built no-MCV control and never as a usable edge",
+    "unsupported_sql": "negative parser/verifier test uses a range predicate and must fail closed",
+    "trace_omission": "negative verifier test removes a required selected/termination event and must fail closed"
+  }
+}
