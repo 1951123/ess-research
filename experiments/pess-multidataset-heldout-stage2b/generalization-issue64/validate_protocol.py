@@ -10,6 +10,10 @@ from typing import Any
 PROTOCOL = Path(__file__).with_name("protocol-v1.json")
 EXPECTED_DATASETS = {"forest10", "census13", "dmv11", "power7"}
 EXPECTED_BUDGETS = [0, 2, 3, 5]
+EXPECTED_TEST_GROUPS = 1000
+EXPECTED_REPLICATES = 2
+EXPECTED_MAX_TREATMENTS = 7
+ISSUE59_PROTOCOL_SHA256 = "8e8d25bc9d2847936d2c45f51a3f870a8c44e632938e30db19cfe8aaf0d9063a"
 
 
 def validate(document: dict[str, Any]) -> list[str]:
@@ -38,6 +42,8 @@ def validate(document: dict[str, Any]) -> list[str]:
         errors.append("method set must be Empty/Nominal/PESS")
 
     candidates = document.get("candidate_universe", {})
+    if candidates.get("source_protocol_sha256") != ISSUE59_PROTOCOL_SHA256:
+        errors.append("candidate universe must pin the reviewed Issue #59 protocol hash")
     for dataset in sorted(EXPECTED_DATASETS):
         pairs = candidates.get(dataset)
         if not isinstance(pairs, list) or not pairs:
@@ -50,6 +56,8 @@ def validate(document: dict[str, Any]) -> list[str]:
     budget = document.get("calibration_and_selection", {}).get("resource_budget", {})
     if budget.get("budgets") != EXPECTED_BUDGETS:
         errors.append("budgets must remain [0, 2, 3, 5]")
+    if "not a measured/proxy-weighted physical" not in budget.get("meaning", ""):
+        errors.append("resource budget must be explicitly count-based, not physical cost")
 
     metric = document.get("metrics", {}).get("primary", {})
     if metric.get("name") != "per-dataset P95 Q-error with one-row floor (Q1)":
@@ -58,6 +66,19 @@ def validate(document: dict[str, Any]) -> list[str]:
         errors.append("Q1 floor formula missing")
     if "not exactly AreCEL" not in metric.get("adaptation_note", ""):
         errors.append("Q1 must be distinguished from natural AreCEL Q-error")
+    if "metric_reference.py::q1" not in metric.get("formula_reference", ""):
+        errors.append("Q1 formula must point to its tested pure reference implementation")
+    if "round_half_even_50" not in metric.get("quantile", ""):
+        errors.append("per-policy replicate aggregation precision/rounding missing")
+    if "round_half_even_50" not in metric.get("contrast", ""):
+        errors.append("paired estimand must use the same explicit log-Q1 aggregation")
+    pair_class = metric.get("pairwise_classification", "")
+    if "same recorded delta_i" not in pair_class or "delta_i<0" not in pair_class:
+        errors.append("benefit/harm/tie classification must use the paired log-Q1 estimand")
+    if "UNRESOLVED" not in metric.get("replicate_failure", ""):
+        errors.append("missing replicate handling is not predeclared")
+    if "INCONCLUSIVE" not in metric.get("replicate_failure", ""):
+        errors.append("incomplete cohort must fail closed")
 
     cohort = document.get("cohort_and_independence", {})
     if "not fresh held-out evidence" not in cohort.get("legacy_arecel_test", ""):
@@ -65,11 +86,73 @@ def validate(document: dict[str, Any]) -> list[str]:
     for key in ("group_split", "historical_overlap", "test_freeze"):
         if not cohort.get(key):
             errors.append(f"cohort independence field missing: {key}")
+    recipe = document.get("cohort_generation_recipe", {})
+    if recipe.get("status") != "DETERMINISTIC_RECIPE_SPECIFIED_NOT_EXECUTED_NO_QUERY_MANIFEST_EXISTS_YET":
+        errors.append("cohort status must say recipe-only and not generated")
+    if recipe.get("seed_by_dataset", {}) != {
+        "forest10": 6401, "census13": 6402, "dmv11": 6403, "power7": 6404
+    }:
+        errors.append("per-dataset cohort seeds are not frozen")
+    if "normalised_template" not in recipe.get("fingerprint_contract", {}).get("template", ""):
+        errors.append("template normalization must cite the Issue #59 implementation")
+    if "1000000" not in recipe.get("selection_and_size", {}).get("deterministic_acceptance", ""):
+        errors.append("bounded deterministic cohort acceptance recipe missing")
+    if recipe.get("selection_and_size", {}).get("maximum_template_attempts_per_dataset") != 1_000_000:
+        errors.append("maximum template-generation attempts must be an exact hard limit")
+    if len(recipe.get("historical_fingerprint_gate", {}).get("coverage_required", [])) < 4:
+        errors.append("historical fingerprint coverage inventory is incomplete")
+    if "blocks cohort freeze" not in recipe.get("historical_fingerprint_gate", {}).get("acceptance", "").lower():
+        errors.append("missing historical fingerprint coverage must block cohort freeze")
 
     gates = document.get("postgresql_physical_evaluation", {})
     for key in ("same_conditions", "sample_gate", "coverage", "mismatch", "failure_policy"):
         if not gates.get(key):
             errors.append(f"PostgreSQL physical gate missing: {key}")
+    if not gates.get("sample_block_definition"):
+        errors.append("matched sample-block identity is not operationally defined")
+    if "exactly one ANALYZE" not in gates.get("treatment_order_and_analyze", ""):
+        errors.append("treatment-specific ANALYZE sequence is not frozen")
+    if "does not invalidate its Q1" not in gates.get("coverage", ""):
+        errors.append("trace completeness must be separated from Q1 validity")
+    if "random" not in gates.get("same_conditions", "") and "permutation" not in gates.get("same_conditions", ""):
+        errors.append("treatment execution order is not frozen/counterbalanced")
+
+    caps = document.get("prospective_caps", {})
+    if caps.get("test_template_groups_per_dataset") != EXPECTED_TEST_GROUPS:
+        errors.append("test group count must be an exact 1000-group hard limit")
+    if caps.get("hard_max_calibration_queries_per_dataset") != EXPECTED_TEST_GROUPS:
+        errors.append("calibration query count must be hard-capped at 1000 per dataset")
+    if caps.get("hard_max_heldout_queries_per_dataset") != EXPECTED_TEST_GROUPS:
+        errors.append("held-out query count must be hard-capped at 1000 per dataset")
+    if caps.get("queries_per_group") != 1:
+        errors.append("query/group ratio must be exactly one")
+    split_counts = recipe.get("selection_and_size", {}).get("per_dataset", {})
+    if split_counts.get("calibration_groups") != EXPECTED_TEST_GROUPS:
+        errors.append("calibration cohort count must be fixed at 1000 groups")
+    if split_counts.get("heldout_groups") != EXPECTED_TEST_GROUPS:
+        errors.append("held-out cohort count must be fixed at 1000 groups")
+    if split_counts.get("queries_per_group") != 1:
+        errors.append("cohort manifest must contain one SQL query per group")
+    expected_calibration_plan_cap = (
+        len(EXPECTED_DATASETS)
+        * caps.get("calibration_template_groups_per_dataset", 0)
+        * caps.get("queries_per_group", 0)
+        * caps.get("max_calibration_sets_per_dataset", 0)
+        * caps.get("calibration_sample_replicates", 0)
+    )
+    expected_heldout_plan_cap = (
+        len(EXPECTED_DATASETS)
+        * EXPECTED_TEST_GROUPS
+        * caps.get("queries_per_group", 0)
+        * caps.get("max_unique_treatment_sets_per_dataset", 0)
+        * caps.get("heldout_sample_replicates", 0)
+    )
+    if caps.get("max_calibration_query_plans") != expected_calibration_plan_cap:
+        errors.append("calibration query-plan cap does not match the frozen maximum design")
+    if caps.get("max_heldout_query_plans") != expected_heldout_plan_cap:
+        errors.append("held-out query-plan cap does not match the frozen maximum design")
+    if caps.get("max_count_query_plans") != expected_calibration_plan_cap + expected_heldout_plan_cap:
+        errors.append("total query-plan hard cap does not match the two-phase maximum design")
 
     feasibility = document.get("phase0_feasibility", {})
     preflight = feasibility.get("per_dataset_preflight", {})
@@ -81,6 +164,22 @@ def validate(document: dict[str, Any]) -> list[str]:
             errors.append(f"per-dataset provenance/future checklist incomplete: {dataset}")
     if feasibility.get("PostgreSQL") != "NOT RUN; Gate A readiness does not authorize held-out execution":
         errors.append("Phase 0 PostgreSQL non-execution status missing")
+    pin = document.get("provenance", {}).get("corrected_log_reference_pin", {})
+    for key in (
+        "validation_diagnostic_code_commit",
+        "formal_runner_source_sha256",
+        "independent_validation_source_sha256",
+        "regression_test_source_sha256",
+        "frozen_protocol_v4_sha256",
+        "manifest_sha256",
+    ):
+        value = pin.get(key, "")
+        if len(value) != 40 and key == "validation_diagnostic_code_commit":
+            errors.append(f"corrected-log reference pin malformed: {key}")
+        elif key != "validation_diagnostic_code_commit" and (
+            len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value)
+        ):
+            errors.append(f"corrected-log reference pin malformed: {key}")
     return errors
 
 

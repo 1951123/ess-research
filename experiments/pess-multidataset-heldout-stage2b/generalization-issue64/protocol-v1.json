@@ -14,7 +14,23 @@
   "provenance": {
     "related_issue_pr": ["#48", "#58", "#59", "#60"],
     "historical_v4_status": "FORMAL_V4_COEFFICIENT_DEFECT_DOCUMENTED; not valid new held-out evidence and not retroactively rescued",
-    "corrected_log_status": "validation-only diagnostic in PR #58; exact implementation commit/source hashes must be reviewed and pinned before any future selection run",
+    "corrected_log_status": "PROPOSED REFERENCE PIN for the PR #58 validation-only correction; not an approval to reuse its calibration records or execute the historical runner",
+    "corrected_log_reference_pin": {
+      "pr58_head_at_review": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "validation_diagnostic_code_commit": "245b2b131f9acb361b3f613d654e23e61d10d79a",
+      "formal_runner_source_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+      "independent_validation_source_sha256": "6c16eb8c9c2c823948080f41d2b7a7b3f87d218e2acdf11a1567e76db844ef54",
+      "regression_test_source_sha256": "8abe1fe66204e66a24ba2ab6640e4e9cbae4be17048a240528ffebde8176b623",
+      "frozen_protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+      "validation_only_input_sha256": {
+        "forest10_validation_calibration_ledger": "2bba7c614e981c52b5ea60d678086efa131263229755189de8d389251d5df16b",
+        "forest10_validation_model": "704f43a303e036718aeb0b67e8c2af7a47b999a1f3a954edc379ce53f5c78daf",
+        "census13_validation_calibration_ledger": "eb7859b884ac47ce34a3b67eb0f202005508a14157c324c9d9f230e92d3d431b",
+        "census13_validation_model": "f6ce20059f62fb6dcc19e34a985009108082c3417568e2817a7e5422bea894f5"
+      },
+      "manifest_sha256": "d86c80ed42b196d14610e3357e1d4be067d34ca62cb6271caaddddefbee2b716",
+      "use_boundary": "pin documents the code/input basis of the validation-only correction only. Do not feed these old records to the new study. New per-dataset calibration inputs and the exact optimization implementation must be independently hashed before any selection; any source/hash mismatch fails closed."
+    },
     "workload_audit": "Issue #59 / merged PR #60 / runs/20261020-v4; descriptive and outcome-free structural evidence",
     "arecel_reference": {
       "citation": "Wang et al., Are We Ready For Learned Cardinality Estimation?, PVLDB 14(9), 1640-1654 (2021), doi:10.14778/3461535.3461552",
@@ -33,6 +49,7 @@
   },
   "candidate_universe": {
     "freeze_source": "exact labeled pairs and order in Issue #59 protocol-v1.json; copy and SHA-pin into the eventual execution manifest before calibration or held-out outcomes",
+    "source_protocol_sha256": "8e8d25bc9d2847936d2c45f51a3f870a8c44e632938e30db19cfe8aaf0d9063a",
     "forest10": ["e01:Elevation/Aspect", "e12:Aspect/Slope", "e23:Slope/Horizontal_Distance_To_Hydrology", "e34:Horizontal_Distance_To_Hydrology/Vertical_Distance_To_Hydrology", "e45:Vertical_Distance_To_Hydrology/Horizontal_Distance_To_Roadways", "e56:Horizontal_Distance_To_Roadways/Hillshade_9am"],
     "census13": ["c01:age/workclass", "c12:workclass/education", "c23:education/education_num", "c34:education_num/marital_status", "c45:marital_status/occupation", "c56:occupation/relationship"],
     "dmv11": ["d01:Record_Type/Registration_Class", "d12:Registration_Class/State", "d23:State/County", "d34:County/Body_Type", "d45:Body_Type/Fuel_Type", "d56:Fuel_Type/Reg_Valid_Date", "d67:Reg_Valid_Date/Color", "d78:Color/Scofflaw_Indicator", "d89:Scofflaw_Indicator/Suspension_Indicator", "d9a:Suspension_Indicator/Revocation_Indicator"],
@@ -41,15 +58,16 @@
   },
   "calibration_and_selection": {
     "calibration_source": "within-dataset development/calibration queries only; query structures and labels available to calibration are frozen and hashed before selection",
+    "calibration_sample_policy": "Use only the predeclared physical sample replicate 0 for validation calibration and resource selection. For each of the 1000 calibration queries, record Empty and each candidate singleton estimate once on the same replicate-0 sample block; derive the frozen corrected-log coefficients and select resource sets. Replicate 1 is never used for calibration/selection and is reserved for out-of-sample sample-sensitivity evaluation. Both sample blocks evaluate the same held-out cohort.",
     "test_firewall": "selection code receives candidate universe, validation calibration records and budgets only; it must not receive test SQL literals, test truth, test estimates, PostgreSQL test traces, or post-selection feedback",
-    "model": "use the corrected natural-log definitions and exact Nominal/PESS objectives reviewed in PR #58; do not use defective formal-v4 coefficients; pin source commit, inputs and objective implementation before selection",
+    "model": "use the corrected natural-log definitions and Nominal/PESS objectives from a separately reviewed, hash-pinned implementation; the PR #58 validation-only source pin above is a reference, not authorization to execute its historical runner; never use defective formal-v4 coefficients",
     "nominal_scheme": "deterministic greedy maximal matching in frozen candidate order, as a scoped mathematical policy definition only",
     "pess_scheme": "all maximal matchings of the selected task graph; maximal is not maximum-cardinality; task-wise worst loss remains the frozen PESS objective",
     "loss": "positive pre-clamp absolute natural-log error under the reviewed frozen model; optimizer objective is not the held-out evaluation metric",
     "resource_budget": {
       "candidate_cost_units": 1,
       "budgets": [0, 2, 3, 5],
-      "meaning": "additive candidate-count proxy only; not physical Maint or ANALYZE time",
+      "meaning": "unit-count budget: one unit per selected statistics object; this is a candidate-count proxy, not a measured/proxy-weighted physical Maint or ANALYZE-time budget",
       "infeasible": "report INFEASIBLE; never substitute a neighboring budget"
     },
     "ties": {
@@ -58,35 +76,71 @@
       "pg_creation_order": "ascending frozen candidate index, separately recorded; does not redefine the unordered optimizer decision"
     }
   },
+  "cohort_generation_recipe": {
+    "status": "DETERMINISTIC_RECIPE_SPECIFIED_NOT_EXECUTED_NO_QUERY_MANIFEST_EXISTS_YET",
+    "generator_version": "ess-arecel-query-cohort-v1",
+    "seed_by_dataset": {"forest10": 6401, "census13": 6402, "dmv11": 6403, "power7": 6404},
+    "source_pin": "base source tree a89c1a70d96abc346f988860661e7f1a9f6297b5 plus verified Issue #59 dataset specifications and source archive SHA256 5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79; execution manifest must pin prepared CSV/schema bytes, row-order hash, dataset-spec source hash and exact Python/libmpdec versions",
+    "prng": "counter_u64 = first 8 SHA256 bytes, big-endian, of UTF-8 'ess-stage2b-cohort-v1\\0{dataset}\\0{seed}\\0{attempt}\\0{purpose}\\0{retry}'. randbelow(n) uses rejection sampling with limit=2^64-(2^64 mod n), retrying with retry+1 when word>=limit. All choices use distinct fixed purpose strings; column subsets are the first d columns after sorting by (counter_u64 purpose=column-rank, stable column ID).",
+    "template_draw": "For each attempt, draw d uniformly from 1..D; choose d distinct columns by sorting the hash-counter draw keyed by stable column ID and taking the first d. For each selected column, use its pinned DatasetSpec type: categorical columns get '=', numeric columns choose uniformly from '=', '<', '<=', '>', '>=', '[]'. Predicate list is sorted by stable source-column UTF-8 bytes before serialization and SQL rendering. Reject duplicate template SHA, unsupported schema/operator, and any template in the historical fingerprint quarantine.",
+    "literal_draw": "For each attempt draw one deterministic source-table row ordinal using randbelow(row_count,purpose='source-row-ordinal'). With probability 0.9 use the row's selected-column values as a joint in-domain center; with probability 0.1 independently draw each selected-column value from its observed domain (categorical: uniform over sorted distinct values; numeric/date: uniform over the closed min/max domain after schema-typed conversion; OOD in the AreCEL sense of independent centers, not necessarily outside marginal domains). Equality and one-sided inequalities use the center as their literal. For '[]', draw width with equal probability from uniform[0, domain-span] or exponential(lambda=10/domain-span), using u=(1+randbelow(2^53-1,...))/2^53, Decimal precision 80, Decimal.ln/exp; center the interval on the selected value and convert endpoints using the pinned schema type/renderer. Render typed literals using the pinned AreCEL source renderer. Pin CSV parser, source CSV SHA, row-order SHA and observed per-column domains in the manifest. This is AreCEL-inspired workload generation, not a reproduction of learned-estimator training.",
+    "fingerprint_contract": {
+      "template": "byte-for-byte reuse Issue #59 audit_structure.py::normalised_template: sorted (column, operator, 'range' iff operator=='[]' else 'scalar') tuples, json.dumps(ensure_ascii=False,separators=(',',':')), then SHA256 UTF-8",
+      "exact": "byte-for-byte reuse Issue #59 audit_structure.py::canonical_predicate_fingerprint: ordered [column,operator,value] tuples in canonical SQL predicate order, compact UTF-8 JSON ensure_ascii=False allow_nan=False, then SHA256",
+      "reference_source_sha256": "711be1a472439a8c27b59d5a91e6f7a0259ea22fbe69cdfdf7bef25e46fb6ebb",
+      "query_group": "one normalized template SHA is one group and has exactly one generated SQL/query ID; no group contributes more than one observation to any statistic"
+    },
+    "split_assignment": "bucket = int(SHA256(UTF8('ess-stage2b-split-v1\\0{dataset}\\0{template_sha256}'))[:8], big-endian) mod 100; buckets 0..49=calibration, 50..99=heldout. Entire groups stay in one split; no split is reassigned after labels are opened.",
+    "selection_and_size": {
+      "maximum_template_attempts_per_dataset": 1000000,
+      "per_dataset": {"calibration_groups": 1000, "heldout_groups": 1000, "queries_per_group": 1, "heldout_test_queries": 1000},
+      "predicate_count_quota": "partition 1..D into nonempty bins [1],[2],[3-4],[5-7],[8-D]; divide 1000 groups as evenly as possible across the nonempty bins, assigning remainders to lower bins",
+      "minimum_shape_coverage": "in each split require >=500 queries with >=3 predicates; require >=100 in each feasible operator family (equality-only, closed-range-only, one-sided-inequality-only, mixed operator families) and each feasible exclusive candidate-graph class (0 edges, 1 edge, >=2 disjoint/no conflict, conflict with one maximal matching, conflict with >=2 maximal matchings). A family/class is feasible iff at least 100 distinct, non-quarantined candidate templates of that category occur within the fixed 1000000-attempt pool. Class definitions use the exact Issue #59 graph enumerator and fixed candidate universe. If quotas cannot all be met, mark BLOCKED; do not weaken quotas or inspect outcomes.",
+      "deterministic_acceptance": "Generate at most 1000000 attempts; retain unique, non-quarantined template candidates with split, predicate-bin, operator-family and graph-class labels. For each split, repeatedly choose among candidates whose predicate bin is below target the candidate maximizing the exact rational score sum((target_s-count_s)/target_s) over its currently underfilled predicate/operator/graph quotas; ties are broken by ascending SHA256('ess-stage2b-cohort-priority-v1\\0{dataset}\\0{seed}\\0{template_sha256}'). Stop at exactly 1000 selected groups. If any predicate-bin target or any feasible operator/graph minimum remains unmet, mark BLOCKED. This fixed greedy recipe never consults truth/estimates and never changes the seed.",
+      "query_id": "issue64:{dataset}:{split}:{template_sha256}; literal values and exact-SQL SHA are separately recorded; the manifest maps each group to exactly one query ID",
+      "manifest_freeze": "write exclusive-create JSON manifest containing generator/source hashes, seeds, every accepted group/query ID, exact/template SHA, predicate/operator/graph strata, source table identity, scan/exclusion counts and split assignment; SHA256 it before opening test truth, EXPLAIN estimates, or PG traces",
+      "implementation": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort_recipe.py implements and tests fingerprint, group/split ID and hash-counter primitives only; it is not a query builder and does not read any data. A future manifest builder must implement this entire recipe and pass synthetic tests before source-table access."
+    },
+    "historical_fingerprint_gate": {
+      "coverage_required": ["all four AreCEL train/valid/test workload splits regenerated via archive-first prepare, reading workload/schema only", "Stage 1A #38 exposed Forest10 cohort", "Stage 2B #48 exposed Forest10/Census13 cohorts", "Issue #59 audit inputs and all published cohort manifests"],
+      "known_gap": "Issue #59 committed aggregate overlap summaries but not a reusable raw fingerprint ledger; recompute exact/template hashes from workload SQL only before accepting a cohort",
+      "acceptance": "zero exact or template fingerprint collision with calibration/test counterpart or any quarantined historical exposure; publish counts and SHA pins. Missing source split or cohort hash coverage blocks cohort freeze. No truth.json/estimate/trace file is opened during this gate."
+    },
+    "pre_outcome_strata": "test and calibration manifests must meet the declared predicate-count/operator/graph quotas. In particular >=500/1000 test queries have >=3 predicates and >=100/1000 lie in each feasible conflicting-edge/multiple-maximal-matching class; report actual counts before outcome access.",
+    "not_run": "No query manifest has been generated, no source table values were read for this recipe, and no test truth or estimate was accessed in this Phase 0 revision."
+  },
   "cohort_and_independence": {
     "legacy_arecel_test": "not fresh held-out evidence: prior Stage 1A/Stage 2B outcomes and selection exposure prohibit reuse as the primary prospective cohort",
-    "prospective_source_proposal": "new deterministic AreCEL-style single-table query generation per dataset, with a published seed/algorithm and separately generated development/calibration and test pools; generate predicate counts 1..number_of_columns and supported equality/open-range/closed-range operators, with both in-domain and out-of-domain centers",
-    "group_split": "assign normalized predicate-template SHA-256 groups to development/calibration/test before generating or opening cardinality labels; entire groups belong to exactly one split",
-    "historical_overlap": "compare exact-SQL and normalized-template fingerprints against all available historical split/cohort manifests, including exposed Stage 1A/#48 cohorts; report group and query counts plus split-pair overlap; reject contaminated groups without consulting labels",
-    "test_freeze": "freeze cohort IDs, SQL/template hashes, generator/version/seed, cohort size, stratum counts and input hashes before opening any test truth or estimate",
-    "proposed_minimum": "at least 1000 unique test template groups per dataset for an interpretable P95; P99/Max remain tail-descriptive; at least two datasets must pass all gates for cross-dataset replication language",
+    "prospective_source_proposal": "the exact deterministic recipe in cohort_generation_recipe; 1000 calibration and exactly 1000 heldout template groups per dataset, one generated SQL/query ID per group",
+    "group_split": "SHA-counter deterministic assignment of normalized template hashes before literals/labels; no group spans calibration and test",
+    "historical_overlap": "the exact source coverage and fail-closed fingerprint comparison in cohort_generation_recipe.historical_fingerprint_gate",
+    "test_freeze": "hash the complete 1000-query manifest, seed, strata and source identity before opening any test truth, EXPLAIN estimate or PG trace",
+    "proposed_minimum": "exactly 1000 distinct template groups/queries per dataset; P99/Max remain tail-descriptive; at least two datasets must pass all gates for cross-dataset replication language",
     "insufficient": "if fresh template-disjoint cohorts cannot be formed or minimum size is not met, BLOCKED/INCONCLUSIVE; do not fall back to exposed legacy test outcomes"
   },
   "metrics": {
     "primary": {
       "name": "per-dataset P95 Q-error with one-row floor (Q1)",
       "formula": "Q1(E,A)=max(E,A,1)/max(min(E,A),1), for finite E>=0 and A>=0",
-      "quantile": "nearest-rank empirical quantile, rank=ceil(0.95*n), after averaging log(Q1) across paired physical sample replicates within query and exponentiating; no pooling across datasets",
-      "contrast": "paired per-query log(Q1_PESS)-log(Q1_Nominal), with Empty shown separately; uncertainty resamples normalized template groups, not plans or repetitions",
-      "pairwise_classification": "with two sample replicates, compare exact rational arithmetic means of the two per-replicate Q1 values: benefit iff PESS<Nominal, harm iff PESS>Nominal, tie iff equal; no floating tolerance. Report the paired mean-log-Q1 delta separately.",
+      "formula_reference": "metric_reference.py::q1 and natural_qerror; tested against synthetic zero/positive cases only",
+      "quantile": "for each query and policy compute z=round_half_even_50((ln(Q1_rep1)+ln(Q1_rep2))/2) using Decimal precision 80; exponentiate z. Report nearest-rank empirical P95, rank=ceil(0.95*n), separately per dataset/policy/budget. A PESS P95 minus Nominal P95 is not a paired-delta quantile and is not interpreted as one.",
+      "contrast": "paired query estimand delta_i=round_half_even_50((ln(Q1_PESS_rep1)-ln(Q1_Nominal_rep1)+ln(Q1_PESS_rep2)-ln(Q1_Nominal_rep2))/2), Decimal precision 80. Implemented by metric_reference.py::paired_log_q1_delta. Report mean delta_i, distribution, and sign counts separately from each policy's P95. Resample normalized template groups; query/group ratio is 1.",
+      "pairwise_classification": "Use the same recorded delta_i estimand: benefit iff delta_i<0; harm iff delta_i>0; tie iff delta_i==0 after predeclared 50-decimal-place half-even quantization, implemented by metric_reference.py::paired_classification. This is a computational tie rule, not a mathematical equality claim. Arithmetic-mean Q1 paired effects are sensitivity only.",
+      "uncertainty": "within each dataset, run 10000 stratified bootstrap replicates using the pinned SHA-counter PRNG and bootstrap seed 6501/6502/6503/6504 by dataset. Resample query groups with replacement within frozen predicate-count bins, preserving each bin's cohort count and using identical sampled group indices for Empty/Nominal/PESS. Report 2.5th/97.5th nearest-rank percentile intervals for each policy P95, the PESS-minus-Nominal P95 contrast, and mean paired delta. These are within-cohort descriptive intervals, not population guarantees.",
+      "replicate_failure": "a query is pair-complete only if both repetitions return valid estimates for Empty, Nominal and PESS. Any missing/invalid replication is counted as UNRESOLVED, never replaced or silently removed. Primary P95 and paired sign summaries are INCONCLUSIVE unless all 1000 frozen queries are pair-complete; any valid-subset statistic is labelled descriptive only.",
       "adaptation_note": "Q1 is an explicit one-row floor adaptation, not exactly AreCEL's natural positive-domain Q-error"
     },
     "secondary": [
       "per-dataset P50/P99/Max Q1 with the same aggregation rule",
       "natural AreCEL Q-error max(E,A)/min(E,A) on E>0 and A>0 only, with eligible n and coverage reported; zero/nonpositive cases are never silently folded into this subset",
-      "counts of exact-zero agreement (E=0,A=0), estimate-only zero, truth-only zero, and invalid/nonfinite/negative values",
+      "counts of exact-zero agreement (E=0,A=0), estimate-only zero, truth-only zero, and invalid/nonfinite/negative/missing values; invalid or missing is not Q1 and forces the primary completeness gate to INCONCLUSIVE",
       "mean absolute positive pre-clamp log error on its explicitly defined positive domain, as continuity with the model metric; keep distinct from clamped/rounded Plan Rows",
-      "per-query PESS-vs-Nominal Q1 and log-Q1 deltas; benefit/harm/tie classification uses exact rational Q1 comparison, no floating tolerance",
+      "per-query PESS-vs-Nominal paired log-Q1 deltas and sign counts as defined above; optional arithmetic Q1 deltas are sensitivity only",
       "Empty/Nominal/PESS outcomes reported separately for every dataset and budget; no pooled primary statistic"
     ],
     "strata": {
-      "predicate_count": ["1", "2", "3-4", "5-7", "8+"],
-      "operator_family": ["equality-only", "range-only", "mixed equality/range", "other/unsupported"],
+      "predicate_count": "nonempty bins [1],[2],[3-4],[5-7],[8-D], per dataset D; exactly equal allocation up to remainder in the 1000-query frozen cohort",
+      "operator_family": ["equality-only", "closed-range-only ([])", "one-sided-inequality-only (<,<=,>,>=)", "mixed operator families", "unsupported/other (must be zero; otherwise fail closed)"],
       "candidate_conflict": ["zero available edges", "one available edge", "multiple pairwise-disjoint edges", "conflicting edges", "multiple maximal matchings"],
       "physical_coverage": ["payload+selected-OID trace verified", "payload present but not selected", "payload absent", "trace incomplete/unavailable", "not verifiable"],
       "rule": "strata are descriptive and predeclared; never drop an unfavorable query because its syntactic graph, payload or trace differs from the model"
@@ -94,23 +148,36 @@
   },
   "postgresql_physical_evaluation": {
     "comparison": "for each dataset/budget, evaluate Empty and each selected Nominal/PESS unordered set; deduplicate identical sets but retain policy labels; paired query IDs across all treatments",
-    "same_conditions": "same pinned PG 16.14 instrumented build/flags, table bytes/schema/import, GUCs, statistics target, ANALYZE sampling protocol, query text, session settings and resource limits within a dataset; isolate each treatment database and randomize/counterbalance treatment build order",
+    "same_conditions": "same pinned PG 16.14 instrumented build/source+binary hashes, table bytes/schema/import, GUCs, statistics target, ANALYZE sampling protocol, query text, session settings and resource limits within a dataset; isolate each treatment database and use the frozen counterbalanced seeded treatment permutation",
     "sample_replicates": 2,
-    "sample_gate": "prove the sample is identical across paired treatments, or explicitly treat independent sample realizations as a blocking factor and report their identity; if sample comparability cannot be established, BLOCKED for the primary paired interpretation",
+    "calibration_sample_replicates": 1,
+    "heldout_sample_replicates": 2,
+    "sample_block_definition": "one block = (dataset ID, prepared table SHA256, schema SHA256, PostgreSQL source/binary/build-flags SHA256, GUC+statistics-target SHA256, ANALYZE sample algorithm/version, replicate seed, sampled stable-row-ID-set SHA256). A block is matched only if these fields are byte-identical across Empty/Nominal/PESS database clones; treatment DDL/ANALYZE sequence and clone order are recorded separately.",
+    "sample_gate": "freeze two replicate seeds and the treatment-order schedule before runs; record sampled stable row IDs or an independently verifiable sample-manifest digest for every treatment. Exact sample-manifest SHA equality within replicate is required for a matched block. If PostgreSQL cannot expose/prove the same sample, the paired primary comparison is BLOCKED; do not relabel different samples as matched.",
+    "treatment_order_and_analyze": "For every isolated treatment clone: import the same byte-pinned table, set the same predeclared per-column/default/extended-statistics targets, create requested objects in ascending frozen candidate index, execute exactly one ANALYZE on the relation, then freeze the resulting sample/OID/payload manifest before querying. Do not ANALYZE again within that block. Calibration singleton clone order is ascending candidate ID. Held-out unique treatment-set clone order in replicate 0 is ascending SHA256('ess-stage2b-treatment-order-v1\\0{dataset}\\0{treatment_set_id}'); replicate 1 uses the exact reverse order. Record actual sequence and order seed.",
     "creation_order": "create selected objects in frozen ascending candidate index; record object definition, catalog OID, creation order, payload presence/usable MCV contents and per-query selected OIDs/clause mapping",
-    "coverage": "separately classify syntactic candidate availability, usable MCV payload, selected-stat OID trace, claimed clause indexes and trace completeness; EXPLAIN rows alone do not prove selected objects",
+    "coverage": "separately classify syntactic candidate availability, usable MCV payload, selected-stat OID trace, claimed clause indexes and trace completeness; EXPLAIN rows alone do not prove selected objects. A missing/incomplete trace blocks mechanism/selection interpretation for that query, but does not invalidate its Q1 if the plan estimate and frozen-cohort truth are valid; retain it in primary query-error metrics and mark physical coverage unverified.",
     "mismatch": "retain and report queries where actual PG behavior is outside the prescribed matching assumptions; do not reinterpret them as a matching or exclude them from overall Q-error",
-    "failure_policy": "missing payload/trace, invalid row estimate, measurement error or budget/time cap hit is a reported failure/coverage state; no silent replacement query or method-specific deletion"
+    "failure_policy": "missing payload or trace is a coverage/mechanism state, not an exclusion from valid Q1. A missing plan estimate, missing truth, nonfinite value, negative estimate or query execution failure is an invalid replicate; retain the query ID, count it UNRESOLVED, never retry or replace a count-query plan, and mark the dataset-budget primary comparison INCONCLUSIVE if any required replicate remains invalid. Only cluster/setup may retry once before the first plan. Every plan attempt consumes the query-plan cap."
   },
   "prospective_caps": {
     "datasets": "up to four; minimum two pass all gates for cross-dataset replication",
+    "calibration_template_groups_per_dataset": 1000,
     "test_template_groups_per_dataset": 1000,
+    "hard_max_calibration_queries_per_dataset": 1000,
+    "hard_max_heldout_queries_per_dataset": 1000,
+    "queries_per_group": 1,
+    "calibration_sample_replicates": 1,
+    "heldout_sample_replicates": 2,
     "max_unique_treatment_sets_per_dataset": 7,
-    "sample_replicates_per_treatment": 2,
-    "max_count_query_plans": 56000,
+    "max_calibration_sets_per_dataset": 11,
+    "max_calibration_query_plans": 44000,
+    "max_heldout_query_plans": 56000,
+    "max_count_query_plans": 100000,
+    "query_cap_derivation": "Calibration: 4 datasets * exactly 1000 frozen calibration queries * exactly 1 query/group * at most (1 Empty + 10 singleton candidate) sets/dataset * exactly 1 calibration sample replicate = 44000 plan attempts. Held-out: 4 * exactly 1000 frozen queries * exactly 1 query/group * at most 7 deduplicated Empty/Nominal/PESS treatment sets/dataset * exactly 2 sample replicates = 56000. Total hard maximum = 100000 PostgreSQL estimate-plan attempts across both phases, including failures. No extra measured pilot, retry query or replacement query; setup-only retry may occur before any plan. If fewer datasets/sets are authorized, actual caps reduce using the same formula.",
     "wall_time_budget": "proposed hard cap 24 elapsed hours per dataset including import, ANALYZE, query trace and reruns; confirm hardware feasibility before authorization",
     "disk_budget": "proposed hard cap 100 GiB total disposable runtime data; confirm available capacity before authorization",
-    "reruns": "only predeclared infrastructure failures may be retried once; retain failed attempt and reason; no outcome-driven reruns",
+    "reruns": "no count-query plan is retried; a cluster/setup failure may be retried once before any query plan, with attempt logged. Every EXPLAIN/count-query invocation, including a failed one, consumes the fixed cap. No outcome-driven reruns or replacement queries.",
     "stop": "stop a dataset at first violated integrity/resource cap; mark BLOCKED/INCONCLUSIVE and do not expand scope"
   },
   "phase0_feasibility": {
@@ -126,13 +193,14 @@
     "fresh_cohort": "NOT GENERATED; generator seed/cohort manifests require researcher review and separate authorization",
     "model_selection": "NOT RUN for this protocol; corrected-log PR #58 implementation/hash must be approved and pinned",
     "PostgreSQL": "NOT RUN; Gate A readiness does not authorize held-out execution",
-    "sample_identity_and_runtime_caps": "NOT VERIFIED; future preflight required"
+    "sample_identity_and_runtime_caps": "NOT VERIFIED; future preflight required",
+    "historic_fingerprint_ledger": "NOT GENERATED; Issue #59 aggregate overlap results are known, but raw digest sets must be regenerated from workload-only inputs and completeness independently attested before cohort freeze"
   },
   "researcher_approval_required": [
     "approve metric choice Q1 floor=1 as primary adaptation versus natural positive-domain Q-error plus explicit zero strata",
     "approve new seeded AreCEL-style generator, template-group split, historical fingerprint quarantine and minimum 1000 groups per dataset",
     "approve Issue #59 bounded candidate universes, costs, budgets and tie-breaking/deployment order",
-    "review and pin corrected-log Nominal/PESS implementation and validation-only inputs from PR #58",
+    "approve the proposed PR #58 corrected-log reference pin; freeze and validate separate new-study code and per-dataset calibration-input hashes before resource selection",
     "approve PG build, exact sample identity strategy, trace/payload gates, two sample replicates and per-dataset physical conditions",
     "approve four-dataset scope, 24-hour/100-GiB caps, expected compute allocation and failure handling",
     "separately authorize any future access to held-out truth/estimates and PostgreSQL measurement after protocol revision/freeze"

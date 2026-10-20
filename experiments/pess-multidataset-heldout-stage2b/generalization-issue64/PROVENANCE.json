@@ -11,6 +11,19 @@
     "protocol_sha256": "8e8d25bc9d2847936d2c45f51a3f870a8c44e632938e30db19cfe8aaf0d9063a",
     "source_archive_sha256_from_audit_contract": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79"
   },
+  "pr58_corrected_log_reference_pin": {
+    "pr_head_at_review": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "validation_diagnostic_source_commit": "245b2b131f9acb361b3f613d654e23e61d10d79a",
+    "run_formal_py_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+    "independent_reference_py_sha256": "6c16eb8c9c2c823948080f41d2b7a7b3f87d218e2acdf11a1567e76db844ef54",
+    "protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "note": "These hashes pin the validation-only correction reference. The old calibration inputs are not proposed as new-study inputs; new per-dataset calibration records require their own pre-selection manifest."
+  },
+  "issue59_fingerprint_reference": {
+    "path": "experiments/workload-structure-audit-issue59/audit_structure.py",
+    "sha256": "711be1a472439a8c27b59d5a91e6f7a0259ea22fbe69cdfdf7bef25e46fb6ebb",
+    "reuse": "exact/template fingerprint serialization contract only; no Issue #59 held-out truth or PG outcomes are inputs"
+  },
   "arecel_paper": {
     "citation": "Wang et al., PVLDB 14(9), 1640-1654 (2021), doi:10.14778/3461535.3461552",
     "url": "https://www.vldb.org/pvldb/vol14/p1640-wang.pdf",
