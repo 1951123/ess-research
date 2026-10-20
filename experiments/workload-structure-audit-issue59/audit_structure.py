@@ -153,6 +153,17 @@ def empty_metric() -> dict[str, Any]:
     }
 
 
+def percentage(count: int, denominator: int) -> float:
+    return round(100.0 * count / denominator, 6) if denominator else 0.0
+
+
+def distribution_with_percentages(counts: Counter[str] | dict[str, int], denominator: int) -> dict[str, dict[str, Any]]:
+    return {
+        key: {"count": int(value), "percent": percentage(int(value), denominator)}
+        for key, value in sorted(counts.items())
+    }
+
+
 def add_metric(metric: dict[str, Any], values: dict[str, Any]) -> None:
     metric["queries"] += 1
     edge_count = len(values["raw_edges"])
@@ -311,6 +322,11 @@ def cross_tab(values: list[dict[str, Any]], key: str) -> dict[str, Any]:
             "multi_maximal_queries": sum(item["maximal_matching_count"] >= 2 for item in records),
         }
         result[group]["raw_edge_count"] = dict(sorted(result[group]["raw_edge_count"].items()))
+        result[group]["raw_edge_count_distribution"] = distribution_with_percentages(
+            result[group]["raw_edge_count"], len(records)
+        )
+        for field in ("strict_edge_available", "calibration_edge_available", "conflicting_queries", "multi_maximal_queries"):
+            result[group][f"{field}_percent"] = percentage(result[group][field], len(records))
     return result
 
 
@@ -329,6 +345,11 @@ def fingerprint_audit(split_records: dict[str, list[dict[str, Any]]]) -> dict[st
             "shared_record_count": sum(len(splits) for splits in shared.values()),
             "duplicate_record_excess": sum(max(0, len(splits) - 1) for splits in groups.values()),
             "shared_groups_by_split_pair": dict(sorted(pairs.items())),
+            "shared_group_percent": percentage(len(shared), len(groups)),
+            "shared_record_percent": percentage(
+                sum(len(splits) for splits in shared.values()),
+                sum(len(splits) for splits in groups.values()),
+            ),
         }
     return result
 
@@ -414,16 +435,40 @@ def split_summary(
         "source_index_min": min(query["source_index"] for query in records),
         "source_index_max": max(query["source_index"] for query in records),
         "predicate_count_histogram": dict(sorted(predicate_histogram.items(), key=lambda item: int(item[0]))),
+        "predicate_count_distribution": distribution_with_percentages(predicate_histogram, len(records)),
         "distinct_predicate_column_histogram": dict(sorted(distinct_histogram.items(), key=lambda item: int(item[0]))),
+        "distinct_predicate_column_distribution": distribution_with_percentages(distinct_histogram, len(records)),
         "operator_histogram": dict(sorted(operator_histogram.items())),
         "operator_family_histogram": dict(sorted(family_histogram.items())),
+        "operator_family_distribution": distribution_with_percentages(family_histogram, len(records)),
         "repeated_predicate_column_histogram": dict(sorted(repeated.items())),
+        "repeated_predicate_column_distribution": distribution_with_percentages(repeated, len(records)),
         "unknown_column_queries": sum(bool(value["unknown_columns"]) for value in values),
         "unsupported_operator_queries": sum(bool(value["unsupported_operators"]) for value in values),
         "relation_shape": {"single_table_conjunctive_records": len(records), "other_or_unknown_records": 0},
         "raw_column_cooccurrence": all_metric,
         "calibration_eligibility": calibration_metric,
         "strict_pairwise_eligibility": strict_metric,
+        "opportunity_percentages": {
+            "raw_at_least_one_edge": percentage(
+                all_metric["queries_with_at_least_one_edge"], len(records)
+            ),
+            "raw_at_least_two_edges": percentage(
+                all_metric["queries_with_at_least_two_edges"], len(records)
+            ),
+            "raw_conflicting_edges": percentage(
+                all_metric["queries_with_conflicting_edges"], len(records)
+            ),
+            "raw_two_or_more_maximal_matchings": percentage(
+                all_metric["queries_with_two_or_more_maximal_matchings"], len(records)
+            ),
+            "calibration_at_least_one_edge": percentage(
+                calibration_metric["queries_with_at_least_one_edge"], len(records)
+            ),
+            "strict_at_least_one_edge": percentage(
+                strict_metric["queries_with_at_least_one_edge"], len(records)
+            ),
+        },
         "cross_tabs": {
             "predicate_count": cross_tab(values, "predicate_count"),
             "distinct_column_count": cross_tab(values, "distinct_column_count"),
@@ -577,8 +622,12 @@ def render_report(summary: dict[str, Any]) -> str:
             calibration = split_item["calibration_eligibility"]
             raw = split_item["raw_column_cooccurrence"]
             table = item["database_inventory"]
+            total = split_item["query_count"]
+            def fmt(count: int) -> str:
+                return f"{count} ({percentage(count, total):.6f}%)"
+
             lines.append(
-                f"| {dataset} | {split} | {split_item['query_count']} | {strict['queries_with_at_least_one_edge']} | {calibration['queries_with_at_least_one_edge']} | {raw['queries_with_at_least_two_edges']} | {raw['queries_with_conflicting_edges']} | {raw['queries_with_two_or_more_maximal_matchings']} | {table['row_count']}/{item['provenance']['source_rows_stated']} |"
+                f"| {dataset} | {split} | {total} | {fmt(strict['queries_with_at_least_one_edge'])} | {fmt(calibration['queries_with_at_least_one_edge'])} | {fmt(raw['queries_with_at_least_two_edges'])} | {fmt(raw['queries_with_conflicting_edges'])} | {fmt(raw['queries_with_two_or_more_maximal_matchings'])} | {table['row_count']}/{item['provenance']['source_rows_stated']} |"
             )
     lines += [
         "",
@@ -599,7 +648,7 @@ def render_report(summary: dict[str, Any]) -> str:
         "",
         "## Fingerprint overlap and physical cross-reference",
         "",
-        "Exact and normalized-template fingerprint overlap is reported per dataset. Shared templates or exact records across splits mean query IDs cannot be treated as group-independent evidence.",
+        "Exact and normalized-template fingerprint overlap is reported per dataset with group and record percentages in the dataset JSON files. Shared templates or exact records across splits mean query IDs cannot be treated as group-independent evidence.",
         "",
         "For Forest10/Census13, the optional historical cross-reference contains only already observed PR #58 validation ledger fields (requested resources, catalog MCV payload presence, and trace-selected resources). It is not used to construct candidates or eligibility. DMV11/Power7 physical payload and trace status is **NOT MEASURED**.",
         "",
