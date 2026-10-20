@@ -472,7 +472,6 @@ class Runner:
         self.raw_dir.mkdir(parents=True, exist_ok=True)
         self.init_cluster()
         try:
-            self.load_table()
             scenarios = {item["id"]: item for item in self.manifest["selected_resource_sets"]}
             orders_by_scenario = {item["resource_set_id"]: item["orders"] for item in self.manifest["creation_orders"]}
             for repetition in range(self.manifest["fixture"]["repetitions"]):
