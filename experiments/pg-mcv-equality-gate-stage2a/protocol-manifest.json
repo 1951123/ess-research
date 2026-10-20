@@ -1,5 +1,5 @@
 {
-  "format": "ess-issue47-stage2a-protocol-v1",
+  "format": "ess-issue47-stage2a-protocol-v1-amended-v2",
   "issue": 47,
   "status": "protocol_input_only_before_outcome_queries",
   "scope": "synthetic equality-only PostgreSQL 16.14 pairwise MCV eligibility and maximal-matching gate",
@@ -43,7 +43,7 @@
       {"id": "e13", "columns": ["b", "d"], "role": "positive"},
       {"id": "e23", "columns": ["c", "d"], "role": "positive"},
       {"id": "e34", "columns": ["d", "e"], "role": "positive"},
-      {"id": "e45", "columns": ["e", "f"], "role": "no_mcv_control"}
+      {"id": "e45", "columns": ["e", "f"], "role": "no_mcv_control", "statistics_target": 0}
     ],
     "queries": [
       {"id": "q_ab", "sql": "SELECT count(*) FROM ess_stage2a_t WHERE a = 1 AND b = 1;", "expected_columns": ["a", "b"]},

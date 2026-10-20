@@ -143,6 +143,9 @@ class Stage2ARunner:
         for candidate_id in resource_order:
             columns = ", ".join(self.candidates[candidate_id]["columns"])
             self.psql(f"CREATE STATISTICS ess2a_{candidate_id} (mcv) ON {columns} FROM {self.table};")
+            if "statistics_target" in self.candidates[candidate_id]:
+                target = int(self.candidates[candidate_id]["statistics_target"])
+                self.psql(f"ALTER STATISTICS ess2a_{candidate_id} SET STATISTICS {target};")
         self.psql(f"ANALYZE {self.table};")
 
     def catalog_rows(self) -> list[dict[str, object]]:
