@@ -1,0 +1,46 @@
+{
+  "environment": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "instances": [
+    {
+      "advisor_objective": "0",
+      "evaluated_subsets": 1024,
+      "feasible_subsets": 576,
+      "file": "small_mixed_parallel_3903.json",
+      "matching_checks": 1728,
+      "optimal_sets_equal": true,
+      "ours_objective": "0"
+    },
+    {
+      "advisor_objective": "0",
+      "evaluated_subsets": 512,
+      "feasible_subsets": 47,
+      "file": "small_path_cycle_3902.json",
+      "matching_checks": 94,
+      "optimal_sets_equal": true,
+      "ours_objective": "0"
+    },
+    {
+      "advisor_objective": "3/2",
+      "evaluated_subsets": 128,
+      "feasible_subsets": 18,
+      "file": "small_sharing_cycle_3904.json",
+      "matching_checks": 72,
+      "optimal_sets_equal": true,
+      "ours_objective": "3/2"
+    },
+    {
+      "advisor_objective": "0",
+      "evaluated_subsets": 256,
+      "feasible_subsets": 128,
+      "file": "small_star_single_3901.json",
+      "matching_checks": 256,
+      "optimal_sets_equal": true,
+      "ours_objective": "0"
+    }
+  ],
+  "note": "Independent verifier and advisor reference matched on every feasible small subset and every selected task-local labeled maximal-matching set.",
+  "status": "PASS"
+}
