@@ -365,30 +365,29 @@ class Runner:
     def graph_checks(self, observation: dict[str, Any], resources: list[str]) -> list[dict[str, Any]]:
         ledger = {item["candidate_id"]: item for item in observation["ledger"]}
         selected = observation["selected_candidate_ids"]
-        checks = []
-        for task_id, task in self.tasks.items():
-            required = set(task["manifest"]["required_columns"])
-            requested = [item for item in resources if set(self.candidates[item]["columns"]) <= required]
-            available = [item for item in requested if ledger.get(item, {}).get("built_mcv")]
-            unusable = [item for item in requested if item not in available]
-            task_selected = [item for item in selected if item in requested]
-            record = {
-                "task_id": task_id,
-                "requested_candidate_ids": requested,
-                "available_built_mcv_candidate_ids": available,
-                "requested_without_mcv_payload": unusable,
-                "selected_candidate_ids": task_selected,
-            }
-            try:
-                record["matching_check"] = verify_maximal_matching(
-                    self.candidates.values(), available, task_selected
-                )
-                record["status"] = "PASS"
-            except MatchingVerificationError as exc:
-                record["status"] = "FAIL"
-                record["error"] = str(exc)
-            checks.append(record)
-        return checks
+        task_id = observation["task_id"]
+        task = self.tasks[task_id]
+        required = set(task["manifest"]["required_columns"])
+        requested = [item for item in resources if set(self.candidates[item]["columns"]) <= required]
+        available = [item for item in requested if ledger.get(item, {}).get("built_mcv")]
+        unusable = [item for item in requested if item not in available]
+        task_selected = [item for item in selected if item in requested]
+        record = {
+            "task_id": task_id,
+            "requested_candidate_ids": requested,
+            "available_built_mcv_candidate_ids": available,
+            "requested_without_mcv_payload": unusable,
+            "selected_candidate_ids": task_selected,
+        }
+        try:
+            record["matching_check"] = verify_maximal_matching(
+                self.candidates.values(), available, task_selected
+            )
+            record["status"] = "PASS"
+        except MatchingVerificationError as exc:
+            record["status"] = "FAIL"
+            record["error"] = str(exc)
+        return [record]
 
     def run_configuration(self, scenario: str, resources: list[str], order: list[str], repetition: int, order_index: int, task_ids: list[str] | None = None) -> dict[str, Any]:
         self.drop_statistics()

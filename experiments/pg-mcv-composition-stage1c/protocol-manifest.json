@@ -179,7 +179,7 @@
     }
   },
   "execution_contract": {
-    "issue_runtime_root": "/tmp/ess-issue40-stage1c-v7",
+    "issue_runtime_root": "/tmp/ess-issue40-stage1c-v8",
     "cluster_paths": ["$ESS_ISSUE_ROOT/pgdata", "$ESS_ISSUE_ROOT/socket", "$ESS_ISSUE_ROOT/logs", "$ESS_ISSUE_ROOT/results"],
     "port": 55440,
     "database": "ess_issue40",
