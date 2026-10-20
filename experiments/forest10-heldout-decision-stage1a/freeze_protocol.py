@@ -11,9 +11,9 @@ import argparse
 import gzip
 import hashlib
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 SOURCE_COLUMNS = {
     "Elevation",
@@ -46,7 +46,7 @@ def digest_lines(lines: Iterable[str]) -> str:
 
 
 def candidate_rank(seed: str, query_id: str, query_hash: str, candidate_id: str) -> str:
-    value = f"{seed}|{query_id}|{query_hash}|{candidate_id}".encode("utf-8")
+    value = f"{seed}|{query_id}|{query_hash}|{candidate_id}".encode()
     return hashlib.sha256(value).hexdigest()
 
 
@@ -275,7 +275,7 @@ def main() -> int:
             "preclamp_trace_required": True,
             "plan_rows_are_secondary": True,
             "latency_collection": False,
-            "maximum_query_measurements": 2 * len(set(tuple(item) for item in frozen_sets(evidence)["all_distinct_selected_sets"])) * len(selected_rows),
+            "maximum_query_measurements": 2 * len({tuple(item) for item in frozen_sets(evidence)["all_distinct_selected_sets"]}) * len(selected_rows),
             "raw_data_and_pgdata": "external ESS_ISSUE_ROOT only; never committed",
         },
         "metrics_frozen_before_collection": {

@@ -22,7 +22,6 @@ from decimal import Decimal, localcontext
 from pathlib import Path
 from typing import Any
 
-
 NUMERIC_TRACE = re.compile(r"ESS_MCV_NUMERIC_TRACE: (?P<body>.*)")
 SELECTED_TRACE = re.compile(r"ESS_MCV_TRACE: (?P<body>.*)")
 KEY_VALUE = re.compile(r"(\w+)=((?:\"[^\"]*\")|(?:[^ ]+))")
@@ -419,7 +418,7 @@ def main() -> int:
                             "explain_json_text": plan,
                             "sample_sha256": setup["sample_sha256"],
                         }
-                    except Exception as error:  # preserve per-query failures for the Gate A decision
+                    except Exception as error:  # noqa: BLE001 - preserve per-query failures for the Gate A decision
                         invalid_count += 1
                         result = {
                             "status": "INVALID",

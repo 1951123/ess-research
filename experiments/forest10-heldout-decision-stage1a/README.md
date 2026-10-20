@@ -35,6 +35,39 @@ python3 experiments/forest10-heldout-decision-stage1a/freeze_protocol.py \
   --output experiments/forest10-heldout-decision-stage1a/protocol.json
 ```
 
+## Measurement and analysis replay
+
+The completed run used the pinned PostgreSQL source at commit
+`23c7c2fdd4bfb561f3257d947fee956a2999fdb6`, built privately with
+`-DESS_MCV_NUMERIC_TRACE`, and an Issue-owned cluster at
+`/home/wqts/ess-runtime/issue38/pgdata-replay` / socket
+`/home/wqts/ess-runtime/issue38/socket-replay` / port `55639`. The cluster was
+bootstrapped with next OID `16384`, loaded from the verified CSV in source
+order, and shut down after collection. The exact run command and hashes are in
+the external runtime manifest and committed report; raw data are intentionally
+not copied into Git.
+
+After rebuilding/starting an equivalent private cluster, the measurement
+entrypoint is:
+
+```text
+python3 experiments/forest10-heldout-decision-stage1a/run_heldout.py \
+  --data-root /home/wqts/ess-data \
+  --protocol experiments/forest10-heldout-decision-stage1a/protocol.json \
+  --pg-bin /home/wqts/ess-runtime/issue38/pg-prefix/bin \
+  --lib-dir /home/wqts/ess-runtime/issue38/pg-prefix/lib \
+  --pg-source /home/wqts/ess-runtime/issue38/pg-src \
+  --socket-dir /home/wqts/ess-runtime/issue38/socket-replay \
+  --port 55639 --database postgres \
+  --server-log /home/wqts/ess-runtime/issue38/logs/server-replay.log \
+  --sample /home/wqts/ess-data/pg-calibration/issue23/forest10.sample \
+  --output-dir /home/wqts/ess-runtime/issue38/results/heldout-v1-rerun
+```
+
+Then run `analyze_heldout.py` against that raw directory and
+`render_report.py` against its bounded summary. The analyzer refuses incomplete
+or invalid raw runs.
+
 ## Evidence boundary
 
 The primary result, if Gate A passes, is descriptive paired pre-clamp
