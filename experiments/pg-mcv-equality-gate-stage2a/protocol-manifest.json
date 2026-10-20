@@ -69,7 +69,7 @@
     {"id": "disconnected_pair", "resources": ["e01", "e34"], "orders": [["e01", "e34"], ["e34", "e01"]], "queries": ["q_disconnected"]},
     {"id": "parallel_pair", "resources": ["e01", "p01"], "orders": [["e01", "p01"], ["p01", "e01"]], "queries": ["q_parallel"]},
     {"id": "no_mcv_control", "resources": ["e45"], "orders": [["e45"]], "queries": ["q_no_mcv_control"]},
-    {"id": "missing_endpoint_control", "resources": ["e12", "e34"], "orders": [["e12", "e34"]], "queries": ["q_missing_endpoint_control"]}
+    {"id": "missing_endpoint_control", "resources": ["e45"], "orders": [["e45"]], "queries": ["q_missing_endpoint_control"]}
   ],
   "execution": {
     "repetitions_per_setup_order": 2,
