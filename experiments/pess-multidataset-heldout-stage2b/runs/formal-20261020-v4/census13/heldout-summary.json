@@ -1,0 +1,153 @@
+{
+  "dataset": "census13",
+  "evidence_label": "experimentally_observed_postgresql_measurement",
+  "format": "ess-issue48-stage2b-heldout-summary-v1",
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "raw_external": {
+    "calibration": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-554ad_yr/results/formal-calibration.jsonl",
+    "calibration_sha256": "31cf8843db6ac81c68f4b363d202db0721e3c9077706a0d782b54eb16d92bc8f",
+    "heldout": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-554ad_yr/results/formal-heldout.jsonl",
+    "heldout_sha256": "1614c977234fe1349307d223d42eae7252085942a10aa565b9f1606294a48a9e"
+  },
+  "sample": {
+    "bytes": 8144782,
+    "header": {
+      "alignof": 8,
+      "blcksz": 8192,
+      "file_bytes": 8144782,
+      "format_version": 1,
+      "item_pointer_size": 6,
+      "natts": 13,
+      "relation_filenode": 16384,
+      "relation_identity": "6:public8:census13",
+      "relation_oid": 16384,
+      "relation_pages": 1008,
+      "sample_target": 90000,
+      "server_version": "16.14",
+      "server_version_num": 160014,
+      "tuple_count": 48842,
+      "tuple_header_size": 24,
+      "tuple_size": 24
+    },
+    "rows": 48842,
+    "sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+    "table": "public.census13"
+  },
+  "scientific_boundary": [
+    "positive pre-clamp numeric trace is the primary estimate",
+    "Plan Rows and latency are not used",
+    "requested/payload/trace-selected resources are separate",
+    "no universal PESS dominance or PostgreSQL containment claim"
+  ],
+  "summary": {
+    "model_and_pg_domains_separate": true,
+    "paired": [],
+    "query_ids": 52,
+    "repetitions": 2,
+    "resource_sets": [
+      {
+        "absolute_log_error": {
+          "count": 104,
+          "max": "1.806028887813390317641442183",
+          "mean": "0.235547413397544984827483086513",
+          "median": "0.08122478566318774911074504701",
+          "p90": "0.5810081562401626952534234193"
+        },
+        "budgets_methods": [
+          {
+            "budget": 0,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 0,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 0,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "PESS",
+            "tie_count": 1
+          }
+        ],
+        "payload_present_resource_ids": [],
+        "repetition_error_spread": {
+          "count": 52,
+          "max": "0E-28",
+          "mean": "0E-30",
+          "median": "0E-28",
+          "p90": "0E-28"
+        },
+        "requested_resource_ids": [],
+        "resource_set_id": "set-empty",
+        "rows": 104,
+        "selected": [],
+        "tail_query_ids": [
+          "arecel:census13:test:002615",
+          "arecel:census13:test:001444",
+          "arecel:census13:test:002026",
+          "arecel:census13:test:007590",
+          "arecel:census13:test:005260",
+          "arecel:census13:test:000019"
+        ],
+        "tail_top_decile": {
+          "count": 12,
+          "max": "1.129593809506560595925377299",
+          "mean": "0.40075119944967806123753371163666666666666666666666666666666666666666666666666667",
+          "median": "0.321911273827144341163697188495",
+          "p90": "1.129593809506560595925377299"
+        },
+        "trace_selected_resource_counts": {},
+        "zero_truth": {
+          "count": 0
+        }
+      }
+    ],
+    "rows": 104
+  }
+}

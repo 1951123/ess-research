@@ -196,9 +196,8 @@ def choose_model_sets(
     output: dict[str, Any] = {method: {} for method in METHODS}
     for budget in budgets:
         feasible = [
-            tuple(edge for edge in candidate_ids if mask & (1 << index))
+            tuple(edge for position, edge in enumerate(candidate_ids) if mask & (1 << position))
             for mask in range(1 << len(candidate_ids))
-            for index in [0]
             if sum(bool(mask & (1 << position)) for position in range(len(candidate_ids))) <= budget
         ]
         for method in METHODS:

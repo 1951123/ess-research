@@ -1,0 +1,426 @@
+{
+  "evidence_label": "experimentally_observed_postgresql_measurement",
+  "format": "ess-issue48-stage2b-formal-run-v1",
+  "overall_status": "MEASURED_PENDING_ANALYSIS",
+  "pg_build_manifest": "/home/wqts/ess-runtime/issue38/results/heldout-v1/runtime-manifest.json",
+  "pg_prefix": "/home/wqts/ess-runtime/issue38/pg-prefix",
+  "pg_source": "/home/wqts/ess-runtime/issue38/pg-src",
+  "postgresql_binary_audit": {
+    "binary_sha256": {
+      "initdb": "3ee2ef9df472a21d057285f759b6932ed7be353d12e9fb1f4d99154433bdb18f",
+      "pg_config": "f4a6843405f63941ca7fc2ac6436fa7f93f7352c3e1f9ba0265f4102296e343c",
+      "pg_ctl": "ac5d9c03a696d5e27c46fba0604071bab33eeb4e36e77580e9288ef24b87ccdd",
+      "postgres": "4efe8b77273e48f36d31beb7acf8ab4a8b8a3fd5240ba477adba25c8a60b42f7",
+      "psql": "344c91f0a67ad4019750f6bbfcffafbc225b96f0ddae8717ec5b699fd6b9e771"
+    },
+    "manifest": "/home/wqts/ess-runtime/issue38/results/heldout-v1/runtime-manifest.json",
+    "manifest_format": "ess-issue38-forest10-runtime-manifest-v1",
+    "prefix": "/home/wqts/ess-runtime/issue38/pg-prefix",
+    "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "source_worktree_clean": true,
+    "status": "VERIFIED",
+    "versions": {
+      "initdb": "initdb (PostgreSQL) 16.14",
+      "pg_config": "PostgreSQL 16.14",
+      "pg_ctl": "pg_ctl (PostgreSQL) 16.14",
+      "postgres": "postgres (PostgreSQL) 16.14",
+      "psql": "psql (PostgreSQL) 16.14"
+    }
+  },
+  "postgresql_source_audit": {
+    "expected_head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "status": "VERIFIED",
+    "trace_source_markers": {
+      "ESS_MCV_NUMERIC_TRACE": true,
+      "ESS_MCV_TRACE": true,
+      "configure_numeric_flag": true
+    },
+    "worktree_clean": true
+  },
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "python": "3.12.3",
+  "results": [
+    {
+      "dataset": "forest10",
+      "evidence_dir": "experiments/pess-multidataset-heldout-stage2b/runs/formal-20261020-v2/forest10",
+      "heldout_rows": 120,
+      "raw_external": {
+        "heldout_sha256": "9438aea16e8a28277ea244a712c551fd40114968e6ac8a82adf295fc16460a8f",
+        "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-n8sierko"
+      },
+      "selected_sets": {
+        "set-empty": {
+          "aliases": [
+            {
+              "budget": 0,
+              "method": "Empty",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "Empty",
+              "tie_count": 22
+            },
+            {
+              "budget": 3,
+              "method": "Empty",
+              "tie_count": 42
+            },
+            {
+              "budget": 5,
+              "method": "Empty",
+              "tie_count": 63
+            },
+            {
+              "budget": 0,
+              "method": "Nominal",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "Nominal",
+              "tie_count": 16
+            },
+            {
+              "budget": 3,
+              "method": "Nominal",
+              "tie_count": 26
+            },
+            {
+              "budget": 5,
+              "method": "Nominal",
+              "tie_count": 32
+            },
+            {
+              "budget": 0,
+              "method": "PESS",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "PESS",
+              "tie_count": 16
+            },
+            {
+              "budget": 3,
+              "method": "PESS",
+              "tie_count": 26
+            },
+            {
+              "budget": 5,
+              "method": "PESS",
+              "tie_count": 32
+            }
+          ],
+          "selected": []
+        }
+      },
+      "status": "VALID",
+      "summary": {
+        "model_and_pg_domains_separate": true,
+        "paired": [],
+        "query_ids": 60,
+        "repetitions": 2,
+        "resource_sets": [
+          {
+            "absolute_log_error": {
+              "count": 120,
+              "max": "5.341915224321095995299076911",
+              "mean": "0.28668141139292011175282221259599083333333333333333333333333333333333333333333333",
+              "median": "0.036591285670777093612030944215",
+              "p90": "0.4716997038006156175821932787"
+            },
+            "budgets_methods": [
+              {
+                "budget": 0,
+                "method": "Empty",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "Empty",
+                "tie_count": 22
+              },
+              {
+                "budget": 3,
+                "method": "Empty",
+                "tie_count": 42
+              },
+              {
+                "budget": 5,
+                "method": "Empty",
+                "tie_count": 63
+              },
+              {
+                "budget": 0,
+                "method": "Nominal",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "Nominal",
+                "tie_count": 16
+              },
+              {
+                "budget": 3,
+                "method": "Nominal",
+                "tie_count": 26
+              },
+              {
+                "budget": 5,
+                "method": "Nominal",
+                "tie_count": 32
+              },
+              {
+                "budget": 0,
+                "method": "PESS",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "PESS",
+                "tie_count": 16
+              },
+              {
+                "budget": 3,
+                "method": "PESS",
+                "tie_count": 26
+              },
+              {
+                "budget": 5,
+                "method": "PESS",
+                "tie_count": 32
+              }
+            ],
+            "payload_present_resource_ids": [],
+            "repetition_error_spread": {
+              "count": 60,
+              "max": "0E-30",
+              "mean": "0E-32",
+              "median": "0E-29",
+              "p90": "0E-28"
+            },
+            "requested_resource_ids": [],
+            "resource_set_id": "set-empty",
+            "rows": 120,
+            "selected": [],
+            "tail_query_ids": [
+              "arecel:forest10:test:008677",
+              "arecel:forest10:test:006434",
+              "arecel:forest10:test:004019",
+              "arecel:forest10:test:006611",
+              "arecel:forest10:test:001190",
+              "arecel:forest10:test:000985"
+            ],
+            "tail_top_decile": {
+              "count": 12,
+              "max": "0.05736935720390037160455291713",
+              "mean": "0.012341547529335653961807294498575",
+              "median": "0.0028503999056916889161918090544",
+              "p90": "0.05736935720390037160455291713"
+            },
+            "trace_selected_resource_counts": {},
+            "zero_truth": {
+              "count": 0
+            }
+          }
+        ],
+        "rows": 120
+      }
+    },
+    {
+      "dataset": "census13",
+      "evidence_dir": "experiments/pess-multidataset-heldout-stage2b/runs/formal-20261020-v2/census13",
+      "heldout_rows": 104,
+      "raw_external": {
+        "heldout_sha256": "20d40b5f171bb681bea8b66be243dacaca890d00f5f033f7643182b25f49da31",
+        "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-qcw_ffr_"
+      },
+      "selected_sets": {
+        "set-empty": {
+          "aliases": [
+            {
+              "budget": 0,
+              "method": "Empty",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "Empty",
+              "tie_count": 22
+            },
+            {
+              "budget": 3,
+              "method": "Empty",
+              "tie_count": 42
+            },
+            {
+              "budget": 5,
+              "method": "Empty",
+              "tie_count": 63
+            },
+            {
+              "budget": 0,
+              "method": "Nominal",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "Nominal",
+              "tie_count": 16
+            },
+            {
+              "budget": 3,
+              "method": "Nominal",
+              "tie_count": 26
+            },
+            {
+              "budget": 5,
+              "method": "Nominal",
+              "tie_count": 32
+            },
+            {
+              "budget": 0,
+              "method": "PESS",
+              "tie_count": 1
+            },
+            {
+              "budget": 2,
+              "method": "PESS",
+              "tie_count": 16
+            },
+            {
+              "budget": 3,
+              "method": "PESS",
+              "tie_count": 26
+            },
+            {
+              "budget": 5,
+              "method": "PESS",
+              "tie_count": 32
+            }
+          ],
+          "selected": []
+        }
+      },
+      "status": "VALID",
+      "summary": {
+        "model_and_pg_domains_separate": true,
+        "paired": [],
+        "query_ids": 52,
+        "repetitions": 2,
+        "resource_sets": [
+          {
+            "absolute_log_error": {
+              "count": 104,
+              "max": "1.806028887813390317641442183",
+              "mean": "0.235547413397544984827483086513",
+              "median": "0.08122478566318774911074504701",
+              "p90": "0.5810081562401626952534234193"
+            },
+            "budgets_methods": [
+              {
+                "budget": 0,
+                "method": "Empty",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "Empty",
+                "tie_count": 22
+              },
+              {
+                "budget": 3,
+                "method": "Empty",
+                "tie_count": 42
+              },
+              {
+                "budget": 5,
+                "method": "Empty",
+                "tie_count": 63
+              },
+              {
+                "budget": 0,
+                "method": "Nominal",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "Nominal",
+                "tie_count": 16
+              },
+              {
+                "budget": 3,
+                "method": "Nominal",
+                "tie_count": 26
+              },
+              {
+                "budget": 5,
+                "method": "Nominal",
+                "tie_count": 32
+              },
+              {
+                "budget": 0,
+                "method": "PESS",
+                "tie_count": 1
+              },
+              {
+                "budget": 2,
+                "method": "PESS",
+                "tie_count": 16
+              },
+              {
+                "budget": 3,
+                "method": "PESS",
+                "tie_count": 26
+              },
+              {
+                "budget": 5,
+                "method": "PESS",
+                "tie_count": 32
+              }
+            ],
+            "payload_present_resource_ids": [],
+            "repetition_error_spread": {
+              "count": 52,
+              "max": "0E-28",
+              "mean": "0E-30",
+              "median": "0E-28",
+              "p90": "0E-28"
+            },
+            "requested_resource_ids": [],
+            "resource_set_id": "set-empty",
+            "rows": 104,
+            "selected": [],
+            "tail_query_ids": [
+              "arecel:census13:test:002615",
+              "arecel:census13:test:001444",
+              "arecel:census13:test:002026",
+              "arecel:census13:test:007590",
+              "arecel:census13:test:005260",
+              "arecel:census13:test:000019"
+            ],
+            "tail_top_decile": {
+              "count": 12,
+              "max": "1.129593809506560595925377299",
+              "mean": "0.40075119944967806123753371163666666666666666666666666666666666666666666666666667",
+              "median": "0.321911273827144341163697188495",
+              "p90": "1.129593809506560595925377299"
+            },
+            "trace_selected_resource_counts": {},
+            "zero_truth": {
+              "count": 0
+            }
+          }
+        ],
+        "rows": 104
+      }
+    }
+  ],
+  "scientific_boundary": [
+    "GO is a bounded decision-quality study result, not universal objective dominance",
+    "group overlap is retained and limits independence",
+    "physical maintenance and latency were not measured"
+  ]
+}

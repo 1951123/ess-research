@@ -42,6 +42,20 @@ def test_fraction_model_selection_retains_ties_and_budget_aliases() -> None:
     assert Fraction(result["PESS"]["2"]["objective"]) >= 0
 
 
+def test_feasible_sets_enumerate_each_candidate_position() -> None:
+    graph = candidates()
+    tasks = [
+        {
+            "query_id": "q",
+            "alpha": "-3",
+            "b": {"e01": "1", "e12": "2", "e23": "3"},
+            "available_edges": ["e23"],
+        }
+    ]
+    result = choose_model_sets(tasks, list(graph.values()), [1])
+    assert ["e23"] in result["Nominal"]["1"]["all_optimal_sets"]
+
+
 def test_frozen_cohort_is_a_subset_of_the_full_truth_split() -> None:
     full_truth = {"q0": 0, "q1": 4, "q2": 8}
     frozen_cohort = {"q0", "q2"}
