@@ -1,6 +1,6 @@
 {
   "format": "ess-issue40-result-summary-v1",
-  "evidence_status": "MODEL_LIMITATION_COUNTEREXAMPLE",
+  "evidence_status": "INCONCLUSIVE/OUTSIDE RESTRICTED GATE",
   "scope": "bounded PostgreSQL 16.14 source/trace audit; not a universal PostgreSQL claim",
   "runtime": {
     "issue_root": "/tmp/ess-issue40-stage1c-v8",
@@ -32,16 +32,32 @@
     "observations": 340,
     "positive_preclamp_observations": 340,
     "trace_line_missing_observations": 0,
-    "matching_pass": 312,
-    "matching_fail": 28,
+    "preserved_v8_legacy_matching_pass": 312,
+    "preserved_v8_legacy_matching_fail": 28,
+    "eligibility_reclassified_supported_for_eligible_graph": 312,
+    "eligibility_reclassified_inconclusive_outside_restricted_gate": 28,
+    "eligibility_reclassified_model_limitation_counterexample": 0,
+    "eligibility_unmapped_selected_stat_oids": 0,
     "composition_records": 28,
     "composition_positive_preclamp": 28
   },
-  "matching_counterexample": {
+  "eligibility_audit": {
     "task_id": "q_tail",
-    "available_candidate": "e12",
-    "selected_candidate_ids": [],
-    "error": "selected set is not inclusion-wise maximal; addable=['e12']"
+    "candidate": "e12",
+    "candidate_columns": ["Aspect", "Slope"],
+    "predicate_clauses": {
+      "Slope": [2, 3],
+      "Aspect": []
+    },
+    "rejection_reason": "missing_supported_predicate",
+    "reclassification": "INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE",
+    "legacy_error": "selected set is not inclusion-wise maximal; addable=['e12']",
+    "source_observations_preserved": true,
+    "crosswalk_is_syntactic_not_candidate_consideration_certificate": true,
+    "aggregate_ledgers": 340,
+    "aggregate_both_endpoints_syntactically_covered": 916,
+    "aggregate_missing_supported_predicate": 1804,
+    "observations_with_outside_gate_resource": 232
   },
   "composition_abs_relative_residual_max": {
     "q_star_disjoint": "1.84321962144687294658102923281608148368920924522738794134316e-16",
@@ -55,6 +71,8 @@
   "limitations": [
     "bounded Forest10 fixture and frozen query/resource construction",
     "manifest wording said equality clauses, but immutable canonical SQL contains range/inequality clauses; SQL was executed verbatim and equality-only coverage is not claimed",
+    "eligibility crosswalk is conservative syntactic evidence and not a complete planner candidate-consideration certificate",
+    "single-resource product is a tested composition reconstruction heuristic, not a general identity",
     "results are source/trace observations for the pinned build only",
     "no universal claim about PostgreSQL schemes, Gamma containment, or shared-policy PESS"
   ]

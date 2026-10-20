@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 from matching_verifier import MatchingVerificationError, verify_maximal_matching
+from predicate_eligibility import eligible_candidate_edges
 
 
 TRACE_SELECTED = re.compile(r"ESS_MCV_TRACE: .*selected_stat_oid=(\d+) keys=")
@@ -347,8 +348,8 @@ class Runner:
         trace = self._parse_trace(lines)
         plan_rows = re.findall(r'"Plan Rows":\s*(\d+)', result)
         oid_to_candidate = {str(item["statistic_oid"]): item["candidate_id"] for item in ledger}
-        selected_ids = [oid_to_candidate.get(str(oid)) for oid in trace["selected_stat_oids"]]
-        selected_ids = [item for item in selected_ids if item is not None]
+        unmapped_oids = [oid for oid in trace["selected_stat_oids"] if str(oid) not in oid_to_candidate]
+        selected_ids = [oid_to_candidate[str(oid)] for oid in trace["selected_stat_oids"] if str(oid) in oid_to_candidate]
         return {
             "marker": marker,
             "task_id": task["manifest"]["id"],
@@ -357,6 +358,8 @@ class Runner:
             "ledger": ledger,
             "trace": trace,
             "selected_candidate_ids": selected_ids,
+            "unmapped_selected_stat_oids": unmapped_oids,
+            "trace_completeness": "PASS" if not unmapped_oids else "INCONCLUSIVE_UNMAPPED_SELECTED_OID",
             "plan_rows": plan_rows,
             "positive_preclamp_available": len(trace["numeric_final_traces"]) == 1,
             "psql_stdout_sha256": hashlib.sha256(result.encode()).hexdigest(),
@@ -367,18 +370,40 @@ class Runner:
         selected = observation["selected_candidate_ids"]
         task_id = observation["task_id"]
         task = self.tasks[task_id]
-        required = set(task["manifest"]["required_columns"])
-        requested = [item for item in resources if set(self.candidates[item]["columns"]) <= required]
+        try:
+            clauses, eligibility = eligible_candidate_edges(task["record"]["sql"], self.candidates.values())
+            requested = [item for item in resources if eligibility[item]["eligible"]]
+            outside = [item for item in resources if not eligibility[item]["eligible"]]
+        except ValueError as exc:
+            return [{
+                "task_id": task_id,
+                "requested_candidate_ids": [],
+                "available_built_mcv_candidate_ids": [],
+                "requested_without_mcv_payload": [],
+                "selected_candidate_ids": [],
+                "eligibility_status": "INCONCLUSIVE_PARSE_FAILURE",
+                "eligibility_error": str(exc),
+                "status": "INCONCLUSIVE",
+            }]
         available = [item for item in requested if ledger.get(item, {}).get("built_mcv")]
         unusable = [item for item in requested if item not in available]
         task_selected = [item for item in selected if item in requested]
         record = {
             "task_id": task_id,
+            "predicate_clauses": [clause.__dict__ for clause in clauses],
+            "eligibility_by_candidate": eligibility,
             "requested_candidate_ids": requested,
+            "outside_restricted_gate_candidate_ids": outside,
             "available_built_mcv_candidate_ids": available,
             "requested_without_mcv_payload": unusable,
             "selected_candidate_ids": task_selected,
         }
+        if observation["unmapped_selected_stat_oids"]:
+            record["eligibility_status"] = "INCONCLUSIVE_UNMAPPED_SELECTED_OID"
+            record["unmapped_selected_stat_oids"] = observation["unmapped_selected_stat_oids"]
+            record["status"] = "INCONCLUSIVE"
+            return [record]
+        record["eligibility_status"] = "PASS"
         try:
             record["matching_check"] = verify_maximal_matching(
                 self.candidates.values(), available, task_selected

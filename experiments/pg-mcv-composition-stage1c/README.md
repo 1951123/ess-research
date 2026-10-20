@@ -1,6 +1,6 @@
 # Stage 1C: PG pairwise-MCV admissibility and composition
 
-Status: **completed bounded audit; model-limitation counterexample observed**.
+Status: **completed bounded audit; restricted-gate classification inconclusive**.
 
 This directory is the sole in-repository scope for Issue #40.  It audits a
 bounded PostgreSQL 16.14 fixture against the prescribed pairwise labeled-edge
@@ -65,22 +65,32 @@ raw logs and PostgreSQL data remain outside Git.  It completed with 340 query
 observations and 28 composition records.  All 340 observations had a finite,
 strictly positive numeric pre-clamp trace and no missing trace lines.
 
-The matching ledger passed for 312 observations.  The remaining 28 are a
-repeated, source-grounded counterexample in this bounded fixture: for task
-`q_tail`, candidate `e12` had a built MCV payload and was admissible under the
-requested resource set, but the trace selected no statistic, so the selected
-set was not inclusion-wise maximal (`addable=['e12']`).  This is labeled
-**MODEL LIMITATION COUNTEREXAMPLE** for these cases; it is not a universal
-claim about PostgreSQL.
+The original matching ledger passed for 312 observations and reported 28
+failures.  A post-run audit now derives task-specific candidate eligibility
+from the exact executed SQL and the pinned PostgreSQL 16.14 selector source.
+All 28 old failures are reclassified as
+**INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE**: they use `q_tail`/`e12`, but `e12`
+requires `Aspect` and `Slope` while the exact `q_tail` SQL has no `Aspect`
+predicate.  The built MCV payload therefore does not establish that `e12` was
+an admissible edge for this task.  The original observations are preserved;
+the 28 failures are not claimed as model-limitations counterexamples.
+
+The audit found zero unmapped selected statistic OIDs.  It records the
+clause-index crosswalk and per-candidate rejection reason in
+`eligibility-reclassification-summary.json`.  The crosswalk is a conservative
+syntactic eligibility check, not a replacement for planner candidate-
+consideration traces; therefore it does not upgrade the 28 cases to a proven
+restricted-gate violation.
 
 All 28 composition records were in the positive pre-clamp domain.  The
-single-ratio composition prediction matched the disjoint pair and parallel
-cases to floating-point/decimal residuals near zero in this run, while the
-overlap, star, and path cases were not universally multiplicative.  The
-largest absolute relative residual was `0.213781318891745591...` for
-`q_path_disjoint`.  These are **experimentally observed** only for the pinned
-PG build, table/sample identity, inputs, GUCs, and frozen query/resource set;
-they do not validate a general PostgreSQL composition law.
+single-resource product is retained only as a tested reconstruction heuristic:
+it matched the disjoint pair and parallel cases to floating-point/decimal
+residuals near zero in this run, while the overlap, star, and path cases were
+not multiplicative.  The largest absolute relative residual was
+`0.213781318891745591...` for `q_path_disjoint`.  These are **experimentally
+observed** only for the pinned PG build, table/sample identity, inputs, GUCs,
+and frozen query/resource set; they do not establish a general PostgreSQL
+composition identity.
 
 Protocol caveat: the manifest's preregistered `simple_clause_rule` used the
 word "equality", but the immutable canonical SQL actually contains range and

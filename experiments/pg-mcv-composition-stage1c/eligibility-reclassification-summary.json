@@ -1,0 +1,53 @@
+{
+  "format": "ess-issue40-v8-eligibility-reclassification-summary-v1",
+  "source_observations_preserved": true,
+  "source_observations_path": "/tmp/ess-issue40-stage1c-v8/results/observations.jsonl",
+  "reclassification_output_path": "/tmp/ess-issue40-stage1c-v8/results/eligibility-reclassification.json",
+  "observation_count": 340,
+  "legacy_graph_failed_count": 28,
+  "reclassified_status_counts": {
+    "SUPPORTED_FOR_ELIGIBLE_GRAPH": 312,
+    "INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE": 28,
+    "MODEL_LIMITATION_COUNTEREXAMPLE": 0
+  },
+  "unmapped_selected_stat_oid_count": 0,
+  "observations_with_outside_gate_resource": 232,
+  "eligibility_ledger_counts": {
+    "both_endpoints_have_supported_predicates": 916,
+    "missing_supported_predicate": 1804
+  },
+  "per_candidate_reason_counts": {
+    "e01": {"both_endpoints_have_supported_predicates": 68, "missing_supported_predicate": 272},
+    "e12": {"both_endpoints_have_supported_predicates": 120, "missing_supported_predicate": 220},
+    "e13": {"both_endpoints_have_supported_predicates": 68, "missing_supported_predicate": 272},
+    "e23": {"both_endpoints_have_supported_predicates": 124, "missing_supported_predicate": 216},
+    "e34": {"both_endpoints_have_supported_predicates": 176, "missing_supported_predicate": 164},
+    "e45": {"both_endpoints_have_supported_predicates": 180, "missing_supported_predicate": 160},
+    "e56": {"both_endpoints_have_supported_predicates": 112, "missing_supported_predicate": 228},
+    "p01": {"both_endpoints_have_supported_predicates": 68, "missing_supported_predicate": 272}
+  },
+  "old_failure_witness": {
+    "task_id": "q_tail",
+    "candidate_id": "e12",
+    "candidate_columns": ["Aspect", "Slope"],
+    "predicate_clauses": [
+      {"clause_index": 0, "column": "Elevation", "operator": ">=", "source_text": "\"Elevation\" between 2791.84248957615 and 3184.15751042385"},
+      {"clause_index": 1, "column": "Elevation", "operator": "<=", "source_text": "\"Elevation\" between 2791.84248957615 and 3184.15751042385"},
+      {"clause_index": 2, "column": "Slope", "operator": ">=", "source_text": "\"Slope\" between 7.430265458540603 and 12.569734541459397"},
+      {"clause_index": 3, "column": "Slope", "operator": "<=", "source_text": "\"Slope\" between 7.430265458540603 and 12.569734541459397"}
+    ],
+    "endpoint_clause_indices": {"Aspect": [], "Slope": [2, 3]},
+    "eligible": false,
+    "reason": "missing_supported_predicate",
+    "legacy_error": "selected set is not inclusion-wise maximal; addable=['e12']",
+    "classification": "INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE"
+  },
+  "source_basis": {
+    "postgresql_repository": "1951123/ess-postgresql",
+    "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "version": "16.14",
+    "selector_lines": "src/backend/statistics/extended_stats.c:1263-1600",
+    "trace_lines": "src/backend/statistics/extended_stats.c:1768-1911",
+    "limitation": "The crosswalk checks source-compatible predicate syntax and endpoint coverage; it is not a positive candidate-consideration trace for every unselected statistic."
+  }
+}

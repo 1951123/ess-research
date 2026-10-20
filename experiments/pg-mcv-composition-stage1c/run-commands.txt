@@ -12,5 +12,15 @@
 # Offline checks run after the formal run:
 python3 -m py_compile experiments/pg-mcv-composition-stage1c/run_stage1c.py
 python3 -m json.tool experiments/pg-mcv-composition-stage1c/protocol-manifest.json >/dev/null
-python3 -m unittest -v experiments/pg-mcv-composition-stage1c/test_matching_verifier.py
+PYTHONPATH=experiments/pg-mcv-composition-stage1c python3 -m unittest -v \
+  experiments/pg-mcv-composition-stage1c/test_matching_verifier.py \
+  experiments/pg-mcv-composition-stage1c/test_predicate_eligibility.py
 git diff --check
+
+# Post-review audit over the preserved v8 observations; this does not rerun PG
+# or overwrite observations.jsonl, composition.json, or the frozen manifest.
+python3 experiments/pg-mcv-composition-stage1c/reclassify_v8.py \
+  --manifest experiments/pg-mcv-composition-stage1c/protocol-manifest.json \
+  --canonical /home/wqts/ess-data/arecel/audit-v1/forest10.canonical.jsonl.gz \
+  --observations /tmp/ess-issue40-stage1c-v8/results/observations.jsonl \
+  --output /tmp/ess-issue40-stage1c-v8/results/eligibility-reclassification.json

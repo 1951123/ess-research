@@ -1,6 +1,7 @@
 # Issue #40 Stage 1C result report
 
-Evidence status: **MODEL LIMITATION COUNTEREXAMPLE** for the bounded fixture.
+Evidence status: **INCONCLUSIVE/OUTSIDE RESTRICTED GATE** for the 28 old
+matching failures in the bounded fixture.
 The run is not a universal PostgreSQL claim and does not establish a shared
 policy or a PESS theorem.
 
@@ -23,22 +24,33 @@ error was used.
 
 ## Matching audit
 
-The issue-owned ledger and trace mapping produced 312 inclusion-wise maximal
-matching passes and 28 failures.  Every failure has the same bounded pattern:
-task `q_tail`, available candidate `e12`, selected candidate set empty, and
-verifier message `selected set is not inclusion-wise maximal; addable=['e12']`.
-The failures occur across the frozen resource configurations that include
-`e12`, including the composition singleton and three-resource case.  This is
-reported as a **MODEL LIMITATION COUNTEREXAMPLE** to treating the prescribed
-graph admissibility/maximality rule as guaranteed for this PostgreSQL trace.
-It is not evidence that every real PostgreSQL scheme is captured by this
-prescribed `Gamma`.
+The preserved v8 ledger and trace mapping produced 312 inclusion-wise
+maximal-matching passes and 28 old failures.  Every old failure has the same
+pattern: task `q_tail`, available candidate `e12`, selected candidate set
+empty, and verifier message `selected set is not inclusion-wise maximal;
+addable=['e12']`.  The post-run eligibility audit parses the exact executed
+SQL and applies the pinned PostgreSQL 16.14 source's simple compatible-clause
+conditions.  For `q_tail`, `Slope` expands to clause indices 2 and 3, but
+`Aspect` has no predicate; consequently `e12=(Aspect,Slope)` is outside the
+restricted candidate gate.  All 28 old failures are therefore
+**INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE**, not model-limitation
+counterexamples.  No selected statistic OID was unmapped.
+
+The audit records 340 eligibility ledgers: 916 candidate/task entries with
+both endpoints syntactically covered and 1,804 with a missing supported
+predicate.  There are 232 observations containing at least one outside-gate
+resource, which is recorded separately from the 28 old failures.  The
+candidate consideration trace reports selected statistics and claimed clause
+indices, but does not emit a positive candidate-considered line for every
+unselected statistic.  Thus the crosswalk is necessary eligibility evidence,
+not a complete certificate of planner consideration.
 
 ## Composition audit
 
 All 28 frozen joint records were positive pre-clamp.  The residual is the
-signed single-ratio prediction from the manifest versus the actual final
-pre-clamp trace; logs are taken only after positivity checks.
+signed single-ratio product heuristic from the manifest versus the actual
+final pre-clamp trace; logs are taken only after positivity checks.  This is a
+tested reconstruction heuristic, not a general identity.
 
 | Case | Observed absolute relative residual | Interpretation in this fixture |
 | --- | ---: | --- |
@@ -74,8 +86,16 @@ it did not rewrite them or claim equality-only coverage.  This declaration
 discrepancy is retained as a fixture limitation and should be resolved in a
 future preregistration rather than silently repaired after observation.
 
+The eligibility audit is implemented by `predicate_eligibility.py` and
+`reclassify_v8.py`.  It is an offline, fail-closed crosswalk over the
+preserved v8 observations; it does not rewrite `observations.jsonl`,
+`composition.json`, the frozen manifest, or the raw server log.  A future
+equality-only fixture would require a separately versioned preregistration.
+
 The pinned source locations used for trace interpretation are:
 
+- `src/backend/statistics/extended_stats.c:1263-1600` for statistic selection
+  and simple compatible-clause conditions;
 - `src/backend/statistics/extended_stats.c:1842-1911` for candidate-none,
   selected-statistic, and claimed-clause trace lines;
 - `src/backend/statistics/extended_stats.c:2059-2069` for per-statistic
