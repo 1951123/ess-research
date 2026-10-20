@@ -1,5 +1,33 @@
 # Stage 2B: multi-dataset held-out PG decision quality
 
+## Updated Gate A handoff
+
+The archive-first input contract is frozen in [`protocol-v2.json`](protocol-v2.json).
+It supersedes the old materialized-path representation for new work; the old
+`protocol.json` and Gate A v1–v7 reports remain immutable historical evidence.
+New verification consumes `from ess_research.arecel import prepare` for
+Forest10 and Census13 independently. It uses only the whole pinned archive in
+`ESS_DATA_ROOT`; each dataset's `table.csv`, `workload.json`, `truth.json`, and
+`schema.sql` live only inside that invocation's derived runtime directory.
+
+The executable `gate_audit.py` delegates to `gate_audit_v2.py` and requires
+the user-set `ESS_DATA_ROOT` and `ESS_RUNTIME_PARENT`. PG readiness arguments
+are explicit; no old Issue #38 cluster or sample is reused:
+
+```text
+PYTHONPATH=src python3 experiments/pess-multidataset-heldout-stage2b/gate_audit.py \
+  --pg-source /ABSOLUTE/PINNED/PG-SOURCE \
+  --pg-prefix /ABSOLUTE/ISSUE-48-APPROVED-PG-PREFIX \
+  --pg-build-manifest /ABSOLUTE/BUILD-MANIFEST.json \
+  --output experiments/pess-multidataset-heldout-stage2b/runs/gate-a-<version>/gate-audit.json
+```
+
+The command creates a fresh Issue-48 cluster per dataset, imports the prepared
+table, exports and replays a new fixed sample, creates the predeclared MCV
+objects, and runs one deterministic valid-split smoke probe. `GATE_A_READY`
+means only that the two-dataset input and PG infrastructure gates passed; it is
+not a held-out outcome PASS, a PESS guarantee, or evidence of latency benefit.
+
 This directory is the Issue #48 experiment boundary.  Its first commit freezes
 the input identities, candidate universes, selection rules, metrics, and
 PostgreSQL measurement contract before any Stage 2B outcome is collected.

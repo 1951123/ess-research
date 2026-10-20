@@ -303,4 +303,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # The v1 audit remains importable historical code; the executable Gate A
+    # entrypoint is the v2 archive-first/runtime verifier.
+    from gate_audit_v2 import main as gate_a_main
+
+    raise SystemExit(gate_a_main())

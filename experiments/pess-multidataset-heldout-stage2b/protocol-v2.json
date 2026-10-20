@@ -1,0 +1,92 @@
+{
+  "format": "ess-issue48-stage2b-input-adapter-protocol-v2",
+  "issue": 48,
+  "status": "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V2",
+  "evidence_label": "outcome_free_input_and_readiness_contract",
+  "supersedes_for_new_etl": "protocol.json",
+  "v1_status": "historical_pre_archive_first_contract; protocol.json and runs/gate-a-20261020-v1 through v7 are immutable",
+  "scope": {
+    "directory_only": "experiments/pess-multidataset-heldout-stage2b",
+    "datasets": ["forest10", "census13"],
+    "other_repositories_read_only": ["ess-advisor", "ess-postgresql"],
+    "formal_heldout_outcomes_authorized": false,
+    "stage1a_test_ids_are_new_cohort": false,
+    "raw_archive_only_shared_cache": true,
+    "derived_inputs_are_run_scoped": true
+  },
+  "etl_contract": {
+    "api": "from ess_research.arecel import prepare",
+    "implementation_commit": "68fcd5cc9900f798f503edeeb9e79669beebee92",
+    "upstream_repository": "https://github.com/sfu-db/AreCELearnedYet",
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "required_environment": ["ESS_DATA_ROOT", "ESS_RUNTIME_PARENT"],
+    "forbidden_input_paths": ["arecel/raw/data", "arecel/audit-v1", "~/archive-ess-data", "other_issue_derived"],
+    "lifecycle": "prepare(issue=48,dataset=...) owns a unique run; import/sample/probe completes inside the context; only compact results survive derived cleanup",
+    "truth_boundary": "truth.json is checked for ID/alignment/type integrity, but test truth values are not used for calibration, candidate selection, eligibility filtering, or cohort selection"
+  },
+  "datasets": {
+    "forest10": {
+      "benchmark_id": "arecel-forest10",
+      "relation": "public.forest10",
+      "source_relation": "public.\"forest10_original\"",
+      "source_rows": 581012,
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "source_columns": ["Elevation", "Aspect", "Slope", "Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways", "Hillshade_9am", "Hillshade_Noon", "Hillshade_3pm", "Horizontal_Distance_To_Fire_Points"],
+      "catalog_columns": ["elevation", "aspect", "slope", "horizontal_distance_to_hydrology", "vertical_distance_to_hydrology", "horizontal_distance_to_roadways", "hillshade_9am", "hillshade_noon", "hillshade_3pm", "horizontal_distance_to_fire_points"],
+      "candidates": [
+        {"id": "e01", "source_columns": ["Elevation", "Aspect"], "catalog_columns": ["elevation", "aspect"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e01", "creation_order": 0},
+        {"id": "e12", "source_columns": ["Aspect", "Slope"], "catalog_columns": ["aspect", "slope"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e12", "creation_order": 1},
+        {"id": "e23", "source_columns": ["Slope", "Horizontal_Distance_To_Hydrology"], "catalog_columns": ["slope", "horizontal_distance_to_hydrology"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e23", "creation_order": 2},
+        {"id": "e34", "source_columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"], "catalog_columns": ["horizontal_distance_to_hydrology", "vertical_distance_to_hydrology"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e34", "creation_order": 3},
+        {"id": "e45", "source_columns": ["Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways"], "catalog_columns": ["vertical_distance_to_hydrology", "horizontal_distance_to_roadways"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e45", "creation_order": 4},
+        {"id": "e56", "source_columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am"], "catalog_columns": ["horizontal_distance_to_roadways", "hillshade_9am"], "postgres_types": ["DOUBLE PRECISION", "DOUBLE PRECISION"], "statistic_name": "ess2b_forest10_e56", "creation_order": 5}
+      ]
+    },
+    "census13": {
+      "benchmark_id": "arecel-census13",
+      "relation": "public.census13",
+      "source_relation": "public.census13",
+      "source_rows": 48842,
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "source_columns": ["age", "workclass", "education", "education_num", "marital_status", "occupation", "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country"],
+      "catalog_columns": ["age", "workclass", "education", "education_num", "marital_status", "occupation", "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country"],
+      "candidates": [
+        {"id": "c01", "source_columns": ["age", "workclass"], "catalog_columns": ["age", "workclass"], "postgres_types": ["DOUBLE PRECISION", "VARCHAR(64)"], "statistic_name": "ess2b_census13_c01", "creation_order": 0},
+        {"id": "c12", "source_columns": ["workclass", "education"], "catalog_columns": ["workclass", "education"], "postgres_types": ["VARCHAR(64)", "VARCHAR(64)"], "statistic_name": "ess2b_census13_c12", "creation_order": 1},
+        {"id": "c23", "source_columns": ["education", "education_num"], "catalog_columns": ["education", "education_num"], "postgres_types": ["VARCHAR(64)", "DOUBLE PRECISION"], "statistic_name": "ess2b_census13_c23", "creation_order": 2},
+        {"id": "c34", "source_columns": ["education_num", "marital_status"], "catalog_columns": ["education_num", "marital_status"], "postgres_types": ["DOUBLE PRECISION", "VARCHAR(64)"], "statistic_name": "ess2b_census13_c34", "creation_order": 3},
+        {"id": "c45", "source_columns": ["marital_status", "occupation"], "catalog_columns": ["marital_status", "occupation"], "postgres_types": ["VARCHAR(64)", "VARCHAR(64)"], "statistic_name": "ess2b_census13_c45", "creation_order": 4},
+        {"id": "c56", "source_columns": ["occupation", "relationship"], "catalog_columns": ["occupation", "relationship"], "postgres_types": ["VARCHAR(64)", "VARCHAR(64)"], "statistic_name": "ess2b_census13_c56", "creation_order": 5}
+      ]
+    }
+  },
+  "scientific_contract_unchanged_from_v1": {
+    "validation_split": "valid",
+    "heldout_split": "test",
+    "methods": ["Empty", "PESS", "Nominal", "Joint-Robust"],
+    "budgets_proxy_units": [0, 2, 3, 5],
+    "proxy_is_not_generic_maintenance": true,
+    "positive_preclamp_log_requires": ["max(1,N)>0", "measured pre-clamp estimate >0"],
+    "stage1a_legacy_test_ids_excluded": true,
+    "no_latency_claim": true,
+    "no_pg_containment_claim": true
+  },
+  "fixed_sample_contract": {
+    "format": "ESSANL01",
+    "statistics_target": 300,
+    "sample_target": "record the actual sample_target from the generated header; do not assume the Forest10 legacy value for Census13",
+    "identity_fields": ["sha256", "file_bytes", "server_version_num", "relation_identity", "relation_oid", "relation_filenode", "relation_pages", "natts", "sample_target", "tuple_count"],
+    "procedure": "load the prepared table, export one sample with ess.analyze_sample_export, then replay that exact file before statistics ANALYZE; sample files are Issue-48-owned",
+    "old_issue38_sample_reuse": false
+  },
+  "pg_readiness_contract": {
+    "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "trace_compile_markers": ["ESS_MCV_TRACE", "ESS_MCV_NUMERIC_TRACE"],
+    "binary_provenance": "actual postgres/initdb/pg_ctl/psql/pg_config SHA-256 values must match a supplied build manifest and report PostgreSQL 16.14",
+    "cluster": "fresh Issue-48-owned PGDATA, socket, port, database and server log; verify data_directory, port, database and server version through the running connection",
+    "smoke_probe": "first valid-split query in source order with at least two distinct predicates; selection uses shape only, never truth or estimates",
+    "trace_requirements": ["selected statistic OIDs", "claimed clauses", "numeric pre-clamp trace", "positive nrows_preclamp", "catalog OID/name/stxkeys mapping", "MCV payload presence/item count"],
+    "pass_label": "GATE_A_READY means infrastructure readiness only"
+  }
+}
