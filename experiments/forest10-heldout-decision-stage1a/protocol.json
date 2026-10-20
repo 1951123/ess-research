@@ -1,0 +1,1320 @@
+{
+  "data_root_contract": "/home/wqts/ess-data",
+  "decision_and_gate": {
+    "gate_a": "PASS only after all hashes, build provenance, fixed sample replay, and trace completeness are verified; otherwise BLOCKED",
+    "go_definition": "reproducible nontrivial paired decision-quality difference on the frozen cohort with valid PG measurement fidelity; benefit or meaningful harmful overconservatism is admissible",
+    "inconclusive_definition": "missing input/tracing, small or unrepresentative eligible slice, incomparable snapshots, or unresolved statistic composition",
+    "no_go_definition": "documented falsification or unsupported practical advantage of the tested decision hypothesis",
+    "no_latency_or_physical_maintenance_claim": true,
+    "no_universal_pess_claim": true,
+    "recommendations": [
+      "GO",
+      "NO-GO",
+      "INCONCLUSIVE"
+    ]
+  },
+  "evidence_label": "protocol_and_input_audit_only",
+  "format": "ess-issue38-forest10-heldout-protocol-v1",
+  "heldout_selection": {
+    "counts": {
+      "all_test_records": 10000,
+      "candidate_covered_test_records": 6910,
+      "excluded_candidate_covered_records": 6850,
+      "pairwise_screen_eligible_test_records": 9016,
+      "selected_test_records": 60,
+      "target_shortfall": 0
+    },
+    "coverage": "a query is candidate-covered when both endpoint source columns of at least one frozen candidate occur among constrained attributes",
+    "quota_per_candidate": 10,
+    "quota_winners_by_candidate": {
+      "e01": [
+        "arecel:forest10:test:000550",
+        "arecel:forest10:test:009346",
+        "arecel:forest10:test:008737",
+        "arecel:forest10:test:006104",
+        "arecel:forest10:test:007062",
+        "arecel:forest10:test:007793",
+        "arecel:forest10:test:007183",
+        "arecel:forest10:test:000728",
+        "arecel:forest10:test:003045",
+        "arecel:forest10:test:009143"
+      ],
+      "e12": [
+        "arecel:forest10:test:000015",
+        "arecel:forest10:test:000857",
+        "arecel:forest10:test:004978",
+        "arecel:forest10:test:009119",
+        "arecel:forest10:test:008477",
+        "arecel:forest10:test:001377",
+        "arecel:forest10:test:001680",
+        "arecel:forest10:test:009679",
+        "arecel:forest10:test:002541",
+        "arecel:forest10:test:002657"
+      ],
+      "e23": [
+        "arecel:forest10:test:003705",
+        "arecel:forest10:test:000320",
+        "arecel:forest10:test:009620",
+        "arecel:forest10:test:008907",
+        "arecel:forest10:test:003333",
+        "arecel:forest10:test:004350",
+        "arecel:forest10:test:006078",
+        "arecel:forest10:test:001679",
+        "arecel:forest10:test:004735",
+        "arecel:forest10:test:007037"
+      ],
+      "e34": [
+        "arecel:forest10:test:008052",
+        "arecel:forest10:test:005224",
+        "arecel:forest10:test:008117",
+        "arecel:forest10:test:002903",
+        "arecel:forest10:test:001981",
+        "arecel:forest10:test:005305",
+        "arecel:forest10:test:003545",
+        "arecel:forest10:test:004343",
+        "arecel:forest10:test:006199",
+        "arecel:forest10:test:002363"
+      ],
+      "e45": [
+        "arecel:forest10:test:001645",
+        "arecel:forest10:test:003283",
+        "arecel:forest10:test:000134",
+        "arecel:forest10:test:002110",
+        "arecel:forest10:test:003958",
+        "arecel:forest10:test:006097",
+        "arecel:forest10:test:000320",
+        "arecel:forest10:test:004234",
+        "arecel:forest10:test:007937",
+        "arecel:forest10:test:000419"
+      ],
+      "e56": [
+        "arecel:forest10:test:000867",
+        "arecel:forest10:test:004681",
+        "arecel:forest10:test:000509",
+        "arecel:forest10:test:005892",
+        "arecel:forest10:test:003716",
+        "arecel:forest10:test:002067",
+        "arecel:forest10:test:005880",
+        "arecel:forest10:test:002664",
+        "arecel:forest10:test:002464",
+        "arecel:forest10:test:001720"
+      ]
+    },
+    "ranking": "SHA256(seed|query_id|source_query_sha256|candidate_id), lexicographic digest then query_id",
+    "screen": "the same read-only syntactic pairwise screen: source_query format/table valid, every predicate column/operator supported, and at least two distinct constrained attributes",
+    "selected": [
+      {
+        "canonical_record_sha256": "bcc1669057cfc8d4a1b80c84c1b8be955731332be5c4ca563efafac7a9bab9d2",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000015",
+        "source_index_within_test_split": 15,
+        "source_query_sha256": "537fc811962ab1d8bb234e9b0316d15e9bf4b8c7f760cf4a7d478c59295a3985"
+      },
+      {
+        "canonical_record_sha256": "196c7bfc02405f84f4127ca62f82ea8e307db9ea52b02b8a33f18a7ae708400d",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000134",
+        "source_index_within_test_split": 134,
+        "source_query_sha256": "e4731212907cbb26869c72daa43b5301218dea4a04a4ba15891d7a3239a04286"
+      },
+      {
+        "canonical_record_sha256": "7649639f480c54ccf147539a59460b655b2ba95a43e7cfe5244b8257a70ad16c",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000320",
+        "source_index_within_test_split": 320,
+        "source_query_sha256": "1c785034b46edbebdc7c5ce7bc59c721c1b40c81fb5ae99cbc7a41c7e1ac6415"
+      },
+      {
+        "canonical_record_sha256": "7882171cf72300d19cbc2c4196d95765dc8c34ad990a7d55dcfa9ea8f2845d50",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000419",
+        "source_index_within_test_split": 419,
+        "source_query_sha256": "87ebf1cb931261d49ff115b8daf3d77d98bd82cb64314961649d2cb1b86e6f92"
+      },
+      {
+        "canonical_record_sha256": "27c739aba4b944c0e1aabfa13ce59ae682fc0827a60c9b0d72c312d2256d72f3",
+        "covered_candidates": [
+          "e01",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000509",
+        "source_index_within_test_split": 509,
+        "source_query_sha256": "1b49452c0893e734b2d2cfac348f2bab78915f8941ee921791584aafe15490ad"
+      },
+      {
+        "canonical_record_sha256": "0e326ab37906679289338b7b8f5a9aefd340acf2aed7c1442e1f84a44b69ab6e",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000550",
+        "source_index_within_test_split": 550,
+        "source_query_sha256": "b683616324180dc987cd028d8ca859a99b83016b15746fdeea55bd5d19954575"
+      },
+      {
+        "canonical_record_sha256": "bfa9c1cb9019765727595a42ea73e1044f2ffb14b0bdd29cb32ab385e607884b",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000728",
+        "source_index_within_test_split": 728,
+        "source_query_sha256": "a223b169507663acf58c0095f3b627282ca3d99f8e2a5c950818dda8fb20b2d0"
+      },
+      {
+        "canonical_record_sha256": "099505c19df0eb288d201069b1c60991441b8dcf3976614a26365f0010be84d4",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45"
+        ],
+        "query_id": "arecel:forest10:test:000857",
+        "source_index_within_test_split": 857,
+        "source_query_sha256": "5736d9aeaf9efe99d402cb620660b149ce6007f913fedd996ea37ce76cb2eedb"
+      },
+      {
+        "canonical_record_sha256": "d74ee9a12c72058af4a5cc74e26adc1c319a315e45db17975e453635361c540e",
+        "covered_candidates": [
+          "e12",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:000867",
+        "source_index_within_test_split": 867,
+        "source_query_sha256": "d8097a8744e305f3e6134bc62af22287fc902498b85697c2fe67643e8d371745"
+      },
+      {
+        "canonical_record_sha256": "a463ee6490966bae6c0a89bb1806504968383352ec8249730897c459cbf016bc",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:001377",
+        "source_index_within_test_split": 1377,
+        "source_query_sha256": "e9a489c532975d174d875e6f0d33cab59630c773a61da60ba92c2ad3dda71199"
+      },
+      {
+        "canonical_record_sha256": "55ee40f5929913156d0655be687bbef89360bd4d209d9205917b68b33c0c2c55",
+        "covered_candidates": [
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:001645",
+        "source_index_within_test_split": 1645,
+        "source_query_sha256": "6e9fde1423bd6b6edde314306f4b1758ea65016ca498e2630c414d34fa433cfa"
+      },
+      {
+        "canonical_record_sha256": "27668b5913a093067b7306dd4541c621b061737344ca85d875f1cad4b032b2e9",
+        "covered_candidates": [
+          "e23"
+        ],
+        "query_id": "arecel:forest10:test:001679",
+        "source_index_within_test_split": 1679,
+        "source_query_sha256": "e8d47c990c2994850ef23159784377efec1ee290ecadd8753ad212b328ba32e0"
+      },
+      {
+        "canonical_record_sha256": "d0e0a45e0ded2a4245afae1c8aea5bd16be31b98be04cb5dcd0844944202bc45",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23"
+        ],
+        "query_id": "arecel:forest10:test:001680",
+        "source_index_within_test_split": 1680,
+        "source_query_sha256": "205a18cd24eff10b56e0575ff2fd3cd35c7c70fbc36d5aff418e491d74b4b761"
+      },
+      {
+        "canonical_record_sha256": "be681d1424076f19403e497692077a4863e1fb9e71965d975478f6d2237387c1",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:001720",
+        "source_index_within_test_split": 1720,
+        "source_query_sha256": "ee60cb3c4e078a28fb0fcece1718cddc303451f337472ab38c4a66541a4c7f36"
+      },
+      {
+        "canonical_record_sha256": "0c5bc9e90cbdd9965d7dcec238292f90686cd2a094fc43947fe2f252c6df73b7",
+        "covered_candidates": [
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:001981",
+        "source_index_within_test_split": 1981,
+        "source_query_sha256": "eb4cd263c91a34daf6ac52fabf6dcb22120a4b1147531d81b002ef9b4430bd5b"
+      },
+      {
+        "canonical_record_sha256": "06bde385bf0966863f5fc0bd75e027a5b010383f96435e086e736ed97e8c46c0",
+        "covered_candidates": [
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002067",
+        "source_index_within_test_split": 2067,
+        "source_query_sha256": "a26fe76e6ac4b511709c1f355e8fcb3a0070ff1f8eccb979de9d332fe9e82f7a"
+      },
+      {
+        "canonical_record_sha256": "e807ab37f6ac3f664dd2207c4d75534ba71b889673fe925f49fbe88c566663b3",
+        "covered_candidates": [
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002110",
+        "source_index_within_test_split": 2110,
+        "source_query_sha256": "b88cc183d55303990a0ba4ca3f7c29037c43b3005c6e52db6374dc8d06b35ca5"
+      },
+      {
+        "canonical_record_sha256": "0a109f52c03f8e151f81b35be4be1738ff928bdce37ca18810b1b559377a25e5",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002363",
+        "source_index_within_test_split": 2363,
+        "source_query_sha256": "7aeb80804994343137c20ca74c2c10e42b1d059f6f2393f50be02ae26985cc47"
+      },
+      {
+        "canonical_record_sha256": "974ce7bea92a961fad7f6cc4f1849986afd93d278b31c6eaae0079aa16dc8613",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002464",
+        "source_index_within_test_split": 2464,
+        "source_query_sha256": "5ef9fb2d4a70fb300363eb0a30355350172cb19b3d89c61059f05e3fb2211ed4"
+      },
+      {
+        "canonical_record_sha256": "8aefb9dfe1923749e21c08857e7c6e70b88ac0fdce236709bce8bf3e2736cdeb",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002541",
+        "source_index_within_test_split": 2541,
+        "source_query_sha256": "544f476fe1e3d1ca79ba693dd5fe06569ade7fe0ff428a79250255cd71e5869b"
+      },
+      {
+        "canonical_record_sha256": "9ac54ae2057d603e54874321b6d1f93c64cdbbe62b81d345edc267db8fd64355",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002657",
+        "source_index_within_test_split": 2657,
+        "source_query_sha256": "66654a143af5b122e068eb8736f5ff72ce8a44e10dbc8599bad4e02829d9aa54"
+      },
+      {
+        "canonical_record_sha256": "8ea4570191a955714bc567825ec88d9e2caed3fdf69b98ae78765f6c48344e24",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002664",
+        "source_index_within_test_split": 2664,
+        "source_query_sha256": "fe9fd74a74f75bd65797951e67a7d8c3f720e897f4d7589f9f97c5c06d374adb"
+      },
+      {
+        "canonical_record_sha256": "76f3585ffd712b9504c589a013302f9e2617a32efebce3bbadd66b883bb3be8a",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:002903",
+        "source_index_within_test_split": 2903,
+        "source_query_sha256": "96477dae202243cbbf423e9143e45848659d7dd2c47a873292a74f1c16efb7bf"
+      },
+      {
+        "canonical_record_sha256": "a4cdc961b55890b0d07bcd8b797a45efd39ca7046eb244fb2c0eeb057631073c",
+        "covered_candidates": [
+          "e01"
+        ],
+        "query_id": "arecel:forest10:test:003045",
+        "source_index_within_test_split": 3045,
+        "source_query_sha256": "3f21bed33338c3a55b1611e0b51e72b6e63691e40f990358d51d7c40e341af30"
+      },
+      {
+        "canonical_record_sha256": "83452ebd8e93c2e7139fd664df0f66d6a293ae3dc1b84270170f97f08a8badcd",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003283",
+        "source_index_within_test_split": 3283,
+        "source_query_sha256": "d9de7a6cee49006a38c7489c0fe228b1cd38f9afe4fb4c203718a41622ddb345"
+      },
+      {
+        "canonical_record_sha256": "90c4c50abb599dc5d76b52d3cafc471218e57720833d9c3a266649d181139cd9",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003333",
+        "source_index_within_test_split": 3333,
+        "source_query_sha256": "379bc5a0bdd1f5d14b8a2fe626689036a8b542db577fc4cfe198f656735322ad"
+      },
+      {
+        "canonical_record_sha256": "16b7aaef87f40685e2f0c8040ca4298ba05a00a6fa6f0efc37aea810d32e8af9",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003545",
+        "source_index_within_test_split": 3545,
+        "source_query_sha256": "c3437becef2035568dedf06b4642592cfd9f5e8113c8678070e17770d004c925"
+      },
+      {
+        "canonical_record_sha256": "a34e3c2530f0d37fd8b55e39c8359b7dac19f16e0a11ad9d40ce142542b6647b",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003705",
+        "source_index_within_test_split": 3705,
+        "source_query_sha256": "d9f786604ce9f534d087ba4e579ee274c5d4f1346c558021829303d711111f53"
+      },
+      {
+        "canonical_record_sha256": "787ebd67b93cefdb3fff98bfbe4eb4cbf574184164cb1c7db4e450957bf5001d",
+        "covered_candidates": [
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003716",
+        "source_index_within_test_split": 3716,
+        "source_query_sha256": "8ef3f916347fa95eb48cb19c14199e7ffda7d71a1a80c7c775c1e2b891acde43"
+      },
+      {
+        "canonical_record_sha256": "b0ac14ca35db95951254fe24908fdddbb4e903d2812c6ada5d3fc8dd64114528",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:003958",
+        "source_index_within_test_split": 3958,
+        "source_query_sha256": "df5aedce77c6723d110e64311dedaa33cd57ca8e82f8722d62289d1f4c541f14"
+      },
+      {
+        "canonical_record_sha256": "f3ee9cf5bae56c34545b52871f1fb36f2295b2828be8bdd38a3b9717597540a2",
+        "covered_candidates": [
+          "e01",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:004234",
+        "source_index_within_test_split": 4234,
+        "source_query_sha256": "a14944ff34477da39118d8cd2068c9a8ac1573646c203155749d64a09337702f"
+      },
+      {
+        "canonical_record_sha256": "9d1f642fb70ca129e2ba42179fc82f4bc6815a3dc61249150cf878fa712abff3",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:004343",
+        "source_index_within_test_split": 4343,
+        "source_query_sha256": "d4807c3c537241d164db9c7a905b3a4019482ae746f5d4ea90b54a7d2ef868b1"
+      },
+      {
+        "canonical_record_sha256": "ccb7dcbffa8cbd63d63b94d9746011d0e671be591e930fb8d5011aba977564ac",
+        "covered_candidates": [
+          "e23",
+          "e34"
+        ],
+        "query_id": "arecel:forest10:test:004350",
+        "source_index_within_test_split": 4350,
+        "source_query_sha256": "474c6aca8b7264a8786fd889cfee2863e57595352cd526df24bc1f395e4b1b73"
+      },
+      {
+        "canonical_record_sha256": "706b472530de3347cd8c6e066f06b46a429602635226981865c4fc9bc8af1fca",
+        "covered_candidates": [
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:004681",
+        "source_index_within_test_split": 4681,
+        "source_query_sha256": "8670fa60cebf806154f44b98802dd552ab395b5fc11fdf5af304a2a0f5c0af17"
+      },
+      {
+        "canonical_record_sha256": "ca4ddec7795ac8d453c235b0b220fc8166cc5d39fc7f1ca7bfb690e2e42ba9c7",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:004735",
+        "source_index_within_test_split": 4735,
+        "source_query_sha256": "e2494063877497a407f17c6c62727f9ae8af0533330fe3f609f61422dcaba987"
+      },
+      {
+        "canonical_record_sha256": "b9f89bf758fe2636e0aea30155464b2495b859487fee510f65764934daee1ffb",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:004978",
+        "source_index_within_test_split": 4978,
+        "source_query_sha256": "d5452b252111dd33e0bd1dd269919f7e8da994a0a8aea26cb8f836b435f55d41"
+      },
+      {
+        "canonical_record_sha256": "59b1236f6c5c70f2a560edb9f9e5450e870f8e1a09e534494327b4ee7fb0f31b",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:005224",
+        "source_index_within_test_split": 5224,
+        "source_query_sha256": "10e74bb89e41e91086dd62be392abf53eb5fb0fe0c55d723e312d26423fe431a"
+      },
+      {
+        "canonical_record_sha256": "f45130c5327c256dc443dd1eae48485bfac2051840492ea92ef6ba42d6ce86a4",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34"
+        ],
+        "query_id": "arecel:forest10:test:005305",
+        "source_index_within_test_split": 5305,
+        "source_query_sha256": "1d0e5a697f9fb00e30fb4893470885614c3d0c081cb3c27500a96ab9a9030251"
+      },
+      {
+        "canonical_record_sha256": "7f8a61166b5dfefcf7d9d4b4ac57d68a4d9a15887be091219ac3c47c7c7011f8",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:005880",
+        "source_index_within_test_split": 5880,
+        "source_query_sha256": "782f164c4fe582acb4e78e8b03ddaad395d9495c095972ef2613e1665af45d3a"
+      },
+      {
+        "canonical_record_sha256": "ffba49e9e22de6826e927c4abfa85219b9ff31a25fb0b1d3854d4f54594a88e1",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:005892",
+        "source_index_within_test_split": 5892,
+        "source_query_sha256": "453aab37286fa3191cdb08b89175b491ae0abb43e3582228c6449e7376f30746"
+      },
+      {
+        "canonical_record_sha256": "cb4c2df75cbf5a455ad7c86bc22efafc0f710bfaebc6e309f84c8321d72c40fb",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:006078",
+        "source_index_within_test_split": 6078,
+        "source_query_sha256": "aef325178654d36f967b78999f4c8fc13f1dd7b42ea16663c8a74f92d05827a8"
+      },
+      {
+        "canonical_record_sha256": "e7a13df07f07cac13cd77e1123a1a23001bb9f0b9f45d30bb273a379cc9e2184",
+        "covered_candidates": [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:006097",
+        "source_index_within_test_split": 6097,
+        "source_query_sha256": "675eba5e4ff0746677258e9b1e644ca797efea193507c0663fae8b890a1f378e"
+      },
+      {
+        "canonical_record_sha256": "d70f411f42c8148e77a85480404475545a712cf78fc17c5064ba200673a07774",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:006104",
+        "source_index_within_test_split": 6104,
+        "source_query_sha256": "dc963070bfb73f38fac1a2b8a8916e6da18fb6bd61aea7f9b6e5ae913cedc59b"
+      },
+      {
+        "canonical_record_sha256": "0eea2c924de26d54e248c00525e76d3b3fd9c9fd451fb9daf180a76f3cfa09ee",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34"
+        ],
+        "query_id": "arecel:forest10:test:006199",
+        "source_index_within_test_split": 6199,
+        "source_query_sha256": "01da45ee788d309e155c553bf08eadf73e3e9f2bcda654bcdfb92794bafc2917"
+      },
+      {
+        "canonical_record_sha256": "acf6df6d721e6a2009a4002595ddff836d43f39a2d91a30620635c4cecabbb2f",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34"
+        ],
+        "query_id": "arecel:forest10:test:006915",
+        "source_index_within_test_split": 6915,
+        "source_query_sha256": "47498903297bf6ea30d1e42b00fa95377382cfb9817b0201251ea0ae679152bf"
+      },
+      {
+        "canonical_record_sha256": "c160ae7a1c63e5b6ebd0b8f831c2479056a4572ba6a6264bbfe4b5c03ab5a3af",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:007037",
+        "source_index_within_test_split": 7037,
+        "source_query_sha256": "0967b9149c649c2cc18df9a56525288cd113d5ca88d64eb03448670fbfd841da"
+      },
+      {
+        "canonical_record_sha256": "f468b1671ac18d286e2be388a86f066631bc304fa37cdbd71f002fceff01b786",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45"
+        ],
+        "query_id": "arecel:forest10:test:007062",
+        "source_index_within_test_split": 7062,
+        "source_query_sha256": "b9ea1b7e3d80cd61a543c5b4fa29a69ed29b523de1d34bc4c773f14c64011468"
+      },
+      {
+        "canonical_record_sha256": "386c8a2a910148feeaf0dabe858a4f0cb6b76759c15aff963bfc1c0244c991db",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:007183",
+        "source_index_within_test_split": 7183,
+        "source_query_sha256": "12b90d7fd456c88f7927583a6e3aadcae14c1a3bb2101d0ba2684cf374173dcd"
+      },
+      {
+        "canonical_record_sha256": "40b6143843d0c0b0eb7bbaf9412adb3991e5f4ffc0d817884d3ce4c37bc8f0a2",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:007793",
+        "source_index_within_test_split": 7793,
+        "source_query_sha256": "44716c10839362e69714b8be299b5c359d6a95f84b606ddca1bdeba4dbe78383"
+      },
+      {
+        "canonical_record_sha256": "a908853cd49c9c21598d1b8904845aaafcedd5e26fa3cc0bf9249187b07c2033",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:007937",
+        "source_index_within_test_split": 7937,
+        "source_query_sha256": "3ac1eb4a7ea6093d9bea6010c842bf4ce1df8cee5794d82de14a9d0ab711a3d3"
+      },
+      {
+        "canonical_record_sha256": "b0aadb843075428949c760fa7e9cd3f98521883457e7f4f6d993c240e56e0b78",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:008052",
+        "source_index_within_test_split": 8052,
+        "source_query_sha256": "f33545b6cfa4f4eb84b3d2bcba415c0ada6ba51459cc6313e4a6f72ad8ec6fde"
+      },
+      {
+        "canonical_record_sha256": "a5086c8377cd6df7f9ad5d5ae27725fb088d7f19256f63e5d910f852eac3e9d4",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:008117",
+        "source_index_within_test_split": 8117,
+        "source_query_sha256": "c22e593b820852ed6558a2e565c91130a7540fc54074f06de4a8e26a8da4c37d"
+      },
+      {
+        "canonical_record_sha256": "35f3c942ba048f6f1f644d8ac57c0839c68b8426764646552855b2fe340ea311",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34"
+        ],
+        "query_id": "arecel:forest10:test:008477",
+        "source_index_within_test_split": 8477,
+        "source_query_sha256": "a13aed445d62accd005648951398b091662f1a281ae8a5d51b84b96fd2ba2de2"
+      },
+      {
+        "canonical_record_sha256": "4cf8d518dbfdcaa93b43ef9b8be6bda1d71698dfb9a133287fc3b32ec7f039ea",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:008737",
+        "source_index_within_test_split": 8737,
+        "source_query_sha256": "b07baf3b53773a360d8baa18b73d770bde6eafba05673a7606f00e8b67e204be"
+      },
+      {
+        "canonical_record_sha256": "a4ffb53bda32f0133a7b5f746a0243def76bb9151dd987c0731c4237fed6ff0d",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:008907",
+        "source_index_within_test_split": 8907,
+        "source_query_sha256": "d93e66fbc04c223790a4aa571f1a4328e6982f38b24d515163cb9a2f2cfdd347"
+      },
+      {
+        "canonical_record_sha256": "19561b6286381bb20b8d0bf0a2ec0d1b86b1ed75b3a713513bfa7e6b0982a48c",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:009119",
+        "source_index_within_test_split": 9119,
+        "source_query_sha256": "46e792864e70e43422c98a4d1b42376fd9bceff1e0a8367b0226cfd001ed52b9"
+      },
+      {
+        "canonical_record_sha256": "ec77b73f071ce5859e72a50864e65cbddeff9789c8e0c13d290ffa41332c60b5",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:009143",
+        "source_index_within_test_split": 9143,
+        "source_query_sha256": "51d12fe2bce509c7e69c9ccff462913e0b130ea138bb81db2bef4251e9faca8d"
+      },
+      {
+        "canonical_record_sha256": "985b34cda5734f4a18bfed383fe2712183bec5e7e2e3bad673c51395f3716299",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:009346",
+        "source_index_within_test_split": 9346,
+        "source_query_sha256": "92180e2cce3c1a83b412dd9ca525b82fc464a75d4a5d6cf1302bdbc644420b95"
+      },
+      {
+        "canonical_record_sha256": "d230cd9d90b4384eb2cc268a6f5cebba929cc7e347b0849c3d16f6f71ffea12f",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:009620",
+        "source_index_within_test_split": 9620,
+        "source_query_sha256": "7233fa81c5d09b1f263dcb95a970fb9fd7bcf09c338f946d6bd556c1fb65fd99"
+      },
+      {
+        "canonical_record_sha256": "8a20dd9eb31aecf20c16c931d35144cce4f5188c509dfcc8e82d4ace3b05c7f0",
+        "covered_candidates": [
+          "e01",
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        "query_id": "arecel:forest10:test:009679",
+        "source_index_within_test_split": 9679,
+        "source_query_sha256": "b3629b89c6349da16ffe15a701e6686b6842bd61e61e1a99bbf2894f246900c5"
+      }
+    ],
+    "selected_query_ids_sha256": "77a7da02c02692786fa505fe630acd665383fe034d24a8f23e55ed991ca51cea",
+    "selected_record_hashes_sha256": "2876ef7603d90e73ea484e984fa5adbdce8576363ac89706bea447a02ea8d655",
+    "selection_does_not_read": [
+      "source_label.cardinality",
+      "weight",
+      "PostgreSQL estimates",
+      "model losses",
+      "latency"
+    ],
+    "selection_seed": "ess-issue38-heldout-v1",
+    "split": "test",
+    "target_distinct_queries": 60
+  },
+  "metrics_frozen_before_collection": {
+    "diagnostics": [
+      "statistics/catalog existence",
+      "MCV payload presence and item count",
+      "trace-selected statistic identities",
+      "trace completeness",
+      "repetition instability",
+      "model-vs-real discrepancy",
+      "no-statistics and proxy-budget mapping"
+    ],
+    "generalization_limit": "20-100 rows are a bounded cohort and do not establish population-level generalization",
+    "invalid_handling": "nonpositive pre-clamp estimate, missing final trace, stale/mismatched snapshot, or hash mismatch is INVALID and blocks a GO claim; no silent clamping or replacement",
+    "paired": [
+      "per-query delta versus Empty",
+      "per-query delta versus Nominal selected set when defined",
+      "paired common-query denominators"
+    ],
+    "primary": [
+      "mean absolute pre-clamp log-error",
+      "median absolute pre-clamp log-error",
+      "P90 absolute pre-clamp log-error",
+      "maximum observed absolute pre-clamp log-error"
+    ],
+    "strata": [
+      "N=0 with T=max(1,N)",
+      "positive-truth signed estimate-minus-T direction",
+      "top decile of true N within selected cohort, ties by query_id"
+    ],
+    "ties": "retain every Issue #23 optimal set; never choose among tied sets using held-out outcomes"
+  },
+  "postgresql_protocol": {
+    "analyze_strategy": "replay the same approved fixed sample before every ANALYZE; one fresh matched catalog snapshot per selected set and repetition",
+    "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be4be4d5d4eb1e5a4993",
+    "latency_collection": false,
+    "maximum_query_measurements": 1200,
+    "numeric_trace_ancestor": "2891af8ade29a9b584d6c0fb969e311a10230282",
+    "plan_rows_are_secondary": true,
+    "preclamp_trace_required": true,
+    "raw_data_and_pgdata": "external ESS_ISSUE_ROOT only; never committed",
+    "repetitions": 2,
+    "server_version": "16.14",
+    "source_repository_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "statistics_target": 300,
+    "table": "public.forest10_original"
+  },
+  "reference_issue23": {
+    "budgets": [
+      0,
+      2,
+      3,
+      5
+    ],
+    "candidate_rule": {
+      "candidate_cost_proxy": "one unit per candidate; additive proxy only, not physical ANALYZE cost",
+      "candidates": [
+        {
+          "columns": [
+            "Elevation",
+            "Aspect"
+          ],
+          "id": "e01"
+        },
+        {
+          "columns": [
+            "Aspect",
+            "Slope"
+          ],
+          "id": "e12"
+        },
+        {
+          "columns": [
+            "Slope",
+            "Horizontal_Distance_To_Hydrology"
+          ],
+          "id": "e23"
+        },
+        {
+          "columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "id": "e34"
+        },
+        {
+          "columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "id": "e45"
+        },
+        {
+          "columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am"
+          ],
+          "id": "e56"
+        }
+      ],
+      "columns_are_source_names": true,
+      "construction_rule": "six adjacent source-column pairs in the frozen Forest10 schema order; chosen before objective evaluation",
+      "kind": "two-column MCV extended statistic",
+      "statistics_target": 300,
+      "universe_size": 6
+    },
+    "frozen_selection_sets": {
+      "all_distinct_selected_sets": [
+        [],
+        [
+          "e01",
+          "e34"
+        ],
+        [
+          "e01",
+          "e34",
+          "e56"
+        ],
+        [
+          "e12",
+          "e23",
+          "e34"
+        ],
+        [
+          "e12",
+          "e23",
+          "e34",
+          "e45"
+        ],
+        [
+          "e12",
+          "e23",
+          "e34",
+          "e45",
+          "e56"
+        ],
+        [
+          "e12",
+          "e23",
+          "e34",
+          "e56"
+        ],
+        [
+          "e34"
+        ],
+        [
+          "e34",
+          "e45"
+        ],
+        [
+          "e34",
+          "e56"
+        ]
+      ],
+      "by_budget_and_method": {
+        "0": {
+          "joint_robust": {
+            "objective": "14672700091697225791/1000000000000000000",
+            "optimal_sets": [
+              []
+            ],
+            "selected": [],
+            "tie_count": 1
+          },
+          "nominal": {
+            "objective": "14672700091697225791/1000000000000000000",
+            "optimal_sets": [
+              []
+            ],
+            "selected": [],
+            "tie_count": 1
+          },
+          "pess": {
+            "objective": "14672700091697225791/1000000000000000000",
+            "optimal_sets": [
+              []
+            ],
+            "selected": [],
+            "tie_count": 1
+          }
+        },
+        "2": {
+          "joint_robust": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 3
+          },
+          "nominal": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e45"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 4
+          },
+          "pess": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 3
+          }
+        },
+        "3": {
+          "joint_robust": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e01",
+                "e34",
+                "e56"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 4
+          },
+          "nominal": {
+            "objective": "13303092326884799533/1000000000000000000",
+            "optimal_sets": [
+              [
+                "e12",
+                "e23",
+                "e34"
+              ]
+            ],
+            "selected": [
+              "e12",
+              "e23",
+              "e34"
+            ],
+            "tie_count": 1
+          },
+          "pess": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e01",
+                "e34",
+                "e56"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 4
+          }
+        },
+        "5": {
+          "joint_robust": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e01",
+                "e34",
+                "e56"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 4
+          },
+          "nominal": {
+            "objective": "13303092326884799533/1000000000000000000",
+            "optimal_sets": [
+              [
+                "e12",
+                "e23",
+                "e34"
+              ],
+              [
+                "e12",
+                "e23",
+                "e34",
+                "e45"
+              ],
+              [
+                "e12",
+                "e23",
+                "e34",
+                "e45",
+                "e56"
+              ],
+              [
+                "e12",
+                "e23",
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e12",
+              "e23",
+              "e34"
+            ],
+            "tie_count": 4
+          },
+          "pess": {
+            "objective": "2699689273055419537/200000000000000000",
+            "optimal_sets": [
+              [
+                "e01",
+                "e34"
+              ],
+              [
+                "e01",
+                "e34",
+                "e56"
+              ],
+              [
+                "e34"
+              ],
+              [
+                "e34",
+                "e56"
+              ]
+            ],
+            "selected": [
+              "e01",
+              "e34"
+            ],
+            "tie_count": 4
+          }
+        }
+      },
+      "greedy": {
+        "included": false,
+        "reason": "No legitimate greedy decision set exists in the frozen Issue #23 evidence; no post-hoc greedy set is introduced.",
+        "status": "NOT_DEFINED_IN_ISSUE23_REFERENCE"
+      }
+    },
+    "input_manifest_sha256": "bae9202b1807c05932f17e62acaec4e09121fa5a58c994862323562f44e0c71b",
+    "model_evidence_sha256": "6085e8f7f2f140120033477b219fdb15288cd108a8f400161764eb5582afbc1f",
+    "truth_floor": "T=max(1,N); preserve N=0 as a separate stratum"
+  },
+  "source_provenance": {
+    "artifact_sha256": {
+      "archive": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "audit": "8f17118b7e64089974b3a438b87667990f98393231c13c3366d110eac61610a9",
+      "canonical": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+      "csv": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "truth_pickle": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+      "workload_pickle": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea"
+    },
+    "canonical_record_count": 20000,
+    "test_record_count": 10000,
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "upstream_repository": "https://github.com/sfu-db/AreCELearnedYet"
+  },
+  "status": "FROZEN_BEFORE_POSTGRESQL_HELDOUT_OUTCOME_COLLECTION"
+}
