@@ -1,0 +1,26 @@
+{
+  "format": "ess-issue47-stage2a-independent-audit-v1",
+  "ledger_mismatch_count": 0,
+  "ledger_mismatches": [],
+  "matching_error_count": 0,
+  "matching_errors": [],
+  "observation_count": 32,
+  "selected_patterns": {
+    "": 8,
+    "e01": 6,
+    "e01|e23": 2,
+    "e01|e34": 2,
+    "e12": 2,
+    "e13": 2,
+    "e23": 2,
+    "e23|e01": 2,
+    "e34": 2,
+    "e34|e01": 2,
+    "p01": 2
+  },
+  "status_counts": {
+    "INCONCLUSIVE": 4,
+    "OUTSIDE_GATE": 2,
+    "WITHIN_GATE_PASS": 26
+  }
+}

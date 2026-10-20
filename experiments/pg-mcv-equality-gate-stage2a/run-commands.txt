@@ -1,0 +1,25 @@
+# Issue #47 Stage 2A command record; client date 2026-10-20 Asia/Shanghai.
+
+# Offline validation before outcome execution.
+python3 -m py_compile experiments/pg-mcv-equality-gate-stage2a/*.py
+PYTHONPATH=experiments/pg-mcv-equality-gate-stage2a python3 -m unittest -v experiments/pg-mcv-equality-gate-stage2a/test_stage2a.py
+
+# Preregistered smoke case (fresh Issue-owned runtime).
+PYTHONPATH=experiments/pg-mcv-equality-gate-stage2a python3 experiments/pg-mcv-equality-gate-stage2a/run_stage2a.py \
+  --issue-root /tmp/ess-issue47-stage2a-smoke4 \
+  --pg-bin /home/wqts/ess-runtime/issue38/pg-prefix --smoke
+
+# Corrected v3 full matrix (fresh Issue-owned runtime; two repetitions).
+PYTHONPATH=experiments/pg-mcv-equality-gate-stage2a python3 experiments/pg-mcv-equality-gate-stage2a/run_stage2a.py \
+  --issue-root /tmp/ess-issue47-stage2a-v3 \
+  --pg-bin /home/wqts/ess-runtime/issue38/pg-prefix
+
+# Read-only offline replay audit of the redacted v3 evidence.
+PYTHONPATH=experiments/pg-mcv-equality-gate-stage2a python3 experiments/pg-mcv-equality-gate-stage2a/audit_stage2a.py \
+  --observations experiments/pg-mcv-equality-gate-stage2a/evidence-v3/observations.jsonl \
+  --manifest experiments/pg-mcv-equality-gate-stage2a/protocol-manifest.json \
+  --verify-existing experiments/pg-mcv-equality-gate-stage2a/evidence-v3/independent-audit.json
+
+# Verification after evidence capture.
+sha256sum -c experiments/pg-mcv-equality-gate-stage2a/evidence-v3/SHA256SUMS
+git diff --check

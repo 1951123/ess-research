@@ -1,0 +1,17 @@
+{
+  "hash_algorithm": "sha256",
+  "hash_input": "exact UTF-8 SQL string in protocol-manifest.json, without a trailing newline",
+  "fixture_sql": "dffb6d9577db676631b2e300c14546a7284bf82bb1f61e2ab0288af40ac3b589",
+  "queries": {
+    "q_ab": "17254032ba47a4a7d455e92fb982eb0e2669b89fdcc61720dde882167e95db7e",
+    "q_bc": "8a25d7507fa28d060b8a5231645992227a8671e5b786ce6ffe6f4e725ef5ca3d",
+    "q_cd": "66b36bb6133906b121d557cf46bc21861df7b06d4a121e027f71a839c749dca1",
+    "q_de": "4d6e85c3610cff142fb489ae11df3f7fc9721d612dce6505ad1267d1a6a052ef",
+    "q_path3": "9d7eb33183ea22cced39b9ead87f1fc3160752ba2a0d014e954ade7d97dc68c0",
+    "q_star": "9d7eb33183ea22cced39b9ead87f1fc3160752ba2a0d014e954ade7d97dc68c0",
+    "q_disconnected": "d47379ecb857a660600b136552fe685a03dd309d854f926b2a2c25d8b9c766e2",
+    "q_parallel": "17254032ba47a4a7d455e92fb982eb0e2669b89fdcc61720dde882167e95db7e",
+    "q_no_mcv_control": "b1e351978dc6e2c453ab67685971af673ef5810b7b146989f98b1dbf35393561",
+    "q_missing_endpoint_control": "8875b8c1669fa3c2eb2c00f5b0f28b57e4fa16a4cbae86643736d7f7814fff42"
+  }
+}
