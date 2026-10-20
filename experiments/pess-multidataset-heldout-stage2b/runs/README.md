@@ -29,3 +29,12 @@ The v8/v9 files remain unchanged.
 
 `protocol-v3.json` is the current default for future audits. No new runtime or
 held-out comparison is implied by this protocol-version correction.
+
+`v11` is retained as a fail-closed implementation checkpoint: its first
+replay exposed an overly broad parser for marker-free `ESS_MCV_TRACE`
+termination records and did not verify either dataset. `v11-r2` is the first
+corrected exclusive rerun; `v11-r3` repeats it from committed code and is the
+authoritative final v11 evidence under `protocol-v3.json`. Its raw numeric/MCV
+records are PID-associated and both Forest10 and Census13 passed the frozen
+Gate A readiness checks. The result is `GATE_A_READY` infrastructure evidence
+only, not held-out decision-quality evidence; see `v11-r3/report.md`.

@@ -1,0 +1,1177 @@
+{
+  "data_root": "/home/wqts/ess-data",
+  "datasets": [
+    {
+      "checks": {
+        "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+        "candidate_crosswalk": [
+          {
+            "catalog_columns": [
+              "elevation",
+              "aspect"
+            ],
+            "constructible": true,
+            "id": "e01",
+            "source_columns": [
+              "Elevation",
+              "Aspect"
+            ],
+            "statistic_name": "ess2b_forest10_e01"
+          },
+          {
+            "catalog_columns": [
+              "aspect",
+              "slope"
+            ],
+            "constructible": true,
+            "id": "e12",
+            "source_columns": [
+              "Aspect",
+              "Slope"
+            ],
+            "statistic_name": "ess2b_forest10_e12"
+          },
+          {
+            "catalog_columns": [
+              "slope",
+              "horizontal_distance_to_hydrology"
+            ],
+            "constructible": true,
+            "id": "e23",
+            "source_columns": [
+              "Slope",
+              "Horizontal_Distance_To_Hydrology"
+            ],
+            "statistic_name": "ess2b_forest10_e23"
+          },
+          {
+            "catalog_columns": [
+              "horizontal_distance_to_hydrology",
+              "vertical_distance_to_hydrology"
+            ],
+            "constructible": true,
+            "id": "e34",
+            "source_columns": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ],
+            "statistic_name": "ess2b_forest10_e34"
+          },
+          {
+            "catalog_columns": [
+              "vertical_distance_to_hydrology",
+              "horizontal_distance_to_roadways"
+            ],
+            "constructible": true,
+            "id": "e45",
+            "source_columns": [
+              "Vertical_Distance_To_Hydrology",
+              "Horizontal_Distance_To_Roadways"
+            ],
+            "statistic_name": "ess2b_forest10_e45"
+          },
+          {
+            "catalog_columns": [
+              "horizontal_distance_to_roadways",
+              "hillshade_9am"
+            ],
+            "constructible": true,
+            "id": "e56",
+            "source_columns": [
+              "Horizontal_Distance_To_Roadways",
+              "Hillshade_9am"
+            ],
+            "statistic_name": "ess2b_forest10_e56"
+          }
+        ],
+        "legacy_stage1a_ids_excluded": true,
+        "schema": {
+          "aspect": "DOUBLE PRECISION",
+          "elevation": "DOUBLE PRECISION",
+          "hillshade_3pm": "DOUBLE PRECISION",
+          "hillshade_9am": "DOUBLE PRECISION",
+          "hillshade_noon": "DOUBLE PRECISION",
+          "horizontal_distance_to_fire_points": "DOUBLE PRECISION",
+          "horizontal_distance_to_hydrology": "DOUBLE PRECISION",
+          "horizontal_distance_to_roadways": "DOUBLE PRECISION",
+          "slope": "DOUBLE PRECISION",
+          "vertical_distance_to_hydrology": "DOUBLE PRECISION"
+        },
+        "splits": {
+          "test": {
+            "records": 10000,
+            "shape_eligible_count": 9016,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "train": {
+            "records": 100000,
+            "shape_eligible_count": 90026,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "valid": {
+            "records": 10000,
+            "shape_eligible_count": 8995,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          }
+        },
+        "table": {
+          "header": [
+            "Elevation",
+            "Aspect",
+            "Slope",
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am",
+            "Hillshade_Noon",
+            "Hillshade_3pm",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "rows": 581012,
+          "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c"
+        },
+        "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+      },
+      "dataset": "forest10",
+      "errors": [],
+      "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-h28zax8q",
+      "status": "VERIFIED"
+    },
+    {
+      "checks": {
+        "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+        "candidate_crosswalk": [
+          {
+            "catalog_columns": [
+              "age",
+              "workclass"
+            ],
+            "constructible": true,
+            "id": "c01",
+            "source_columns": [
+              "age",
+              "workclass"
+            ],
+            "statistic_name": "ess2b_census13_c01"
+          },
+          {
+            "catalog_columns": [
+              "workclass",
+              "education"
+            ],
+            "constructible": true,
+            "id": "c12",
+            "source_columns": [
+              "workclass",
+              "education"
+            ],
+            "statistic_name": "ess2b_census13_c12"
+          },
+          {
+            "catalog_columns": [
+              "education",
+              "education_num"
+            ],
+            "constructible": true,
+            "id": "c23",
+            "source_columns": [
+              "education",
+              "education_num"
+            ],
+            "statistic_name": "ess2b_census13_c23"
+          },
+          {
+            "catalog_columns": [
+              "education_num",
+              "marital_status"
+            ],
+            "constructible": true,
+            "id": "c34",
+            "source_columns": [
+              "education_num",
+              "marital_status"
+            ],
+            "statistic_name": "ess2b_census13_c34"
+          },
+          {
+            "catalog_columns": [
+              "marital_status",
+              "occupation"
+            ],
+            "constructible": true,
+            "id": "c45",
+            "source_columns": [
+              "marital_status",
+              "occupation"
+            ],
+            "statistic_name": "ess2b_census13_c45"
+          },
+          {
+            "catalog_columns": [
+              "occupation",
+              "relationship"
+            ],
+            "constructible": true,
+            "id": "c56",
+            "source_columns": [
+              "occupation",
+              "relationship"
+            ],
+            "statistic_name": "ess2b_census13_c56"
+          }
+        ],
+        "legacy_stage1a_ids_excluded": true,
+        "schema": {
+          "age": "DOUBLE PRECISION",
+          "capital_gain": "DOUBLE PRECISION",
+          "capital_loss": "DOUBLE PRECISION",
+          "education": "VARCHAR(64)",
+          "education_num": "DOUBLE PRECISION",
+          "hours_per_week": "DOUBLE PRECISION",
+          "marital_status": "VARCHAR(64)",
+          "native_country": "VARCHAR(64)",
+          "occupation": "VARCHAR(64)",
+          "race": "VARCHAR(64)",
+          "relationship": "VARCHAR(64)",
+          "sex": "VARCHAR(64)",
+          "workclass": "VARCHAR(64)"
+        },
+        "splits": {
+          "test": {
+            "records": 10000,
+            "shape_eligible_count": 9203,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "train": {
+            "records": 100000,
+            "shape_eligible_count": 92360,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "valid": {
+            "records": 10000,
+            "shape_eligible_count": 9239,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          }
+        },
+        "table": {
+          "header": [
+            "age",
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "capital_gain",
+            "capital_loss",
+            "hours_per_week",
+            "native_country"
+          ],
+          "rows": 48842,
+          "sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a"
+        },
+        "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+      },
+      "dataset": "census13",
+      "errors": [],
+      "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-x45a8om4",
+      "status": "VERIFIED"
+    }
+  ],
+  "evidence_label": "experimentally_observed_gate_a_readiness_only",
+  "format": "ess-issue48-stage2b-gate-audit-v4",
+  "overall_status": "GATE_A_READY",
+  "postgresql_binary": {
+    "binary_sha256": {
+      "initdb": "3ee2ef9df472a21d057285f759b6932ed7be353d12e9fb1f4d99154433bdb18f",
+      "pg_config": "f4a6843405f63941ca7fc2ac6436fa7f93f7352c3e1f9ba0265f4102296e343c",
+      "pg_ctl": "ac5d9c03a696d5e27c46fba0604071bab33eeb4e36e77580e9288ef24b87ccdd",
+      "postgres": "4efe8b77273e48f36d31beb7acf8ab4a8b8a3fd5240ba477adba25c8a60b42f7",
+      "psql": "344c91f0a67ad4019750f6bbfcffafbc225b96f0ddae8717ec5b699fd6b9e771"
+    },
+    "manifest": "/home/wqts/ess-runtime/issue38/results/heldout-v1/runtime-manifest.json",
+    "manifest_format": "ess-issue38-forest10-runtime-manifest-v1",
+    "prefix": "/home/wqts/ess-runtime/issue38/pg-prefix",
+    "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "source_worktree_clean": true,
+    "status": "VERIFIED",
+    "versions": {
+      "initdb": "initdb (PostgreSQL) 16.14",
+      "pg_config": "PostgreSQL 16.14",
+      "pg_ctl": "pg_ctl (PostgreSQL) 16.14",
+      "postgres": "postgres (PostgreSQL) 16.14",
+      "psql": "psql (PostgreSQL) 16.14"
+    }
+  },
+  "postgresql_source": {
+    "expected_head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "status": "VERIFIED",
+    "trace_source_markers": {
+      "ESS_MCV_NUMERIC_TRACE": true,
+      "ESS_MCV_TRACE": true,
+      "configure_numeric_flag": true
+    },
+    "worktree_clean": true
+  },
+  "probes": [
+    {
+      "checks": {
+        "catalog": [
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "oid": 16393,
+            "statistic_name": "ess2b_forest10_e01",
+            "statistics_target": 300,
+            "stxkeys": "1 2"
+          },
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "oid": 16394,
+            "statistic_name": "ess2b_forest10_e12",
+            "statistics_target": 300,
+            "stxkeys": "2 3"
+          },
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "oid": 16395,
+            "statistic_name": "ess2b_forest10_e23",
+            "statistics_target": 300,
+            "stxkeys": "3 4"
+          },
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "oid": 16396,
+            "statistic_name": "ess2b_forest10_e34",
+            "statistics_target": 300,
+            "stxkeys": "4 5"
+          },
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "oid": 16397,
+            "statistic_name": "ess2b_forest10_e45",
+            "statistics_target": 300,
+            "stxkeys": "5 6"
+          },
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "oid": 16398,
+            "statistic_name": "ess2b_forest10_e56",
+            "statistics_target": 300,
+            "stxkeys": "6 7"
+          }
+        ],
+        "cluster": {
+          "identity": [
+            "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-h28zax8q/pg/pgdata",
+            "49343",
+            "postgres",
+            "PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+          ],
+          "pgdata": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-h28zax8q/pg/pgdata",
+          "port": 49343,
+          "socket": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-h28zax8q/pg/socket"
+        },
+        "fixed_sample": {
+          "bytes": 10620460,
+          "header": {
+            "alignof": 8,
+            "blcksz": 8192,
+            "file_bytes": 10620460,
+            "format_version": 1,
+            "item_pointer_size": 6,
+            "natts": 10,
+            "relation_filenode": 16384,
+            "relation_identity": "6:public8:forest10",
+            "relation_oid": 16384,
+            "relation_pages": 7792,
+            "sample_target": 90000,
+            "server_version": "16.14",
+            "server_version_num": 160014,
+            "tuple_count": 90000,
+            "tuple_header_size": 24,
+            "tuple_size": 24
+          },
+          "path": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-h28zax8q/results/forest10.fixed-sample",
+          "replayed_before_statistics_analyze": true,
+          "sha256": "c4f1de9df3f2b3011e8ade9a8d126154b9d48e640f7a988f08871ea2f5d4011e"
+        },
+        "import": {
+          "rows": 581012,
+          "table": "public.forest10"
+        },
+        "probes": [
+          {
+            "claimed_clause_coverage": {
+              "claimed_clause_indices": [],
+              "claimed_clauses_by_stat_oid": {},
+              "duplicate_claims": [],
+              "mismatched_claim_oids": [],
+              "missing_selected_stat_oids": [],
+              "records": [],
+              "status": "NOT_APPLICABLE"
+            },
+            "errors": [],
+            "label": "shape_control",
+            "numeric": [
+              {
+                "base_relation_oid": "16384",
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "nrows_preclamp": "37931.099617771368",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "rel_tuples": "581012",
+                "rows_postclamp": "37931",
+                "rte_index": "1",
+                "selectivity_preclamp": "0.065284537355117217"
+              }
+            ],
+            "numeric_selected_stat_oids": [],
+            "positive_preclamp": "37931.099617771368",
+            "query_id": "arecel:forest10:valid:000000",
+            "selected_stat_names": [],
+            "selected_stat_oids": [],
+            "selected_trace_records": [],
+            "status": "VERIFIED",
+            "trace_capture": {
+              "associated_mcv_trace_lines": [
+                "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "associated_numeric_trace_lines": [
+                "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=0.065284537355117217 nrows_preclamp=37931.099617771368 rows_postclamp=37931 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-forest10-000000 */ SELECT * FROM public.forest10 WHERE \"hillshade_noon\" >= 208.78662996794571 AND \"hillshade_3pm\" between 187.19571430048148 and 208.80428569951852;"
+              ],
+              "associated_trace_counts": {
+                "mcv": 1,
+                "numeric": 1
+              },
+              "backend_pid": "155155",
+              "end_offset": 4330,
+              "foreign_mcv_trace_lines": [],
+              "foreign_numeric_trace_lines": [],
+              "foreign_trace_counts": {
+                "mcv": 0,
+                "numeric": 0
+              },
+              "marker": "issue48-gate-a-shape_control-forest10-000000",
+              "marker_count": 1,
+              "raw_mcv_trace_lines": [
+                "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "raw_numeric_trace_lines": [
+                "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=0.065284537355117217 nrows_preclamp=37931.099617771368 rows_postclamp=37931 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-forest10-000000 */ SELECT * FROM public.forest10 WHERE \"hillshade_noon\" >= 208.78662996794571 AND \"hillshade_3pm\" between 187.19571430048148 and 208.80428569951852;"
+              ],
+              "raw_trace_counts": {
+                "mcv": 1,
+                "numeric": 1
+              },
+              "start_offset": 3443
+            },
+            "trace_lines": [
+              "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=0.065284537355117217 nrows_preclamp=37931.099617771368 rows_postclamp=37931 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-forest10-000000 */ SELECT * FROM public.forest10 WHERE \"hillshade_noon\" >= 208.78662996794571 AND \"hillshade_3pm\" between 187.19571430048148 and 208.80428569951852;",
+              "2026-10-20 17:13:18.280 CST [155155] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+            ],
+            "unmapped_selected_oids": []
+          },
+          {
+            "claimed_clause_coverage": {
+              "claimed_clause_indices": [
+                "0",
+                "1"
+              ],
+              "claimed_clauses_by_stat_oid": {
+                "16394": [
+                  "0",
+                  "1"
+                ]
+              },
+              "duplicate_claims": [],
+              "mismatched_claim_oids": [],
+              "missing_selected_stat_oids": [],
+              "records": [
+                {
+                  "claimed_clause_index": "0",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                },
+                {
+                  "claimed_clause_index": "1",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                }
+              ],
+              "status": "VERIFIED"
+            },
+            "errors": [],
+            "label": "positive_mcv_coverage",
+            "numeric": [
+              {
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "mcv_basesel": "0",
+                "mcv_sel": "0",
+                "mcv_totalsel": "0.1324444444444442",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "relid": "16384",
+                "selected_stat_oid": "16394",
+                "simple_sel": "2.065286515341471e-05",
+                "stat_clause_count": "2",
+                "stat_sel": "2.065286515341471e-05"
+              },
+              {
+                "base_relation_oid": "16384",
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "nrows_preclamp": "7.1656921971255887",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "rel_tuples": "581012",
+                "rows_postclamp": "7",
+                "rte_index": "1",
+                "selectivity_preclamp": "1.233312254673843e-05"
+              }
+            ],
+            "numeric_selected_stat_oids": [
+              "16394"
+            ],
+            "positive_preclamp": "7.1656921971255887",
+            "query_id": "arecel:forest10:valid:000003",
+            "selected_stat_names": [
+              "ess2b_forest10_e12"
+            ],
+            "selected_stat_oids": [
+              "16394"
+            ],
+            "selected_trace_records": [
+              {
+                "keys": "2",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "0",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "1",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              }
+            ],
+            "status": "VERIFIED",
+            "trace_capture": {
+              "associated_mcv_trace_lines": [
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=0",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=1",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "associated_numeric_trace_lines": [
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=2.065286515341471e-05 mcv_sel=0 mcv_basesel=0 mcv_totalsel=0.1324444444444442 stat_sel=2.065286515341471e-05 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=1.233312254673843e-05 nrows_preclamp=7.1656921971255887 rows_postclamp=7 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;"
+              ],
+              "associated_trace_counts": {
+                "mcv": 4,
+                "numeric": 2
+              },
+              "backend_pid": "155157",
+              "end_offset": 6323,
+              "foreign_mcv_trace_lines": [],
+              "foreign_numeric_trace_lines": [],
+              "foreign_trace_counts": {
+                "mcv": 0,
+                "numeric": 0
+              },
+              "marker": "issue48-gate-a-positive_mcv_coverage-forest10-000003",
+              "marker_count": 2,
+              "raw_mcv_trace_lines": [
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=0",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=1",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "raw_numeric_trace_lines": [
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=2.065286515341471e-05 mcv_sel=0 mcv_basesel=0 mcv_totalsel=0.1324444444444442 stat_sel=2.065286515341471e-05 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;",
+                "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=1.233312254673843e-05 nrows_preclamp=7.1656921971255887 rows_postclamp=7 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;"
+              ],
+              "raw_trace_counts": {
+                "mcv": 4,
+                "numeric": 2
+              },
+              "start_offset": 4330
+            },
+            "trace_lines": [
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=2.065286515341471e-05 mcv_sel=0 mcv_basesel=0 mcv_totalsel=0.1324444444444442 stat_sel=2.065286515341471e-05 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;",
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=581012 selectivity_preclamp=1.233312254673843e-05 nrows_preclamp=7.1656921971255887 rows_postclamp=7 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-forest10-000003 */ SELECT * FROM public.forest10 WHERE \"aspect\" >= 89.37447001055114 AND \"slope\" >= 65.80624190956868 AND \"hillshade_3pm\" between 72.45460390640412 and 155.54539609359588;",
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=0",
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=1",
+              "2026-10-20 17:13:18.489 CST [155157] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+            ],
+            "unmapped_selected_oids": []
+          }
+        ],
+        "trace_coverage": {
+          "claimed_clause_indices": "VERIFIED",
+          "numeric_preclamp": "VERIFIED",
+          "selected_oid_mapping": "VERIFIED"
+        },
+        "validation_probe_selection": {
+          "control_query_id": "arecel:forest10:valid:000000",
+          "mcv_coverage": {
+            "candidate_id": "e12",
+            "query_id": "arecel:forest10:valid:000003",
+            "statistic_name": "ess2b_forest10_e12",
+            "status": "VERIFIED"
+          },
+          "split": "valid",
+          "truth_used_for_selection": false
+        }
+      },
+      "dataset": "forest10",
+      "errors": [],
+      "status": "VERIFIED"
+    },
+    {
+      "checks": {
+        "catalog": [
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "oid": 16389,
+            "statistic_name": "ess2b_census13_c01",
+            "statistics_target": 300,
+            "stxkeys": "1 2"
+          },
+          {
+            "mcv_item_count": 119,
+            "mcv_payload_present": true,
+            "oid": 16390,
+            "statistic_name": "ess2b_census13_c12",
+            "statistics_target": 300,
+            "stxkeys": "2 3"
+          },
+          {
+            "mcv_item_count": 16,
+            "mcv_payload_present": true,
+            "oid": 16391,
+            "statistic_name": "ess2b_census13_c23",
+            "statistics_target": 300,
+            "stxkeys": "3 4"
+          },
+          {
+            "mcv_item_count": 104,
+            "mcv_payload_present": true,
+            "oid": 16392,
+            "statistic_name": "ess2b_census13_c34",
+            "statistics_target": 300,
+            "stxkeys": "4 5"
+          },
+          {
+            "mcv_item_count": 98,
+            "mcv_payload_present": true,
+            "oid": 16393,
+            "statistic_name": "ess2b_census13_c45",
+            "statistics_target": 300,
+            "stxkeys": "5 6"
+          },
+          {
+            "mcv_item_count": 88,
+            "mcv_payload_present": true,
+            "oid": 16394,
+            "statistic_name": "ess2b_census13_c56",
+            "statistics_target": 300,
+            "stxkeys": "6 7"
+          }
+        ],
+        "cluster": {
+          "identity": [
+            "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-x45a8om4/pg/pgdata",
+            "33621",
+            "postgres",
+            "PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+          ],
+          "pgdata": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-x45a8om4/pg/pgdata",
+          "port": 33621,
+          "socket": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-x45a8om4/pg/socket"
+        },
+        "fixed_sample": {
+          "bytes": 8144782,
+          "header": {
+            "alignof": 8,
+            "blcksz": 8192,
+            "file_bytes": 8144782,
+            "format_version": 1,
+            "item_pointer_size": 6,
+            "natts": 13,
+            "relation_filenode": 16384,
+            "relation_identity": "6:public8:census13",
+            "relation_oid": 16384,
+            "relation_pages": 1008,
+            "sample_target": 90000,
+            "server_version": "16.14",
+            "server_version_num": 160014,
+            "tuple_count": 48842,
+            "tuple_header_size": 24,
+            "tuple_size": 24
+          },
+          "path": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-x45a8om4/results/census13.fixed-sample",
+          "replayed_before_statistics_analyze": true,
+          "sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26"
+        },
+        "import": {
+          "rows": 48842,
+          "table": "public.census13"
+        },
+        "probes": [
+          {
+            "claimed_clause_coverage": {
+              "claimed_clause_indices": [
+                "0",
+                "5",
+                "6",
+                "7"
+              ],
+              "claimed_clauses_by_stat_oid": {
+                "16389": [
+                  "0",
+                  "5"
+                ],
+                "16394": [
+                  "6",
+                  "7"
+                ]
+              },
+              "duplicate_claims": [],
+              "mismatched_claim_oids": [],
+              "missing_selected_stat_oids": [],
+              "records": [
+                {
+                  "claimed_clause_index": "0",
+                  "relid": "16384",
+                  "selected_stat_oid": "16389"
+                },
+                {
+                  "claimed_clause_index": "5",
+                  "relid": "16384",
+                  "selected_stat_oid": "16389"
+                },
+                {
+                  "claimed_clause_index": "6",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                },
+                {
+                  "claimed_clause_index": "7",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                }
+              ],
+              "status": "VERIFIED"
+            },
+            "errors": [],
+            "label": "shape_control",
+            "numeric": [
+              {
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "mcv_basesel": "0.059998794470502333",
+                "mcv_sel": "0.070308341181769762",
+                "mcv_totalsel": "0.96435444903976086",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "relid": "16384",
+                "selected_stat_oid": "16389",
+                "simple_sel": "0.061618523660334705",
+                "stat_clause_count": "2",
+                "stat_sel": "0.071928070371602135"
+              },
+              {
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "mcv_basesel": "0.012421905742633896",
+                "mcv_sel": "0.0095000204741820561",
+                "mcv_totalsel": "0.99999999999999944",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "relid": "16384",
+                "selected_stat_oid": "16394",
+                "simple_sel": "0.012421905731816452",
+                "stat_clause_count": "2",
+                "stat_sel": "0.0095000204741820561"
+              },
+              {
+                "base_relation_oid": "16384",
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "nrows_preclamp": "0.0041369459237719439",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "rel_tuples": "48842",
+                "rows_postclamp": "1",
+                "rte_index": "1",
+                "selectivity_preclamp": "8.4700584000899706e-08"
+              }
+            ],
+            "numeric_selected_stat_oids": [
+              "16389",
+              "16394"
+            ],
+            "positive_preclamp": "0.0041369459237719439",
+            "query_id": "arecel:census13:valid:000000",
+            "selected_stat_names": [
+              "ess2b_census13_c01",
+              "ess2b_census13_c56"
+            ],
+            "selected_stat_oids": [
+              "16389",
+              "16394"
+            ],
+            "selected_trace_records": [
+              {
+                "keys": "2",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "claimed_clause_index": "0",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "claimed_clause_index": "5",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "keys": "2",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "6",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "7",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              }
+            ],
+            "status": "VERIFIED",
+            "trace_capture": {
+              "associated_mcv_trace_lines": [
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "associated_numeric_trace_lines": [
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;"
+              ],
+              "associated_trace_counts": {
+                "mcv": 7,
+                "numeric": 3
+              },
+              "backend_pid": "155268",
+              "end_offset": 6350,
+              "foreign_mcv_trace_lines": [],
+              "foreign_numeric_trace_lines": [],
+              "foreign_trace_counts": {
+                "mcv": 0,
+                "numeric": 0
+              },
+              "marker": "issue48-gate-a-shape_control-census13-000000",
+              "marker_count": 3,
+              "raw_mcv_trace_lines": [
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "raw_numeric_trace_lines": [
+                "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;"
+              ],
+              "raw_trace_counts": {
+                "mcv": 7,
+                "numeric": 3
+              },
+              "start_offset": 2756
+            },
+            "trace_lines": [
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-shape_control-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+              "2026-10-20 17:13:28.497 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+              "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+              "2026-10-20 17:13:28.498 CST [155268] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+            ],
+            "unmapped_selected_oids": []
+          },
+          {
+            "claimed_clause_coverage": {
+              "claimed_clause_indices": [
+                "0",
+                "5",
+                "6",
+                "7"
+              ],
+              "claimed_clauses_by_stat_oid": {
+                "16389": [
+                  "0",
+                  "5"
+                ],
+                "16394": [
+                  "6",
+                  "7"
+                ]
+              },
+              "duplicate_claims": [],
+              "mismatched_claim_oids": [],
+              "missing_selected_stat_oids": [],
+              "records": [
+                {
+                  "claimed_clause_index": "0",
+                  "relid": "16384",
+                  "selected_stat_oid": "16389"
+                },
+                {
+                  "claimed_clause_index": "5",
+                  "relid": "16384",
+                  "selected_stat_oid": "16389"
+                },
+                {
+                  "claimed_clause_index": "6",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                },
+                {
+                  "claimed_clause_index": "7",
+                  "relid": "16384",
+                  "selected_stat_oid": "16394"
+                }
+              ],
+              "status": "VERIFIED"
+            },
+            "errors": [],
+            "label": "positive_mcv_coverage",
+            "numeric": [
+              {
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "mcv_basesel": "0.059998794470502333",
+                "mcv_sel": "0.070308341181769762",
+                "mcv_totalsel": "0.96435444903976086",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "relid": "16384",
+                "selected_stat_oid": "16389",
+                "simple_sel": "0.061618523660334705",
+                "stat_clause_count": "2",
+                "stat_sel": "0.071928070371602135"
+              },
+              {
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "mcv_basesel": "0.012421905742633896",
+                "mcv_sel": "0.0095000204741820561",
+                "mcv_totalsel": "0.99999999999999944",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "relid": "16384",
+                "selected_stat_oid": "16394",
+                "simple_sel": "0.012421905731816452",
+                "stat_clause_count": "2",
+                "stat_sel": "0.0095000204741820561"
+              },
+              {
+                "base_relation_oid": "16384",
+                "client_min_messages": "debug1;",
+                "max_parallel_workers_per_gather": "0;",
+                "nrows_preclamp": "0.0041369459237719439",
+                "plan_cache_mode": "force_custom_plan;",
+                "query": "SET",
+                "rel_tuples": "48842",
+                "rows_postclamp": "1",
+                "rte_index": "1",
+                "selectivity_preclamp": "8.4700584000899706e-08"
+              }
+            ],
+            "numeric_selected_stat_oids": [
+              "16389",
+              "16394"
+            ],
+            "positive_preclamp": "0.0041369459237719439",
+            "query_id": "arecel:census13:valid:000000",
+            "selected_stat_names": [
+              "ess2b_census13_c01",
+              "ess2b_census13_c56"
+            ],
+            "selected_stat_oids": [
+              "16389",
+              "16394"
+            ],
+            "selected_trace_records": [
+              {
+                "keys": "2",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "claimed_clause_index": "0",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "claimed_clause_index": "5",
+                "relid": "16384",
+                "selected_stat_oid": "16389"
+              },
+              {
+                "keys": "2",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "6",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              },
+              {
+                "claimed_clause_index": "7",
+                "relid": "16384",
+                "selected_stat_oid": "16394"
+              }
+            ],
+            "status": "VERIFIED",
+            "trace_capture": {
+              "associated_mcv_trace_lines": [
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "associated_numeric_trace_lines": [
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;"
+              ],
+              "associated_trace_counts": {
+                "mcv": 7,
+                "numeric": 3
+              },
+              "backend_pid": "155270",
+              "end_offset": 9968,
+              "foreign_mcv_trace_lines": [],
+              "foreign_numeric_trace_lines": [],
+              "foreign_trace_counts": {
+                "mcv": 0,
+                "numeric": 0
+              },
+              "marker": "issue48-gate-a-positive_mcv_coverage-census13-000000",
+              "marker_count": 3,
+              "raw_mcv_trace_lines": [
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+              ],
+              "raw_numeric_trace_lines": [
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+                "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;"
+              ],
+              "raw_trace_counts": {
+                "mcv": 7,
+                "numeric": 3
+              },
+              "start_offset": 6350
+            },
+            "trace_lines": [
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16389 stat_clause_count=2 simple_sel=0.061618523660334705 mcv_sel=0.070308341181769762 mcv_basesel=0.059998794470502333 mcv_totalsel=0.96435444903976086 stat_sel=0.071928070371602135 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: relid=16384 selected_stat_oid=16394 stat_clause_count=2 simple_sel=0.012421905731816452 mcv_sel=0.0095000204741820561 mcv_basesel=0.012421905742633896 mcv_totalsel=0.99999999999999944 stat_sel=0.0095000204741820561 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_NUMERIC_TRACE: base_relation_oid=16384 rte_index=1 rel_tuples=48842 selectivity_preclamp=8.4700584000899706e-08 nrows_preclamp=0.0041369459237719439 rows_postclamp=1 query=SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE issue48-gate-a-positive_mcv_coverage-census13-000000 */ SELECT * FROM public.census13 WHERE \"age\" >= 26.12015712702472 AND \"workclass\" = 'Self-emp-not-inc' AND \"education_num\" <= 6.153994901195842 AND \"occupation\" = 'Transport-moving' AND \"relationship\" = 'Not-in-family' AND \"capital_gain\" <= 10074.486539710188 AND \"hours_per_week\" between 89.1477462162176 and 98.8522537837824;",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 keys=2",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=0",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16389 claimed_clause_index=5",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 keys=2",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=6",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 selected_stat_oid=16394 claimed_clause_index=7",
+              "2026-10-20 17:13:28.708 CST [155270] wqts@postgres app=psql DEBUG:  ESS_MCV_TRACE: relid=16384 candidate=none; iteration terminated"
+            ],
+            "unmapped_selected_oids": []
+          }
+        ],
+        "trace_coverage": {
+          "claimed_clause_indices": "VERIFIED",
+          "numeric_preclamp": "VERIFIED",
+          "selected_oid_mapping": "VERIFIED"
+        },
+        "validation_probe_selection": {
+          "control_query_id": "arecel:census13:valid:000000",
+          "mcv_coverage": {
+            "candidate_id": "c01",
+            "query_id": "arecel:census13:valid:000000",
+            "statistic_name": "ess2b_census13_c01",
+            "status": "VERIFIED"
+          },
+          "split": "valid",
+          "truth_used_for_selection": false
+        }
+      },
+      "dataset": "census13",
+      "errors": [],
+      "status": "VERIFIED"
+    }
+  ],
+  "protocol_sha256": "f4feb957a6f1618b1d346ff4415d06a859eba2af5bf7ee080db2f175f044746e",
+  "runtime_parent": "/home/wqts/ess-runtime",
+  "scientific_boundary": [
+    "No held-out test truth or estimate was used for model calibration, candidate selection, eligibility filtering, or cohort selection.",
+    "The smoke probe uses a deterministic validation-split query-shape rule and is not a held-out outcome.",
+    "GATE_A_READY means infrastructure readiness only; it is not a Stage 2B outcome PASS or a PostgreSQL containment guarantee.",
+    "The claimed-clause trace requirement is independent of numeric tracing and selected-OID mapping; if it is UNVERIFIED, overall readiness is BLOCKED."
+  ],
+  "trace_coverage": {
+    "claimed_clause_indices": "VERIFIED",
+    "numeric_preclamp": "VERIFIED",
+    "selected_oid_mapping": "VERIFIED"
+  }
+}

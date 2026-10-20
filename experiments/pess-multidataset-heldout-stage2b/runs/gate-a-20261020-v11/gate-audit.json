@@ -1,0 +1,356 @@
+{
+  "data_root": "/home/wqts/ess-data",
+  "datasets": [
+    {
+      "checks": {
+        "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+        "candidate_crosswalk": [
+          {
+            "catalog_columns": [
+              "elevation",
+              "aspect"
+            ],
+            "constructible": true,
+            "id": "e01",
+            "source_columns": [
+              "Elevation",
+              "Aspect"
+            ],
+            "statistic_name": "ess2b_forest10_e01"
+          },
+          {
+            "catalog_columns": [
+              "aspect",
+              "slope"
+            ],
+            "constructible": true,
+            "id": "e12",
+            "source_columns": [
+              "Aspect",
+              "Slope"
+            ],
+            "statistic_name": "ess2b_forest10_e12"
+          },
+          {
+            "catalog_columns": [
+              "slope",
+              "horizontal_distance_to_hydrology"
+            ],
+            "constructible": true,
+            "id": "e23",
+            "source_columns": [
+              "Slope",
+              "Horizontal_Distance_To_Hydrology"
+            ],
+            "statistic_name": "ess2b_forest10_e23"
+          },
+          {
+            "catalog_columns": [
+              "horizontal_distance_to_hydrology",
+              "vertical_distance_to_hydrology"
+            ],
+            "constructible": true,
+            "id": "e34",
+            "source_columns": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ],
+            "statistic_name": "ess2b_forest10_e34"
+          },
+          {
+            "catalog_columns": [
+              "vertical_distance_to_hydrology",
+              "horizontal_distance_to_roadways"
+            ],
+            "constructible": true,
+            "id": "e45",
+            "source_columns": [
+              "Vertical_Distance_To_Hydrology",
+              "Horizontal_Distance_To_Roadways"
+            ],
+            "statistic_name": "ess2b_forest10_e45"
+          },
+          {
+            "catalog_columns": [
+              "horizontal_distance_to_roadways",
+              "hillshade_9am"
+            ],
+            "constructible": true,
+            "id": "e56",
+            "source_columns": [
+              "Horizontal_Distance_To_Roadways",
+              "Hillshade_9am"
+            ],
+            "statistic_name": "ess2b_forest10_e56"
+          }
+        ],
+        "legacy_stage1a_ids_excluded": true,
+        "schema": {
+          "aspect": "DOUBLE PRECISION",
+          "elevation": "DOUBLE PRECISION",
+          "hillshade_3pm": "DOUBLE PRECISION",
+          "hillshade_9am": "DOUBLE PRECISION",
+          "hillshade_noon": "DOUBLE PRECISION",
+          "horizontal_distance_to_fire_points": "DOUBLE PRECISION",
+          "horizontal_distance_to_hydrology": "DOUBLE PRECISION",
+          "horizontal_distance_to_roadways": "DOUBLE PRECISION",
+          "slope": "DOUBLE PRECISION",
+          "vertical_distance_to_hydrology": "DOUBLE PRECISION"
+        },
+        "splits": {
+          "test": {
+            "records": 10000,
+            "shape_eligible_count": 9016,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "train": {
+            "records": 100000,
+            "shape_eligible_count": 90026,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "valid": {
+            "records": 10000,
+            "shape_eligible_count": 8995,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          }
+        },
+        "table": {
+          "header": [
+            "Elevation",
+            "Aspect",
+            "Slope",
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am",
+            "Hillshade_Noon",
+            "Hillshade_3pm",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "rows": 581012,
+          "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c"
+        },
+        "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+      },
+      "dataset": "forest10",
+      "errors": [],
+      "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-6x2mb5kk",
+      "status": "VERIFIED"
+    },
+    {
+      "checks": {
+        "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+        "candidate_crosswalk": [
+          {
+            "catalog_columns": [
+              "age",
+              "workclass"
+            ],
+            "constructible": true,
+            "id": "c01",
+            "source_columns": [
+              "age",
+              "workclass"
+            ],
+            "statistic_name": "ess2b_census13_c01"
+          },
+          {
+            "catalog_columns": [
+              "workclass",
+              "education"
+            ],
+            "constructible": true,
+            "id": "c12",
+            "source_columns": [
+              "workclass",
+              "education"
+            ],
+            "statistic_name": "ess2b_census13_c12"
+          },
+          {
+            "catalog_columns": [
+              "education",
+              "education_num"
+            ],
+            "constructible": true,
+            "id": "c23",
+            "source_columns": [
+              "education",
+              "education_num"
+            ],
+            "statistic_name": "ess2b_census13_c23"
+          },
+          {
+            "catalog_columns": [
+              "education_num",
+              "marital_status"
+            ],
+            "constructible": true,
+            "id": "c34",
+            "source_columns": [
+              "education_num",
+              "marital_status"
+            ],
+            "statistic_name": "ess2b_census13_c34"
+          },
+          {
+            "catalog_columns": [
+              "marital_status",
+              "occupation"
+            ],
+            "constructible": true,
+            "id": "c45",
+            "source_columns": [
+              "marital_status",
+              "occupation"
+            ],
+            "statistic_name": "ess2b_census13_c45"
+          },
+          {
+            "catalog_columns": [
+              "occupation",
+              "relationship"
+            ],
+            "constructible": true,
+            "id": "c56",
+            "source_columns": [
+              "occupation",
+              "relationship"
+            ],
+            "statistic_name": "ess2b_census13_c56"
+          }
+        ],
+        "legacy_stage1a_ids_excluded": true,
+        "schema": {
+          "age": "DOUBLE PRECISION",
+          "capital_gain": "DOUBLE PRECISION",
+          "capital_loss": "DOUBLE PRECISION",
+          "education": "VARCHAR(64)",
+          "education_num": "DOUBLE PRECISION",
+          "hours_per_week": "DOUBLE PRECISION",
+          "marital_status": "VARCHAR(64)",
+          "native_country": "VARCHAR(64)",
+          "occupation": "VARCHAR(64)",
+          "race": "VARCHAR(64)",
+          "relationship": "VARCHAR(64)",
+          "sex": "VARCHAR(64)",
+          "workclass": "VARCHAR(64)"
+        },
+        "splits": {
+          "test": {
+            "records": 10000,
+            "shape_eligible_count": 9203,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "train": {
+            "records": 100000,
+            "shape_eligible_count": 92360,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          },
+          "valid": {
+            "records": 10000,
+            "shape_eligible_count": 9239,
+            "truth_values_not_used_for_selection": true,
+            "unique_query_ids": true
+          }
+        },
+        "table": {
+          "header": [
+            "age",
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "capital_gain",
+            "capital_loss",
+            "hours_per_week",
+            "native_country"
+          ],
+          "rows": 48842,
+          "sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a"
+        },
+        "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+      },
+      "dataset": "census13",
+      "errors": [],
+      "run_root": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-kpvfxhj8",
+      "status": "VERIFIED"
+    }
+  ],
+  "evidence_label": "experimentally_observed_gate_a_readiness_only",
+  "format": "ess-issue48-stage2b-gate-audit-v4",
+  "overall_status": "BLOCKED",
+  "postgresql_binary": {
+    "binary_sha256": {
+      "initdb": "3ee2ef9df472a21d057285f759b6932ed7be353d12e9fb1f4d99154433bdb18f",
+      "pg_config": "f4a6843405f63941ca7fc2ac6436fa7f93f7352c3e1f9ba0265f4102296e343c",
+      "pg_ctl": "ac5d9c03a696d5e27c46fba0604071bab33eeb4e36e77580e9288ef24b87ccdd",
+      "postgres": "4efe8b77273e48f36d31beb7acf8ab4a8b8a3fd5240ba477adba25c8a60b42f7",
+      "psql": "344c91f0a67ad4019750f6bbfcffafbc225b96f0ddae8717ec5b699fd6b9e771"
+    },
+    "manifest": "/home/wqts/ess-runtime/issue38/results/heldout-v1/runtime-manifest.json",
+    "manifest_format": "ess-issue38-forest10-runtime-manifest-v1",
+    "prefix": "/home/wqts/ess-runtime/issue38/pg-prefix",
+    "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "source_worktree_clean": true,
+    "status": "VERIFIED",
+    "versions": {
+      "initdb": "initdb (PostgreSQL) 16.14",
+      "pg_config": "PostgreSQL 16.14",
+      "pg_ctl": "pg_ctl (PostgreSQL) 16.14",
+      "postgres": "postgres (PostgreSQL) 16.14",
+      "psql": "psql (PostgreSQL) 16.14"
+    }
+  },
+  "postgresql_source": {
+    "expected_head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "status": "VERIFIED",
+    "trace_source_markers": {
+      "ESS_MCV_NUMERIC_TRACE": true,
+      "ESS_MCV_TRACE": true,
+      "configure_numeric_flag": true
+    },
+    "worktree_clean": true
+  },
+  "probes": [
+    {
+      "checks": {},
+      "dataset": "forest10",
+      "errors": [
+        "ESS_MCV_TRACE contains a claim without selected_stat_oid or claimed_clause_index"
+      ],
+      "status": "INCOMPATIBLE"
+    },
+    {
+      "checks": {},
+      "dataset": "census13",
+      "errors": [
+        "ESS_MCV_TRACE contains a claim without selected_stat_oid or claimed_clause_index"
+      ],
+      "status": "INCOMPATIBLE"
+    }
+  ],
+  "protocol_sha256": "f4feb957a6f1618b1d346ff4415d06a859eba2af5bf7ee080db2f175f044746e",
+  "runtime_parent": "/home/wqts/ess-runtime",
+  "scientific_boundary": [
+    "No held-out test truth or estimate was used for model calibration, candidate selection, eligibility filtering, or cohort selection.",
+    "The smoke probe uses a deterministic validation-split query-shape rule and is not a held-out outcome.",
+    "GATE_A_READY means infrastructure readiness only; it is not a Stage 2B outcome PASS or a PostgreSQL containment guarantee.",
+    "The claimed-clause trace requirement is independent of numeric tracing and selected-OID mapping; if it is UNVERIFIED, overall readiness is BLOCKED."
+  ],
+  "trace_coverage": {
+    "claimed_clause_indices": "UNVERIFIED",
+    "numeric_preclamp": "VERIFIED",
+    "selected_oid_mapping": "VERIFIED"
+  }
+}
