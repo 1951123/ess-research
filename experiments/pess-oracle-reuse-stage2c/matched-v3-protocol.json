@@ -1,0 +1,54 @@
+{
+  "protocol": "stage2c-matched-existing-cache-v3",
+  "purpose": "Correct the v2 method-order imbalance without changing the frozen model, inputs, solver caps, or treatment.",
+  "parent_evidence": [
+    "runs/20261020-profile-v1/",
+    "runs/20261020-matched-v1/",
+    "runs/20261020-matched-v2/"
+  ],
+  "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+  "input_freeze": "input-freeze-v1.json",
+  "same_frozen_inputs_as_v1_and_v2": true,
+  "repetitions": 3,
+  "endpoint_seconds": 5.0,
+  "solver_configuration": {
+    "total_time_limit": 5.0,
+    "inner_time_limit": 5.0,
+    "certification_tolerance": 0.0,
+    "cut_tolerance": 0.000001
+  },
+  "methods": [
+    "static",
+    "master_oracle_uncached",
+    "master_oracle_existing_task_cache"
+  ],
+  "execution": {
+    "fresh_process_per_method": true,
+    "no_posthoc_order_selection": true,
+    "schedule": "cyclic-balanced",
+    "orders_by_repetition": [
+      ["static", "master_oracle_uncached", "master_oracle_existing_task_cache"],
+      ["master_oracle_uncached", "master_oracle_existing_task_cache", "static"],
+      ["master_oracle_existing_task_cache", "static", "master_oracle_uncached"]
+    ],
+    "each_method_occupies_each_position_once_per_case": true,
+    "block_order_index": "(repetition - 1) mod 3, independent of measured outcome"
+  },
+  "timing": {
+    "solver_call_wall_seconds": "from immediately before solver call to immediately after solver returns",
+    "full_verified_wall_seconds": "from immediately before solver call to after independent Fraction objective and witness verification",
+    "excludes": [
+      "subprocess launch and Python import",
+      "read_instance setup",
+      "parent JSON parsing and output write"
+    ],
+    "interpretation": "solver-plus-verifier wall time, not process-launch-to-output end-to-end time"
+  },
+  "classification": {
+    "solver_objective_match": "independent selected-set objective equals solver-reported objective",
+    "solver_objective_missing": "independent selected-set objective computed but solver objective is absent",
+    "solver_objective_mismatch": "independent selected-set objective differs from solver-reported objective",
+    "no_selected_solution": "no selected set is available for independent verification"
+  },
+  "decision_rule": "Use v3 only to correct order-bias interpretation; preserve v1/v2 raw evidence and do not claim causal speedup or a new algorithm."
+}
