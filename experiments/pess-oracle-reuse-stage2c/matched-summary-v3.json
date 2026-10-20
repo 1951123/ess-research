@@ -1,0 +1,997 @@
+{
+  "balanced_method_order": true,
+  "case_count": 8,
+  "cases": {
+    "conflicting_cycles_4907": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            40,
+            40,
+            40
+          ],
+          "full_verified_wall_seconds": [
+            4.320647387999998,
+            4.302817203000814,
+            4.264497345000564
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 4.302817203000814,
+          "median_solver_call_wall_seconds": 4.284488776000217,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            4.302395467999304,
+            4.284488776000217,
+            4.246125924999433
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            4.327368051999656,
+            4.314503138000873,
+            4.346575908000887
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 4.327368051999656,
+          "median_solver_call_wall_seconds": 4.3083091040007275,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            4.3083091040007275,
+            4.294580646999748,
+            4.327498093000031
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.3900145879997581,
+            0.3869430620015919,
+            0.38890510400051426
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.38890510400051426,
+          "median_solver_call_wall_seconds": 0.3886274600008619,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.3897776769990742,
+            0.3866574660005426,
+            0.3886274600008619
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "large_cycle_3922": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            9,
+            9,
+            9
+          ],
+          "full_verified_wall_seconds": [
+            5.059686717999284,
+            5.045900868999524,
+            5.048290755999915
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 1,
+            "SOLVER_OBJECTIVE_MISSING": 2
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 5.048290755999915,
+          "median_solver_call_wall_seconds": 5.006398257999535,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            5.017649995999818,
+            5.004924478000248,
+            5.006398257999535
+          ],
+          "statuses": [
+            "not_optimal",
+            "not_optimal",
+            "not_optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            5.045498530000259,
+            5.033536187000209,
+            5.034225282000989
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 2,
+            "SOLVER_OBJECTIVE_MISSING": 1
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 5.034225282000989,
+          "median_solver_call_wall_seconds": 5.001990320999539,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            5.001179730999866,
+            5.001990320999539,
+            5.0021428689997265
+          ],
+          "statuses": [
+            "not_optimal",
+            "not_optimal",
+            "not_optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            3.956395164999776,
+            4.07627377100107,
+            3.9199071010007174
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 3.956395164999776,
+          "median_solver_call_wall_seconds": 3.9558239279995178,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            3.9558239279995178,
+            4.0757899430009275,
+            3.919426125001337
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "large_mixed_parallel_3923": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            20,
+            20,
+            20
+          ],
+          "full_verified_wall_seconds": [
+            5.042945028999384,
+            5.043673873999069,
+            5.032799144000819
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MISSING": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MISSING"
+          ],
+          "median_full_verified_wall_seconds": 5.042945028999384,
+          "median_solver_call_wall_seconds": 5.0012782470003,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            5.010005928999817,
+            5.0012782470003,
+            5.0011709589998645
+          ],
+          "statuses": [
+            "not_optimal",
+            "not_optimal",
+            "not_optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            5.037643872999979,
+            5.035223441000198,
+            5.043949029000942
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 1,
+            "SOLVER_OBJECTIVE_MISSING": 2
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MISSING",
+            "SOLVER_OBJECTIVE_MISSING"
+          ],
+          "median_full_verified_wall_seconds": 5.037643872999979,
+          "median_solver_call_wall_seconds": 5.007524606000516,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            5.007524606000516,
+            5.0021173269997234,
+            5.010226110000076
+          ],
+          "statuses": [
+            "not_optimal",
+            "not_optimal",
+            "not_optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.7089307580008608,
+            0.6987466290011071,
+            0.6991662780001207
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.6991662780001207,
+          "median_solver_call_wall_seconds": 0.6988116850006918,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.7085999410010118,
+            0.6984329220013024,
+            0.6988116850006918
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "large_sharing_cycle_3924": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            7,
+            7,
+            7
+          ],
+          "full_verified_wall_seconds": [
+            0.1655619539997133,
+            0.16730115599966666,
+            0.16541246400083764
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.1655619539997133,
+          "median_solver_call_wall_seconds": 0.1632690240003285,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.1632690240003285,
+            0.16513012199902732,
+            0.1631937170004676
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.16840582099939638,
+            0.175036751999869,
+            0.17388167799981602
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.17388167799981602,
+          "median_solver_call_wall_seconds": 0.17144888599978003,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.16605311400053324,
+            0.17248218799977622,
+            0.17144888599978003
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.7089998370011017,
+            0.691588308000064,
+            0.6944980530006433
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.6944980530006433,
+          "median_solver_call_wall_seconds": 0.6941428770005587,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.7086711540014221,
+            0.6912632880012097,
+            0.6941428770005587
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "path_signed_cancel_4901": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            1,
+            1,
+            1
+          ],
+          "full_verified_wall_seconds": [
+            0.007281053000042448,
+            0.007217509000838618,
+            0.0072074710005836096
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.007217509000838618,
+          "median_solver_call_wall_seconds": 0.0069391969991556834,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.0070003299988457,
+            0.0069391969991556834,
+            0.006914478000908275
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.007571586000267416,
+            0.007234609000079217,
+            0.007385421000435599
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.007385421000435599,
+          "median_solver_call_wall_seconds": 0.007083937000061269,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.007292586000403389,
+            0.006949324000743218,
+            0.007083937000061269
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.006659463000687538,
+            0.006656527999439277,
+            0.006630318999668816
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.006656527999439277,
+          "median_solver_call_wall_seconds": 0.006454114000007394,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.006454114000007394,
+            0.006471667000369052,
+            0.006450165999922319
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "shared_cycle_4905": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.05693993699969724,
+            0.05653584100036824,
+            0.05730986199887411
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.05693993699969724,
+          "median_solver_call_wall_seconds": 0.055938302000868134,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.055938302000868134,
+            0.05555742300020938,
+            0.0562838699988788
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.05710250400079531,
+            0.05702918599854456,
+            0.056222246999823255
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.05702918599854456,
+          "median_solver_call_wall_seconds": 0.055937424000148894,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.05607753000003868,
+            0.055937424000148894,
+            0.055092209000576986
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.026999681000233977,
+            0.027808368000478367,
+            0.028113591999499477
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.027808368000478367,
+          "median_solver_call_wall_seconds": 0.027559150999877602,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.026751354000225547,
+            0.027559150999877602,
+            0.027871087000676198
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "small_sharing_cycle_3904": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            7,
+            7,
+            7
+          ],
+          "full_verified_wall_seconds": [
+            0.025542684001266025,
+            0.02472292099992046,
+            0.02480798699980369
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.02480798699980369,
+          "median_solver_call_wall_seconds": 0.024329948999366025,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.02504983000108041,
+            0.024249977001090883,
+            0.024329948999366025
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.03152486399994814,
+            0.031209007000143174,
+            0.031205887000396615
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.031209007000143174,
+          "median_solver_call_wall_seconds": 0.03054246499959845,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.030835800000204472,
+            0.03050832100052503,
+            0.03054246499959845
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.006754649999493267,
+            0.0066566130008141045,
+            0.006883085001391009
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.006754649999493267,
+          "median_solver_call_wall_seconds": 0.006528854999487521,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.006528854999487521,
+            0.006443406000471441,
+            0.006669968001006055
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    },
+    "small_star_single_3901": {
+      "fresh_process_per_method": true,
+      "method_orders": [
+        [
+          "static",
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache"
+        ],
+        [
+          "master_oracle_uncached",
+          "master_oracle_existing_task_cache",
+          "static"
+        ],
+        [
+          "master_oracle_existing_task_cache",
+          "static",
+          "master_oracle_uncached"
+        ]
+      ],
+      "methods": {
+        "master_oracle_existing_task_cache": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.007159558999774163,
+            0.007268244999067974,
+            0.007272972001374001
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.007268244999067974,
+          "median_solver_call_wall_seconds": 0.0069721589989057975,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.006898444999023923,
+            0.0069721589989057975,
+            0.006979792000493035
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "master_oracle_uncached": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.007209030000012717,
+            0.007059200001094723,
+            0.007018050000624498
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.007059200001094723,
+          "median_solver_call_wall_seconds": 0.006788865000999067,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.006941866000488517,
+            0.006788865000999067,
+            0.006745654000042123
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        },
+        "static": {
+          "cache_hits": [
+            0,
+            0,
+            0
+          ],
+          "full_verified_wall_seconds": [
+            0.006131703001301503,
+            0.00588317900110269,
+            0.006047815000783885
+          ],
+          "independent_verification_status_counts": {
+            "SOLVER_OBJECTIVE_MATCH": 3
+          },
+          "independent_verification_statuses": [
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH",
+            "SOLVER_OBJECTIVE_MATCH"
+          ],
+          "median_full_verified_wall_seconds": 0.006047815000783885,
+          "median_solver_call_wall_seconds": 0.005874844000572921,
+          "repetitions": 3,
+          "solver_call_wall_seconds": [
+            0.005964391000816249,
+            0.005717179999919608,
+            0.005874844000572921
+          ],
+          "statuses": [
+            "optimal",
+            "optimal",
+            "optimal"
+          ]
+        }
+      }
+    }
+  },
+  "fresh_process_per_method": true,
+  "method_position_counts": {
+    "master_oracle_existing_task_cache": [
+      8,
+      8,
+      8
+    ],
+    "master_oracle_uncached": [
+      8,
+      8,
+      8
+    ],
+    "static": [
+      8,
+      8,
+      8
+    ]
+  },
+  "order_schedule": "cyclic-balanced-v3",
+  "raw_record_count": 24
+}

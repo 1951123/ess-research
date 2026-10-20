@@ -1,0 +1,132 @@
+{
+  "budget": "9/2",
+  "candidates": [
+    {
+      "endpoints": [
+        "a3",
+        "a5"
+      ],
+      "id": "e000",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a5"
+      ],
+      "id": "e001",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a5"
+      ],
+      "id": "e002",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a4"
+      ],
+      "id": "e003",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a5"
+      ],
+      "id": "e004",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a2"
+      ],
+      "id": "e005",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a5"
+      ],
+      "id": "e006",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a4",
+        "a5"
+      ],
+      "id": "e007",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a4"
+      ],
+      "id": "e008",
+      "maintenance_cost": "1",
+      "table": "t0"
+    }
+  ],
+  "tasks": [
+    {
+      "alpha": "0",
+      "corrections": {
+        "e000": "0",
+        "e002": "-1",
+        "e003": "3",
+        "e005": "1",
+        "e006": "2",
+        "e008": "0"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e002",
+        "e003",
+        "e005",
+        "e006",
+        "e008"
+      ],
+      "id": "i000",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "1/2",
+      "corrections": {
+        "e001": "-1/2",
+        "e002": "3",
+        "e004": "-4",
+        "e005": "-3/2",
+        "e007": "-4",
+        "e008": "-1/2"
+      },
+      "eligible_candidates": [
+        "e001",
+        "e002",
+        "e004",
+        "e005",
+        "e007",
+        "e008"
+      ],
+      "id": "i001",
+      "table": "t0",
+      "weight": "2"
+    }
+  ]
+}
