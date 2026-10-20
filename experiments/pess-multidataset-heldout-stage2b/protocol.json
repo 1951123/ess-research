@@ -1,0 +1,208 @@
+{
+  "format": "ess-issue48-stage2b-multidataset-heldout-protocol-v1",
+  "issue": 48,
+  "status": "FROZEN_BEFORE_GATE_A_OR_OUTCOME_COLLECTION",
+  "evidence_label": "protocol_and_prior_input_audit_only",
+  "scope": {
+    "repository": "1951123/ess-research",
+    "directory_only": "experiments/pess-multidataset-heldout-stage2b",
+    "other_repositories_read_only": ["ess-advisor", "ess-postgresql"],
+    "stage1a_test_ids_are_new_cohort": false,
+    "raw_data_or_pgdata_committed": false,
+    "source_or_trace_mutation_authorized": false
+  },
+  "question": "Whether descriptive held-out PostgreSQL decision differences, tails, harms/benefits, and effective MCV coverage vary across real datasets, budgets, query shapes, and physically available MCV payloads.",
+  "dataset_gate": {
+    "required_pass_count": 2,
+    "target_datasets": ["forest10", "census13", "dmv11", "power7"],
+    "minimum_new_test_query_ids_per_passing_dataset": 30,
+    "target_new_test_query_ids_per_passing_dataset": [30, 100],
+    "selection_uses": ["canonical query ID", "source-query SHA256", "predicate-attribute coverage", "canonical query fingerprint", "predeclared candidate-conflict strata"],
+    "selection_does_not_use": ["source truth cardinality", "PostgreSQL estimates", "MCV payload contents", "trace output", "model loss", "timing", "test-derived calibration", "posthoc workload filtering"],
+    "duplicate_sql_policy": "canonical query fingerprints are grouped before splitting; shared fingerprints across train/valid/test are reported and do not become independent query IDs",
+    "failure_policy": "MISSING, INCOMPATIBLE, or BLOCKED prerequisites fail closed; no synthetic replacement or silent exclusion",
+    "historical_canonical_hashes_are": "references only; derived canonical hashes are the actual verified ETL identities"
+  },
+  "source_provenance": {
+    "upstream_repository": "https://github.com/sfu-db/AreCELearnedYet",
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "code_license": "MIT",
+    "data_license_status": "pinned upstream materials do not state a separate data-redistribution license; local validation only",
+    "forest10": {
+      "source_report": "experiments/arecel/issue17-acquisition-manifest.json",
+      "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "workload_pickle_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+      "label_pickle_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+      "derived_canonical_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+      "historical_canonical_reference_sha256": "a922d87660b2dec431a77c2e4a054c4f5528b0f25040859d76d0148a9ed73e74",
+      "csv_rows": 581012,
+      "split_counts": {"valid": 10000, "test": 10000},
+      "prior_pairwise_syntax_count": {"eligible": 18011, "total": 20000, "diagnostic_sha256": "5bd612015d5c9c79d4c78ae9cb9b7a364d3bdef26138b72ecad9b263f7ec2396"}
+    },
+    "census13": {
+      "source_report": "experiments/arecel/issue19-acquisition-manifest.json",
+      "csv_sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+      "workload_pickle_sha256": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba",
+      "label_pickle_sha256": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451",
+      "derived_canonical_sha256": "fc31f94d1deb83ba67cc1144d2628f0f8fe9d1f17597d766e2829f0e83788035",
+      "historical_canonical_reference_sha256": "9bcfc868effee9a796fff08454eeb85f135049e862ee0eb2dd801831d7df9388",
+      "csv_rows": 48842,
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "prior_pairwise_syntax_count": {"eligible": 110802, "total": 120000, "diagnostic_sha256": "038913aac86ac5cd9046293b3ed9054ee6265a2da847a816e3a11523a6822c43"}
+    },
+    "dmv11": {
+      "source_report": "experiments/arecel/issue19-acquisition-manifest.json",
+      "csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+      "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc",
+      "label_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881a1d9d9f98d65",
+      "derived_canonical_sha256": "f4e6f5747248b0ead853fa71c7f9931c8db79a16dea219c44e53ddf449850632",
+      "historical_canonical_reference_sha256": "71bb6e3c61da5ab1096cc52d41e7f696d486e4a3ba1c4586c01119df26fe9f40",
+      "csv_rows": 11591877,
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "prior_pairwise_syntax_count": {"eligible": 109129, "total": 120000, "diagnostic_sha256": "74313e7da113508cb1e0368001ba4f39cb2e099543285fe870c0262ded86d580"}
+    },
+    "power7": {
+      "source_report": "experiments/arecel/issue19-acquisition-manifest.json",
+      "csv_sha256": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9",
+      "workload_pickle_sha256": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5",
+      "label_pickle_sha256": "d7369b34d2ddc866dbb16c3b2f5147cb10a86832dba54c905ef400bc3514cdf5",
+      "derived_canonical_sha256": "332f645d9aafaf1e1068c79898bec690446aeb484f59099d1d0b8109db2df64c",
+      "historical_canonical_reference_sha256": "9f1b11d72bcefe9d76cd83b1f995a6d6f4e0922434975550e2d5783425152327",
+      "csv_rows": 2075259,
+      "split_counts": {"train": 100000, "valid": 10000, "test": 10000},
+      "prior_pairwise_syntax_count": {"eligible": 102967, "total": 120000, "diagnostic_sha256": "b8787a9773cba72e6f9155facddffd723e16c7de055c8b9101258c9fb66fd14f"}
+    }
+  },
+  "datasets": {
+    "forest10": {
+      "benchmark_id": "arecel-forest10",
+      "relation": "public.forest10_original",
+      "source_query_table": "forest10_original",
+      "source_columns": ["Elevation", "Aspect", "Slope", "Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways", "Hillshade_9am", "Hillshade_Noon", "Hillshade_3pm", "Horizontal_Distance_To_Fire_Points"],
+      "candidate_universe_status": "frozen_real_legacy_universe_from_issue23; not the stale synthetic instance.json",
+      "candidates": [
+        {"id": "e01", "columns": ["Elevation", "Aspect"]},
+        {"id": "e12", "columns": ["Aspect", "Slope"]},
+        {"id": "e23", "columns": ["Slope", "Horizontal_Distance_To_Hydrology"]},
+        {"id": "e34", "columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"]},
+        {"id": "e45", "columns": ["Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways"]},
+        {"id": "e56", "columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am"]}
+      ]
+    },
+    "census13": {
+      "benchmark_id": "arecel-census13",
+      "relation": "public.census13",
+      "source_query_table": "census13",
+      "source_columns": ["age", "workclass", "education", "education_num", "marital_status", "occupation", "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country"],
+      "candidate_universe_status": "frozen adjacent source-column pairs; physical constructibility still requires Gate A",
+      "candidates": [
+        {"id": "c01", "columns": ["age", "workclass"]},
+        {"id": "c12", "columns": ["workclass", "education"]},
+        {"id": "c23", "columns": ["education", "education_num"]},
+        {"id": "c34", "columns": ["education_num", "marital_status"]},
+        {"id": "c45", "columns": ["marital_status", "occupation"]},
+        {"id": "c56", "columns": ["occupation", "relationship"]}
+      ]
+    },
+    "dmv11": {
+      "benchmark_id": "arecel-dmv11",
+      "relation": "public.dmv11",
+      "source_query_table": "dmv11",
+      "source_columns": ["record_type", "registration_class", "state", "county", "body_type", "fuel_type", "reg_valid_date", "color", "scofflaw_indicator", "suspension_indicator", "revocation_indicator"],
+      "candidate_universe_status": "frozen adjacent source-column pairs; physical constructibility still requires Gate A",
+      "candidates": [
+        {"id": "d01", "columns": ["record_type", "registration_class"]},
+        {"id": "d12", "columns": ["registration_class", "state"]},
+        {"id": "d23", "columns": ["state", "county"]},
+        {"id": "d34", "columns": ["county", "body_type"]},
+        {"id": "d45", "columns": ["body_type", "fuel_type"]},
+        {"id": "d56", "columns": ["fuel_type", "reg_valid_date"]}
+      ]
+    },
+    "power7": {
+      "benchmark_id": "arecel-power7",
+      "relation": "public.power7",
+      "source_query_table": "power7",
+      "source_columns": ["global_active_power", "global_reactive_power", "voltage", "global_intensity", "sub_metering_1", "sub_metering_2", "sub_metering_3"],
+      "candidate_universe_status": "frozen adjacent source-column pairs; physical constructibility still requires Gate A",
+      "candidates": [
+        {"id": "p01", "columns": ["global_active_power", "global_reactive_power"]},
+        {"id": "p12", "columns": ["global_reactive_power", "voltage"]},
+        {"id": "p23", "columns": ["voltage", "global_intensity"]},
+        {"id": "p34", "columns": ["global_intensity", "sub_metering_1"]},
+        {"id": "p45", "columns": ["sub_metering_1", "sub_metering_2"]},
+        {"id": "p56", "columns": ["sub_metering_2", "sub_metering_3"]}
+      ]
+    }
+  },
+  "selection_and_model": {
+    "validation_split": "valid",
+    "heldout_split": "test",
+    "source_query_and_truth_parser": "the verified AreCEL ETL contract; truth is read only after the query-ID cohort is frozen",
+    "query_forms": ["single-table conjunctive predicates", "supported equality/inequality/range operators", "at least two distinct constrained source attributes"],
+    "query_fingerprint": "canonical source-query representation including table, ordered predicate semantics, and source-query SHA256",
+    "cohort_seed": "ess-issue48-stage2b-heldout-v1",
+    "candidate_conflict_strata": "candidate-coverage and endpoint-conflict graph only; truth and estimates are not used",
+    "calibration_inputs": ["validation split only", "fixed sample only", "source-pinned PG trace and catalog payload"],
+    "test_leakage_policy": "no test truth, test estimate, test trace, test cost, or test query outcome may affect candidate universe, model coefficients, selected sets, hyperparameters, or cohort membership",
+    "positive_preclamp_log_conditions": ["T=max(1,N)>0", "measured pre-clamp estimate >0"],
+    "model_loss": "positive pre-clamp absolute log error; PostgreSQL rounded/clamped Plan Rows is secondary and not substituted",
+    "methods": {
+      "Empty": {"policy_knowledge": "no statistics resource", "selection": "empty set"},
+      "PESS": {"policy_knowledge": "prescribed complete maximal-matching schemes are uncertain; task-wise worst cases are summed", "selection": "minimize the generic task-wise PESS objective under the additive proxy"},
+      "Nominal": {"policy_knowledge": "the frozen candidate order is treated as the known nominal policy", "selection": "evaluate the fixed order induced scheme"},
+      "Joint-Robust": {"policy_knowledge": "one shared unknown policy/order is common across tasks", "selection": "maximize total loss over shared candidate orders, then minimize over resource sets"}
+    },
+    "solver_policy": "retain all optimal ties; exact Fraction enumeration where tractable; floating-point solver optimality and duals are numerical unless independently certified",
+    "budgets": [0, 2, 3, 5],
+    "cost": {"candidate_proxy_units": 1, "interpretation": "additive experimental proxy only; generic physical Maint is not assumed additive", "infeasible_budget_reporting": "report INFEASIBLE rather than substituting a nearby budget"}
+  },
+  "postgresql_protocol": {
+    "server_version": "16.14",
+    "source_repository": "1951123/ess-postgresql",
+    "source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "trace_requirements": ["ESS_MCV_TRACE selected statistic OIDs and claimed clauses", "numeric pre-clamp trace", "unmapped OID is invalid", "missing or incomplete trace is INVALID/INCONCLUSIVE"],
+    "statistics_kind": "two-column MCV extended statistics",
+    "statistics_target": 300,
+    "creation_order": "dataset candidate-list order; Empty creates none",
+    "name_template": "ess2b_<dataset>_<candidate_id>",
+    "oid_policy": "record actual catalog OIDs per snapshot; never predeclare or infer OIDs",
+    "sample_policy": "one approved fixed sample per dataset, replayed before every ANALYZE; sample identity and hash must be frozen before held-out measurement",
+    "catalog_policy": "record requested object, stxkeys, source columns/types, actual MCV payload presence/item count, build failures, and trace-selected objects",
+    "cluster_isolation": "Issue-owned disposable PGDATA, PGHOST, port, files, logs, OIDs, and database; no concurrent Stage 2A/2C cluster use",
+    "repetitions": 2,
+    "repetitions_are": "stability repeats, not independent query IDs or distinct samples",
+    "latency": "not collected; no latency claim",
+    "raw_artifacts": "external immutable hash-addressed runtime root"
+  },
+  "metrics_frozen_before_collection": {
+    "per_query": ["positive pre-clamp |ln(estimate/max(1,truth))|", "estimate-minus-truth direction where defined", "selected statistic OIDs", "MCV payload present/missing", "trace coverage", "requested/effective mismatch", "model-vs-PG residual where measurable"],
+    "aggregate": ["mean", "median", "P90", "maximum", "query-ID-level harms/ties/benefits", "paired deltas versus Empty and Nominal", "repetition spread"],
+    "strata": ["truth=0 versus truth>0", "candidate payload coverage", "supported query topology", "conflict graph", "tail by true cardinality after cohort freeze"],
+    "paired_denominator": "common valid query IDs only; invalid rows are disclosed and block a GO claim",
+    "zero_and_missing_policy": "zero truth is retained with T=max(1,N); nonpositive estimate, missing trace, unmapped OID, stale snapshot, or hash mismatch is INVALID/INCONCLUSIVE, never silently dropped",
+    "physical_maintenance": "reported in separate columns/domain from model loss and proxy budget",
+    "plan_rows": "secondary diagnostic only; not the pre-clamp metric"
+  },
+  "run_limits": {
+    "maximum_new_measurements": "predeclare exact count after Gate A and before execution; hard cap is 4 datasets * 4 budgets * 4 methods * 100 query IDs * 2 repetitions only if all are feasible",
+    "setup_cap": "predeclare per-dataset statistics creation/ANALYZE/query wall-time cap before execution",
+    "resource_cap": "predeclare CPU, memory, disk, and batch order in the runtime manifest",
+    "exclusive_create": true,
+    "no_overwrite": true
+  },
+  "decision_gate": {
+    "PASS": "at least two real datasets complete matched Empty/PESS/Nominal evaluation, at least two feasible budgets per dataset, frozen independent test cohorts, complete traces, and reproducible nontrivial descriptive differences",
+    "NO_GO": "the tested physical hypothesis has no nontrivial contrast under the supported workloads, with valid complete evidence",
+    "INCONCLUSIVE": "complete evidence exists but the cohort is too small/unrepresentative or no defensible contrast is identified",
+    "BLOCKED": "fewer than two datasets pass required data, source/build, trace, sample, or held-out prerequisites",
+    "not_claimed": ["universal objective dominance", "population-level confidence by repeated same-sample runs", "universal PostgreSQL containment", "additive physical maintenance law", "latency benefit"]
+  },
+  "prior_artifact_boundaries": {
+    "stage1a": "experiments/forest10-heldout-decision-stage1a is read-only; its 60 test IDs are not new Stage 2B IDs",
+    "stage1c": "experiments/pg-mcv-composition-stage1c is read-only; its 340 observations are not Stage 2B outcomes",
+    "legacy_forest10_selection": "the real Issue #23 manifest is carried forward only as a frozen candidate-universe/reference input; the stale synthetic instance.json is not used",
+    "followup_issue_required_for": ["new data acquisition", "broader PostgreSQL source tracing", "cross-repository implementation changes"]
+  }
+}
