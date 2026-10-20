@@ -57,7 +57,10 @@ def exclusive_json(path: Path, value: Any) -> None:
 
 
 def git_value(*args: str) -> str:
-    return subprocess.check_output(["git", *args], cwd=HERE.parents[2], text=True).strip()
+    repository = subprocess.check_output(
+        ["git", "-C", str(HERE), "rev-parse", "--show-toplevel"], text=True
+    ).strip()
+    return subprocess.check_output(["git", *args], cwd=repository, text=True).strip()
 
 
 def protocol() -> dict[str, Any]:
@@ -141,6 +144,7 @@ def operator_family(operators: list[str]) -> str:
 def empty_metric() -> dict[str, Any]:
     return {
         "queries": 0,
+        "queries_with_at_least_one_edge": 0,
         "available_edge_count": {"0": 0, "1": 0, "2": 0, "3+": 0},
         "queries_with_at_least_two_edges": 0,
         "queries_with_conflicting_edges": 0,
@@ -152,6 +156,8 @@ def empty_metric() -> dict[str, Any]:
 def add_metric(metric: dict[str, Any], values: dict[str, Any]) -> None:
     metric["queries"] += 1
     edge_count = len(values["raw_edges"])
+    if edge_count >= 1:
+        metric["queries_with_at_least_one_edge"] += 1
     bucket = str(edge_count) if edge_count < 3 else "3+"
     metric["available_edge_count"][bucket] += 1
     if edge_count >= 2:
@@ -550,7 +556,7 @@ def render_report(summary: dict[str, Any]) -> str:
             raw = split_item["raw_column_cooccurrence"]
             table = item["database_inventory"]
             lines.append(
-                f"| {dataset} | {split} | {split_item['query_count']} | {strict['queries']} | {calibration['queries']} | {raw['queries_with_at_least_two_edges']} | {raw['queries_with_conflicting_edges']} | {raw['queries_with_two_or_more_maximal_matchings']} | {table['row_count']}/{item['provenance']['source_rows_stated']} |"
+                f"| {dataset} | {split} | {split_item['query_count']} | {strict['queries_with_at_least_one_edge']} | {calibration['queries_with_at_least_one_edge']} | {raw['queries_with_at_least_two_edges']} | {raw['queries_with_conflicting_edges']} | {raw['queries_with_two_or_more_maximal_matchings']} | {table['row_count']}/{item['provenance']['source_rows_stated']} |"
             )
     lines += [
         "",
