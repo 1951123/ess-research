@@ -202,8 +202,9 @@ def choose_model_sets(
             if sum(bool(mask & (1 << position)) for position in range(len(candidate_ids))) <= budget
         ]
         for method in METHODS:
+            method_feasible = [()] if method == "Empty" else feasible
             scored = []
-            for selected in feasible:
+            for selected in method_feasible:
                 objective = sum(
                     (model_loss(task, selected, method, candidate_map) for task in task_models),
                     Fraction(0),

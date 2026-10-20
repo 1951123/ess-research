@@ -35,6 +35,7 @@ def test_fraction_model_selection_retains_ties_and_budget_aliases() -> None:
     ]
     result = choose_model_sets(tasks, specs, [0, 2, 3])
     assert result["Empty"]["0"]["selected"] == []
+    assert result["Empty"]["2"]["tie_count"] == 1
     assert result["PESS"]["0"]["objective"] == "0"
     assert result["PESS"]["2"]["exact_fraction_reference"] is True
     assert result["Nominal"]["3"]["tie_count"] >= 1
