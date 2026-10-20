@@ -148,6 +148,28 @@
     "separate_domains": ["no MCV payload", "no selected correction", "zero selectivity", "nonpositive/nonfinite", "post-clamp Plan Rows", "instrumentation missing"],
     "no_tuning": "task IDs, resource sets, orders, repetitions, and tolerances are fixed before observations; no Stage 1A held-out query or final error is used"
   },
+  "composition_cases": {
+    "baseline": "empty resource set for every frozen task",
+    "singletons": ["e01", "p01", "e12", "e13", "e23", "e34", "e45", "e56"],
+    "joint_cases": [
+      {"id": "q_star_disjoint", "task_id": "q_star_shared", "resources": ["e12", "e34"], "topology": "disjoint pair"},
+      {"id": "q_star_overlap", "task_id": "q_star_shared", "resources": ["e12", "e23"], "topology": "overlapping pair"},
+      {"id": "q_star_star", "task_id": "q_star_shared", "resources": ["e01", "e12", "e13"], "topology": "star"},
+      {"id": "q_star_parallel", "task_id": "q_star_shared", "resources": ["e01", "p01"], "topology": "parallel labels"},
+      {"id": "q_path_disjoint", "task_id": "q_path_long", "resources": ["e23", "e34"], "topology": "disjoint pair"},
+      {"id": "q_tail_overlap", "task_id": "q_e45_e56", "resources": ["e45", "e56"], "topology": "overlapping pair"},
+      {"id": "q_tail_three", "task_id": "q_tail", "resources": ["e12", "e34", "e45"], "topology": "three-resource path composition"}
+    ],
+    "joint_creation_orders": {
+      "q_star_disjoint": [["e12", "e34"], ["e34", "e12"]],
+      "q_star_overlap": [["e12", "e23"], ["e23", "e12"]],
+      "q_star_star": [["e01", "e12", "e13"], ["e13", "e12", "e01"]],
+      "q_star_parallel": [["e01", "p01"], ["p01", "e01"]],
+      "q_path_disjoint": [["e23", "e34"], ["e34", "e23"]],
+      "q_tail_overlap": [["e45", "e56"], ["e56", "e45"]],
+      "q_tail_three": [["e12", "e34", "e45"], ["e45", "e34", "e12"]]
+    }
+  },
   "execution_contract": {
     "issue_runtime_root": "/tmp/ess-issue40-stage1c",
     "cluster_paths": ["$ESS_ISSUE_ROOT/pgdata", "$ESS_ISSUE_ROOT/socket", "$ESS_ISSUE_ROOT/logs", "$ESS_ISSUE_ROOT/results"],
