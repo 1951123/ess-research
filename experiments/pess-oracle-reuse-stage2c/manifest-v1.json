@@ -1,0 +1,22 @@
+{
+  "manifest_id": "pess-oracle-reuse-stage2c-v1-preregistration",
+  "protocol": "protocol-v1.json",
+  "protocol_status": "frozen-before-stage2c-treatment-results",
+  "advisor_sha": "1052ff4a46270c90414d76b32d6f6b37e5908f6a",
+  "original_stage1b_inputs": [
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/large_cycle_3922.json", "sha256": "c6d137805073ae0cb2df7f806de37752f23206c09cf62cfae883ca8b85ffbaa0"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/large_sharing_cycle_3924.json", "sha256": "0422bd074294d349aa7c27bbe3f955383c16639107695c521576c63298900779"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/large_mixed_parallel_3923.json", "sha256": "6e549a383f4d10292087f821f720c70146b00023fd4461511142dcfdf35757ee"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/small_star_single_3901.json", "sha256": "7d2c212779d405191da65e6556e3e6566ed31c541180459d7e45aeb8039598f9"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/small_path_cycle_3902.json", "sha256": "76a5b28a37564315d1af88e2ffd75b0360cf1f62e94d81bc644a55c5b8ff04d0"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/small_mixed_parallel_3903.json", "sha256": "ec0ac0c6bac12b59829bdc0851bd4142a7f58185948d2c7c4fd1874d671f44fd"},
+    {"path": "experiments/pess-solver-scaling-stage1b/instances/small_sharing_cycle_3904.json", "sha256": "2be965a74dc8fb920cce208f4e1254224d3be1bbebf3e944d887dd06a2f11411"}
+  ],
+  "independent_inputs": {
+    "count": 8,
+    "planned_ids": ["path_signed_cancel_4901", "cycle_signed_cancel_4902", "star_zero_cost_4903", "star_forest_4904", "shared_cycle_4905", "mixed_parallel_4906", "conflicting_cycles_4907", "shared_path_4908"],
+    "status": "generation-and-hashing-required-in-next-input-only-commit",
+    "post_generation_hash_file": "SHA256SUMS-inputs"
+  },
+  "freeze_statement": "No Stage 2C solver/treatment results, profiling output, or favorable-run selection is included in this preregistration commit."
+}
