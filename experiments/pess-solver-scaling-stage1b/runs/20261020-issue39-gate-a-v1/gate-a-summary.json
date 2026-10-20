@@ -1,0 +1,11 @@
+{
+  "environment_python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "manifest": "manifest-v1.json",
+  "medium_pilot_records": 4,
+  "medium_pilot_requested": true,
+  "protocol": "protocol-v1.json",
+  "records": 12,
+  "tiny_gate_a_failures": [],
+  "tiny_gate_a_passes": 8,
+  "tiny_reference_instances": 4
+}
