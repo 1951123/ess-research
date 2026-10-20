@@ -1,0 +1,339 @@
+{
+  "budget": "15",
+  "candidates": [
+    {
+      "endpoints": [
+        "a2",
+        "a4"
+      ],
+      "id": "e000",
+      "maintenance_cost": "0",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a9"
+      ],
+      "id": "e001",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a9"
+      ],
+      "id": "e002",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a10",
+        "a9"
+      ],
+      "id": "e003",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a9"
+      ],
+      "id": "e004",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a4"
+      ],
+      "id": "e005",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a9"
+      ],
+      "id": "e006",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a9"
+      ],
+      "id": "e007",
+      "maintenance_cost": "0",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a4",
+        "a7"
+      ],
+      "id": "e008",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a0",
+        "a8"
+      ],
+      "id": "e009",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a7",
+        "a9"
+      ],
+      "id": "e010",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a9"
+      ],
+      "id": "e011",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a9"
+      ],
+      "id": "e012",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a4",
+        "a9"
+      ],
+      "id": "e013",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a5",
+        "a9"
+      ],
+      "id": "e014",
+      "maintenance_cost": "0",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a5",
+        "a8"
+      ],
+      "id": "e015",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a6"
+      ],
+      "id": "e016",
+      "maintenance_cost": "1",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a6"
+      ],
+      "id": "e017",
+      "maintenance_cost": "1",
+      "table": "t0"
+    }
+  ],
+  "tasks": [
+    {
+      "alpha": "0",
+      "corrections": {
+        "e000": "0",
+        "e002": "-1",
+        "e003": "-5",
+        "e005": "1/2",
+        "e006": "3",
+        "e008": "0",
+        "e009": "7",
+        "e011": "5",
+        "e012": "2",
+        "e014": "6",
+        "e015": "0",
+        "e017": "15/2"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e002",
+        "e003",
+        "e005",
+        "e006",
+        "e008",
+        "e009",
+        "e011",
+        "e012",
+        "e014",
+        "e015",
+        "e017"
+      ],
+      "id": "i000",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "0",
+      "corrections": {
+        "e001": "0",
+        "e002": "15/2",
+        "e004": "8",
+        "e005": "-13/2",
+        "e007": "15/2",
+        "e008": "0",
+        "e010": "-1/2",
+        "e011": "-7/2",
+        "e013": "-3/2",
+        "e014": "8",
+        "e016": "0",
+        "e017": "13/2"
+      },
+      "eligible_candidates": [
+        "e001",
+        "e002",
+        "e004",
+        "e005",
+        "e007",
+        "e008",
+        "e010",
+        "e011",
+        "e013",
+        "e014",
+        "e016",
+        "e017"
+      ],
+      "id": "i001",
+      "table": "t0",
+      "weight": "3"
+    },
+    {
+      "alpha": "0",
+      "corrections": {
+        "e000": "0",
+        "e001": "1/2",
+        "e003": "-1",
+        "e004": "-7",
+        "e006": "-1/2",
+        "e007": "0",
+        "e009": "7",
+        "e010": "5",
+        "e012": "-7/2",
+        "e013": "-9/2",
+        "e015": "0",
+        "e016": "-4"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e003",
+        "e004",
+        "e006",
+        "e007",
+        "e009",
+        "e010",
+        "e012",
+        "e013",
+        "e015",
+        "e016"
+      ],
+      "id": "i002",
+      "table": "t0",
+      "weight": "3"
+    },
+    {
+      "alpha": "-1",
+      "corrections": {
+        "e000": "1",
+        "e002": "4",
+        "e003": "-8",
+        "e005": "-11/2",
+        "e006": "0",
+        "e008": "1",
+        "e009": "13/2",
+        "e011": "11/2",
+        "e012": "15/2",
+        "e014": "1/2",
+        "e015": "1",
+        "e017": "1"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e002",
+        "e003",
+        "e005",
+        "e006",
+        "e008",
+        "e009",
+        "e011",
+        "e012",
+        "e014",
+        "e015",
+        "e017"
+      ],
+      "id": "i003",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "0",
+      "corrections": {
+        "e001": "0",
+        "e002": "-11/2",
+        "e004": "1",
+        "e005": "-13/2",
+        "e007": "7/2",
+        "e008": "0",
+        "e010": "0",
+        "e011": "7",
+        "e013": "3/2",
+        "e014": "0",
+        "e016": "0",
+        "e017": "1/2"
+      },
+      "eligible_candidates": [
+        "e001",
+        "e002",
+        "e004",
+        "e005",
+        "e007",
+        "e008",
+        "e010",
+        "e011",
+        "e013",
+        "e014",
+        "e016",
+        "e017"
+      ],
+      "id": "i004",
+      "table": "t0",
+      "weight": "1"
+    }
+  ]
+}

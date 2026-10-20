@@ -1,0 +1,145 @@
+{
+  "budget": "11",
+  "candidates": [
+    {
+      "endpoints": [
+        "a0",
+        "a1"
+      ],
+      "id": "e000",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a1",
+        "a2"
+      ],
+      "id": "e001",
+      "maintenance_cost": "2",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a2",
+        "a3"
+      ],
+      "id": "e002",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a3",
+        "a4"
+      ],
+      "id": "e003",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a4",
+        "a5"
+      ],
+      "id": "e004",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a5",
+        "a6"
+      ],
+      "id": "e005",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a6",
+        "a7"
+      ],
+      "id": "e006",
+      "maintenance_cost": "3",
+      "table": "t0"
+    },
+    {
+      "endpoints": [
+        "a7",
+        "a8"
+      ],
+      "id": "e007",
+      "maintenance_cost": "2",
+      "table": "t0"
+    }
+  ],
+  "tasks": [
+    {
+      "alpha": "0",
+      "corrections": {
+        "e000": "0",
+        "e001": "9/2",
+        "e002": "-5/2",
+        "e003": "-11/2",
+        "e004": "9/2",
+        "e005": "0"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e002",
+        "e003",
+        "e004",
+        "e005"
+      ],
+      "id": "i000",
+      "table": "t0",
+      "weight": "2"
+    },
+    {
+      "alpha": "-1",
+      "corrections": {
+        "e002": "1",
+        "e003": "-13/2",
+        "e004": "-3/2",
+        "e005": "15/2",
+        "e006": "13/2",
+        "e007": "1"
+      },
+      "eligible_candidates": [
+        "e002",
+        "e003",
+        "e004",
+        "e005",
+        "e006",
+        "e007"
+      ],
+      "id": "i001",
+      "table": "t0",
+      "weight": "1"
+    },
+    {
+      "alpha": "-7/2",
+      "corrections": {
+        "e000": "7/2",
+        "e001": "8",
+        "e004": "-6",
+        "e005": "-8",
+        "e006": "-9/2",
+        "e007": "7/2"
+      },
+      "eligible_candidates": [
+        "e000",
+        "e001",
+        "e004",
+        "e005",
+        "e006",
+        "e007"
+      ],
+      "id": "i002",
+      "table": "t0",
+      "weight": "1"
+    }
+  ]
+}

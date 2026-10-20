@@ -1,0 +1,58 @@
+{
+  "freeze_statement": "Generated input bytes precede all Stage 2C solver invocations and treatment results.",
+  "generator": {
+    "file": "generate_independent_inputs.py",
+    "sha256": "b46b7a3a73c777429f6731f72626c769d6fee4188df8d737026dc338209024ef"
+  },
+  "manifest_id": "pess-oracle-reuse-stage2c-independent-inputs-v1",
+  "records": [
+    {
+      "case_id": "path_signed_cancel_4901",
+      "file": "inputs/independent/path_signed_cancel_4901.json",
+      "seed": 4901,
+      "sha256": "886e5588e243fd2ce09f6243de0fddf4355be7401f314429c32d9ea25efdf9d0"
+    },
+    {
+      "case_id": "cycle_signed_cancel_4902",
+      "file": "inputs/independent/cycle_signed_cancel_4902.json",
+      "seed": 4902,
+      "sha256": "73d8ffae553d455cbfef405d18b6da164cdded6e9efd70818470cf83d0ebe938"
+    },
+    {
+      "case_id": "star_zero_cost_4903",
+      "file": "inputs/independent/star_zero_cost_4903.json",
+      "seed": 4903,
+      "sha256": "8c98e3ffaa962ef709fd373cb3cb5f104afed4ad99a35ef1a71f10a04cf990e6"
+    },
+    {
+      "case_id": "star_forest_4904",
+      "file": "inputs/independent/star_forest_4904.json",
+      "seed": 4904,
+      "sha256": "d620b8cf1382d84ac1598fa1331433ba4a0a170acbc8714d394e63b3a917fdae"
+    },
+    {
+      "case_id": "shared_cycle_4905",
+      "file": "inputs/independent/shared_cycle_4905.json",
+      "seed": 4905,
+      "sha256": "201bd3fac7342e1a79412cb6d94125ad6a4054b4e03b21eb8012e513976e0f03"
+    },
+    {
+      "case_id": "mixed_parallel_4906",
+      "file": "inputs/independent/mixed_parallel_4906.json",
+      "seed": 4906,
+      "sha256": "dd17d6f6a3081a458fa37435d349d34114ff20657b51f68523b56d177f9eb859"
+    },
+    {
+      "case_id": "conflicting_cycles_4907",
+      "file": "inputs/independent/conflicting_cycles_4907.json",
+      "seed": 4907,
+      "sha256": "e0324869cec30650eb1e7058f1b7cd980f5e8425293349f3f34d6323edc40a81"
+    },
+    {
+      "case_id": "shared_path_4908",
+      "file": "inputs/independent/shared_path_4908.json",
+      "seed": 4908,
+      "sha256": "b29ad674c86d83fefdbd8ab74051e9032bd99da189c7eef13588552c616a6c4e"
+    }
+  ]
+}
