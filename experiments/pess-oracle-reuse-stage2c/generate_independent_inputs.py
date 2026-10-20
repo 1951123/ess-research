@@ -13,7 +13,6 @@ import random
 from fractions import Fraction
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "inputs" / "independent"
 
