@@ -2,9 +2,11 @@
 
 ## Updated Gate A handoff
 
-The archive-first input contract is frozen in [`protocol-v2.json`](protocol-v2.json).
-It supersedes the old materialized-path representation for new work; the old
-`protocol.json` and Gate A v1–v7 reports remain immutable historical evidence.
+The current archive-first input contract is frozen in [`protocol-v3.json`](protocol-v3.json).
+The original [`protocol-v2.json`](protocol-v2.json) and the exact
+[`protocol-v2-amendment.json`](protocol-v2-amendment.json) used by v10 are
+retained for historical evidence. The old `protocol.json` and Gate A v1–v7
+reports remain immutable historical evidence.
 New verification consumes `from ess_research.arecel import prepare` for
 Forest10 and Census13 independently. It uses only the whole pinned archive in
 `ESS_DATA_ROOT`; each dataset's `table.csv`, `workload.json`, `truth.json`, and
@@ -34,7 +36,7 @@ This directory is the Issue #48 experiment boundary.  Its first commit freezes
 the input identities, candidate universes, selection rules, metrics, and
 PostgreSQL measurement contract before any Stage 2B outcome is collected.
 
-The frozen new protocol is [`protocol-v2.json`](protocol-v2.json).  It is an
+The frozen current protocol is [`protocol-v3.json`](protocol-v3.json).  It is an
 input-only contract, not a result report.  The prior Stage 1A Forest10
 60-query cohort is explicitly excluded from the new independent test cohort;
 its six-resource manifest is retained only as a separately labelled legacy

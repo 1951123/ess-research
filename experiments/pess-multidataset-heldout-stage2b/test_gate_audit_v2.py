@@ -11,12 +11,14 @@ from unittest.mock import Mock, patch
 
 from gate_audit_v2 import (
     audit_pg_binary,
+    aggregate_claimed_clause_coverage,
     collect_dataset_inputs,
     compute_overall_status,
     evaluate_trace,
     parse_schema_sql,
     sample_header,
     select_validation_queries,
+    sha256_file,
     validate_cluster_identity,
     owned_cluster,
     write_exclusive_json,
@@ -28,8 +30,8 @@ HERE = Path(__file__).parent
 
 class Stage2BGateAV2Tests(unittest.TestCase):
     def test_protocol_freezes_archive_first_crosswalk_and_truth_boundary(self) -> None:
-        protocol = json.loads((HERE / "protocol-v2.json").read_text(encoding="utf-8"))
-        self.assertEqual(protocol["status"], "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V2")
+        protocol = json.loads((HERE / "protocol-v3.json").read_text(encoding="utf-8"))
+        self.assertEqual(protocol["status"], "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V3")
         self.assertEqual(protocol["etl_contract"]["archive_sha256"], "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79")
         self.assertFalse(protocol["scope"]["formal_heldout_outcomes_authorized"])
         forest = protocol["datasets"]["forest10"]
@@ -37,6 +39,9 @@ class Stage2BGateAV2Tests(unittest.TestCase):
         self.assertEqual(forest["candidates"][0]["source_columns"], ["Elevation", "Aspect"])
         self.assertEqual(forest["candidates"][0]["catalog_columns"], ["elevation", "aspect"])
         self.assertTrue(protocol["fixed_sample_contract"]["old_issue38_sample_reuse"] is False)
+        self.assertEqual(sha256_file(HERE / "protocol-v2.json"), "80ea2bfbdbb2a1b2a8e13c2d540c9afe9114cadd55c53a05ddfc9fd9d0476281")
+        self.assertEqual(sha256_file(HERE / "protocol-v2-amendment.json"), "94791c70f7ed2e1c3efc56beba758da4a851afd19fdee1517b0849619e1f094b")
+        self.assertEqual(protocol["pg_readiness_contract"]["claimed_clause_rule"].split(";")[0], "a probe with no selected MCV OIDs is NOT_APPLICABLE")
 
     def test_schema_parser_preserves_catalog_types(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -52,9 +57,11 @@ class Stage2BGateAV2Tests(unittest.TestCase):
         source = {"status": "VERIFIED"}
         binary = {"status": "VERIFIED"}
         probes = [{"status": "VERIFIED"}, {"status": "BLOCKED"}]
-        self.assertEqual(compute_overall_status(inputs, source, binary, probes), "BLOCKED")
+        self.assertEqual(compute_overall_status(inputs, source, binary, probes, "UNVERIFIED"), "BLOCKED")
+        with self.assertRaises(TypeError):
+            compute_overall_status(inputs, source, binary, [{"status": "VERIFIED"}, {"status": "VERIFIED"}])
         self.assertEqual(
-            compute_overall_status(inputs, source, binary, [{"status": "VERIFIED"}, {"status": "VERIFIED"}]),
+            compute_overall_status(inputs, source, binary, [{"status": "VERIFIED"}, {"status": "VERIFIED"}], "VERIFIED"),
             "GATE_A_READY",
         )
         self.assertEqual(
@@ -63,7 +70,7 @@ class Stage2BGateAV2Tests(unittest.TestCase):
         )
 
     def test_provenance_failure_prevents_runtime_probe(self) -> None:
-        protocol = json.loads((HERE / "protocol-v2.json").read_text(encoding="utf-8"))
+        protocol = json.loads((HERE / "protocol-v3.json").read_text(encoding="utf-8"))
         with patch("gate_audit_v2.prepare") as prepare, patch(
             "gate_audit_v2.validate_prepared_dataset", return_value={"status": "VERIFIED"}
         ), patch("gate_audit_v2.run_dataset_probe", side_effect=AssertionError("cluster must not start")) as probe:
@@ -125,6 +132,38 @@ class Stage2BGateAV2Tests(unittest.TestCase):
         self.assertEqual(good["status"], "VERIFIED")
         self.assertEqual(good["claimed_clause_coverage"]["status"], "UNVERIFIED")
 
+        empty_control = evaluate_trace(
+            ["ESS_MCV_NUMERIC_TRACE: nrows_preclamp=1"],
+            ledger,
+            label="control",
+            query_id="control",
+        )
+        fully_claimed = evaluate_trace(
+            [
+                "ESS_MCV_TRACE: selected_stat_oid=42 claimed_clause_index=0",
+                "ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1",
+            ],
+            ledger,
+            label="coverage",
+            query_id="q-full",
+            expected_statistic_name="candidate",
+        )
+        partial = evaluate_trace(
+            [
+                "ESS_MCV_TRACE: selected_stat_oid=42 claimed_clause_index=0",
+                "ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1",
+                "ESS_MCV_NUMERIC_TRACE: selected_stat_oid=43 nrows_preclamp=1",
+            ],
+            ledger + [{"statistic_name": "second", "oid": 43, "mcv_payload_present": True, "mcv_item_count": 2}],
+            label="coverage",
+            query_id="q-partial",
+        )
+        self.assertEqual(empty_control["claimed_clause_coverage"]["status"], "NOT_APPLICABLE")
+        self.assertEqual(fully_claimed["claimed_clause_coverage"]["status"], "VERIFIED")
+        self.assertEqual(partial["claimed_clause_coverage"]["status"], "UNVERIFIED")
+        self.assertEqual(aggregate_claimed_clause_coverage([empty_control, fully_claimed]), "VERIFIED")
+        self.assertEqual(aggregate_claimed_clause_coverage([empty_control, partial]), "UNVERIFIED")
+
         cases = [
             ([], None, "positive pre-clamp"),
             (["ESS_MCV_NUMERIC_TRACE: selected_stat_oid=99 nrows_preclamp=1"], None, "unmapped"),
@@ -143,7 +182,7 @@ class Stage2BGateAV2Tests(unittest.TestCase):
                 self.assertTrue(any(fragment.lower() in error.lower() for error in result["errors"]))
 
     def test_validation_probe_selection_is_shape_and_catalog_only(self) -> None:
-        protocol = json.loads((HERE / "protocol-v2.json").read_text(encoding="utf-8"))
+        protocol = json.loads((HERE / "protocol-v3.json").read_text(encoding="utf-8"))
         spec = protocol["datasets"]["forest10"]
         queries = [
             {"query_id": "q0", "predicates": [{"column": "Elevation"}, {"column": "Aspect"}], "sql": "SELECT *"},

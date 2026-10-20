@@ -9,8 +9,12 @@ scheme containment, latency, or a generic maintenance-cost result.
 ## Contract and execution order
 
 - Issue: `1951123/ess-research#48`
-- Contract: `protocol-v2.json`, SHA-256
+- Contract used by v10: `protocol-v2-amendment.json`, SHA-256
   `94791c70f7ed2e1c3efc56beba758da4a851afd19fdee1517b0849619e1f094b`
+- Historical original v2 remains available as `protocol-v2.json`, SHA-256
+  `80ea2bfbdbb2a1b2a8e13c2d540c9afe9114cadd55c53a05ddfc9fd9d0476281`.
+- New default contract for future audits: `protocol-v3.json`, SHA-256
+  `f4feb957a6f1618b1d346ff4415d06a859eba2af5bf7ee080db2f175f044746e`.
 - Review-response code is based on PR #55 commit `c454c40`.
 - Archive-first implementation: merge commit
   `68fcd5cc9900f798f503edeeb9e79669beebee92`
@@ -77,14 +81,17 @@ mapping is `VERIFIED` and no selected OID is unmapped. Forest10’s new probe
 demonstrates effective selection of a positive-payload MCV object; its original
 shape-control remains an empty-selection control.
 
-The independent claimed-clause check is `UNVERIFIED` for both datasets:
+The independent claimed-clause check is `UNVERIFIED` for both selected-MCV
+probes:
 `selected_trace_records` and `claimed_clause_indices` are empty because this
 approved build emits no independent `claimed_clause_index` records. The
 numeric `stat_clause_count` field is retained as raw evidence but is not
-converted into claimed-clause indices. Since the frozen contract requires this
-evidence independently, the v10 overall status is **`BLOCKED`**. Addressing
-the missing instrumentation would require a separately authorized PostgreSQL
-source task; no cross-repository instrumentation was performed here.
+converted into claimed-clause indices. The empty-selection control is
+`NOT_APPLICABLE`; it does not create a clause-coverage obligation. Since the
+selected-MCV probes still lack the required evidence, the v10 overall status
+is **`BLOCKED`**. Addressing the missing instrumentation would require a
+separately authorized PostgreSQL source task; no cross-repository
+instrumentation was performed here.
 
 ## Negative-contract coverage and next boundary
 

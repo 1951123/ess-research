@@ -192,11 +192,20 @@ def evaluate_trace(
     catalog_oids = {str(item["oid"]): item for item in ledger}
     unmapped = [oid for oid in selected_oids if oid not in catalog_oids]
     selected_names = [catalog_oids[oid]["statistic_name"] for oid in selected_oids if oid in catalog_oids]
+    selected_without_payload = [
+        oid
+        for oid in selected_oids
+        if oid in catalog_oids and not catalog_oids[oid]["mcv_payload_present"]
+    ]
     errors = []
     if len(final) != 1 or float(final[0]["nrows_preclamp"]) <= 0:
         errors.append("probe did not produce exactly one positive pre-clamp trace")
     if unmapped:
         errors.append(f"probe selected unmapped statistic OIDs: {unmapped}")
+    if selected_without_payload:
+        errors.append(
+            f"probe selected statistics without positive MCV payload: {selected_without_payload}"
+        )
     if expected_statistic_name is not None:
         expected = next(
             (item for item in ledger if item["statistic_name"] == expected_statistic_name),
@@ -206,6 +215,18 @@ def evaluate_trace(
             errors.append("expected selected statistic lacks a positive MCV payload")
         elif expected_statistic_name not in selected_names:
             errors.append("validation query did not select the expected positive-payload statistic")
+
+    if not selected_oids:
+        claimed_clause_status = "NOT_APPLICABLE"
+        claimed_clause_missing_oids = []
+    else:
+        claimed_oids = {
+            record.get("selected_stat_oid")
+            for record in selected
+            if record.get("selected_stat_oid") and record.get("claimed_clause_index")
+        }
+        claimed_clause_missing_oids = [oid for oid in selected_oids if oid not in claimed_oids]
+        claimed_clause_status = "VERIFIED" if not claimed_clause_missing_oids else "UNVERIFIED"
 
     return {
         "label": label,
@@ -220,12 +241,33 @@ def evaluate_trace(
         "selected_stat_names": selected_names,
         "unmapped_selected_oids": unmapped,
         "claimed_clause_coverage": {
-            "status": "VERIFIED" if claimed_clause_indices else "UNVERIFIED",
+            "status": claimed_clause_status,
             "claimed_clause_indices": claimed_clause_indices,
             "records": selected,
+            "missing_selected_stat_oids": claimed_clause_missing_oids,
         },
         "positive_preclamp": final[0]["nrows_preclamp"] if len(final) == 1 else None,
     }
+
+
+def aggregate_claimed_clause_coverage(probes: list[dict[str, Any]]) -> str:
+    """Require claims for every selected MCV resource; empty controls are N/A."""
+
+    applicable = [
+        probe
+        for probe in probes
+        if probe.get("claimed_clause_coverage", {}).get("status") != "NOT_APPLICABLE"
+    ]
+    if not applicable:
+        return "UNVERIFIED"
+    return (
+        "VERIFIED"
+        if all(
+            probe.get("claimed_clause_coverage", {}).get("status") == "VERIFIED"
+            for probe in applicable
+        )
+        else "UNVERIFIED"
+    )
 
 
 def validate_prepared_dataset(
@@ -695,14 +737,7 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                     "reason": "no positive-payload candidate had a source-order validation query",
                 }
             )
-            claimed_clause_status = (
-                "VERIFIED"
-                if all(
-                    probe["claimed_clause_coverage"]["status"] == "VERIFIED"
-                    for probe in probe_results
-                )
-                else "UNVERIFIED"
-            )
+            claimed_clause_status = aggregate_claimed_clause_coverage(probe_results)
             result["checks"] = {
                 "cluster": {"pgdata": str(cluster["pgdata"]), "socket": str(cluster["socket_dir"]), "port": cluster["port"], "identity": cluster["identity"]},
                 "import": {"table": table, "rows": int(count)},
@@ -732,7 +767,7 @@ def compute_overall_status(
     source: dict[str, Any],
     binary: dict[str, Any],
     probes: list[dict[str, Any]],
-    claimed_clause_coverage: str = "VERIFIED",
+    claimed_clause_coverage: str,
 ) -> str:
     if len(inputs) < 2 or any(item.get("status") != "VERIFIED" for item in inputs):
         return "BLOCKED"
@@ -768,7 +803,7 @@ def collect_dataset_inputs(
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--protocol", type=Path, default=Path(__file__).with_name("protocol-v2.json"))
+    parser.add_argument("--protocol", type=Path, default=Path(__file__).with_name("protocol-v3.json"))
     parser.add_argument("--pg-source", type=Path)
     parser.add_argument("--pg-prefix", type=Path)
     parser.add_argument("--pg-build-manifest", type=Path)
@@ -779,8 +814,8 @@ def main() -> int:
     data_root = configured_root("ESS_DATA_ROOT")
     runtime_parent = configured_root("ESS_RUNTIME_PARENT")
     protocol = load_json(args.protocol)
-    if protocol.get("status") != "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V2":
-        raise SystemExit("protocol-v2 is not the frozen outcome-free contract")
+    if protocol.get("status") != "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V3":
+        raise SystemExit("protocol-v3 is not the frozen outcome-free contract")
 
     source = audit_pg_source(args.pg_source.expanduser().resolve() if args.pg_source else None)
     binary = audit_pg_binary(args.pg_prefix.expanduser().resolve() if args.pg_prefix else None, args.pg_build_manifest.expanduser().resolve() if args.pg_build_manifest else None)
@@ -801,7 +836,7 @@ def main() -> int:
         else "UNVERIFIED"
     )
     result = {
-        "format": "ess-issue48-stage2b-gate-audit-v3",
+        "format": "ess-issue48-stage2b-gate-audit-v4",
         "evidence_label": "experimentally_observed_gate_a_readiness_only",
         "protocol_sha256": sha256_file(args.protocol),
         "data_root": str(data_root),
