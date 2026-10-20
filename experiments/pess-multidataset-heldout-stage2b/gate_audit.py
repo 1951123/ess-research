@@ -124,7 +124,7 @@ def audit_dataset(protocol: dict[str, Any], root: Path, dataset: str) -> dict[st
     paths = expected_paths(root, dataset)
     result: dict[str, Any] = {
         "dataset": dataset,
-        "status": "AVAILABLE",
+        "status": "INPUT_AVAILABLE",
         "paths": {name: str(path) for name, path in paths.items()},
         "checks": {},
         "errors": [],
@@ -185,10 +185,80 @@ def audit_pg_source(path: Path | None) -> dict[str, Any]:
             }
             for relative, required in trace_files.items()
         }
-        status = "AVAILABLE" if head == EXPECTED_COMMIT and all(all(item.values()) for item in markers.values()) else "INCOMPATIBLE"
+        status = "SOURCE_MARKERS_PRESENT" if head == EXPECTED_COMMIT and all(all(item.values()) for item in markers.values()) else "INCOMPATIBLE"
         return {"status": status, "head": head, "expected_head": EXPECTED_COMMIT, "trace_markers": markers}
     except (OSError, subprocess.CalledProcessError) as exc:
         return {"status": "INCOMPATIBLE", "reason": str(exc)}
+
+
+def runtime_validation(
+    pg_bin: Path | None, sample_manifest: Path | None, runtime_manifest: Path | None, runtime_root: Path | None
+) -> dict[str, Any]:
+    """Return conservative readiness states until a complete runtime validator exists."""
+
+    root_status = "PRESENT" if runtime_root is not None and runtime_root.is_dir() else "MISSING"
+    not_implemented = "complete PG binary/sample/cluster/trace validator is not implemented in this audit"
+    return {
+        "validator_status": "NOT_IMPLEMENTED_BLOCKED",
+        "runtime_root_presence": {"status": root_status, "path": str(runtime_root) if runtime_root else None},
+        "pg_binary_pinned": {
+            "status": "BLOCKED",
+            "path": str(pg_bin) if pg_bin else None,
+            "reason": not_implemented,
+        },
+        "fixed_sample_manifest_verified": {
+            "status": "BLOCKED",
+            "path": str(sample_manifest) if sample_manifest else None,
+            "reason": not_implemented,
+        },
+        "issue_cluster_ready": {
+            "status": "BLOCKED",
+            "path": str(runtime_manifest) if runtime_manifest else None,
+            "reason": not_implemented,
+        },
+        "trace_contract_verified": {"status": "BLOCKED", "reason": not_implemented},
+    }
+
+
+def compute_overall_status(datasets: list[dict[str, Any]], pg_source: dict[str, Any], runtime: dict[str, Any]) -> str:
+    """Never report PASS without an independently implemented runtime validator."""
+
+    runtime_checks = ("pg_binary_pinned", "fixed_sample_manifest_verified", "issue_cluster_ready", "trace_contract_verified")
+    if runtime.get("validator_status") != "IMPLEMENTED":
+        return "BLOCKED"
+    if sum(item.get("status") == "INPUT_AVAILABLE" for item in datasets) < 2:
+        return "BLOCKED"
+    if pg_source.get("status") != "SOURCE_MARKERS_PRESENT":
+        return "BLOCKED"
+    if any(runtime.get(key, {}).get("status") != "VERIFIED" for key in runtime_checks):
+        return "BLOCKED"
+    return "PASS"
+
+
+def write_exclusive_json(path: Path, value: dict[str, Any]) -> None:
+    """Create a JSON evidence file once, refusing files and symlinks atomically."""
+
+    payload = json.dumps(value, indent=2, sort_keys=True) + "\n"
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    descriptor: int | None = None
+    created = False
+    try:
+        descriptor = os.open(path, flags, 0o644)
+        created = True
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            descriptor = None
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except BaseException:
+        if descriptor is not None:
+            os.close(descriptor)
+        if created:
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
+        raise
 
 
 def main() -> int:
@@ -196,11 +266,12 @@ def main() -> int:
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--protocol", type=Path, default=Path(__file__).with_name("protocol.json"))
     parser.add_argument("--pg-source", type=Path, default=None)
+    parser.add_argument("--pg-bin", type=Path, default=None)
+    parser.add_argument("--sample-manifest", type=Path, default=None)
     parser.add_argument("--runtime-root", type=Path, default=None)
+    parser.add_argument("--runtime-manifest", type=Path, default=None)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    if args.output.exists():
-        raise SystemExit(f"refusing to overwrite {args.output}")
     root_value = args.data_root or (Path(os.environ["ESS_DATA_ROOT"]) if os.environ.get("ESS_DATA_ROOT") else None)
     if root_value is None:
         raise SystemExit("provide --data-root or ESS_DATA_ROOT")
@@ -208,20 +279,25 @@ def main() -> int:
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
     datasets = [audit_dataset(protocol, root, dataset) for dataset in DATASETS]
     pg_source = audit_pg_source(args.pg_source.expanduser().resolve() if args.pg_source else None)
-    runtime = {"status": "AVAILABLE", "path": str(args.runtime_root)} if args.runtime_root and args.runtime_root.is_dir() else {"status": "BLOCKED", "reason": "Issue-owned runtime root was not supplied or does not exist"}
+    runtime = runtime_validation(
+        args.pg_bin.expanduser().resolve() if args.pg_bin else None,
+        args.sample_manifest.expanduser().resolve() if args.sample_manifest else None,
+        args.runtime_manifest.expanduser().resolve() if args.runtime_manifest else None,
+        args.runtime_root.expanduser().resolve() if args.runtime_root else None,
+    )
     result = {
-        "format": "ess-issue48-stage2b-gate-a-audit-v1",
+        "format": "ess-issue48-stage2b-gate-a-audit-v2",
         "evidence_label": "experimentally_observed_input_availability_only",
         "protocol_sha256": sha256_file(args.protocol),
         "data_root": str(root),
         "datasets": datasets,
         "postgresql_source": pg_source,
-        "issue_runtime_root": runtime,
-        "overall_status": "PASS" if sum(item["status"] == "AVAILABLE" for item in datasets) >= 2 and pg_source["status"] == "AVAILABLE" and runtime["status"] == "AVAILABLE" else "BLOCKED",
+        "runtime_validation": runtime,
+        "overall_status": compute_overall_status(datasets, pg_source, runtime),
         "limitations": ["This audit does not create a PG cluster, verify a fixed sample, select a cohort, or collect outcomes.", "It does not establish PostgreSQL statistic selection, MCV payload availability, model adequacy, or any physical guarantee."],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_exclusive_json(args.output, result)
     print(json.dumps({"output": str(args.output), "overall_status": result["overall_status"], "dataset_status": {item["dataset"]: item["status"] for item in datasets}}, sort_keys=True))
     return 0
 
