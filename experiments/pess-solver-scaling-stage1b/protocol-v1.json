@@ -1,0 +1,94 @@
+{
+  "protocol_id": "pess-solver-scaling-stage1b-v1",
+  "issue": 39,
+  "purpose": "Pre-registered computational diagnosis of unchanged Static strengthened conditional MILP and default Master-Oracle on frozen synthetic PESS instances.",
+  "scope": {
+    "in_scope": [
+      "new experiments/pess-solver-scaling-stage1b/ artifacts only",
+      "read-only import of ess-advisor solver APIs",
+      "independent Fraction verification of tiny references and every claimed feasible incumbent",
+      "matched end-to-end endpoint-at-budget measurements and structural paired perturbations"
+    ],
+    "out_of_scope": [
+      "new PESS algorithms or separation theorems",
+      "ess-advisor source changes",
+      "ess-postgresql source or cluster changes",
+      "PostgreSQL runtime claims",
+      "paper, STATUS, or prior experiment edits"
+    ]
+  },
+  "model": {
+    "objective": "original task-wise PESS sum of worst-case losses over labeled maximal matchings",
+    "maintenance": "additive synthetic proxy supplied by the pinned instance; not a generic maintenance law",
+    "loss": "nonnegative absolute signed pre-clamp affine log loss; Fraction arithmetic for independent verification",
+    "matching": "maximal matching, never maximum-cardinality matching",
+    "solver_variants": {
+      "static": "unchanged solve_static API with strengthened conditional MILP",
+      "master_oracle": "unchanged solve_master_oracle API with default MasterOracleOptions; no cache/precompute switches in the primary comparison"
+    }
+  },
+  "corpus_plan": {
+    "tier_counts": {"small": 4, "medium": 8, "large": 4},
+    "resource_ranges": {"small": [5, 10], "medium": [12, 20], "large": [24, 36]},
+    "structural_strata": [
+      "single-star-or-star-forest",
+      "path-cycle-or-disconnected-components",
+      "mixed-general-graph-with-parallel-candidates",
+      "task-resource-incidence-cycle"
+    ],
+    "paired_design": "The four medium-tier pairs differ in one declared graph feature while candidate count, task count, budget mode, zero-cost mode, and seed are held fixed; pair identity and changed feature are frozen in the manifest.",
+    "required_stressors": [
+      "low and high resource sharing",
+      "mixed-sign positive and negative coefficients",
+      "near-zero cancellation baseline",
+      "zero-cost resources",
+      "tight and loose budgets",
+      "parallel labeled candidate identities"
+    ],
+    "generator": "generate_corpus.py",
+    "generator_rng": "Python random.Random with the explicit per-instance seed; no ambient randomness"
+  },
+  "budgets_and_limits": {
+    "final_endpoint_budgets_seconds": [5, 20, 60],
+    "pilot_endpoint_budgets_seconds": [5],
+    "repetition_seeds": [7101, 7102, 7103],
+    "per_instance_wall_cap_seconds": 65,
+    "hard_total_final_runtime_budget_seconds": 1800,
+    "pilot_runtime_budget_seconds": 180,
+    "external_memory_cap": "NOT ENFORCED unless the execution report records a separately configured cgroup/ulimit; peak RSS is measured when psutil is available",
+    "thread_policy": "one process per run; BLAS/HiGHS thread environment is recorded and simultaneous final solver runs are forbidden",
+    "execution_order": "deterministic randomized blocks from repetition seed; each block includes both methods and all endpoint budgets for one instance, with no simultaneous solver processes"
+  },
+  "metrics": {
+    "primary": [
+      "full invocation wall time including setup, solver call, and independent original-objective re-evaluation",
+      "time to independently checked feasible incumbent",
+      "endpoint-at-budget status and success/censoring",
+      "verified feasible objective",
+      "solver-reported primal, dual, and MIP gap separately labeled",
+      "peak RSS when measured",
+      "variables, rows, cuts/scenarios, oracle calls, cache hits, ordinary matching extrema calls",
+      "task-local graph signatures and tractable maximal-matching counts",
+      "failure, no-incumbent, and presolve/fallback status"
+    ],
+    "interpretation": "Separate endpoint runs are endpoint-at-budget observations, not continuous same-run incumbent traces. No solver-reported dual is treated as an independently justified global mathematical bound."
+  },
+  "hypothesis": {
+    "id": "H1",
+    "statement": "Static time/model size is disproportionately driven by the number of task-local maximal-matching scenarios, whereas Master-Oracle time is disproportionately driven by task-sharing-induced repeated oracle evaluations and cuts.",
+    "falsification": "Predeclared paired graph perturbations that change one feature must fail to show the predicted counter pattern after accounting for repetitions and endpoint censoring; retain the negative result if so.",
+    "controlled_pairs": [
+      "star versus star-forest component split",
+      "path versus cycle edge closure",
+      "general graph versus parallel-candidate replacement",
+      "low-sharing versus incidence-cycle sharing"
+    ]
+  },
+  "evidence_labels": {
+    "reference": "Fraction exact reference calculation, model-internal",
+    "baseline": "experimentally observed only for executed frozen inputs, environment, seeds, commands, and raw JSONL",
+    "solver_optimality": "floating-point solver-reported status/bounds only",
+    "global_gap": "NO CERTIFIED GLOBAL GAP unless an independent global lower-bound argument is recorded"
+  },
+  "freeze_rule": "The manifest, generator code hash, input bytes, and SHA256SUMS are committed before any new solver comparison. Final measurement cannot remove, replace, or post-hoc filter frozen instances or timeout rows."
+}
