@@ -22,7 +22,7 @@ from source_ledger import (
 )
 
 
-TRACE_SELECTED = re.compile(r"selected_stat_oid=(\d+)")
+TRACE_SELECTED = re.compile(r"selected_stat_oid=(\d+) keys=\d+")
 TRACE_CLAIMED = re.compile(r"selected_stat_oid=(\d+) claimed_clause_index=(\d+)")
 TRACE_NONE = re.compile(r"candidate=none; iteration terminated")
 
@@ -162,7 +162,16 @@ ORDER BY s.oid;
 """
         result = self.psql(sql, tuples_only=True, field_separator="\t")
         rows: list[dict[str, object]] = []
-        attnum_to_column = {index + 1: column for index, column in enumerate(self.manifest["fixture"]["attributes"])}
+        attributes_result = self.psql(
+            f"SELECT attnum, attname FROM pg_attribute WHERE attrelid = '{self.table}'::regclass AND attnum > 0 ORDER BY attnum;",
+            tuples_only=True,
+            field_separator="\t",
+        )
+        attnum_to_column = {
+            int(raw.split("\t")[0]): raw.split("\t")[1]
+            for raw in attributes_result.stdout.splitlines()
+            if raw.strip()
+        }
         for raw in result.stdout.splitlines():
             if not raw.strip():
                 continue
