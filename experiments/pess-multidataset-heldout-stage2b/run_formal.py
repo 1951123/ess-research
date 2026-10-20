@@ -116,11 +116,14 @@ def decimal_log(value: Decimal) -> Decimal:
 
 
 def rational_log(value: Decimal) -> Fraction:
-    # The quantization is explicit model-input rationalization, not an exact
-    # claim about the originating binary PostgreSQL value.
+    if not value.is_finite() or value <= 0:
+        raise ValueError("natural logarithm requires a finite positive Decimal")
+    # The high-precision Decimal logarithm and subsequent quantization are
+    # explicit model-input rationalization, not an exact claim about the
+    # originating binary PostgreSQL value.
     with localcontext() as context:
         context.prec = 80
-        quantized = value.quantize(Decimal("0.000000000000000001"))
+        quantized = value.ln().quantize(Decimal("0.000000000000000001"))
     return Fraction(str(quantized))
 
 
