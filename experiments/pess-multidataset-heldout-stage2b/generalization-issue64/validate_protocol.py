@@ -115,6 +115,10 @@ def validate(document: dict[str, Any]) -> list[str]:
     if "strict numeric < and >" not in schema_gate.get("supported_operator_rule", ""):
         errors.append("prospective operator extension beyond AreCEL defaults is not disclosed")
     quota_table = schema_gate.get("quota_by_dataset_split", {})
+    if not schema_gate.get("quota_status", "").startswith("PROVISIONAL_SCHEMA_ONLY_TARGETS_NOT_FINAL"):
+        errors.append("schema-only quota table must remain provisional until pool feasibility passes")
+    if recipe.get("historical_fingerprint_gate", {}).get("phase0_check_result") != "BLOCKED_INCOMPLETE_HISTORICAL_FINGERPRINT_LEDGER; no candidate pool was accepted or frozen":
+        errors.append("incomplete historical fingerprint evidence must explicitly block cohort freeze")
     for dataset in sorted(EXPECTED_DATASETS):
         dataset_quotas = quota_table.get(dataset, {})
         if set(dataset_quotas) != {"calibration", "heldout"}:
@@ -123,6 +127,8 @@ def validate(document: dict[str, Any]) -> list[str]:
         for split, quotas in dataset_quotas.items():
             if sum(quotas.values()) != EXPECTED_TEST_GROUPS:
                 errors.append(f"{dataset}/{split} predicate-bin quotas must sum to 1000")
+            if quotas.get("1") != 0:
+                errors.append(f"{dataset}/{split} singleton bin must be descriptive only")
             if sum(value for bin_name, value in quotas.items() if bin_name not in ("1", "2")) < EXPECTED_TEST_GROUPS // 2:
                 errors.append(f"{dataset}/{split} requires at least 500 queries with >=3 predicates")
     if "STRUCTURALLY_INFEASIBLE" not in schema_gate.get("capacity_rule", ""):

@@ -40,8 +40,21 @@
       "scope_note": "categorical equality restriction is source-derived; strict numeric inequalities are an explicit prospective extension"
     },
     "code": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/schema_capacity.py",
-    "report": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/schema-capacity-report.json",
-    "limitations": "schema-only theoretical capacity; d=1/d=2 exact hash split enumeration; larger-bin upper bounds are not split-pool or post-quarantine availability guarantees"
+    "report_v1_preserved": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/schema-capacity-report.json",
+    "report_v2": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/schema-capacity-report-v2.json",
+    "limitations": "schema-only theoretical capacity; d=1/d=2 exact hash split enumeration; larger-bin upper bounds are not split-pool or post-quarantine availability guarantees; v2 quota targets are provisional"
+  },
+  "review_followup_v2": {
+    "reviewed_head": "4d693620e79f1f33be619f59d7a7467e11572072",
+    "review_date": "2026-10-20",
+    "changes": [
+      "d=1 changed to descriptive-only with zero mandatory quota",
+      "d=2 split targets capped at no more than half of exact schema split capacity",
+      "low-bin deficit allocated prospectively to >=3-predicate bins"
+    ],
+    "historical_quarantine_and_fixed_attempt_pool": "BLOCKED_INCOMPLETE_HISTORICAL_FINGERPRINT_LEDGER; no candidate pool or final quota accepted",
+    "report": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/preflight-v2.md",
+    "no_outcomes_or_postgresql_accessed": true
   },
   "arecel_paper": {
     "citation": "Wang et al., PVLDB 14(9), 1640-1654 (2021), doi:10.14778/3461535.3461552",
@@ -58,5 +71,5 @@
     "ess_advisor_edited": false,
     "paper_edited": false
   },
-  "implementation_note": "Static validator and tests inspect only the checked-in protocol JSON; they do not acquire datasets, parse SQL, load truth/estimate artifacts, or connect to PostgreSQL."
+  "implementation_note": "Schema tests enumerate source-pinned schema/operator combinations only. No historical workload SQL was parsed and no fixed-attempt candidate pool was generated in this follow-up. Static validator and tests do not load truth/estimate artifacts or connect to PostgreSQL."
 }

@@ -191,7 +191,12 @@ def capacity_table(dataset: str, candidate_pairs: list[str]) -> dict[str, Any]:
 
 
 def revised_predicate_quota(capacity: dict[str, Any], groups_per_split: int = 1000) -> dict[str, dict[str, int]]:
-    """Cap singleton quota by exact fingerprint-split capacity; water-fill others."""
+    """Make d=1 descriptive and reserve half of each d=2 split capacity.
+
+    These are schema-only planning targets, not frozen cohort quotas. The
+    historical-fingerprint and fixed-attempt pool gates must still pass before
+    any final quota is frozen.
+    """
     capacities = capacity["predicate_bin_capacity_upper_bound"]
     bins = list(capacities)
     high_bins = bins[1:]
@@ -202,16 +207,16 @@ def revised_predicate_quota(capacity: dict[str, Any], groups_per_split: int = 10
     low_caps = capacity["low_predicate_exact_template_capacity_by_split"]
     result: dict[str, dict[str, int]] = {}
     for split in ("calibration", "heldout"):
-        quotas = {
-            b: min(initial[b], low_caps[b][split]) if b in low_caps else initial[b]
-            for b in bins
-        }
+        quotas = {b: initial[b] for b in bins}
+        quotas["1"] = 0  # descriptive only: no mandatory singleton minimum
+        quotas["2"] = min(initial["2"], low_caps["2"][split] // 2)
         left = groups_per_split - sum(quotas.values())
         high_bins = bins[2:]
         if not high_bins:
             raise ValueError("schema has no predicate-count bin >=3")
-        # Reallocate low-bin deficits equally across d>=3 bins. This preserves
-        # the high-multipredicate objective and respects global bin capacities.
+        # Reallocate low-bin deficits equally across d>=3 bins. Reserving at
+        # least half of each exact d=2 split capacity prevents the previous
+        # quota from consuming all DMV11 d=2 templates before quarantine.
         while left:
             active = [b for b in high_bins if quotas[b] < capacities[b]]
             if not active:

@@ -20,24 +20,26 @@ The protocol specifies a deterministic manifest recipe rather than claiming that
 
 The fingerprint gate covers all four legacy AreCEL workload splits and the exposed Stage 1A #38 and Stage 2B #48 cohorts. Issue #59 published overlap aggregates but not raw digest sets; those hashes must be regenerated from workload SQL/schema only, never `truth.json`. Any missing coverage or collision blocks cohort freeze. The 1,000-group target is exactly 1,000 measured queries because the group/query ratio is fixed at 1:1; it is not evidence that those groups are available. Each split requires at least 500 queries with >=3 predicates. Operator/graph strata are quota-eligible only when their pinned schema-only upper bound is >=100; each then requires >=100 distinct candidates in each split after historical quarantine, otherwise freeze is `BLOCKED`. The fixed attempt-pool result is checked before any outcome access; a pool shortfall does not redefine schema feasibility.
 
-### Schema-capacity correction to the cohort quotas
+### Schema-capacity and historical-quarantine correction
 
 The second review correctly found that equal predicate-bin allocation was impossible: the frozen template fingerprint removes literals, so a column contributes only its supported operator variants. The pinned schemas provide 60/38/16/42 total single-predicate templates for Forest10/Census13/DMV11/Power7, respectively—far below the former 200–250 per-split target. Exact fingerprint hashing assigns these across calibration/held-out as 31/29, 14/24, 5/11 and 19/23. The d=2 spaces are also exactly enumerated and split-hashed (global totals 1,620/628/105/756); this avoids spending the same finite templates in both splits. The categorical equality restriction is source-derived from AreCEL's pinned `wsf_uniform`/`wsf_exponential`; the proposed generator explicitly extends its numeric operator set with strict `<` and `>`.
 
-The frozen schema-derived per-split allocations are:
+The v1 schema-only quota proposal consumed all d=1 capacity in every split. V2 removes d=1 as a mandatory stratum (descriptive only), caps d=2 at half of its exact per-split schema capacity, and prospectively reallocates the difference to >=3-predicate bins. The resulting values are **provisional planning targets**, not final cohort quotas:
 
 | Dataset | Split | 1 predicate | 2 predicates | 3–4 | 5–7 | 8–D | >=3 total |
 |---|---|---:|---:|---:|---:|---:|---:|
-| Forest10 | calibration | 31 | 200 | 257 | 256 | 256 | 769 |
-| Forest10 | held-out | 29 | 200 | 257 | 257 | 257 | 771 |
-| Census13 | calibration | 14 | 200 | 262 | 262 | 262 | 786 |
-| Census13 | held-out | 24 | 200 | 259 | 259 | 258 | 776 |
-| DMV11 | calibration | 5 | 60 | 312 | 312 | 311 | 935 |
-| DMV11 | held-out | 11 | 45 | 315 | 315 | 314 | 944 |
-| Power7 | calibration | 19 | 250 | 366 | 365 | — | 731 |
-| Power7 | held-out | 23 | 250 | 364 | 363 | — | 727 |
+| Forest10 | calibration | 0 | 200 | 267 | 267 | 266 | 800 |
+| Forest10 | held-out | 0 | 200 | 267 | 267 | 266 | 800 |
+| Census13 | calibration | 0 | 151 | 283 | 283 | 283 | 849 |
+| Census13 | held-out | 0 | 162 | 280 | 279 | 279 | 838 |
+| DMV11 | calibration | 0 | 30 | 324 | 323 | 323 | 970 |
+| DMV11 | held-out | 0 | 22 | 326 | 326 | 326 | 978 |
+| Power7 | calibration | 0 | 189 | 406 | 405 | — | 811 |
+| Power7 | held-out | 0 | 188 | 406 | 406 | — | 812 |
 
-All bins sum to 1,000 per split and the combined calibration+held-out target in each bin is no greater than its exact global schema capacity. `schema-capacity-report.json` records the complete nonzero predicate-bin × operator-family × exclusive-graph-class upper-bound table; zero cells are explicitly omitted/zero. The code and tests check marginal conservation and exact low-bin split capacities. Notable structural limits: DMV11 has only one numeric column, so its total upper bounds are one closed-range-only template and four one-sided-inequality templates; the conflicting-edge class with exactly one maximal matching has capacity zero for all four simple candidate graphs. These classes are explicitly structural-infeasibility findings, not post-outcome exclusions. All other schema-feasible strata still face the independent one-million-attempt, split-pool and historical-quarantine gates; no actual cohort or literal feasibility is claimed.
+All provisional bins sum to 1,000 per split and their combined targets remain below the global schema capacities. `schema-capacity-report.json` is retained unchanged as the v1 proposal; `schema-capacity-report-v2.json` records the revised planning targets and same schema-only upper-bound table. Notable structural limits remain: DMV11 has one closed-range-only and four one-sided-inequality single-predicate templates; the conflicting-edge class with exactly one maximal matching has capacity zero. These are schema-only findings, not post-quarantine feasibility evidence.
+
+**Historical-quarantine preflight status: `BLOCKED_INCOMPLETE_HISTORICAL_FINGERPRINT_LEDGER`.** The configured data root contains a file named `arecel-data.tar.gz` (its bytes/hash were not checked in this preflight), and Issue #59 published aggregate overlap summaries, but the required machine-readable exposed-cohort fingerprint inputs for Stage 2B #48 are not available as an outcome-free ledger. Formal held-out result files and PostgreSQL data directories were deliberately not opened. Consequently, no fixed-attempt pool was accepted, no final quotas were frozen, and no query manifest exists. The provisional d=1/d=2 headroom repairs the known full-capacity defect but does not prove cohort feasibility. The protocol requires complete quarantine coverage plus an actual fixed-attempt candidate-pool gate before any outcomes or physical measurement; missing inputs remain a hard stop.
 
 Calibration, coefficient derivation and resource optimization happen separately on each dataset. The four bounded candidate universes are inherited from the outcome-free Issue #59 audit (six Forest pairs, six Census pairs, ten DMV adjacent pairs, six Power adjacent pairs); they are not exhaustive across table columns. Budgets 0/2/3/5 use one additive candidate-count proxy unit and do not assert physical maintenance additivity. Every optimal resource set is recorded; a deterministic lexical rule selects one deployed set, while PG creation order is separately fixed to candidate order.
 
