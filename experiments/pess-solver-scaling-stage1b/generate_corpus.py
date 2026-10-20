@@ -14,7 +14,6 @@ from pathlib import Path
 
 from pess_ess.model import Candidate, Instance, Task, instance_to_dict
 
-
 ROOT = Path(__file__).resolve().parent
 INSTANCE_DIR = ROOT / "instances"
 

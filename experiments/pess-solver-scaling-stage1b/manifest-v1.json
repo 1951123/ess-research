@@ -7,7 +7,7 @@
   "freeze_statement": "These input bytes and metadata precede all Stage 1B solver comparison results.",
   "generator": {
     "file": "generate_corpus.py",
-    "sha256": "42a0fb88027a0d9548279af23fd1f844cea3c48686c3caac042c45757f1d1a48"
+    "sha256": "e8550a430936c5416c23a0a134bcf5a65551439c8ba2f0386dca7c7539269b5d"
   },
   "instances": [
     {
