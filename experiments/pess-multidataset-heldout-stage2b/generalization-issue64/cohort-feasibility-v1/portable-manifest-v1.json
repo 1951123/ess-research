@@ -1,0 +1,123 @@
+{
+  "manifest_version": "issue64-cohort-feasibility-portable-v1",
+  "purpose": "Outcome-free source integrity verification; no query outcomes or measurements",
+  "external_source_policy": "External inputs are addressed by source identifier, required environment variable, relative path, and fixed SHA-256; no host-specific absolute paths are stored.",
+  "inputs": [
+    {
+      "source_id": "repository-agent-instructions",
+      "kind": "repo_file",
+      "path": "AGENTS.md",
+      "sha256": "fc4af0ae21aa9c340321b0d7f65d7493098b20d20b5aa287651fcea4aa3ce02c"
+    },
+    {
+      "source_id": "issue64-frozen-protocol-v1",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/protocol-v1.json",
+      "sha256": "7116403e1fba83200951e0c470ff419934e5e2b77b5353f8066d7b3698412363"
+    },
+    {
+      "source_id": "issue64-schema-capacity-report-v2",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/schema-capacity-report-v2.json",
+      "sha256": "b0e84f111e58b89dca4bd90d2304dd9a47133efb266ed3d57b39b5733bfd7a61"
+    },
+    {
+      "source_id": "issue64-identity-primitives",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort_recipe.py",
+      "sha256": "663c869fb95b683f00ce62e4b6ab70decfdbcdba986dd55ae9b1b4d1e8b68ad5"
+    },
+    {
+      "source_id": "issue59-fingerprint-contract",
+      "kind": "repo_file",
+      "path": "experiments/workload-structure-audit-issue59/audit_structure.py",
+      "sha256": "711be1a472439a8c27b59d5a91e6f7a0259ea22fbe69cdfdf7bef25e46fb6ebb"
+    },
+    {
+      "source_id": "issue59-protocol-v1",
+      "kind": "repo_file",
+      "path": "experiments/workload-structure-audit-issue59/protocol-v1.json",
+      "sha256": "8e8d25bc9d2847936d2c45f51a3f870a8c44e632938e30db19cfe8aaf0d9063a"
+    },
+    {
+      "source_id": "stage1a-frozen-identity-protocol",
+      "kind": "repo_file",
+      "path": "experiments/forest10-heldout-decision-stage1a/protocol.json",
+      "sha256": "79d76dbb2cd5c47e3fe434c32a9156040c66bac13f8d7a4cfbda8538fef74307"
+    },
+    {
+      "source_id": "issue48-frozen-protocol-v4",
+      "kind": "git_blob",
+      "commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "path": "experiments/pess-multidataset-heldout-stage2b/protocol-v4.json",
+      "sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad"
+    },
+    {
+      "source_id": "historical-fingerprint-ledger-v7",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/historical-fingerprint-ledger-v7/historical-fingerprint-ledger-v7.jsonl.gz",
+      "sha256": "d23abd95c8aa9b1a154c523d142b8383de0e7013f07ebcc04a8f9ee42653bfe8"
+    },
+    {
+      "source_id": "historical-fingerprint-rebuild-report-v7",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/historical-fingerprint-ledger-v7/historical-fingerprint-rebuild-report-v7.json",
+      "sha256": "4363dd69cb9f25a8a59995250c7b80596cf2623e839ecec29c2d0aa9f428c5f5"
+    },
+    {
+      "source_id": "historical-fingerprint-legacy-checksums-v7",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/historical-fingerprint-ledger-v7/SHA256SUMS-v7",
+      "sha256": "6d1c362120681fe6f495f00d6128bc066f595a7ae6c826138f3924063778664a"
+    },
+    {
+      "source_id": "arecel-source-archive",
+      "kind": "external_file",
+      "root_env": "ESS_DATA_ROOT",
+      "relative_path": "arecel-data.tar.gz",
+      "sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79"
+    },
+    {
+      "source_id": "issue64-portable-manifest-verifier",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/verify_portable_manifest.py",
+      "sha256": "f43192ad93d9a4b50f91f745f9310a9fc25091501cf0927269320972c2410552"
+    },
+    {
+      "source_id": "issue64-portable-manifest-verifier-tests",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/test_verify_portable_manifest.py",
+      "sha256": "b4f510d7bb128a42b209728d9a7ca558e7ea0c35a7917f4d52bc35b416edc976"
+    },
+    {
+      "source_id": "issue64-fail-closed-decision-validator",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/validate_feasibility_decision.py",
+      "sha256": "f94b3619c0e18eb03fdc3212c5c20e2f7f2c28c213789edbe87a1410c83161d6"
+    },
+    {
+      "source_id": "issue64-fail-closed-decision-validator-tests",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/test_validate_feasibility_decision.py",
+      "sha256": "c52a65dd79ff5ffc7e78f3e2b8abe0b408f281b9c2ed0a3836a5cc5e52d52d80"
+    },
+    {
+      "source_id": "issue64-cohort-feasibility-decision-v1",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/cohort-feasibility-decision-v1.json",
+      "sha256": "8a46f97a58aa1aa2828a2d9a2bdf7daab1381ffd2c42ca0d34cfba56a1b2f652"
+    },
+    {
+      "source_id": "issue64-cohort-feasibility-report-v1",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/cohort-feasibility-report-v1.md",
+      "sha256": "05cfe05473a4b456bff8c02a347df78e1039a272e743c15b95ed599b9cebea10"
+    },
+    {
+      "source_id": "issue64-cohort-feasibility-readme",
+      "kind": "repo_file",
+      "path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/cohort-feasibility-v1/README.md",
+      "sha256": "1598435f7f0bfbfc46afacb57c4e9384ffa1b546fb83abd17b9a16a25b4eae14"
+    }
+  ]
+}

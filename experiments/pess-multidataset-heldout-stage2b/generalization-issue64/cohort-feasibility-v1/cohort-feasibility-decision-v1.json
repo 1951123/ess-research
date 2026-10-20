@@ -1,0 +1,43 @@
+{
+  "status": "BLOCKED_SPECIFICATION_AMBIGUITY",
+  "block_point": "before_attempt_0",
+  "outcome_free": true,
+  "seeds": {"forest10": 6401, "census13": 6402, "dmv11": 6403, "power7": 6404},
+  "maximum_attempts_per_dataset": 1000000,
+  "attempts_executed": 0,
+  "complete_generator_implementation": "NOT_WRITTEN_FAIL_CLOSED_DUE_TO_FROZEN_SPECIFICATION_AMBIGUITY",
+  "existing_identity_helpers_sha256": "663c869fb95b683f00ce62e4b6ab70decfdbcdba986dd55ae9b1b4d1e8b68ad5",
+  "historical_identity_coverage_gate": "PASS_AS_DOCUMENTED_IN_V7",
+  "prospective_zero_collision_gate": "BLOCKED_NOT_RUN",
+  "query_generation": "NOT_RUN",
+  "postgresql_measurement": "NOT_RUN",
+  "quota_status": "frozen_protocol_targets_unchanged_actual_counts_not_evaluated",
+  "datasets": {
+    "forest10": {
+      "calibration": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 200, "3-4": 267, "5-7": 267, "8-10": 266}, "actual_predicate_bin_counts": null},
+      "heldout": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 200, "3-4": 267, "5-7": 267, "8-10": 266}, "actual_predicate_bin_counts": null}
+    },
+    "census13": {
+      "calibration": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 151, "3-4": 283, "5-7": 283, "8-13": 283}, "actual_predicate_bin_counts": null},
+      "heldout": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 162, "3-4": 280, "5-7": 279, "8-13": 279}, "actual_predicate_bin_counts": null}
+    },
+    "dmv11": {
+      "calibration": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 30, "3-4": 324, "5-7": 323, "8-11": 323}, "actual_predicate_bin_counts": null},
+      "heldout": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 22, "3-4": 326, "5-7": 326, "8-11": 326}, "actual_predicate_bin_counts": null}
+    },
+    "power7": {
+      "calibration": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 189, "3-4": 406, "5-7": 405}, "actual_predicate_bin_counts": null},
+      "heldout": {"target_groups": 1000, "actual_groups": null, "predicate_bin_targets": {"1": 0, "2": 188, "3-4": 406, "5-7": 406}, "actual_predicate_bin_counts": null}
+    }
+  },
+  "operator_graph_minimums": "100 per schema-feasible family/class per split per protocol-v1; actual counts NOT_EVALUATED",
+  "blocking_ambiguities": [
+    "purpose-to-draw mapping and per-column rank salt not fully specified",
+    "exponential inverse-CDF/rate-scale and interval boundary/clipping rules absent",
+    "newly-generated typed literal serialization and SQL renderer not version-pinned",
+    "CSV parser/row-order/source-row identity bindings absent from frozen protocol"
+  ],
+  "rejection_reasons": "NOT_EVALUATED; attempt loop did not start",
+  "quota_gaps": "NOT_ASSESSABLE; actual candidate counts were not generated",
+  "no_adaptive_retry": true
+}
