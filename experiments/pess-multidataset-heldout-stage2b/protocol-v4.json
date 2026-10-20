@@ -1,0 +1,1760 @@
+{
+  "datasets": {
+    "census13": {
+      "benchmark_id": "arecel-census13",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "age",
+            "workclass"
+          ],
+          "creation_order": 0,
+          "id": "c01",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "VARCHAR(64)"
+          ],
+          "source_columns": [
+            "age",
+            "workclass"
+          ],
+          "statistic_name": "ess2b_census13_c01"
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "education"
+          ],
+          "creation_order": 1,
+          "id": "c12",
+          "postgres_types": [
+            "VARCHAR(64)",
+            "VARCHAR(64)"
+          ],
+          "source_columns": [
+            "workclass",
+            "education"
+          ],
+          "statistic_name": "ess2b_census13_c12"
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "education_num"
+          ],
+          "creation_order": 2,
+          "id": "c23",
+          "postgres_types": [
+            "VARCHAR(64)",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "education",
+            "education_num"
+          ],
+          "statistic_name": "ess2b_census13_c23"
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "marital_status"
+          ],
+          "creation_order": 3,
+          "id": "c34",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "VARCHAR(64)"
+          ],
+          "source_columns": [
+            "education_num",
+            "marital_status"
+          ],
+          "statistic_name": "ess2b_census13_c34"
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "occupation"
+          ],
+          "creation_order": 4,
+          "id": "c45",
+          "postgres_types": [
+            "VARCHAR(64)",
+            "VARCHAR(64)"
+          ],
+          "source_columns": [
+            "marital_status",
+            "occupation"
+          ],
+          "statistic_name": "ess2b_census13_c45"
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "relationship"
+          ],
+          "creation_order": 5,
+          "id": "c56",
+          "postgres_types": [
+            "VARCHAR(64)",
+            "VARCHAR(64)"
+          ],
+          "source_columns": [
+            "occupation",
+            "relationship"
+          ],
+          "statistic_name": "ess2b_census13_c56"
+        }
+      ],
+      "catalog_columns": [
+        "age",
+        "workclass",
+        "education",
+        "education_num",
+        "marital_status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capital_gain",
+        "capital_loss",
+        "hours_per_week",
+        "native_country"
+      ],
+      "cross_split_fingerprint_audit": {
+        "all_queries": {
+          "exact": {
+            "group_count": 111094,
+            "shared_group_count": 437,
+            "shared_groups_by_split_pair": {
+              "test+train": 150,
+              "test+train+valid": 131,
+              "test+valid": 6,
+              "train+valid": 150
+            },
+            "shared_record_count": 8408
+          },
+          "template": {
+            "group_count": 26209,
+            "shared_group_count": 6999,
+            "shared_groups_by_split_pair": {
+              "test+train": 2527,
+              "test+train+valid": 1861,
+              "test+valid": 64,
+              "train+valid": 2547
+            },
+            "shared_record_count": 85783
+          }
+        },
+        "interpretation": "shared normalized template groups are flagged as leakage; selected query IDs remain descriptive and are not treated as group-independent population samples",
+        "ledger_sha256": "aa1452fd0b39e226f924b26ce8f3cd1dde86e039eb1a73e91a7f35fc0c79ce05",
+        "strict_pairwise_queries": {
+          "exact": {
+            "group_count": 483,
+            "shared_group_count": 35,
+            "shared_groups_by_split_pair": {
+              "test+train": 14,
+              "test+train+valid": 2,
+              "test+valid": 1,
+              "train+valid": 18
+            },
+            "shared_record_count": 185
+          },
+          "records": 719,
+          "records_by_split": {
+            "test": 52,
+            "train": 609,
+            "valid": 58
+          },
+          "template": {
+            "group_count": 12,
+            "shared_group_count": 11,
+            "shared_groups_by_split_pair": {
+              "test+train+valid": 9,
+              "train+valid": 2
+            },
+            "shared_record_count": 713
+          }
+        }
+      },
+      "relation": "public.census13",
+      "source_columns": [
+        "age",
+        "workclass",
+        "education",
+        "education_num",
+        "marital_status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capital_gain",
+        "capital_loss",
+        "hours_per_week",
+        "native_country"
+      ],
+      "source_relation": "public.census13",
+      "source_rows": 48842,
+      "split_counts": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "test_cohort": {
+        "allowed_operators": [
+          "=",
+          "<",
+          "<=",
+          ">",
+          ">=",
+          "[]"
+        ],
+        "eligible_counts_by_candidate_after_legacy_exclusion": {
+          "c01": 11,
+          "c12": 9,
+          "c23": 6,
+          "c34": 9,
+          "c45": 8,
+          "c56": 9
+        },
+        "legacy_stage1a_ids_excluded_before_selection": 60,
+        "records": [
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "cf79dbab4e4a89b6c3cc3938f5f32ecb10da5d7d1109a9799598e613d7730120",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000019",
+            "source_index": 19,
+            "source_sql_sha256": "d024514bbf3e212258d6a03acdebf71a24ef8baba89d1bc8282024f1acd8b67a",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "b1bf61a3ce1be5cf3ecef93a672bd0fcc1907b214562aecd0b973b221e8379ad",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000121",
+            "source_index": 121,
+            "source_sql_sha256": "5c365a1de3d6aa5e447d881fa500cc4605f360fbedb917333f27a6d4fabb34ec",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "0a7297b1c6369aca997c170113ad43891e91236fd5e40b55db492ba8cf8db1c6",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000200",
+            "source_index": 200,
+            "source_sql_sha256": "72bcc1fe9ecb31ce8280a173679318f6414b2140e6f5cde83c80632572ae131b",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "4a7a5fc66364f2bf08193d1addc700005999fa8c67f3f447e6b2787468771580",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000348",
+            "source_index": 348,
+            "source_sql_sha256": "8de763197c941e85009f809417d1c3666ada1ee70ab632e8c1cdab5572ebf27a",
+            "template_fingerprint_sha256": "8164ab6e4e423b6b366d217e11a7dd50ed5ee22b93c90b9d7e8fe9833ea34ca0"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "a1d86344df7b8c90bc6c2ebb69b2951cbbb0c6698adbda72be0135a8c3e7d983",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000439",
+            "source_index": 439,
+            "source_sql_sha256": "cd0afa0444c77201ce7272fbf16fa85fcdd20267428776a87b76fc45b556d5e7",
+            "template_fingerprint_sha256": "6ad1832804e7c45565f5f82f9b9bf665f4c514f3025758ba19570f5f1322602a"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "ba7912550ff956e2764cf8f01c00ce0c3b8cb6fb54c1d43e8bce3fdd4b9ce755",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000518",
+            "source_index": 518,
+            "source_sql_sha256": "2014349bd42104bf1f4191483984d23e9e40baaa99eb06e4d15d29311706c6cc",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "b1bf61a3ce1be5cf3ecef93a672bd0fcc1907b214562aecd0b973b221e8379ad",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:000891",
+            "source_index": 891,
+            "source_sql_sha256": "5c365a1de3d6aa5e447d881fa500cc4605f360fbedb917333f27a6d4fabb34ec",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "4c522f5e313b7c1322e728c5656195b8ff629597f3dca008f29843f90c70450a",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:001032",
+            "source_index": 1032,
+            "source_sql_sha256": "a27859882fdc445d067e867660e5525943aabe83df14915ae3e948924f6c7850",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "7670cd70d74100223a9da71af17224212dbd521452cbff48d39dcfaeca0a692d",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:001165",
+            "source_index": 1165,
+            "source_sql_sha256": "be40a56c1820c44ed7ad9d29ce2ddf18e2616333723447bfa6782a2d53ac09e1",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "ba54aaeadff0e25ab3acd2c9d1f00d88ceb6535d197ae91f40e3e5708cb97d89",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:001203",
+            "source_index": 1203,
+            "source_sql_sha256": "2175de8fe9041b9d5dc850551825981271fa4d601a0b9cd8de80004b6bc9fe94",
+            "template_fingerprint_sha256": "8164ab6e4e423b6b366d217e11a7dd50ed5ee22b93c90b9d7e8fe9833ea34ca0"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "1202823770f8e84341f811f63114bd0fd71fd81460989dd4bb0343ca0ad26ce0",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:001444",
+            "source_index": 1444,
+            "source_sql_sha256": "1bc060d70385f5168e26214b8f5171a1e5dbf1452680ee477e7b205ea00433e4",
+            "template_fingerprint_sha256": "8164ab6e4e423b6b366d217e11a7dd50ed5ee22b93c90b9d7e8fe9833ea34ca0"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "eda813fb6b3f10f82e4bbfe94b17498b20aebe0f39ef89bd0afaac6648a9c6c9",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:001846",
+            "source_index": 1846,
+            "source_sql_sha256": "9198dd946ad142e8263108419d31add3a4141ac30398f3b786d9f2f3dc0898d3",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "d3283c4e5ac5e31da1d052b8b634def80157274b777289181ed86f304b5fb01e",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002026",
+            "source_index": 2026,
+            "source_sql_sha256": "14362d8ee138292862562fb6b63dcc9f65be6deebc4b8314bb8abcfc4c5cf559",
+            "template_fingerprint_sha256": "8164ab6e4e423b6b366d217e11a7dd50ed5ee22b93c90b9d7e8fe9833ea34ca0"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "49f67f67f98dbf528566e12d794c78d55a679c74ddcf1d3a0cae386e1ac2a63a",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002336",
+            "source_index": 2336,
+            "source_sql_sha256": "5e2d02b4e9a674de3e4b58bc8dc92c296470c04748a43f045a5b1a51bd902231",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "a3c988e20003687a7a62ecbfc7a9fabed2bff39c6967f96ea411a9c14db68601",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002380",
+            "source_index": 2380,
+            "source_sql_sha256": "c8fca96217d74deb657264503a947142dc417dbb01e2ade63712d692f406cfa7",
+            "template_fingerprint_sha256": "a4970ab96874476cc9bc56d4e5339155da53d56bde485d10dbc0eec88416ce29"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "07aebcbb8f34a99a829c3c0d4f236c25e2bcea622a1109e4e6ba17f47836b48e",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002492",
+            "source_index": 2492,
+            "source_sql_sha256": "fdb9e523e0a374f562ba6f8accd9490b25bc869a9db49caf3da56565132886a2",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "343af1d848e39cc4f168e84ee981abd6c4a1e79d15551b5031a4b224ba6ff4c2",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002570",
+            "source_index": 2570,
+            "source_sql_sha256": "f16c5765bfb08c0a2664971bceb12a88b8b4989ef7e875d309e18584ed4e346b",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "983995cf4bb8dde2fc219ab4f277116aff82f25637efb833c82567ff7336e350",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:002615",
+            "source_index": 2615,
+            "source_sql_sha256": "4eaeed60fa246f64f7cf88c1fd2c791ad180a54dac3d3fac08db1c44ac612c97",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "9df0036166ef897312bce75f2aa0cd01a952348e7d346e21e809a63d1e7419cb",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003096",
+            "source_index": 3096,
+            "source_sql_sha256": "1cd24e2622b0107031e6bcaebab5d0c8322a313017d71725e3ce96e760eaab77",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "fa43202895425cf0462b64787b86b39d7f74c4eeace0a35bf7fa7541f1d9cd1f",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003108",
+            "source_index": 3108,
+            "source_sql_sha256": "7d746b50fff4ea68f88646e70d034e32744076eab8616c661fe5556f378123c7",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "3e034ab0ff7ea38fa024e36a46a20bf3c8753c9dd13ca3c4fdf4032e99a99250",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003157",
+            "source_index": 3157,
+            "source_sql_sha256": "858411c57011e4240529a3d39f0b067b642709ea4fed055a0cee9a91bf76082e",
+            "template_fingerprint_sha256": "3a05ac0ac3ed5ffc1b397077f8b9ba48f9cd11412f79cf9be84208c172bd570f"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "9fe2c0c2a68cf5204e6c60c8f7d7c23b89b6807c0b79672cc412eed967e9ba83",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003402",
+            "source_index": 3402,
+            "source_sql_sha256": "2dcc02cc6937617edfe0fc8da31f29944f33b87f88501d360959c401f2a8bb92",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "ba08cc22d2c768be5ab86db5181be2d7eadccc14e14708825839f281e49e1f41",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003411",
+            "source_index": 3411,
+            "source_sql_sha256": "a1a5db706bba3c77adfe6411ff3f2352057f1c4917423020b41f575be6117858",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "9bf200b7f6fc8c12774fac1c466e83ac8d110ce174f1f59b1f2780ba83ae92bb",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003446",
+            "source_index": 3446,
+            "source_sql_sha256": "64ff75049da8eaf105ccffb9754f5cab0ea0c5e7e75dd3ad89047f71f1a56e22",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "e0ba36fa650e72dc0263b05844284244acff6f406bf257575d86fa2566e2b978",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:003613",
+            "source_index": 3613,
+            "source_sql_sha256": "cb515f8cdda2449249e33f8b699cc6045678b67a161ffa80c5999d592fd93184",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "695f0e7a32180f18c67bb76986324362db3f4a5b1b563e3a979c3783591ba4c2",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004180",
+            "source_index": 4180,
+            "source_sql_sha256": "725646e342b03f631599cec922fab7b0cd1d5ec0cf90f82da573cb750d263e48",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "270a1a7f30612450b4f89465ebdc729302e802f9b3e054992dc78e9df7873f23",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004380",
+            "source_index": 4380,
+            "source_sql_sha256": "65d4904e056623614cbaad856b773e3809771a72ccf28f850946ffd8f256762c",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "a48b39941353b4372f44f4a27405e3a88395c50f05ac28f828c523ad2d7ed6ea",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004705",
+            "source_index": 4705,
+            "source_sql_sha256": "09d3ab9531cb51989c0c5140e0546e14426e52a245d4190f24c608bfe5675ac7",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "692d2de44a493cebb1db5fd179a35e7da4619c6cf3d8a551e273d81bd2d6336d",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004716",
+            "source_index": 4716,
+            "source_sql_sha256": "cdd9a7869793719d073b5029616b8a6d2e9cd238f58c0070c1f4b3e9e86fb17e",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "692d2de44a493cebb1db5fd179a35e7da4619c6cf3d8a551e273d81bd2d6336d",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004782",
+            "source_index": 4782,
+            "source_sql_sha256": "cdd9a7869793719d073b5029616b8a6d2e9cd238f58c0070c1f4b3e9e86fb17e",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "38496a1ece5a77fcd90066b2703e190d9d987e8630362ece779d479f64bc7056",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:004799",
+            "source_index": 4799,
+            "source_sql_sha256": "50109141dcf8815c259af6838b99ff415bdbd515afab9f2f2dd70212d6a922f3",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "c506e4e9d9456704f34af2f25b097ae4c7606715855ee9e408ca9b306682ce07",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:005260",
+            "source_index": 5260,
+            "source_sql_sha256": "9639e1061743ae8c5008555ebc80829c206d7e958450d31b364de4944cdf9d20",
+            "template_fingerprint_sha256": "3a05ac0ac3ed5ffc1b397077f8b9ba48f9cd11412f79cf9be84208c172bd570f"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "d8ae991ea52c229b9b7c7ff8160a4c65982b7cf2f89339bfced1365b3155fab4",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:005375",
+            "source_index": 5375,
+            "source_sql_sha256": "4fba3b88bfa8072df8005f2b0ebde22d4bd7513f6975b699c6d0cb7ecd006523",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "d7c121207317eaf541175b6daccdc44ab8ed6343ae2a3408d92dd3fef1965fa7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006230",
+            "source_index": 6230,
+            "source_sql_sha256": "42596566273a31658ae5b75825ffb3e37270c2381fd1797b47c04e2cb5313c85",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "9078cdf9606d3d85cfaf9960692821d0ee0beb5a0beaced647b01c4a88e85282",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006305",
+            "source_index": 6305,
+            "source_sql_sha256": "fa1af2474a3468d87826e7a6da402dcaf58bc17c7b2fa22e57f6d798c73aa640",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "11436053c3ca13b46a71a372f76a0959b93177e02d1caa8cc1c9502bc3cac9ad",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006447",
+            "source_index": 6447,
+            "source_sql_sha256": "6a3e44f091e4c13aca504975ccbbcea28f30823d73cf7153d61903d3c2c70563",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "f328c48b66cb0b4f7192af05b6f7b157d8923bf7ce7a4f22f1deb8ebbe8fe7b7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006629",
+            "source_index": 6629,
+            "source_sql_sha256": "d098935cfc924dbb3c8abaf0b58a937d7b20fa0e0d6094deabad101bc1ff3da4",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "f0628a15975e9822cf5e0fcf0c0128c2e40794803dd1647f8007bd705566ba0b",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006666",
+            "source_index": 6666,
+            "source_sql_sha256": "ee1ef4089aff6aa9bcbdec0eefad129b4030b2d76fbe421312117f560d36ae23",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "692d2de44a493cebb1db5fd179a35e7da4619c6cf3d8a551e273d81bd2d6336d",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006685",
+            "source_index": 6685,
+            "source_sql_sha256": "cdd9a7869793719d073b5029616b8a6d2e9cd238f58c0070c1f4b3e9e86fb17e",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c56",
+            "exact_fingerprint_sha256": "90a06df4732f7f82659b5b54a288f1bf82635f89a39ddba14428423fef1c6c53",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006797",
+            "source_index": 6797,
+            "source_sql_sha256": "477ef6e24b78c172dc5f58bfc66798da68908a36d25add3384dbb29cf74db70a",
+            "template_fingerprint_sha256": "f53f06385e2024a327a2bf98ed9e42a9c9c765f1a4875ab60e478607f487c8e9"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "f511fa5389c3acdd1b5513aa0b5aa5c282200d8163c459489f00b590e328a5f8",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:006881",
+            "source_index": 6881,
+            "source_sql_sha256": "762d5e36b9b15a176633486ba043700bfbd5875c764efc326f228b1178e227a4",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "5e9444109c3435270997d67f68f9a578970cee4a299b0cbf8177e455c8719b64",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:007287",
+            "source_index": 7287,
+            "source_sql_sha256": "de2f589a616bbdeaccba1c8664d2d9af0183ada7096e75373883fd8256885088",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c23",
+            "exact_fingerprint_sha256": "479531946eada65bd3864a6b39434d2bf9a9d9a8de57c728f632129842ce5aea",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:007590",
+            "source_index": 7590,
+            "source_sql_sha256": "ec5d90e4ca083f0aa711ba66604c643e5e06a3ae07e684868236af59401ecccb",
+            "template_fingerprint_sha256": "8164ab6e4e423b6b366d217e11a7dd50ed5ee22b93c90b9d7e8fe9833ea34ca0"
+          },
+          {
+            "candidate_id": "c34",
+            "exact_fingerprint_sha256": "0fccd2b45b5e0aff217bbb4fe895403346d7a650dbe7677325cd164c59f27d5b",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:007820",
+            "source_index": 7820,
+            "source_sql_sha256": "8f1ad20e90cd7831488090d327926a28ac7347573dd53d4fcd3e10d0bf015b17",
+            "template_fingerprint_sha256": "934ba1802eced5939211d13125bb821c3b04002d3a1bd8f9f555856f03838daf"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "160ce1e8900f6351b6c14e1d7bccd08717bd7a68c0711326c533d7e1be0aa9da",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:007958",
+            "source_index": 7958,
+            "source_sql_sha256": "06ea1bf4102bb48238dca5a1279a415bfc066e45719ff8c63f65a72ddd6f04fd",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "af109ff58d501915f2bd12a2ef221b8e6a517abe25bc3702abd8aee77a28d93a",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:007974",
+            "source_index": 7974,
+            "source_sql_sha256": "2089482b435297098a7004977a6db8dec57eec3a3aec4b3ea23f9962602ba9dc",
+            "template_fingerprint_sha256": "a4970ab96874476cc9bc56d4e5339155da53d56bde485d10dbc0eec88416ce29"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "ca94814e3735b54edbe264779813c42889cb886115c21c6feba5e9bcf4f2a9fb",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:008293",
+            "source_index": 8293,
+            "source_sql_sha256": "b934a7b94b6ebaf885b66e0cece8150d745761371c7d4cde05b7fe7b8bcd5363",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "833760046e36bca705806f0266de23d22d4a6bd46e3a6506b0a8efbfbfddc3ab",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:008459",
+            "source_index": 8459,
+            "source_sql_sha256": "6e14932aacd13b36a922e926dc11c247a925f51862c39712f7b2a9cf7290de38",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c45",
+            "exact_fingerprint_sha256": "24ce5794c088c90509728fe3034631f7be8611cd001b2c6e67d30ca89cd40c3d",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:009313",
+            "source_index": 9313,
+            "source_sql_sha256": "83b75a6406b0fcde71dfc7fc8abc31cd845e9aff930540243bd483d0337b39bd",
+            "template_fingerprint_sha256": "cae39137127de592a28812e3d1cd90b1875ce45efeb5be1ea05cb28ae4063f36"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "7ba4b8225c8a78ab7be4f6419d0b2165f010fed4c98798ad12545312dc4f94af",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:009509",
+            "source_index": 9509,
+            "source_sql_sha256": "2172810bc0fed7186a99776332f15a8419a5c6c6d0f743c4853826d9f7db3b47",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c12",
+            "exact_fingerprint_sha256": "9bf200b7f6fc8c12774fac1c466e83ac8d110ce174f1f59b1f2780ba83ae92bb",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:009638",
+            "source_index": 9638,
+            "source_sql_sha256": "64ff75049da8eaf105ccffb9754f5cab0ea0c5e7e75dd3ad89047f71f1a56e22",
+            "template_fingerprint_sha256": "8071a96f808e7d76cdfc015958dc910de4192f4601971645702775dece12b6b6"
+          },
+          {
+            "candidate_id": "c01",
+            "exact_fingerprint_sha256": "4b6209040ba60a4ee79084d1d5cb1fa3ccaad7a3d8336e560f4b5b70675a06a1",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:census13:test:009656",
+            "source_index": 9656,
+            "source_sql_sha256": "08228d6027d1c31143f6d525504f7a1b78d37fb3231a84f370d155bb190373fd",
+            "template_fingerprint_sha256": "050915f46c6a0f435b2576801bd0b60de7bcdb56c65df7ac2b85d2a1be16ef21"
+          }
+        ],
+        "screen": "exactly two predicates, two distinct source columns, allowed operator, and exact endpoint match to one predeclared pairwise candidate",
+        "selected_count": 52,
+        "selected_counts_by_candidate": {
+          "c01": 11,
+          "c12": 9,
+          "c23": 6,
+          "c34": 9,
+          "c45": 8,
+          "c56": 9
+        },
+        "selection_rule": "all eligible records because the eligible count is within the 30-100 target",
+        "selection_seed": "ess-issue48-stage2b-formal-v1",
+        "split": "test",
+        "stage1a_legacy_ids_excluded": true
+      },
+      "validation_calibration": {
+        "records": [
+          {
+            "candidate_id": "c01",
+            "covered_candidates": [
+              "c01",
+              "c56"
+            ],
+            "query_id": "arecel:census13:valid:000000",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 0,
+            "source_sql_sha256": "e4d71502ecf96b18570d3558d3062dd417d5e72fb29b6a6e14dd928ad6777904"
+          },
+          {
+            "candidate_id": "c12",
+            "covered_candidates": [
+              "c12",
+              "c23",
+              "c34",
+              "c45"
+            ],
+            "query_id": "arecel:census13:valid:000001",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 1,
+            "source_sql_sha256": "97e299e5e18441165959bf99204967a31674e78e0d676166050c7d2f415b5a99"
+          },
+          {
+            "candidate_id": "c23",
+            "covered_candidates": [
+              "c12",
+              "c23",
+              "c34",
+              "c45",
+              "c56"
+            ],
+            "query_id": "arecel:census13:valid:000002",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 2,
+            "source_sql_sha256": "9bdb522eb2591db0ec855accabcac727c202e382aea383fe9ea7a202f34b41fd"
+          },
+          {
+            "candidate_id": "c34",
+            "covered_candidates": [
+              "c01",
+              "c12",
+              "c23",
+              "c34",
+              "c45",
+              "c56"
+            ],
+            "query_id": "arecel:census13:valid:000009",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 9,
+            "source_sql_sha256": "ff36f09a3a2e8909c285b8af4b06823af0e94cbe310599784fba52b6b61a6c72"
+          },
+          {
+            "candidate_id": "c45",
+            "covered_candidates": [
+              "c01",
+              "c12",
+              "c23",
+              "c34",
+              "c45",
+              "c56"
+            ],
+            "query_id": "arecel:census13:valid:000012",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 12,
+            "source_sql_sha256": "96e07d3dc1c19b62c72ed3be2ef35dc1b22c2cc98afc65358cbb9dc72d8c991b"
+          },
+          {
+            "candidate_id": "c56",
+            "covered_candidates": [
+              "c12",
+              "c56"
+            ],
+            "query_id": "arecel:census13:valid:000006",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 6,
+            "source_sql_sha256": "d52c145be42e73079058ac71a69a3599c4512c0e97617844430d2cbd5875af11"
+          }
+        ],
+        "selection_does_not_read": [
+          "valid truth values",
+          "PG estimates",
+          "MCV payloads",
+          "latency"
+        ],
+        "split": "valid",
+        "truth_allowed_after_freeze": true
+      },
+      "workload_sha256": {
+        "test": "cca5302e95487e3472c2b0325a5652a74fb33de4485bb521ce2050407ddaca26",
+        "train": "96a493406ba28e6952752ec20370e1d3d7883c8b25b6546edbf2a417138e91e9",
+        "valid": "f591ccfe30c287849067349aed14ec9d801f86104ff863f812e3f958b84dcfb9"
+      }
+    },
+    "forest10": {
+      "benchmark_id": "arecel-forest10",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "elevation",
+            "aspect"
+          ],
+          "creation_order": 0,
+          "id": "e01",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Aspect"
+          ],
+          "statistic_name": "ess2b_forest10_e01"
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "slope"
+          ],
+          "creation_order": 1,
+          "id": "e12",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Slope"
+          ],
+          "statistic_name": "ess2b_forest10_e12"
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "horizontal_distance_to_hydrology"
+          ],
+          "creation_order": 2,
+          "id": "e23",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Slope",
+            "Horizontal_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess2b_forest10_e23"
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "vertical_distance_to_hydrology"
+          ],
+          "creation_order": 3,
+          "id": "e34",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess2b_forest10_e34"
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "creation_order": 4,
+          "id": "e45",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess2b_forest10_e45"
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_roadways",
+            "hillshade_9am"
+          ],
+          "creation_order": 5,
+          "id": "e56",
+          "postgres_types": [
+            "DOUBLE PRECISION",
+            "DOUBLE PRECISION"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess2b_forest10_e56"
+        }
+      ],
+      "catalog_columns": [
+        "elevation",
+        "aspect",
+        "slope",
+        "horizontal_distance_to_hydrology",
+        "vertical_distance_to_hydrology",
+        "horizontal_distance_to_roadways",
+        "hillshade_9am",
+        "hillshade_noon",
+        "hillshade_3pm",
+        "horizontal_distance_to_fire_points"
+      ],
+      "cross_split_fingerprint_audit": {
+        "all_queries": {
+          "exact": {
+            "group_count": 120000,
+            "shared_group_count": 0,
+            "shared_groups_by_split_pair": {},
+            "shared_record_count": 0
+          },
+          "template": {
+            "group_count": 34906,
+            "shared_group_count": 5921,
+            "shared_groups_by_split_pair": {
+              "test+train": 2106,
+              "test+train+valid": 1614,
+              "test+valid": 73,
+              "train+valid": 2128
+            },
+            "shared_record_count": 78825
+          }
+        },
+        "interpretation": "shared normalized template groups are flagged as leakage; selected query IDs remain descriptive and are not treated as group-independent population samples",
+        "ledger_sha256": "0a6cc26851b8cca4c8e9aa0f4107dfc8e910d596f52514fdc0bc58ee5c75e19a",
+        "strict_pairwise_queries": {
+          "exact": {
+            "group_count": 1639,
+            "shared_group_count": 0,
+            "shared_groups_by_split_pair": {},
+            "shared_record_count": 0
+          },
+          "records": 1639,
+          "records_by_split": {
+            "test": 146,
+            "train": 1358,
+            "valid": 135
+          },
+          "template": {
+            "group_count": 48,
+            "shared_group_count": 32,
+            "shared_groups_by_split_pair": {
+              "test+train": 7,
+              "test+train+valid": 24,
+              "test+valid": 1
+            },
+            "shared_record_count": 1583
+          }
+        }
+      },
+      "relation": "public.forest10",
+      "source_columns": [
+        "Elevation",
+        "Aspect",
+        "Slope",
+        "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology",
+        "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am",
+        "Hillshade_Noon",
+        "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points"
+      ],
+      "source_relation": "public.\"forest10_original\"",
+      "source_rows": 581012,
+      "split_counts": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "test_cohort": {
+        "allowed_operators": [
+          "=",
+          "<",
+          "<=",
+          ">",
+          ">=",
+          "[]"
+        ],
+        "eligible_counts_by_candidate_after_legacy_exclusion": {
+          "e01": 27,
+          "e12": 27,
+          "e23": 24,
+          "e34": 20,
+          "e45": 20,
+          "e56": 28
+        },
+        "legacy_stage1a_ids_excluded_before_selection": 60,
+        "records": [
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "0a1719c053290fd4465b9f97825fb9e22c3ca7a1361c54ad4d1b43985f72a101",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000219",
+            "source_index": 219,
+            "source_sql_sha256": "1e26dfc25a13ebb5ca961e942dba1b5bb3bca1430c2a5f894caf833268f7f628",
+            "template_fingerprint_sha256": "5e71b81decf03e0dfe64731370a96664cb87b0b064b1f9d17bf1157e2379cb7c"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "124e8f2e05a73ea496c3c26de6dd5e54eb8314719cbb81295923f602f776cd06",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000239",
+            "source_index": 239,
+            "source_sql_sha256": "c48ee9fd4cabd8be575fe5a814a0ee1c19df5c374345916f9a627d623b810636",
+            "template_fingerprint_sha256": "7133c37516a96cbb90816f4c60b8a635f81421cd26ef9ef6bcbc198e4f557e01"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "8437eab6245811590e20df8f106e7bca872fb4678c1f5eb96c79d1a3b1301270",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000379",
+            "source_index": 379,
+            "source_sql_sha256": "415b87c4769c6a5e77fa6b4ee8823c97337397b70f31f34af19946474a58635c",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "bd8199206c8814aa8df9003c644abfc7ec3c9db4764d1b4b40b92411600628ac",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000544",
+            "source_index": 544,
+            "source_sql_sha256": "c2108079cd8285b19cc625fdf9219d98f138cfd14bbefda1f941a3000a2de05b",
+            "template_fingerprint_sha256": "e75342d718b16b99382cb1a3a56ebb186e582943407aea67096b7c9daf88700b"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "0e65fafc3daff0d606dbdfc1d08ffb607ac5bb636315274a49d45b8c145034d1",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000934",
+            "source_index": 934,
+            "source_sql_sha256": "0bbb07e58b4310b4589b0eb4c1567594cf69d23867d31722629fd63b9d8bb60a",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "6be1fe1554685c9663340dd923122f86c50551144a1eb7001282d6cfcfdd72ba",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:000985",
+            "source_index": 985,
+            "source_sql_sha256": "8782ff7bc18ee553b8033fab2b12bd09c40fc9c3eaa0af4ee4624b863071b4e3",
+            "template_fingerprint_sha256": "3c4a906fb0490d62c691ed6009cda3563a126fa6fbd0061d481968f2ed470373"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "d6fb4dba1434f1f735731e90099b95b9f50d30ae81cc73bbc4cb5d23dc552d81",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001172",
+            "source_index": 1172,
+            "source_sql_sha256": "a7933ddc117b0fbb40ab271bc501caf72174270b5e211c62eeae4ae0d8062dfe",
+            "template_fingerprint_sha256": "19beb52dab3d4076fea9584afe7f09bed80562a9e8d648599e8d422814fc2776"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "4952e5713e31ab994ab6024bd385f1e1aa9194c46beff73f7990d438b2deff86",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001190",
+            "source_index": 1190,
+            "source_sql_sha256": "e3b2377d9971e95b7f729b42022a2c05a25825612b3aa125e67a6e4d1eb37836",
+            "template_fingerprint_sha256": "97ba879945edc96b1743c8e01c119a50cc92cc4b3f824d3d0ac6409501f1a9ea"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "223cadd7569c427e403c1a3724ef45fb86418258bf73fa3ecb6130c607834af0",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001263",
+            "source_index": 1263,
+            "source_sql_sha256": "199c05bf312200255fdaaa4ee88e4f67a4b8b15c7a2afd617f0c340921abb228",
+            "template_fingerprint_sha256": "1c64f2c7e52b798614073fcb0c5d4044c2e18911496fa80a919c7463c85469e0"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "781edecabd370c1a6b149e69079759d6edc88bc859ba94f139b2c043e5a20d40",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001429",
+            "source_index": 1429,
+            "source_sql_sha256": "e33d0b724824feb30c267e569444617d93140059f7a6b0a6e834185b5f9be956",
+            "template_fingerprint_sha256": "fb4d38086cd7895dc00fa59fe4241da1dd4eb2c7d40e700c15b5d53c75cfd76c"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "7ece727731e6fd2e415d51fd48df2bf8573bdbdabf4a945361e2c20c4663451c",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001539",
+            "source_index": 1539,
+            "source_sql_sha256": "d6dab0878761c7fbc3ac8f50f8d80a420aa5e1f760fa68a7bb4c4d9db0728549",
+            "template_fingerprint_sha256": "7133c37516a96cbb90816f4c60b8a635f81421cd26ef9ef6bcbc198e4f557e01"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "624973589f9590ebff828c282fa3a691cfe30e0219c4eff6f4d285c2a63ebfd6",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001666",
+            "source_index": 1666,
+            "source_sql_sha256": "11387d0cb27c9a33fd0b653df8f57ae5891940a62da100540b0a336722447adc",
+            "template_fingerprint_sha256": "a94703354c9a5e076e28577907107ba7e23fdc47b6efb625dd2368e5f17af031"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "a63aab63e736abc79bec52d5eafc291e94f3d7e1e682d59f442071ae17de7040",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:001853",
+            "source_index": 1853,
+            "source_sql_sha256": "570d8f83c61678e1dbd8ef140e8808c5553b30048a8738ff0793e6e96f5f6d8d",
+            "template_fingerprint_sha256": "11514e3e81ee562cab27c6e77d195f62bf037557e62fe0316d3acff09e9f7689"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "f4d77ab8a9c98a24a7201b556e055db496ccc748a9ebc70a3e753e1eadf26baf",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:002242",
+            "source_index": 2242,
+            "source_sql_sha256": "5c7229f5044778fc32599ab1a14bf2afb41e3c8afa38ab66ebdfe72ec38af690",
+            "template_fingerprint_sha256": "fcba511895b0ae0871dbd8239d6cb6816ce89d73d3f4d9e023fb1e787e768044"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "f2daf4623fd16a691319d11c195afdc030670e8a514cfec613f5bdadc7b1d153",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:002638",
+            "source_index": 2638,
+            "source_sql_sha256": "03d15f80b68978ef0f87d85c69acabdaec4a6bc6f19738bc6796d69bef38cd2f",
+            "template_fingerprint_sha256": "ef60610b171a34ee2fb879feb4977f6d4e548fb9cde37eba3ad5149cf11f339b"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "f544335970945e58b349ea30a84022ac5caf39263b17b512591e05c257768c58",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:002959",
+            "source_index": 2959,
+            "source_sql_sha256": "859baef39ecab020a1e86fe6e324eb3547bc6bfdddc03f3754f3d295efbcb939",
+            "template_fingerprint_sha256": "19beb52dab3d4076fea9584afe7f09bed80562a9e8d648599e8d422814fc2776"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "0c8bd9bef4bd7a414dd4002ebeff76ddccd8d46c69909be7549285b293c430d7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:003339",
+            "source_index": 3339,
+            "source_sql_sha256": "93678cca81b2bc58bd56abfc6f878b880c3ef2aab71972630949df7506b35fde",
+            "template_fingerprint_sha256": "500e9bc3c87690f4aefea865ba12adc55322d7d012e0b38b652e2998c2d6c544"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "30278cce9cdd26bc1fcd415731b5bcf9f58a0601503a37c4b8b17bf5095d51ff",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:003477",
+            "source_index": 3477,
+            "source_sql_sha256": "b869258115c550afb4ed847f324c65dbb404a3121148271c648ef62aa9a585a0",
+            "template_fingerprint_sha256": "a94703354c9a5e076e28577907107ba7e23fdc47b6efb625dd2368e5f17af031"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "de4b51dc2be8a9b1057e07b96f04176a0039ae79c75e32caf8c98846a51e316f",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:003574",
+            "source_index": 3574,
+            "source_sql_sha256": "a931bc3e4831c069a674e9d77dfc1f933e3996a050c489c390e5a947dbc41069",
+            "template_fingerprint_sha256": "877a729c80e5827e2064f001e72b7d0c2c7e51f7a7f27c153c1eeee2438c8e9b"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "9553f324d2760960b468b0b43571047c092de5758b9aa8cb571caf64c21bd6e7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004019",
+            "source_index": 4019,
+            "source_sql_sha256": "0b9634ac35bcb2829abe41c7ec4142506ef656ad66986a3fab1d61bd1bea2676",
+            "template_fingerprint_sha256": "97ba879945edc96b1743c8e01c119a50cc92cc4b3f824d3d0ac6409501f1a9ea"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "236456fa95f10b60d82223be4709ba0dc974fbcd4d0ec0bfa72bc827d1769135",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004159",
+            "source_index": 4159,
+            "source_sql_sha256": "91bb9833f63abfd9bf93d2a304213ae788a0e500e0dea8575cac46c1b26af72d",
+            "template_fingerprint_sha256": "7133c37516a96cbb90816f4c60b8a635f81421cd26ef9ef6bcbc198e4f557e01"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "472f0f6f48a20a5695d320827d0b7902d7cc809d0777dca5fedfbc49105d45a1",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004221",
+            "source_index": 4221,
+            "source_sql_sha256": "a734cdec14015d124e799238fedf7e8783325195e14b3614516a3452bff27d79",
+            "template_fingerprint_sha256": "957b131db7337ad2f960e0802e67d9e1001bb6512a5ad0978b269f645be6c23b"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "2e156ee33376aaf19b770a3592b4a590fe63cb5e7e6ac0fab95a953ffb7fa182",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004250",
+            "source_index": 4250,
+            "source_sql_sha256": "a57ce381e0443285820d33139ce106ea1a17a2b6620b324bbdc76d2593ba1b81",
+            "template_fingerprint_sha256": "5e71b81decf03e0dfe64731370a96664cb87b0b064b1f9d17bf1157e2379cb7c"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "4688b0d9da3e75251bc0456b8ae120469079fc92c95e029557b930d40eb11786",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004577",
+            "source_index": 4577,
+            "source_sql_sha256": "6c28930a8137005487b05cff876ae666e0adfa3f2fc42cfdbf9c5e9a869caa4e",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "bfeb667f5c16a9f3d857304587aab3d365ed9e97298a27b7e6cb1a058d6a533e",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004592",
+            "source_index": 4592,
+            "source_sql_sha256": "59a15a14e366abb4ab96e4265bf01c59cde28be9576d25902e264066d142dde2",
+            "template_fingerprint_sha256": "a94703354c9a5e076e28577907107ba7e23fdc47b6efb625dd2368e5f17af031"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "1d386877bf9996bcc5d98efcd06d692b7e4691d9d91a450d84edab6cd8c850d1",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004597",
+            "source_index": 4597,
+            "source_sql_sha256": "33af310e5a7b8d1981bce60475a520fb13056bcad0791579e116387d582efde6",
+            "template_fingerprint_sha256": "957b131db7337ad2f960e0802e67d9e1001bb6512a5ad0978b269f645be6c23b"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "6a4aad79cdcf7aa89410470be9c4c36a3b0c4f4d6af21991469a5d586992d5ac",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004793",
+            "source_index": 4793,
+            "source_sql_sha256": "4be0321b3419069a0836bfc9f97c4285758319a590f1007316aed250c8857128",
+            "template_fingerprint_sha256": "793600f4caf781717319d0cdbb4c184a1b3d9c3fad0f30b72a7bebd82ce6d4ee"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "db0cfb30309028283a27d3d97d8916ba77c041a20a270f43dd3310fab678ad47",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:004960",
+            "source_index": 4960,
+            "source_sql_sha256": "f2e3cdc54a5416100f00fd1379833d68280d51042b3a2578e20b1aca62028b70",
+            "template_fingerprint_sha256": "4b238773daf0fa35c13de84bfc3f44c445a61ee0c4e03714a0cbec3a2b76bef3"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "cc46147177d27738ddfae08b1b626edaee373272dbd435ba8c69a981d397e0a7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005197",
+            "source_index": 5197,
+            "source_sql_sha256": "fba5a01c6d66fe8c1878be2e7cc8c2060a571b4a1f78d9c74bdc182d1366352f",
+            "template_fingerprint_sha256": "957b131db7337ad2f960e0802e67d9e1001bb6512a5ad0978b269f645be6c23b"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "574ec562f69551374385ac636b4d7cc2aa5d28fd1f436c32e12388d8f08abe8b",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005250",
+            "source_index": 5250,
+            "source_sql_sha256": "fd91af55c701467759cceb2091cd9e2e3dfca3cdef3887536e639aefac7ac596",
+            "template_fingerprint_sha256": "a94703354c9a5e076e28577907107ba7e23fdc47b6efb625dd2368e5f17af031"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "2deccbfcf55fc235773fab92acb1c0d6ca5a20e57992935d04506d560dd51565",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005361",
+            "source_index": 5361,
+            "source_sql_sha256": "8f9a0567674d6eab921f8ea369513f12c22d61359cc2d8e02daa31ac23bff170",
+            "template_fingerprint_sha256": "5e71b81decf03e0dfe64731370a96664cb87b0b064b1f9d17bf1157e2379cb7c"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "320e4c6ca1dd8fce30dbe0725b8352f5e6f2b6871fd8b69067f40483fe5131da",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005368",
+            "source_index": 5368,
+            "source_sql_sha256": "331fca19655ba04be22e93ee1f3247db1cdc41eb4a97d4bc5c48d928e83f9115",
+            "template_fingerprint_sha256": "19beb52dab3d4076fea9584afe7f09bed80562a9e8d648599e8d422814fc2776"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "7ea761f73c1ddd373d1abbbd02b719461121b02a6593b5479671e569cc5efbe5",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005545",
+            "source_index": 5545,
+            "source_sql_sha256": "3decbba75e4d60597fab8f51ca8427f7465b86ccefaa82b9cddc56ebabdd0988",
+            "template_fingerprint_sha256": "ef60610b171a34ee2fb879feb4977f6d4e548fb9cde37eba3ad5149cf11f339b"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "d676c8315b33081deac109e1ebff44d8fc01acda35630666b2049e2f4e7db02f",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005600",
+            "source_index": 5600,
+            "source_sql_sha256": "82e010b18cd0b1a830519b11601b3ac3a76eaa210a4b2e20898c0a7580bf3c01",
+            "template_fingerprint_sha256": "877a729c80e5827e2064f001e72b7d0c2c7e51f7a7f27c153c1eeee2438c8e9b"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "112cbf2eeba684b5041f883a58efbe2d5510f3b018cada2200922371ab18d24c",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:005934",
+            "source_index": 5934,
+            "source_sql_sha256": "49968d61b5fa4dbbcc9c1670528045968403e13d0a14a4688002f2770eea12ca",
+            "template_fingerprint_sha256": "ef60610b171a34ee2fb879feb4977f6d4e548fb9cde37eba3ad5149cf11f339b"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "3e429eddbcb0113bff6a7794df48ac72df223df5596e5dc389c434ac8a91b048",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006222",
+            "source_index": 6222,
+            "source_sql_sha256": "6e58172ac039d551c997dbcce95a1460b797d200bc4e635bb26f93e0f3651f00",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "011646a9c7e6c834d3b2c9129bb0ee13efb46a059cab2e7dfd37fc2ea3e8d888",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006322",
+            "source_index": 6322,
+            "source_sql_sha256": "e6a7b5d47a9d4bbff2f73ad19eca0745c72f882a29a5878dfc84538955ad23b9",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "1776fa7bff615aeef0695a5623093132dd17d819b693ae0830bae9240eedfbd0",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006333",
+            "source_index": 6333,
+            "source_sql_sha256": "ea51d28bd1d6583d9658340f387e7ed877fd83739eed49a34ff5959e1b3bc8e4",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "1c0471551894089e53ac56cae6204a13782859d5c02a4be39760b250f5298233",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006434",
+            "source_index": 6434,
+            "source_sql_sha256": "5dd3966577767d7b97723118c05897f94dc3f176a1df57ad44f2e1609e41e99c",
+            "template_fingerprint_sha256": "11514e3e81ee562cab27c6e77d195f62bf037557e62fe0316d3acff09e9f7689"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "cc0ef99bf71ef04ea89e23c5d53a7760cb8f6c2eaf652db93e9214876f3b14d7",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006522",
+            "source_index": 6522,
+            "source_sql_sha256": "d6dca33e8b0ac7a8d7fedf3d590c58428d6b2d58ae51c380e8b7eb7ef863e8ce",
+            "template_fingerprint_sha256": "e0c75e4f55ba27a71f51db5fcdc0c0a972126152aa820893a0b39f69dac8b4e1"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "dc82465f3366e224696d30feb8eb37d73efbbb4e5cc88daef77c0c4594bda0c2",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006611",
+            "source_index": 6611,
+            "source_sql_sha256": "aa614ae901a6fdf5a11768e2422a349158e2098c0b12520567e1a809a99fa58f",
+            "template_fingerprint_sha256": "a72779de8b677715e48af044c01254a2390f492b167ad07542e668f2a725c4b3"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "a498ffe2f5b8e7b10bb330216c1b3e4684e9a917fc12dcb6ff37e37fe3a0df10",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:006689",
+            "source_index": 6689,
+            "source_sql_sha256": "86bef3592aa2ee4de82426bda1d05dd1ead11e285dfda1586ced66dbe8f9e543",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "fced875436e13023baaa8183e4df2271f2160f445833108e5cf7542aa6e82be2",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:007004",
+            "source_index": 7004,
+            "source_sql_sha256": "88e655fc6fdea61f82543faab1a45217b035be98d6a987c4527c187336800ca9",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "9568596d659c0be8a9c5852c1d904663c57fb71fc97f1310ae9137f3f344b246",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:007445",
+            "source_index": 7445,
+            "source_sql_sha256": "40a513f9c953eeb2bda6e83c6730437b8e93a1c740f37e2993e08050dc4f8d37",
+            "template_fingerprint_sha256": "fb4d38086cd7895dc00fa59fe4241da1dd4eb2c7d40e700c15b5d53c75cfd76c"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "5b94891ac6a5e6dfcf8ad6a56c476c4ab062b82072ba3503b5c218652a7b5bc4",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:007726",
+            "source_index": 7726,
+            "source_sql_sha256": "7f80e135dad23d6f7d2c7e789c87e2f26602f8113286912ce19827842e550efb",
+            "template_fingerprint_sha256": "19beb52dab3d4076fea9584afe7f09bed80562a9e8d648599e8d422814fc2776"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "3afdc9d481b5b900e3e4366a994885b0ac7afd03039c3ecb51261090b8cf2c97",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:007900",
+            "source_index": 7900,
+            "source_sql_sha256": "c8b18673245f09cd8dd42c23ccba6c96ec7bec71a57ba6a80f9df61c40c72c47",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "876cf1a06477b792de892e02a0edc30484ef506d5a06d07a46e23af262929ccd",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:007949",
+            "source_index": 7949,
+            "source_sql_sha256": "25cc90e7e73856577ed500219270b31b3047fe6d3d75f409aec59d24c3584fe5",
+            "template_fingerprint_sha256": "88156444412d19953d30d7cd7ff7c6158003e8c4ab01e524307497b34fd67bd6"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "906456a4fd141575c855a986a9f02275210e677603a2a4790a7a421cd36a9283",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:008102",
+            "source_index": 8102,
+            "source_sql_sha256": "f4ac60dd6ca906f03e5c80988c7a475ad76388b76d3a04648dbd8952195b5927",
+            "template_fingerprint_sha256": "957b131db7337ad2f960e0802e67d9e1001bb6512a5ad0978b269f645be6c23b"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "21357383012ae9f7b0871697b61112f899a9878510b071bf0e465f12aa1c4983",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:008214",
+            "source_index": 8214,
+            "source_sql_sha256": "12467fc5bb3eba828aedeb19e0218d7e333f9e27869ae9f76f615bc96d0584cc",
+            "template_fingerprint_sha256": "e75342d718b16b99382cb1a3a56ebb186e582943407aea67096b7c9daf88700b"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "5b9b7a9178d1832f169c0a8b007829e68d6bde144155ea9f17170fa280071645",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:008646",
+            "source_index": 8646,
+            "source_sql_sha256": "478d9f36762381ddbbff0139332f84afd4f11677e2b855cfa68963a99ccaf60a",
+            "template_fingerprint_sha256": "19beb52dab3d4076fea9584afe7f09bed80562a9e8d648599e8d422814fc2776"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "021530ab5091ec49094745c2c0f1e986b5190254ed32fdc3fea62ff023c765c3",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:008677",
+            "source_index": 8677,
+            "source_sql_sha256": "41a1defe8229c6081d8a0f1e390c8626bae72e8dd0691d1de08a5798d88787fe",
+            "template_fingerprint_sha256": "11514e3e81ee562cab27c6e77d195f62bf037557e62fe0316d3acff09e9f7689"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "a9e02fe9bdb7caaee847fc1adc1c0b85c274c3966acdd2d52e5b95adf1e93670",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:008782",
+            "source_index": 8782,
+            "source_sql_sha256": "77c3ea37865c27e1c93600c909dbe46af18750636f001636c5dae9ab26e5d568",
+            "template_fingerprint_sha256": "744182f49249e085dead87072a1339d95b88949e1babcae2423812e4ed79e229"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "dbb2a28065405967770e8a5f2fa7685bfada3821db7f88ac96f85c8b9455ec5b",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009041",
+            "source_index": 9041,
+            "source_sql_sha256": "998f55fcf05a24b5cac388ec7918599f8fd72cc2dd80a6b9ae09f9be24d1f460",
+            "template_fingerprint_sha256": "a94703354c9a5e076e28577907107ba7e23fdc47b6efb625dd2368e5f17af031"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "a491c5139d31391617714d2c543f3364e4f859dab95798eafce88433378490eb",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009189",
+            "source_index": 9189,
+            "source_sql_sha256": "c3698c369d37ff47665ebaeb6d211ce35a5880113fce3b3d6cb66d52a5e6e5e6",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e23",
+            "exact_fingerprint_sha256": "2d9d530599367036dcf7e3a7f1ace768693292547b9eb47cb1131ad14e53c897",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009308",
+            "source_index": 9308,
+            "source_sql_sha256": "2a2a66d0d3ca8831994752b0af29d3806a521c677a420e85c73fddac6a41a9b0",
+            "template_fingerprint_sha256": "f4cf3d3ad43aa9b0682fc92c5694e3660465cae5972b997d5e772960396ac66b"
+          },
+          {
+            "candidate_id": "e34",
+            "exact_fingerprint_sha256": "a0ebaffb328801584892b50699ae3265cb14aafb36fc2f353790cd641d3b61de",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009393",
+            "source_index": 9393,
+            "source_sql_sha256": "b5b8eb8dc1903e652545fdddaceeaa6dd481bf8b83ac30b9ce95789b85bb6706",
+            "template_fingerprint_sha256": "efa3e122146eaeac02241693bc14c1e3332cebdb41b3c2640637d4e82547009c"
+          },
+          {
+            "candidate_id": "e12",
+            "exact_fingerprint_sha256": "b49c9181058a04675a4d12bd980b6e0ab6b401f5abc2d136592ed0edc293a89e",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009740",
+            "source_index": 9740,
+            "source_sql_sha256": "921a0e60a0bff17bb9b9b4049a1d1944fa868be4c24cbf90b1a84a93712de6a5",
+            "template_fingerprint_sha256": "e75342d718b16b99382cb1a3a56ebb186e582943407aea67096b7c9daf88700b"
+          },
+          {
+            "candidate_id": "e01",
+            "exact_fingerprint_sha256": "49b342bece2de3586efd6dd851fb3f4c5486cf2c02992a7eb550e3704114c06b",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009807",
+            "source_index": 9807,
+            "source_sql_sha256": "78e3783149d2ef66fd76e61395d52e97a8ad10e8a586c6d36ba1900365021adf",
+            "template_fingerprint_sha256": "793600f4caf781717319d0cdbb4c184a1b3d9c3fad0f30b72a7bebd82ce6d4ee"
+          },
+          {
+            "candidate_id": "e56",
+            "exact_fingerprint_sha256": "2236665c79be526db42552c0321cd032d7a4140e37a22da9903d095b35996bff",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009895",
+            "source_index": 9895,
+            "source_sql_sha256": "4baf74d24428ec1a8ddcb4638d718e736dfd70ebac02fbeea7c9767db7557eda",
+            "template_fingerprint_sha256": "957b131db7337ad2f960e0802e67d9e1001bb6512a5ad0978b269f645be6c23b"
+          },
+          {
+            "candidate_id": "e45",
+            "exact_fingerprint_sha256": "992f0ad2cdfa2c5c85cf76e64f5e8622b7a5efd65c01714ab062dc27ba63d6df",
+            "legacy_stage1a_excluded": false,
+            "query_id": "arecel:forest10:test:009960",
+            "source_index": 9960,
+            "source_sql_sha256": "bfb5ec2555deeb49ab9f91c58c2a1863784601437b31eb81b0582821fa5628a5",
+            "template_fingerprint_sha256": "58d09c196bf6b286f6b8fce9f95eaeafb9cddf28da5e0f14b0e95eb8bde2c7d1"
+          }
+        ],
+        "screen": "exactly two predicates, two distinct source columns, allowed operator, and exact endpoint match to one predeclared pairwise candidate",
+        "selected_count": 60,
+        "selected_counts_by_candidate": {
+          "e01": 10,
+          "e12": 10,
+          "e23": 10,
+          "e34": 10,
+          "e45": 10,
+          "e56": 10
+        },
+        "selection_rule": "10 per candidate; digest rank then query ID",
+        "selection_seed": "ess-issue48-stage2b-formal-v1",
+        "split": "test",
+        "stage1a_legacy_ids_excluded": true
+      },
+      "validation_calibration": {
+        "records": [
+          {
+            "candidate_id": "e01",
+            "covered_candidates": [
+              "e01",
+              "e12",
+              "e23",
+              "e34",
+              "e45"
+            ],
+            "query_id": "arecel:forest10:valid:000005",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 5,
+            "source_sql_sha256": "cfa59a022f0c55ecdf4bf9302b0fdbcdf6e65dfb5ef794241996517653c5ce96"
+          },
+          {
+            "candidate_id": "e12",
+            "covered_candidates": [
+              "e12"
+            ],
+            "query_id": "arecel:forest10:valid:000003",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 3,
+            "source_sql_sha256": "22f7a33bc2585d8e0e397f007468499b284c1e00110ebbc90bf77a04826c08da"
+          },
+          {
+            "candidate_id": "e23",
+            "covered_candidates": [
+              "e23",
+              "e34"
+            ],
+            "query_id": "arecel:forest10:valid:000009",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 9,
+            "source_sql_sha256": "10dc99adad4e59a628c98c67296c36a7bab1a3116262c18555051f69ddac8a9f"
+          },
+          {
+            "candidate_id": "e34",
+            "covered_candidates": [
+              "e34"
+            ],
+            "query_id": "arecel:forest10:valid:000001",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 1,
+            "source_sql_sha256": "1c7506e7258f6f31aaaeb95187fb208e9251b176fb45481114da1163b4381a27"
+          },
+          {
+            "candidate_id": "e45",
+            "covered_candidates": [
+              "e45",
+              "e56"
+            ],
+            "query_id": "arecel:forest10:valid:000010",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 10,
+            "source_sql_sha256": "b91afecc2c373b6245fa6b4e932db281524a0a02aa30095c466fb1844b3e1fb7"
+          },
+          {
+            "candidate_id": "e56",
+            "covered_candidates": [
+              "e45",
+              "e56"
+            ],
+            "query_id": "arecel:forest10:valid:000011",
+            "selection_reason": "first_unused_valid_query_in_source_order_with_candidate_endpoint_coverage",
+            "source_index": 11,
+            "source_sql_sha256": "6c9f6feb299bc0ea43c0aea9ee6414c7fbbe2ad32380338ab3df1241ddc85c97"
+          }
+        ],
+        "selection_does_not_read": [
+          "valid truth values",
+          "PG estimates",
+          "MCV payloads",
+          "latency"
+        ],
+        "split": "valid",
+        "truth_allowed_after_freeze": true
+      },
+      "workload_sha256": {
+        "test": "246fdaf9408971a306cc963c59baa5cf50095eb08658fc789f8497a1156fafef",
+        "train": "3c42ec9984fd2805712b42146fb5e35132080de58caf3a990563a7b973e5717c",
+        "valid": "0a63db28a43ecf1844a0dc6e7dd9066112b60ee7ca82a99ef16553981ce3f8a6"
+      }
+    }
+  },
+  "decision": {
+    "GO": "at least two datasets have valid matched Empty/Nominal/PESS held-out measurements and reproducible nontrivial descriptive decision differences or effective-MCV mechanisms, without universal dominance claims",
+    "INCONCLUSIVE": "required data, cohort size, group independence, source trace, sample identity, or measurement validity is insufficient; also applies to any fail-closed run",
+    "NO-GO": "the tested physical contrast is falsified or no nontrivial contrast is observed under the supported workloads, with valid measurement fidelity",
+    "scientific_boundary": [
+      "descriptive real-PG behavior only",
+      "no universal PESS-vs-Nominal ranking",
+      "no PostgreSQL scheme-containment guarantee",
+      "no population-level significance claim",
+      "proxy budget is not generic or physical maintenance"
+    ]
+  },
+  "evidence_label": "outcome_free_input_protocol",
+  "format": "ess-issue48-stage2b-formal-outcome-protocol-v4",
+  "independence_contract": {
+    "cross_split_template_overlap_is_flagged": true,
+    "query_ids_are_not_claimed_group_independent": true,
+    "stage1a_forest10_ids_excluded": true,
+    "test_estimates_allowed_for_selection": false,
+    "test_latency_allowed_for_selection": false,
+    "test_mcv_payload_allowed_for_selection": false,
+    "test_truth_values_allowed_for_selection": false,
+    "test_truth_values_read_before_this_freeze": false
+  },
+  "issue": 48,
+  "measurement_contract": {
+    "budgets_proxy_units": [
+      0,
+      2,
+      3,
+      5
+    ],
+    "candidate_costs": "1 proxy unit per predeclared pairwise MCV object",
+    "creation_order": "protocol candidate order, unchanged for every set",
+    "invalid_policy": "missing/ambiguous trace, nonpositive pre-clamp estimate, unmapped selected OID, missing catalog ledger, sample identity mismatch, or hash mismatch makes the affected run INVALID and blocks a GO claim; never silently drop a query",
+    "latency": "not collected; no latency or physical maintenance-cost claim",
+    "maximum_statistics_objects": 6,
+    "methods": [
+      "Empty",
+      "Nominal",
+      "PESS"
+    ],
+    "paired_comparisons": [
+      "PESS vs Empty",
+      "Nominal vs Empty",
+      "PESS vs Nominal when both are defined"
+    ],
+    "preclamp_metric": "|ln(estimate/max(1,N))| only when measured positive pre-clamp estimate is positive",
+    "query_order": "dataset order forest10 then census13; within each dataset calibration first, then budget ascending and method order Empty/Nominal/PESS, then frozen test source_index order",
+    "repetitions": 2,
+    "sample": "one Issue-48-owned fixed sample per dataset, exported after import and replayed before every statistics ANALYZE; hash and relation identity recorded before held-out measurements",
+    "secondary_metrics": [
+      "median",
+      "P90 nearest-rank ceiling",
+      "max",
+      "signed estimate-minus-T direction",
+      "zero-truth stratum",
+      "query-level paired harms/ties/benefits",
+      "tail diagnostics only if predeclared from validation-free test truth after measurement",
+      "repetition spread",
+      "requested/payload-present/trace-selected ledgers",
+      "model-vs-PG residuals where available"
+    ],
+    "statistics_target": 300
+  },
+  "model_selection": {
+    "calibration_order": "calibrate all candidates and Empty on the frozen validation records before opening the test workload",
+    "coefficient_definition": "alpha=ln(n0/T), b_e=ln(n_e/n0) from validation-only positive pre-clamp estimates; model arithmetic is exact only after explicitly recorded rationalization",
+    "methods": {
+      "Empty": "M=empty",
+      "Nominal": "minimize validation task-wise loss under the fixed candidate creation order greedy maximal-matching policy",
+      "PESS": "minimize sum of validation task-wise maxima over all maximal matchings permitted by the frozen candidate graph"
+    },
+    "positive_preclamp_required": true,
+    "solver_boundary": "Fraction reference certificates are exact for recorded rationalized inputs; floating-point solver optimality is not upgraded to exact certification",
+    "target": "T=max(1,N); preserve N=0",
+    "tie_policy": "retain every optimal set; selected execution set is lexicographically smallest only as a deterministic representative, and duplicate selected sets across budgets remain separate aliases",
+    "validation_only": true
+  },
+  "provenance": {
+    "stage1a_protocol_sha256": "79d76dbb2cd5c47e3fe434c32a9156040c66bac13f8d7a4cfbda8538fef74307",
+    "stage1a_unique_selected_ids": 60,
+    "v3_protocol_sha256": "f4feb957a6f1618b1d346ff4415d06a859eba2af5bf7ee080db2f175f044746e"
+  },
+  "resource_budget": {
+    "fail_closed_on_exceedance": true,
+    "maximum_external_raw_trace_bytes_per_dataset": 2000000000,
+    "maximum_query_measurements_per_dataset": 1800,
+    "maximum_runtime_disk_bytes_per_dataset": 10000000000,
+    "maximum_statistics_setup_events_per_dataset": 40,
+    "maximum_wall_minutes_per_dataset": 90,
+    "memory_budget_bytes": 8000000000
+  },
+  "source_contract": {
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "derived_inputs_run_scoped": true,
+    "etl_source_tree_objects": {
+      "arecel": "51d35ebf917d773249505fd9484f6539486ed740",
+      "task_paths": "3d8128e64ab3a4bf19ef988c48c138dcfc220edd"
+    },
+    "prepare_api": "from ess_research.arecel import prepare",
+    "raw_archive_only_shared_cache": true,
+    "required_environment": [
+      "ESS_DATA_ROOT",
+      "ESS_RUNTIME_PARENT",
+      "ESS_WORKTREE_PARENT"
+    ],
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+  },
+  "status": "FROZEN_BEFORE_HELDOUT_OUTCOME_COLLECTION_V4",
+  "supersedes": "protocol-v3.json only for the formal outcome runner; protocol-v3 and all Gate A evidence remain immutable"
+}
