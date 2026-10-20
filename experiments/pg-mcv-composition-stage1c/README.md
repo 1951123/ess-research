@@ -82,6 +82,13 @@ largest absolute relative residual was `0.213781318891745591...` for
 PG build, table/sample identity, inputs, GUCs, and frozen query/resource set;
 they do not validate a general PostgreSQL composition law.
 
+Protocol caveat: the manifest's preregistered `simple_clause_rule` used the
+word "equality", but the immutable canonical SQL actually contains range and
+inequality comparisons.  The runner executed those hash-pinned clauses
+verbatim and made no equality-only inference; this report therefore does not
+claim equality-only coverage.  The discrepancy is retained as a fixture
+limitation rather than repaired after observation.
+
 See `result-report.md`, `result-summary.json`, and `run-commands.txt` for the
 scrubbed evidence summary and reproduction command.  The raw server log hash
 and input hashes are recorded there; raw logs are not committed.

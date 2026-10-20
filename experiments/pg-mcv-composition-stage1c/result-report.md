@@ -66,3 +66,21 @@ The selected query/resource universe is a bounded construction from Forest10,
 not a representative workload.  The result distinguishes prescribed
 `Gamma_i(M)` membership from all real schemes and does not claim containment
 or equality without additional assumptions.
+
+The manifest's preregistered `simple_clause_rule` said "one equality clause",
+but the immutable canonical SQL records used here contain `BETWEEN` and
+inequality comparisons.  The runner executed those source clauses verbatim;
+it did not rewrite them or claim equality-only coverage.  This declaration
+discrepancy is retained as a fixture limitation and should be resolved in a
+future preregistration rather than silently repaired after observation.
+
+The pinned source locations used for trace interpretation are:
+
+- `src/backend/statistics/extended_stats.c:1842-1911` for candidate-none,
+  selected-statistic, and claimed-clause trace lines;
+- `src/backend/statistics/extended_stats.c:2059-2069` for per-statistic
+  numeric trace fields;
+- `src/backend/optimizer/path/costsize.c:5032-5039` for final
+  pre-clamp/post-clamp numeric values;
+- `src/backend/commands/analyze_sample_cache.c:332-430` for fixed-sample
+  import and relation/descriptor validation.

@@ -54,6 +54,7 @@
   },
   "limitations": [
     "bounded Forest10 fixture and frozen query/resource construction",
+    "manifest wording said equality clauses, but immutable canonical SQL contains range/inequality clauses; SQL was executed verbatim and equality-only coverage is not claimed",
     "results are source/trace observations for the pinned build only",
     "no universal claim about PostgreSQL schemes, Gamma containment, or shared-policy PESS"
   ]
