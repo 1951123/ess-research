@@ -917,7 +917,7 @@
   "postgresql_protocol": {
     "analyze_strategy": "replay the same approved fixed sample before every ANALYZE; one fresh matched catalog snapshot per selected set and repetition",
     "cluster_bootstrap": "initdb with PostgreSQL 16.14, then set the disposable cluster next OID to 16384 before creating the first user table so the approved sample relation identity can be checked exactly",
-    "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be4be4d5d4eb1e5a4993",
+    "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be33be4d5d4eb1e5a4993",
     "latency_collection": false,
     "maximum_query_measurements": 1200,
     "numeric_trace_ancestor": "2891af8ade29a9b584d6c0fb969e311a10230282",

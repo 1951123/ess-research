@@ -264,7 +264,7 @@ def main() -> int:
             "server_version": "16.14",
             "source_repository_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
             "numeric_trace_ancestor": "2891af8ade29a9b584d6c0fb969e311a10230282",
-            "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be4be4d5d4eb1e5a4993",
+            "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be33be4d5d4eb1e5a4993",
             "table": "public.forest10_original",
             "table_load": "create the ten-column double-precision table first in the disposable database, then client-side COPY the hash-verified Forest10 CSV with its header and original row order",
             "cluster_bootstrap": "initdb with PostgreSQL 16.14, then set the disposable cluster next OID to 16384 before creating the first user table so the approved sample relation identity can be checked exactly",
