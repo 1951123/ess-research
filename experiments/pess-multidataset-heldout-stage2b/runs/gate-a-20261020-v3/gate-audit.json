@@ -1,0 +1,123 @@
+{
+  "data_root": "/home/wqts/ess-data",
+  "datasets": [
+    {
+      "checks": {
+        "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+        "csv": {
+          "expected_header": [
+            "Elevation",
+            "Aspect",
+            "Slope",
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am",
+            "Hillshade_Noon",
+            "Hillshade_3pm",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "header": [
+            "Elevation",
+            "Aspect",
+            "Slope",
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am",
+            "Hillshade_Noon",
+            "Hillshade_3pm",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "header_match": true,
+          "row_count_match": true,
+          "rows": 581012,
+          "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c"
+        }
+      },
+      "dataset": "forest10",
+      "errors": [
+        "source-query contract mismatch at canonical line 1"
+      ],
+      "paths": {
+        "archive": "/home/wqts/ess-data/arecel/incoming/arecel-data.tar.gz",
+        "canonical": "/home/wqts/ess-data/arecel/audit-v1/forest10.canonical.jsonl.gz",
+        "csv": "/home/wqts/ess-data/arecel/raw/data/forest10/original.csv",
+        "label_pickle": "/home/wqts/ess-data/arecel/raw/data/forest10/workload/base-original-label.pkl",
+        "workload_pickle": "/home/wqts/ess-data/arecel/raw/data/forest10/workload/base.pkl"
+      },
+      "status": "INCOMPATIBLE"
+    },
+    {
+      "checks": {},
+      "dataset": "census13",
+      "errors": [
+        "missing csv: /home/wqts/ess-data/arecel/raw/data/census13/original.csv"
+      ],
+      "paths": {
+        "archive": "/home/wqts/ess-data/arecel/incoming/arecel-data.tar.gz",
+        "canonical": "/home/wqts/ess-data/arecel/audit-v1/census13.canonical.jsonl.gz",
+        "csv": "/home/wqts/ess-data/arecel/raw/data/census13/original.csv",
+        "label_pickle": "/home/wqts/ess-data/arecel/raw/data/census13/workload/base-original-label.pkl",
+        "workload_pickle": "/home/wqts/ess-data/arecel/raw/data/census13/workload/base.pkl"
+      },
+      "status": "MISSING"
+    },
+    {
+      "checks": {},
+      "dataset": "dmv11",
+      "errors": [
+        "missing csv: /home/wqts/ess-data/arecel/raw/data/dmv11/original.csv"
+      ],
+      "paths": {
+        "archive": "/home/wqts/ess-data/arecel/incoming/arecel-data.tar.gz",
+        "canonical": "/home/wqts/ess-data/arecel/audit-v1/dmv11.canonical.jsonl.gz",
+        "csv": "/home/wqts/ess-data/arecel/raw/data/dmv11/original.csv",
+        "label_pickle": "/home/wqts/ess-data/arecel/raw/data/dmv11/workload/base-original-label.pkl",
+        "workload_pickle": "/home/wqts/ess-data/arecel/raw/data/dmv11/workload/base.pkl"
+      },
+      "status": "MISSING"
+    },
+    {
+      "checks": {},
+      "dataset": "power7",
+      "errors": [
+        "missing csv: /home/wqts/ess-data/arecel/raw/data/power7/original.csv"
+      ],
+      "paths": {
+        "archive": "/home/wqts/ess-data/arecel/incoming/arecel-data.tar.gz",
+        "canonical": "/home/wqts/ess-data/arecel/audit-v1/power7.canonical.jsonl.gz",
+        "csv": "/home/wqts/ess-data/arecel/raw/data/power7/original.csv",
+        "label_pickle": "/home/wqts/ess-data/arecel/raw/data/power7/workload/base-original-label.pkl",
+        "workload_pickle": "/home/wqts/ess-data/arecel/raw/data/power7/workload/base.pkl"
+      },
+      "status": "MISSING"
+    }
+  ],
+  "evidence_label": "experimentally_observed_input_availability_only",
+  "format": "ess-issue48-stage2b-gate-a-audit-v1",
+  "issue_runtime_root": {
+    "reason": "Issue-owned runtime root was not supplied or does not exist",
+    "status": "BLOCKED"
+  },
+  "limitations": [
+    "This audit does not create a PG cluster, verify a fixed sample, select a cohort, or collect outcomes.",
+    "It does not establish PostgreSQL statistic selection, MCV payload availability, model adequacy, or any physical guarantee."
+  ],
+  "overall_status": "BLOCKED",
+  "postgresql_source": {
+    "expected_head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "head": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "status": "AVAILABLE",
+    "trace_markers": {
+      "src/backend/optimizer/path/costsize.c": {
+        "ESS_MCV_NUMERIC_TRACE": true
+      },
+      "src/backend/statistics/extended_stats.c": {
+        "ESS_MCV_NUMERIC_TRACE": true,
+        "ESS_MCV_TRACE": true
+      }
+    }
+  },
+  "protocol_sha256": "62780cd536994472364096c22d7e5d07cd91f4456d80cf66fd5a911aef5cfb90"
+}
