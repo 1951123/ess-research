@@ -1,0 +1,134 @@
+{
+  "format": "ess-issue59-workload-structure-audit-protocol-v1",
+  "issue": 59,
+  "status": "FROZEN_BEFORE_STRUCTURAL_AUDIT_V1",
+  "evidence_label": "outcome_free_descriptive_structure_contract",
+  "scope": {
+    "datasets": ["forest10", "census13", "dmv11", "power7"],
+    "splits": ["train", "valid", "test"],
+    "read_only": true,
+    "archive_first_api": "from ess_research.arecel import prepare",
+    "no_postgresql": true,
+    "no_create_statistics": true,
+    "no_analyze": true,
+    "no_test_truth_values": true,
+    "no_test_estimates": true,
+    "no_model_objectives": true,
+    "no_candidate_selection_from_outcomes": true,
+    "other_repositories": "read-only; no ess-postgresql or ess-advisor changes"
+  },
+  "source_contract": {
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "etl_source_tree_objects": {
+      "arecel": "51d35ebf917d773249505fd9484f6539486ed740",
+      "task_paths": "3d8128e64ab3a4bf19ef988c48c138dcfc220edd"
+    },
+    "required_environment": ["ESS_DATA_ROOT", "ESS_RUNTIME_PARENT", "ESS_WORKTREE_PARENT"],
+    "raw_inputs": "only the verified whole archive cache through prepare(issue=59, dataset=...)",
+    "derived_lifecycle": "workload and table files are read inside the unique prepare context; only bounded aggregates survive",
+    "workload_truth_separation": "the audit reads workload.json and manifest/schema metadata, never truth.json"
+  },
+  "candidate_universe": {
+    "common_semantics": {
+      "candidate_is": "a labeled pair of source columns; structural availability is not PostgreSQL selection or MCV payload evidence",
+      "raw_column_cooccurrence": "both candidate endpoints occur among the query predicate columns, regardless of operator, predicate count, or repeated-column structure",
+      "supported_operator_set": ["=", "<", "<=", ">", ">=", "[]"],
+      "strict_pairwise_eligibility": "exactly two predicates, exactly two distinct predicate columns, both operators in the supported set, and the unordered predicate-column set equals one candidate endpoint set",
+      "calibration_eligibility": "at least one predicate, all operators supported, and candidate endpoints are a subset of the distinct predicate columns",
+      "malformed_policy": "record and fail the affected structural classification; never coerce unknown columns/operators or silently drop a query",
+      "repeated_predicates": "count repeated occurrences per source column separately; repeated predicates do not create additional endpoint coverage"
+    },
+    "forest10": {
+      "policy": "reuse the six predeclared Stage 2B v4 candidates exactly",
+      "reference_protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+      "candidates": [
+        {"id": "e01", "source_columns": ["Elevation", "Aspect"], "catalog_columns": ["elevation", "aspect"], "creation_order": 0},
+        {"id": "e12", "source_columns": ["Aspect", "Slope"], "catalog_columns": ["aspect", "slope"], "creation_order": 1},
+        {"id": "e23", "source_columns": ["Slope", "Horizontal_Distance_To_Hydrology"], "catalog_columns": ["slope", "horizontal_distance_to_hydrology"], "creation_order": 2},
+        {"id": "e34", "source_columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"], "catalog_columns": ["horizontal_distance_to_hydrology", "vertical_distance_to_hydrology"], "creation_order": 3},
+        {"id": "e45", "source_columns": ["Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways"], "catalog_columns": ["vertical_distance_to_hydrology", "horizontal_distance_to_roadways"], "creation_order": 4},
+        {"id": "e56", "source_columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am"], "catalog_columns": ["horizontal_distance_to_roadways", "hillshade_9am"], "creation_order": 5}
+      ]
+    },
+    "census13": {
+      "policy": "reuse the six predeclared Stage 2B v4 candidates exactly",
+      "reference_protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+      "candidates": [
+        {"id": "c01", "source_columns": ["age", "workclass"], "catalog_columns": ["age", "workclass"], "creation_order": 0},
+        {"id": "c12", "source_columns": ["workclass", "education"], "catalog_columns": ["workclass", "education"], "creation_order": 1},
+        {"id": "c23", "source_columns": ["education", "education_num"], "catalog_columns": ["education", "education_num"], "creation_order": 2},
+        {"id": "c34", "source_columns": ["education_num", "marital_status"], "catalog_columns": ["education_num", "marital_status"], "creation_order": 3},
+        {"id": "c45", "source_columns": ["marital_status", "occupation"], "catalog_columns": ["marital_status", "occupation"], "creation_order": 4},
+        {"id": "c56", "source_columns": ["occupation", "relationship"], "catalog_columns": ["occupation", "relationship"], "creation_order": 5}
+      ]
+    },
+    "dmv11": {
+      "policy": "all adjacent pairs in the audited source-column order; outcome-blind prospective structural universe",
+      "source_column_order": ["Record_Type", "Registration_Class", "State", "County", "Body_Type", "Fuel_Type", "Reg_Valid_Date", "Color", "Scofflaw_Indicator", "Suspension_Indicator", "Revocation_Indicator"],
+      "candidates": [
+        {"id": "d01", "source_columns": ["Record_Type", "Registration_Class"], "creation_order": 0},
+        {"id": "d12", "source_columns": ["Registration_Class", "State"], "creation_order": 1},
+        {"id": "d23", "source_columns": ["State", "County"], "creation_order": 2},
+        {"id": "d34", "source_columns": ["County", "Body_Type"], "creation_order": 3},
+        {"id": "d45", "source_columns": ["Body_Type", "Fuel_Type"], "creation_order": 4},
+        {"id": "d56", "source_columns": ["Fuel_Type", "Reg_Valid_Date"], "creation_order": 5},
+        {"id": "d67", "source_columns": ["Reg_Valid_Date", "Color"], "creation_order": 6},
+        {"id": "d78", "source_columns": ["Color", "Scofflaw_Indicator"], "creation_order": 7},
+        {"id": "d89", "source_columns": ["Scofflaw_Indicator", "Suspension_Indicator"], "creation_order": 8},
+        {"id": "d9a", "source_columns": ["Suspension_Indicator", "Revocation_Indicator"], "creation_order": 9}
+      ]
+    },
+    "power7": {
+      "policy": "all adjacent pairs in the audited source-column order; outcome-blind prospective structural universe",
+      "source_column_order": ["Global_active_power", "Global_reactive_power", "Voltage", "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3"],
+      "candidates": [
+        {"id": "p01", "source_columns": ["Global_active_power", "Global_reactive_power"], "creation_order": 0},
+        {"id": "p12", "source_columns": ["Global_reactive_power", "Voltage"], "creation_order": 1},
+        {"id": "p23", "source_columns": ["Voltage", "Global_intensity"], "creation_order": 2},
+        {"id": "p34", "source_columns": ["Global_intensity", "Sub_metering_1"], "creation_order": 3},
+        {"id": "p45", "source_columns": ["Sub_metering_1", "Sub_metering_2"], "creation_order": 4},
+        {"id": "p56", "source_columns": ["Sub_metering_2", "Sub_metering_3"], "creation_order": 5}
+      ]
+    }
+  },
+  "fingerprints": {
+    "exact": "SHA256 of canonical ordered predicate tuples (column, operator, literal value)",
+    "template": "SHA256 of sorted predicate tuples (column, operator, scalar-or-range), with literal values removed",
+    "overlap": "a group is shared when it contains query IDs from more than one split; report group and record counts and split-pair coverage",
+    "interpretation": "shared groups are leakage/structure flags; IDs are not treated as group-independent evidence"
+  },
+  "matching_audit": {
+    "graph": "candidate endpoints are vertices and available candidate pairs are labeled edges",
+    "conflicting_edges": "available edges that share at least one endpoint with another available edge; also report overlapping edge-pair count",
+    "maximal_matching": "a matching to which no additional available edge can be added; do not substitute maximum-cardinality matching",
+    "enumeration": "exact recursive enumeration over each distinct availability mask; cache by mask; max candidate count 10 and max mask count 1024",
+    "overflow_policy": "mark INCONCLUSIVE and never fabricate an exact multiplicity if the declared cap is exceeded"
+  },
+  "database_inventory": {
+    "schema_source": "prepare-generated schema.sql and versioned DatasetSpec source definitions",
+    "row_inventory": "report source-stated expected rows and independently measured CSV rows separately",
+    "cell_inventory": "stream the prepared table CSV once per dataset; report observed empty cells, not SQL NULL semantics; max aggregate scanned rows 15000000",
+    "distinct_inventory": "exact streaming distinct strings per column up to 1000000 values per column; mark overflow instead of approximating",
+    "no_database_claim": "CSV measurements do not establish PostgreSQL catalog nullness, distinctness, or planner behavior"
+  },
+  "stage2b_cohort_reference": {
+    "reference_protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "reference_pr_head": "848a320957eb69be2ea128bf6d7520d9fe54de6b",
+    "stage1a_protocol_sha256": "79d76dbb2cd5c47e3fe434c32a9156040c66bac13f8d7a4cfbda8538fef74307",
+    "forest10_test_cohort_ids": ["arecel:forest10:test:000219", "arecel:forest10:test:000239", "arecel:forest10:test:000379", "arecel:forest10:test:000544", "arecel:forest10:test:000934", "arecel:forest10:test:000985", "arecel:forest10:test:001172", "arecel:forest10:test:001190", "arecel:forest10:test:001263", "arecel:forest10:test:001429", "arecel:forest10:test:001539", "arecel:forest10:test:001666", "arecel:forest10:test:001853", "arecel:forest10:test:002242", "arecel:forest10:test:002638", "arecel:forest10:test:002959", "arecel:forest10:test:003339", "arecel:forest10:test:003477", "arecel:forest10:test:003574", "arecel:forest10:test:004019", "arecel:forest10:test:004159", "arecel:forest10:test:004221", "arecel:forest10:test:004250", "arecel:forest10:test:004577", "arecel:forest10:test:004592", "arecel:forest10:test:004597", "arecel:forest10:test:004793", "arecel:forest10:test:004960", "arecel:forest10:test:005197", "arecel:forest10:test:005250", "arecel:forest10:test:005361", "arecel:forest10:test:005368", "arecel:forest10:test:005545", "arecel:forest10:test:005600", "arecel:forest10:test:005934", "arecel:forest10:test:006222", "arecel:forest10:test:006322", "arecel:forest10:test:006333", "arecel:forest10:test:006434", "arecel:forest10:test:006522", "arecel:forest10:test:006611", "arecel:forest10:test:006689", "arecel:forest10:test:007004", "arecel:forest10:test:007445", "arecel:forest10:test:007726", "arecel:forest10:test:007900", "arecel:forest10:test:007949", "arecel:forest10:test:008102", "arecel:forest10:test:008214", "arecel:forest10:test:008646", "arecel:forest10:test:008677", "arecel:forest10:test:008782", "arecel:forest10:test:009041", "arecel:forest10:test:009189", "arecel:forest10:test:009308", "arecel:forest10:test:009393", "arecel:forest10:test:009740", "arecel:forest10:test:009807", "arecel:forest10:test:009895", "arecel:forest10:test:009960"],
+    "census13_test_cohort_ids": ["arecel:census13:test:000019", "arecel:census13:test:000121", "arecel:census13:test:000200", "arecel:census13:test:000348", "arecel:census13:test:000439", "arecel:census13:test:000518", "arecel:census13:test:000891", "arecel:census13:test:001032", "arecel:census13:test:001165", "arecel:census13:test:001203", "arecel:census13:test:001444", "arecel:census13:test:001846", "arecel:census13:test:002026", "arecel:census13:test:002336", "arecel:census13:test:002380", "arecel:census13:test:002492", "arecel:census13:test:002570", "arecel:census13:test:002615", "arecel:census13:test:003096", "arecel:census13:test:003108", "arecel:census13:test:003157", "arecel:census13:test:003402", "arecel:census13:test:003411", "arecel:census13:test:003446", "arecel:census13:test:003613", "arecel:census13:test:004180", "arecel:census13:test:004380", "arecel:census13:test:004705", "arecel:census13:test:004716", "arecel:census13:test:004782", "arecel:census13:test:004799", "arecel:census13:test:005260", "arecel:census13:test:005375", "arecel:census13:test:006230", "arecel:census13:test:006305", "arecel:census13:test:006447", "arecel:census13:test:006629", "arecel:census13:test:006666", "arecel:census13:test:006685", "arecel:census13:test:006797", "arecel:census13:test:006881", "arecel:census13:test:007287", "arecel:census13:test:007590", "arecel:census13:test:007820", "arecel:census13:test:007958", "arecel:census13:test:007974", "arecel:census13:test:008293", "arecel:census13:test:008459", "arecel:census13:test:009313", "arecel:census13:test:009509", "arecel:census13:test:009638", "arecel:census13:test:009656"]
+  },
+  "historical_pg_cross_reference": {
+    "forest10_census13": "read only from PR #58 v4 committed ledgers and summaries; report requested, payload-present, and trace-selected fields exactly as already observed",
+    "dmv11_power7": "NOT MEASURED; no PostgreSQL runtime, catalog payload, or trace inference",
+    "source_paths": ["experiments/pess-multidataset-heldout-stage2b/runs/formal-20261020-v4", "PR #58 head 848a320957eb69be2ea128bf6d7520d9fe54de6b"]
+  },
+  "evidence_contract": {
+    "aggregate_only": true,
+    "raw_data_committed": false,
+    "new_observations_exclusive_create": true,
+    "required_outputs": ["per-dataset/per-split aggregate JSON", "four-dataset report", "provenance/hash ledger", "deterministic tests", "SHA256SUMS"],
+    "decision_type": "descriptive feasibility assessment only; not a PESS result and not an amendment to protocol-v4"
+  }
+}
