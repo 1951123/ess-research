@@ -12,6 +12,7 @@ from unittest.mock import Mock, patch
 from gate_audit_v2 import (
     audit_pg_binary,
     aggregate_claimed_clause_coverage,
+    capture_query_trace,
     collect_dataset_inputs,
     compute_overall_status,
     evaluate_trace,
@@ -164,6 +165,31 @@ class Stage2BGateAV2Tests(unittest.TestCase):
         self.assertEqual(aggregate_claimed_clause_coverage([empty_control, fully_claimed]), "VERIFIED")
         self.assertEqual(aggregate_claimed_clause_coverage([empty_control, partial]), "UNVERIFIED")
 
+        duplicate = evaluate_trace(
+            [
+                "ESS_MCV_TRACE: selected_stat_oid=42 claimed_clause_index=0",
+                "ESS_MCV_TRACE: selected_stat_oid=42 claimed_clause_index=0",
+                "ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1",
+            ],
+            ledger,
+            label="duplicate",
+            query_id="q-duplicate",
+        )
+        self.assertEqual(duplicate["status"], "INCOMPATIBLE")
+        self.assertTrue(any("duplicate" in error for error in duplicate["errors"]))
+
+        mismatched = evaluate_trace(
+            [
+                "ESS_MCV_TRACE: selected_stat_oid=43 claimed_clause_index=0",
+                "ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1",
+            ],
+            ledger,
+            label="mismatched",
+            query_id="q-mismatched",
+        )
+        self.assertEqual(mismatched["status"], "INCOMPATIBLE")
+        self.assertTrue(any("unselected statistic" in error for error in mismatched["errors"]))
+
         cases = [
             ([], None, "positive pre-clamp"),
             (["ESS_MCV_NUMERIC_TRACE: selected_stat_oid=99 nrows_preclamp=1"], None, "unmapped"),
@@ -180,6 +206,76 @@ class Stage2BGateAV2Tests(unittest.TestCase):
                 )
                 self.assertEqual(result["status"], "INCOMPATIBLE")
                 self.assertTrue(any(fragment.lower() in error.lower() for error in result["errors"]))
+
+    def test_pid_scoped_capture_keeps_marker_free_mcv_and_filters_foreign_backend(self) -> None:
+        marker = "issue56-probe-one"
+        with tempfile.TemporaryDirectory() as temporary:
+            log = Path(temporary) / "server.log"
+            log.write_text(
+                "2026-10-20 00:00:00 [101] w@p DEBUG: ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1 query=/* "
+                + marker
+                + " */\n"
+                "2026-10-20 00:00:00 [202] w@p DEBUG: ESS_MCV_TRACE: selected_stat_oid=99 claimed_clause_index=7\n"
+                "2026-10-20 00:00:00 [101] w@p DEBUG: ESS_MCV_TRACE: selected_stat_oid=42 claimed_clause_index=0\n",
+                encoding="utf-8",
+            )
+            capture = capture_query_trace(log, 0, marker, quiet_period=0)
+        self.assertEqual(capture["backend_pid"], "101")
+        self.assertEqual(len(capture["raw_numeric_trace_lines"]), 1)
+        self.assertEqual(len(capture["raw_mcv_trace_lines"]), 2)
+        self.assertEqual(len(capture["associated_mcv_trace_lines"]), 1)
+        self.assertEqual(len(capture["foreign_mcv_trace_lines"]), 1)
+        self.assertEqual(len(capture["associated_trace_lines"]), 2)
+
+    def test_pid_capture_supports_disjoint_probes_on_same_backend(self) -> None:
+        first = "issue56-probe-first"
+        second = "issue56-probe-second"
+        with tempfile.TemporaryDirectory() as temporary:
+            log = Path(temporary) / "server.log"
+            log.write_text(
+                f"2026-10-20 00:00:00 [303] w@p DEBUG: ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1 query=/* {first} */\n",
+                encoding="utf-8",
+            )
+            first_capture = capture_query_trace(log, 0, first, quiet_period=0)
+            log.write_text(
+                log.read_text(encoding="utf-8")
+                + f"2026-10-20 00:00:01 [303] w@p DEBUG: ESS_MCV_NUMERIC_TRACE: selected_stat_oid=43 nrows_preclamp=2 query=/* {second} */\n"
+                + "2026-10-20 00:00:01 [303] w@p DEBUG: ESS_MCV_TRACE: selected_stat_oid=43 claimed_clause_index=1\n",
+                encoding="utf-8",
+            )
+            second_capture = capture_query_trace(
+                log,
+                first_capture["end_offset"],
+                second,
+                previous_markers={first},
+                quiet_period=0,
+            )
+        self.assertEqual(first_capture["backend_pid"], second_capture["backend_pid"])
+        self.assertEqual(len(second_capture["associated_trace_lines"]), 2)
+        self.assertTrue(all(second not in line or "[303]" in line for line in second_capture["associated_trace_lines"]))
+
+    def test_pid_capture_fails_closed_for_missing_or_ambiguous_pid_and_absent_raw_trace(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            missing = root / "missing-pid.log"
+            missing.write_text(
+                "DEBUG: ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1 query=/* marker */\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(RuntimeError, "backend PID"):
+                capture_query_trace(missing, 0, "marker", quiet_period=0)
+
+            ambiguous = root / "ambiguous.log"
+            ambiguous.write_text(
+                "2026-10-20 00:00:00 [1] w@p DEBUG: ESS_MCV_NUMERIC_TRACE: nrows_preclamp=1 query=/* marker */\n"
+                "2026-10-20 00:00:00 [2] w@p DEBUG: ESS_MCV_NUMERIC_TRACE: nrows_preclamp=2 query=/* marker */\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(RuntimeError, "ambiguous"):
+                capture_query_trace(ambiguous, 0, "marker", quiet_period=0)
+
+            with self.assertRaisesRegex(RuntimeError, "absent"):
+                capture_query_trace(root / "absent.log", 0, "marker", quiet_period=0)
 
     def test_validation_probe_selection_is_shape_and_catalog_only(self) -> None:
         protocol = json.loads((HERE / "protocol-v3.json").read_text(encoding="utf-8"))

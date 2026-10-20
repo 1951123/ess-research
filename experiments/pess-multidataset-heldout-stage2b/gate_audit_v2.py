@@ -33,7 +33,12 @@ EXPECTED_PG_VERSION = "16.14"
 DATASETS = ("forest10", "census13")
 SUPPORTED_OPERATORS = {"=", "<", "<=", ">", ">=", "[]"}
 TRACE_NUMERIC = re.compile(r"ESS_MCV_NUMERIC_TRACE: (?P<body>.*)")
-TRACE_SELECTED = re.compile(r"ESS_MCV_TRACE: (?P<body>.*)")
+TRACE_MCV = re.compile(r"ESS_MCV_TRACE: (?P<body>.*)")
+TRACE_SELECTED = re.compile(r"ESS_MCV_TRACE: (?P<body>.*selected_stat_oid=\d+.*)")
+TRACE_CLAIMED = re.compile(
+    r"ESS_MCV_TRACE: (?P<body>.*selected_stat_oid=\d+.*claimed_clause_index=\d+.*)"
+)
+LOG_BACKEND_PID = re.compile(r"\[(?P<pid>\d+)\]")
 KEY_VALUE = re.compile(r"(\w+)=((?:\"[^\"]*\")|(?:[^ ]+))")
 
 
@@ -168,11 +173,14 @@ def evaluate_trace(
 ) -> dict[str, Any]:
     numeric = []
     selected = []
+    claimed = []
     for line in trace_lines:
         if match := TRACE_NUMERIC.search(line):
             numeric.append(parse_key_values(match.group("body")))
         if match := TRACE_SELECTED.search(line):
             selected.append(parse_key_values(match.group("body")))
+        if match := TRACE_CLAIMED.search(line):
+            claimed.append(parse_key_values(match.group("body")))
 
     final = [item for item in numeric if "nrows_preclamp" in item]
     numeric_selected_oids = [
@@ -184,9 +192,21 @@ def evaluate_trace(
         if selected_oid and selected_oid not in selected_oids:
             selected_oids.append(selected_oid)
     claimed_clause_indices = []
-    for record in selected:
+    claimed_clauses_by_oid: dict[str, list[str]] = {}
+    duplicate_claims = []
+    malformed_claims = []
+    for record in claimed:
+        selected_oid = record.get("selected_stat_oid")
         clause_index = record.get("claimed_clause_index")
-        if clause_index and clause_index not in claimed_clause_indices:
+        if not selected_oid or clause_index is None:
+            malformed_claims.append(record)
+            continue
+        claimed_clauses_by_oid.setdefault(selected_oid, [])
+        if clause_index in claimed_clauses_by_oid[selected_oid]:
+            duplicate_claims.append(record)
+        else:
+            claimed_clauses_by_oid[selected_oid].append(clause_index)
+        if clause_index not in claimed_clause_indices:
             claimed_clause_indices.append(clause_index)
 
     catalog_oids = {str(item["oid"]): item for item in ledger}
@@ -206,6 +226,13 @@ def evaluate_trace(
         errors.append(
             f"probe selected statistics without positive MCV payload: {selected_without_payload}"
         )
+    if malformed_claims:
+        errors.append("ESS_MCV_TRACE contains a claim without selected_stat_oid or claimed_clause_index")
+    if duplicate_claims:
+        errors.append("duplicate selected statistic OID/claimed clause pairs")
+    mismatched_claim_oids = sorted(set(claimed_clauses_by_oid) - set(numeric_selected_oids))
+    if mismatched_claim_oids:
+        errors.append(f"claimed clause records refer to unselected statistic OIDs: {mismatched_claim_oids}")
     if expected_statistic_name is not None:
         expected = next(
             (item for item in ledger if item["statistic_name"] == expected_statistic_name),
@@ -220,11 +247,7 @@ def evaluate_trace(
         claimed_clause_status = "NOT_APPLICABLE"
         claimed_clause_missing_oids = []
     else:
-        claimed_oids = {
-            record.get("selected_stat_oid")
-            for record in selected
-            if record.get("selected_stat_oid") and record.get("claimed_clause_index")
-        }
+        claimed_oids = set(claimed_clauses_by_oid)
         claimed_clause_missing_oids = [oid for oid in selected_oids if oid not in claimed_oids]
         claimed_clause_status = "VERIFIED" if not claimed_clause_missing_oids else "UNVERIFIED"
 
@@ -242,9 +265,13 @@ def evaluate_trace(
         "unmapped_selected_oids": unmapped,
         "claimed_clause_coverage": {
             "status": claimed_clause_status,
+            "scope": "OID-level claim presence only; this does not prove full clause-set completeness",
             "claimed_clause_indices": claimed_clause_indices,
-            "records": selected,
+            "claimed_clauses_by_stat_oid": claimed_clauses_by_oid,
+            "records": claimed,
             "missing_selected_stat_oids": claimed_clause_missing_oids,
+            "duplicate_claims": duplicate_claims,
+            "mismatched_claim_oids": mismatched_claim_oids,
         },
         "positive_preclamp": final[0]["nrows_preclamp"] if len(final) == 1 else None,
     }
@@ -623,16 +650,103 @@ def owned_cluster(prefix: Path, root: Path, env: dict[str, str]) -> Iterator[dic
             )
 
 
-def wait_log(path: Path, offset: int, marker: str) -> list[str]:
-    deadline = time.monotonic() + 15
+def _read_log_from_offset(path: Path, offset: int) -> tuple[list[str], int]:
+    if not path.exists():
+        raise RuntimeError(f"server log is absent: {path}")
+    with path.open("rb") as stream:
+        stream.seek(offset)
+        data = stream.read()
+        end_offset = stream.tell()
+    return data.decode("utf-8", errors="replace").splitlines(), end_offset
+
+
+def _line_pid(line: str) -> str | None:
+    match = LOG_BACKEND_PID.search(line)
+    return match.group("pid") if match else None
+
+
+def capture_query_trace(
+    path: Path,
+    offset: int,
+    marker: str,
+    *,
+    previous_markers: set[str] | None = None,
+    timeout: float = 15.0,
+    quiet_period: float = 0.20,
+) -> dict[str, Any]:
+    """Capture and PID-associate one query's trace records.
+
+    The marker is expected on at least one numeric trace line.  It identifies
+    the backend PID for this bounded log interval; marker-free MCV records are
+    then associated only when their log prefix has that same PID.  Other
+    backends' trace records are retained as raw evidence but never passed to
+    the evaluator.  A marker from an earlier probe, a missing PID, or marker
+    lines from multiple PIDs fails closed.
+
+    PostgreSQL log writes are asynchronous, so after the marker appears we
+    wait for a short quiet interval.  Records arriving after that boundary are
+    outside this query's bounded capture and cause the downstream completeness
+    checks to fail rather than being borrowed from another probe.
+    """
+
+    previous_markers = previous_markers or set()
+    deadline = time.monotonic() + timeout
+    quiet_since: float | None = None
+    last_end_offset = offset
+    lines: list[str] = []
     while time.monotonic() < deadline:
-        with path.open("rb") as stream:
-            stream.seek(offset)
-            lines = stream.read().decode("utf-8", errors="replace").splitlines()
-        if any(marker in line for line in lines):
-            return [line for line in lines if marker in line]
+        current, end_offset = _read_log_from_offset(path, offset)
+        lines = current
+        marker_lines = [line for line in lines if marker in line]
+        if marker_lines:
+            old_markers = [old for old in previous_markers if any(old in line for line in lines)]
+            if old_markers:
+                raise RuntimeError(f"trace capture contains prior query marker(s): {old_markers}")
+            marker_pids = {_line_pid(line) for line in marker_lines}
+            if None in marker_pids:
+                raise RuntimeError("query marker line lacks a backend PID")
+            if len(marker_pids) != 1:
+                raise RuntimeError(f"query marker is ambiguous across backend PIDs: {sorted(marker_pids)}")
+            if quiet_since is None or end_offset != last_end_offset:
+                quiet_since = time.monotonic()
+            last_end_offset = end_offset
+            if time.monotonic() - quiet_since >= quiet_period:
+                break
+        last_end_offset = end_offset
         time.sleep(0.05)
-    raise RuntimeError(f"trace marker did not appear: {marker}")
+    else:
+        raise RuntimeError(f"trace marker did not appear before timeout: {marker}")
+
+    marker_lines = [line for line in lines if marker in line]
+    marker_pids = {_line_pid(line) for line in marker_lines}
+    if not marker_lines or None in marker_pids or len(marker_pids) != 1:
+        raise RuntimeError(f"query marker is missing or ambiguous: {marker}")
+    backend_pid = next(iter(marker_pids))
+    raw_numeric = [line for line in lines if TRACE_NUMERIC.search(line)]
+    raw_mcv = [line for line in lines if TRACE_MCV.search(line)]
+    raw_trace = [*raw_numeric, *raw_mcv]
+    missing_pid = [line for line in raw_trace if _line_pid(line) is None]
+    if missing_pid:
+        raise RuntimeError("trace record lacks a backend PID")
+    associated_numeric = [line for line in raw_numeric if _line_pid(line) == backend_pid]
+    associated_mcv = [line for line in raw_mcv if _line_pid(line) == backend_pid]
+    foreign_numeric = [line for line in raw_numeric if _line_pid(line) != backend_pid]
+    foreign_mcv = [line for line in raw_mcv if _line_pid(line) != backend_pid]
+    return {
+        "start_offset": offset,
+        "end_offset": last_end_offset,
+        "backend_pid": backend_pid,
+        "marker": marker,
+        "marker_count": len(marker_lines),
+        "raw_trace_lines": raw_trace,
+        "raw_numeric_trace_lines": raw_numeric,
+        "raw_mcv_trace_lines": raw_mcv,
+        "associated_trace_lines": [*associated_numeric, *associated_mcv],
+        "associated_numeric_trace_lines": associated_numeric,
+        "associated_mcv_trace_lines": associated_mcv,
+        "foreign_numeric_trace_lines": foreign_numeric,
+        "foreign_mcv_trace_lines": foreign_mcv,
+    }
 
 
 def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefix: Path) -> dict[str, Any]:
@@ -698,6 +812,7 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                 )
 
             probe_results = []
+            seen_markers: set[str] = set()
             for probe_spec in probe_specs:
                 query = probe_spec["query"]
                 marker = f"issue48-gate-a-{probe_spec['label']}-{dataset}-{query['query_id'].rsplit(':', 1)[-1]}"
@@ -712,14 +827,37 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                     + query["sql"],
                     env,
                 )
-                trace_lines = wait_log(cluster["server_log"], before, marker)
+                capture = capture_query_trace(
+                    cluster["server_log"],
+                    before,
+                    marker,
+                    previous_markers=seen_markers,
+                )
+                seen_markers.add(marker)
                 probe = evaluate_trace(
-                    trace_lines,
+                    capture["associated_trace_lines"],
                     ledger,
                     label=probe_spec["label"],
                     query_id=query["query_id"],
                     expected_statistic_name=probe_spec["expected_statistic_name"],
                 )
+                probe["trace_capture"] = {
+                    key: value
+                    for key, value in capture.items()
+                    if key not in {"raw_trace_lines", "associated_trace_lines"}
+                }
+                probe["trace_capture"]["raw_trace_counts"] = {
+                    "numeric": len(capture["raw_numeric_trace_lines"]),
+                    "mcv": len(capture["raw_mcv_trace_lines"]),
+                }
+                probe["trace_capture"]["associated_trace_counts"] = {
+                    "numeric": len(capture["associated_numeric_trace_lines"]),
+                    "mcv": len(capture["associated_mcv_trace_lines"]),
+                }
+                probe["trace_capture"]["foreign_trace_counts"] = {
+                    "numeric": len(capture["foreign_numeric_trace_lines"]),
+                    "mcv": len(capture["foreign_mcv_trace_lines"]),
+                }
                 if probe["status"] != "VERIFIED":
                     raise RuntimeError("; ".join(probe["errors"]))
                 probe_results.append(probe)
