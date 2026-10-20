@@ -1,0 +1,2 @@
+# Required by NumPy scalar objects in the whole-archive-pinned upstream pickles.
+numpy==2.3.4
