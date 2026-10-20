@@ -71,6 +71,13 @@
     "kind": "real Forest10 single heap table, bounded query/resource construction",
     "table": "public.forest10_original",
     "load": "COPY from the hash-pinned Forest10 CSV into the issue-owned cluster; no shared database",
+    "relation_identity": {
+      "relation_oid": 16384,
+      "relation_filenode": 16384,
+      "relation_pages": 7792,
+      "fillfactor": 63,
+      "construction": "fresh issue-owned database; binary-upgrade server only for fixed OID/relfilenode/type OIDs and table creation, then normal server for replay"
+    },
     "statistics_kind": "mcv",
     "statistics_target": 300,
     "simple_clause_rule": "one equality clause per distinct source attribute; no OR, expressions, joins, or repeated attribute clauses",
@@ -171,7 +178,7 @@
     }
   },
   "execution_contract": {
-    "issue_runtime_root": "/tmp/ess-issue40-stage1c",
+    "issue_runtime_root": "/tmp/ess-issue40-stage1c-v2",
     "cluster_paths": ["$ESS_ISSUE_ROOT/pgdata", "$ESS_ISSUE_ROOT/socket", "$ESS_ISSUE_ROOT/logs", "$ESS_ISSUE_ROOT/results"],
     "port": 55440,
     "database": "ess_issue40",
