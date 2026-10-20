@@ -1,0 +1,166 @@
+{
+  "format": "ess-issue40-pg-mcv-composition-protocol-v1",
+  "status": "FROZEN_BEFORE_OBSERVATION",
+  "issue": 40,
+  "evidence_scope": "bounded PostgreSQL 16.14 source/trace audit; not a universal PostgreSQL claim",
+  "input_contract": {
+    "data_root_environment": "ESS_DATA_ROOT",
+    "data_root_expected": "/home/wqts/ess-data",
+    "source_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "forest10_csv": {
+      "relative_path": "arecel/raw/data/forest10/original.csv",
+      "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "rows": 581012,
+      "columns": [
+        "Elevation",
+        "Aspect",
+        "Slope",
+        "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology",
+        "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am",
+        "Hillshade_Noon",
+        "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points"
+      ]
+    },
+    "canonical_queries": {
+      "relative_path": "arecel/audit-v1/forest10.canonical.jsonl.gz",
+      "sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+      "split": "valid",
+      "held_out_split": "test"
+    },
+    "fixed_sample": {
+      "relative_path": "pg-calibration/issue23/forest10.sample",
+      "sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be33be4d5d4eb1e5a4993",
+      "bytes": 10620470,
+      "provenance": "Issue #23 fixed-sample artifact; read-only input, replayed into this Issue's own cluster"
+    }
+  },
+  "postgresql_contract": {
+    "repository": "1951123/ess-postgresql",
+    "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "official_ancestor": "0d1c00c624fa7367d4a895f44381887757289682",
+    "version": "16.14",
+    "required_instrumentation": [
+      "ESS_MCV_TRACE",
+      "ESS_MCV_NUMERIC_TRACE",
+      "ess.analyze_sample_import"
+    ],
+    "build": {
+      "configure": [
+        "--prefix=$ESS_ISSUE_ROOT/pg-install",
+        "--enable-debug",
+        "--enable-cassert",
+        "--without-readline",
+        "--without-zlib"
+      ],
+      "cflags": "-DESS_MCV_NUMERIC_TRACE",
+      "jobs": 2
+    },
+    "source_path_contract": [
+      "src/backend/optimizer/path/clausesel.c",
+      "src/backend/statistics/extended_stats.c",
+      "src/backend/statistics/mcv.c",
+      "src/backend/commands/analyze.c",
+      "src/backend/optimizer/path/costsize.c",
+      "src/backend/utils/cache/relcache.c"
+    ]
+  },
+  "fixture": {
+    "kind": "real Forest10 single heap table, bounded query/resource construction",
+    "table": "public.forest10_original",
+    "load": "COPY from the hash-pinned Forest10 CSV into the issue-owned cluster; no shared database",
+    "statistics_kind": "mcv",
+    "statistics_target": 300,
+    "simple_clause_rule": "one equality clause per distinct source attribute; no OR, expressions, joins, or repeated attribute clauses",
+    "gucs": {
+      "default_statistics_target": 300,
+      "client_min_messages": "debug1",
+      "plan_cache_mode": "force_custom_plan",
+      "max_parallel_workers_per_gather": 0
+    },
+    "candidate_order_rule": "CREATE STATISTICS order is the controlled requested order; observed OIDs and catalog order are recorded and are not assumed without verification",
+    "repetitions": 2,
+    "timeouts": {
+      "server_start_seconds": 30,
+      "per_psql_command_seconds": 60,
+      "per_analyze_seconds": 180,
+      "whole_run_seconds": 3600
+    }
+  },
+  "candidates": [
+    {"id": "e01", "columns": ["Elevation", "Aspect"], "role": "path/star edge"},
+    {"id": "p01", "columns": ["Elevation", "Aspect"], "role": "parallel labeled duplicate of e01"},
+    {"id": "e12", "columns": ["Aspect", "Slope"], "role": "path/star edge"},
+    {"id": "e13", "columns": ["Aspect", "Horizontal_Distance_To_Hydrology"], "role": "star edge"},
+    {"id": "e23", "columns": ["Slope", "Horizontal_Distance_To_Hydrology"], "role": "path edge"},
+    {"id": "e34", "columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"], "role": "path edge"},
+    {"id": "e45", "columns": ["Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways"], "role": "path edge"},
+    {"id": "e56", "columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am"], "role": "path edge"}
+  ],
+  "tasks": [
+    {"id": "q_star_shared", "query_id": "arecel:forest10:valid:000005", "truth": 3, "source_query_sha256": "cfa59a022f0c55ecdf4bf9302b0fdbcdf6e65dfb5ef794241996517653c5ce96", "required_columns": ["Aspect", "Elevation", "Horizontal_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways", "Slope", "Vertical_Distance_To_Hydrology"], "role": "shared task for star, path, disjoint, and parallel candidates"},
+    {"id": "q_parallel_path", "query_id": "arecel:forest10:valid:000003", "truth": 0, "source_query_sha256": "22f7a33bc2585d8e0e397f007468499b284c1e00110ebbc90bf77a04826c08da", "required_columns": ["Aspect", "Slope"], "role": "overlap-path control with zero truth; positive-domain check is separate"},
+    {"id": "q_path_long", "query_id": "arecel:forest10:valid:000009", "truth": 119625, "source_query_sha256": "10dc99adad4e59a628c98c67296c36a7bab1a3116262c18555051f69ddac8a9f", "required_columns": ["Elevation", "Horizontal_Distance_To_Hydrology", "Slope", "Vertical_Distance_To_Hydrology"], "role": "overlapping path and disjoint e23/e34 control"},
+    {"id": "q_e34", "query_id": "arecel:forest10:valid:000001", "truth": 343, "source_query_sha256": "1c7506e7258f6f31aaaeb95187fb208e9251b176fb45481114da1163b4381a27", "required_columns": ["Horizontal_Distance_To_Hydrology", "Vertical_Distance_To_Hydrology"], "role": "single-resource e34 control"},
+    {"id": "q_e45_e56", "query_id": "arecel:forest10:valid:000010", "truth": 12916, "source_query_sha256": "b91afecc2c373b6245fa6b4e932db281524a0a02aa30095c466fb1844b3e1fb7", "required_columns": ["Horizontal_Distance_To_Roadways", "Hillshade_9am", "Slope", "Vertical_Distance_To_Hydrology"], "role": "overlap and path-tail composition"},
+    {"id": "q_tail", "query_id": "arecel:forest10:valid:000011", "truth": 8, "source_query_sha256": "6c9f6feb299bc0ea43c0aea9ee6414c7fbbe2ad32380338ab3df1241ddc85c97", "required_columns": ["Aspect", "Elevation", "Hillshade_9am", "Horizontal_Distance_To_Roadways", "Slope", "Vertical_Distance_To_Hydrology"], "role": "tail and shared-task control"}
+  ],
+  "selected_resource_sets": [
+    {"id": "empty", "resources": [], "topology": "edgeless control"},
+    {"id": "singleton_e12", "resources": ["e12"], "topology": "singleton"},
+    {"id": "disjoint_pair", "resources": ["e12", "e34"], "topology": "nonoverlapping pair"},
+    {"id": "overlap_pair", "resources": ["e12", "e23"], "topology": "overlapping 2-path"},
+    {"id": "overlap_3path", "resources": ["e12", "e23", "e34"], "topology": "overlapping 3-path"},
+    {"id": "star", "resources": ["e01", "e12", "e13"], "topology": "three-edge star at Aspect"},
+    {"id": "parallel_pair", "resources": ["e01", "p01"], "topology": "parallel labeled edges; distinct OID identity required"},
+    {"id": "zero_mcv_control", "resources": ["e01"], "topology": "requested object whose zero-MCV status is observed, not assumed"},
+    {"id": "three_disjoint_tail", "resources": ["e01", "e23", "e45"], "topology": "three-resource bounded composition"},
+    {"id": "full_universe", "resources": ["e01", "p01", "e12", "e13", "e23", "e34", "e45", "e56"], "topology": "full eight-candidate control"}
+  ],
+  "creation_orders": [
+    {"resource_set_id": "empty", "orders": [[]]},
+    {"resource_set_id": "singleton_e12", "orders": [["e12"]]},
+    {"resource_set_id": "disjoint_pair", "orders": [["e12", "e34"], ["e34", "e12"]]},
+    {"resource_set_id": "overlap_pair", "orders": [["e12", "e23"], ["e23", "e12"]]},
+    {"resource_set_id": "overlap_3path", "orders": [["e12", "e23", "e34"], ["e23", "e12", "e34"]]},
+    {"resource_set_id": "star", "orders": [["e01", "e12", "e13"], ["e13", "e12", "e01"]]},
+    {"resource_set_id": "parallel_pair", "orders": [["e01", "p01"], ["p01", "e01"]]},
+    {"resource_set_id": "zero_mcv_control", "orders": [["e01"]]},
+    {"resource_set_id": "three_disjoint_tail", "orders": [["e01", "e23", "e45"], ["e45", "e23", "e01"]]},
+    {"resource_set_id": "full_universe", "orders": [["e01", "p01", "e12", "e13", "e23", "e34", "e45", "e56"], ["e56", "e45", "e34", "e23", "e13", "e12", "p01", "e01"]]}
+  ],
+  "matching_ledger_contract": {
+    "candidate_identity": ["candidate_id", "statistic_name", "statistic_oid", "stxkeys", "columns", "creation_ordinal", "built_mcv", "mcv_item_count"],
+    "selected_identity": "map every ESS_MCV_TRACE selected_stat_oid to exactly one ledger row; duplicate endpoint labels remain distinct",
+    "available_graph": "for each task and resource set, include only candidates whose two endpoint clauses are present and whose observed object is built with usable MCV payload; report requested-but-no-payload separately",
+    "maximality": "selected endpoints must be pairwise disjoint and every available unselected candidate must intersect a selected endpoint; this is inclusion-wise maximality, not maximum cardinality",
+    "policy_scope": "Gamma membership, all-Gamma realizability, and one shared cross-task policy are separate fields and claims"
+  },
+  "composition_contract": {
+    "baseline": "positive pre-clamp estimate for the same task with no selected MCV resource",
+    "single_ratio": "positive single-resource pre-clamp estimate divided by the same baseline",
+    "prediction": "baseline multiplied by signed single-resource ratios for the requested joint configuration",
+    "actual": "final positive pre-clamp nrows from ESS_MCV_NUMERIC_TRACE costsize instrumentation",
+    "log_residual": "log(actual / prediction) only when both are finite and strictly positive",
+    "tolerances": {"relative": 1e-12, "absolute": 1e-15},
+    "separate_domains": ["no MCV payload", "no selected correction", "zero selectivity", "nonpositive/nonfinite", "post-clamp Plan Rows", "instrumentation missing"],
+    "no_tuning": "task IDs, resource sets, orders, repetitions, and tolerances are fixed before observations; no Stage 1A held-out query or final error is used"
+  },
+  "execution_contract": {
+    "issue_runtime_root": "/tmp/ess-issue40-stage1c",
+    "cluster_paths": ["$ESS_ISSUE_ROOT/pgdata", "$ESS_ISSUE_ROOT/socket", "$ESS_ISSUE_ROOT/logs", "$ESS_ISSUE_ROOT/results"],
+    "port": 55440,
+    "database": "ess_issue40",
+    "server_log_prefix": "%m [%p] %u@%d app=%a ",
+    "raw_logs": "remain outside Git under ESS_ISSUE_ROOT; only scrubbed bounded summaries and hashes may be committed",
+    "cleanup": "stop the issue-owned cluster and record status; never touch another cluster"
+  },
+  "fallbacks": {
+    "missing_input": "BLOCKED; do not substitute synthetic data",
+    "missing_build_or_trace": "BLOCKED for corresponding PG claim; do not use EXPLAIN Plan Rows as pre-clamp truth",
+    "physically_unconstructible_case": "record not-executed with evidence; do not fabricate a result",
+    "invalid_replay_or_catalog": "record invalid and exclude from positive composition summary"
+  }
+}
