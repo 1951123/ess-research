@@ -199,7 +199,7 @@ def main() -> None:
         "- `summarize_results.py`: deterministic summary/report generator.",
         "",
     ]
-    REPORT.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
+    REPORT.write_text("\n".join(report_lines).rstrip() + "\n", encoding="utf-8")
     payload = {
         "raw_rows": len(rows),
         "group_summaries": summaries,

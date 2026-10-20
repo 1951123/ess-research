@@ -207,4 +207,3 @@ This category is conditional on the recorded corpus, solver SHA, and environment
 - `runs/20261020-issue39-final-v2/raw-runs.jsonl`: complete raw endpoint matrix; `SHA256SUMS` verifies raw and summary files.
 - `runs/20261020-issue39-final-v2/reference-crosscheck.json`: independent verifier/reference cross-check.
 - `summarize_results.py`: deterministic summary/report generator.
-
