@@ -35,6 +35,19 @@ Never substitute a CLI path for a missing required variable or search historical
 roots. `ESS_ISSUE_ROOT` may identify one run **within the current task process**;
 never globally pin it, PGDATA, PGHOST, or PGPORT in a shell profile.
 
+## Codex shell startup: load the configured roots explicitly
+
+New Codex sessions and tool invocations may use non-interactive Bash, which does **not** reliably load `~/.bashrc` by itself. **Explicitly source `~/.bashrc` in the Bash process that needs the configured roots**, including when starting a new session:
+
+```bash
+source ~/.bashrc
+: "${ESS_DATA_ROOT:?ESS_DATA_ROOT must be set}"
+: "${ESS_WORKTREE_PARENT:?ESS_WORKTREE_PARENT must be set}"
+: "${ESS_RUNTIME_PARENT:?ESS_RUNTIME_PARENT must be set}"
+```
+
+Only check variables needed for the current operation. If a command runner starts a fresh shell for each call, sourcing in an earlier invocation is **not persistent**; start dependent commands with `source ~/.bashrc && ...` in the **same Bash invocation**, or pass a previously verified environment explicitly. Do not assume a login shell, alter the researcher's shell profiles, invent default paths, or expose environment contents/secrets in logs. An interactive-only guard inside `~/.bashrc` can prevent exports; if verification fails, stop and report which required variable is missing. Merely creating a `~/.bash_profile` or setting `BASH_ENV` does not guarantee the Codex executor will inherit a changed environment.
+
 ## Create a task workspace
 
 Verify the existing checkout and live state first:
