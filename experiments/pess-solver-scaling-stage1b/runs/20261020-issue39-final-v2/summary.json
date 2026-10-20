@@ -1,0 +1,28 @@
+{
+  "budgets_seconds": [
+    5.0,
+    20.0,
+    60.0
+  ],
+  "completed": 288,
+  "elapsed_seconds": 770.779560163,
+  "endpoint_observation_warning": "Each endpoint is an independent fresh process; no continuous incumbent trace is reconstructed.",
+  "errors_or_not_run": 0,
+  "hard_total_budget_seconds": 1800.0,
+  "jobs_planned": 288,
+  "manifest": "manifest-v1.json",
+  "per_instance_cap_seconds": 65.0,
+  "protocol": "protocol-v1.json",
+  "records_written": 288,
+  "repetition_seeds": [
+    7101,
+    7102,
+    7103
+  ],
+  "tiers": [
+    "large",
+    "medium",
+    "small"
+  ],
+  "timeouts": 0
+}
