@@ -269,7 +269,10 @@ class Runner:
         for line in self.psql(sql, application=f"i40_catalog_{scenario}_{repetition}_{order_index}", tuples=True).splitlines():
             if not line:
                 continue
-            name, oid, keys, target, built, count = line.split("\t")
+            fields = line.split("\t")
+            if len(fields) != 6:
+                continue
+            name, oid, keys, target, built, count = fields
             candidate_id = next((key for key, value in self.candidate_names.items() if value == name), None)
             rows.append({
                 "candidate_id": candidate_id,
