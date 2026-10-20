@@ -9,3 +9,23 @@ canonical source-table contract check, and v3 exposed the Forest10
 report.  `v5`/`v6` are the post-review reruns; `v7` uses the final corrected
 script with an existing but empty runtime directory and is the report used by
 `test_gate_audit.py` and the Stage 2B handoff.
+
+`v8` and `v9` are archive-first Issue-48 runs under the original
+`protocol-v2.json`. `v8`
+is retained as an immutable execution record but is superseded as the
+authoritative summary because its first report did not propagate selected OIDs
+from numeric trace records into the compact name mapping. `v9` reran both
+datasets after that representation correction; its `gate-audit.json` and
+`report.md` are the authoritative Gate A readiness evidence. Neither run
+collects held-out outcomes.
+
+`v10` is the review-response rerun under the exact
+`protocol-v2-amendment.json` bytes recorded in its report. It adds the predeclared positive-MCV
+coverage probe and separates numeric tracing, selected-OID mapping, and
+claimed-clause coverage. The first two checks pass for both datasets;
+`claimed_clause_indices` remains `UNVERIFIED` because this approved PG build
+emits no independent clause-index records, so v10 is explicitly `BLOCKED`.
+The v8/v9 files remain unchanged.
+
+`protocol-v3.json` is the current default for future audits. No new runtime or
+held-out comparison is implied by this protocol-version correction.
