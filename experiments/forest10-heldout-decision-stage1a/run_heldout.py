@@ -238,6 +238,29 @@ def catalog_snapshot(args: argparse.Namespace, candidate_ids: list[str]) -> dict
     }
 
 
+def selected_resource_ids_from_trace(
+    selected_oids: list[str], oid_to_candidate: dict[str, str]
+) -> list[str]:
+    """Translate every selected statistic OID, failing closed on an unknown OID."""
+    unknown = sorted(set(selected_oids) - set(oid_to_candidate))
+    if unknown:
+        raise RuntimeError(
+            "selected statistic OID(s) absent from the catalog identity ledger: "
+            + ", ".join(unknown)
+        )
+    return [oid_to_candidate[oid].removeprefix("ess_forest10_") for oid in selected_oids]
+
+
+def prepare_fresh_output_dir(output_dir: Path) -> None:
+    """Create a new evidence directory without ever overwriting a prior run."""
+    if output_dir.exists() or output_dir.is_symlink():
+        raise RuntimeError(
+            f"refusing to write evidence into an existing output path: {output_dir}; "
+            "choose a fresh scratch directory"
+        )
+    output_dir.mkdir(parents=True, exist_ok=False)
+
+
 def decimal_log_error(estimate: Decimal, target: int) -> str:
     with localcontext() as context:
         context.prec = 60
@@ -324,7 +347,10 @@ def main() -> int:
     expected_records = args.repetitions * len(selected_sets) * len(records)
     if expected_records > pg_protocol["maximum_query_measurements"]:
         raise ValueError("run exceeds the frozen query cap")
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    # This is deliberately before any PostgreSQL interaction.  A rerun must use
+    # a fresh scratch directory so historical raw observations and manifests
+    # remain immutable and auditable.
+    prepare_fresh_output_dir(args.output_dir)
     runtime_manifest = {
         "format": "ess-issue38-forest10-runtime-manifest-v1",
         "protocol_sha256": sha256_file(args.protocol),
@@ -396,7 +422,7 @@ def main() -> int:
                         if estimate <= 0:
                             raise RuntimeError(f"nonpositive pre-clamp estimate {estimate}")
                         selected_oids = sorted({item["selected_stat_oid"] for item in trace["numeric"] if item.get("selected_stat_oid")})
-                        selected_candidates = [oid_to_candidate[oid].removeprefix("ess_forest10_") for oid in selected_oids if oid in oid_to_candidate]
+                        selected_candidates = selected_resource_ids_from_trace(selected_oids, oid_to_candidate)
                         result = {
                             "status": "valid",
                             "repetition": repetition,

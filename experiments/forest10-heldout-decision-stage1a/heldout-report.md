@@ -12,7 +12,7 @@ The primary metric is absolute log error from the positive pre-clamp trace, `|ln
 
 ## Actual PostgreSQL held-out results
 
-The table reports pooled repetition-level metrics (`n=120` per set). `MCV payload` is based on catalog inspection, while `trace selected` is based on the instrumented PostgreSQL trace, not EXPLAIN alone.
+The table reports pooled repetition-level metrics (`n=120` per set); these are repeated measurements on the same 60 query IDs, not 120 independent test queries. `MCV payload` is based on catalog inspection, while `trace selected` is based on the instrumented PostgreSQL trace, not EXPLAIN alone.
 
 | Set | Issue #23 aliases | MCV payloads present | Trace-selected query count | Mean | Median | P90 | Max |
 |---|---|---|---:|---:|---:|---:|---:|
@@ -31,7 +31,9 @@ Observed effective behavior is narrower than the requested resource sets: `e01`,
 
 Against Empty, `{e01,e34}` had mean paired delta `-0.0689834357240779695` (54 benefits, 50 ties, 16 harms over 120 paired repetition/query rows); `{e12,e23,e34}` had mean delta `-0.0932064402728823113` (78 benefits, 30 ties, 12 harms). These are descriptive paired differences, not a dominance claim.
 
-Against the nominal selected set `{e12,e23,e34}`, the PESS-selected `{e01,e34}` was worse on mean absolute log error by `0.02422300454880434175840476196368509591739766000000000000000`; it had 22 benefits, 30 ties, and 68 harms. Its largest per-row adverse delta was `0.2588783138432469120132488941`. This is a meaningful harmful-overconservatism observation under the frozen construction order, while the nominal set itself improves over Empty by mean `-0.0932064402728823112691223761594050899704423183333333333333333`.
+Against the nominal selected set `{e12,e23,e34}`, the PESS-selected `{e01,e34}` was worse on pooled mean absolute log error by `0.02422300454880434175840476196368509591739766000000000000000`; it had 22 benefits, 30 ties, and 68 harms over the 120 query×repetition pairs. Its largest per-row adverse delta was `0.2588783138432469120132488941`. This is a descriptive harmful-overconservatism observation under the frozen construction order, while the nominal set itself improves over Empty by pooled mean `-0.0932064402728823112691223761594050899704423183333333333333333`.
+
+At the query-ID level, averaging the two paired repetitions first gives `n=60` query IDs: PESS−Nominal mean delta `0.0242230045488043417584047619643034292507309933333333333333333`, with 11 benefits, 15 ties, and 34 harms. The within-query two-repetition delta spread has mean `0.000000000000000000000000000000000000000000000000000000000000` and maximum `0.00000000000000000000000000000000000000000000000000000000000`. The pooled `+0.0242` difference is small relative to the nominal set's mean absolute loss `4.92783260951075323917449491511521554243577455871953269445204`; this bounded descriptive result does not support a significance or population-level generalization claim, and the query-level distribution may be driven by a limited group of IDs.
 
 Repetition instability was reported in the bounded JSON summary for every set. The raw trace also records which statistics were selected per query; no claim is made that the abstract maximal-matching family contains every real PG choice.
 

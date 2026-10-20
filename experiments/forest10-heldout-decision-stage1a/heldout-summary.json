@@ -288,6 +288,55 @@
           "set_error": "0.283926500742766125830501829324052936406795711010358577961067"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 27,
+          "count": 60,
+          "harm_positive_delta": 8,
+          "max": "0.2264869354249584391939711446",
+          "mean": "-0.0689834357240779695107176141972362255217880833333333333333333",
+          "median": "0.00000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000001809851390371432786959776778",
+          "tie_zero_delta": 25
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.8856070848613518632289937455",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.669262544024755078651986960",
+            "query_id": "arecel:forest10:test:005892"
+          },
+          {
+            "delta": "-0.5955724024813886735831842795",
+            "query_id": "arecel:forest10:test:009620"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2264869354249584391939711446",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1251275166976930636093285879",
+            "query_id": "arecel:forest10:test:004350"
+          },
+          {
+            "delta": "0.03925005996001782833757871105",
+            "query_id": "arecel:forest10:test:003545"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e01",
         "e34"
@@ -352,6 +401,55 @@
           "set_error": "0.283926500742766125830501829324052936406795711010358577961067"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 27,
+          "count": 60,
+          "harm_positive_delta": 8,
+          "max": "0.2264869354249584391939711446",
+          "mean": "-0.0689834357240779695107176141972362255217880833333333333333333",
+          "median": "0.00000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000001809851390371432786959776778",
+          "tie_zero_delta": 25
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.8856070848613518632289937455",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.669262544024755078651986960",
+            "query_id": "arecel:forest10:test:005892"
+          },
+          {
+            "delta": "-0.5955724024813886735831842795",
+            "query_id": "arecel:forest10:test:009620"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2264869354249584391939711446",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1251275166976930636093285879",
+            "query_id": "arecel:forest10:test:004350"
+          },
+          {
+            "delta": "0.03925005996001782833757871105",
+            "query_id": "arecel:forest10:test:003545"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e01",
         "e34",
@@ -428,6 +526,55 @@
           "set_error": "0.214265800610321851226794641580501052428828590724793006493503"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 39,
+          "count": 60,
+          "harm_positive_delta": 6,
+          "max": "0.3882611612327170470422815934",
+          "mean": "-0.09320644027288231126912237615502175663710898500000000000000",
+          "median": "-0.022577150461400116219902128545",
+          "p90_nearest_rank_ceiling": "0.00000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-1.082709554149147543459014574",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.8017352344792710346464242975",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "-0.746497270503318386212726858",
+            "query_id": "arecel:forest10:test:005892"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.3882611612327170470422815934",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1827674421938147523977691268",
+            "query_id": "arecel:forest10:test:003545"
+          },
+          {
+            "delta": "0.01328622898008134042075270203",
+            "query_id": "arecel:forest10:test:003716"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -493,6 +640,55 @@
           "set_error": "0.214265800610321851226794641580501052428828590724793006493503"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 39,
+          "count": 60,
+          "harm_positive_delta": 6,
+          "max": "0.3882611612327170470422815934",
+          "mean": "-0.09320644027288231126912237615502175663710898500000000000000",
+          "median": "-0.022577150461400116219902128545",
+          "p90_nearest_rank_ceiling": "0.00000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-1.082709554149147543459014574",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.8017352344792710346464242975",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "-0.746497270503318386212726858",
+            "query_id": "arecel:forest10:test:005892"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.3882611612327170470422815934",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1827674421938147523977691268",
+            "query_id": "arecel:forest10:test:003545"
+          },
+          {
+            "delta": "0.01328622898008134042075270203",
+            "query_id": "arecel:forest10:test:003716"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -559,6 +755,55 @@
           "set_error": "0.214265800610321851226794641580501052428828590724793006493503"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 39,
+          "count": 60,
+          "harm_positive_delta": 6,
+          "max": "0.3882611612327170470422815934",
+          "mean": "-0.09320644027288231126912237615502175663710898500000000000000",
+          "median": "-0.022577150461400116219902128545",
+          "p90_nearest_rank_ceiling": "0.00000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-1.082709554149147543459014574",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.8017352344792710346464242975",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "-0.746497270503318386212726858",
+            "query_id": "arecel:forest10:test:005892"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.3882611612327170470422815934",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1827674421938147523977691268",
+            "query_id": "arecel:forest10:test:003545"
+          },
+          {
+            "delta": "0.01328622898008134042075270203",
+            "query_id": "arecel:forest10:test:003716"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -626,6 +871,55 @@
           "set_error": "0.214265800610321851226794641580501052428828590724793006493503"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 39,
+          "count": 60,
+          "harm_positive_delta": 6,
+          "max": "0.3882611612327170470422815934",
+          "mean": "-0.09320644027288231126912237615502175663710898500000000000000",
+          "median": "-0.022577150461400116219902128545",
+          "p90_nearest_rank_ceiling": "0.00000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-1.082709554149147543459014574",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.8017352344792710346464242975",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "-0.746497270503318386212726858",
+            "query_id": "arecel:forest10:test:005892"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.3882611612327170470422815934",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1827674421938147523977691268",
+            "query_id": "arecel:forest10:test:003545"
+          },
+          {
+            "delta": "0.01328622898008134042075270203",
+            "query_id": "arecel:forest10:test:003716"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -692,6 +986,55 @@
           "set_error": "0.283926500742766125830501829324052936406795711010358577961067"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 27,
+          "count": 60,
+          "harm_positive_delta": 8,
+          "max": "0.2264869354249584391939711446",
+          "mean": "-0.0689834357240779695107176141972362255217880833333333333333333",
+          "median": "0.00000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000001809851390371432786959776778",
+          "tie_zero_delta": 25
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.8856070848613518632289937455",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.669262544024755078651986960",
+            "query_id": "arecel:forest10:test:005892"
+          },
+          {
+            "delta": "-0.5955724024813886735831842795",
+            "query_id": "arecel:forest10:test:009620"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2264869354249584391939711446",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1251275166976930636093285879",
+            "query_id": "arecel:forest10:test:004350"
+          },
+          {
+            "delta": "0.03925005996001782833757871105",
+            "query_id": "arecel:forest10:test:003545"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e34"
       ],
@@ -755,6 +1098,55 @@
           "set_error": "0.283926500742766125830501829324052936406795711010358577961067"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 27,
+          "count": 60,
+          "harm_positive_delta": 8,
+          "max": "0.2264869354249584391939711446",
+          "mean": "-0.0689834357240779695107176141972362255217880833333333333333333",
+          "median": "0.00000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000001809851390371432786959776778",
+          "tie_zero_delta": 25
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.8856070848613518632289937455",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.669262544024755078651986960",
+            "query_id": "arecel:forest10:test:005892"
+          },
+          {
+            "delta": "-0.5955724024813886735831842795",
+            "query_id": "arecel:forest10:test:009620"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2264869354249584391939711446",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1251275166976930636093285879",
+            "query_id": "arecel:forest10:test:004350"
+          },
+          {
+            "delta": "0.03925005996001782833757871105",
+            "query_id": "arecel:forest10:test:003545"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e34",
         "e45"
@@ -819,6 +1211,55 @@
           "set_error": "0.283926500742766125830501829324052936406795711010358577961067"
         }
       ],
+      "query_level_paired_delta_vs_empty": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 27,
+          "count": 60,
+          "harm_positive_delta": 8,
+          "max": "0.2264869354249584391939711446",
+          "mean": "-0.0689834357240779695107176141972362255217880833333333333333333",
+          "median": "0.00000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000001809851390371432786959776778",
+          "tie_zero_delta": 25
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.8856070848613518632289937455",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "-0.669262544024755078651986960",
+            "query_id": "arecel:forest10:test:005892"
+          },
+          {
+            "delta": "-0.5955724024813886735831842795",
+            "query_id": "arecel:forest10:test:009620"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2264869354249584391939711446",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "0.1251275166976930636093285879",
+            "query_id": "arecel:forest10:test:004350"
+          },
+          {
+            "delta": "0.03925005996001782833757871105",
+            "query_id": "arecel:forest10:test:003545"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e34",
         "e56"
@@ -838,6 +1279,55 @@
         "p90_nearest_rank_ceiling": "0.2355852738356458313545085545",
         "tie_zero_delta": 30
       },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 6,
+          "count": 60,
+          "harm_positive_delta": 39,
+          "max": "1.082709554149147543459014574",
+          "mean": "0.09320644027288231126912237615502175663710898500000000000000",
+          "median": "0.022577150461400116219902128545",
+          "p90_nearest_rank_ceiling": "0.2355852738356458313545085545",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3882611612327170470422815934",
+            "query_id": "arecel:forest10:test:005305"
+          },
+          {
+            "delta": "-0.1827674421938147523977691268",
+            "query_id": "arecel:forest10:test:003545"
+          },
+          {
+            "delta": "-0.01328622898008134042075270203",
+            "query_id": "arecel:forest10:test:003716"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "1.082709554149147543459014574",
+            "query_id": "arecel:forest10:test:002363"
+          },
+          {
+            "delta": "0.8017352344792710346464242975",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.746497270503318386212726858",
+            "query_id": "arecel:forest10:test:005892"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.0000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [],
       "set_id": "set-00-empty"
     },
@@ -851,6 +1341,55 @@
         "median": "0.0025924198171019891396054206912",
         "p90_nearest_rank_ceiling": "0.09942170724672680995345034670",
         "tie_zero_delta": 30
+      },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 11,
+          "count": 60,
+          "harm_positive_delta": 34,
+          "max": "0.2588783138432469120132488941",
+          "mean": "0.0242230045488043417584047619643034292507309933333333333333333",
+          "median": "0.00259241981710198913960542069125",
+          "p90_nearest_rank_ceiling": "0.0994217072467268099534503467",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3529436249891754816266004377",
+            "query_id": "arecel:forest10:test:003716"
+          },
+          {
+            "delta": "-0.1696482870352231024682268050",
+            "query_id": "arecel:forest10:test:001981"
+          },
+          {
+            "delta": "-0.1617742258077586078483104487",
+            "query_id": "arecel:forest10:test:005305"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2588783138432469120132488941",
+            "query_id": "arecel:forest10:test:008052"
+          },
+          {
+            "delta": "0.2061628319978823610632400181",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.1971024692877956802300208285",
+            "query_id": "arecel:forest10:test:002363"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
       },
       "selected": [
         "e01",
@@ -868,6 +1407,55 @@
         "median": "0.0025924198171019891396054206912",
         "p90_nearest_rank_ceiling": "0.09942170724672680995345034670",
         "tie_zero_delta": 30
+      },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 11,
+          "count": 60,
+          "harm_positive_delta": 34,
+          "max": "0.2588783138432469120132488941",
+          "mean": "0.0242230045488043417584047619643034292507309933333333333333333",
+          "median": "0.00259241981710198913960542069125",
+          "p90_nearest_rank_ceiling": "0.0994217072467268099534503467",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3529436249891754816266004377",
+            "query_id": "arecel:forest10:test:003716"
+          },
+          {
+            "delta": "-0.1696482870352231024682268050",
+            "query_id": "arecel:forest10:test:001981"
+          },
+          {
+            "delta": "-0.1617742258077586078483104487",
+            "query_id": "arecel:forest10:test:005305"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2588783138432469120132488941",
+            "query_id": "arecel:forest10:test:008052"
+          },
+          {
+            "delta": "0.2061628319978823610632400181",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.1971024692877956802300208285",
+            "query_id": "arecel:forest10:test:002363"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
       },
       "selected": [
         "e01",
@@ -887,6 +1475,55 @@
         "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
         "tie_zero_delta": 120
       },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 0,
+          "count": 60,
+          "harm_positive_delta": 0,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 60
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000015"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000134"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000320"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009679"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009346"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -905,6 +1542,55 @@
         "median": "0.00000000000000000000000000000000000000000000000000000000000",
         "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
         "tie_zero_delta": 120
+      },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 0,
+          "count": 60,
+          "harm_positive_delta": 0,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 60
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000015"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000134"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000320"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009679"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009346"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
       },
       "selected": [
         "e12",
@@ -926,6 +1612,55 @@
         "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
         "tie_zero_delta": 120
       },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 0,
+          "count": 60,
+          "harm_positive_delta": 0,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000",
+          "tie_zero_delta": 60
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000015"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000134"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:000320"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009679"
+          },
+          {
+            "delta": "0.00000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.0000000000000000000000000000000000000000000000000000000000",
+            "query_id": "arecel:forest10:test:009346"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.0000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e12",
         "e23",
@@ -945,6 +1680,55 @@
         "p90_nearest_rank_ceiling": "0.09942170724672680995345034670",
         "tie_zero_delta": 30
       },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 11,
+          "count": 60,
+          "harm_positive_delta": 34,
+          "max": "0.2588783138432469120132488941",
+          "mean": "0.0242230045488043417584047619643034292507309933333333333333333",
+          "median": "0.00259241981710198913960542069125",
+          "p90_nearest_rank_ceiling": "0.0994217072467268099534503467",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3529436249891754816266004377",
+            "query_id": "arecel:forest10:test:003716"
+          },
+          {
+            "delta": "-0.1696482870352231024682268050",
+            "query_id": "arecel:forest10:test:001981"
+          },
+          {
+            "delta": "-0.1617742258077586078483104487",
+            "query_id": "arecel:forest10:test:005305"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2588783138432469120132488941",
+            "query_id": "arecel:forest10:test:008052"
+          },
+          {
+            "delta": "0.2061628319978823610632400181",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.1971024692877956802300208285",
+            "query_id": "arecel:forest10:test:002363"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
+      },
       "selected": [
         "e34"
       ],
@@ -960,6 +1744,55 @@
         "median": "0.0025924198171019891396054206912",
         "p90_nearest_rank_ceiling": "0.09942170724672680995345034670",
         "tie_zero_delta": 30
+      },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 11,
+          "count": 60,
+          "harm_positive_delta": 34,
+          "max": "0.2588783138432469120132488941",
+          "mean": "0.0242230045488043417584047619643034292507309933333333333333333",
+          "median": "0.00259241981710198913960542069125",
+          "p90_nearest_rank_ceiling": "0.0994217072467268099534503467",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3529436249891754816266004377",
+            "query_id": "arecel:forest10:test:003716"
+          },
+          {
+            "delta": "-0.1696482870352231024682268050",
+            "query_id": "arecel:forest10:test:001981"
+          },
+          {
+            "delta": "-0.1617742258077586078483104487",
+            "query_id": "arecel:forest10:test:005305"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2588783138432469120132488941",
+            "query_id": "arecel:forest10:test:008052"
+          },
+          {
+            "delta": "0.2061628319978823610632400181",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.1971024692877956802300208285",
+            "query_id": "arecel:forest10:test:002363"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
       },
       "selected": [
         "e34",
@@ -977,6 +1810,55 @@
         "median": "0.0025924198171019891396054206912",
         "p90_nearest_rank_ceiling": "0.09942170724672680995345034670",
         "tie_zero_delta": 30
+      },
+      "query_level_paired_delta_vs_nominal": {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "delta_abs_log_error": {
+          "benefit_negative_delta": 11,
+          "count": 60,
+          "harm_positive_delta": 34,
+          "max": "0.2588783138432469120132488941",
+          "mean": "0.0242230045488043417584047619643034292507309933333333333333333",
+          "median": "0.00259241981710198913960542069125",
+          "p90_nearest_rank_ceiling": "0.0994217072467268099534503467",
+          "tie_zero_delta": 15
+        },
+        "independent_query_count": 60,
+        "largest_query_level_benefits": [
+          {
+            "delta": "-0.3529436249891754816266004377",
+            "query_id": "arecel:forest10:test:003716"
+          },
+          {
+            "delta": "-0.1696482870352231024682268050",
+            "query_id": "arecel:forest10:test:001981"
+          },
+          {
+            "delta": "-0.1617742258077586078483104487",
+            "query_id": "arecel:forest10:test:005305"
+          }
+        ],
+        "largest_query_level_harms": [
+          {
+            "delta": "0.2588783138432469120132488941",
+            "query_id": "arecel:forest10:test:008052"
+          },
+          {
+            "delta": "0.2061628319978823610632400181",
+            "query_id": "arecel:forest10:test:009620"
+          },
+          {
+            "delta": "0.1971024692877956802300208285",
+            "query_id": "arecel:forest10:test:002363"
+          }
+        ],
+        "within_query_repeat_delta_spread": {
+          "count": 60,
+          "max": "0.00000000000000000000000000000000000000000000000000000000000",
+          "mean": "0.000000000000000000000000000000000000000000000000000000000000",
+          "median": "0.000000000000000000000000000000000000000000000000000000000000",
+          "p90_nearest_rank_ceiling": "0.0000000000000000000000000000000000000000000"
+        }
       },
       "selected": [
         "e34",

@@ -68,6 +68,55 @@ def delta_metric(values: list[Decimal]) -> dict[str, Any]:
     return result
 
 
+def query_level_paired_delta(
+    rows: list[dict[str, Any]], baseline_rows: list[dict[str, Any]], value_key: str
+) -> dict[str, Any]:
+    """Summarize paired deltas after averaging the fixed repetitions per query ID."""
+    values = {
+        (row["query_id"], row["repetition"]): Decimal(row[value_key])
+        for row in rows
+    }
+    baseline = {
+        (row["query_id"], row["repetition"]): Decimal(row[value_key])
+        for row in baseline_rows
+    }
+    query_ids = sorted({row["query_id"] for row in rows})
+    if set(values) != set(baseline):
+        raise ValueError("paired rows do not have matching query/repetition keys")
+    repetitions_by_query = {
+        query_id: sorted(repetition for current_query, repetition in values if current_query == query_id)
+        for query_id in query_ids
+    }
+    if any(len(repetitions) != 2 for repetitions in repetitions_by_query.values()):
+        raise ValueError("query-level paired summary requires exactly two repetitions per query")
+    per_query: list[tuple[Decimal, str, Decimal]] = []
+    repeat_spreads: list[Decimal] = []
+    for query_id in query_ids:
+        repetitions = repetitions_by_query[query_id]
+        deltas = [
+            values[(query_id, repetition)] - baseline[(query_id, repetition)]
+            for repetition in repetitions
+        ]
+        per_query.append((sum(deltas, Decimal(0)) / Decimal(len(deltas)), query_id, max(deltas) - min(deltas)))
+        repeat_spreads.append(abs(deltas[0] - deltas[1]))
+    ordered_harms = sorted(per_query, reverse=True)[:3]
+    ordered_benefits = sorted(per_query)[:3]
+    return {
+        "aggregation": "mean of the two repetition-level deltas per query ID",
+        "independent_query_count": len(per_query),
+        "delta_abs_log_error": delta_metric([item[0] for item in per_query]),
+        "within_query_repeat_delta_spread": metric(repeat_spreads),
+        "largest_query_level_harms": [
+            {"delta": fmt(item[0]), "query_id": item[1]}
+            for item in ordered_harms
+        ],
+        "largest_query_level_benefits": [
+            {"delta": fmt(item[0]), "query_id": item[1]}
+            for item in ordered_benefits
+        ],
+    }
+
+
 def set_aliases(protocol: dict[str, Any], selected: tuple[str, ...]) -> list[dict[str, Any]]:
     aliases: list[dict[str, Any]] = []
     for budget, by_method in protocol["reference_issue23"]["frozen_selection_sets"]["by_budget_and_method"].items():
@@ -208,6 +257,9 @@ def main() -> int:
                 "selected": list(selected),
                 "issue23_aliases": set_aliases(protocol, selected),
                 "delta_abs_log_error_vs_empty": delta_metric(deltas),
+                "query_level_paired_delta_vs_empty": query_level_paired_delta(
+                    rows, by_set[empty_id], "absolute_log_error"
+                ),
                 "largest_harms": [
                     {"delta": fmt(item[0]), "query_id": item[1], "repetition": item[2], "set_error": fmt(item[3]), "empty_error": fmt(item[4])}
                     for item in worst_harm
@@ -234,6 +286,9 @@ def main() -> int:
                     "set_id": set_id,
                     "selected": rows[0]["selected_resource_ids"],
                     "delta_abs_log_error_vs_nominal": delta_metric(deltas),
+                    "query_level_paired_delta_vs_nominal": query_level_paired_delta(
+                        rows, by_set[nominal_id], "absolute_log_error"
+                    ),
                 }
             )
 

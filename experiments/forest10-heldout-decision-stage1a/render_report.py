@@ -31,6 +31,12 @@ def main() -> int:
         item for item in nominal if item["selected"] == ["e01", "e34"]
     )
     nominal_empty = next(item for item in paired if item["selected"] == ["e12", "e23", "e34"])
+    query_level_pess_nominal = pess_nominal["query_level_paired_delta_vs_nominal"]
+    nominal_mean = next(
+        row["absolute_log_error"]["mean"]
+        for row in rows
+        if row["selected"] == ["e12", "e23", "e34"]
+    )
 
     lines: list[str] = []
     lines.extend(
@@ -49,7 +55,7 @@ def main() -> int:
             "",
             "## Actual PostgreSQL held-out results",
             "",
-            "The table reports pooled repetition-level metrics (`n=120` per set). `MCV payload` is based on catalog inspection, while `trace selected` is based on the instrumented PostgreSQL trace, not EXPLAIN alone.",
+            "The table reports pooled repetition-level metrics (`n=120` per set); these are repeated measurements on the same 60 query IDs, not 120 independent test queries. `MCV payload` is based on catalog inspection, while `trace selected` is based on the instrumented PostgreSQL trace, not EXPLAIN alone.",
             "",
             "| Set | Issue #23 aliases | MCV payloads present | Trace-selected query count | Mean | Median | P90 | Max |",
             "|---|---|---|---:|---:|---:|---:|---:|",
@@ -74,7 +80,9 @@ def main() -> int:
             "",
             "Against Empty, `{e01,e34}` had mean paired delta `-0.0689834357240779695` (54 benefits, 50 ties, 16 harms over 120 paired repetition/query rows); `{e12,e23,e34}` had mean delta `-0.0932064402728823113` (78 benefits, 30 ties, 12 harms). These are descriptive paired differences, not a dominance claim.",
             "",
-            f"Against the nominal selected set `{selected(['e12','e23','e34'])}`, the PESS-selected `{selected(['e01','e34'])}` was worse on mean absolute log error by `{pess_nominal['delta_abs_log_error_vs_nominal']['mean']}`; it had {pess_nominal['delta_abs_log_error_vs_nominal']['benefit_negative_delta']} benefits, {pess_nominal['delta_abs_log_error_vs_nominal']['tie_zero_delta']} ties, and {pess_nominal['delta_abs_log_error_vs_nominal']['harm_positive_delta']} harms. Its largest per-row adverse delta was `{pess_nominal['delta_abs_log_error_vs_nominal']['max']}`. This is a meaningful harmful-overconservatism observation under the frozen construction order, while the nominal set itself improves over Empty by mean `{nominal_empty['delta_abs_log_error_vs_empty']['mean']}`.",
+            f"Against the nominal selected set `{selected(['e12','e23','e34'])}`, the PESS-selected `{selected(['e01','e34'])}` was worse on pooled mean absolute log error by `{pess_nominal['delta_abs_log_error_vs_nominal']['mean']}`; it had {pess_nominal['delta_abs_log_error_vs_nominal']['benefit_negative_delta']} benefits, {pess_nominal['delta_abs_log_error_vs_nominal']['tie_zero_delta']} ties, and {pess_nominal['delta_abs_log_error_vs_nominal']['harm_positive_delta']} harms over the 120 query×repetition pairs. Its largest per-row adverse delta was `{pess_nominal['delta_abs_log_error_vs_nominal']['max']}`. This is a descriptive harmful-overconservatism observation under the frozen construction order, while the nominal set itself improves over Empty by pooled mean `{nominal_empty['delta_abs_log_error_vs_empty']['mean']}`.",
+            "",
+            f"At the query-ID level, averaging the two paired repetitions first gives `n={query_level_pess_nominal['independent_query_count']}` query IDs: PESS−Nominal mean delta `{query_level_pess_nominal['delta_abs_log_error']['mean']}`, with {query_level_pess_nominal['delta_abs_log_error']['benefit_negative_delta']} benefits, {query_level_pess_nominal['delta_abs_log_error']['tie_zero_delta']} ties, and {query_level_pess_nominal['delta_abs_log_error']['harm_positive_delta']} harms. The within-query two-repetition delta spread has mean `{query_level_pess_nominal['within_query_repeat_delta_spread']['mean']}` and maximum `{query_level_pess_nominal['within_query_repeat_delta_spread']['max']}`. The pooled `+0.0242` difference is small relative to the nominal set's mean absolute loss `{nominal_mean}`; this bounded descriptive result does not support a significance or population-level generalization claim, and the query-level distribution may be driven by a limited group of IDs.",
             "",
             "Repetition instability was reported in the bounded JSON summary for every set. The raw trace also records which statistics were selected per query; no claim is made that the abstract maximal-matching family contains every real PG choice.",
             "",

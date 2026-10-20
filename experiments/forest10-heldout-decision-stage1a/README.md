@@ -61,12 +61,23 @@ python3 experiments/forest10-heldout-decision-stage1a/run_heldout.py \
   --port 55639 --database postgres \
   --server-log /home/wqts/ess-runtime/issue38/logs/server-replay.log \
   --sample /home/wqts/ess-data/pg-calibration/issue23/forest10.sample \
-  --output-dir /home/wqts/ess-runtime/issue38/results/heldout-v1-rerun
+  --output-dir /home/wqts/ess-runtime/issue38/results/heldout-v2-scratch
 ```
 
 Then run `analyze_heldout.py` against that raw directory and
 `render_report.py` against its bounded summary. The analyzer refuses incomplete
 or invalid raw runs.
+
+The measurement runner is append-provenance safe: `--output-dir` must not
+exist. It creates the directory with `exist_ok=False` before any PostgreSQL
+interaction and refuses a rerun against an existing directory or evidence
+file. Use a new, explicitly versioned scratch directory for every rerun; do
+not point it at the preserved `heldout-v1-rerun` directory.
+
+The report retains both pooled query×repetition summaries and query-level
+paired summaries. The latter averages the two repetitions for each of the 60
+fixed query IDs and reports the within-query repetition spread; the 120 rows
+are not treated as 120 independent test queries.
 
 ## Evidence boundary
 
