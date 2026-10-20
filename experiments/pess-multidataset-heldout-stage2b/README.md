@@ -24,9 +24,11 @@ PYTHONPATH=src python3 experiments/pess-multidataset-heldout-stage2b/gate_audit.
 
 The command creates a fresh Issue-48 cluster per dataset, imports the prepared
 table, exports and replays a new fixed sample, creates the predeclared MCV
-objects, and runs one deterministic valid-split smoke probe. `GATE_A_READY`
-means only that the two-dataset input and PG infrastructure gates passed; it is
-not a held-out outcome PASS, a PESS guarantee, or evidence of latency benefit.
+objects, and runs deterministic valid-split control and positive-MCV coverage
+probes. `GATE_A_READY` means only that the two-dataset input and PG
+infrastructure gates passed; independent claimed-clause trace coverage is
+required and otherwise yields `BLOCKED`. It is not a held-out outcome PASS, a
+PESS guarantee, or evidence of latency benefit.
 
 This directory is the Issue #48 experiment boundary.  Its first commit freezes
 the input identities, candidate universes, selection rules, metrics, and

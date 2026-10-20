@@ -86,7 +86,22 @@
     "binary_provenance": "actual postgres/initdb/pg_ctl/psql/pg_config SHA-256 values must match a supplied build manifest and report PostgreSQL 16.14",
     "cluster": "fresh Issue-48-owned PGDATA, socket, port, database and server log; verify data_directory, port, database and server version through the running connection",
     "smoke_probe": "first valid-split query in source order with at least two distinct predicates; selection uses shape only, never truth or estimates",
+    "validation_probes": {
+      "shape_control": "first valid-split query in source order with at least two distinct source predicate columns; retain it as an empty-or-selected control",
+      "positive_mcv_coverage": "first predeclared candidate in protocol order whose replayed catalog row has a positive MCV payload, paired with the first valid-split query in source order containing both candidate source columns; selection uses only workload shape and catalog payload presence, never truth",
+      "missing_positive_mcv_query": "record UNVERIFIED rather than inventing a query"
+    },
     "trace_requirements": ["selected statistic OIDs", "claimed clauses", "numeric pre-clamp trace", "positive nrows_preclamp", "catalog OID/name/stxkeys mapping", "MCV payload presence/item count"],
-    "pass_label": "GATE_A_READY means infrastructure readiness only"
+    "trace_evaluation": "numeric pre-clamp, selected-OID mapping, and claimed-clause indices are independent checks; stat_clause_count is not a claimed-clause index list",
+    "pass_label": "GATE_A_READY means infrastructure readiness only; missing claimed-clause evidence is BLOCKED and must be separately authorized or instrumented"
+  },
+  "next_outcome_protocol_boundary": {
+    "status": "OPEN_NOT_PERFORMED_IN_GATE_A",
+    "required_before_heldout_measurement": [
+      "freeze stricter edge/equality eligibility beyond the >=2-column shape screen",
+      "compute SQL fingerprint/group overlap across train, valid, and test",
+      "demonstrate actual Stage 1A Forest10 cohort exclusion rather than relying only on namespaced IDs",
+      "record requested, payload-present, and selected statistic ledgers separately"
+    ]
   }
 }

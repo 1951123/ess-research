@@ -7,11 +7,18 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import Mock, patch
 
 from gate_audit_v2 import (
     audit_pg_binary,
+    collect_dataset_inputs,
     compute_overall_status,
+    evaluate_trace,
     parse_schema_sql,
+    sample_header,
+    select_validation_queries,
+    validate_cluster_identity,
+    owned_cluster,
     write_exclusive_json,
 )
 
@@ -50,6 +57,41 @@ class Stage2BGateAV2Tests(unittest.TestCase):
             compute_overall_status(inputs, source, binary, [{"status": "VERIFIED"}, {"status": "VERIFIED"}]),
             "GATE_A_READY",
         )
+        self.assertEqual(
+            compute_overall_status(inputs, source, binary, [{"status": "VERIFIED"}, {"status": "VERIFIED"}], "UNVERIFIED"),
+            "BLOCKED",
+        )
+
+    def test_provenance_failure_prevents_runtime_probe(self) -> None:
+        protocol = json.loads((HERE / "protocol-v2.json").read_text(encoding="utf-8"))
+        with patch("gate_audit_v2.prepare") as prepare, patch(
+            "gate_audit_v2.validate_prepared_dataset", return_value={"status": "VERIFIED"}
+        ), patch("gate_audit_v2.run_dataset_probe", side_effect=AssertionError("cluster must not start")) as probe:
+            prepared = Mock()
+            prepare.return_value.__enter__.return_value = prepared
+            prepare.return_value.__exit__.return_value = False
+            inputs, probes = collect_dataset_inputs(
+                protocol, pg_runtime_allowed=False, pg_prefix=Path("/not-used")
+            )
+        self.assertEqual(len(inputs), 2)
+        self.assertEqual(probes, [])
+        probe.assert_not_called()
+
+    def test_cluster_identity_and_sample_validation_fail_closed(self) -> None:
+        with self.assertRaises(RuntimeError):
+            validate_cluster_identity(["/wrong", "5432", "postgres", "PostgreSQL 16.14"], Path("/expected"), 5432)
+        with tempfile.TemporaryDirectory() as temporary:
+            sample = Path(temporary) / "sample"
+            sample.write_bytes(b"ESSANL01")
+            with self.assertRaises(ValueError):
+                sample_header(sample)
+            sample.write_bytes(b"wrong!!!")
+            with self.assertRaises(ValueError):
+                sample_header(sample)
+            with patch("gate_audit_v2.run_command", side_effect=RuntimeError("startup failed")):
+                with self.assertRaises(RuntimeError):
+                    with owned_cluster(Path(temporary) / "cluster-prefix", Path(temporary) / "cluster", {}):
+                        pass
 
     def test_missing_or_wrong_binary_manifest_cannot_pass(self) -> None:
         self.assertEqual(audit_pg_binary(None, None)["status"], "BLOCKED")
@@ -57,6 +99,64 @@ class Stage2BGateAV2Tests(unittest.TestCase):
             manifest = Path(temporary) / "manifest.json"
             manifest.write_text(json.dumps({"pg_source_commit": "wrong", "pg_source_worktree_clean": True}), encoding="utf-8")
             self.assertEqual(audit_pg_binary(Path(temporary), manifest)["status"], "INCOMPATIBLE")
+
+    def test_trace_contract_failures_are_independent_and_fail_closed(self) -> None:
+        ledger = [
+            {
+                "statistic_name": "candidate",
+                "oid": 42,
+                "mcv_payload_present": True,
+                "mcv_item_count": 3,
+            },
+            {
+                "statistic_name": "empty_candidate",
+                "oid": 43,
+                "mcv_payload_present": False,
+                "mcv_item_count": 0,
+            },
+        ]
+        good = evaluate_trace(
+            ["ESS_MCV_NUMERIC_TRACE: selected_stat_oid=42 nrows_preclamp=1"],
+            ledger,
+            label="coverage",
+            query_id="q",
+            expected_statistic_name="candidate",
+        )
+        self.assertEqual(good["status"], "VERIFIED")
+        self.assertEqual(good["claimed_clause_coverage"]["status"], "UNVERIFIED")
+
+        cases = [
+            ([], None, "positive pre-clamp"),
+            (["ESS_MCV_NUMERIC_TRACE: selected_stat_oid=99 nrows_preclamp=1"], None, "unmapped"),
+            (["ESS_MCV_NUMERIC_TRACE: selected_stat_oid=43 nrows_preclamp=1"], "empty_candidate", "positive MCV"),
+        ]
+        for lines, expected, fragment in cases:
+            with self.subTest(fragment=fragment):
+                result = evaluate_trace(
+                    lines,
+                    ledger,
+                    label="negative",
+                    query_id="q",
+                    expected_statistic_name=expected,
+                )
+                self.assertEqual(result["status"], "INCOMPATIBLE")
+                self.assertTrue(any(fragment.lower() in error.lower() for error in result["errors"]))
+
+    def test_validation_probe_selection_is_shape_and_catalog_only(self) -> None:
+        protocol = json.loads((HERE / "protocol-v2.json").read_text(encoding="utf-8"))
+        spec = protocol["datasets"]["forest10"]
+        queries = [
+            {"query_id": "q0", "predicates": [{"column": "Elevation"}, {"column": "Aspect"}], "sql": "SELECT *"},
+            {"query_id": "q1", "predicates": [{"column": "Aspect"}, {"column": "Slope"}], "sql": "SELECT *"},
+        ]
+        ledger = [
+            {"statistic_name": "ess2b_forest10_e01", "oid": 1, "mcv_payload_present": False},
+            {"statistic_name": "ess2b_forest10_e12", "oid": 2, "mcv_payload_present": True},
+        ]
+        selected = select_validation_queries(queries, spec, ledger)
+        self.assertEqual(selected["control"]["query_id"], "q0")
+        self.assertEqual(selected["mcv_coverage"]["candidate_id"], "e12")
+        self.assertEqual(selected["mcv_coverage"]["query"]["query_id"], "q1")
 
     def test_evidence_write_is_exclusive_and_does_not_follow_symlink(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

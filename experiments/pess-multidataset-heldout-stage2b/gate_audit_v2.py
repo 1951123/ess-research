@@ -110,6 +110,124 @@ def query_records(root: Path, split: str) -> tuple[dict[str, Any], dict[str, Any
     return workload, truth
 
 
+def query_columns(query: dict[str, Any]) -> set[str]:
+    return {predicate["column"] for predicate in query.get("predicates", [])}
+
+
+def select_validation_queries(
+    queries: list[dict[str, Any]], spec: dict[str, Any], ledger: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Select deterministic, validation-only probes without reading truth values."""
+
+    control = next((query for query in queries if len(query_columns(query)) >= 2), None)
+    positive_by_name = {
+        row["statistic_name"]: row for row in ledger if row["mcv_payload_present"]
+    }
+    coverage = None
+    for candidate in spec["candidates"]:
+        catalog = positive_by_name.get(candidate["statistic_name"])
+        if catalog is None:
+            continue
+        query = next(
+            (
+                query
+                for query in queries
+                if set(candidate["source_columns"]) <= query_columns(query)
+            ),
+            None,
+        )
+        if query is not None:
+            coverage = {
+                "candidate_id": candidate["id"],
+                "statistic_name": candidate["statistic_name"],
+                "query": query,
+                "catalog": catalog,
+            }
+            break
+    return {"control": control, "mcv_coverage": coverage}
+
+
+def validate_cluster_identity(fields: list[str], pgdata: Path, port: int) -> None:
+    if (
+        len(fields) != 4
+        or Path(fields[0]).resolve() != pgdata.resolve()
+        or fields[1] != str(port)
+        or fields[2] != "postgres"
+        or EXPECTED_PG_VERSION not in fields[3]
+    ):
+        raise RuntimeError(f"Issue-owned cluster identity mismatch: {'|'.join(fields)!r}")
+
+
+def evaluate_trace(
+    trace_lines: list[str],
+    ledger: list[dict[str, Any]],
+    *,
+    label: str,
+    query_id: str,
+    expected_statistic_name: str | None = None,
+) -> dict[str, Any]:
+    numeric = []
+    selected = []
+    for line in trace_lines:
+        if match := TRACE_NUMERIC.search(line):
+            numeric.append(parse_key_values(match.group("body")))
+        if match := TRACE_SELECTED.search(line):
+            selected.append(parse_key_values(match.group("body")))
+
+    final = [item for item in numeric if "nrows_preclamp" in item]
+    numeric_selected_oids = [
+        item.get("selected_stat_oid") for item in numeric if item.get("selected_stat_oid")
+    ]
+    selected_oids = []
+    for record in [*selected, *numeric]:
+        selected_oid = record.get("selected_stat_oid")
+        if selected_oid and selected_oid not in selected_oids:
+            selected_oids.append(selected_oid)
+    claimed_clause_indices = []
+    for record in selected:
+        clause_index = record.get("claimed_clause_index")
+        if clause_index and clause_index not in claimed_clause_indices:
+            claimed_clause_indices.append(clause_index)
+
+    catalog_oids = {str(item["oid"]): item for item in ledger}
+    unmapped = [oid for oid in selected_oids if oid not in catalog_oids]
+    selected_names = [catalog_oids[oid]["statistic_name"] for oid in selected_oids if oid in catalog_oids]
+    errors = []
+    if len(final) != 1 or float(final[0]["nrows_preclamp"]) <= 0:
+        errors.append("probe did not produce exactly one positive pre-clamp trace")
+    if unmapped:
+        errors.append(f"probe selected unmapped statistic OIDs: {unmapped}")
+    if expected_statistic_name is not None:
+        expected = next(
+            (item for item in ledger if item["statistic_name"] == expected_statistic_name),
+            None,
+        )
+        if expected is None or not expected["mcv_payload_present"]:
+            errors.append("expected selected statistic lacks a positive MCV payload")
+        elif expected_statistic_name not in selected_names:
+            errors.append("validation query did not select the expected positive-payload statistic")
+
+    return {
+        "label": label,
+        "query_id": query_id,
+        "status": "VERIFIED" if not errors else "INCOMPATIBLE",
+        "errors": errors,
+        "trace_lines": trace_lines,
+        "numeric": numeric,
+        "selected_trace_records": selected,
+        "selected_stat_oids": selected_oids,
+        "numeric_selected_stat_oids": numeric_selected_oids,
+        "selected_stat_names": selected_names,
+        "unmapped_selected_oids": unmapped,
+        "claimed_clause_coverage": {
+            "status": "VERIFIED" if claimed_clause_indices else "UNVERIFIED",
+            "claimed_clause_indices": claimed_clause_indices,
+            "records": selected,
+        },
+        "positive_preclamp": final[0]["nrows_preclamp"] if len(final) == 1 else None,
+    }
+
+
 def validate_prepared_dataset(
     prepared: PreparedDataset, protocol: dict[str, Any], dataset: str
 ) -> dict[str, Any]:
@@ -452,8 +570,7 @@ def owned_cluster(prefix: Path, root: Path, env: dict[str, str]) -> Iterator[dic
             tuples=True,
         )
         fields = identity.strip().split("|")
-        if len(fields) != 4 or Path(fields[0]).resolve() != pgdata.resolve() or fields[1] != str(port) or fields[2] != "postgres" or EXPECTED_PG_VERSION not in fields[3]:
-            raise RuntimeError(f"Issue-owned cluster identity mismatch: {identity!r}")
+        validate_cluster_identity(fields, pgdata, port)
         yield {"pgdata": pgdata, "socket_dir": socket_dir, "port": port, "server_log": log_path, "identity": fields}
     finally:
         if started:
@@ -520,44 +637,89 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                 raise RuntimeError("not all requested statistics appeared in catalog")
 
             valid_workload, _ = query_records(prepared.dataset_root, "valid")
-            smoke = next((query for query in valid_workload["queries"] if len({p["column"] for p in query["predicates"]}) >= 2), None)
-            if smoke is None:
-                raise RuntimeError("no predeclared shape-eligible valid smoke query")
-            marker = f"issue48-gate-a-smoke-{dataset}-{smoke['query_id'].rsplit(':', 1)[-1]}"
-            before = cluster["server_log"].stat().st_size if cluster["server_log"].exists() else 0
-            psql(prefix, cluster["socket_dir"], cluster["port"], "SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE " + marker + " */ " + smoke["sql"], env)
-            trace_lines = wait_log(cluster["server_log"], before, marker)
-            numeric = []
-            selected = []
-            for line in trace_lines:
-                if match := TRACE_NUMERIC.search(line):
-                    numeric.append(parse_key_values(match.group("body")))
-                if match := TRACE_SELECTED.search(line):
-                    selected.append(parse_key_values(match.group("body")))
-            final = [item for item in numeric if "nrows_preclamp" in item]
-            numeric_selected_oids = [item.get("selected_stat_oid") for item in numeric if item.get("selected_stat_oid")]
-            selected_oids = []
-            for oid in [*selected, *numeric]:
-                selected_oid = oid.get("selected_stat_oid")
-                if selected_oid and selected_oid not in selected_oids:
-                    selected_oids.append(selected_oid)
-            claimed_clause_indices = []
-            for record in selected:
-                clause_index = record.get("claimed_clause_index")
-                if clause_index and clause_index not in claimed_clause_indices:
-                    claimed_clause_indices.append(clause_index)
-            catalog_oids = {str(item["oid"]): item["statistic_name"] for item in ledger}
-            unmapped = [oid for oid in selected_oids if oid not in catalog_oids]
-            if len(final) != 1 or float(final[0]["nrows_preclamp"]) <= 0:
-                raise RuntimeError("smoke probe did not produce exactly one positive pre-clamp trace")
-            if unmapped:
-                raise RuntimeError(f"smoke probe selected unmapped statistic OIDs: {unmapped}")
+            selected_queries = select_validation_queries(valid_workload["queries"], spec, ledger)
+            control = selected_queries["control"]
+            if control is None:
+                raise RuntimeError("no predeclared shape-eligible valid control query")
+
+            probe_specs = [
+                {"label": "shape_control", "query": control, "expected_statistic_name": None}
+            ]
+            coverage = selected_queries["mcv_coverage"]
+            if coverage is not None:
+                probe_specs.append(
+                    {
+                        "label": "positive_mcv_coverage",
+                        "query": coverage["query"],
+                        "expected_statistic_name": coverage["statistic_name"],
+                    }
+                )
+
+            probe_results = []
+            for probe_spec in probe_specs:
+                query = probe_spec["query"]
+                marker = f"issue48-gate-a-{probe_spec['label']}-{dataset}-{query['query_id'].rsplit(':', 1)[-1]}"
+                before = cluster["server_log"].stat().st_size if cluster["server_log"].exists() else 0
+                psql(
+                    prefix,
+                    cluster["socket_dir"],
+                    cluster["port"],
+                    "SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE "
+                    + marker
+                    + " */ "
+                    + query["sql"],
+                    env,
+                )
+                trace_lines = wait_log(cluster["server_log"], before, marker)
+                probe = evaluate_trace(
+                    trace_lines,
+                    ledger,
+                    label=probe_spec["label"],
+                    query_id=query["query_id"],
+                    expected_statistic_name=probe_spec["expected_statistic_name"],
+                )
+                if probe["status"] != "VERIFIED":
+                    raise RuntimeError("; ".join(probe["errors"]))
+                probe_results.append(probe)
+
+            mcv_coverage = (
+                {
+                    "status": "VERIFIED",
+                    "candidate_id": coverage["candidate_id"],
+                    "statistic_name": coverage["statistic_name"],
+                    "query_id": coverage["query"]["query_id"],
+                }
+                if coverage is not None
+                else {
+                    "status": "UNVERIFIED",
+                    "reason": "no positive-payload candidate had a source-order validation query",
+                }
+            )
+            claimed_clause_status = (
+                "VERIFIED"
+                if all(
+                    probe["claimed_clause_coverage"]["status"] == "VERIFIED"
+                    for probe in probe_results
+                )
+                else "UNVERIFIED"
+            )
             result["checks"] = {
                 "cluster": {"pgdata": str(cluster["pgdata"]), "socket": str(cluster["socket_dir"]), "port": cluster["port"], "identity": cluster["identity"]},
                 "import": {"table": table, "rows": int(count)},
                 "fixed_sample": {"path": str(sample), "sha256": sample_sha, "bytes": sample.stat().st_size, "header": header, "replayed_before_statistics_analyze": True},
                 "catalog": ledger,
-                "smoke": {"query_id": smoke["query_id"], "split": "valid", "truth_used_for_selection": False, "trace_lines": trace_lines, "selected_stat_oids": selected_oids, "numeric_selected_stat_oids": numeric_selected_oids, "selected_stat_names": [catalog_oids[oid] for oid in selected_oids], "claimed_clause_indices": claimed_clause_indices, "selected_trace_records": selected, "numeric": numeric, "positive_preclamp": final[0]["nrows_preclamp"], "unmapped_selected_oids": unmapped},
+                "validation_probe_selection": {
+                    "split": "valid",
+                    "truth_used_for_selection": False,
+                    "control_query_id": control["query_id"],
+                    "mcv_coverage": mcv_coverage,
+                },
+                "probes": probe_results,
+                "trace_coverage": {
+                    "numeric_preclamp": "VERIFIED",
+                    "selected_oid_mapping": "VERIFIED",
+                    "claimed_clause_indices": claimed_clause_status,
+                },
             }
     except (OSError, RuntimeError, ValueError, subprocess.TimeoutExpired) as exc:
         result["status"] = "INCOMPATIBLE"
@@ -565,14 +727,43 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
     return result
 
 
-def compute_overall_status(inputs: list[dict[str, Any]], source: dict[str, Any], binary: dict[str, Any], probes: list[dict[str, Any]]) -> str:
+def compute_overall_status(
+    inputs: list[dict[str, Any]],
+    source: dict[str, Any],
+    binary: dict[str, Any],
+    probes: list[dict[str, Any]],
+    claimed_clause_coverage: str = "VERIFIED",
+) -> str:
     if len(inputs) < 2 or any(item.get("status") != "VERIFIED" for item in inputs):
         return "BLOCKED"
     if source.get("status") != "VERIFIED" or binary.get("status") != "VERIFIED":
         return "BLOCKED"
     if len(probes) != len(inputs) or any(item.get("status") != "VERIFIED" for item in probes):
         return "BLOCKED"
+    if claimed_clause_coverage != "VERIFIED":
+        return "BLOCKED"
     return "GATE_A_READY"
+
+
+def collect_dataset_inputs(
+    protocol: dict[str, Any], *, pg_runtime_allowed: bool, pg_prefix: Path | None
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    inputs: list[dict[str, Any]] = []
+    probes: list[dict[str, Any]] = []
+    for dataset in DATASETS:
+        try:
+            with prepare(issue=48, dataset=dataset) as prepared:
+                input_result = validate_prepared_dataset(prepared, protocol, dataset)
+                inputs.append(input_result)
+                if (
+                    pg_runtime_allowed
+                    and pg_prefix is not None
+                    and input_result["status"] == "VERIFIED"
+                ):
+                    probes.append(run_dataset_probe(prepared, protocol, pg_prefix))
+        except (ConfigurationError, OSError, ValueError, RuntimeError) as exc:
+            inputs.append({"dataset": dataset, "status": "BLOCKED", "errors": [str(exc)]})
+    return inputs, probes
 
 
 def main() -> int:
@@ -591,20 +782,24 @@ def main() -> int:
     if protocol.get("status") != "FROZEN_BEFORE_GATE_A_OUTCOME_COLLECTION_V2":
         raise SystemExit("protocol-v2 is not the frozen outcome-free contract")
 
-    inputs: list[dict[str, Any]] = []
-    probes: list[dict[str, Any]] = []
-    for dataset in DATASETS:
-        try:
-            with prepare(issue=48, dataset=dataset) as prepared:
-                input_result = validate_prepared_dataset(prepared, protocol, dataset)
-                inputs.append(input_result)
-                if input_result["status"] == "VERIFIED" and args.pg_prefix:
-                    probes.append(run_dataset_probe(prepared, protocol, args.pg_prefix.expanduser().resolve()))
-        except (ConfigurationError, OSError, ValueError, RuntimeError) as exc:
-            inputs.append({"dataset": dataset, "status": "BLOCKED", "errors": [str(exc)]})
-
     source = audit_pg_source(args.pg_source.expanduser().resolve() if args.pg_source else None)
     binary = audit_pg_binary(args.pg_prefix.expanduser().resolve() if args.pg_prefix else None, args.pg_build_manifest.expanduser().resolve() if args.pg_build_manifest else None)
+    pg_runtime_allowed = source.get("status") == "VERIFIED" and binary.get("status") == "VERIFIED"
+    inputs, probes = collect_dataset_inputs(
+        protocol,
+        pg_runtime_allowed=pg_runtime_allowed,
+        pg_prefix=args.pg_prefix.expanduser().resolve() if args.pg_prefix else None,
+    )
+    claimed_clause_coverage = (
+        "VERIFIED"
+        if probes
+        and all(
+            probe.get("checks", {}).get("trace_coverage", {}).get("claimed_clause_indices")
+            == "VERIFIED"
+            for probe in probes
+        )
+        else "UNVERIFIED"
+    )
     result = {
         "format": "ess-issue48-stage2b-gate-audit-v3",
         "evidence_label": "experimentally_observed_gate_a_readiness_only",
@@ -615,11 +810,17 @@ def main() -> int:
         "postgresql_source": source,
         "postgresql_binary": binary,
         "probes": probes,
-        "overall_status": compute_overall_status(inputs, source, binary, probes),
+        "trace_coverage": {
+            "numeric_preclamp": "VERIFIED" if probes else "UNVERIFIED",
+            "selected_oid_mapping": "VERIFIED" if probes else "UNVERIFIED",
+            "claimed_clause_indices": claimed_clause_coverage,
+        },
+        "overall_status": compute_overall_status(inputs, source, binary, probes, claimed_clause_coverage),
         "scientific_boundary": [
             "No held-out test truth or estimate was used for model calibration, candidate selection, eligibility filtering, or cohort selection.",
             "The smoke probe uses a deterministic validation-split query-shape rule and is not a held-out outcome.",
             "GATE_A_READY means infrastructure readiness only; it is not a Stage 2B outcome PASS or a PostgreSQL containment guarantee.",
+            "The claimed-clause trace requirement is independent of numeric tracing and selected-OID mapping; if it is UNVERIFIED, overall readiness is BLOCKED.",
         ],
     }
     write_exclusive_json(args.output, result)

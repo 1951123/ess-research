@@ -17,3 +17,10 @@ from numeric trace records into the compact name mapping. `v9` reran both
 datasets after that representation correction; its `gate-audit.json` and
 `report.md` are the authoritative Gate A readiness evidence. Neither run
 collects held-out outcomes.
+
+`v10` is the review-response rerun. It adds the predeclared positive-MCV
+coverage probe and separates numeric tracing, selected-OID mapping, and
+claimed-clause coverage. The first two checks pass for both datasets;
+`claimed_clause_indices` remains `UNVERIFIED` because this approved PG build
+emits no independent clause-index records, so v10 is explicitly `BLOCKED`.
+The v8/v9 files remain unchanged.
