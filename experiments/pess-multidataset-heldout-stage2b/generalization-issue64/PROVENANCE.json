@@ -1,0 +1,28 @@
+{
+  "artifact": "Issue #64 Phase 0 outcome-free protocol draft",
+  "evidence_label": "protocol_design_only_no_new_heldout_outcomes",
+  "issue": "https://github.com/1951123/ess-research/issues/64",
+  "base_main_commit": "a89c1a70d96abc346f988860661e7f1a9f6297b5",
+  "historical_structural_audit": {
+    "issue": 59,
+    "merged_pr": 60,
+    "merge_commit": "8a45edbcfb957273e76532bc0d91e53499453726",
+    "protocol_path": "experiments/workload-structure-audit-issue59/protocol-v1.json",
+    "protocol_sha256": "8e8d25bc9d2847936d2c45f51a3f870a8c44e632938e30db19cfe8aaf0d9063a",
+    "source_archive_sha256_from_audit_contract": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79"
+  },
+  "arecel_paper": {
+    "citation": "Wang et al., PVLDB 14(9), 1640-1654 (2021), doi:10.14778/3461535.3461552",
+    "url": "https://www.vldb.org/pvldb/vol14/p1640-wang.pdf",
+    "accessed_sections": ["2.1", "2.5", "3", "4.1", "Table 2", "Table 3", "Table 4"]
+  },
+  "explicit_non_actions": {
+    "test_truth_or_test_estimates_read": false,
+    "new_postgresql_heldout_queries_run": false,
+    "historical_measurement_or_diagnostic_evidence_changed": false,
+    "ess_postgresql_edited": false,
+    "ess_advisor_edited": false,
+    "paper_edited": false
+  },
+  "implementation_note": "Static validator and tests inspect only the checked-in protocol JSON; they do not acquire datasets, parse SQL, load truth/estimate artifacts, or connect to PostgreSQL."
+}
