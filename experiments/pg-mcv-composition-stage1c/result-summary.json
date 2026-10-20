@@ -1,0 +1,88 @@
+{
+  "format": "ess-issue40-result-summary-v1",
+  "evidence_status": "INCONCLUSIVE/OUTSIDE RESTRICTED GATE",
+  "scope": "bounded PostgreSQL 16.14 source/trace audit; not a universal PostgreSQL claim",
+  "runtime": {
+    "issue_root": "/tmp/ess-issue40-stage1c-v8",
+    "port": 55440,
+    "database": "ess_issue40",
+    "stopped_after_run": true,
+    "raw_server_log_sha256": "1171f3d090bd44de97e2dbdbcee8cf1cb6490b323f590f2ed3816583b2607cba"
+  },
+  "source": {
+    "repository": "1951123/ess-postgresql",
+    "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "version": "16.14",
+    "instrumentation": ["ESS_MCV_TRACE", "ESS_MCV_NUMERIC_TRACE", "ess.analyze_sample_import"]
+  },
+  "inputs": {
+    "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "canonical_queries_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be33be4d5d4eb1e5a4993",
+    "manifest_sha256": "c4bf5e2e5ffa16a735e47930ef34fffd90b582cf707e6fd628bd4409e4594e5a"
+  },
+  "fixture_identity": {
+    "relation_oid": 16384,
+    "relation_filenode": 16384,
+    "relation_pages": 7792,
+    "column_type": "double precision",
+    "fillfactor": 100
+  },
+  "counts": {
+    "observations": 340,
+    "positive_preclamp_observations": 340,
+    "trace_line_missing_observations": 0,
+    "preserved_v8_legacy_matching_pass": 312,
+    "preserved_v8_legacy_matching_fail": 28,
+    "eligibility_reclassified_supported_for_eligible_graph": 312,
+    "eligibility_reclassified_inconclusive_outside_restricted_gate": 28,
+    "eligibility_reclassified_model_limitation_counterexample": 0,
+    "eligibility_unmapped_selected_stat_oids": 0,
+    "composition_records": 28,
+    "composition_positive_preclamp": 28
+  },
+  "eligibility_audit": {
+    "task_id": "q_tail",
+    "candidate": "e12",
+    "candidate_columns": ["Aspect", "Slope"],
+    "predicate_clauses": {
+      "Slope": [2, 3],
+      "Aspect": []
+    },
+    "rejection_reason": "missing_supported_predicate",
+    "reclassification": "INCONCLUSIVE_OUTSIDE_RESTRICTED_GATE",
+    "legacy_error": "selected set is not inclusion-wise maximal; addable=['e12']",
+    "source_observations_preserved": true,
+    "crosswalk_is_syntactic_not_candidate_consideration_certificate": true,
+    "aggregate_ledgers": 340,
+    "aggregate_both_endpoints_syntactically_covered": 916,
+    "aggregate_missing_supported_predicate": 1804,
+    "observations_with_outside_gate_resource": 232
+  },
+  "eligibility_audit_provenance": {
+    "source_observations_path": "/tmp/ess-issue40-stage1c-v8/results/observations.jsonl",
+    "source_observations_sha256": "7a6ed7c1d2d2710b2d5a03c66583f226d5be8c6f22b6405de983c01d576ea6b9",
+    "derived_crosswalk_path": "/tmp/ess-issue40-stage1c-v8/results/eligibility-reclassification-v2.json",
+    "derived_crosswalk_sha256": "c170802c68958406be2a3087fd242caf7a79024f760e519309be833a51bae5e7",
+    "redacted_ledger_path": "experiments/pg-mcv-composition-stage1c/eligibility-reclassification-ledger.jsonl",
+    "redacted_ledger_sha256": "67b793fbf3751d311ec8b262127c4dcde92a6317ae4e642ed455e771938b6879",
+    "redacted_ledger_rows": 340
+  },
+  "composition_abs_relative_residual_max": {
+    "q_star_disjoint": "1.84321962144687294658102923281608148368920924522738794134316e-16",
+    "q_star_overlap": "0.159039124853925981545103657938630791764799614930095454889885",
+    "q_star_star": "0.0495770156843559846485703968412585410014225521869278529069883",
+    "q_star_parallel": "0",
+    "q_path_disjoint": "0.213781318891745591096703094103982183754978024227711720358456",
+    "q_tail_overlap": "0",
+    "q_tail_three": "0"
+  },
+  "limitations": [
+    "bounded Forest10 fixture and frozen query/resource construction",
+    "manifest wording said equality clauses, but immutable canonical SQL contains range/inequality clauses; SQL was executed verbatim and equality-only coverage is not claimed",
+    "eligibility crosswalk is conservative syntactic evidence and not a complete planner candidate-consideration certificate",
+    "single-resource product is a tested composition reconstruction heuristic, not a general identity",
+    "results are source/trace observations for the pinned build only",
+    "no universal claim about PostgreSQL schemes, Gamma containment, or shared-policy PESS"
+  ]
+}

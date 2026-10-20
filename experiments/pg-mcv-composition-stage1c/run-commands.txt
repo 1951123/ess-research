@@ -1,0 +1,28 @@
+# Issue #40 Stage 1C reproducibility record
+# Executed from the Issue 40 worktree on 2026-10-20 Asia/Shanghai.
+
+./.venv/bin/python experiments/pg-mcv-composition-stage1c/run_stage1c.py \
+  --data-root /home/wqts/ess-data \
+  --issue-root /tmp/ess-issue40-stage1c-v8 \
+  --pg-bin /tmp/ess-issue40-stage1c/pg-install/bin \
+  --lib-dir /tmp/ess-issue40-stage1c/pg-install/lib/x86_64-linux-gnu \
+  --port 55440 \
+  --database ess_issue40
+
+# Offline checks run after the formal run:
+python3 -m py_compile experiments/pg-mcv-composition-stage1c/run_stage1c.py
+python3 -m json.tool experiments/pg-mcv-composition-stage1c/protocol-manifest.json >/dev/null
+PYTHONPATH=experiments/pg-mcv-composition-stage1c python3 -m unittest -v \
+  experiments/pg-mcv-composition-stage1c/test_matching_verifier.py \
+  experiments/pg-mcv-composition-stage1c/test_predicate_eligibility.py \
+  experiments/pg-mcv-composition-stage1c/test_reclassification_evidence.py
+git diff --check
+
+# Post-review audit over the preserved v8 observations; this does not rerun PG
+# or overwrite observations.jsonl, composition.json, or the frozen manifest.
+python3 experiments/pg-mcv-composition-stage1c/reclassify_v8.py \
+  --manifest experiments/pg-mcv-composition-stage1c/protocol-manifest.json \
+  --canonical /home/wqts/ess-data/arecel/audit-v1/forest10.canonical.jsonl.gz \
+  --observations /tmp/ess-issue40-stage1c-v8/results/observations.jsonl \
+  --output /tmp/ess-issue40-stage1c-v8/results/eligibility-reclassification-v2.json \
+  --redacted-ledger experiments/pg-mcv-composition-stage1c/eligibility-reclassification-ledger.jsonl
