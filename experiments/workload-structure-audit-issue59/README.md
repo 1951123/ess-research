@@ -24,4 +24,12 @@ physical payload/trace status remains `NOT MEASURED`.
 invalidated by an aggregate reporting bug, v2 is the corrected-count replay,
 and v3 is preserved but superseded because it lacked percentage fields.
 Each retained run has an exclusive-create `SHA256SUMS` manifest; raw data and
-large runtime artifacts remain outside Git.
+large runtime artifacts remain outside Git. A subsequent replay after the
+provenance-check implementation must use a new versioned run directory; it
+must verify the archive/upstream/dataset/split/query identities and the
+measured source CSV SHA-256 and row count before writing per-dataset success.
+
+Fingerprint fields are explicitly named: `canonical_predicate` follows the
+frozen ordered `(column, operator, literal value)` definition,
+`source_sql_text` hashes stripped `source_sql` text, and `template` removes
+literal values. Historical v1--v4 output is immutable.

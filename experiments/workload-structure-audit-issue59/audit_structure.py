@@ -14,14 +14,19 @@ import json
 import platform
 import subprocess
 from collections import Counter, defaultdict
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from ess_research.arecel import prepare
 from ess_research.arecel.forest10 import (
     COLUMNS as FOREST_COLUMNS,
+)
+from ess_research.arecel.forest10 import (
     EXPECTED_ROWS as FOREST_ROWS,
+)
+from ess_research.arecel.forest10 import (
     SOURCE_COLUMNS as FOREST_SOURCE_COLUMNS,
 )
 from ess_research.arecel.real import SPECS, SUPPORTED_OPERATORS, sha256_file
@@ -34,6 +39,10 @@ MAX_DISTINCT_VALUES = 1_000_000
 ALL_SOURCE_COLUMNS = set(FOREST_SOURCE_COLUMNS) | {
     column for dataset_spec in SPECS.values() for column in dataset_spec.source_columns
 }
+# The archive-backed AreCEL preparation contract contains one 100,000-record
+# train split and two 10,000-record evaluation splits for every audited
+# dataset.  Keep this contract here rather than inferring it from a replay.
+EXPECTED_PREPARED_SPLIT_COUNTS = {"train": 100_000, "valid": 10_000, "test": 10_000}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -118,8 +127,19 @@ def normalised_template(query: dict[str, Any]) -> str:
     return json.dumps(sorted(fields), ensure_ascii=False, separators=(",", ":"))
 
 
-def exact_fingerprint(query: dict[str, Any]) -> str:
+def source_sql_text_fingerprint(query: dict[str, Any]) -> str:
     return sha256_bytes(query["source_sql"].strip().encode("utf-8"))
+
+
+def canonical_predicate_fingerprint(query: dict[str, Any]) -> str:
+    ordered_tuples = [
+        [predicate["column"], predicate["operator"], predicate["value"]]
+        for predicate in query["predicates"]
+    ]
+    canonical = json.dumps(
+        ordered_tuples, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+    )
+    return sha256_bytes(canonical.encode("utf-8"))
 
 
 def template_fingerprint(query: dict[str, Any]) -> str:
@@ -332,7 +352,11 @@ def cross_tab(values: list[dict[str, Any]], key: str) -> dict[str, Any]:
 
 def fingerprint_audit(split_records: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     result = {}
-    for label, function in (("exact", exact_fingerprint), ("template", template_fingerprint)):
+    for label, function in (
+        ("canonical_predicate", canonical_predicate_fingerprint),
+        ("source_sql_text", source_sql_text_fingerprint),
+        ("template", template_fingerprint),
+    ):
         groups: dict[str, list[str]] = defaultdict(list)
         for split, records in split_records.items():
             for query in records:
@@ -392,6 +416,68 @@ def scan_table(path: Path, dataset: str) -> dict[str, Any]:
             for index, (name, type_) in enumerate(schema_columns(dataset))
         },
         "sql_null_semantics": "NOT_MEASURED; empty CSV cells are reported separately and are not asserted to be SQL NULL",
+    }
+
+
+def validate_prepared_provenance(
+    protocol_value: dict[str, Any],
+    dataset: str,
+    manifest: dict[str, Any],
+    table_csv: Path,
+    splits: dict[str, list[dict[str, Any]]],
+) -> dict[str, Any]:
+    """Validate archive, adapter, table, and workload identity before success."""
+    source_contract = protocol_value["source_contract"]
+    if manifest.get("format") != "arecel-preparation-v1":
+        raise ValueError("prepared manifest format is not arecel-preparation-v1")
+    if manifest.get("issue") != 59:
+        raise ValueError("prepared manifest issue is not 59")
+    if manifest.get("dataset") != dataset:
+        raise ValueError(f"prepared manifest dataset mismatch: {dataset}")
+    if manifest.get("archive_sha256") != source_contract["archive_sha256"]:
+        raise ValueError(f"{dataset} prepared archive SHA256 mismatch")
+    if manifest.get("upstream_commit") != source_contract["upstream_commit"]:
+        raise ValueError(f"{dataset} prepared upstream commit mismatch")
+    if manifest.get("splits") != EXPECTED_PREPARED_SPLIT_COUNTS:
+        raise ValueError(f"{dataset} prepared split-count contract mismatch")
+    if set(splits) != set(SPLITS):
+        raise ValueError(f"{dataset} workload split set mismatch")
+
+    for split in SPLITS:
+        records = splits[split]
+        if len(records) != EXPECTED_PREPARED_SPLIT_COUNTS[split]:
+            raise ValueError(f"{dataset} {split} workload count mismatch")
+        for index, query in enumerate(records):
+            expected_id = f"arecel:{dataset}:{split}:{index:06d}"
+            if (
+                query.get("query_id") != expected_id
+                or query.get("source_index") != index
+            ):
+                raise ValueError(f"{dataset} {split} query identity mismatch at index {index}")
+
+    inventory = scan_table(table_csv, dataset)
+    expected_rows = source_rows(dataset)
+    expected_sha256 = source_csv_expected_sha256(dataset)
+    if inventory["csv_sha256"] != expected_sha256:
+        raise ValueError(
+            f"{dataset} CSV SHA256 mismatch: expected {expected_sha256}, "
+            f"got {inventory['csv_sha256']}"
+        )
+    if inventory["row_count"] != expected_rows:
+        raise ValueError(
+            f"{dataset} CSV row count mismatch: expected {expected_rows}, "
+            f"got {inventory['row_count']}"
+        )
+    return {
+        "status": "VERIFIED",
+        "archive_sha256": manifest["archive_sha256"],
+        "upstream_commit": manifest["upstream_commit"],
+        "dataset": dataset,
+        "split_counts": dict(EXPECTED_PREPARED_SPLIT_COUNTS),
+        "query_identity": "arecel:{dataset}:{split}:{source_index:06d}",
+        "csv_sha256": inventory["csv_sha256"],
+        "row_count": inventory["row_count"],
+        "database_inventory": inventory,
     }
 
 
@@ -550,6 +636,10 @@ def audit_dataset(spec: dict[str, Any], dataset: str, legacy_ids: set[str], coho
     candidates = candidate_map(spec, dataset)
     known_columns = set(source_columns(dataset))
     with prepared_workload(dataset) as (manifest, table_csv, splits):
+        provenance_check = validate_prepared_provenance(
+            spec, dataset, manifest, table_csv, splits
+        )
+        database_inventory = provenance_check.pop("database_inventory")
         split_results = {
             split: split_summary(splits[split], candidates, known_columns) for split in SPLITS
         }
@@ -584,8 +674,12 @@ def audit_dataset(spec: dict[str, Any], dataset: str, legacy_ids: set[str], coho
                     {"name": name, "postgres_type": type_}
                     for name, type_ in schema_columns(dataset)
                 ],
+                "validation": provenance_check,
             },
-            "database_inventory": scan_table(table_csv, dataset),
+            "database_inventory": {
+                **database_inventory,
+                "provenance_validation": provenance_check["status"],
+            },
             "split_summaries": split_results,
             "cross_split_fingerprint_audit": cross_split,
             "stage2b_cohort_reference": stage2b,
@@ -648,7 +742,7 @@ def render_report(summary: dict[str, Any]) -> str:
         "",
         "## Fingerprint overlap and physical cross-reference",
         "",
-        "Exact and normalized-template fingerprint overlap is reported per dataset with group and record percentages in the dataset JSON files. Shared templates or exact records across splits mean query IDs cannot be treated as group-independent evidence.",
+        "Canonical ordered-predicate, source-SQL-text, and normalized-template fingerprint overlap is reported per dataset with group and record percentages in the dataset JSON files. The source-SQL-text metric hashes stripped source SQL bytes; it is not the canonical predicate fingerprint. Shared groups across splits mean query IDs cannot be treated as group-independent evidence.",
         "",
         "For Forest10/Census13, the optional historical cross-reference contains only already observed PR #58 validation ledger fields (requested resources, catalog MCV payload presence, and trace-selected resources). It is not used to construct candidates or eligibility. DMV11/Power7 physical payload and trace status is **NOT MEASURED**.",
         "",

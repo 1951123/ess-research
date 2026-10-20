@@ -1,12 +1,19 @@
 from __future__ import annotations
 
-import pytest
+import csv
+import hashlib
+from pathlib import Path
 
+import audit_structure
+import pytest
 from audit_structure import (
+    canonical_predicate_fingerprint,
+    fingerprint_audit,
     maximal_matchings,
     normalised_template,
     protocol,
     query_values,
+    source_sql_text_fingerprint,
     split_summary,
 )
 
@@ -98,3 +105,98 @@ def test_template_fingerprint_removes_literal_values() -> None:
         {"column": "a", "operator": "=", "value": 10},
     )
     assert normalised_template(left) == normalised_template(right)
+
+
+def test_fingerprint_names_distinguish_sql_text_and_canonical_predicates() -> None:
+    left = query(
+        {"column": "a", "operator": "=", "value": 1},
+        {"column": "b", "operator": "=", "value": 2},
+    )
+    right = query(
+        {"column": "b", "operator": "=", "value": 2},
+        {"column": "a", "operator": "=", "value": 1},
+    )
+    assert canonical_predicate_fingerprint(left) != canonical_predicate_fingerprint(
+        right
+    )
+    assert source_sql_text_fingerprint(left) == source_sql_text_fingerprint(right)
+    assert set(fingerprint_audit({"train": [left], "test": [right]})) == {
+        "canonical_predicate",
+        "source_sql_text",
+        "template",
+    }
+
+
+def _provenance_fixture(
+    tmp_path: Path,
+) -> tuple[dict[str, object], Path, dict[str, list[dict[str, object]]]]:
+    dataset = "census13"
+    columns = list(audit_structure.source_columns(dataset))
+    csv_path = tmp_path / "table.csv"
+    with csv_path.open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.writer(stream)
+        writer.writerow(columns)
+        writer.writerow(["1"] * len(columns))
+
+    splits: dict[str, list[dict[str, object]]] = {}
+    for split in audit_structure.SPLITS:
+        splits[split] = [
+            {
+                "query_id": f"arecel:{dataset}:{split}:000000",
+                "source_index": 0,
+                "source_sql": "SELECT COUNT(*) FROM public.census13 WHERE \"age\" = '1';",
+                "predicates": [{"column": "age", "operator": "=", "value": 1}],
+                "weight": 1.0,
+            }
+        ]
+    manifest = {
+        "format": "arecel-preparation-v1",
+        "issue": 59,
+        "dataset": dataset,
+        "archive_sha256": protocol()["source_contract"]["archive_sha256"],
+        "upstream_commit": protocol()["source_contract"]["upstream_commit"],
+        "splits": dict(audit_structure.EXPECTED_PREPARED_SPLIT_COUNTS),
+    }
+    return manifest, csv_path, splits
+
+
+def test_changed_csv_same_shape_fails_before_success(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(
+        audit_structure,
+        "EXPECTED_PREPARED_SPLIT_COUNTS",
+        {split: 1 for split in audit_structure.SPLITS},
+    )
+    monkeypatch.setattr(audit_structure, "source_rows", lambda dataset: 1)
+    manifest, csv_path, splits = _provenance_fixture(tmp_path)
+    good_sha256 = hashlib.sha256(csv_path.read_bytes()).hexdigest()
+    csv_path.write_bytes(csv_path.read_bytes().replace(b"1,1", b"2,1", 1))
+    monkeypatch.setattr(
+        audit_structure, "source_csv_expected_sha256", lambda dataset: good_sha256
+    )
+    with pytest.raises(ValueError, match="CSV SHA256 mismatch"):
+        audit_structure.validate_prepared_provenance(
+            protocol(), "census13", manifest, csv_path, splits
+        )
+
+
+def test_corrupted_manifest_fails_before_success(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(
+        audit_structure,
+        "EXPECTED_PREPARED_SPLIT_COUNTS",
+        {split: 1 for split in audit_structure.SPLITS},
+    )
+    monkeypatch.setattr(audit_structure, "source_rows", lambda dataset: 1)
+    manifest, csv_path, splits = _provenance_fixture(tmp_path)
+    manifest["archive_sha256"] = "0" * 64
+    good_sha256 = hashlib.sha256(csv_path.read_bytes()).hexdigest()
+    monkeypatch.setattr(
+        audit_structure, "source_csv_expected_sha256", lambda dataset: good_sha256
+    )
+    with pytest.raises(ValueError, match="prepared archive SHA256 mismatch"):
+        audit_structure.validate_prepared_provenance(
+            protocol(), "census13", manifest, csv_path, splits
+        )
