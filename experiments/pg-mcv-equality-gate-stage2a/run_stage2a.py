@@ -71,10 +71,11 @@ class Stage2ARunner:
         self.candidates = {item["id"]: item for item in self.manifest["fixture"]["candidate_definitions"]}
         self.queries = {item["id"]: item for item in self.manifest["fixture"]["queries"]}
 
-    def psql(self, sql: str, *, check: bool = True, output_name: str | None = None) -> subprocess.CompletedProcess[str]:
+    def psql(self, sql: str, *, check: bool = True, output_name: str | None = None, database: str | None = None) -> subprocess.CompletedProcess[str]:
+        target_database = database or self.database
         command = [
             str(self.psql_bin), "-X", "-v", "ON_ERROR_STOP=1", "-h", str(self.socket),
-            "-p", str(self.manifest["execution"]["port"]), "-d", self.database, "-c", sql,
+            "-p", str(self.manifest["execution"]["port"]), "-d", target_database, "-c", sql,
         ]
         result = run_command(command, self.env, check=check)
         if output_name:
@@ -106,7 +107,8 @@ class Stage2ARunner:
         for _ in range(50):
             if self.log_path.exists():
                 try:
-                    self.psql("SELECT 1;")
+                    self.psql("SELECT 1;", database="postgres")
+                    self.psql(f"CREATE DATABASE {self.database};", database="postgres")
                     return
                 except RuntimeError:
                     time.sleep(0.1)
