@@ -186,7 +186,8 @@ class Runner:
 
     def load_table(self) -> None:
         columns = self.manifest["input_contract"]["forest10_csv"]["columns"]
-        definitions = ", ".join(f"{sql_ident(column)} integer" for column in columns)
+        column_type = self.manifest["input_contract"]["forest10_csv"]["column_type"]
+        definitions = ", ".join(f"{sql_ident(column)} {column_type}" for column in columns)
         csv_path = self._input_path(self.manifest["input_contract"]["forest10_csv"]["relative_path"])
         identity = self.manifest["fixture"]["relation_identity"]
         sql = (

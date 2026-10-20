@@ -11,6 +11,7 @@
       "relative_path": "arecel/raw/data/forest10/original.csv",
       "sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
       "rows": 581012,
+      "column_type": "double precision",
       "columns": [
         "Elevation",
         "Aspect",
@@ -75,7 +76,7 @@
       "relation_oid": 16384,
       "relation_filenode": 16384,
       "relation_pages": 7792,
-      "fillfactor": 63,
+      "fillfactor": 100,
       "construction": "fresh issue-owned database; binary-upgrade server only for fixed OID/relfilenode/type OIDs and table creation, then normal server for replay"
     },
     "statistics_kind": "mcv",
@@ -178,7 +179,7 @@
     }
   },
   "execution_contract": {
-    "issue_runtime_root": "/tmp/ess-issue40-stage1c-v5",
+    "issue_runtime_root": "/tmp/ess-issue40-stage1c-v6",
     "cluster_paths": ["$ESS_ISSUE_ROOT/pgdata", "$ESS_ISSUE_ROOT/socket", "$ESS_ISSUE_ROOT/logs", "$ESS_ISSUE_ROOT/results"],
     "port": 55440,
     "database": "ess_issue40",
