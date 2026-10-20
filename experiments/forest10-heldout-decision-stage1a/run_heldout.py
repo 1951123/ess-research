@@ -226,7 +226,7 @@ def catalog_snapshot(args: argparse.Namespace, candidate_ids: list[str]) -> dict
         ).strip()
         mcv_counts[name] = int(value or "0")
     oid_to_candidate = {
-        line.split("|", 1)[0]: line.split("|", 1)[1]
+        line.split("|", 1)[0]: line.split("|", 2)[1]
         for line in stats
         if "|" in line
     }
@@ -282,7 +282,7 @@ def setup_set(
         raise RuntimeError(
             f"sample relation identity mismatch for {set_id}: table={table_fields[:3]} expected={expected}"
         )
-    present_names = {line.split("|", 1)[1] for line in snapshot["statistics"] if "|" in line}
+    present_names = {line.split("|", 2)[1] for line in snapshot["statistics"] if "|" in line}
     expected_names = {f"ess_forest10_{item}" for item in selected}
     if present_names != expected_names:
         raise RuntimeError(f"statistics snapshot mismatch for {set_id}: {present_names} != {expected_names}")
