@@ -1,0 +1,2278 @@
+{
+  "candidate_universe": {
+    "candidate_ids": [
+      "c01",
+      "c12",
+      "c23",
+      "c34",
+      "c45",
+      "c56"
+    ],
+    "candidates": [
+      {
+        "catalog_columns": [
+          "age",
+          "workclass"
+        ],
+        "creation_order": 0,
+        "id": "c01",
+        "source_columns": [
+          "age",
+          "workclass"
+        ]
+      },
+      {
+        "catalog_columns": [
+          "workclass",
+          "education"
+        ],
+        "creation_order": 1,
+        "id": "c12",
+        "source_columns": [
+          "workclass",
+          "education"
+        ]
+      },
+      {
+        "catalog_columns": [
+          "education",
+          "education_num"
+        ],
+        "creation_order": 2,
+        "id": "c23",
+        "source_columns": [
+          "education",
+          "education_num"
+        ]
+      },
+      {
+        "catalog_columns": [
+          "education_num",
+          "marital_status"
+        ],
+        "creation_order": 3,
+        "id": "c34",
+        "source_columns": [
+          "education_num",
+          "marital_status"
+        ]
+      },
+      {
+        "catalog_columns": [
+          "marital_status",
+          "occupation"
+        ],
+        "creation_order": 4,
+        "id": "c45",
+        "source_columns": [
+          "marital_status",
+          "occupation"
+        ]
+      },
+      {
+        "catalog_columns": [
+          "occupation",
+          "relationship"
+        ],
+        "creation_order": 5,
+        "id": "c56",
+        "source_columns": [
+          "occupation",
+          "relationship"
+        ]
+      }
+    ],
+    "physical_pg_payload_status": "NOT_MEASURED_BY_ISSUE_59; historical cross-reference is separate"
+  },
+  "cross_split_fingerprint_audit": {
+    "exact": {
+      "duplicate_record_excess": 8906,
+      "group_count": 111094,
+      "shared_group_count": 437,
+      "shared_groups_by_split_pair": {
+        "test+train": 150,
+        "test+train+valid": 131,
+        "test+valid": 6,
+        "train+valid": 150
+      },
+      "shared_record_count": 8408
+    },
+    "template": {
+      "duplicate_record_excess": 93791,
+      "group_count": 26209,
+      "shared_group_count": 6999,
+      "shared_groups_by_split_pair": {
+        "test+train": 2527,
+        "test+train+valid": 1861,
+        "test+valid": 64,
+        "train+valid": 2547
+      },
+      "shared_record_count": 85783
+    }
+  },
+  "database_inventory": {
+    "columns": {
+      "age": {
+        "distinct_non_null_csv_values": 74,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "capital_gain": {
+        "distinct_non_null_csv_values": 123,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "capital_loss": {
+        "distinct_non_null_csv_values": 99,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "education": {
+        "distinct_non_null_csv_values": 16,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "education_num": {
+        "distinct_non_null_csv_values": 16,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "hours_per_week": {
+        "distinct_non_null_csv_values": 96,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "marital_status": {
+        "distinct_non_null_csv_values": 7,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "native_country": {
+        "distinct_non_null_csv_values": 42,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "occupation": {
+        "distinct_non_null_csv_values": 15,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "race": {
+        "distinct_non_null_csv_values": 5,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "relationship": {
+        "distinct_non_null_csv_values": 6,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "sex": {
+        "distinct_non_null_csv_values": 2,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      },
+      "workclass": {
+        "distinct_non_null_csv_values": 9,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "VARCHAR(64)"
+      }
+    },
+    "csv_sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+    "row_count": 48842,
+    "sql_null_semantics": "NOT_MEASURED; empty CSV cells are reported separately and are not asserted to be SQL NULL",
+    "status": "MEASURED"
+  },
+  "dataset": "census13",
+  "provenance": {
+    "prepare_manifest": {
+      "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "archive_url": "https://www.dropbox.com/s/5bmvc1si5hysapf/data.tar.gz?dl=0",
+      "config": {
+        "keep_scratch": false,
+        "seed": null,
+        "weight": 1.0
+      },
+      "dataset": "census13",
+      "etl": {
+        "git_commit": "398e0e6e08a29953632bbdee7426add4e086b140",
+        "worktree_dirty": true
+      },
+      "format": "arecel-preparation-v1",
+      "issue": 59,
+      "python": "3.12.3",
+      "repository": "ess-research",
+      "run_id": "arecel-g_xw3uj_",
+      "schema": "schema.sql",
+      "splits": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "table": "table.csv",
+      "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+    },
+    "schema_columns": [
+      {
+        "name": "age",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "workclass",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "education",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "education_num",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "marital_status",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "occupation",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "relationship",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "race",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "sex",
+        "postgres_type": "VARCHAR(64)"
+      },
+      {
+        "name": "capital_gain",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "capital_loss",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "hours_per_week",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "native_country",
+        "postgres_type": "VARCHAR(64)"
+      }
+    ],
+    "source_csv_expected_sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+    "source_relation": "public.census13",
+    "source_rows_stated": 48842
+  },
+  "split_summaries": {
+    "test": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 3285,
+          "1": 1657,
+          "2": 1233,
+          "3+": 3825
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5389,
+          "2": 2114,
+          "3": 567,
+          "4": 590,
+          "5+": 1340
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 6715,
+        "queries_with_at_least_two_edges": 5058,
+        "queries_with_conflicting_edges": 4611,
+        "queries_with_two_or_more_maximal_matchings": 4611
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 797,
+            "raw_edge_count": {
+              "0": 797
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 715,
+            "conflicting_queries": 619,
+            "multi_maximal_queries": 619,
+            "queries": 720,
+            "raw_edge_count": {
+              "0": 5,
+              "1": 38,
+              "2": 127,
+              "3+": 550
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 729,
+            "conflicting_queries": 694,
+            "multi_maximal_queries": 694,
+            "queries": 729,
+            "raw_edge_count": {
+              "2": 57,
+              "3+": 672
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 800,
+            "conflicting_queries": 800,
+            "multi_maximal_queries": 800,
+            "queries": 800,
+            "raw_edge_count": {
+              "3+": 800
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 785,
+            "conflicting_queries": 785,
+            "multi_maximal_queries": 785,
+            "queries": 785,
+            "raw_edge_count": {
+              "3+": 785
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 52,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 760,
+            "raw_edge_count": {
+              "0": 708,
+              "1": 52
+            },
+            "strict_edge_available": 52
+          },
+          "3": {
+            "calibration_edge_available": 166,
+            "conflicting_queries": 10,
+            "multi_maximal_queries": 10,
+            "queries": 793,
+            "raw_edge_count": {
+              "0": 627,
+              "1": 156,
+              "2": 10
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 313,
+            "conflicting_queries": 50,
+            "multi_maximal_queries": 50,
+            "queries": 779,
+            "raw_edge_count": {
+              "0": 466,
+              "1": 253,
+              "2": 58,
+              "3+": 2
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 465,
+            "conflicting_queries": 111,
+            "multi_maximal_queries": 111,
+            "queries": 764,
+            "raw_edge_count": {
+              "0": 299,
+              "1": 329,
+              "2": 114,
+              "3+": 22
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 558,
+            "conflicting_queries": 200,
+            "multi_maximal_queries": 200,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 203,
+              "1": 313,
+              "2": 164,
+              "3+": 81
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 647,
+            "conflicting_queries": 317,
+            "multi_maximal_queries": 317,
+            "queries": 758,
+            "raw_edge_count": {
+              "0": 111,
+              "1": 253,
+              "2": 240,
+              "3+": 154
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 729,
+            "conflicting_queries": 456,
+            "multi_maximal_queries": 456,
+            "queries": 778,
+            "raw_edge_count": {
+              "0": 49,
+              "1": 182,
+              "2": 245,
+              "3+": 302
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 756,
+            "conflicting_queries": 569,
+            "multi_maximal_queries": 569,
+            "queries": 776,
+            "raw_edge_count": {
+              "0": 20,
+              "1": 81,
+              "2": 218,
+              "3+": 457
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "operator_family": {
+          "equality_only": {
+            "calibration_edge_available": 150,
+            "conflicting_queries": 11,
+            "multi_maximal_queries": 11,
+            "queries": 1025,
+            "raw_edge_count": {
+              "0": 875,
+              "1": 132,
+              "2": 13,
+              "3+": 5
+            },
+            "strict_edge_available": 26
+          },
+          "inequality_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 170,
+            "raw_edge_count": {
+              "0": 170
+            },
+            "strict_edge_available": 0
+          },
+          "mixed": {
+            "calibration_edge_available": 690,
+            "conflicting_queries": 303,
+            "multi_maximal_queries": 303,
+            "queries": 1369,
+            "raw_edge_count": {
+              "0": 679,
+              "1": 324,
+              "2": 193,
+              "3+": 173
+            },
+            "strict_edge_available": 5
+          },
+          "range_mixed": {
+            "calibration_edge_available": 5875,
+            "conflicting_queries": 4297,
+            "multi_maximal_queries": 4297,
+            "queries": 7242,
+            "raw_edge_count": {
+              "0": 1367,
+              "1": 1201,
+              "2": 1027,
+              "3+": 3647
+            },
+            "strict_edge_available": 21
+          },
+          "range_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 194,
+            "raw_edge_count": {
+              "0": 194
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 797,
+            "raw_edge_count": {
+              "0": 797
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 715,
+            "conflicting_queries": 619,
+            "multi_maximal_queries": 619,
+            "queries": 720,
+            "raw_edge_count": {
+              "0": 5,
+              "1": 38,
+              "2": 127,
+              "3+": 550
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 729,
+            "conflicting_queries": 694,
+            "multi_maximal_queries": 694,
+            "queries": 729,
+            "raw_edge_count": {
+              "2": 57,
+              "3+": 672
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 800,
+            "conflicting_queries": 800,
+            "multi_maximal_queries": 800,
+            "queries": 800,
+            "raw_edge_count": {
+              "3+": 800
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 785,
+            "conflicting_queries": 785,
+            "multi_maximal_queries": 785,
+            "queries": 785,
+            "raw_edge_count": {
+              "3+": 785
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 52,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 760,
+            "raw_edge_count": {
+              "0": 708,
+              "1": 52
+            },
+            "strict_edge_available": 52
+          },
+          "3": {
+            "calibration_edge_available": 166,
+            "conflicting_queries": 10,
+            "multi_maximal_queries": 10,
+            "queries": 793,
+            "raw_edge_count": {
+              "0": 627,
+              "1": 156,
+              "2": 10
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 313,
+            "conflicting_queries": 50,
+            "multi_maximal_queries": 50,
+            "queries": 779,
+            "raw_edge_count": {
+              "0": 466,
+              "1": 253,
+              "2": 58,
+              "3+": 2
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 465,
+            "conflicting_queries": 111,
+            "multi_maximal_queries": 111,
+            "queries": 764,
+            "raw_edge_count": {
+              "0": 299,
+              "1": 329,
+              "2": 114,
+              "3+": 22
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 558,
+            "conflicting_queries": 200,
+            "multi_maximal_queries": 200,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 203,
+              "1": 313,
+              "2": 164,
+              "3+": 81
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 647,
+            "conflicting_queries": 317,
+            "multi_maximal_queries": 317,
+            "queries": 758,
+            "raw_edge_count": {
+              "0": 111,
+              "1": 253,
+              "2": 240,
+              "3+": 154
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 729,
+            "conflicting_queries": 456,
+            "multi_maximal_queries": 456,
+            "queries": 778,
+            "raw_edge_count": {
+              "0": 49,
+              "1": 182,
+              "2": 245,
+              "3+": 302
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 756,
+            "conflicting_queries": 569,
+            "multi_maximal_queries": 569,
+            "queries": 776,
+            "raw_edge_count": {
+              "0": 20,
+              "1": 81,
+              "2": 218,
+              "3+": 457
+            },
+            "strict_edge_available": 0
+          }
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 797,
+        "10": 720,
+        "11": 729,
+        "12": 800,
+        "13": 785,
+        "2": 760,
+        "3": 793,
+        "4": 779,
+        "5": 764,
+        "6": 761,
+        "7": 758,
+        "8": 778,
+        "9": 776
+      },
+      "operator_family_histogram": {
+        "equality_only": 1025,
+        "inequality_only": 170,
+        "mixed": 1369,
+        "range_mixed": 7242,
+        "range_only": 194
+      },
+      "operator_histogram": {
+        "<=": 11858,
+        "=": 42948,
+        ">=": 1139,
+        "[]": 13791
+      },
+      "predicate_count_histogram": {
+        "1": 797,
+        "10": 720,
+        "11": 729,
+        "12": 800,
+        "13": 785,
+        "2": 760,
+        "3": 793,
+        "4": 779,
+        "5": 764,
+        "6": 761,
+        "7": 758,
+        "8": 778,
+        "9": 776
+      },
+      "query_count": 10000,
+      "query_id_sha256": "067b0492915de11d4da4b7a17bc19c2c9c004dc8ff923456733550eb06a7270f",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 3285,
+          "1": 1657,
+          "2": 1233,
+          "3+": 3825
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5389,
+          "2": 2114,
+          "3": 567,
+          "4": 590,
+          "5+": 1340
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 6715,
+        "queries_with_at_least_two_edges": 5058,
+        "queries_with_conflicting_edges": 4611,
+        "queries_with_two_or_more_maximal_matchings": 4611
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 10000
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 10000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "education",
+            "education_num",
+            "marital_status",
+            "relationship",
+            "race",
+            "sex",
+            "native_country"
+          ],
+          "operators": [
+            "=",
+            "[]",
+            "=",
+            "=",
+            "=",
+            "=",
+            "="
+          ],
+          "predicate_count": 7,
+          "raw_edges": [
+            "c23",
+            "c34"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "age",
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "capital_gain",
+            "capital_loss",
+            "hours_per_week",
+            "native_country"
+          ],
+          "operators": [
+            "<=",
+            "=",
+            "=",
+            "[]",
+            "=",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "[]",
+            "[]",
+            "="
+          ],
+          "predicate_count": 13,
+          "raw_edges": [
+            "c01",
+            "c12",
+            "c23",
+            "c34",
+            "c45",
+            "c56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "workclass",
+            "education",
+            "relationship",
+            "race",
+            "sex",
+            "capital_loss",
+            "native_country"
+          ],
+          "operators": [
+            "=",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "="
+          ],
+          "predicate_count": 7,
+          "raw_edges": [
+            "c12"
+          ],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 9999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 9948,
+          "1": 52,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 10000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 52,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    },
+    "train": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 33058,
+          "1": 16048,
+          "2": 12657,
+          "3+": 38237
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 53366,
+          "2": 21663,
+          "3": 5670,
+          "4": 5863,
+          "5+": 13438
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 66942,
+        "queries_with_at_least_two_edges": 50894,
+        "queries_with_conflicting_edges": 46634,
+        "queries_with_two_or_more_maximal_matchings": 46634
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 7640,
+            "raw_edge_count": {
+              "0": 7640
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 7649,
+            "conflicting_queries": 6680,
+            "multi_maximal_queries": 6680,
+            "queries": 7675,
+            "raw_edge_count": {
+              "0": 26,
+              "1": 320,
+              "2": 1371,
+              "3+": 5958
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 7746,
+            "conflicting_queries": 7447,
+            "multi_maximal_queries": 7447,
+            "queries": 7746,
+            "raw_edge_count": {
+              "2": 594,
+              "3+": 7152
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 7642,
+            "conflicting_queries": 7642,
+            "multi_maximal_queries": 7642,
+            "queries": 7642,
+            "raw_edge_count": {
+              "3+": 7642
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 7714,
+            "conflicting_queries": 7714,
+            "multi_maximal_queries": 7714,
+            "queries": 7714,
+            "raw_edge_count": {
+              "3+": 7714
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 609,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 7674,
+            "raw_edge_count": {
+              "0": 7065,
+              "1": 609
+            },
+            "strict_edge_available": 609
+          },
+          "3": {
+            "calibration_edge_available": 1665,
+            "conflicting_queries": 132,
+            "multi_maximal_queries": 132,
+            "queries": 7662,
+            "raw_edge_count": {
+              "0": 5997,
+              "1": 1533,
+              "2": 132
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 2946,
+            "conflicting_queries": 511,
+            "multi_maximal_queries": 511,
+            "queries": 7717,
+            "raw_edge_count": {
+              "0": 4771,
+              "1": 2374,
+              "2": 522,
+              "3+": 50
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 4344,
+            "conflicting_queries": 1156,
+            "multi_maximal_queries": 1156,
+            "queries": 7871,
+            "raw_edge_count": {
+              "0": 3527,
+              "1": 2960,
+              "2": 1139,
+              "3+": 245
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 5462,
+            "conflicting_queries": 1990,
+            "multi_maximal_queries": 1990,
+            "queries": 7608,
+            "raw_edge_count": {
+              "0": 2146,
+              "1": 2986,
+              "2": 1778,
+              "3+": 698
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 6412,
+            "conflicting_queries": 3120,
+            "multi_maximal_queries": 3120,
+            "queries": 7588,
+            "raw_edge_count": {
+              "0": 1176,
+              "1": 2526,
+              "2": 2339,
+              "3+": 1547
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 7129,
+            "conflicting_queries": 4442,
+            "multi_maximal_queries": 4442,
+            "queries": 7673,
+            "raw_edge_count": {
+              "0": 544,
+              "1": 1772,
+              "2": 2551,
+              "3+": 2806
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 7624,
+            "conflicting_queries": 5800,
+            "multi_maximal_queries": 5800,
+            "queries": 7790,
+            "raw_edge_count": {
+              "0": 166,
+              "1": 968,
+              "2": 2231,
+              "3+": 4425
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "operator_family": {
+          "equality_only": {
+            "calibration_edge_available": 1604,
+            "conflicting_queries": 224,
+            "multi_maximal_queries": 224,
+            "queries": 10238,
+            "raw_edge_count": {
+              "0": 8634,
+              "1": 1290,
+              "2": 261,
+              "3+": 53
+            },
+            "strict_edge_available": 305
+          },
+          "inequality_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 1684,
+            "raw_edge_count": {
+              "0": 1684
+            },
+            "strict_edge_available": 0
+          },
+          "mixed": {
+            "calibration_edge_available": 6672,
+            "conflicting_queries": 3120,
+            "multi_maximal_queries": 3120,
+            "queries": 13639,
+            "raw_edge_count": {
+              "0": 6967,
+              "1": 3062,
+              "2": 1689,
+              "3+": 1921
+            },
+            "strict_edge_available": 65
+          },
+          "range_mixed": {
+            "calibration_edge_available": 58666,
+            "conflicting_queries": 43290,
+            "multi_maximal_queries": 43290,
+            "queries": 72679,
+            "raw_edge_count": {
+              "0": 14013,
+              "1": 11696,
+              "2": 10707,
+              "3+": 36263
+            },
+            "strict_edge_available": 239
+          },
+          "range_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 1760,
+            "raw_edge_count": {
+              "0": 1760
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 7640,
+            "raw_edge_count": {
+              "0": 7640
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 7649,
+            "conflicting_queries": 6680,
+            "multi_maximal_queries": 6680,
+            "queries": 7675,
+            "raw_edge_count": {
+              "0": 26,
+              "1": 320,
+              "2": 1371,
+              "3+": 5958
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 7746,
+            "conflicting_queries": 7447,
+            "multi_maximal_queries": 7447,
+            "queries": 7746,
+            "raw_edge_count": {
+              "2": 594,
+              "3+": 7152
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 7642,
+            "conflicting_queries": 7642,
+            "multi_maximal_queries": 7642,
+            "queries": 7642,
+            "raw_edge_count": {
+              "3+": 7642
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 7714,
+            "conflicting_queries": 7714,
+            "multi_maximal_queries": 7714,
+            "queries": 7714,
+            "raw_edge_count": {
+              "3+": 7714
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 609,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 7674,
+            "raw_edge_count": {
+              "0": 7065,
+              "1": 609
+            },
+            "strict_edge_available": 609
+          },
+          "3": {
+            "calibration_edge_available": 1665,
+            "conflicting_queries": 132,
+            "multi_maximal_queries": 132,
+            "queries": 7662,
+            "raw_edge_count": {
+              "0": 5997,
+              "1": 1533,
+              "2": 132
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 2946,
+            "conflicting_queries": 511,
+            "multi_maximal_queries": 511,
+            "queries": 7717,
+            "raw_edge_count": {
+              "0": 4771,
+              "1": 2374,
+              "2": 522,
+              "3+": 50
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 4344,
+            "conflicting_queries": 1156,
+            "multi_maximal_queries": 1156,
+            "queries": 7871,
+            "raw_edge_count": {
+              "0": 3527,
+              "1": 2960,
+              "2": 1139,
+              "3+": 245
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 5462,
+            "conflicting_queries": 1990,
+            "multi_maximal_queries": 1990,
+            "queries": 7608,
+            "raw_edge_count": {
+              "0": 2146,
+              "1": 2986,
+              "2": 1778,
+              "3+": 698
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 6412,
+            "conflicting_queries": 3120,
+            "multi_maximal_queries": 3120,
+            "queries": 7588,
+            "raw_edge_count": {
+              "0": 1176,
+              "1": 2526,
+              "2": 2339,
+              "3+": 1547
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 7129,
+            "conflicting_queries": 4442,
+            "multi_maximal_queries": 4442,
+            "queries": 7673,
+            "raw_edge_count": {
+              "0": 544,
+              "1": 1772,
+              "2": 2551,
+              "3+": 2806
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 7624,
+            "conflicting_queries": 5800,
+            "multi_maximal_queries": 5800,
+            "queries": 7790,
+            "raw_edge_count": {
+              "0": 166,
+              "1": 968,
+              "2": 2231,
+              "3+": 4425
+            },
+            "strict_edge_available": 0
+          }
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 7640,
+        "10": 7675,
+        "11": 7746,
+        "12": 7642,
+        "13": 7714,
+        "2": 7674,
+        "3": 7662,
+        "4": 7717,
+        "5": 7871,
+        "6": 7608,
+        "7": 7588,
+        "8": 7673,
+        "9": 7790
+      },
+      "operator_family_histogram": {
+        "equality_only": 10238,
+        "inequality_only": 1684,
+        "mixed": 13639,
+        "range_mixed": 72679,
+        "range_only": 1760
+      },
+      "operator_histogram": {
+        "<=": 119570,
+        "=": 431212,
+        ">=": 11597,
+        "[]": 138018
+      },
+      "predicate_count_histogram": {
+        "1": 7640,
+        "10": 7675,
+        "11": 7746,
+        "12": 7642,
+        "13": 7714,
+        "2": 7674,
+        "3": 7662,
+        "4": 7717,
+        "5": 7871,
+        "6": 7608,
+        "7": 7588,
+        "8": 7673,
+        "9": 7790
+      },
+      "query_count": 100000,
+      "query_id_sha256": "3c006524eac88ec31fc1fcbf5e17d75e0cd0ed9386eb29803b2d1c0d128cf385",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 33058,
+          "1": 16048,
+          "2": 12657,
+          "3+": 38237
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 53366,
+          "2": 21663,
+          "3": 5670,
+          "4": 5863,
+          "5+": 13438
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 66942,
+        "queries_with_at_least_two_edges": 50894,
+        "queries_with_conflicting_edges": 46634,
+        "queries_with_two_or_more_maximal_matchings": 46634
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 100000
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 100000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "workclass",
+            "marital_status",
+            "relationship",
+            "sex",
+            "capital_gain",
+            "native_country"
+          ],
+          "operators": [
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "="
+          ],
+          "predicate_count": 6,
+          "raw_edges": [],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "workclass",
+            "education",
+            "occupation",
+            "relationship",
+            "race",
+            "capital_loss"
+          ],
+          "operators": [
+            "=",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<="
+          ],
+          "predicate_count": 6,
+          "raw_edges": [
+            "c12",
+            "c56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "hours_per_week",
+            "native_country"
+          ],
+          "operators": [
+            "=",
+            "=",
+            "[]",
+            "=",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "="
+          ],
+          "predicate_count": 10,
+          "raw_edges": [
+            "c12",
+            "c23",
+            "c34",
+            "c45",
+            "c56"
+          ],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 99999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 99391,
+          "1": 609,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 100000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 609,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    },
+    "valid": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 3324,
+          "1": 1611,
+          "2": 1282,
+          "3+": 3783
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5373,
+          "2": 2170,
+          "3": 526,
+          "4": 601,
+          "5+": 1330
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 6676,
+        "queries_with_at_least_two_edges": 5065,
+        "queries_with_conflicting_edges": 4627,
+        "queries_with_two_or_more_maximal_matchings": 4627
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 761
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 755,
+            "conflicting_queries": 663,
+            "multi_maximal_queries": 663,
+            "queries": 756,
+            "raw_edge_count": {
+              "0": 1,
+              "1": 31,
+              "2": 142,
+              "3+": 582
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 765,
+            "conflicting_queries": 732,
+            "multi_maximal_queries": 732,
+            "queries": 765,
+            "raw_edge_count": {
+              "2": 63,
+              "3+": 702
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 776,
+            "conflicting_queries": 776,
+            "multi_maximal_queries": 776,
+            "queries": 776,
+            "raw_edge_count": {
+              "3+": 776
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 771,
+            "conflicting_queries": 771,
+            "multi_maximal_queries": 771,
+            "queries": 771,
+            "raw_edge_count": {
+              "3+": 771
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 58,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 776,
+            "raw_edge_count": {
+              "0": 718,
+              "1": 58
+            },
+            "strict_edge_available": 58
+          },
+          "3": {
+            "calibration_edge_available": 166,
+            "conflicting_queries": 15,
+            "multi_maximal_queries": 15,
+            "queries": 786,
+            "raw_edge_count": {
+              "0": 620,
+              "1": 151,
+              "2": 15
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 292,
+            "conflicting_queries": 58,
+            "multi_maximal_queries": 58,
+            "queries": 753,
+            "raw_edge_count": {
+              "0": 461,
+              "1": 230,
+              "2": 59,
+              "3+": 3
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 499,
+            "conflicting_queries": 133,
+            "multi_maximal_queries": 133,
+            "queries": 854,
+            "raw_edge_count": {
+              "0": 355,
+              "1": 334,
+              "2": 142,
+              "3+": 23
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 544,
+            "conflicting_queries": 207,
+            "multi_maximal_queries": 207,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 217,
+              "1": 289,
+              "2": 177,
+              "3+": 78
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 605,
+            "conflicting_queries": 290,
+            "multi_maximal_queries": 290,
+            "queries": 725,
+            "raw_edge_count": {
+              "0": 120,
+              "1": 249,
+              "2": 207,
+              "3+": 149
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 695,
+            "conflicting_queries": 432,
+            "multi_maximal_queries": 432,
+            "queries": 751,
+            "raw_edge_count": {
+              "0": 56,
+              "1": 171,
+              "2": 238,
+              "3+": 286
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 750,
+            "conflicting_queries": 550,
+            "multi_maximal_queries": 550,
+            "queries": 765,
+            "raw_edge_count": {
+              "0": 15,
+              "1": 98,
+              "2": 239,
+              "3+": 413
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "operator_family": {
+          "equality_only": {
+            "calibration_edge_available": 177,
+            "conflicting_queries": 26,
+            "multi_maximal_queries": 26,
+            "queries": 1041,
+            "raw_edge_count": {
+              "0": 864,
+              "1": 141,
+              "2": 34,
+              "3+": 2
+            },
+            "strict_edge_available": 34
+          },
+          "inequality_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 169,
+            "raw_edge_count": {
+              "0": 169
+            },
+            "strict_edge_available": 0
+          },
+          "mixed": {
+            "calibration_edge_available": 666,
+            "conflicting_queries": 292,
+            "multi_maximal_queries": 292,
+            "queries": 1399,
+            "raw_edge_count": {
+              "0": 733,
+              "1": 319,
+              "2": 162,
+              "3+": 185
+            },
+            "strict_edge_available": 7
+          },
+          "range_mixed": {
+            "calibration_edge_available": 5833,
+            "conflicting_queries": 4309,
+            "multi_maximal_queries": 4309,
+            "queries": 7210,
+            "raw_edge_count": {
+              "0": 1377,
+              "1": 1151,
+              "2": 1086,
+              "3+": 3596
+            },
+            "strict_edge_available": 17
+          },
+          "range_only": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 181,
+            "raw_edge_count": {
+              "0": 181
+            },
+            "strict_edge_available": 0
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 761
+            },
+            "strict_edge_available": 0
+          },
+          "10": {
+            "calibration_edge_available": 755,
+            "conflicting_queries": 663,
+            "multi_maximal_queries": 663,
+            "queries": 756,
+            "raw_edge_count": {
+              "0": 1,
+              "1": 31,
+              "2": 142,
+              "3+": 582
+            },
+            "strict_edge_available": 0
+          },
+          "11": {
+            "calibration_edge_available": 765,
+            "conflicting_queries": 732,
+            "multi_maximal_queries": 732,
+            "queries": 765,
+            "raw_edge_count": {
+              "2": 63,
+              "3+": 702
+            },
+            "strict_edge_available": 0
+          },
+          "12": {
+            "calibration_edge_available": 776,
+            "conflicting_queries": 776,
+            "multi_maximal_queries": 776,
+            "queries": 776,
+            "raw_edge_count": {
+              "3+": 776
+            },
+            "strict_edge_available": 0
+          },
+          "13": {
+            "calibration_edge_available": 771,
+            "conflicting_queries": 771,
+            "multi_maximal_queries": 771,
+            "queries": 771,
+            "raw_edge_count": {
+              "3+": 771
+            },
+            "strict_edge_available": 0
+          },
+          "2": {
+            "calibration_edge_available": 58,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 776,
+            "raw_edge_count": {
+              "0": 718,
+              "1": 58
+            },
+            "strict_edge_available": 58
+          },
+          "3": {
+            "calibration_edge_available": 166,
+            "conflicting_queries": 15,
+            "multi_maximal_queries": 15,
+            "queries": 786,
+            "raw_edge_count": {
+              "0": 620,
+              "1": 151,
+              "2": 15
+            },
+            "strict_edge_available": 0
+          },
+          "4": {
+            "calibration_edge_available": 292,
+            "conflicting_queries": 58,
+            "multi_maximal_queries": 58,
+            "queries": 753,
+            "raw_edge_count": {
+              "0": 461,
+              "1": 230,
+              "2": 59,
+              "3+": 3
+            },
+            "strict_edge_available": 0
+          },
+          "5": {
+            "calibration_edge_available": 499,
+            "conflicting_queries": 133,
+            "multi_maximal_queries": 133,
+            "queries": 854,
+            "raw_edge_count": {
+              "0": 355,
+              "1": 334,
+              "2": 142,
+              "3+": 23
+            },
+            "strict_edge_available": 0
+          },
+          "6": {
+            "calibration_edge_available": 544,
+            "conflicting_queries": 207,
+            "multi_maximal_queries": 207,
+            "queries": 761,
+            "raw_edge_count": {
+              "0": 217,
+              "1": 289,
+              "2": 177,
+              "3+": 78
+            },
+            "strict_edge_available": 0
+          },
+          "7": {
+            "calibration_edge_available": 605,
+            "conflicting_queries": 290,
+            "multi_maximal_queries": 290,
+            "queries": 725,
+            "raw_edge_count": {
+              "0": 120,
+              "1": 249,
+              "2": 207,
+              "3+": 149
+            },
+            "strict_edge_available": 0
+          },
+          "8": {
+            "calibration_edge_available": 695,
+            "conflicting_queries": 432,
+            "multi_maximal_queries": 432,
+            "queries": 751,
+            "raw_edge_count": {
+              "0": 56,
+              "1": 171,
+              "2": 238,
+              "3+": 286
+            },
+            "strict_edge_available": 0
+          },
+          "9": {
+            "calibration_edge_available": 750,
+            "conflicting_queries": 550,
+            "multi_maximal_queries": 550,
+            "queries": 765,
+            "raw_edge_count": {
+              "0": 15,
+              "1": 98,
+              "2": 239,
+              "3+": 413
+            },
+            "strict_edge_available": 0
+          }
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 761,
+        "10": 756,
+        "11": 765,
+        "12": 776,
+        "13": 771,
+        "2": 776,
+        "3": 786,
+        "4": 753,
+        "5": 854,
+        "6": 761,
+        "7": 725,
+        "8": 751,
+        "9": 765
+      },
+      "operator_family_histogram": {
+        "equality_only": 1041,
+        "inequality_only": 169,
+        "mixed": 1399,
+        "range_mixed": 7210,
+        "range_only": 181
+      },
+      "operator_histogram": {
+        "<=": 12017,
+        "=": 42979,
+        ">=": 1175,
+        "[]": 13626
+      },
+      "predicate_count_histogram": {
+        "1": 761,
+        "10": 756,
+        "11": 765,
+        "12": 776,
+        "13": 771,
+        "2": 776,
+        "3": 786,
+        "4": 753,
+        "5": 854,
+        "6": 761,
+        "7": 725,
+        "8": 751,
+        "9": 765
+      },
+      "query_count": 10000,
+      "query_id_sha256": "8a2a2af241ee577472d5a57548a437dd8c26b71b7d912f72f76d8b82bbe4d218",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 3324,
+          "1": 1611,
+          "2": 1282,
+          "3+": 3783
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5373,
+          "2": 2170,
+          "3": 526,
+          "4": 601,
+          "5+": 1330
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 6676,
+        "queries_with_at_least_two_edges": 5065,
+        "queries_with_conflicting_edges": 4627,
+        "queries_with_two_or_more_maximal_matchings": 4627
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 10000
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 10000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "age",
+            "workclass",
+            "education_num",
+            "occupation",
+            "relationship",
+            "capital_gain",
+            "hours_per_week"
+          ],
+          "operators": [
+            ">=",
+            "=",
+            "<=",
+            "=",
+            "=",
+            "<=",
+            "[]"
+          ],
+          "predicate_count": 7,
+          "raw_edges": [
+            "c01",
+            "c56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "race",
+            "sex",
+            "capital_gain",
+            "capital_loss",
+            "hours_per_week"
+          ],
+          "operators": [
+            "=",
+            "=",
+            "[]",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "<=",
+            "[]"
+          ],
+          "predicate_count": 10,
+          "raw_edges": [
+            "c12",
+            "c23",
+            "c34",
+            "c45"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "workclass",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "capital_gain",
+            "native_country"
+          ],
+          "operators": [
+            "=",
+            "=",
+            ">=",
+            "=",
+            "=",
+            "=",
+            "=",
+            "<=",
+            "="
+          ],
+          "predicate_count": 9,
+          "raw_edges": [
+            "c12",
+            "c23",
+            "c34",
+            "c45",
+            "c56"
+          ],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 9999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 9942,
+          "1": 58,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 10000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 58,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    }
+  },
+  "stage2b_cohort_reference": {
+    "found_id_count": 52,
+    "missing_reference_ids": [],
+    "reference_id_count": 52,
+    "summary": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 52,
+        "queries_with_at_least_one_edge": 52,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "2": {
+            "calibration_edge_available": 52,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 52,
+            "raw_edge_count": {
+              "1": 52
+            },
+            "strict_edge_available": 52
+          }
+        },
+        "operator_family": {
+          "equality_only": {
+            "calibration_edge_available": 26,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 26,
+            "raw_edge_count": {
+              "1": 26
+            },
+            "strict_edge_available": 26
+          },
+          "mixed": {
+            "calibration_edge_available": 5,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 5,
+            "raw_edge_count": {
+              "1": 5
+            },
+            "strict_edge_available": 5
+          },
+          "range_mixed": {
+            "calibration_edge_available": 21,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 21,
+            "raw_edge_count": {
+              "1": 21
+            },
+            "strict_edge_available": 21
+          }
+        },
+        "predicate_count": {
+          "2": {
+            "calibration_edge_available": 52,
+            "conflicting_queries": 0,
+            "multi_maximal_queries": 0,
+            "queries": 52,
+            "raw_edge_count": {
+              "1": 52
+            },
+            "strict_edge_available": 52
+          }
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "2": 52
+      },
+      "operator_family_histogram": {
+        "equality_only": 26,
+        "mixed": 5,
+        "range_mixed": 21
+      },
+      "operator_histogram": {
+        "<=": 2,
+        "=": 78,
+        ">=": 3,
+        "[]": 21
+      },
+      "predicate_count_histogram": {
+        "2": 52
+      },
+      "query_count": 52,
+      "query_id_sha256": "56b72543315119ffe4a05fc24f17fbc74d945743732965a5def0080a369de503",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 52,
+        "queries_with_at_least_one_edge": 52,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 52
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 52
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "education_num",
+            "marital_status"
+          ],
+          "operators": [
+            "[]",
+            "="
+          ],
+          "predicate_count": 2,
+          "raw_edges": [
+            "c34"
+          ],
+          "strict_edges": [
+            "c34"
+          ]
+        },
+        {
+          "columns": [
+            "occupation",
+            "relationship"
+          ],
+          "operators": [
+            "=",
+            "="
+          ],
+          "predicate_count": 2,
+          "raw_edges": [
+            "c56"
+          ],
+          "strict_edges": [
+            "c56"
+          ]
+        },
+        {
+          "columns": [
+            "marital_status",
+            "occupation"
+          ],
+          "operators": [
+            "=",
+            "="
+          ],
+          "predicate_count": 2,
+          "raw_edges": [
+            "c45"
+          ],
+          "strict_edges": [
+            "c45"
+          ]
+        }
+      ],
+      "source_index_max": 9656,
+      "source_index_min": 19,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 52,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 52,
+        "queries_with_at_least_one_edge": 52,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    }
+  }
+}
