@@ -5,6 +5,13 @@ Forest10 candidate/resource decisions on a deterministic held-out `test`
 cohort using actual PostgreSQL 16.14 estimates. It does not retrain, select
 resources, alter PostgreSQL source, or overwrite Issue #23 evidence.
 
+The disposable cluster is initialized separately for this Issue. The verified
+CSV is loaded in source order, and candidate statistics are dropped/recreated
+in frozen candidate-ID order for each set. The approved Issue #23 fixed sample
+is accepted only when PostgreSQL's relation identity and physical page count
+match its header; the runner does not weaken this check or silently generate a
+replacement sample.
+
 ## Phase 0 protocol freeze
 
 `freeze_protocol.py` reads the researcher-approved external Forest10 source

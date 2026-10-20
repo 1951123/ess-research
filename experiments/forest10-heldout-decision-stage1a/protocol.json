@@ -916,6 +916,7 @@
   },
   "postgresql_protocol": {
     "analyze_strategy": "replay the same approved fixed sample before every ANALYZE; one fresh matched catalog snapshot per selected set and repetition",
+    "cluster_bootstrap": "initdb with PostgreSQL 16.14, then set the disposable cluster next OID to 16384 before creating the first user table so the approved sample relation identity can be checked exactly",
     "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be4be4d5d4eb1e5a4993",
     "latency_collection": false,
     "maximum_query_measurements": 1200,
@@ -926,8 +927,10 @@
     "repetitions": 2,
     "server_version": "16.14",
     "source_repository_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "statistics_creation_order": "candidate-id order e01,e12,e23,e34,e45,e56 for every selected set; Empty creates none",
     "statistics_target": 300,
-    "table": "public.forest10_original"
+    "table": "public.forest10_original",
+    "table_load": "create the ten-column double-precision table first in the disposable database, then client-side COPY the hash-verified Forest10 CSV with its header and original row order"
   },
   "reference_issue23": {
     "budgets": [

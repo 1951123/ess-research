@@ -120,8 +120,9 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
-    if args.output.exists():
+    if args.output.exists() and not args.overwrite:
         raise SystemExit(f"refusing to overwrite {args.output}")
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
@@ -265,7 +266,10 @@ def main() -> int:
             "numeric_trace_ancestor": "2891af8ade29a9b584d6c0fb969e311a10230282",
             "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be4be4d5d4eb1e5a4993",
             "table": "public.forest10_original",
+            "table_load": "create the ten-column double-precision table first in the disposable database, then client-side COPY the hash-verified Forest10 CSV with its header and original row order",
+            "cluster_bootstrap": "initdb with PostgreSQL 16.14, then set the disposable cluster next OID to 16384 before creating the first user table so the approved sample relation identity can be checked exactly",
             "statistics_target": 300,
+            "statistics_creation_order": "candidate-id order e01,e12,e23,e34,e45,e56 for every selected set; Empty creates none",
             "analyze_strategy": "replay the same approved fixed sample before every ANALYZE; one fresh matched catalog snapshot per selected set and repetition",
             "repetitions": 2,
             "preclamp_trace_required": True,
