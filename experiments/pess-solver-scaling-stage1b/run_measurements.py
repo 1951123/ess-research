@@ -18,6 +18,18 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def parse_child_stdout(stdout: str) -> tuple[dict[str, object], list[str]]:
+    lines = stdout.splitlines()
+    for index in range(len(lines) - 1, -1, -1):
+        try:
+            record = json.loads(lines[index])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(record, dict):
+            return record, lines[:index] + lines[index + 1:]
+    raise ValueError(f"child emitted no JSON record; stdout_tail={stdout[-2000:]!r}")
+
+
 def run_job(instance: Path, method: str, budget: float, repetition_seed: int, run_id: str, timeout: float) -> dict[str, object]:
     command = [
         sys.executable,
@@ -32,11 +44,12 @@ def run_job(instance: Path, method: str, budget: float, repetition_seed: int, ru
     started = time.perf_counter()
     try:
         completed = subprocess.run(command, capture_output=True, text=True, timeout=timeout, check=False)
-        lines = completed.stdout.strip().splitlines()
-        record = json.loads(lines[-1]) if lines else {"outcome": "empty_stdout"}
+        record, non_json_stdout = parse_child_stdout(completed.stdout)
         record["wrapper_wall_seconds"] = time.perf_counter() - started
         record["command"] = command
         record["returncode"] = completed.returncode
+        if non_json_stdout:
+            record["child_stdout_nonjson"] = non_json_stdout
         if completed.stderr:
             record["stderr"] = completed.stderr
         return record
