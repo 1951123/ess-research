@@ -1,22 +1,13 @@
-"""Audited AreCEL dataset-boundary utilities.
+"""Archive-first AreCEL API; imports do not inspect machine configuration."""
 
-The public helpers are loaded lazily so ``python -m
-ess_research.arecel.forest10`` does not import the module before ``runpy``
-executes it.
-"""
-
-__all__ = [
-    "InputContractError",
-    "adapt_query_sql",
-    "build_artifacts",
-    "inspect_source",
-    "validate_source",
-]
+__all__ = ["PreparedDataset", "PreparationError", "prepare"]
 
 
 def __getattr__(name: str):
     if name in __all__:
-        from . import forest10
+        from . import archive
 
-        return getattr(forest10, name)
+        value = getattr(archive, name)
+        globals()[name] = value
+        return value
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

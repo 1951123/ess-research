@@ -8,41 +8,77 @@ This is the default development workflow for **nontrivial, independently scoped*
 
 A small one-off documentation correction may use a simpler workflow when appropriate; do not create a Worktree for every trivial command or detached experiment. Multiple branches/Worktrees can coexist, but a single branch cannot normally be checked out in multiple Worktrees simultaneously.
 
-## Create two independent task workspaces
+## Configure the three persistent roots
 
-Illustrative layout (adjust paths to the actual clone; do not assume this path exists):
-
-```text
-<parent>/ess-research/              # stable main checkout
-<parent>/ess-research-issueNN/      # issue NN branch, Codex session A
-<parent>/ess-research-issueMM/      # issue MM branch, Codex session B
-```
-
-Run from the existing `ess-research` checkout, after verifying the repository, current branch and uncommitted work:
+The user explicitly chooses exactly three stable roots, for example in `~/.bashrc`:
 
 ```sh
+# Examples only, never built-in defaults. Do not edit profiles automatically.
+export ESS_DATA_ROOT="$HOME/ess-data"
+export ESS_WORKTREE_PARENT="$HOME/ess-worktrees"
+export ESS_RUNTIME_PARENT="$HOME/ess-runtime"
+```
+
+- `ESS_DATA_ROOT` contains **network-origin raw archives only**. For AreCEL the
+  sole shared data input is `arecel-data.tar.gz`, checked against its pinned
+  whole-archive SHA-256. No extracted CSV, pickle, canonical, audit, logs, or
+  experiment outputs belong here.
+- `ESS_WORKTREE_PARENT` holds task Worktrees at `<repo>-issueNN`.
+- `ESS_RUNTIME_PARENT` holds disposable derived data and isolated execution
+  resources at `<repo>/issueNN/runs/<unique-run-id>/`.
+
+Missing/empty/invalid needed variables fail with an actionable configuration
+message. A valid nonexistent root may be created by its owning workflow. Check
+only the roots the operation needs: Worktree creation needs its parent; ETL
+needs data/runtime roots. Imports, tests, and read-only Git checks need none.
+Never substitute a CLI path for a missing required variable or search historical
+roots. `ESS_ISSUE_ROOT` may identify one run **within the current task process**;
+never globally pin it, PGDATA, PGHOST, or PGPORT in a shell profile.
+
+## Create a task workspace
+
+Verify the existing checkout and live state first:
+
+```sh
+pwd
+git rev-parse --show-toplevel
+git branch --show-current
 git status --short
 git worktree list
 git fetch origin
-
-# Replace numbers and branch names for actual tasks; do not reuse existing paths/branches.
-git worktree add -b experiment/issueNN ../ess-research-issueNN origin/main
-git worktree add -b research/issueMM ../ess-research-issueMM origin/main
 ```
 
-Open **each Worktree as a separate VS Code window** and start a **separate Codex conversation** in that window. Give each agent its Issue link, permitted scope, evidence requirements, and the instruction to work **only in its current Worktree/branch** and to submit a Draft PR without merging. Check `pwd`, `git branch --show-current`, `git status --short`, and `git worktree list` in each window before edits. Read `AGENTS.md`, research context, decisions, status, and relevant source artifacts before changing anything.
+Resolve an explicitly assigned Issue (replace `53` and the branch below). The
+small helper validates the configured parent without creating or finding another
+task's directory. `--no-track` prevents accidental upstream `origin/main`:
 
-Keep each Worktree's Python `.venv`, cache, scratch output and experiment output independent. **Worktrees isolate working files and branch checkout, not shared services.** See the mandatory runtime isolation policy below.
+```sh
+TASK_WORKTREE=$(PYTHONPATH=src python3 -c \
+  'from ess_research.task_paths import worktree_path; print(worktree_path("ess-research", 53))') || exit 1
+mkdir -p "$ESS_WORKTREE_PARENT"
+git worktree add --no-track -b fix/issue53-archive-first-etl "$TASK_WORKTREE" origin/main
+```
 
-## Shared immutable inputs, isolated Issue runtime
+Open that Worktree in a separate VS Code window and start its own Codex session.
+Give the agent the Issue, permitted scope, evidence requirements, and Draft PR
+handoff requirement. Recheck path/branch/status before edits. Each Issue owns its
+`.venv/`, working files, and outputs. Worktrees do not isolate shared services.
 
-**Rule: share verified immutable datasets; isolate all mutable execution state per Issue.**
+## Shared raw archive, disposable Issue/run derivation
 
-- `ESS_DATA_ROOT` names a researcher-approved, persistent directory **outside Git repositories and Worktrees** (example: `/home/wqts/ess-data`). It holds verified, hash-pinned raw sources and canonical read-only inputs. Multiple Issues may read these same bytes. Do not modify them in place; generate a newly versioned derived artifact for changes, preserve source checksums, and do not infer an unapproved path.
-- `ESS_ISSUE_ROOT` names a **unique directory for the current Issue** (example: `/home/wqts/ess-runtime/issueNN`); each Issue owns its `pgdata/`, `socket/`, `logs/`, `results/` and temporary outputs. Never put mutable PG files, sample exports, generated stats or calibration data into the shared immutable-input tree. For reproducibility, pin hashes of inputs copied into each Issue.
-- `--data-root` overrides `ESS_DATA_ROOT`; if neither is supplied, real-data commands fail closed. An environment variable only selects an input root: it does not establish that the data exists or passes validation. Do not silently substitute a synthetic instance.
-- Treat derived ETL outputs as **versioned immutable snapshots** when shared across Issues, or keep them under each `ESS_ISSUE_ROOT` if mutable. Never overwrite another Issue's outputs.
-- `ESS_DATA_ROOT` may be a shell/profile-level setting; `ESS_ISSUE_ROOT`, `PGDATA`, `PGHOST` and `PGPORT` must be configured separately in each VS Code/Codex task terminal. Never store credentials in committed files.
+[The AreCEL preparation API](arecel-real-etl.md) downloads on a missing cache,
+verifies the whole archive, and prepares any one dataset independently. Derived
+CSV/workload/truth files are computed within a unique Issue/run, never published
+as a permanent cross-Issue input. No manual `tar`, separate gated converter,
+canonical/audit prerequisites, or compatibility bridge is needed.
+
+Use its context-managed API or CLI consuming command so PG import/measurement
+finishes before owned derived files are cleaned. Retain only the owning
+experiment's minimal scientific evidence (source IDs, frozen protocol, actual
+measurements) in `results/` or its versioned evidence bundle. `--keep-scratch`
+is an explicit debug option. The ETL removes only its own `derived/` directory;
+it does not shut down clusters, remove PGDATA, delete results, migrate historical
+outputs, or touch the researcher's backup. Historical evidence is preserved.
 
 ### Independent PostgreSQL per Issue
 
@@ -51,8 +87,8 @@ Every Issue that needs PostgreSQL starts and owns its **own isolated cluster**, 
 Illustrative setup **after verifying paths and allocating an unused port**:
 
 ```sh
-export ESS_DATA_ROOT=/home/wqts/ess-data
-export ESS_ISSUE_ROOT=/home/wqts/ess-runtime/issueNN
+# ESS_ISSUE_ROOT is supplied by the current consuming run, not a global setting.
+: "${ESS_ISSUE_ROOT:?use the current Issue/run root}"
 export PGDATA="$ESS_ISSUE_ROOT/pgdata"
 export PGHOST="$ESS_ISSUE_ROOT/socket"
 export PGPORT=55NNN  # replace with a real unused integer port; not a literal value
@@ -175,12 +211,12 @@ git fetch origin
 git pull --ff-only origin main
 git worktree list
 
-git -C ../ess-research-issueNN status --short
-git -C ../ess-research-issueMM status --short
+git -C "$ESS_WORKTREE_PARENT/ess-research-issueNN" status --short
+git -C "$ESS_WORKTREE_PARENT/ess-research-issueMM" status --short
 
 # Only when both are clean and contain nothing else to retain:
-git worktree remove ../ess-research-issueNN
-git worktree remove ../ess-research-issueMM
+git worktree remove "$ESS_WORKTREE_PARENT/ess-research-issueNN"
+git worktree remove "$ESS_WORKTREE_PARENT/ess-research-issueMM"
 git worktree list
 
 # Optional local branch cleanup AFTER verifying merge/retention:
