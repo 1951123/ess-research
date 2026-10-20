@@ -535,7 +535,17 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                 if match := TRACE_SELECTED.search(line):
                     selected.append(parse_key_values(match.group("body")))
             final = [item for item in numeric if "nrows_preclamp" in item]
-            selected_oids = [item.get("selected_stat_oid") for item in selected if item.get("selected_stat_oid")]
+            numeric_selected_oids = [item.get("selected_stat_oid") for item in numeric if item.get("selected_stat_oid")]
+            selected_oids = []
+            for oid in [*selected, *numeric]:
+                selected_oid = oid.get("selected_stat_oid")
+                if selected_oid and selected_oid not in selected_oids:
+                    selected_oids.append(selected_oid)
+            claimed_clause_indices = []
+            for record in selected:
+                clause_index = record.get("claimed_clause_index")
+                if clause_index and clause_index not in claimed_clause_indices:
+                    claimed_clause_indices.append(clause_index)
             catalog_oids = {str(item["oid"]): item["statistic_name"] for item in ledger}
             unmapped = [oid for oid in selected_oids if oid not in catalog_oids]
             if len(final) != 1 or float(final[0]["nrows_preclamp"]) <= 0:
@@ -547,7 +557,7 @@ def run_dataset_probe(prepared: PreparedDataset, protocol: dict[str, Any], prefi
                 "import": {"table": table, "rows": int(count)},
                 "fixed_sample": {"path": str(sample), "sha256": sample_sha, "bytes": sample.stat().st_size, "header": header, "replayed_before_statistics_analyze": True},
                 "catalog": ledger,
-                "smoke": {"query_id": smoke["query_id"], "split": "valid", "truth_used_for_selection": False, "trace_lines": trace_lines, "selected_stat_oids": selected_oids, "selected_stat_names": [catalog_oids[oid] for oid in selected_oids], "numeric": numeric, "positive_preclamp": final[0]["nrows_preclamp"], "unmapped_selected_oids": unmapped},
+                "smoke": {"query_id": smoke["query_id"], "split": "valid", "truth_used_for_selection": False, "trace_lines": trace_lines, "selected_stat_oids": selected_oids, "numeric_selected_stat_oids": numeric_selected_oids, "selected_stat_names": [catalog_oids[oid] for oid in selected_oids], "claimed_clause_indices": claimed_clause_indices, "selected_trace_records": selected, "numeric": numeric, "positive_preclamp": final[0]["nrows_preclamp"], "unmapped_selected_oids": unmapped},
             }
     except (OSError, RuntimeError, ValueError, subprocess.TimeoutExpired) as exc:
         result["status"] = "INCOMPATIBLE"
