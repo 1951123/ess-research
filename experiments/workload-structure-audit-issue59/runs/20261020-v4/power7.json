@@ -1,0 +1,2406 @@
+{
+  "candidate_universe": {
+    "candidate_ids": [
+      "p01",
+      "p12",
+      "p23",
+      "p34",
+      "p45",
+      "p56"
+    ],
+    "candidates": [
+      {
+        "creation_order": 0,
+        "id": "p01",
+        "source_columns": [
+          "Global_active_power",
+          "Global_reactive_power"
+        ]
+      },
+      {
+        "creation_order": 1,
+        "id": "p12",
+        "source_columns": [
+          "Global_reactive_power",
+          "Voltage"
+        ]
+      },
+      {
+        "creation_order": 2,
+        "id": "p23",
+        "source_columns": [
+          "Voltage",
+          "Global_intensity"
+        ]
+      },
+      {
+        "creation_order": 3,
+        "id": "p34",
+        "source_columns": [
+          "Global_intensity",
+          "Sub_metering_1"
+        ]
+      },
+      {
+        "creation_order": 4,
+        "id": "p45",
+        "source_columns": [
+          "Sub_metering_1",
+          "Sub_metering_2"
+        ]
+      },
+      {
+        "creation_order": 5,
+        "id": "p56",
+        "source_columns": [
+          "Sub_metering_2",
+          "Sub_metering_3"
+        ]
+      }
+    ],
+    "physical_pg_payload_status": "NOT_MEASURED_BY_ISSUE_59; historical cross-reference is separate"
+  },
+  "cross_split_fingerprint_audit": {
+    "exact": {
+      "duplicate_record_excess": 0,
+      "group_count": 120000,
+      "shared_group_count": 0,
+      "shared_group_percent": 0.0,
+      "shared_groups_by_split_pair": {},
+      "shared_record_count": 0,
+      "shared_record_percent": 0.0
+    },
+    "template": {
+      "duplicate_record_excess": 115675,
+      "group_count": 4325,
+      "shared_group_count": 1918,
+      "shared_group_percent": 44.346821,
+      "shared_groups_by_split_pair": {
+        "test+train": 399,
+        "test+train+valid": 1135,
+        "test+valid": 9,
+        "train+valid": 375
+      },
+      "shared_record_count": 115438,
+      "shared_record_percent": 96.198333
+    }
+  },
+  "database_inventory": {
+    "columns": {
+      "global_active_power": {
+        "distinct_non_null_csv_values": 4187,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "global_intensity": {
+        "distinct_non_null_csv_values": 222,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "global_reactive_power": {
+        "distinct_non_null_csv_values": 533,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "sub_metering_1": {
+        "distinct_non_null_csv_values": 89,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "sub_metering_2": {
+        "distinct_non_null_csv_values": 82,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "sub_metering_3": {
+        "distinct_non_null_csv_values": 33,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      "voltage": {
+        "distinct_non_null_csv_values": 2838,
+        "distinct_status": "MEASURED",
+        "observed_empty_cells": 0,
+        "observed_empty_rate": 0.0,
+        "postgres_type": "DOUBLE PRECISION"
+      }
+    },
+    "csv_sha256": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9",
+    "row_count": 2075259,
+    "sql_null_semantics": "NOT_MEASURED; empty CSV cells are reported separately and are not asserted to be SQL NULL",
+    "status": "MEASURED"
+  },
+  "dataset": "power7",
+  "provenance": {
+    "prepare_manifest": {
+      "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "archive_url": "https://www.dropbox.com/s/5bmvc1si5hysapf/data.tar.gz?dl=0",
+      "config": {
+        "keep_scratch": false,
+        "seed": null,
+        "weight": 1.0
+      },
+      "dataset": "power7",
+      "etl": {
+        "git_commit": "8e9cf89bcb3619c11662bbcd5bca945c18cec29e",
+        "worktree_dirty": true
+      },
+      "format": "arecel-preparation-v1",
+      "issue": 59,
+      "python": "3.12.3",
+      "repository": "ess-research",
+      "run_id": "arecel-pbq78n4l",
+      "schema": "schema.sql",
+      "splits": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "table": "table.csv",
+      "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a"
+    },
+    "schema_columns": [
+      {
+        "name": "global_active_power",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "global_reactive_power",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "voltage",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "global_intensity",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "sub_metering_1",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "sub_metering_2",
+        "postgres_type": "DOUBLE PRECISION"
+      },
+      {
+        "name": "sub_metering_3",
+        "postgres_type": "DOUBLE PRECISION"
+      }
+    ],
+    "source_csv_expected_sha256": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9",
+    "source_relation": "public.\"power7\"",
+    "source_rows_stated": 2075259
+  },
+  "split_summaries": {
+    "test": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 2931,
+          "1": 1700,
+          "2": 1328,
+          "3+": 4041
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5059,
+          "2": 2281,
+          "3": 620,
+          "4": 622,
+          "5+": 1418
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 7069,
+        "queries_with_at_least_two_edges": 5369,
+        "queries_with_conflicting_edges": 4941,
+        "queries_with_two_or_more_maximal_matchings": 4941
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1450,
+            "raw_edge_count": {
+              "0": 1450
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1450,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 403,
+            "calibration_edge_available_percent": 28.280702,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1425,
+            "raw_edge_count": {
+              "0": 1022,
+              "1": 403
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1022,
+                "percent": 71.719298
+              },
+              "1": {
+                "count": 403,
+                "percent": 28.280702
+              }
+            },
+            "strict_edge_available": 403,
+            "strict_edge_available_percent": 28.280702
+          },
+          "3": {
+            "calibration_edge_available": 1027,
+            "calibration_edge_available_percent": 70.827586,
+            "conflicting_queries": 202,
+            "conflicting_queries_percent": 13.931034,
+            "multi_maximal_queries": 202,
+            "multi_maximal_queries_percent": 13.931034,
+            "queries": 1450,
+            "raw_edge_count": {
+              "0": 423,
+              "1": 825,
+              "2": 202
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 423,
+                "percent": 29.172414
+              },
+              "1": {
+                "count": 825,
+                "percent": 56.896552
+              },
+              "2": {
+                "count": 202,
+                "percent": 13.931034
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 1407,
+            "calibration_edge_available_percent": 97.505198,
+            "conflicting_queries": 686,
+            "conflicting_queries_percent": 47.539848,
+            "multi_maximal_queries": 686,
+            "multi_maximal_queries_percent": 47.539848,
+            "queries": 1443,
+            "raw_edge_count": {
+              "0": 36,
+              "1": 472,
+              "2": 743,
+              "3+": 192
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 36,
+                "percent": 2.494802
+              },
+              "1": {
+                "count": 472,
+                "percent": 32.709633
+              },
+              "2": {
+                "count": 743,
+                "percent": 51.489951
+              },
+              "3+": {
+                "count": 192,
+                "percent": 13.305613
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 1380,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1201,
+            "conflicting_queries_percent": 87.028986,
+            "multi_maximal_queries": 1201,
+            "multi_maximal_queries_percent": 87.028986,
+            "queries": 1380,
+            "raw_edge_count": {
+              "2": 383,
+              "3+": 997
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 383,
+                "percent": 27.753623
+              },
+              "3+": {
+                "count": 997,
+                "percent": 72.246377
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 1434,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1434,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1434,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1434,
+            "raw_edge_count": {
+              "3+": 1434
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1434,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 1418,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1418,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1418,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1418,
+            "raw_edge_count": {
+              "3+": 1418
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1418,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        },
+        "operator_family": {
+          "inequality_only": {
+            "calibration_edge_available": 789,
+            "calibration_edge_available_percent": 41.050989,
+            "conflicting_queries": 387,
+            "conflicting_queries_percent": 20.135276,
+            "multi_maximal_queries": 387,
+            "multi_maximal_queries_percent": 20.135276,
+            "queries": 1922,
+            "raw_edge_count": {
+              "0": 1133,
+              "1": 355,
+              "2": 195,
+              "3+": 239
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1133,
+                "percent": 58.949011
+              },
+              "1": {
+                "count": 355,
+                "percent": 18.470343
+              },
+              "2": {
+                "count": 195,
+                "percent": 10.145682
+              },
+              "3+": {
+                "count": 239,
+                "percent": 12.434964
+              }
+            },
+            "strict_edge_available": 143,
+            "strict_edge_available_percent": 7.440166
+          },
+          "range_mixed": {
+            "calibration_edge_available": 5673,
+            "calibration_edge_available_percent": 88.364486,
+            "conflicting_queries": 4280,
+            "conflicting_queries_percent": 66.666667,
+            "multi_maximal_queries": 4280,
+            "multi_maximal_queries_percent": 66.666667,
+            "queries": 6420,
+            "raw_edge_count": {
+              "0": 747,
+              "1": 1042,
+              "2": 1002,
+              "3+": 3629
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 747,
+                "percent": 11.635514
+              },
+              "1": {
+                "count": 1042,
+                "percent": 16.23053
+              },
+              "2": {
+                "count": 1002,
+                "percent": 15.607477
+              },
+              "3+": {
+                "count": 3629,
+                "percent": 56.52648
+              }
+            },
+            "strict_edge_available": 160,
+            "strict_edge_available_percent": 2.492212
+          },
+          "range_only": {
+            "calibration_edge_available": 607,
+            "calibration_edge_available_percent": 36.610374,
+            "conflicting_queries": 274,
+            "conflicting_queries_percent": 16.525935,
+            "multi_maximal_queries": 274,
+            "multi_maximal_queries_percent": 16.525935,
+            "queries": 1658,
+            "raw_edge_count": {
+              "0": 1051,
+              "1": 303,
+              "2": 131,
+              "3+": 173
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1051,
+                "percent": 63.389626
+              },
+              "1": {
+                "count": 303,
+                "percent": 18.27503
+              },
+              "2": {
+                "count": 131,
+                "percent": 7.901086
+              },
+              "3+": {
+                "count": 173,
+                "percent": 10.434258
+              }
+            },
+            "strict_edge_available": 100,
+            "strict_edge_available_percent": 6.031363
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1450,
+            "raw_edge_count": {
+              "0": 1450
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1450,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 403,
+            "calibration_edge_available_percent": 28.280702,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1425,
+            "raw_edge_count": {
+              "0": 1022,
+              "1": 403
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1022,
+                "percent": 71.719298
+              },
+              "1": {
+                "count": 403,
+                "percent": 28.280702
+              }
+            },
+            "strict_edge_available": 403,
+            "strict_edge_available_percent": 28.280702
+          },
+          "3": {
+            "calibration_edge_available": 1027,
+            "calibration_edge_available_percent": 70.827586,
+            "conflicting_queries": 202,
+            "conflicting_queries_percent": 13.931034,
+            "multi_maximal_queries": 202,
+            "multi_maximal_queries_percent": 13.931034,
+            "queries": 1450,
+            "raw_edge_count": {
+              "0": 423,
+              "1": 825,
+              "2": 202
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 423,
+                "percent": 29.172414
+              },
+              "1": {
+                "count": 825,
+                "percent": 56.896552
+              },
+              "2": {
+                "count": 202,
+                "percent": 13.931034
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 1407,
+            "calibration_edge_available_percent": 97.505198,
+            "conflicting_queries": 686,
+            "conflicting_queries_percent": 47.539848,
+            "multi_maximal_queries": 686,
+            "multi_maximal_queries_percent": 47.539848,
+            "queries": 1443,
+            "raw_edge_count": {
+              "0": 36,
+              "1": 472,
+              "2": 743,
+              "3+": 192
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 36,
+                "percent": 2.494802
+              },
+              "1": {
+                "count": 472,
+                "percent": 32.709633
+              },
+              "2": {
+                "count": 743,
+                "percent": 51.489951
+              },
+              "3+": {
+                "count": 192,
+                "percent": 13.305613
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 1380,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1201,
+            "conflicting_queries_percent": 87.028986,
+            "multi_maximal_queries": 1201,
+            "multi_maximal_queries_percent": 87.028986,
+            "queries": 1380,
+            "raw_edge_count": {
+              "2": 383,
+              "3+": 997
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 383,
+                "percent": 27.753623
+              },
+              "3+": {
+                "count": 997,
+                "percent": 72.246377
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 1434,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1434,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1434,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1434,
+            "raw_edge_count": {
+              "3+": 1434
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1434,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 1418,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1418,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1418,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1418,
+            "raw_edge_count": {
+              "3+": 1418
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1418,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        }
+      },
+      "distinct_predicate_column_distribution": {
+        "1": {
+          "count": 1450,
+          "percent": 14.5
+        },
+        "2": {
+          "count": 1425,
+          "percent": 14.25
+        },
+        "3": {
+          "count": 1450,
+          "percent": 14.5
+        },
+        "4": {
+          "count": 1443,
+          "percent": 14.43
+        },
+        "5": {
+          "count": 1380,
+          "percent": 13.8
+        },
+        "6": {
+          "count": 1434,
+          "percent": 14.34
+        },
+        "7": {
+          "count": 1418,
+          "percent": 14.18
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 1450,
+        "2": 1425,
+        "3": 1450,
+        "4": 1443,
+        "5": 1380,
+        "6": 1434,
+        "7": 1418
+      },
+      "operator_family_distribution": {
+        "inequality_only": {
+          "count": 1922,
+          "percent": 19.22
+        },
+        "range_mixed": {
+          "count": 6420,
+          "percent": 64.2
+        },
+        "range_only": {
+          "count": 1658,
+          "percent": 16.58
+        }
+      },
+      "operator_family_histogram": {
+        "inequality_only": 1922,
+        "range_mixed": 6420,
+        "range_only": 1658
+      },
+      "operator_histogram": {
+        "<=": 16370,
+        ">=": 4278,
+        "[]": 19204
+      },
+      "opportunity_percentages": {
+        "calibration_at_least_one_edge": 70.69,
+        "raw_at_least_one_edge": 70.69,
+        "raw_at_least_two_edges": 53.69,
+        "raw_conflicting_edges": 49.41,
+        "raw_two_or_more_maximal_matchings": 49.41,
+        "strict_at_least_one_edge": 4.03
+      },
+      "predicate_count_distribution": {
+        "1": {
+          "count": 1450,
+          "percent": 14.5
+        },
+        "2": {
+          "count": 1425,
+          "percent": 14.25
+        },
+        "3": {
+          "count": 1450,
+          "percent": 14.5
+        },
+        "4": {
+          "count": 1443,
+          "percent": 14.43
+        },
+        "5": {
+          "count": 1380,
+          "percent": 13.8
+        },
+        "6": {
+          "count": 1434,
+          "percent": 14.34
+        },
+        "7": {
+          "count": 1418,
+          "percent": 14.18
+        }
+      },
+      "predicate_count_histogram": {
+        "1": 1450,
+        "2": 1425,
+        "3": 1450,
+        "4": 1443,
+        "5": 1380,
+        "6": 1434,
+        "7": 1418
+      },
+      "query_count": 10000,
+      "query_id_sha256": "739753942d21767bc3e5b5aaba518dce3860785e4d6df0206ab2392e1c254c07",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 2931,
+          "1": 1700,
+          "2": 1328,
+          "3+": 4041
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5059,
+          "2": 2281,
+          "3": 620,
+          "4": 622,
+          "5+": 1418
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 7069,
+        "queries_with_at_least_two_edges": 5369,
+        "queries_with_conflicting_edges": 4941,
+        "queries_with_two_or_more_maximal_matchings": 4941
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 10000
+      },
+      "repeated_predicate_column_distribution": {
+        "0": {
+          "count": 10000,
+          "percent": 100.0
+        }
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 10000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "[]",
+            ">=",
+            "<=",
+            "<=",
+            "[]"
+          ],
+          "predicate_count": 5,
+          "raw_edges": [
+            "p12",
+            "p23",
+            "p56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "<=",
+            ">=",
+            "<=",
+            "<=",
+            "<="
+          ],
+          "predicate_count": 5,
+          "raw_edges": [
+            "p23",
+            "p34"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity"
+          ],
+          "operators": [
+            "[]",
+            "[]",
+            ">=",
+            "<="
+          ],
+          "predicate_count": 4,
+          "raw_edges": [
+            "p01",
+            "p12",
+            "p23"
+          ],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 9999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 9597,
+          "1": 403,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 10000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 403,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    },
+    "train": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 28931,
+          "1": 17089,
+          "2": 13492,
+          "3+": 40488
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 50495,
+          "2": 22944,
+          "3": 6111,
+          "4": 6112,
+          "5+": 14338
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 71069,
+        "queries_with_at_least_two_edges": 53980,
+        "queries_with_conflicting_edges": 49505,
+        "queries_with_two_or_more_maximal_matchings": 49505
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 14170,
+            "raw_edge_count": {
+              "0": 14170
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 14170,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 3998,
+            "calibration_edge_available_percent": 28.174771,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 14190,
+            "raw_edge_count": {
+              "0": 10192,
+              "1": 3998
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 10192,
+                "percent": 71.825229
+              },
+              "1": {
+                "count": 3998,
+                "percent": 28.174771
+              }
+            },
+            "strict_edge_available": 3998,
+            "strict_edge_available_percent": 28.174771
+          },
+          "3": {
+            "calibration_edge_available": 10199,
+            "calibration_edge_available_percent": 71.078124,
+            "conflicting_queries": 2057,
+            "conflicting_queries_percent": 14.335494,
+            "multi_maximal_queries": 2057,
+            "multi_maximal_queries_percent": 14.335494,
+            "queries": 14349,
+            "raw_edge_count": {
+              "0": 4150,
+              "1": 8142,
+              "2": 2057
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 4150,
+                "percent": 28.921876
+              },
+              "1": {
+                "count": 8142,
+                "percent": 56.74263
+              },
+              "2": {
+                "count": 2057,
+                "percent": 14.335494
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 13926,
+            "calibration_edge_available_percent": 97.079122,
+            "conflicting_queries": 6495,
+            "conflicting_queries_percent": 45.2771,
+            "multi_maximal_queries": 6495,
+            "multi_maximal_queries_percent": 45.2771,
+            "queries": 14345,
+            "raw_edge_count": {
+              "0": 419,
+              "1": 4949,
+              "2": 7328,
+              "3+": 1649
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 419,
+                "percent": 2.920878
+              },
+              "1": {
+                "count": 4949,
+                "percent": 34.499826
+              },
+              "2": {
+                "count": 7328,
+                "percent": 51.084001
+              },
+              "3+": {
+                "count": 1649,
+                "percent": 11.495295
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 14198,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 12205,
+            "conflicting_queries_percent": 85.962812,
+            "multi_maximal_queries": 12205,
+            "multi_maximal_queries_percent": 85.962812,
+            "queries": 14198,
+            "raw_edge_count": {
+              "2": 4107,
+              "3+": 10091
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 4107,
+                "percent": 28.926609
+              },
+              "3+": {
+                "count": 10091,
+                "percent": 71.073391
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 14410,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 14410,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 14410,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 14410,
+            "raw_edge_count": {
+              "3+": 14410
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 14410,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 14338,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 14338,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 14338,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 14338,
+            "raw_edge_count": {
+              "3+": 14338
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 14338,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        },
+        "operator_family": {
+          "inequality_only": {
+            "calibration_edge_available": 6997,
+            "calibration_edge_available_percent": 38.502174,
+            "conflicting_queries": 3434,
+            "conflicting_queries_percent": 18.896165,
+            "multi_maximal_queries": 3434,
+            "multi_maximal_queries_percent": 18.896165,
+            "queries": 18173,
+            "raw_edge_count": {
+              "0": 11176,
+              "1": 3231,
+              "2": 1714,
+              "3+": 2052
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 11176,
+                "percent": 61.497826
+              },
+              "1": {
+                "count": 3231,
+                "percent": 17.779123
+              },
+              "2": {
+                "count": 1714,
+                "percent": 9.431574
+              },
+              "3+": {
+                "count": 2052,
+                "percent": 11.291476
+              }
+            },
+            "strict_edge_available": 1311,
+            "strict_edge_available_percent": 7.213999
+          },
+          "range_mixed": {
+            "calibration_edge_available": 57718,
+            "calibration_edge_available_percent": 88.584321,
+            "conflicting_queries": 43157,
+            "conflicting_queries_percent": 66.236417,
+            "multi_maximal_queries": 43157,
+            "multi_maximal_queries_percent": 66.236417,
+            "queries": 65156,
+            "raw_edge_count": {
+              "0": 7438,
+              "1": 10833,
+              "2": 10431,
+              "3+": 36454
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 7438,
+                "percent": 11.415679
+              },
+              "1": {
+                "count": 10833,
+                "percent": 16.626251
+              },
+              "2": {
+                "count": 10431,
+                "percent": 16.00927
+              },
+              "3+": {
+                "count": 36454,
+                "percent": 55.9488
+              }
+            },
+            "strict_edge_available": 1615,
+            "strict_edge_available_percent": 2.478667
+          },
+          "range_only": {
+            "calibration_edge_available": 6354,
+            "calibration_edge_available_percent": 38.11409,
+            "conflicting_queries": 2914,
+            "conflicting_queries_percent": 17.479455,
+            "multi_maximal_queries": 2914,
+            "multi_maximal_queries_percent": 17.479455,
+            "queries": 16671,
+            "raw_edge_count": {
+              "0": 10317,
+              "1": 3025,
+              "2": 1347,
+              "3+": 1982
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 10317,
+                "percent": 61.88591
+              },
+              "1": {
+                "count": 3025,
+                "percent": 18.145282
+              },
+              "2": {
+                "count": 1347,
+                "percent": 8.079899
+              },
+              "3+": {
+                "count": 1982,
+                "percent": 11.888909
+              }
+            },
+            "strict_edge_available": 1072,
+            "strict_edge_available_percent": 6.430328
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 14170,
+            "raw_edge_count": {
+              "0": 14170
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 14170,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 3998,
+            "calibration_edge_available_percent": 28.174771,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 14190,
+            "raw_edge_count": {
+              "0": 10192,
+              "1": 3998
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 10192,
+                "percent": 71.825229
+              },
+              "1": {
+                "count": 3998,
+                "percent": 28.174771
+              }
+            },
+            "strict_edge_available": 3998,
+            "strict_edge_available_percent": 28.174771
+          },
+          "3": {
+            "calibration_edge_available": 10199,
+            "calibration_edge_available_percent": 71.078124,
+            "conflicting_queries": 2057,
+            "conflicting_queries_percent": 14.335494,
+            "multi_maximal_queries": 2057,
+            "multi_maximal_queries_percent": 14.335494,
+            "queries": 14349,
+            "raw_edge_count": {
+              "0": 4150,
+              "1": 8142,
+              "2": 2057
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 4150,
+                "percent": 28.921876
+              },
+              "1": {
+                "count": 8142,
+                "percent": 56.74263
+              },
+              "2": {
+                "count": 2057,
+                "percent": 14.335494
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 13926,
+            "calibration_edge_available_percent": 97.079122,
+            "conflicting_queries": 6495,
+            "conflicting_queries_percent": 45.2771,
+            "multi_maximal_queries": 6495,
+            "multi_maximal_queries_percent": 45.2771,
+            "queries": 14345,
+            "raw_edge_count": {
+              "0": 419,
+              "1": 4949,
+              "2": 7328,
+              "3+": 1649
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 419,
+                "percent": 2.920878
+              },
+              "1": {
+                "count": 4949,
+                "percent": 34.499826
+              },
+              "2": {
+                "count": 7328,
+                "percent": 51.084001
+              },
+              "3+": {
+                "count": 1649,
+                "percent": 11.495295
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 14198,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 12205,
+            "conflicting_queries_percent": 85.962812,
+            "multi_maximal_queries": 12205,
+            "multi_maximal_queries_percent": 85.962812,
+            "queries": 14198,
+            "raw_edge_count": {
+              "2": 4107,
+              "3+": 10091
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 4107,
+                "percent": 28.926609
+              },
+              "3+": {
+                "count": 10091,
+                "percent": 71.073391
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 14410,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 14410,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 14410,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 14410,
+            "raw_edge_count": {
+              "3+": 14410
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 14410,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 14338,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 14338,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 14338,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 14338,
+            "raw_edge_count": {
+              "3+": 14338
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 14338,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        }
+      },
+      "distinct_predicate_column_distribution": {
+        "1": {
+          "count": 14170,
+          "percent": 14.17
+        },
+        "2": {
+          "count": 14190,
+          "percent": 14.19
+        },
+        "3": {
+          "count": 14349,
+          "percent": 14.349
+        },
+        "4": {
+          "count": 14345,
+          "percent": 14.345
+        },
+        "5": {
+          "count": 14198,
+          "percent": 14.198
+        },
+        "6": {
+          "count": 14410,
+          "percent": 14.41
+        },
+        "7": {
+          "count": 14338,
+          "percent": 14.338
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 14170,
+        "2": 14190,
+        "3": 14349,
+        "4": 14345,
+        "5": 14198,
+        "6": 14410,
+        "7": 14338
+      },
+      "operator_family_distribution": {
+        "inequality_only": {
+          "count": 18173,
+          "percent": 18.173
+        },
+        "range_mixed": {
+          "count": 65156,
+          "percent": 65.156
+        },
+        "range_only": {
+          "count": 16671,
+          "percent": 16.671
+        }
+      },
+      "operator_family_histogram": {
+        "inequality_only": 18173,
+        "range_mixed": 65156,
+        "range_only": 16671
+      },
+      "operator_histogram": {
+        "<=": 163149,
+        ">=": 42465,
+        "[]": 195179
+      },
+      "opportunity_percentages": {
+        "calibration_at_least_one_edge": 71.069,
+        "raw_at_least_one_edge": 71.069,
+        "raw_at_least_two_edges": 53.98,
+        "raw_conflicting_edges": 49.505,
+        "raw_two_or_more_maximal_matchings": 49.505,
+        "strict_at_least_one_edge": 3.998
+      },
+      "predicate_count_distribution": {
+        "1": {
+          "count": 14170,
+          "percent": 14.17
+        },
+        "2": {
+          "count": 14190,
+          "percent": 14.19
+        },
+        "3": {
+          "count": 14349,
+          "percent": 14.349
+        },
+        "4": {
+          "count": 14345,
+          "percent": 14.345
+        },
+        "5": {
+          "count": 14198,
+          "percent": 14.198
+        },
+        "6": {
+          "count": 14410,
+          "percent": 14.41
+        },
+        "7": {
+          "count": 14338,
+          "percent": 14.338
+        }
+      },
+      "predicate_count_histogram": {
+        "1": 14170,
+        "2": 14190,
+        "3": 14349,
+        "4": 14345,
+        "5": 14198,
+        "6": 14410,
+        "7": 14338
+      },
+      "query_count": 100000,
+      "query_id_sha256": "793fbb15c6708bf7b5ed1bb5269594827f0ec7b8e5da5f74b3a76daff4cf5ba0",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 28931,
+          "1": 17089,
+          "2": 13492,
+          "3+": 40488
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 50495,
+          "2": 22944,
+          "3": 6111,
+          "4": 6112,
+          "5+": 14338
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 71069,
+        "queries_with_at_least_two_edges": 53980,
+        "queries_with_conflicting_edges": 49505,
+        "queries_with_two_or_more_maximal_matchings": 49505
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 100000
+      },
+      "repeated_predicate_column_distribution": {
+        "0": {
+          "count": 100000,
+          "percent": 100.0
+        }
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 100000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "[]",
+            ">=",
+            "<=",
+            "<=",
+            "<=",
+            "<="
+          ],
+          "predicate_count": 6,
+          "raw_edges": [
+            "p12",
+            "p23",
+            "p34",
+            "p45",
+            "p56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "<=",
+            "[]",
+            "<=",
+            "<=",
+            "[]"
+          ],
+          "predicate_count": 5,
+          "raw_edges": [
+            "p34",
+            "p45",
+            "p56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_2"
+          ],
+          "operators": [
+            "[]",
+            "[]",
+            "[]",
+            "[]",
+            "<=",
+            "<="
+          ],
+          "predicate_count": 6,
+          "raw_edges": [
+            "p01",
+            "p12",
+            "p23",
+            "p34",
+            "p45"
+          ],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 99999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 96002,
+          "1": 3998,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 100000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 100000,
+        "queries_with_at_least_one_edge": 3998,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    },
+    "valid": {
+      "calibration_eligibility": {
+        "available_edge_count": {
+          "0": 2902,
+          "1": 1748,
+          "2": 1338,
+          "3+": 4012
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5102,
+          "2": 2204,
+          "3": 671,
+          "4": 630,
+          "5+": 1393
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 7098,
+        "queries_with_at_least_two_edges": 5350,
+        "queries_with_conflicting_edges": 4898,
+        "queries_with_two_or_more_maximal_matchings": 4898
+      },
+      "cross_tabs": {
+        "distinct_column_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1413,
+            "raw_edge_count": {
+              "0": 1413
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1413,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 416,
+            "calibration_edge_available_percent": 28.551819,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1457,
+            "raw_edge_count": {
+              "0": 1041,
+              "1": 416
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1041,
+                "percent": 71.448181
+              },
+              "1": {
+                "count": 416,
+                "percent": 28.551819
+              }
+            },
+            "strict_edge_available": 416,
+            "strict_edge_available_percent": 28.551819
+          },
+          "3": {
+            "calibration_edge_available": 1009,
+            "calibration_edge_available_percent": 71.35785,
+            "conflicting_queries": 196,
+            "conflicting_queries_percent": 13.861386,
+            "multi_maximal_queries": 196,
+            "multi_maximal_queries_percent": 13.861386,
+            "queries": 1414,
+            "raw_edge_count": {
+              "0": 405,
+              "1": 813,
+              "2": 196
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 405,
+                "percent": 28.64215
+              },
+              "1": {
+                "count": 813,
+                "percent": 57.496464
+              },
+              "2": {
+                "count": 196,
+                "percent": 13.861386
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 1403,
+            "calibration_edge_available_percent": 97.026279,
+            "conflicting_queries": 632,
+            "conflicting_queries_percent": 43.706777,
+            "multi_maximal_queries": 632,
+            "multi_maximal_queries_percent": 43.706777,
+            "queries": 1446,
+            "raw_edge_count": {
+              "0": 43,
+              "1": 519,
+              "2": 732,
+              "3+": 152
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 43,
+                "percent": 2.973721
+              },
+              "1": {
+                "count": 519,
+                "percent": 35.892116
+              },
+              "2": {
+                "count": 732,
+                "percent": 50.622407
+              },
+              "3+": {
+                "count": 152,
+                "percent": 10.511757
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 1422,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1222,
+            "conflicting_queries_percent": 85.935302,
+            "multi_maximal_queries": 1222,
+            "multi_maximal_queries_percent": 85.935302,
+            "queries": 1422,
+            "raw_edge_count": {
+              "2": 410,
+              "3+": 1012
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 410,
+                "percent": 28.83263
+              },
+              "3+": {
+                "count": 1012,
+                "percent": 71.16737
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 1455,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1455,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1455,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1455,
+            "raw_edge_count": {
+              "3+": 1455
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1455,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 1393,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1393,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1393,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1393,
+            "raw_edge_count": {
+              "3+": 1393
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1393,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        },
+        "operator_family": {
+          "inequality_only": {
+            "calibration_edge_available": 736,
+            "calibration_edge_available_percent": 40.979955,
+            "conflicting_queries": 369,
+            "conflicting_queries_percent": 20.545657,
+            "multi_maximal_queries": 369,
+            "multi_maximal_queries_percent": 20.545657,
+            "queries": 1796,
+            "raw_edge_count": {
+              "0": 1060,
+              "1": 328,
+              "2": 186,
+              "3+": 222
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1060,
+                "percent": 59.020045
+              },
+              "1": {
+                "count": 328,
+                "percent": 18.262806
+              },
+              "2": {
+                "count": 186,
+                "percent": 10.356347
+              },
+              "3+": {
+                "count": 222,
+                "percent": 12.360802
+              }
+            },
+            "strict_edge_available": 126,
+            "strict_edge_available_percent": 7.01559
+          },
+          "range_mixed": {
+            "calibration_edge_available": 5717,
+            "calibration_edge_available_percent": 88.102943,
+            "conflicting_queries": 4256,
+            "conflicting_queries_percent": 65.587918,
+            "multi_maximal_queries": 4256,
+            "multi_maximal_queries_percent": 65.587918,
+            "queries": 6489,
+            "raw_edge_count": {
+              "0": 772,
+              "1": 1089,
+              "2": 1031,
+              "3+": 3597
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 772,
+                "percent": 11.897057
+              },
+              "1": {
+                "count": 1089,
+                "percent": 16.782247
+              },
+              "2": {
+                "count": 1031,
+                "percent": 15.888427
+              },
+              "3+": {
+                "count": 3597,
+                "percent": 55.43227
+              }
+            },
+            "strict_edge_available": 158,
+            "strict_edge_available_percent": 2.43489
+          },
+          "range_only": {
+            "calibration_edge_available": 645,
+            "calibration_edge_available_percent": 37.609329,
+            "conflicting_queries": 273,
+            "conflicting_queries_percent": 15.918367,
+            "multi_maximal_queries": 273,
+            "multi_maximal_queries_percent": 15.918367,
+            "queries": 1715,
+            "raw_edge_count": {
+              "0": 1070,
+              "1": 331,
+              "2": 121,
+              "3+": 193
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1070,
+                "percent": 62.390671
+              },
+              "1": {
+                "count": 331,
+                "percent": 19.300292
+              },
+              "2": {
+                "count": 121,
+                "percent": 7.055394
+              },
+              "3+": {
+                "count": 193,
+                "percent": 11.253644
+              }
+            },
+            "strict_edge_available": 132,
+            "strict_edge_available_percent": 7.696793
+          }
+        },
+        "predicate_count": {
+          "1": {
+            "calibration_edge_available": 0,
+            "calibration_edge_available_percent": 0.0,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1413,
+            "raw_edge_count": {
+              "0": 1413
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1413,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "2": {
+            "calibration_edge_available": 416,
+            "calibration_edge_available_percent": 28.551819,
+            "conflicting_queries": 0,
+            "conflicting_queries_percent": 0.0,
+            "multi_maximal_queries": 0,
+            "multi_maximal_queries_percent": 0.0,
+            "queries": 1457,
+            "raw_edge_count": {
+              "0": 1041,
+              "1": 416
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 1041,
+                "percent": 71.448181
+              },
+              "1": {
+                "count": 416,
+                "percent": 28.551819
+              }
+            },
+            "strict_edge_available": 416,
+            "strict_edge_available_percent": 28.551819
+          },
+          "3": {
+            "calibration_edge_available": 1009,
+            "calibration_edge_available_percent": 71.35785,
+            "conflicting_queries": 196,
+            "conflicting_queries_percent": 13.861386,
+            "multi_maximal_queries": 196,
+            "multi_maximal_queries_percent": 13.861386,
+            "queries": 1414,
+            "raw_edge_count": {
+              "0": 405,
+              "1": 813,
+              "2": 196
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 405,
+                "percent": 28.64215
+              },
+              "1": {
+                "count": 813,
+                "percent": 57.496464
+              },
+              "2": {
+                "count": 196,
+                "percent": 13.861386
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "4": {
+            "calibration_edge_available": 1403,
+            "calibration_edge_available_percent": 97.026279,
+            "conflicting_queries": 632,
+            "conflicting_queries_percent": 43.706777,
+            "multi_maximal_queries": 632,
+            "multi_maximal_queries_percent": 43.706777,
+            "queries": 1446,
+            "raw_edge_count": {
+              "0": 43,
+              "1": 519,
+              "2": 732,
+              "3+": 152
+            },
+            "raw_edge_count_distribution": {
+              "0": {
+                "count": 43,
+                "percent": 2.973721
+              },
+              "1": {
+                "count": 519,
+                "percent": 35.892116
+              },
+              "2": {
+                "count": 732,
+                "percent": 50.622407
+              },
+              "3+": {
+                "count": 152,
+                "percent": 10.511757
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "5": {
+            "calibration_edge_available": 1422,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1222,
+            "conflicting_queries_percent": 85.935302,
+            "multi_maximal_queries": 1222,
+            "multi_maximal_queries_percent": 85.935302,
+            "queries": 1422,
+            "raw_edge_count": {
+              "2": 410,
+              "3+": 1012
+            },
+            "raw_edge_count_distribution": {
+              "2": {
+                "count": 410,
+                "percent": 28.83263
+              },
+              "3+": {
+                "count": 1012,
+                "percent": 71.16737
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "6": {
+            "calibration_edge_available": 1455,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1455,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1455,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1455,
+            "raw_edge_count": {
+              "3+": 1455
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1455,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          },
+          "7": {
+            "calibration_edge_available": 1393,
+            "calibration_edge_available_percent": 100.0,
+            "conflicting_queries": 1393,
+            "conflicting_queries_percent": 100.0,
+            "multi_maximal_queries": 1393,
+            "multi_maximal_queries_percent": 100.0,
+            "queries": 1393,
+            "raw_edge_count": {
+              "3+": 1393
+            },
+            "raw_edge_count_distribution": {
+              "3+": {
+                "count": 1393,
+                "percent": 100.0
+              }
+            },
+            "strict_edge_available": 0,
+            "strict_edge_available_percent": 0.0
+          }
+        }
+      },
+      "distinct_predicate_column_distribution": {
+        "1": {
+          "count": 1413,
+          "percent": 14.13
+        },
+        "2": {
+          "count": 1457,
+          "percent": 14.57
+        },
+        "3": {
+          "count": 1414,
+          "percent": 14.14
+        },
+        "4": {
+          "count": 1446,
+          "percent": 14.46
+        },
+        "5": {
+          "count": 1422,
+          "percent": 14.22
+        },
+        "6": {
+          "count": 1455,
+          "percent": 14.55
+        },
+        "7": {
+          "count": 1393,
+          "percent": 13.93
+        }
+      },
+      "distinct_predicate_column_histogram": {
+        "1": 1413,
+        "2": 1457,
+        "3": 1414,
+        "4": 1446,
+        "5": 1422,
+        "6": 1455,
+        "7": 1393
+      },
+      "operator_family_distribution": {
+        "inequality_only": {
+          "count": 1796,
+          "percent": 17.96
+        },
+        "range_mixed": {
+          "count": 6489,
+          "percent": 64.89
+        },
+        "range_only": {
+          "count": 1715,
+          "percent": 17.15
+        }
+      },
+      "operator_family_histogram": {
+        "inequality_only": 1796,
+        "range_mixed": 6489,
+        "range_only": 1715
+      },
+      "operator_histogram": {
+        "<=": 16439,
+        ">=": 4262,
+        "[]": 19243
+      },
+      "opportunity_percentages": {
+        "calibration_at_least_one_edge": 70.98,
+        "raw_at_least_one_edge": 70.98,
+        "raw_at_least_two_edges": 53.5,
+        "raw_conflicting_edges": 48.98,
+        "raw_two_or_more_maximal_matchings": 48.98,
+        "strict_at_least_one_edge": 4.16
+      },
+      "predicate_count_distribution": {
+        "1": {
+          "count": 1413,
+          "percent": 14.13
+        },
+        "2": {
+          "count": 1457,
+          "percent": 14.57
+        },
+        "3": {
+          "count": 1414,
+          "percent": 14.14
+        },
+        "4": {
+          "count": 1446,
+          "percent": 14.46
+        },
+        "5": {
+          "count": 1422,
+          "percent": 14.22
+        },
+        "6": {
+          "count": 1455,
+          "percent": 14.55
+        },
+        "7": {
+          "count": 1393,
+          "percent": 13.93
+        }
+      },
+      "predicate_count_histogram": {
+        "1": 1413,
+        "2": 1457,
+        "3": 1414,
+        "4": 1446,
+        "5": 1422,
+        "6": 1455,
+        "7": 1393
+      },
+      "query_count": 10000,
+      "query_id_sha256": "2d199df982549023944164fc6f16fb50352fa6f4969789cc4c777d20c99be268",
+      "raw_column_cooccurrence": {
+        "available_edge_count": {
+          "0": 2902,
+          "1": 1748,
+          "2": 1338,
+          "3+": 4012
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 5102,
+          "2": 2204,
+          "3": 671,
+          "4": 630,
+          "5+": 1393
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 7098,
+        "queries_with_at_least_two_edges": 5350,
+        "queries_with_conflicting_edges": 4898,
+        "queries_with_two_or_more_maximal_matchings": 4898
+      },
+      "relation_shape": {
+        "other_or_unknown_records": 0,
+        "single_table_conjunctive_records": 10000
+      },
+      "repeated_predicate_column_distribution": {
+        "0": {
+          "count": 10000,
+          "percent": 100.0
+        }
+      },
+      "repeated_predicate_column_histogram": {
+        "0": 10000
+      },
+      "representative_shape_examples": [
+        {
+          "columns": [
+            "Global_active_power",
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "[]",
+            "[]",
+            ">=",
+            "[]",
+            "<=",
+            "<=",
+            "[]"
+          ],
+          "predicate_count": 7,
+          "raw_edges": [
+            "p01",
+            "p12",
+            "p23",
+            "p34",
+            "p45",
+            "p56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Global_reactive_power",
+            "Voltage",
+            "Global_intensity",
+            "Sub_metering_1",
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "[]",
+            "[]",
+            "[]",
+            "[]",
+            "<=",
+            "[]",
+            "[]"
+          ],
+          "predicate_count": 7,
+          "raw_edges": [
+            "p01",
+            "p12",
+            "p23",
+            "p34",
+            "p45",
+            "p56"
+          ],
+          "strict_edges": []
+        },
+        {
+          "columns": [
+            "Global_active_power",
+            "Sub_metering_3"
+          ],
+          "operators": [
+            "[]",
+            "[]"
+          ],
+          "predicate_count": 2,
+          "raw_edges": [],
+          "strict_edges": []
+        }
+      ],
+      "source_index_max": 9999,
+      "source_index_min": 0,
+      "strict_pairwise_eligibility": {
+        "available_edge_count": {
+          "0": 9584,
+          "1": 416,
+          "2": 0,
+          "3+": 0
+        },
+        "maximal_matching_count": {
+          "0": 0,
+          "1": 10000,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5+": 0
+        },
+        "queries": 10000,
+        "queries_with_at_least_one_edge": 416,
+        "queries_with_at_least_two_edges": 0,
+        "queries_with_conflicting_edges": 0,
+        "queries_with_two_or_more_maximal_matchings": 0
+      },
+      "unknown_column_queries": 0,
+      "unsupported_operator_queries": 0
+    }
+  },
+  "stage2b_cohort_reference": {
+    "status": "NOT_APPLICABLE"
+  }
+}
