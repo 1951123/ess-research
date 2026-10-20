@@ -71,12 +71,26 @@ class Stage2ARunner:
         self.candidates = {item["id"]: item for item in self.manifest["fixture"]["candidate_definitions"]}
         self.queries = {item["id"]: item for item in self.manifest["fixture"]["queries"]}
 
-    def psql(self, sql: str, *, check: bool = True, output_name: str | None = None, database: str | None = None) -> subprocess.CompletedProcess[str]:
+    def psql(
+        self,
+        sql: str,
+        *,
+        check: bool = True,
+        output_name: str | None = None,
+        database: str | None = None,
+        tuples_only: bool = False,
+        field_separator: str | None = None,
+    ) -> subprocess.CompletedProcess[str]:
         target_database = database or self.database
         command = [
             str(self.psql_bin), "-X", "-v", "ON_ERROR_STOP=1", "-h", str(self.socket),
             "-p", str(self.manifest["execution"]["port"]), "-d", target_database, "-c", sql,
         ]
+        if tuples_only:
+            command.insert(2, "-At")
+        if field_separator is not None:
+            command.insert(3, "-F")
+            command.insert(4, field_separator)
         result = run_command(command, self.env, check=check)
         if output_name:
             (self.raw / f"{output_name}.stdout").write_text(result.stdout)
@@ -146,7 +160,7 @@ LEFT JOIN pg_statistic_ext_data AS d ON d.stxoid = s.oid AND d.stxdinherit = fal
 WHERE s.stxrelid = '{self.table}'::regclass
 ORDER BY s.oid;
 """
-        result = self.psql(sql)
+        result = self.psql(sql, tuples_only=True, field_separator="\t")
         rows: list[dict[str, object]] = []
         attnum_to_column = {index + 1: column for index, column in enumerate(self.manifest["fixture"]["attributes"])}
         for raw in result.stdout.splitlines():
