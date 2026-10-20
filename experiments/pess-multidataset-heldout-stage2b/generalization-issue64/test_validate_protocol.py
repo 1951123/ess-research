@@ -75,6 +75,14 @@ class ProtocolValidationTests(unittest.TestCase):
         changed["cohort_generation_recipe"]["historical_fingerprint_gate"]["coverage_required"] = []
         self.assertTrue(any("historical fingerprint coverage" in e for e in validate(changed)))
 
+    def test_rejects_schema_infeasible_or_underfilled_predicate_quotas(self) -> None:
+        changed = copy.deepcopy(self.document)
+        changed["cohort_generation_recipe"]["selection_and_size"]["schema_capacity_gate"]["quota_by_dataset_split"]["dmv11"]["calibration"]["1"] = 200
+        self.assertTrue(any("predicate-bin quotas must sum" in e for e in validate(changed)))
+        changed = copy.deepcopy(self.document)
+        changed["cohort_generation_recipe"]["selection_and_size"]["schema_capacity_gate"]["source_pins"] = {}
+        self.assertTrue(any("source pins" in e for e in validate(changed)))
+
 
 if __name__ == "__main__":
     unittest.main()

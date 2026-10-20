@@ -103,6 +103,32 @@ def validate(document: dict[str, Any]) -> list[str]:
         errors.append("historical fingerprint coverage inventory is incomplete")
     if "blocks cohort freeze" not in recipe.get("historical_fingerprint_gate", {}).get("acceptance", "").lower():
         errors.append("missing historical fingerprint coverage must block cohort freeze")
+    selection = recipe.get("selection_and_size", {})
+    schema_gate = selection.get("schema_capacity_gate", {})
+    if "schema_capacity.py" not in schema_gate.get("implementation", ""):
+        errors.append("schema-only stratum capacity implementation is not pinned")
+    if len(schema_gate.get("source_pins", {})) < 4:
+        errors.append("schema/operator/candidate source pins are incomplete")
+    arecel_pin = schema_gate.get("arecel_generator_reference", {})
+    if arecel_pin.get("commit") != "aa52da7768023270bad884232972e0b77ec6534a" or len(arecel_pin.get("git_blob_sha", "")) != 40:
+        errors.append("AreCEL categorical/operator source reference is not commit/blob pinned")
+    if "strict numeric < and >" not in schema_gate.get("supported_operator_rule", ""):
+        errors.append("prospective operator extension beyond AreCEL defaults is not disclosed")
+    quota_table = schema_gate.get("quota_by_dataset_split", {})
+    for dataset in sorted(EXPECTED_DATASETS):
+        dataset_quotas = quota_table.get(dataset, {})
+        if set(dataset_quotas) != {"calibration", "heldout"}:
+            errors.append(f"schema-derived split quotas missing for {dataset}")
+            continue
+        for split, quotas in dataset_quotas.items():
+            if sum(quotas.values()) != EXPECTED_TEST_GROUPS:
+                errors.append(f"{dataset}/{split} predicate-bin quotas must sum to 1000")
+            if sum(value for bin_name, value in quotas.items() if bin_name not in ("1", "2")) < EXPECTED_TEST_GROUPS // 2:
+                errors.append(f"{dataset}/{split} requires at least 500 queries with >=3 predicates")
+    if "STRUCTURALLY_INFEASIBLE" not in schema_gate.get("capacity_rule", ""):
+        errors.append("schema-infeasible strata must be distinguished from attempt-pool shortfalls")
+    if "conflict with exactly one maximal matching" not in selection.get("minimum_shape_coverage", "").lower():
+        errors.append("exclusive graph-stratum feasibility correction missing")
 
     gates = document.get("postgresql_physical_evaluation", {})
     for key in ("same_conditions", "sample_gate", "coverage", "mismatch", "failure_policy"):
