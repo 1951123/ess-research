@@ -8,6 +8,8 @@ from collections import defaultdict
 from pathlib import Path
 from statistics import median
 
+from evidence_io import write_text_exclusive
+
 ROOT = Path(__file__).resolve().parent
 PROFILE = ROOT / "runs" / "20261020-profile-v1" / "raw"
 MATCHED = ROOT / "runs" / "20261020-matched-v1" / "raw"
@@ -100,7 +102,7 @@ def write_hashes(directory: Path, output: Path) -> None:
         f"{sha256(path)}  {path.relative_to(directory.parent.parent)}\n"
         for path in sorted(directory.glob("*.jsonl"))
     ]
-    output.write_text("".join(rows), encoding="utf-8", newline="\n")
+    write_text_exclusive(output, "".join(rows))
 
 
 def main() -> None:
@@ -130,13 +132,13 @@ def main() -> None:
         "records": profile_rows,
         "cases": profile_cases,
     }
-    (ROOT / "profile-summary-v1.json").write_text(json.dumps(profile_summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_text_exclusive(ROOT / "profile-summary-v1.json", json.dumps(profile_summary, indent=2, sort_keys=True) + "\n")
     matched = {
         "raw_record_count": len(matched_paths),
         "case_count": len({base_name(path) for path in matched_paths}),
         "cases": matched_summary(matched_paths),
     }
-    (ROOT / "matched-summary-v1.json").write_text(json.dumps(matched, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_text_exclusive(ROOT / "matched-summary-v1.json", json.dumps(matched, indent=2, sort_keys=True) + "\n")
     write_hashes(PROFILE, ROOT / "runs" / "20261020-profile-v1" / "SHA256SUMS-raw")
     write_hashes(MATCHED, ROOT / "runs" / "20261020-matched-v1" / "SHA256SUMS-raw")
     print(json.dumps({"profile_records": len(profile_rows), "matched_records": len(matched_paths), "no_op_stop_triggered": profile_summary["no_op_stop_triggered"]}, sort_keys=True))

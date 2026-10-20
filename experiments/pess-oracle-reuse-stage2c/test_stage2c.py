@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import os
 from fractions import Fraction
 from pathlib import Path
 
+import pytest
+from evidence_io import write_text_exclusive
 from independent_reference import maximal_matchings, objective
 from pess_ess import solvers_v2
 from pess_ess.model import Candidate, Instance, Task, read_instance
@@ -130,3 +133,19 @@ def test_noop_wrapper_delegates_same_semantics() -> None:
     assert calls > 0
     assert wrapped.validated_feasible and direct.validated_feasible
     assert wrapped.objective == direct.objective
+
+
+def test_evidence_writer_refuses_existing_files_and_symlinks(tmp_path: Path) -> None:
+    existing = tmp_path / "existing.txt"
+    existing.write_text("old", encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        write_text_exclusive(existing, "new")
+    assert existing.read_text(encoding="utf-8") == "old"
+
+    target = tmp_path / "target.txt"
+    link = tmp_path / "link.txt"
+    target.write_text("target", encoding="utf-8")
+    os.symlink(target, link)
+    with pytest.raises(FileExistsError):
+        write_text_exclusive(link, "new")
+    assert target.read_text(encoding="utf-8") == "target"

@@ -23,6 +23,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
+from evidence_io import write_text_exclusive
 from pess_ess import solvers_v2
 from pess_ess.model import Instance, Task, read_instance
 from pess_ess.solvers_v2 import MasterOracleOptions, solve_master_oracle
@@ -332,8 +333,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     record = run(args.instance, args.endpoint_seconds, args.inner_seconds)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(record, sort_keys=True) + "\n", encoding="utf-8")
+    write_text_exclusive(args.output, json.dumps(record, sort_keys=True) + "\n")
     print(json.dumps({key: record[key] for key in ("instance", "outcome", "task_oracle_call_count", "full_key_duplicate_call_count", "full_key_duplicate_fraction_of_task_oracle_wall")}, sort_keys=True))
     return 0 if record["outcome"] == "completed" else 1
 

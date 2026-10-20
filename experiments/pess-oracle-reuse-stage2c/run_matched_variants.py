@@ -17,6 +17,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
+from evidence_io import write_text_exclusive
 from independent_reference import objective
 from pess_ess.model import read_instance
 from pess_ess.solvers_v2 import MasterOracleOptions, solve_master_oracle, solve_static
@@ -58,30 +59,54 @@ def run_one(label: str, fn: Callable[[], Any], instance: Any) -> dict[str, Any]:
     started = time.perf_counter()
     try:
         result = fn()
-        elapsed = time.perf_counter() - started
+        solver_elapsed = time.perf_counter() - started
         raw = compact(result)
-        verification = None
         if result.selected is not None:
             value, details = objective(instance, result.selected)
+            solver_objective = raw.get("objective")
+            objective_agreement = solver_objective == str(value) if solver_objective is not None else None
+            verification_status = (
+                "SOLVER_OBJECTIVE_MATCH"
+                if objective_agreement is True
+                else "SOLVER_OBJECTIVE_MISSING"
+                if solver_objective is None
+                else "SOLVER_OBJECTIVE_MISMATCH"
+            )
             verification = {
-                "status": "PASS",
+                "status": verification_status,
+                "selected_set_feasible": True,
                 "objective": str(value),
-                "solver_objective": raw.get("objective"),
-                "objective_agreement": raw.get("objective") == str(value),
+                "solver_objective": solver_objective,
+                "objective_agreement": objective_agreement,
                 "witnesses": {task_id: sorted(witness) for task_id, (_loss, witness) in details.items()},
             }
+        else:
+            verification = {
+                "status": "NO_SELECTED_SOLUTION",
+                "selected_set_feasible": False,
+                "objective": None,
+                "solver_objective": raw.get("objective"),
+                "objective_agreement": None,
+                "witnesses": None,
+            }
+        full_elapsed = time.perf_counter() - started
         return {
             "method": label,
             "outcome": "completed",
-            "wall_seconds": elapsed,
+            "wall_seconds": full_elapsed,
+            "solver_call_wall_seconds": solver_elapsed,
+            "full_verified_wall_seconds": full_elapsed,
             "solver_result": raw,
             "independent_verification": verification,
         }
     except Exception as exc:  # noqa: BLE001
+        elapsed = time.perf_counter() - started
         return {
             "method": label,
             "outcome": "error",
-            "wall_seconds": time.perf_counter() - started,
+            "wall_seconds": elapsed,
+            "solver_call_wall_seconds": elapsed,
+            "full_verified_wall_seconds": elapsed,
             "error": {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()},
         }
 
@@ -109,6 +134,11 @@ def main() -> int:
     parser.add_argument("--instance", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--endpoint-seconds", type=float, default=5.0)
+    parser.add_argument(
+        "--method",
+        choices=("static", "master_oracle_uncached", "master_oracle_existing_task_cache"),
+        help="Run one method in a fresh worker process; omitted means all methods.",
+    )
     args = parser.parse_args()
     instance = read_instance(args.instance)
     common = {
@@ -117,25 +147,19 @@ def main() -> int:
         "certification_tolerance": 0.0,
         "cut_tolerance": 1e-6,
     }
-    records = [
-        run_one(
-            "static",
-            lambda: solve_static(instance, total_time_limit=args.endpoint_seconds),
-            instance,
+    runners = {
+        "static": lambda: solve_static(instance, total_time_limit=args.endpoint_seconds),
+        "master_oracle_uncached": lambda: solve_master_oracle(
+            instance, **common, options=MasterOracleOptions(task_local_cache=False)
         ),
-        run_one(
-            "master_oracle_uncached",
-            lambda: solve_master_oracle(instance, **common, options=MasterOracleOptions(task_local_cache=False)),
-            instance,
+        "master_oracle_existing_task_cache": lambda: solve_master_oracle(
+            instance, **common, options=MasterOracleOptions(task_local_cache=True)
         ),
-        run_one(
-            "master_oracle_existing_task_cache",
-            lambda: solve_master_oracle(instance, **common, options=MasterOracleOptions(task_local_cache=True)),
-            instance,
-        ),
-    ]
+    }
+    labels = (args.method,) if args.method is not None else tuple(runners)
+    records = [run_one(label, runners[label], instance) for label in labels]
     record = {
-        "experiment": "stage2c-matched-existing-cache-v1",
+        "experiment": "stage2c-matched-existing-cache-v2",
         "instance": str(args.instance.resolve()),
         "input_sha256": sha256(args.instance),
         "endpoint_seconds": args.endpoint_seconds,
@@ -145,8 +169,7 @@ def main() -> int:
         "peak_rss_bytes": peak_rss_bytes(),
         "process": {"pid": os.getpid(), "cwd": os.getcwd()},
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(record, sort_keys=True) + "\n", encoding="utf-8")
+    write_text_exclusive(args.output, json.dumps(record, sort_keys=True) + "\n")
     print(json.dumps({"instance": record["instance"], "methods": [{"method": item["method"], "outcome": item["outcome"]} for item in records]}, sort_keys=True))
     return 0 if all(item["outcome"] == "completed" for item in records) else 1
 
