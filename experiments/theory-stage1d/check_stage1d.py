@@ -206,7 +206,21 @@ def check_global_locality_gap() -> None:
 
 
 def path_edges(m: int) -> list[Edge]:
-    return [(2 * j, 2 * j + 1) if j % 2 == 0 else (j, j + 1) for j in range(2 * m - 1)]
+    if m < 1:
+        raise ValueError("the reduction uses at least one item")
+    return [(j, j + 1) for j in range(2 * m - 1)]
+
+
+def check_path_shape() -> None:
+    """Regression for the connected 2m-vertex, (2m-1)-edge path."""
+    for m in (1, 2, 3, 4):
+        edges = path_edges(m)
+        if m == 1:
+            assert edges == [(0, 1)]
+            continue
+        assert len(edges) == 2 * m - 1
+        assert edges == [(j, j + 1) for j in range(2 * m - 1)]
+        assert {vertex for edge in edges for vertex in edge} == set(range(2 * m))
 
 
 def path_reduction_objective(a: Sequence[int], target: int, selected: int) -> Fraction:
@@ -218,7 +232,17 @@ def path_reduction_objective(a: Sequence[int], target: int, selected: int) -> Fr
 
 
 def check_path_reduction() -> None:
-    for a, target in [([2, 3, 4], 5), ([2, 4, 4], 5), ([1, 2], 3), ([1, 3], 2)]:
+    cases = [
+        ([3], 3),
+        ([3], 2),
+        ([1, 2], 3),
+        ([1, 3], 2),
+        ([2, 3, 4], 5),
+        ([2, 4, 4], 5),
+        ([2, 3, 4, 7], 10),
+        ([2, 4, 4, 7], 5),
+    ]
+    for a, target in cases:
         m = len(a)
         optimum = min(path_reduction_objective(a, target, selected) for selected in range(1 << (2 * m - 1)))
         subset_sum = any(sum(a[j] for j in range(m) if mask & (1 << j)) == target for mask in range(1 << m))
@@ -295,11 +319,12 @@ def check_matching_aware_transfer() -> None:
 def main() -> None:
     check_single_star_convex_hull()
     check_global_locality_gap()
+    check_path_shape()
     check_path_reduction()
     check_path_profile_dp()
     check_matching_aware_transfer()
     print("stage1d exact diagnostics: PASS")
-    print("checks: star convex hull, global coupling gap, path reduction, path profile DP, matching-aware transfer")
+    print("checks: star convex hull, global coupling gap, path shape, path reduction, path profile DP, matching-aware transfer")
 
 
 if __name__ == "__main__":

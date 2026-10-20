@@ -32,10 +32,13 @@ predeclared comparison—not a rebranding of the local ingredients as novel.
   establish the result for the structured mathematical instance.
 - **Source-derived (conditional):** a statement follows from a cited source
   only within that source's graph/model/version assumptions.
-- **Experimentally observed:** the exact stdlib diagnostic in
+- **Experimentally observed:** the corrected exact stdlib diagnostic in
   [`experiments/theory-stage1d/check_stage1d.py`](../../experiments/theory-stage1d/check_stage1d.py)
-  was executed in the Issue #41 `.venv` with `Python 3.12.3`; it passed. This
-  is an arithmetic sanity check, not a proof, benchmark, or solver certificate.
+  was executed in the Issue #41 `.venv` with `Python 3.12.3`; it passed. The
+  first version had a disconnected-path test defect, which is recorded in the
+  follow-up validation note and is not counted as evidence for the connected
+  path. This remains an arithmetic sanity check, not a proof, benchmark, or
+  solver certificate.
 - The repository comments and PRs are originating research records, not
   published results. In particular, PR #12 and PR #13 were inspected as
   repository provenance and their own limitations were retained.
@@ -452,7 +455,16 @@ marked there.
 
 ## Reproducible exact diagnostic
 
-Command executed from the Issue #41 Worktree:
+The initial review found that the first diagnostic version's `path_edges`
+helper generated disconnected components for `m >= 3`; therefore its earlier
+path-reduction pass did not validate the connected-path hypothesis. The proof
+and reduction statement were not changed. The helper was corrected to use
+adjacent edges, and a shape regression now checks the trivial `m=1` case and
+`m=2,3,4` paths with exactly `2m` vertices and `2m-1` edges. The corrected
+result is recorded separately in
+[`validation-followup-v2.md`](validation-followup-v2.md).
+
+Command executed from the Issue #41 Worktree after that correction:
 
 ```text
 ./.venv/bin/python experiments/theory-stage1d/check_stage1d.py
@@ -472,7 +484,8 @@ enumeration for the stated tiny cases. It checks, but does not prove:
 - local STAR-HI values against an exact distribution LP on small fractional
   grids, including ties and signed coefficients;
 - the explicit global local-ideality/budget gap;
-- the connected-path reduction on deterministic small instances;
+- the connected-path shape regression and reduction on deterministic small
+  YES and NO instances, including `m=1,2,3,4`;
 - the fixed-selected path profile transition against independent maximal-
   matching enumeration;
 - the matching-aware perturbation inequality on a labeled multigraph with a
