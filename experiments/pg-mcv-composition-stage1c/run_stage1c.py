@@ -209,12 +209,16 @@ class Runner:
         self.psql("\n".join(statements), application="i40_set_targets")
 
         identity = self.manifest["fixture"]["relation_identity"]
-        row = self.psql(
+        identity_output = self.psql(
             "SELECT c.oid, c.relfilenode, pg_relation_size(c.oid) / current_setting('block_size')::int "
             "FROM pg_class AS c WHERE c.oid = 'public.forest10_original'::regclass;",
             application="i40_identity",
             tuples=True,
-        ).strip()
+        )
+        rows = [line for line in identity_output.splitlines() if re.fullmatch(r"\d+\t\d+\t\d+", line)]
+        if len(rows) != 1:
+            raise RuntimeError(f"unexpected fixed sample identity output: {identity_output!r}")
+        row = rows[0]
         expected = (
             f"{identity['relation_oid']}\t{identity['relation_filenode']}\t{identity['relation_pages']}"
         )
