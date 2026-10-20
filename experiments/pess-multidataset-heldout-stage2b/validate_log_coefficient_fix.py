@@ -325,7 +325,7 @@ def matching_evidence(
                 "maximal_matchings": [list(matching) for matching in matchings],
                 "nominal_matching": list(nominal),
                 "nominal_loss": str(abs(alpha + sum((b[edge] for edge in nominal), Fraction(0)))),
-                "pess_loss": max(item["loss"] for item in losses),
+                "pess_loss": str(max(Fraction(item["loss"]) for item in losses)),
                 "matching_losses": losses,
             }
         )
