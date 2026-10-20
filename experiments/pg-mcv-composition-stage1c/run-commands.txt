@@ -1,0 +1,16 @@
+# Issue #40 Stage 1C reproducibility record
+# Executed from the Issue 40 worktree on 2026-10-20 Asia/Shanghai.
+
+./.venv/bin/python experiments/pg-mcv-composition-stage1c/run_stage1c.py \
+  --data-root /home/wqts/ess-data \
+  --issue-root /tmp/ess-issue40-stage1c-v8 \
+  --pg-bin /tmp/ess-issue40-stage1c/pg-install/bin \
+  --lib-dir /tmp/ess-issue40-stage1c/pg-install/lib/x86_64-linux-gnu \
+  --port 55440 \
+  --database ess_issue40
+
+# Offline checks run after the formal run:
+python3 -m py_compile experiments/pg-mcv-composition-stage1c/run_stage1c.py
+python3 -m json.tool experiments/pg-mcv-composition-stage1c/protocol-manifest.json >/dev/null
+python3 -m unittest -v experiments/pg-mcv-composition-stage1c/test_matching_verifier.py
+git diff --check

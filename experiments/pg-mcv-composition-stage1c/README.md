@@ -1,6 +1,6 @@
 # Stage 1C: PG pairwise-MCV admissibility and composition
 
-Status: **protocol frozen before PostgreSQL observations**.
+Status: **completed bounded audit; model-limitation counterexample observed**.
 
 This directory is the sole in-repository scope for Issue #40.  It audits a
 bounded PostgreSQL 16.14 fixture against the prescribed pairwise labeled-edge
@@ -57,4 +57,32 @@ offset, and stop the owned cluster before handoff.
 independent of PostgreSQL and distinguish inclusion-wise maximality from
 maximum-cardinality matching.  It does not make a claim about which
 statistics PostgreSQL can realize.
+
+## Observed result (Issue-owned run v8)
+
+The formal run used `/tmp/ess-issue40-stage1c-v8` as its private runtime root;
+raw logs and PostgreSQL data remain outside Git.  It completed with 340 query
+observations and 28 composition records.  All 340 observations had a finite,
+strictly positive numeric pre-clamp trace and no missing trace lines.
+
+The matching ledger passed for 312 observations.  The remaining 28 are a
+repeated, source-grounded counterexample in this bounded fixture: for task
+`q_tail`, candidate `e12` had a built MCV payload and was admissible under the
+requested resource set, but the trace selected no statistic, so the selected
+set was not inclusion-wise maximal (`addable=['e12']`).  This is labeled
+**MODEL LIMITATION COUNTEREXAMPLE** for these cases; it is not a universal
+claim about PostgreSQL.
+
+All 28 composition records were in the positive pre-clamp domain.  The
+single-ratio composition prediction matched the disjoint pair and parallel
+cases to floating-point/decimal residuals near zero in this run, while the
+overlap, star, and path cases were not universally multiplicative.  The
+largest absolute relative residual was `0.213781318891745591...` for
+`q_path_disjoint`.  These are **experimentally observed** only for the pinned
+PG build, table/sample identity, inputs, GUCs, and frozen query/resource set;
+they do not validate a general PostgreSQL composition law.
+
+See `result-report.md`, `result-summary.json`, and `run-commands.txt` for the
+scrubbed evidence summary and reproduction command.  The raw server log hash
+and input hashes are recorded there; raw logs are not committed.
 

@@ -1,0 +1,60 @@
+{
+  "format": "ess-issue40-result-summary-v1",
+  "evidence_status": "MODEL_LIMITATION_COUNTEREXAMPLE",
+  "scope": "bounded PostgreSQL 16.14 source/trace audit; not a universal PostgreSQL claim",
+  "runtime": {
+    "issue_root": "/tmp/ess-issue40-stage1c-v8",
+    "port": 55440,
+    "database": "ess_issue40",
+    "stopped_after_run": true,
+    "raw_server_log_sha256": "1171f3d090bd44de97e2dbdbcee8cf1cb6490b323f590f2ed3816583b2607cba"
+  },
+  "source": {
+    "repository": "1951123/ess-postgresql",
+    "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+    "version": "16.14",
+    "instrumentation": ["ESS_MCV_TRACE", "ESS_MCV_NUMERIC_TRACE", "ess.analyze_sample_import"]
+  },
+  "inputs": {
+    "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "canonical_queries_sha256": "a38646ea371189a3fc637fa4851a2a8272ea5f0551d09e801a3b4cc433e15ea3",
+    "fixed_sample_sha256": "1fd69245a27283a431ff73704aa25096fc39dcea7f6be33be4d5d4eb1e5a4993",
+    "manifest_sha256": "c4bf5e2e5ffa16a735e47930ef34fffd90b582cf707e6fd628bd4409e4594e5a"
+  },
+  "fixture_identity": {
+    "relation_oid": 16384,
+    "relation_filenode": 16384,
+    "relation_pages": 7792,
+    "column_type": "double precision",
+    "fillfactor": 100
+  },
+  "counts": {
+    "observations": 340,
+    "positive_preclamp_observations": 340,
+    "trace_line_missing_observations": 0,
+    "matching_pass": 312,
+    "matching_fail": 28,
+    "composition_records": 28,
+    "composition_positive_preclamp": 28
+  },
+  "matching_counterexample": {
+    "task_id": "q_tail",
+    "available_candidate": "e12",
+    "selected_candidate_ids": [],
+    "error": "selected set is not inclusion-wise maximal; addable=['e12']"
+  },
+  "composition_abs_relative_residual_max": {
+    "q_star_disjoint": "1.84321962144687294658102923281608148368920924522738794134316e-16",
+    "q_star_overlap": "0.159039124853925981545103657938630791764799614930095454889885",
+    "q_star_star": "0.0495770156843559846485703968412585410014225521869278529069883",
+    "q_star_parallel": "0",
+    "q_path_disjoint": "0.213781318891745591096703094103982183754978024227711720358456",
+    "q_tail_overlap": "0",
+    "q_tail_three": "0"
+  },
+  "limitations": [
+    "bounded Forest10 fixture and frozen query/resource construction",
+    "results are source/trace observations for the pinned build only",
+    "no universal claim about PostgreSQL schemes, Gamma containment, or shared-policy PESS"
+  ]
+}
