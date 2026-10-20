@@ -18,13 +18,13 @@ Check current git status and branch before editing. If files are missing because
 Local VS Code/Codex execution shells may be **non-login and non-interactive** and may not automatically read `~/.bashrc`. **Before any task needing project paths, run the following in Bash**, including after starting a new Codex session:
 
 ```bash
-source /home/wqts/.bashrc
+source ~/.bashrc
 : "${ESS_DATA_ROOT:?ESS_DATA_ROOT must be set}"
 : "${ESS_RUNTIME_PARENT:?ESS_RUNTIME_PARENT must be set}"
 : "${ESS_WORKTREE_PARENT:?ESS_WORKTREE_PARENT must be set}"
 ```
 
-Sourcing affects **only the current shell process**. In a separate command runner/shell invocation, source the file again **in that same Bash process**, e.g. `bash -c 'source /home/wqts/.bashrc && <command>'` (replace `<command>` with the actual command), or use an explicitly verified environment passed by the executor. Do not assume variables carry over from a previous tool call or a terminal window. Check only variables needed by the specific operation; missing required variables **fail closed**, without guessed defaults or fallback roots. Do not print secrets, dump the full environment, edit the user's shell profile, or commit credentials. If `~/.bashrc` is guarded against non-interactive shells, verify exports actually took effect. See [docs/git-worktree-workflow.md](docs/git-worktree-workflow.md).
+Sourcing affects **only the current shell process**. In a separate command runner/shell invocation, source the file again **in that same Bash process**, e.g. `bash -c 'source ~/.bashrc && <command>'` (replace `<command>` with the actual command), or use an explicitly verified environment passed by the executor. Do not assume variables carry over from a previous tool call or a terminal window. Check only variables needed by the specific operation; missing required variables **fail closed**, without guessed defaults or fallback roots. Do not print secrets, dump the full environment, edit the user's shell profile, or commit credentials. If `~/.bashrc` is guarded against non-interactive shells, verify exports actually took effect. See [docs/git-worktree-workflow.md](docs/git-worktree-workflow.md).
 
 ## 2. Research correctness rules
 
