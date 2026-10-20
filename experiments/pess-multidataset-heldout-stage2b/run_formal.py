@@ -594,8 +594,8 @@ def run_dataset(
                     selected_sets[set_id]["aliases"].append({"budget": int(budget), "method": method, "tie_count": value["tie_count"]})
 
             test_truth = load_truth(prepared.dataset_root, "test")
-            if set(test_truth) != set(test_query_map):
-                raise RuntimeError("test truth/workload IDs mismatch")
+            if not set(test_query_map) <= set(test_truth):
+                raise RuntimeError("frozen test cohort IDs are absent from test truth")
             for repetition in range(2):
                 for set_id, value in sorted(selected_sets.items()):
                     selected = tuple(value["selected"])

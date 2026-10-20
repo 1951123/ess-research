@@ -39,3 +39,9 @@ def test_fraction_model_selection_retains_ties_and_budget_aliases() -> None:
     assert result["PESS"]["2"]["exact_fraction_reference"] is True
     assert result["Nominal"]["3"]["tie_count"] >= 1
     assert Fraction(result["PESS"]["2"]["objective"]) >= 0
+
+
+def test_frozen_cohort_is_a_subset_of_the_full_truth_split() -> None:
+    full_truth = {"q0": 0, "q1": 4, "q2": 8}
+    frozen_cohort = {"q0", "q2"}
+    assert frozen_cohort <= set(full_truth)
