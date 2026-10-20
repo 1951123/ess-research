@@ -203,16 +203,20 @@ def maximal_matchings(mask: int, candidates: list[dict[str, Any]]) -> list[tuple
     return sorted(result)
 
 
-def query_values(query: dict[str, Any], candidates: dict[str, dict[str, Any]]) -> dict[str, Any]:
+def query_values(
+    query: dict[str, Any],
+    candidates: dict[str, dict[str, Any]],
+    known_columns: set[str] | None = None,
+) -> dict[str, Any]:
     predicates = query.get("predicates")
     if not isinstance(predicates, list):
         raise ValueError(f"predicates is not a list: {query.get('query_id')}")
     columns = [item.get("column") for item in predicates if isinstance(item, dict)]
     operators = [item.get("operator") for item in predicates if isinstance(item, dict)]
-    known_columns = ALL_SOURCE_COLUMNS | {
+    known = (known_columns or ALL_SOURCE_COLUMNS) | {
         column for candidate in candidates.values() for column in candidate["source_columns"]
     }
-    unknown_columns = [column for column in columns if column not in known_columns]
+    unknown_columns = [column for column in columns if column not in known]
     unsupported_operators = [operator for operator in operators if operator not in SUPPORTED_OPERATORS]
     distinct = set(columns)
     raw_edges = [
@@ -370,8 +374,12 @@ def scan_table(path: Path, dataset: str) -> dict[str, Any]:
     }
 
 
-def split_summary(records: list[dict[str, Any]], candidates: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    values = [query_values(query, candidates) for query in records]
+def split_summary(
+    records: list[dict[str, Any]],
+    candidates: dict[str, dict[str, Any]],
+    known_columns: set[str] | None = None,
+) -> dict[str, Any]:
+    values = [query_values(query, candidates, known_columns) for query in records]
     if len({query["query_id"] for query in records}) != len(records):
         raise ValueError("duplicate query IDs within split")
     if any(key in query for query in records for key in FORBIDDEN_TRUTH_KEYS):
@@ -425,9 +433,14 @@ def split_summary(records: list[dict[str, Any]], candidates: dict[str, dict[str,
     }
 
 
-def cohort_metrics(records: list[dict[str, Any]], candidate_spec: dict[str, dict[str, Any]], cohort_ids: list[str]) -> dict[str, Any]:
+def cohort_metrics(
+    records: list[dict[str, Any]],
+    candidate_spec: dict[str, dict[str, Any]],
+    cohort_ids: list[str],
+    known_columns: set[str],
+) -> dict[str, Any]:
     selected = [query for query in records if query["query_id"] in set(cohort_ids)]
-    summary = split_summary(selected, candidate_spec) if selected else {"query_count": 0}
+    summary = split_summary(selected, candidate_spec, known_columns) if selected else {"query_count": 0}
     return {
         "reference_id_count": len(cohort_ids),
         "found_id_count": len(selected),
@@ -490,17 +503,26 @@ def prepared_workload(dataset: str) -> Iterator[tuple[dict[str, Any], Path, dict
 
 def audit_dataset(spec: dict[str, Any], dataset: str, legacy_ids: set[str], cohort_ids: list[str]) -> dict[str, Any]:
     candidates = candidate_map(spec, dataset)
+    known_columns = set(source_columns(dataset))
     with prepared_workload(dataset) as (manifest, table_csv, splits):
         split_results = {
-            split: split_summary(splits[split], candidates) for split in SPLITS
+            split: split_summary(splits[split], candidates, known_columns) for split in SPLITS
         }
         strict_records = {
-            split: [query for query in splits[split] if query_values(query, candidates)["strict_edges"]]
+            split: [
+                query
+                for query in splits[split]
+                if query_values(query, candidates, known_columns)["strict_edges"]
+            ]
             for split in SPLITS
         }
         cross_split = fingerprint_audit(splits)
         stage1a_overlap = sorted(set(query["query_id"] for query in splits["test"]) & legacy_ids)
-        stage2b = cohort_metrics(splits["test"], candidates, cohort_ids) if cohort_ids else {"status": "NOT_APPLICABLE"}
+        stage2b = (
+            cohort_metrics(splits["test"], candidates, cohort_ids, known_columns)
+            if cohort_ids
+            else {"status": "NOT_APPLICABLE"}
+        )
         if dataset == "forest10":
             stage2b["stage1a_legacy_ids_in_test"] = len(stage1a_overlap)
             stage2b["stage1a_legacy_ids_in_strict_test"] = sum(
@@ -602,9 +624,13 @@ def run(args: argparse.Namespace) -> None:
     output.mkdir(parents=True)
     legacy = stage1a_ids()
     datasets: dict[str, Any] = {}
+    total_table_rows = 0
     for dataset in DATASETS:
         cohort_ids = spec["stage2b_cohort_reference"].get(f"{dataset}_test_cohort_ids", [])
         datasets[dataset] = audit_dataset(spec, dataset, legacy, cohort_ids)
+        total_table_rows += datasets[dataset]["database_inventory"]["row_count"]
+        if total_table_rows > 15_000_000:
+            raise RuntimeError("aggregate CSV scan exceeded the frozen 15000000-row cap")
         exclusive_json(output / f"{dataset}.json", datasets[dataset])
     summary = {
         "format": "ess-issue59-workload-structure-audit-summary-v1",
