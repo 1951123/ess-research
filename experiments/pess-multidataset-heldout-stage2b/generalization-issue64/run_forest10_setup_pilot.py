@@ -12,6 +12,7 @@ import errno
 import hashlib
 import json
 import os
+import re
 import shutil
 import signal
 import stat
@@ -21,7 +22,7 @@ import tarfile
 import tempfile
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 HERE = Path(__file__).resolve().parent
 ISSUE64_ROOT = HERE.parents[2]
@@ -79,8 +80,14 @@ def _safe_pg_cause(stderr: str) -> str:
     text = stderr.lower()
     if "permission denied" in text:
         return "permission_denied"
+    if "address already in use" in text or "could not bind" in text:
+        return "port_bind_failure"
+    if "no space left on device" in text:
+        return "no_space_left"
     if "could not connect" in text or "connection refused" in text:
         return "connection_failure"
+    if "could not start server" in text:
+        return "server_start_failure"
     if "no server running" in text:
         return "server_not_running"
     if "timed out" in text or "timeout" in text:
@@ -90,7 +97,204 @@ def _safe_pg_cause(stderr: str) -> str:
     return "nonzero_exit"
 
 
+class PilotPostgreSQLFailure(RuntimeError):
+    """Bounded diagnostic for one PG startup/setup command; never stores SQL/output."""
+
+    def __init__(
+        self,
+        phase: str,
+        program: str,
+        cause: str,
+        exit_code: int | None,
+        *,
+        error_class: str = "PostgreSQLCommandError",
+        error_number: int | None = None,
+    ) -> None:
+        super().__init__("PostgreSQL command failed; SQL and command output omitted")
+        self.phase = phase
+        self.program = program
+        self.cause = cause
+        self.exit_code = exit_code
+        self.error_class = error_class
+        self.error_number = error_number
+
+    def record(self) -> dict[str, Any]:
+        command = {"program": self.program, "cause": self.cause, "exit_code": self.exit_code}
+        if self.error_number is not None:
+            command["errno"] = self.error_number
+        return {
+            "phase": self.phase,
+            "type": self.error_class,
+            "message": "PostgreSQL command failed; SQL and command output omitted",
+            "postgresql_command": command,
+        }
+
+
+def _classify_pg_command(command: list[str]) -> tuple[str, str]:
+    """Return a fixed stage/program label without retaining command arguments."""
+    program = Path(command[0]).name if command else "unknown"
+    if program not in {"initdb", "pg_ctl", "psql"}:
+        program = "postgresql_command"
+    if program == "initdb":
+        return "initdb", program
+    if program == "pg_ctl":
+        action = command[-1].lower() if len(command) > 1 else ""
+        if action == "start":
+            return "pg_ctl_start", program
+        if action == "stop":
+            return "pg_ctl_stop", program
+        return "pg_ctl_command", program
+    if program != "psql":
+        return "postgresql_command", program
+
+    sql = command[command.index("-c") + 1] if "-c" in command and command.index("-c") + 1 < len(command) else ""
+    normalized = re.sub(r"\s+", " ", sql.strip().lower())
+    if "current_setting('data_directory')" in normalized and "current_database()" in normalized:
+        return "psql_identity_check", program
+    if normalized.startswith("create table public.forest10"):
+        return "schema_create", program
+    if normalized.startswith("\\copy public.forest10 from "):
+        return "csv_import", program
+    if "ess.analyze_sample_export" in normalized and "analyze public.forest10" in normalized:
+        return "sample_export_analyze", program
+    if "ess.analyze_sample_import" in normalized and "analyze public.forest10" in normalized:
+        return "sample_replay_analyze", program
+    if normalized.startswith("select count(*) from public.forest10"):
+        return "csv_import_verify", program
+    if normalized.startswith("alter table public.forest10"):
+        return "column_statistics_target", program
+    if normalized.startswith(("create statistics ", "drop statistics ")):
+        return "statistics_object_setup", program
+    if normalized.startswith("analyze public.forest10"):
+        return "sample_replay_analyze", program
+    if normalized.startswith("explain "):
+        return "valid_explain", program
+    return "psql_command", program
+
+
+def _run_diagnostic_pg_command(
+    command: list[str],
+    *,
+    env: dict[str, str],
+    input_text: str | None = None,
+    timeout: int = 180,
+    phase_sink: Callable[[str], None] | None = None,
+    failure_sink: list[dict[str, Any]] | None = None,
+) -> subprocess.CompletedProcess[str]:
+    phase, program = _classify_pg_command(command)
+    if phase_sink is not None:
+        phase_sink(phase)
+    try:
+        result = subprocess.run(
+            command,
+            env=env,
+            input=input_text,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired:
+        failure = PilotPostgreSQLFailure(phase, program, "timeout", None, error_class="TimeoutExpired")
+        if failure_sink is not None:
+            failure_sink.append(failure.record())
+        raise failure from None
+    except OSError as exc:
+        cause = "command_unavailable" if exc.errno == errno.ENOENT else (
+            "permission_denied" if exc.errno in {errno.EACCES, errno.EPERM} else "command_os_error"
+        )
+        failure = PilotPostgreSQLFailure(
+            phase,
+            program,
+            cause,
+            None,
+            error_class=type(exc).__name__,
+            error_number=exc.errno,
+        )
+        if failure_sink is not None:
+            failure_sink.append(failure.record())
+        raise failure from None
+    if result.returncode:
+        failure = PilotPostgreSQLFailure(
+            phase,
+            program,
+            _safe_pg_cause(f"{result.stderr}\n{result.stdout}"),
+            result.returncode,
+        )
+        if failure_sink is not None:
+            failure_sink.append(failure.record())
+        raise failure from None
+    return result
+
+
+def _install_pinned_pg_diagnostics(
+    helpers: Any,
+    *,
+    phase_sink: Callable[[str], None],
+    failure_sink: list[dict[str, Any]],
+) -> Callable[[], None]:
+    """Instrument the pinned PR #58 call path and return a restoration callback."""
+    original_run_command = helpers.run_command
+    original_validate_identity = helpers.validate_cluster_identity
+
+    def diagnostic_run_command(command, *, env, input_text=None, timeout=180):
+        return _run_diagnostic_pg_command(
+            command,
+            env=env,
+            input_text=input_text,
+            timeout=timeout,
+            phase_sink=phase_sink,
+            failure_sink=failure_sink,
+        )
+
+    def diagnostic_validate_identity(fields, pgdata, port):
+        phase_sink("psql_identity_check")
+        try:
+            return original_validate_identity(fields, pgdata, port)
+        except RuntimeError:
+            failure = PilotPostgreSQLFailure(
+                "psql_identity_check",
+                "psql",
+                "identity_mismatch",
+                None,
+                error_class="ClusterIdentityError",
+            )
+            failure_sink.append(failure.record())
+            raise failure from None
+
+    helpers.run_command = diagnostic_run_command
+    helpers.validate_cluster_identity = diagnostic_validate_identity
+
+    def restore() -> None:
+        helpers.run_command = original_run_command
+        helpers.validate_cluster_identity = original_validate_identity
+
+    return restore
+
+
+def _merge_pg_failures(summary: dict[str, Any], failures: list[dict[str, Any]]) -> None:
+    """Keep the earliest operation failure primary and later shutdown failures separate."""
+    if not failures:
+        return
+    cleanup_phases = {"pg_ctl_stop", "postgresql_shutdown"}
+    primary = next((item for item in failures if item["phase"] not in cleanup_phases), None)
+    existing = summary.get("error")
+    if primary is not None and (existing is None or "postgresql_command" in existing):
+        summary["error"] = primary
+        summary["status"] = "FAILED"
+    cleanup_errors = summary.setdefault("cleanup_errors", [])
+    skipped_primary = False
+    for item in failures:
+        if primary is item and not skipped_primary:
+            skipped_primary = True
+            continue
+        if item not in cleanup_errors:
+            cleanup_errors.append(item)
+
+
 def _worker_error_record(exc: BaseException, phase: str) -> dict[str, Any]:
+    if isinstance(exc, PilotPostgreSQLFailure):
+        return exc.record()
     message = str(exc).splitlines()[0][:300]
     if "command failed:" in message:
         raw_stderr = str(exc).partition("\nstderr=")[2]
@@ -278,6 +482,17 @@ def _worker(root: Path) -> int:
         cluster_entered = False
         cluster_lifecycle_start = time.monotonic()
         current_phase = "cluster_start_bootstrap_and_replays"
+        pg_command_failures: list[dict[str, Any]] = []
+
+        def set_pg_phase(phase: str) -> None:
+            nonlocal current_phase
+            current_phase = phase
+
+        restore_pg_helpers = _install_pinned_pg_diagnostics(
+            helpers,
+            phase_sink=set_pg_phase,
+            failure_sink=pg_command_failures,
+        )
         try:
             backend_context = helpers.owned_cluster(prefix, root / "cluster", os.environ.copy())
             cluster = backend_context.__enter__()
@@ -385,7 +600,8 @@ def _worker(root: Path) -> int:
                     summary["checks"]["postgresql_shutdown"] = "PASS"
                 except BaseException as exc:
                     summary["status"] = "FAILED"
-                    _record_cleanup_error(summary, exc, current_phase)
+                    if not isinstance(exc, PilotPostgreSQLFailure):
+                        _record_cleanup_error(summary, exc, current_phase)
                     summary["checks"]["postgresql_shutdown"] = "FAIL"
             summary["phases_seconds"]["cluster_lifecycle_including_shutdown"] = round(
                 time.monotonic() - cluster_lifecycle_start, 3
@@ -401,6 +617,8 @@ def _worker(root: Path) -> int:
                 (root / "cluster" / "server.log").unlink(missing_ok=True)
             except OSError:
                 pass
+            restore_pg_helpers()
+        _merge_pg_failures(summary, pg_command_failures)
     except BaseException as exc:
         summary["status"] = "FAILED"
         summary["error"] = _worker_error_record(exc, current_phase)
