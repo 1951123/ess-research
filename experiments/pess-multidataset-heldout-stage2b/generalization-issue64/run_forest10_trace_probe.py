@@ -257,7 +257,14 @@ def _worker(root: Path) -> int:
             nonlocal config_seconds, config_max_seconds
             before = time.monotonic()
             try:
-                return helpers.configure_statistics(prefix, cluster, "forest10", {row["id"]: row for row in stats}, selected, sample)
+                return run_formal.configure_statistics(
+                    prefix,
+                    cluster,
+                    "forest10",
+                    {row["id"]: row for row in stats},
+                    selected,
+                    sample,
+                )
             finally:
                 elapsed = time.monotonic() - before
                 config_seconds += elapsed
