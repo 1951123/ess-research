@@ -13,7 +13,7 @@ from collections.abc import Mapping, Sequence
 from itertools import combinations
 from typing import Any
 
-from .archive import DATASETS, _schema, prepare
+from .archive import DATASETS, _schema, prepare_valid_workload
 from .real import SUPPORTED_OPERATORS
 
 
@@ -26,7 +26,9 @@ def discover_candidates(
     within each query. The prepared inclusive-range operator (``[]``) has the
     same supported restriction meaning as its two bound comparisons. Pairs
     containing a malformed, unknown-column, or unsupported predicate are
-    reported by reason and are not counted as eligible candidates.
+    reported by reason and are not counted as eligible candidates. If any
+    predicate for a column is unsupported, that column is conservatively
+    excluded for the whole query even if another predicate on it is supported.
     """
 
     column_order = {column: index for index, column in enumerate(source_columns)}
@@ -45,7 +47,7 @@ def discover_candidates(
 
         observed_columns: set[str] = set()
         eligible_columns: set[str] = set()
-        rejected_columns: dict[str, str] = {}
+        rejected_columns: dict[str, set[str]] = {}
         query_id = query.get("query_id", f"query:{query_index}")
         for predicate_index, predicate in enumerate(predicates):
             if not isinstance(predicate, Mapping):
@@ -85,7 +87,7 @@ def discover_candidates(
             else:
                 eligible_columns.add(column)
                 continue
-            rejected_columns[column] = reason
+            rejected_columns.setdefault(column, set()).add(reason)
             rejected_predicates[reason] += 1
             rejection_details.append(
                 {
@@ -97,6 +99,7 @@ def discover_candidates(
                 }
             )
 
+        eligible_columns.difference_update(rejected_columns)
         ordered_observed = sorted(
             observed_columns,
             key=lambda column: (column_order.get(column, len(column_order)), column),
@@ -108,9 +111,10 @@ def discover_candidates(
             else:
                 reasons = sorted(
                     {
-                        rejected_columns[column]
+                        reason
                         for column in (left, right)
                         if column in rejected_columns
+                        for reason in rejected_columns[column]
                     }
                 )
                 reason = "+".join(reasons) if reasons else "no_supported_restriction"
@@ -141,8 +145,8 @@ def discover_candidates(
 
 def _run(dataset: str) -> dict[str, Any]:
     source_columns, _columns, _relation = _schema(dataset)
-    with prepare(issue=67, dataset=dataset) as prepared:
-        workload_path = prepared.dataset_root / "valid" / "workload.json"
+    with prepare_valid_workload(issue=67, dataset=dataset) as prepared:
+        workload_path = prepared.workload_path
         workload = json.loads(workload_path.read_text(encoding="utf-8"))
         if (
             workload.get("dataset") != dataset
@@ -159,7 +163,9 @@ def _run(dataset: str) -> dict[str, Any]:
             "archive_sha256": prepared.manifest["archive_sha256"],
             "upstream_commit": prepared.manifest["upstream_commit"],
             "etl_commit": prepared.manifest["etl"].get("git_commit"),
+            "etl_worktree_dirty": prepared.manifest["etl"].get("worktree_dirty"),
             "python_version": prepared.manifest["python"],
+            "labels_loaded": prepared.manifest["labels_loaded"],
             "eligibility_basis": (
                 "Existing AreCEL simple-restriction operator contract; distinct source columns "
                 "with at least one supported predicate per query. Inclusive ranges require two bounds."

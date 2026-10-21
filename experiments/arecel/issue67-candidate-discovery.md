@@ -4,7 +4,7 @@
 
 ## Static eligibility rule
 
-**Source-derived (conditional):** predicate operators follow `ess_research.arecel.real.SUPPORTED_OPERATORS` (`=`, `<`, `<=`, `>`, `>=`, and `[]`); the prepared inclusive range must contain exactly two bounds and corresponds to lower/upper comparisons in the existing query adaptation. This reuses the simple comparison forms in the Issue #47 eligibility crosswalk. A column is eligible in a query when it has at least one supported restriction. Repeated predicates on a column do not duplicate a pair. For every query, all unordered pairs among its eligible distinct columns are counted once, even when the query has three or more eligible columns. Unsupported/malformed predicates and their excluded co-occurring pairs are reported by query, predicate index, and reason.
+**Source-derived (conditional):** predicate operators follow `ess_research.arecel.real.SUPPORTED_OPERATORS` (`=`, `<`, `<=`, `>`, `>=`, and `[]`); the prepared inclusive range must contain exactly two bounds and corresponds to lower/upper comparisons in the existing query adaptation. This reuses the simple comparison forms in the Issue #47 eligibility crosswalk. A column is eligible in a query when it has at least one supported restriction and no unsupported/malformed predicate. If the same column has both supported and unsupported predicates, exclude it for that query. Repeated supported predicates on a column do not duplicate a pair. For every query, all unordered pairs among eligible distinct columns are counted once, even when the query has three or more such columns. Unsupported/malformed predicates and excluded co-occurring pairs are reported by query, predicate index, and reason.
 
 This is a syntactic/static screen. It does not show that PostgreSQL considered, built, selected, or benefited from a statistic, and it does not establish universal MCV compatibility for arbitrary SQL or catalogs.
 
@@ -73,7 +73,7 @@ source ~/.bashrc
 PYTHONPATH=src .venv/bin/python -m ess_research.arecel.candidates --dataset forest10
 ```
 
-The run used Python `3.12.3` on `Linux-7.0.0-38-generic-x86_64-with-glibc2.39`, NumPy `2.3.4`, AreCEL upstream commit `aa52da7768023270bad884232972e0b77ec6534a`, verified archive SHA-256 `5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79`, and prepared-data ETL commit `13019bcd68fc437fdad016a945197dc371f378dc`. No seed is used; the discovery is deterministic. The command emits the complete candidate list and provenance as JSON. Discovery reads only `valid/workload.json`; it does not read `truth.json`, test queries, test truth/estimates, or PostgreSQL measurements.
+The run used Python `3.12.3` on `Linux-7.0.0-38-generic-x86_64-with-glibc2.39`, NumPy `2.3.4`, AreCEL upstream commit `aa52da7768023270bad884232972e0b77ec6534a`, verified archive SHA-256 `5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79`, and prepared-data ETL commit `13019bcd68fc437fdad016a945197dc371f378dc`. No seed is used; the discovery is deterministic. The command emits the complete candidate list and provenance as JSON. Its workload-only preparation path deserializes the pinned workload pickle but never the label pickle, and materializes only `valid/workload.json`; it does not create or open truth files. Candidate discovery uses that valid workload and no PostgreSQL measurements.
 
 ## Limitation
 

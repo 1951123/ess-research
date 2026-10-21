@@ -1,6 +1,15 @@
+import io
+import pickle
+import tarfile
+import tempfile
 import unittest
+from collections import OrderedDict
+from contextlib import contextmanager
+from pathlib import Path
+from unittest.mock import patch
 
-from ess_research.arecel.candidates import discover_candidates
+from ess_research.arecel import archive as arecel_archive
+from ess_research.arecel.candidates import _run, discover_candidates
 
 
 SCHEMA = ("a", "b", "c", "d")
@@ -92,6 +101,16 @@ class CandidateDiscoveryTests(unittest.TestCase):
             result["rejected_predicates"][0]["reason"], "unsupported_operator"
         )
 
+    def test_any_unsupported_predicate_excludes_that_column_for_the_query(self):
+        result = discover_candidates(
+            [query(predicate("a"), predicate("a", "~~"), predicate("b"))], SCHEMA
+        )
+        self.assertEqual(result["candidates"], [])
+        self.assertEqual(
+            result["cooccurring_pair_query_count_excluded_by_reason"],
+            {"unsupported_operator": 1},
+        )
+
 
     def test_candidate_and_column_order_follow_source_schema(self):
         result = discover_candidates(
@@ -116,6 +135,54 @@ class CandidateDiscoveryTests(unittest.TestCase):
             result["cooccurring_pair_query_count_excluded_by_reason"],
             {"unknown_column": 1},
         )
+
+    def test_entrypoint_prepares_valid_workload_without_loading_label_pickle(self):
+        source_columns, _schema, _relation = arecel_archive._schema("forest10")
+        source_query = arecel_archive.Query(
+            OrderedDict(
+                (column, ("=", 1.0)) for column in source_columns[:2]
+            ),
+            2,
+        )
+        workload_bytes = pickle.dumps({"valid": [source_query]})
+        tar_bytes = io.BytesIO()
+        with tarfile.open(fileobj=tar_bytes, mode="w:gz") as archive:
+            for name, payload in (
+                ("data/forest10/workload/base.pkl", workload_bytes),
+                # Any attempt to deserialize labels fails this test.
+                ("data/forest10/workload/base-original-label.pkl", b"not a pickle"),
+            ):
+                member = tarfile.TarInfo(name)
+                member.size = len(payload)
+                archive.addfile(member, io.BytesIO(payload))
+
+        @contextmanager
+        def verified_archive(_cache):
+            yield io.BytesIO(tar_bytes.getvalue())
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            configured = {
+                "ESS_DATA_ROOT": root / "cache",
+                "ESS_RUNTIME_PARENT": root / "runtime",
+            }
+            with (
+                patch.object(
+                    arecel_archive,
+                    "configured_root",
+                    side_effect=lambda name: configured[name],
+                ),
+                patch.object(
+                    arecel_archive,
+                    "runtime_runs",
+                    return_value=root / "runtime" / "runs",
+                ),
+                patch.object(arecel_archive, "_archive", side_effect=verified_archive),
+            ):
+                result = _run("forest10")
+
+        self.assertEqual(result["valid_query_count"], 1)
+        self.assertEqual(result["candidate_count"], 1)
 
 
 if __name__ == "__main__":
