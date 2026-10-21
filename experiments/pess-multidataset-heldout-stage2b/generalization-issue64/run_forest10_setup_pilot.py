@@ -41,6 +41,19 @@ SOFT_STOP_DISK_BYTES = 1536 * 1024**2
 DISK_SCAN_RACE_RETRIES = 2
 TRANSIENT_DISK_SCAN_ERRNOS = {errno.ENOENT, getattr(errno, "ESTALE", -1)}
 SAMPLE_RELATION_IDENTITY = "6:public8:forest10"
+PILOT_RUNTIME_PREFIX = "f10-"
+# The pinned Linux PostgreSQL build uses sockaddr_un.sun_path[108].
+UNIX_SOCKET_PATH_MAX_BYTES = 107
+
+
+def _validate_socket_path(root: Path) -> int:
+    """Allow room for the largest port before creating any PostgreSQL process."""
+    length = len(os.fsencode(str(root / "cluster" / "socket" / ".s.PGSQL.65535")))
+    if length > UNIX_SOCKET_PATH_MAX_BYTES:
+        raise RuntimeError(
+            f"Unix socket path needs {length} bytes; pinned Linux limit is {UNIX_SOCKET_PATH_MAX_BYTES}"
+        )
+    return length
 
 
 def _sha256(path: Path) -> str:
@@ -78,6 +91,8 @@ def _allocated_bytes(root: Path) -> int:
 
 def _safe_pg_cause(stderr: str) -> str:
     text = stderr.lower()
+    if "unix-domain socket path" in text and "is too long" in text:
+        return "unix_socket_path_too_long"
     if "permission denied" in text:
         return "permission_denied"
     if "address already in use" in text or "could not bind" in text:
@@ -215,10 +230,23 @@ def _run_diagnostic_pg_command(
             failure_sink.append(failure.record())
         raise failure from None
     if result.returncode:
+        cause = _safe_pg_cause(f"{result.stderr}\n{result.stdout}")
+        # pg_ctl normally emits only "could not start server". Consult its
+        # startup-only log before cleanup, retaining a fixed category, no text.
+        if phase == "pg_ctl_start" and "-l" in command:
+            log_index = command.index("-l") + 1
+            if log_index < len(command):
+                try:
+                    with Path(command[log_index]).open("rb") as startup_log:
+                        log_cause = _safe_pg_cause(startup_log.read(64 * 1024).decode("utf-8", errors="replace"))
+                    if log_cause != "nonzero_exit":
+                        cause = log_cause
+                except OSError:
+                    pass  # Preserve the pg_ctl cause if its log is unavailable.
         failure = PilotPostgreSQLFailure(
             phase,
             program,
-            _safe_pg_cause(f"{result.stderr}\n{result.stdout}"),
+            cause,
             result.returncode,
         )
         if failure_sink is not None:
@@ -423,6 +451,7 @@ def _worker(root: Path) -> int:
         runtime_root = runtime_runs("ess-research", 64).resolve()
         if root.parent.resolve() != runtime_root or not root.is_dir() or root.is_symlink():
             raise RuntimeError("worker runtime root is not the dedicated pilot directory")
+        summary["checks"]["unix_socket_path_bytes_upper_bound"] = _validate_socket_path(root)
         original_runtime = configured_root("ESS_RUNTIME_PARENT")
         prefix = original_runtime / "issue38" / "pg-prefix"
         pg_source = original_runtime / "issue38" / "pg-src"
@@ -783,7 +812,7 @@ def main() -> int:
     runs.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(runs).free < HARD_DISK_BYTES:
         raise SystemExit("refusing pilot: runtime filesystem has less than the 2-GiB cap available")
-    root = Path(tempfile.mkdtemp(prefix="forest10-setup-pilot-", dir=runs))
+    root = Path(tempfile.mkdtemp(prefix=PILOT_RUNTIME_PREFIX, dir=runs))
     print(f"PILOT_RUNTIME_ROOT={root}", flush=True)
     return _supervise(root)
 

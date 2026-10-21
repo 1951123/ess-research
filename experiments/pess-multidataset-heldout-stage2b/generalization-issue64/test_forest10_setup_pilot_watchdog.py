@@ -24,6 +24,40 @@ class _FakeProcess:
 
 
 class Forest10SetupPilotWatchdogTests(unittest.TestCase):
+    def test_socket_path_limit_counts_bytes_and_accepts_boundary(self):
+        suffix = "/cluster/socket/.s.PGSQL.65535"
+        root = Path("/" + "x" * (107 - len(suffix) - 1))
+        self.assertEqual(pilot._validate_socket_path(root), 107)
+        with self.assertRaisesRegex(RuntimeError, "108 bytes"):
+            pilot._validate_socket_path(Path(str(root) + "x"))
+        with self.assertRaisesRegex(RuntimeError, "109 bytes"):
+            pilot._validate_socket_path(Path(str(root) + "é"))
+
+    def test_old_runtime_layout_is_too_long_and_short_prefix_fits(self):
+        runs = Path("/home/wqts/ess-runtime/ess-research/issue64/runs")
+        with self.assertRaisesRegex(RuntimeError, "108 bytes"):
+            pilot._validate_socket_path(runs / "forest10-setup-pilot-12558xp0")
+        self.assertEqual(pilot._validate_socket_path(runs / (pilot.PILOT_RUNTIME_PREFIX + "12345678")), 91)
+
+    def test_startup_failure_reads_bounded_log_and_retains_only_safe_category(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "server.log"
+            log.write_text('LOG: Unix-domain socket path "/secret/socket" is too long (maximum 107 bytes)\n')
+            command = ["/pg/bin/pg_ctl", "-l", str(log), "-w", "start"]
+            result = pilot.subprocess.CompletedProcess(command, 1, "", "pg_ctl: could not start server")
+            with patch.object(pilot.subprocess, "run", return_value=result):
+                with self.assertRaises(pilot.PilotPostgreSQLFailure) as caught:
+                    pilot._run_diagnostic_pg_command(command, env={})
+            record = caught.exception.record()
+            self.assertEqual(record["postgresql_command"]["cause"], "unix_socket_path_too_long")
+            self.assertEqual(record["postgresql_command"]["exit_code"], 1)
+            self.assertNotIn("secret", json.dumps(record))
+            log.unlink()
+            with patch.object(pilot.subprocess, "run", return_value=result):
+                with self.assertRaises(pilot.PilotPostgreSQLFailure) as caught:
+                    pilot._run_diagnostic_pg_command(command, env={})
+            self.assertEqual(caught.exception.cause, "server_start_failure")
+
     def test_disk_scan_retries_a_disappearing_file(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
