@@ -159,6 +159,7 @@ def _run(dataset: str) -> dict[str, Any]:
             "archive_sha256": prepared.manifest["archive_sha256"],
             "upstream_commit": prepared.manifest["upstream_commit"],
             "etl_commit": prepared.manifest["etl"].get("git_commit"),
+            "python_version": prepared.manifest["python"],
             "eligibility_basis": (
                 "Existing AreCEL simple-restriction operator contract; distinct source columns "
                 "with at least one supported predicate per query. Inclusive ranges require two bounds."

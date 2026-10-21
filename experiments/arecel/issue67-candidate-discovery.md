@@ -73,7 +73,7 @@ source ~/.bashrc
 PYTHONPATH=src .venv/bin/python -m ess_research.arecel.candidates --dataset forest10
 ```
 
-The run used AreCEL upstream commit `aa52da7768023270bad884232972e0b77ec6534a`, verified archive SHA-256 `5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79`, prepared-data ETL commit `13019bcd68fc437fdad016a945197dc371f378dc`, and NumPy `2.3.4`. The command emits the complete deterministic candidate list and provenance as JSON. Discovery reads only `valid/workload.json`; it does not read `truth.json`, test queries, test truth/estimates, or PostgreSQL measurements.
+The run used Python `3.12.3` on `Linux-7.0.0-38-generic-x86_64-with-glibc2.39`, NumPy `2.3.4`, AreCEL upstream commit `aa52da7768023270bad884232972e0b77ec6534a`, verified archive SHA-256 `5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79`, and prepared-data ETL commit `13019bcd68fc437fdad016a945197dc371f378dc`. No seed is used; the discovery is deterministic. The command emits the complete candidate list and provenance as JSON. Discovery reads only `valid/workload.json`; it does not read `truth.json`, test queries, test truth/estimates, or PostgreSQL measurements.
 
 ## Limitation
 
