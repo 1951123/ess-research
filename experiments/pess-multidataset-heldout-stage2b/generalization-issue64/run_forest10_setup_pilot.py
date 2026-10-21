@@ -456,6 +456,8 @@ def main() -> int:
         raise SystemExit("refusing to run without explicit --researcher-approved")
     runs = runtime_runs("ess-research", 64)
     runs.mkdir(parents=True, exist_ok=True)
+    if shutil.disk_usage(runs).free < HARD_DISK_BYTES:
+        raise SystemExit("refusing pilot: runtime filesystem has less than the 2-GiB cap available")
     root = Path(tempfile.mkdtemp(prefix="forest10-setup-pilot-", dir=runs))
     print(f"PILOT_RUNTIME_ROOT={root}", flush=True)
     return _supervise(root)
