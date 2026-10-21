@@ -21,6 +21,12 @@ for explicit root configuration, automatic download, consuming-session cleanup,
 and integration checks. Only network-origin archives are shared; every derived
 file belongs to one Issue/run. Historical ETL layouts are not inputs to this API.
 
+To discover workload-eligible pairwise-MCV candidates from an official AreCEL
+valid split, run `PYTHONPATH=src .venv/bin/python -m ess_research.arecel.candidates --dataset forest10`,
+selecting `census13`, `dmv11`, or `power7` for another dataset. The deterministic JSON reports static predicate eligibility and
+support counts; co-occurrence does not show that PostgreSQL used or benefited
+from a statistic.
+
 
 ## Research collaboration and continuity
 
