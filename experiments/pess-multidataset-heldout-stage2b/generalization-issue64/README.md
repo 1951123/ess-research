@@ -1,5 +1,7 @@
 # Issue #64 — Stage 2B generalization protocol (Phase 0 only)
 
+> **JSON-only execution update (2026-10-22):** the active Forest10 calibration path now uses the pinned PR #7 structured `EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)` adapter exclusively. The authoritative execution config is [`forest10-json-only-v2.json`](forest10-json-only-v2.json). It preserves the candidate set, budgets, corrected-log model and exact selection semantics in the earlier v1 config; only the measurement transport changes. The prior legacy-vs-JSON v1/v2 pilot reports remain immutable historical evidence. See the separate JSON-only pilot and valid-only smoke reports for actual phase outcomes.
+
 > **Implementation follow-up (2026-10-21):** the Forest10 runner now prepares a private, pinned PR #7 PostgreSQL source/build/install under each run root and includes a strict structured EXPLAIN adapter. Details and the code-only validation boundary are in [environment-migration-pr7-adapter-v1.md](environment-migration-pr7-adapter-v1.md). No PostgreSQL build or execution was performed; prior pilot reports and frozen protocol/evidence remain unchanged.
 
 > **Scope update:** this earlier Phase 0/self-generated-cohort proposal is retained as historical context. It is superseded for the first implementation by [`forest10-first-implementation-v1.json`](forest10-first-implementation-v1.json) and [`forest10-preflight-v1.md`](forest10-preflight-v1.md), following the researcher-approved Issue #64 scope (2026-10-21). No historical protocol or evidence is deleted or rewritten.

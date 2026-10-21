@@ -1,4 +1,4 @@
-"""One-shot, capped Forest10 sample-replay setup pilot for Issue #64.
+"""One-shot, capped JSON-only Forest10 integration pilot for Issue #64.
 
 This program reads only the official valid workload (never labels), does not
 calibrate/select resources, discards EXPLAIN output, and retains only a small
@@ -60,7 +60,6 @@ PR58_HELPER_FILES = (
     "experiments/pess-multidataset-heldout-stage2b/gate_audit_v2.py",
 )
 SAMPLE_IMPORT_SOURCE_SHA256 = "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
-LEGACY_TRACE_CFLAG = "-DESS_MCV_NUMERIC_TRACE"
 
 
 def _validate_socket_path(root: Path) -> int:
@@ -283,30 +282,6 @@ def _materialize_pinned_postgresql_source(run_root: Path) -> tuple[Path, str]:
     return source, resolved
 
 
-def _enable_legacy_trace_build_flag(build_root: Path) -> None:
-    """Append the old trace's compile guard to this run's generated Makefile."""
-    makefile = build_root / "src" / "Makefile.global"
-    if makefile.is_symlink() or not makefile.is_file():
-        raise RuntimeError("PostgreSQL configure output is missing a regular src/Makefile.global")
-    try:
-        contents = makefile.read_text(encoding="utf-8")
-    except (OSError, UnicodeError) as exc:
-        raise RuntimeError(f"cannot read PostgreSQL build flags: {type(exc).__name__}") from None
-    if not re.search(r"(?m)^\s*CFLAGS\s*=", contents):
-        raise RuntimeError("PostgreSQL Makefile.global has no configured CFLAGS assignment")
-    expected_line = f"CFLAGS += {LEGACY_TRACE_CFLAG}"
-    matching_lines = [line.strip() for line in contents.splitlines() if LEGACY_TRACE_CFLAG in line]
-    if matching_lines:
-        if matching_lines != [expected_line]:
-            raise RuntimeError("PostgreSQL build flags contain an unexpected trace macro setting")
-        return
-    try:
-        with makefile.open("a", encoding="utf-8") as stream:
-            stream.write(f"\n# Issue #64 legacy numeric trace diagnostic\n{expected_line}\n")
-    except OSError as exc:
-        raise RuntimeError(f"cannot configure PostgreSQL trace build flag: {type(exc).__name__}") from None
-
-
 def _prepare_owned_postgresql(
     run_root: Path, *, phase_sink: Callable[[str], None], phase_times: dict[str, float]
 ) -> tuple[Path, Path, dict[str, Any]]:
@@ -326,10 +301,6 @@ def _prepare_owned_postgresql(
         cwd=build, env=env, log_path=log_path, phase="postgresql_configure",
         phase_sink=phase_sink, phase_times=phase_times, timeout=300,
     )
-    phase_sink("postgresql_trace_macro_configuration")
-    before_trace_flag = time.monotonic()
-    _enable_legacy_trace_build_flag(build)
-    phase_times["postgresql_trace_macro_configuration"] = round(time.monotonic() - before_trace_flag, 3)
     _run_build_command(
         ["make", "-j2"], cwd=build, env=env, log_path=log_path,
         phase="postgresql_compile", phase_sink=phase_sink, phase_times=phase_times, timeout=1200,
@@ -356,7 +327,7 @@ def _prepare_owned_postgresql(
         "object_store": str(ESS_POSTGRESQL_OBJECT_STORE),
         "commit": head,
         "sample_import_source_sha256": SAMPLE_IMPORT_SOURCE_SHA256,
-        "legacy_trace_compile_definition": LEGACY_TRACE_CFLAG,
+        "calibration_interface": "PR7StructuredExplainAdapter; ESS_DIAGNOSTICS JSON",
         "binary_sha256": hashes,
         "versions": versions,
         "build_mode": "out_of_tree_private_per_run",
@@ -465,8 +436,6 @@ def _classify_pg_command(command: list[str]) -> tuple[str, str]:
     normalized = re.sub(r"\s+", " ", sql.strip().lower())
     if "explain (ess_diagnostics, format json, summary off)" in normalized:
         return "structured_valid_explain", program
-    if "ess_mcv_numeric_trace" in normalized and "explain (format json, summary off)" in normalized:
-        return "legacy_trace_valid_explain", program
     if "current_setting('data_directory')" in normalized and "current_database()" in normalized:
         return "psql_identity_check", program
     if normalized.startswith("create table public.forest10"):
@@ -883,15 +852,16 @@ def _compare_diagnostic_summaries(legacy: dict[str, Any], structured: dict[str, 
 def _worker(root: Path) -> int:
     started = time.monotonic()
     summary: dict[str, Any] = {
-        "format": "ess-issue64-forest10-setup-pilot-v1",
+        "format": "ess-issue64-forest10-json-only-pilot-v1",
         "status": "FAILED",
-        "researcher_approved_scope": "Forest10 setup-only; Empty/e00_01; one valid query; no test access",
+        "researcher_approved_scope": "Forest10 JSON-only integration; Empty/e00_01; one valid query; no test access",
         "phases_seconds": {},
         "checks": {},
         "query": {},
         "sample": {},
         "statistics_object": {},
-        "explain": {"attempts": 0, "completed": 0, "plan_rows_retained": False},
+        "explain": {"interface": "PR #7 structured JSON only", "attempts": 0, "completed": 0,
+                    "plan_rows_retained": False},
         "error": None,
     }
     current_phase = "preflight"
@@ -926,7 +896,7 @@ def _worker(root: Path) -> int:
             "source_index": query["source_index"],
             "split": "valid",
             "static_e00_01_eligibility": "PASS",
-            "same_sql_used_for_both_diagnostic_paths": True,
+            "diagnostic_interface": "PR7StructuredExplainAdapter only",
         }
 
         input_root = root / "input"
@@ -1053,42 +1023,6 @@ def _worker(root: Path) -> int:
                 "catalog_verification": "PASS",
             }
 
-            summary["explain"]["planner_gucs"] = {
-                "plan_cache_mode": {"legacy": "force_custom_plan", "structured": "force_custom_plan"},
-                "max_parallel_workers_per_gather": {"legacy": 0, "structured": 0},
-                "explicit_planner_guc_values_match": True,
-                "same_database_and_statistic_state": True,
-                "client_min_messages": {
-                    "legacy": "debug1",
-                    "structured": "warning",
-                    "difference_is_planner_guc": False,
-                    "reason": "legacy trace visibility; structured diagnostics do not require DEBUG1 client messages",
-                },
-            }
-            summary["explain"]["attempts"] += 1
-            legacy_raw = timed(
-                "legacy_pr58_server_log_trace_explain",
-                lambda: run_formal.run_query(
-                    prefix,
-                    cluster,
-                    query,
-                    singleton_ledger,
-                    "issue64-pr7-pair-legacy-valid-000005",
-                    backend._log_offset,
-                    backend.name_to_id,
-                ),
-            )
-            legacy_result, backend._log_offset = legacy_raw
-            summary["explain"]["completed"] += 1
-            legacy_diagnostic = _legacy_trace_summary(
-                helpers,
-                legacy_result,
-                singleton_ledger,
-                query,
-                "issue64-pr7-pair-legacy-valid-000005",
-            )
-            summary["explain"]["legacy_server_log"] = legacy_diagnostic
-
             structured_adapter = issue64_runner.PR7StructuredExplainAdapter(
                 helpers,
                 prefix,
@@ -1104,12 +1038,14 @@ def _worker(root: Path) -> int:
             )
             summary["explain"]["completed"] += 1
             summary["explain"]["structured"] = structured_diagnostic
-            comparison = _compare_diagnostic_summaries(legacy_diagnostic, structured_diagnostic)
-            summary["explain"]["comparison"] = comparison
-            summary["checks"]["two_diagnostic_paths_complete"] = "PASS"
-            if comparison["status"] not in {"MATCH", "BASE_MATCH_MCV_NOT_VERIFIED"}:
-                raise RuntimeError("legacy and structured EXPLAIN diagnostics did not match")
-            summary["checks"]["same_query_same_e00_01_state_and_planner_gucs"] = "PASS"
+            summary["checks"]["structured_status_complete"] = (
+                "PASS" if structured_diagnostic["diagnostics_status"] == "complete" else "FAIL"
+            )
+            summary["checks"]["positive_finite_preclamp"] = "PASS"
+            summary["checks"]["base_relation_oid_and_query_association"] = "PASS"
+            summary["checks"]["mcv_events"] = structured_diagnostic["mcv_diagnostics_status"]
+            if structured_diagnostic["diagnostics_status"] != "complete":
+                raise RuntimeError("PR #7 structured diagnostics are not complete")
             summary["status"] = "SUCCESS"
         except BaseException as exc:
             summary["status"] = "FAILED"

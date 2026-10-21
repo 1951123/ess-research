@@ -101,11 +101,11 @@ class DiagnosticPairTests(unittest.TestCase):
         self.assertEqual(result["status"], "MISMATCH_PRECLAMP")
         self.assertEqual(result["preclamp_delta_legacy_minus_structured"], "0.01")
 
-    def test_classifies_only_the_two_authorized_explain_forms(self) -> None:
+    def test_structured_explain_is_active_and_legacy_plain_explain_is_not_special_cased(self) -> None:
         prefix = ["/pg/bin/psql", "-c"]
-        legacy = "SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) /* ESS_MCV_NUMERIC_TRACE marker */ SELECT * FROM public.forest10 WHERE elevation=1"
+        plain = "SET client_min_messages=debug1; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) SELECT * FROM public.forest10 WHERE elevation=1"
         structured = "SET client_min_messages=warning; SET plan_cache_mode=force_custom_plan; SET max_parallel_workers_per_gather=0; EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) SELECT * FROM public.forest10 WHERE elevation=1"
-        self.assertEqual(pilot._classify_pg_command([*prefix, legacy])[0], "legacy_trace_valid_explain")
+        self.assertEqual(pilot._classify_pg_command([*prefix, plain])[0], "psql_command")
         self.assertEqual(pilot._classify_pg_command([*prefix, structured])[0], "structured_valid_explain")
 
 

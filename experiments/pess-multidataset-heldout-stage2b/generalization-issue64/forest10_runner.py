@@ -255,7 +255,7 @@ def parse_pr7_structured_explain(
 
 
 class PR7StructuredExplainAdapter:
-    """Opt-in PR #7 adapter; the legacy PR #58 server-log path remains separate."""
+    """Strict PR #7 JSON adapter; the sole active calibration observation source."""
 
     def __init__(
         self,
@@ -379,11 +379,38 @@ def calibrate_and_select(
     if any(set(edges) - set(candidate_ids) for edges in available.values()):
         raise ValueError("query eligibility refers to an unknown candidate")
 
+    observations: list[dict[str, Any]] = []
+
+    def measure(query_id: str, config_id: str, ledger: Any, marker: str, eligible: bool | None) -> Decimal:
+        estimate = backend.preclamp_estimate(query_map[query_id], ledger, marker)
+        parsed = getattr(backend, "last_observation", None)
+        if parsed is not None:
+            if parsed.get("query_id") != query_id or parsed.get("diagnostics_status") != "complete":
+                raise ValueError("structured calibration observation is incomplete or associated with another query")
+            if Decimal(parsed["estimate_preclamp"]) != Decimal(estimate):
+                raise ValueError("backend estimate differs from its structured nrows_preclamp observation")
+            observations.append({
+                "query_id": query_id,
+                "config_id": config_id,
+                "static_eligible": eligible,
+                "diagnostics_status": parsed["diagnostics_status"],
+                "nrows_preclamp": str(estimate),
+                "mcv_diagnostics_status": parsed["mcv_diagnostics_status"],
+                "mcv_events": [
+                    {"relation_oid": row["relation_oid"], "stat_oid": row["stat_oid"],
+                     "statistic_id": row["statistic_id"], "clause_indexes": row["clause_indexes"]}
+                    for row in parsed["mcv_records"]
+                ],
+                "status": "SUCCESS",
+            })
+        elif isinstance(backend, PR58Forest10Backend):
+            raise ValueError("pinned calibration backend did not produce a structured JSON observation")
+        return estimate
+
     empty_ledger = backend.configure(())
     empty = {
-        query_id: backend.preclamp_estimate(
-            query_map[query_id], empty_ledger, f"issue64-forest10-valid-empty-{index:05d}"
-        )
+        query_id: measure(query_id, "Empty", empty_ledger,
+                           f"issue64-forest10-valid-empty-{index:05d}", None)
         for index, query_id in enumerate(query_ids)
     }
     singletons: dict[str, dict[str, Decimal]] = {}
@@ -393,9 +420,8 @@ def calibrate_and_select(
             continue
         ledger = backend.configure((edge,))
         singletons[edge] = {
-            query_id: backend.preclamp_estimate(
-                query_map[query_id], ledger, f"issue64-forest10-valid-{edge}-{index:05d}"
-            )
+            query_id: measure(query_id, edge, ledger,
+                              f"issue64-forest10-valid-{edge}-{index:05d}", True)
             for index, query_id in enumerate(eligible_ids)
         }
     models = build_task_models(query_ids, valid_truth, empty, singletons, available)
@@ -405,17 +431,18 @@ def calibrate_and_select(
         "calibration_split": "valid",
         "task_count": len(models),
         "empty_and_eligible_singleton_preclamp_only": True,
+        "calibration_observations": observations,
         "selection": selection,
     }
 
 
 class PR58Forest10Backend:
-    """Thin adapter over PR #58 helpers; construction itself is side-effect free.
+    """PR #58 model/setup helpers plus PR #7 JSON-only calibration observations.
 
     `helpers` is the already hash-verified PR #58 module. `cluster` and the
     replayed `sample` are supplied by its approved preparation path. Methods
     perform PostgreSQL operations only when explicitly called by an approved
-    runner; this module's tests use a synthetic backend instead.
+    runner. Estimates come from structured diagnostics, never the server log.
     """
 
     def __init__(
@@ -439,7 +466,8 @@ class PR58Forest10Backend:
             str(candidate["statistic_name"]): str(candidate["id"])
             for candidate in candidates
         }
-        self._log_offset = int(cluster["server_log"].stat().st_size)
+        self.relation_oid = int(self.sample_identity["header"]["relation_oid"])
+        self.last_observation: dict[str, Any] | None = None
 
     @classmethod
     def from_fresh_bootstrap(
@@ -474,18 +502,19 @@ class PR58Forest10Backend:
         )
 
     def preclamp_estimate(self, query: Mapping[str, Any], ledger: Any, marker: str) -> Decimal:
-        measured, self._log_offset = self.helpers.run_query(
+        del marker  # Kept in the injected backend contract; JSON has no trace marker.
+        adapter = PR7StructuredExplainAdapter(
+            self.helpers,
             self.prefix,
             self.cluster,
-            dict(query),
+            self.relation_oid,
             ledger,
-            marker,
-            self._log_offset,
             self.name_to_id,
         )
-        estimate = Decimal(measured["estimate_preclamp"])
+        self.last_observation = adapter.explain(query)
+        estimate = Decimal(self.last_observation["estimate_preclamp"])
         if not estimate.is_finite() or estimate <= 0:
-            raise ValueError("PR #58 returned a nonpositive/nonfinite pre-clamp estimate")
+            raise ValueError("PR #7 returned a nonpositive/nonfinite pre-clamp estimate")
         return estimate
 
     def plan_rows(self, query: Mapping[str, Any]) -> int:

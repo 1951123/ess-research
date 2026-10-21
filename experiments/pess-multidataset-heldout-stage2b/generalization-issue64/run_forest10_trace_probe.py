@@ -1,8 +1,8 @@
-"""Capped valid-only throughput probe for the pinned PR #58 trace path.
+"""Capped 20-query, valid-only PR #7 JSON calibration-observation smoke.
 
-The probe runs only after explicit researcher authorization. It performs no
-truth loading, resource optimization, or test-split work, and never persists
-per-query trace/estimate results.
+The run performs no truth loading, resource optimization, or test-split work.
+Its compact query-level structured observations are retained as calibration
+inputs; raw SQL, rounded estimates, and server-log traces are never retained.
 """
 
 from __future__ import annotations
@@ -29,15 +29,14 @@ from ess_research.arecel.forest10 import EXPECTED_ROWS, SOURCE_COLUMNS
 from ess_research.task_paths import configured_root, runtime_runs
 
 QUERY_COUNT = 20
-QUERY_STRIDE = 500
-MAX_TRACE_CALLS = QUERY_COUNT * 46
-CALIBRATION_TRACE_CALLS = 174_088
-SOFT_WALL_SECONDS = 8 * 60
-HARD_WALL_SECONDS = 10 * 60
-SOFT_DISK_BYTES = 384 * 1024**2
-HARD_DISK_BYTES = 512 * 1024**2
-RUNTIME_PREFIX = "f10trace-"
-SUMMARY_NAME = "trace-worker-summary.json"
+MAX_JSON_CALLS = QUERY_COUNT * 46
+SOFT_WALL_SECONDS = pilot.SOFT_STOP_SECONDS
+HARD_WALL_SECONDS = pilot.HARD_WALL_SECONDS
+SOFT_DISK_BYTES = pilot.SOFT_STOP_DISK_BYTES
+HARD_DISK_BYTES = pilot.HARD_DISK_BYTES
+RUNTIME_PREFIX = "f10json-"
+SUMMARY_NAME = "json-calibration-smoke-worker-summary.json"
+OBSERVATIONS_NAME = "json-calibration-smoke-observations.jsonl"
 
 
 def _sha256(path: Path) -> str:
@@ -69,9 +68,9 @@ def _timed_call(phases: dict[str, float], key: str, callback):
 
 
 def _selected_source_indices(valid_count: int = 10_000) -> tuple[int, ...]:
-    if valid_count != 10_000 or QUERY_STRIDE <= 0:
-        raise ValueError("the throughput probe requires the frozen 10,000-query valid split")
-    indices = tuple(range(0, valid_count, QUERY_STRIDE))
+    if valid_count != 10_000:
+        raise ValueError("the JSON smoke requires the frozen 10,000-query valid split")
+    indices = tuple(range(QUERY_COUNT))
     if len(indices) != QUERY_COUNT:
         raise ValueError("fixed systematic sample size differs from its frozen count")
     return indices
@@ -81,8 +80,8 @@ def _bounded_call_count(eligibility: dict[int, tuple[str, ...]]) -> int:
     if len(eligibility) != QUERY_COUNT:
         raise ValueError("eligibility must cover the complete fixed probe query sample")
     count = QUERY_COUNT + sum(len(edges) for edges in eligibility.values())
-    if count > MAX_TRACE_CALLS:
-        raise ValueError("eligibility exceeds the fixed worst-case trace-call bound")
+    if count > MAX_JSON_CALLS:
+        raise ValueError("eligibility exceeds the fixed worst-case structured-JSON call bound")
     return count
 
 
@@ -96,15 +95,15 @@ def _worker(root: Path) -> int:
     started = time.monotonic()
     phases: dict[str, float] = {}
     summary: dict[str, Any] = {
-        "format": "ess-issue64-forest10-valid-trace-throughput-v1",
+        "format": "ess-issue64-forest10-json-calibration-smoke-v1",
         "status": "FAILED",
-        "scope": "valid-only trace throughput; no truth, selection objective, or test outcomes",
+        "scope": "first 20 official valid queries; structured JSON observations only; no truth, selection, or test outcomes",
         "hard_caps": {
             "wall_seconds": HARD_WALL_SECONDS,
             "soft_stop_seconds": SOFT_WALL_SECONDS,
             "disk_bytes": HARD_DISK_BYTES,
             "soft_stop_disk_bytes": SOFT_DISK_BYTES,
-            "max_trace_calls": MAX_TRACE_CALLS,
+            "max_structured_json_calls": MAX_JSON_CALLS,
         },
         "phases_seconds": phases,
         "error": None,
@@ -149,9 +148,10 @@ def _worker(root: Path) -> int:
         if discovery.get("candidate_count") != 45 or support_sum != 164_088:
             raise RuntimeError("Forest10 candidate count/support differs from merged PR #68")
         selected_indices = _selected_source_indices(len(queries))
-        sampled = [queries[index] for index in selected_indices]
+        ordered_queries = sorted(queries, key=lambda query: int(query["source_index"]))
+        sampled = ordered_queries[:QUERY_COUNT]
         if [query.get("source_index") for query in sampled] != list(selected_indices):
-            raise RuntimeError("valid query source indices are not in the expected order")
+            raise RuntimeError("first 20 valid queries are not the frozen ascending source_index cohort")
         candidate_ids = {edge for edge, _ in candidates}
         sampled_eligible: dict[int, tuple[str, ...]] = {}
         for index, query in zip(selected_indices, sampled, strict=True):
@@ -165,8 +165,8 @@ def _worker(root: Path) -> int:
                 raise RuntimeError("sample query has eligibility outside frozen candidate universe")
             sampled_eligible[index] = eligible
         expected_calls = _bounded_call_count(sampled_eligible)
-        if not 0 < expected_calls <= MAX_TRACE_CALLS:
-            raise RuntimeError("fixed valid trace sample violates its predeclared call cap")
+        if not 0 < expected_calls <= MAX_JSON_CALLS:
+            raise RuntimeError("fixed valid JSON sample violates its predeclared call cap")
         summary["workload_preflight"] = {
             "dataset": "forest10",
             "split": "valid",
@@ -175,10 +175,11 @@ def _worker(root: Path) -> int:
             "arecel_archive_sha256": workload_manifest.get("archive_sha256"),
             "candidate_count": discovery["candidate_count"],
             "candidate_support_sum": support_sum,
-            "sample_schedule": {"source_index_start": 0, "stride": QUERY_STRIDE, "count": QUERY_COUNT},
+            "sample_schedule": {"rule": "ascending source_index, take first 20", "count": QUERY_COUNT},
             "sampled_query_ids_or_sql_retained": False,
             "static_candidate_pair_call_count_for_sample": sum(map(len, sampled_eligible.values())),
-            "trace_call_count_expected": expected_calls,
+            "structured_json_call_count_expected": expected_calls,
+            "configuration_count_expected": 1 + len({edge for edges in sampled_eligible.values() for edge in edges}),
         }
 
         source_columns, columns, _ = _schema("forest10")
@@ -228,98 +229,99 @@ def _worker(root: Path) -> int:
         sample_identity = {key: identity[key] for key in ("table", "header", "sha256")}
         if sample_identity["table"] != "public.forest10":
             raise RuntimeError("fixed sample was not exported from public.forest10")
-        from forest10_runner import pr58_candidate_specs, validate_fresh_sample_identity
-
         validate_fresh_sample_identity(sample, sample_identity, helpers)
+        from forest10_runner import PR58Forest10Backend, pr58_candidate_specs, validate_fresh_sample_identity
+
         stats = pr58_candidate_specs(candidates)
-        statistic_name_to_id = {str(row["statistic_name"]): str(row["id"]) for row in stats}
-        server_log = cluster["server_log"]
-        log_start_bytes = server_log.stat().st_size
-        latest_offset = log_start_bytes
+        backend = PR58Forest10Backend(run_formal, prefix, cluster, stats, sample, sample_identity)
+        active_edges = tuple(edge for edge, _ in candidates if any(edge in es for es in sampled_eligible.values()))
         config_seconds = 0.0
-        config_max_seconds = 0.0
-        trace_seconds = 0.0
-        trace_max_seconds = 0.0
-        trace_calls = 0
-        current_phase = "trace_configuration_and_valid_queries"
+        config_count = 0
+        json_seconds = 0.0
+        json_calls = 0
+        observation_path = root / "results" / OBSERVATIONS_NAME
+        observation_path.parent.mkdir()
 
         def configure(selected: tuple[str, ...]):
-            nonlocal config_seconds, config_max_seconds
+            nonlocal config_seconds, config_count
             before = time.monotonic()
             try:
-                return run_formal.configure_statistics(
-                    prefix,
-                    cluster,
-                    "forest10",
-                    {row["id"]: row for row in stats},
-                    selected,
-                    sample,
-                )
+                return backend.configure(selected)
             finally:
-                elapsed = time.monotonic() - before
-                config_seconds += elapsed
-                config_max_seconds = max(config_max_seconds, elapsed)
+                config_seconds += time.monotonic() - before
+                config_count += 1
 
-        def trace_one(query: dict[str, Any], marker: str) -> None:
-            nonlocal latest_offset, trace_seconds, trace_max_seconds, trace_calls
-            if trace_calls >= MAX_TRACE_CALLS:
-                raise RuntimeError("fixed maximum trace-call count reached")
-            before = time.monotonic()
-            try:
-                result, next_offset = run_formal.run_query(
-                    prefix, cluster, dict(query), current_ledger, marker, latest_offset, statistic_name_to_id
+        current_phase = "structured_json_calibration_observations"
+        with observation_path.open("x", encoding="utf-8") as observations:
+            def observe(query: dict[str, Any], config_id: str, ledger: Any, eligible: bool | None) -> None:
+                nonlocal json_seconds, json_calls
+                before = time.monotonic()
+                row: dict[str, Any] = {
+                    "query_id": query["query_id"],
+                    "config_id": config_id,
+                    "static_eligible": eligible,
+                }
+                try:
+                    estimate = backend.preclamp_estimate(query, ledger, "")
+                    result = backend.last_observation
+                    if result is None or result["query_id"] != query["query_id"]:
+                        raise RuntimeError("structured adapter returned no query-associated observation")
+                    row.update({
+                        "diagnostics_status": result["diagnostics_status"],
+                        "nrows_preclamp": str(estimate),
+                        "mcv_diagnostics_status": result["mcv_diagnostics_status"],
+                        "relation_oid": result["relation_oid"],
+                        "mcv_events": [
+                            {"stat_oid": event["stat_oid"], "statistic_id": event["statistic_id"],
+                             "clause_indexes": event["clause_indexes"]}
+                            for event in result["mcv_records"]
+                        ],
+                        "status": "SUCCESS",
+                    })
+                except BaseException as exc:
+                    row.update({"status": "ERROR", "error_class": type(exc).__name__})
+                    observations.write(json.dumps(row, sort_keys=True) + "\n")
+                    observations.flush()
+                    raise
+                finally:
+                    json_seconds += time.monotonic() - before
+                    json_calls += 1
+                observations.write(json.dumps(row, sort_keys=True) + "\n")
+                observations.flush()
+
+            current_ledger = _timed_call(phases, "empty_configuration_analyze_replay", lambda: configure(()))
+            for query in sampled:
+                observe(query, "Empty", current_ledger, None)
+            for edge in active_edges:
+                current_ledger = _timed_call(
+                    phases,
+                    "singleton_configuration_analyze_replays",
+                    lambda edge=edge: configure((edge,)),
                 )
-                latest_offset = next_offset
-                del result
-            finally:
-                elapsed = time.monotonic() - before
-                trace_seconds += elapsed
-                trace_max_seconds = max(trace_max_seconds, elapsed)
-                trace_calls += 1
+                for query in sampled:
+                    source_index = int(query["source_index"])
+                    if edge in sampled_eligible[source_index]:
+                        observe(query, edge, current_ledger, True)
 
-        current_ledger = _timed_call(phases, "empty_configuration_analyze_replay", lambda: configure(()))
-        for index, query in zip(selected_indices, sampled, strict=True):
-            trace_one(query, f"issue64-trace-probe-empty-{index:05d}")
-        for edge, _pair in candidates:
-            current_ledger = _timed_call(
-                phases,
-                "singleton_configuration_analyze_replays",
-                lambda edge=edge: configure((edge,)),
-            )
-            for index, query in zip(selected_indices, sampled, strict=True):
-                if edge in sampled_eligible[index]:
-                    trace_one(query, f"issue64-trace-probe-{edge}-{index:05d}")
-        if trace_calls != expected_calls:
-            raise RuntimeError("actual trace-call count differs from the precomputed valid-only count")
-        log_end_bytes = server_log.stat().st_size
-        summary["trace_measurement"] = {
+        if json_calls != expected_calls:
+            raise RuntimeError("actual structured EXPLAIN count differs from the frozen valid-only count")
+        if config_count != 1 + len(active_edges):
+            raise RuntimeError("actual configuration count differs from the frozen static eligibility")
+        summary["calibration_observations"] = {
             "status": "SUCCESS",
-            "completed_trace_calls": trace_calls,
-            "maximum_trace_calls": MAX_TRACE_CALLS,
-            "aggregate_run_query_seconds": round(trace_seconds, 6),
-            "mean_run_query_seconds": round(trace_seconds / trace_calls, 6),
-            "maximum_single_run_query_seconds": round(trace_max_seconds, 6),
-            "calls_per_second": round(trace_calls / trace_seconds, 6),
-            "log_bytes_added_during_46_configs_and_sampled_traces": max(0, log_end_bytes - log_start_bytes),
-            "configuration_count": 46,
+            "interface": "PR7StructuredExplainAdapter / EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)",
+            "expected_calls_frozen_before_postgresql_start": expected_calls,
+            "completed_calls": json_calls,
+            "configuration_count": config_count,
+            "singleton_configurations": len(active_edges),
             "configuration_analyze_seconds_total": round(config_seconds, 6),
-            "configuration_analyze_seconds_max": round(config_max_seconds, 6),
+            "aggregate_structured_explain_seconds": round(json_seconds, 6),
+            "mean_structured_explain_seconds": round(json_seconds / json_calls, 6),
             "sample_sha256": identity["sha256"],
             "sample_bytes": identity["bytes"],
-            "per_query_estimates_plan_output_oids_and_trace_lines_retained": False,
-        }
-        non_trace = time.monotonic() - started - trace_seconds
-        projected_trace_seconds = trace_seconds / trace_calls * CALIBRATION_TRACE_CALLS
-        summary["planning_projection"] = {
-            "calibration_trace_calls": CALIBRATION_TRACE_CALLS,
-            "projected_trace_seconds_linear_from_probe_mean": round(projected_trace_seconds, 1),
-            "observed_non_trace_seconds_including_46_replays": round(non_trace, 1),
-            "projected_total_seconds_linear": round(non_trace + projected_trace_seconds, 1),
-            "projection_status": "EXTRAPOLATION_ONLY; 20 systematic valid queries are not a runtime guarantee",
-            "nominal_quiet_window_floor_seconds": round(CALIBRATION_TRACE_CALLS * 0.20, 1),
-            "projected_config_and_trace_log_bytes_linear": round(
-                max(0, log_end_bytes - log_start_bytes) / trace_calls * CALIBRATION_TRACE_CALLS
-            ),
+            "observation_file": f"results/{OBSERVATIONS_NAME}",
+            "observation_file_sha256": _sha256(observation_path),
+            "truth_objective_selection_and_test_access": False,
         }
         summary["status"] = "SUCCESS"
     except BaseException as exc:
@@ -364,7 +366,7 @@ def main() -> int:
     runs = runtime_runs("ess-research", 64)
     runs.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(runs).free < HARD_DISK_BYTES:
-        raise SystemExit("refusing trace probe: runtime filesystem has less than the 512-MiB hard cap available")
+        raise SystemExit("refusing JSON calibration smoke: runtime filesystem has less than the 2-GiB hard cap available")
     import tempfile
 
     root = Path(tempfile.mkdtemp(prefix=RUNTIME_PREFIX, dir=runs))
@@ -377,7 +379,7 @@ def main() -> int:
         soft_disk_bytes=SOFT_DISK_BYTES,
         hard_disk_bytes=HARD_DISK_BYTES,
         worker_summary_name=SUMMARY_NAME,
-        summary_format="ess-issue64-forest10-valid-trace-throughput-supervisor-v1",
+        summary_format="ess-issue64-forest10-json-calibration-smoke-supervisor-v1",
     )
 
 

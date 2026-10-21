@@ -19,12 +19,23 @@ class Forest10TraceProbeTests(unittest.TestCase):
                 with self.subTest(script=name, legacy=legacy):
                     self.assertNotIn(legacy, source)
 
+    def test_active_calibration_paths_are_json_only(self):
+        pilot_source = (Path(__file__).parent / "run_forest10_setup_pilot.py").read_text(encoding="utf-8")
+        smoke_source = (Path(__file__).parent / "run_forest10_trace_probe.py").read_text(encoding="utf-8")
+        runner_source = (Path(__file__).parent / "forest10_runner.py").read_text(encoding="utf-8")
+        self.assertNotIn("ESS_MCV_NUMERIC_TRACE", pilot_source)
+        self.assertNotIn("run_formal.run_query(", pilot_source)
+        self.assertNotIn("run_formal.run_query", smoke_source)
+        self.assertIn("PR7StructuredExplainAdapter", runner_source)
+        self.assertIn("adapter.explain(query)", runner_source)
+        self.assertNotIn("Plan Rows", smoke_source)
+
     def test_fixed_valid_query_schedule_and_maximum_calls(self):
         indices = probe._selected_source_indices()
         self.assertEqual(len(indices), 20)
         self.assertEqual(indices[0], 0)
-        self.assertEqual(indices[-1], 9500)
-        self.assertEqual(indices, tuple(range(0, 10_000, 500)))
+        self.assertEqual(indices[-1], 19)
+        self.assertEqual(indices, tuple(range(20)))
         self.assertEqual(probe._bounded_call_count({index: () for index in indices}), 20)
         self.assertEqual(
             probe._bounded_call_count({index: tuple(f"e{i:02d}" for i in range(45)) for index in indices}),
@@ -63,8 +74,8 @@ class Forest10TraceProbeTests(unittest.TestCase):
         )
 
     def test_non_postgresql_failure_does_not_retain_error_text(self):
-        record = probe._safe_probe_error(RuntimeError("estimate=999 SQL=secret"), "trace")
-        self.assertEqual(record["phase"], "trace")
+        record = probe._safe_probe_error(RuntimeError("estimate=999 SQL=secret"), "structured_json")
+        self.assertEqual(record["phase"], "structured_json")
         self.assertNotIn("999", json.dumps(record))
         self.assertNotIn("secret", json.dumps(record))
 

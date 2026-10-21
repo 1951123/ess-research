@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import sys
 import unittest
@@ -8,7 +9,11 @@ from pathlib import Path
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from forest10_runner import PR7StructuredExplainAdapter, parse_pr7_structured_explain
+from forest10_runner import (
+    PR58Forest10Backend,
+    PR7StructuredExplainAdapter,
+    parse_pr7_structured_explain,
+)
 
 
 RELATION_OID = 42001
@@ -166,6 +171,49 @@ class PR7StructuredExplainTests(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         self.assertIn("EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)", calls[0][3])
         self.assertTrue(calls[0][4])
+
+    def test_formal_backend_uses_only_json_preclamp_and_records_no_mcv(self):
+        calls = []
+        sample = Path(__file__).with_name("synthetic-sample.tmp")
+        sample.write_bytes(b"sample")
+        self.addCleanup(sample.unlink, missing_ok=True)
+        digest = hashlib.sha256(b"sample").hexdigest()
+        header = {
+            "relation_identity": "6:public8:forest10",
+            "server_version": "16.14",
+            "natts": 10,
+            "relation_oid": RELATION_OID,
+        }
+
+        def psql(prefix, socket_dir, port, sql, env, *, tuples=False):
+            calls.append(sql)
+            return explain_payload(include_estimate=False)
+
+        helpers = SimpleNamespace(
+            os=os,
+            psql=psql,
+            run_query=lambda *args, **kwargs: self.fail("legacy trace path must not be called"),
+            sample_header=lambda path: header,
+            sha256_file=lambda path: digest,
+        )
+        identity = {"table": "public.forest10", "header": header, "sha256": digest}
+        backend = PR58Forest10Backend(
+            helpers,
+            Path("/private/install"),
+            {"socket_dir": Path("/private/socket"), "port": 55432},
+            [{"id": "e00_01", "statistic_name": "ess_issue64_forest10_e00_01"}],
+            sample,
+            identity,
+        )
+        estimate = backend.preclamp_estimate(
+            {"query_id": "arecel:forest10:valid:000005", "sql": "SELECT * FROM public.forest10"},
+            [{"oid": STAT_OID, "statistic_name": "ess_issue64_forest10_e00_01"}],
+            "ignored-legacy-marker",
+        )
+        self.assertEqual(str(estimate), "12.5")
+        self.assertEqual(backend.last_observation["mcv_diagnostics_status"], "NO_MCV_EVENTS")
+        self.assertIn("EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)", calls[0])
+        self.assertNotIn("ignored-legacy-marker", calls[0])
 
 
 if __name__ == "__main__":
