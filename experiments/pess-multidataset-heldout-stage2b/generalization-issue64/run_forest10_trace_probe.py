@@ -121,7 +121,7 @@ def _worker(root: Path) -> int:
         if root.parent.resolve() != runtime_runs("ess-research", 64).resolve() or root.is_symlink():
             raise RuntimeError("runtime root is not an isolated Issue #64 child")
         data_root = configured_root("ESS_DATA_ROOT")
-        helpers, run_formal, pr58_pin = pilot._load_pinned_pr58_modules()
+        helpers, run_formal, pr58_pin = pilot._load_pinned_pr58_modules(root)
         summary["pins"] = {
             "postgresql_commit": pilot.ESS_POSTGRESQL_COMMIT,
             **pr58_pin,

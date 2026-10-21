@@ -46,9 +46,14 @@ PILOT_RUNTIME_PREFIX = "f10-"
 UNIX_SOCKET_PATH_MAX_BYTES = 107
 ESS_POSTGRESQL_URL = "https://github.com/1951123/ess-postgresql.git"
 ESS_POSTGRESQL_COMMIT = "f1bf37b5dd3d3a7087fc0af5de550ca31035854c"
+PR58_REPOSITORY_URL = "https://github.com/1951123/ess-research.git"
 PR58_SOURCE_COMMIT = "76106024611ae91505f1f05bdc35aed44d9c38c4"
 PR58_RUN_FORMAL_SHA256 = "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322"
 PR58_GATE_AUDIT_SHA256 = "03823ad30b0ab4e7073b347ebfddb5578467cad28cb28f0ae8768dd233a855c4"
+PR58_HELPER_FILES = (
+    "experiments/pess-multidataset-heldout-stage2b/run_formal.py",
+    "experiments/pess-multidataset-heldout-stage2b/gate_audit_v2.py",
+)
 SAMPLE_IMPORT_SOURCE_SHA256 = "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
 
 
@@ -70,39 +75,111 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _pinned_pr58_root() -> Path:
-    return ISSUE64_ROOT.parent / "ess-research-issue48" / "experiments" / "pess-multidataset-heldout-stage2b"
+def _pinned_pr58_root(run_root: Path) -> Path:
+    """Return the helper directory inside this run's private source checkout."""
+    return run_root / "pr58-source" / "experiments" / "pess-multidataset-heldout-stage2b"
 
 
-def _load_pinned_pr58_modules() -> tuple[Any, Any, dict[str, str]]:
-    """Import only the clean, exact corrected-log PR #58 source commit."""
-    source_root = _pinned_pr58_root()
-    repository_root = source_root.parents[1]
-    head = subprocess.run(
-        ["git", "-C", str(repository_root), "rev-parse", "HEAD"],
-        check=True, capture_output=True, text=True,
-    ).stdout.strip()
-    status = subprocess.run(
-        ["git", "-C", str(repository_root), "status", "--porcelain"],
-        check=True, capture_output=True, text=True,
-    ).stdout
-    if head != PR58_SOURCE_COMMIT or status:
-        raise RuntimeError("PR #58 source checkout is not the pinned clean commit")
+def _run_pr58_git(source_root: Path, args: list[str]) -> str:
+    """Run one pinned-source Git operation and fail with its precise stage."""
+    phase = "git " + " ".join(args[:2])
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(source_root), *args],
+            capture_output=True, text=True, check=False, timeout=120,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        reason = "timeout" if isinstance(exc, subprocess.TimeoutExpired) else type(exc).__name__
+        raise RuntimeError(f"PR #58 source acquisition failed during {phase}: {reason}") from None
+    if result.returncode:
+        detail = (result.stderr or "").strip().splitlines()
+        safe_detail = detail[-1][:240] if detail else "no Git diagnostic"
+        raise RuntimeError(
+            f"PR #58 source acquisition failed during {phase} "
+            f"(exit {result.returncode}): {safe_detail}"
+        )
+    return result.stdout.strip()
+
+
+def _fetch_pinned_pr58_source(run_root: Path) -> Path:
+    """Fetch only the two pinned PR #58 helpers into this isolated run."""
+    runs_root = runtime_runs("ess-research", 64).resolve()
+    if run_root.is_symlink():
+        raise RuntimeError("PR #58 source requires a direct, non-symlink Issue #64 run directory")
+    run_root = run_root.resolve(strict=True)
+    if run_root.parent != runs_root or not run_root.is_dir():
+        raise RuntimeError("PR #58 source requires a direct, non-symlink Issue #64 run directory")
+    source_root = run_root / "pr58-source"
+    try:
+        source_root.mkdir()
+    except FileExistsError:
+        raise RuntimeError("PR #58 source directory already exists; refusing reuse or overwrite") from None
+
+    _run_pr58_git(source_root, ["init", "--quiet"])
+    _run_pr58_git(source_root, ["remote", "add", "origin", PR58_REPOSITORY_URL])
+    _run_pr58_git(
+        source_root,
+        ["fetch", "--depth=1", "--filter=blob:none", "origin", PR58_SOURCE_COMMIT],
+    )
+    fetched = _run_pr58_git(source_root, ["rev-parse", "FETCH_HEAD"])
+    if fetched != PR58_SOURCE_COMMIT:
+        raise RuntimeError(
+            f"PR #58 fetched commit mismatch: expected {PR58_SOURCE_COMMIT}, got {fetched}"
+        )
+    _run_pr58_git(source_root, ["sparse-checkout", "init", "--no-cone"])
+    _run_pr58_git(
+        source_root,
+        ["sparse-checkout", "set", "--no-cone", "--", *[f"/{path}" for path in PR58_HELPER_FILES]],
+    )
+    _run_pr58_git(source_root, ["checkout", "--detach", "FETCH_HEAD"])
+    head = _run_pr58_git(source_root, ["rev-parse", "HEAD"])
+    if head != PR58_SOURCE_COMMIT:
+        raise RuntimeError(f"PR #58 checkout commit mismatch: expected {PR58_SOURCE_COMMIT}, got {head}")
+
+    source_dir = source_root / "experiments" / "pess-multidataset-heldout-stage2b"
+    expected_hashes = {
+        "run_formal.py": PR58_RUN_FORMAL_SHA256,
+        "gate_audit_v2.py": PR58_GATE_AUDIT_SHA256,
+    }
+    for name, expected in expected_hashes.items():
+        path = source_dir / name
+        try:
+            actual = _sha256(path)
+        except OSError as exc:
+            raise RuntimeError(f"PR #58 required source file unavailable: {name} ({type(exc).__name__})") from None
+        if actual != expected:
+            raise RuntimeError(
+                f"PR #58 {name} SHA-256 mismatch: expected {expected}, got {actual}"
+            )
+    status = _run_pr58_git(source_root, ["status", "--porcelain"])
+    if status:
+        raise RuntimeError("PR #58 sparse source checkout is unexpectedly modified")
+    return source_dir
+
+
+def _load_pinned_pr58_modules(run_root: Path) -> tuple[Any, Any, dict[str, str]]:
+    """Import helpers only after per-run fetch, commit, and content verification."""
+    source_root = _fetch_pinned_pr58_source(run_root)
     run_formal_path = source_root / "run_formal.py"
     gate_audit_path = source_root / "gate_audit_v2.py"
-    if _sha256(run_formal_path) != PR58_RUN_FORMAL_SHA256:
-        raise RuntimeError("PR #58 run_formal.py file hash differs from its source pin")
-    if _sha256(gate_audit_path) != PR58_GATE_AUDIT_SHA256:
-        raise RuntimeError("PR #58 gate_audit_v2.py file hash differs from its source pin")
-    if str(source_root) not in sys.path:
-        sys.path.insert(0, str(source_root))
+    pinned_paths = {"run_formal": run_formal_path.resolve(), "gate_audit_v2": gate_audit_path.resolve()}
+    for module_name, expected_path in pinned_paths.items():
+        loaded = sys.modules.get(module_name)
+        loaded_path = getattr(loaded, "__file__", None) if loaded is not None else None
+        if loaded_path is not None and Path(loaded_path).resolve() != expected_path:
+            raise RuntimeError(f"refusing non-pinned cached PR #58 module: {module_name}")
+    source_str = str(source_root)
+    if source_str in sys.path:
+        sys.path.remove(source_str)
+    sys.path.insert(0, source_str)
     import gate_audit_v2
     import run_formal
 
     return gate_audit_v2, run_formal, {
-        "pr58_source_commit": head,
+        "pr58_source_commit": PR58_SOURCE_COMMIT,
         "run_formal_sha256": PR58_RUN_FORMAL_SHA256,
         "gate_audit_v2_sha256": PR58_GATE_AUDIT_SHA256,
+        "pr58_source_path": str(source_root.parent.parent),
     }
 
 
@@ -607,7 +684,7 @@ def _worker(root: Path) -> int:
         if root.parent.resolve() != runtime_root or not root.is_dir() or root.is_symlink():
             raise RuntimeError("worker runtime root is not the dedicated pilot directory")
         summary["checks"]["unix_socket_path_bytes_upper_bound"] = _validate_socket_path(root)
-        helpers, run_formal, pr58_pin = _load_pinned_pr58_modules()
+        helpers, run_formal, pr58_pin = _load_pinned_pr58_modules(root)
         import forest10_runner as issue64_runner
         summary["checks"]["pr58_source_pin"] = pr58_pin
 
