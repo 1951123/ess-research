@@ -1,0 +1,98 @@
+{
+  "format": "ess-stage2b-issue64-forest10-first-implementation-v1",
+  "issue": 64,
+  "status": "OUTCOME_FREE_IMPLEMENTATION_DRAFT; RESEARCHER_REVIEW_REQUIRED_BEFORE_PG_EXECUTION",
+  "scientific_question": "On the official Forest10 test split, do Nominal- and PESS-selected pairwise-MCV resource sets have different PostgreSQL cardinality-estimation Q1 errors, when selection is calibrated only from official valid data?",
+  "scope": {
+    "dataset": "Forest10",
+    "valid_queries": 10000,
+    "test_queries": 10000,
+    "calibration_split": "official_valid_only",
+    "evaluation_split": "official_test_only_after_protocol_selection_freeze_and_separate_execution_approval",
+    "template_overlap": "allowed; claim is generalization under the official AreCEL split, not to unseen templates",
+    "other_datasets": "future replications, not prerequisites for this first milestone"
+  },
+  "candidate_universe": {
+    "source": "merged PR #68 workload-derived Forest10 valid-split discovery",
+    "support_report_path": "experiments/arecel/issue67-candidate-discovery.md",
+    "candidate_count": 45,
+    "ordering": "published Issue #67 report order, equivalent to lexicographic unordered pairs in Forest10 source-schema column order",
+    "static_eligibility_only": true,
+    "not_a_claim_of_postgresql_consideration_or_selection": true,
+    "support_sum_eligible_query_candidate_pairs": 164088
+  },
+  "selection": {
+    "source_model": "corrected-log PR #58 run_formal.py at pinned commit 76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "budgets": [0, 2, 3],
+    "constraint": "resource-set cardinality <= B; every budget includes Empty",
+    "nominal": "greedy matching over selected, query-available edges in frozen candidate order",
+    "pess": "maximum loss over every inclusion-maximal matching of selected, query-available edges",
+    "objective": "sum of task-wise frozen validation losses over all 10000 valid queries",
+    "corrected_log_coefficients": {
+      "target": "T_i=max(1, valid_truth_i)",
+      "alpha": "ln(n0_i/T_i), where n0_i is the positive Empty pre-clamp estimate",
+      "edge_coefficient": "b_e_i=ln(n_e_i/n0_i), where n_e_i is that eligible singleton's positive pre-clamp estimate",
+      "rationalization": "PR #58 uses Decimal natural log at precision 80, quantized half-even to 1e-18, then parsed as Fraction; exact enumeration is over these rationalized inputs"
+    },
+    "enumeration": "complete exact enumeration of every feasible subset; no heuristic, truncation, or solver approximation",
+    "objective_arithmetic": "exact Fraction over the rationalized alpha and b inputs produced by the pinned corrected-log model",
+    "ties": "retain all exact minimizers; choose the smallest-cardinality minimizer, then lexicographically earliest tuple of candidate-order positions for deployment",
+    "nominal_greedy_order_is_not_postgresql_hidden_order": true,
+    "current_resource_decisions": {
+      "B0": "Both Nominal and PESS select the unique feasible resource set, Empty; its validation objective is not computed because alpha requires valid calibration Plan Rows.",
+      "B2_B3": "NOT_COMPUTED: the required valid-query singleton/Empty calibration Plan Rows are unavailable without PostgreSQL calibration, which is prohibited in this phase."
+    }
+  },
+  "calibration_inputs_and_boundary": {
+    "empty": "one Empty configuration per each of the 10000 official valid queries",
+    "singleton": "measure each statically eligible candidate only on valid queries supporting that candidate",
+    "truth": "official valid truth only may contribute to alpha, b, objective, or selection",
+    "combined_label_pickle_deserialization": "permitted by researcher clarification; test labels must not influence calibration, selection, model/solver decisions, or tuning",
+    "this_phase": "no PostgreSQL measurements or EXPLAIN; no valid truth or test outcomes were opened for this implementation/preflight"
+  },
+  "evaluation_adapter": {
+    "input": "one ordinary EXPLAIN (FORMAT JSON) result per query and each distinct deployed resource set, after separate researcher execution approval",
+    "sample_policy": "reuse one pinned ANALYZE sample per dataset across treatment sets; record and compare PG build, table/schema, GUC, target, sample seed/identity, and setup metadata before claiming paired comparability",
+    "estimate": "integer Plan Rows at the top-level Plan only",
+    "primary_metric": "Q1=max(estimate, truth, 1)/max(min(estimate, truth), 1)",
+    "zeros": "Q1 is defined for nonnegative integer estimate/truth including zero; retain/report zero-zero, estimate-only-zero, truth-only-zero explicitly",
+    "invalids": "missing, negative, non-integer, or malformed Plan Rows/truth are unresolved and must not be silently dropped",
+    "primary_summary": "per-query Q1, nearest-rank P95 per policy",
+    "secondary": [
+      "nearest-rank P50, P99, and maximum Q1",
+      "mean |ln(estimate/truth)| on strictly positive estimate/truth pairs, with denominator reported",
+      "paired per-query PESS versus Nominal Q1: benefit if PESS Q1 is lower, harm if higher, tie if equal, on the common valid test-query set"
+    ],
+    "physical_claim_boundary": "Plan Rows/Q1 evaluates estimates; it does not identify which extended-statistics OID PostgreSQL selected",
+    "analysis_of_test_outcomes": "not performed in this phase"
+  },
+  "preflight": {
+    "calibration_explain_count_exact": 174088,
+    "test_explain_count_upper_bound": 50000,
+    "test_upper_bound_reason": "10000 official test queries times at most five distinct sets: Empty plus Nominal/PESS selections for B=2 and B=3; B=0 is Empty and duplicate sets are deduplicated",
+    "total_plan_attempt_upper_bound": 224088,
+    "these_are_plan_counts_not_runtime_or_storage_estimates": true,
+    "exact_selector_task_subset_evaluations_upper_bound": 304520000,
+    "runtime_estimate": "NOT_MEASURED",
+    "runtime_cap_approval": "NOT_VERIFIED",
+    "storage_estimate": "NOT_VERIFIED"
+  },
+  "source_pins": {
+    "issue67_pr68_merge_commit": "da2472604c1ef85a745603934c58c2d316c14958",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "issue67_etl_source_commit": "1edfba0b093a462192ef33a3d5a7bda5e18d822f",
+    "issue67_candidate_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c",
+    "issue68_candidate_discovery_code_sha256": "69bff45062c8fcbe092240d796e9ea910cb54ef9c79d162112ea22215a7890ca",
+    "pr58_corrected_log_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "pr58_run_formal_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+    "pr58_protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "postgresql_build_and_runtime": "NOT_VERIFIED; pg_config and psql were not found on PATH during outcome-free preflight"
+  },
+  "phase_boundary": {
+    "postgresql_execution_authorized": false,
+    "valid_calibration_measurement_authorized": false,
+    "test_plan_or_truth_access_authorized": false,
+    "next_step": "researcher review of code, preflight, calibration plan cap, runtime/storage feasibility, and pinned PostgreSQL build before separate execution approval"
+  }
+}

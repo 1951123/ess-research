@@ -1,5 +1,7 @@
 # Issue #64 — Stage 2B generalization protocol (Phase 0 only)
 
+> **Scope update:** this earlier Phase 0/self-generated-cohort proposal is retained as historical context. It is superseded for the first implementation by [`forest10-first-implementation-v1.json`](forest10-first-implementation-v1.json) and [`forest10-preflight-v1.md`](forest10-preflight-v1.md), following the researcher-approved Issue #64 scope (2026-10-21). No historical protocol or evidence is deleted or rewritten.
+
 **Status: `OUTCOME_FREE_DRAFT_REQUIRES_RESEARCHER_APPROVAL`.** This is a design artifact, not a frozen execution authorization or an experimental result. No fresh cohort has been generated, no test truth or estimate was read, and no PostgreSQL held-out query was measured.
 
 The protocol in [`protocol-v1.json`](protocol-v1.json) is an independent, versioned follow-up. It does not modify `protocol-v4.json`, any v1–v4 evidence, the Stage 2B runner, `ess-postgresql`, `ess-advisor`, or the paper. Historical formal v4 is explicitly not treated as valid new held-out evidence because its coefficient defect was documented; corrected-log PR #58 artifacts remain validation-only until reviewed and pinned.
