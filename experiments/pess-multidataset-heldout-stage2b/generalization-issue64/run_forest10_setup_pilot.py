@@ -340,11 +340,25 @@ def _record_cleanup_error(summary: dict[str, Any], exc: BaseException, phase: st
     summary.setdefault("cleanup_errors", []).append(_worker_error_record(exc, phase))
 
 
-def _watchdog_stop_reason(allocated_bytes: int, elapsed_seconds: float) -> str | None:
-    if allocated_bytes >= SOFT_STOP_DISK_BYTES:
-        return "disk_safety_abort_1.5_GiB"
-    if elapsed_seconds >= SOFT_STOP_SECONDS:
-        return "wall_safety_abort_28_minutes"
+def _watchdog_stop_reason(
+    allocated_bytes: int,
+    elapsed_seconds: float,
+    *,
+    disk_threshold_bytes: int = SOFT_STOP_DISK_BYTES,
+    wall_threshold_seconds: int = SOFT_STOP_SECONDS,
+) -> str | None:
+    if allocated_bytes >= disk_threshold_bytes:
+        return (
+            "disk_safety_abort_1.5_GiB"
+            if disk_threshold_bytes == SOFT_STOP_DISK_BYTES
+            else "disk_safety_abort_custom"
+        )
+    if elapsed_seconds >= wall_threshold_seconds:
+        return (
+            "wall_safety_abort_28_minutes"
+            if wall_threshold_seconds == SOFT_STOP_SECONDS
+            else "wall_safety_abort_custom"
+        )
     return None
 
 
@@ -657,7 +671,17 @@ def _worker(root: Path) -> int:
     return 0 if summary["status"] == "SUCCESS" else 2
 
 
-def _supervise(root: Path) -> int:
+def _supervise(
+    root: Path,
+    *,
+    worker_command: list[str] | None = None,
+    soft_wall_seconds: int = SOFT_STOP_SECONDS,
+    hard_wall_seconds: int = HARD_WALL_SECONDS,
+    soft_disk_bytes: int = SOFT_STOP_DISK_BYTES,
+    hard_disk_bytes: int = HARD_DISK_BYTES,
+    worker_summary_name: str = "pilot-worker-summary.json",
+    summary_format: str = "ess-issue64-forest10-setup-pilot-supervisor-v1",
+) -> int:
     original_runtime = configured_root("ESS_RUNTIME_PARENT")
     root = root.resolve()
     if root.is_symlink() or root.parent.resolve() != runtime_runs("ess-research", 64).resolve():
@@ -671,7 +695,7 @@ def _supervise(root: Path) -> int:
     stop_reason: str | None = None
     with log_path.open("xb") as console:
         process = subprocess.Popen(
-            [sys.executable, str(Path(__file__).resolve()), "--worker", str(root)],
+            worker_command or [sys.executable, str(Path(__file__).resolve()), "--worker", str(root)],
             env=env,
             stdout=console,
             stderr=subprocess.STDOUT,
@@ -687,7 +711,12 @@ def _supervise(root: Path) -> int:
                 stop_reason = "disk_monitor_unavailable"
                 break
             peak = max(peak or 0, current)
-            stop_reason = _watchdog_stop_reason(current, elapsed)
+            stop_reason = _watchdog_stop_reason(
+                current,
+                elapsed,
+                disk_threshold_bytes=soft_disk_bytes,
+                wall_threshold_seconds=soft_wall_seconds,
+            )
             if stop_reason is not None:
                 break
             time.sleep(0.1)
@@ -712,8 +741,8 @@ def _supervise(root: Path) -> int:
             peak = None
             disk_monitor_error = _monitor_error_record(exc)
             stop_reason = stop_reason or "disk_monitor_unavailable"
-    if stop_reason is None and elapsed >= SOFT_STOP_SECONDS:
-        stop_reason = "wall_safety_abort_28_minutes"
+    if stop_reason is None and elapsed >= soft_wall_seconds:
+        stop_reason = _watchdog_stop_reason(0, elapsed, wall_threshold_seconds=soft_wall_seconds)
     cluster_data = root / "cluster" / "pgdata"
     if (stop_reason is not None or return_code != 0) and cluster_data.exists():
         pg_ctl = original_runtime / "issue38" / "pg-prefix" / "bin" / "pg_ctl"
@@ -769,24 +798,24 @@ def _supervise(root: Path) -> int:
             (root / "cluster" / "server.log").unlink(missing_ok=True)
         except OSError:
             pass
-    if elapsed > HARD_WALL_SECONDS or (peak is not None and peak >= HARD_DISK_BYTES):
+    if elapsed > hard_wall_seconds or (peak is not None and peak >= hard_disk_bytes):
         stop_reason = stop_reason or "hard_cap_exceeded_or_monitor_late"
-    worker_summary_path = root / "pilot-worker-summary.json"
+    worker_summary_path = root / worker_summary_name
     worker_summary = None
     if worker_summary_path.is_file():
         worker_summary = json.loads(worker_summary_path.read_text(encoding="utf-8"))
     final = {
-        "format": "ess-issue64-forest10-setup-pilot-supervisor-v1",
+        "format": summary_format,
         "status": "ABORTED" if stop_reason else (worker_summary or {}).get("status", "FAILED"),
         "stop_reason": stop_reason,
         "worker_exit_code": return_code,
         "elapsed_seconds": round(elapsed, 3),
-        "elapsed_cap_seconds": HARD_WALL_SECONDS,
+        "elapsed_cap_seconds": hard_wall_seconds,
         "peak_allocated_disk_bytes": peak,
         "peak_disk_measurement": "MEASURED" if peak is not None else "UNKNOWN",
         "disk_monitor_error": disk_monitor_error,
-        "hard_disk_cap_bytes": HARD_DISK_BYTES,
-        "watchdog_abort_threshold_bytes": SOFT_STOP_DISK_BYTES,
+        "hard_disk_cap_bytes": hard_disk_bytes,
+        "watchdog_abort_threshold_bytes": soft_disk_bytes,
         "postgresql_cleanup": postgresql_cleanup,
         "sample_and_cluster_runtime_path": str(root),
         "worker_summary": worker_summary,
