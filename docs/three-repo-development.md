@@ -19,7 +19,7 @@ export ESS_PG_WORKTREE_PARENT="$HOME/projects/ess-postgresql/.worktrees"
 export ESS_ADVISOR_WORKTREE_PARENT="$HOME/projects/ess-advisor/.worktrees"
 ```
 
-The last two variables are **optional conventions**, not prerequisites for existing commands. If absent, explicitly choose the target worktree directory when creating it; never guess a runtime or data root. Agents must source and verify needed exports **in their current shell** before path-dependent commands; noninteractive shells may not inherit `~/.bashrc`.
+The last two variables are **optional conventions**, not prerequisites for existing commands. The only shared *data* is read-only original input under `ESS_DATA_ROOT`; runtime builds, binaries and samples are never shared. If absent, explicitly choose the target worktree directory when creating it; never guess a runtime or data root. Agents must source and verify needed exports **in their current shell** before path-dependent commands; noninteractive shells may not inherit `~/.bashrc`.
 
 `ESS_DATA_ROOT` is for shared original inputs, not cross-run mutable derived data. Under `ESS_RUNTIME_PARENT`, separate artifacts by repository / Issue / run and never overwrite another run. Preserve essential reproducibility metadata and compact reports; do not commit PostgreSQL builds, large data, fixed ANALYZE sample binaries, trace logs, virtual environments or secrets. Apply each repository's own `AGENTS.md` and `.gitignore`.
 
