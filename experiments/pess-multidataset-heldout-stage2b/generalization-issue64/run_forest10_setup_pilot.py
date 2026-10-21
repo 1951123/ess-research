@@ -8,11 +8,13 @@ technical summary. Run only after explicit researcher authorization.
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 import json
 import os
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tarfile
@@ -35,6 +37,8 @@ HARD_WALL_SECONDS = 30 * 60
 SOFT_STOP_SECONDS = 28 * 60
 HARD_DISK_BYTES = 2 * 1024**3
 SOFT_STOP_DISK_BYTES = 1536 * 1024**2
+DISK_SCAN_RACE_RETRIES = 2
+TRANSIENT_DISK_SCAN_ERRNOS = {errno.ENOENT, getattr(errno, "ESTALE", -1)}
 SAMPLE_RELATION_IDENTITY = "6:public8:forest10"
 
 
@@ -47,16 +51,73 @@ def _sha256(path: Path) -> str:
 
 
 def _allocated_bytes(root: Path) -> int:
-    total = 0
-    pending = [root]
-    while pending:
-        path = pending.pop()
-        info = path.lstat()
-        total += info.st_blocks * 512
-        if path.is_dir() and not path.is_symlink():
-            with os.scandir(path) as entries:
-                pending.extend(Path(entry.path) for entry in entries)
-    return total
+    for attempt in range(DISK_SCAN_RACE_RETRIES + 1):
+        total = 0
+        pending = [root]
+        race_error: OSError | None = None
+        while pending:
+            path = pending.pop()
+            try:
+                info = path.lstat()
+                total += info.st_blocks * 512
+                if stat.S_ISDIR(info.st_mode):
+                    with os.scandir(path) as entries:
+                        pending.extend(Path(entry.path) for entry in entries)
+            except OSError as exc:
+                if path != root and exc.errno in TRANSIENT_DISK_SCAN_ERRNOS:
+                    race_error = exc
+                    break
+                raise
+        if race_error is None:
+            return total
+        if attempt == DISK_SCAN_RACE_RETRIES:
+            raise race_error
+    raise AssertionError("unreachable disk scan retry state")
+
+
+def _safe_pg_cause(stderr: str) -> str:
+    text = stderr.lower()
+    if "permission denied" in text:
+        return "permission_denied"
+    if "could not connect" in text or "connection refused" in text:
+        return "connection_failure"
+    if "no server running" in text:
+        return "server_not_running"
+    if "timed out" in text or "timeout" in text:
+        return "timeout"
+    if "fatal:" in text or "error:" in text:
+        return "postgresql_reported_error"
+    return "nonzero_exit"
+
+
+def _worker_error_record(exc: BaseException, phase: str) -> dict[str, Any]:
+    message = str(exc).splitlines()[0][:300]
+    if "command failed:" in message:
+        raw_stderr = str(exc).partition("\nstderr=")[2]
+        cause = _safe_pg_cause(raw_stderr.splitlines()[0] if raw_stderr else "")
+        return {
+            "phase": phase,
+            "type": type(exc).__name__,
+            "message": "PostgreSQL command failed; SQL and command output omitted",
+            "postgresql_command": {"cause": cause, "exit_code": None},
+        }
+    return {"phase": phase, "type": type(exc).__name__, "message": message}
+
+
+def _record_cleanup_error(summary: dict[str, Any], exc: BaseException, phase: str) -> None:
+    summary.setdefault("cleanup_errors", []).append(_worker_error_record(exc, phase))
+
+
+def _watchdog_stop_reason(allocated_bytes: int, elapsed_seconds: float) -> str | None:
+    if allocated_bytes >= SOFT_STOP_DISK_BYTES:
+        return "disk_safety_abort_1.5_GiB"
+    if elapsed_seconds >= SOFT_STOP_SECONDS:
+        return "wall_safety_abort_28_minutes"
+    return None
+
+
+def _monitor_error_record(exc: OSError) -> dict[str, Any]:
+    return {"error_class": type(exc).__name__, "errno": exc.errno}
 
 
 def _extract_csv(data_root: Path, destination: Path) -> None:
@@ -313,26 +374,36 @@ def _worker(root: Path) -> int:
             summary["explain"]["completed"] += 1
             summary["checks"]["same_query_two_explains_no_values_retained"] = "PASS"
             summary["status"] = "SUCCESS"
+        except BaseException as exc:
+            summary["status"] = "FAILED"
+            summary["error"] = _worker_error_record(exc, current_phase)
         finally:
+            current_phase = "postgresql_shutdown"
             if backend_context is not None and cluster_entered:
-                backend_context.__exit__(None, None, None)
+                try:
+                    backend_context.__exit__(None, None, None)
+                    summary["checks"]["postgresql_shutdown"] = "PASS"
+                except BaseException as exc:
+                    summary["status"] = "FAILED"
+                    _record_cleanup_error(summary, exc, current_phase)
+                    summary["checks"]["postgresql_shutdown"] = "FAIL"
             summary["phases_seconds"]["cluster_lifecycle_including_shutdown"] = round(
                 time.monotonic() - cluster_lifecycle_start, 3
             )
-            current_phase = "local_cleanup"
-            (input_root / "forest10-original.csv").unlink(missing_ok=True)
-            (prepared_root / "schema.sql").unlink(missing_ok=True)
+            current_phase = "local_file_cleanup"
+            try:
+                (input_root / "forest10-original.csv").unlink(missing_ok=True)
+                (prepared_root / "schema.sql").unlink(missing_ok=True)
+            except OSError as exc:
+                summary["status"] = "FAILED"
+                _record_cleanup_error(summary, exc, current_phase)
             try:
                 (root / "cluster" / "server.log").unlink(missing_ok=True)
             except OSError:
                 pass
-        summary["checks"]["postgresql_shutdown"] = "PASS"
     except BaseException as exc:
         summary["status"] = "FAILED"
-        message = str(exc).splitlines()[0][:300]
-        if "command failed:" in message:
-            message = "PostgreSQL command failed; SQL and raw diagnostics intentionally not retained"
-        summary["error"] = {"phase": current_phase, "type": type(exc).__name__, "message": message}
+        summary["error"] = _worker_error_record(exc, current_phase)
     summary["worker_elapsed_seconds"] = round(time.monotonic() - started, 3)
     output = root / "pilot-worker-summary.json"
     output.write_text(json.dumps(summary, sort_keys=True, indent=2) + "\n", encoding="utf-8")
@@ -347,7 +418,9 @@ def _supervise(root: Path) -> int:
     env = dict(os.environ)
     log_path = root / "worker-console.log"
     started = time.monotonic()
-    peak = 0
+    peak: int | None = 0
+    disk_monitor_error: dict[str, Any] | None = None
+    postgresql_cleanup: dict[str, Any] | None = None
     stop_reason: str | None = None
     with log_path.open("xb") as console:
         process = subprocess.Popen(
@@ -361,14 +434,14 @@ def _supervise(root: Path) -> int:
             elapsed = time.monotonic() - started
             try:
                 current = _allocated_bytes(root)
-            except OSError:
-                current = HARD_DISK_BYTES + 1
-            peak = max(peak, current)
-            if current >= SOFT_STOP_DISK_BYTES:
-                stop_reason = "disk_safety_abort_1.5_GiB"
+            except OSError as exc:
+                peak = None
+                disk_monitor_error = _monitor_error_record(exc)
+                stop_reason = "disk_monitor_unavailable"
                 break
-            if elapsed >= SOFT_STOP_SECONDS:
-                stop_reason = "wall_safety_abort_28_minutes"
+            peak = max(peak or 0, current)
+            stop_reason = _watchdog_stop_reason(current, elapsed)
+            if stop_reason is not None:
                 break
             time.sleep(0.1)
         if stop_reason is not None and process.poll() is None:
@@ -385,9 +458,13 @@ def _supervise(root: Path) -> int:
         return_code = process.wait()
 
     elapsed = time.monotonic() - started
-    peak = max(peak, _allocated_bytes(root))
-    if stop_reason is None and peak >= SOFT_STOP_DISK_BYTES:
-        stop_reason = "disk_safety_abort_1.5_GiB"
+    if peak is not None:
+        try:
+            peak = max(peak, _allocated_bytes(root))
+        except OSError as exc:
+            peak = None
+            disk_monitor_error = _monitor_error_record(exc)
+            stop_reason = stop_reason or "disk_monitor_unavailable"
     if stop_reason is None and elapsed >= SOFT_STOP_SECONDS:
         stop_reason = "wall_safety_abort_28_minutes"
     cluster_data = root / "cluster" / "pgdata"
@@ -403,7 +480,7 @@ def _supervise(root: Path) -> int:
                 check=False,
             )
             if status.returncode == 0:
-                subprocess.run(
+                stopped = subprocess.run(
                     [str(pg_ctl), "-D", str(cluster_data), "-m", "fast", "-w", "stop"],
                     env=dict(env, LD_LIBRARY_PATH=str(pg_ctl.parent.parent / "lib")),
                     capture_output=True,
@@ -411,14 +488,41 @@ def _supervise(root: Path) -> int:
                     timeout=60,
                     check=False,
                 )
-        except (OSError, subprocess.TimeoutExpired):
-            pass
+                if stopped.returncode:
+                    postgresql_cleanup = {
+                        "program": "pg_ctl",
+                        "operation": "stop",
+                        "exit_code": stopped.returncode,
+                        "cause": _safe_pg_cause(stopped.stderr),
+                    }
+            elif status.returncode != 3:
+                postgresql_cleanup = {
+                    "program": "pg_ctl",
+                    "operation": "status",
+                    "exit_code": status.returncode,
+                    "cause": _safe_pg_cause(status.stderr),
+                }
+        except subprocess.TimeoutExpired:
+            postgresql_cleanup = {
+                "program": "pg_ctl",
+                "operation": "cleanup",
+                "exit_code": None,
+                "cause": "timeout",
+            }
+        except OSError as exc:
+            postgresql_cleanup = {
+                "program": "pg_ctl",
+                "operation": "cleanup",
+                "exit_code": None,
+                "cause": "command_unavailable" if exc.errno == errno.ENOENT else "command_os_error",
+                "errno": exc.errno,
+            }
         elapsed = time.monotonic() - started
         try:
             (root / "cluster" / "server.log").unlink(missing_ok=True)
         except OSError:
             pass
-    if elapsed > HARD_WALL_SECONDS or peak >= HARD_DISK_BYTES:
+    if elapsed > HARD_WALL_SECONDS or (peak is not None and peak >= HARD_DISK_BYTES):
         stop_reason = stop_reason or "hard_cap_exceeded_or_monitor_late"
     worker_summary_path = root / "pilot-worker-summary.json"
     worker_summary = None
@@ -432,8 +536,11 @@ def _supervise(root: Path) -> int:
         "elapsed_seconds": round(elapsed, 3),
         "elapsed_cap_seconds": HARD_WALL_SECONDS,
         "peak_allocated_disk_bytes": peak,
+        "peak_disk_measurement": "MEASURED" if peak is not None else "UNKNOWN",
+        "disk_monitor_error": disk_monitor_error,
         "hard_disk_cap_bytes": HARD_DISK_BYTES,
         "watchdog_abort_threshold_bytes": SOFT_STOP_DISK_BYTES,
+        "postgresql_cleanup": postgresql_cleanup,
         "sample_and_cluster_runtime_path": str(root),
         "worker_summary": worker_summary,
         "worker_log": str(log_path),
