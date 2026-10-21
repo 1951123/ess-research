@@ -21,6 +21,7 @@ import sys
 import tarfile
 import tempfile
 import time
+from decimal import Decimal
 from pathlib import Path
 from typing import Any, Callable
 
@@ -34,6 +35,9 @@ from ess_research.arecel.forest10 import CSV_SHA256, EXPECTED_ROWS, SOURCE_COLUM
 from ess_research.task_paths import configured_root, runtime_runs
 
 PILOT_EDGE = ("Elevation", "Aspect")
+PILOT_QUERY_ID = "arecel:forest10:valid:000005"
+PILOT_QUERY_INDEX = 5
+MCV_NUMERIC_FIELDS = ("simple_sel", "mcv_sel", "mcv_basesel", "mcv_totalsel", "stat_sel")
 HARD_WALL_SECONDS = 30 * 60
 SOFT_STOP_SECONDS = 28 * 60
 HARD_DISK_BYTES = 2 * 1024**3
@@ -382,6 +386,10 @@ def _classify_pg_command(command: list[str]) -> tuple[str, str]:
 
     sql = command[command.index("-c") + 1] if "-c" in command and command.index("-c") + 1 < len(command) else ""
     normalized = re.sub(r"\s+", " ", sql.strip().lower())
+    if "explain (ess_diagnostics, format json, summary off)" in normalized:
+        return "structured_valid_explain", program
+    if "ess_mcv_numeric_trace" in normalized and "explain (format json, summary off)" in normalized:
+        return "legacy_trace_valid_explain", program
     if "current_setting('data_directory')" in normalized and "current_database()" in normalized:
         return "psql_identity_check", program
     if normalized.startswith("create table public.forest10"):
@@ -478,20 +486,29 @@ def _install_pinned_pg_diagnostics(
     *,
     phase_sink: Callable[[str], None],
     failure_sink: list[dict[str, Any]],
+    phase_times: dict[str, float] | None = None,
 ) -> Callable[[], None]:
     """Instrument the pinned PR #58 call path and return a restoration callback."""
     original_run_command = helpers.run_command
     original_validate_identity = helpers.validate_cluster_identity
 
     def diagnostic_run_command(command, *, env, input_text=None, timeout=180):
-        return _run_diagnostic_pg_command(
-            command,
-            env=env,
-            input_text=input_text,
-            timeout=timeout,
-            phase_sink=phase_sink,
-            failure_sink=failure_sink,
-        )
+        phase, _program = _classify_pg_command(command)
+        started = time.monotonic()
+        try:
+            return _run_diagnostic_pg_command(
+                command,
+                env=env,
+                input_text=input_text,
+                timeout=timeout,
+                phase_sink=phase_sink,
+                failure_sink=failure_sink,
+            )
+        finally:
+            if phase_times is not None:
+                phase_times[phase] = round(
+                    phase_times.get(phase, 0.0) + time.monotonic() - started, 3
+                )
 
     def diagnostic_validate_identity(fields, pgdata, port):
         phase_sink("psql_identity_check")
@@ -617,8 +634,25 @@ def _valid_candidate(query: dict[str, Any], edge: tuple[str, str]) -> bool:
     )
 
 
-def _load_first_valid_query(data_root: Path) -> tuple[str, int, str]:
-    """Read the pinned workload pickle only; never open its label pickle."""
+def _fixed_valid_query(queries: list[Any]) -> dict[str, Any]:
+    """Resolve only official valid query 000005; never substitute another query."""
+    if len(queries) != 10_000 or PILOT_QUERY_INDEX >= len(queries):
+        raise RuntimeError("official Forest10 valid workload does not contain the fixed query")
+    source_query = queries[PILOT_QUERY_INDEX]
+    query = {
+        "query_id": f"arecel:forest10:valid:{PILOT_QUERY_INDEX:06d}",
+        "source_index": PILOT_QUERY_INDEX,
+        **_query(source_query, "forest10"),
+    }
+    if query["query_id"] != PILOT_QUERY_ID or not _valid_candidate(query, PILOT_EDGE):
+        raise RuntimeError("fixed official valid query is not statically eligible for e00_01")
+    if not query["sql"].startswith("SELECT * FROM public.forest10 WHERE "):
+        raise RuntimeError("fixed valid query does not target public.forest10")
+    return query
+
+
+def _load_fixed_valid_query(data_root: Path) -> dict[str, Any]:
+    """Read only the workload pickle and resolve exactly valid:000005."""
     archive_path = data_root / "arecel-data.tar.gz"
     if not archive_path.is_file():
         raise RuntimeError("pinned AreCEL archive is missing locally; network access is disabled")
@@ -641,17 +675,132 @@ def _load_first_valid_query(data_root: Path) -> tuple[str, int, str]:
     queries = loaded["valid"]
     if len(queries) != 10_000:
         raise RuntimeError("official Forest10 valid workload does not contain 10,000 queries")
-    for source_index, source_query in enumerate(queries):
-        query = {
-            "query_id": f"arecel:forest10:valid:{source_index:06d}",
-            "source_index": source_index,
-            **_query(source_query, "forest10"),
-        }
-        if _valid_candidate(query, PILOT_EDGE):
-            if not query["sql"].startswith("SELECT * FROM public.forest10 WHERE "):
-                raise RuntimeError("prepared valid query does not target public.forest10")
-            return query["query_id"], source_index, query["sql"]
-    raise RuntimeError("no official valid query statically supports e00_01")
+    return _fixed_valid_query(queries)
+
+
+def _legacy_trace_summary(
+    helpers: Any,
+    raw_result: dict[str, Any],
+    ledger: list[dict[str, Any]],
+    query: dict[str, Any],
+    marker: str,
+) -> dict[str, Any]:
+    """Retain only base/MCV fields needed for the adapter comparison."""
+    trace = helpers.evaluate_trace(
+        raw_result["raw_associated_trace_lines"],
+        ledger,
+        label=marker,
+        query_id=query["query_id"],
+    )
+    if trace.get("status") != "VERIFIED":
+        raise RuntimeError("legacy PR #58 trace diagnostics are incomplete or incompatible")
+    base_records = [row for row in trace["numeric"] if "nrows_preclamp" in row]
+    if len(base_records) != 1:
+        raise RuntimeError("legacy PR #58 trace did not provide exactly one base estimate")
+    base = base_records[0]
+    base_relation_oid = int(base["base_relation_oid"])
+    mcv_records = []
+    for row in trace["numeric"]:
+        if "selected_stat_oid" not in row:
+            continue
+        terms = {name: str(Decimal(row[name])) for name in MCV_NUMERIC_FIELDS}
+        mcv_records.append({
+            "relation_oid": int(row["relid"]),
+            "stat_oid": int(row["selected_stat_oid"]),
+            "numeric_terms": terms,
+        })
+    selected_oids = {int(oid) for oid in trace["selected_stat_oids"]}
+    if selected_oids != {row["stat_oid"] for row in mcv_records}:
+        raise RuntimeError("legacy PR #58 selected MCV OIDs lack corresponding numeric trace records")
+    if len({row["stat_oid"] for row in mcv_records}) != len(mcv_records):
+        raise RuntimeError("legacy PR #58 trace contains duplicate MCV numeric records")
+    clauses = trace["claimed_clause_coverage"]["claimed_clauses_by_stat_oid"]
+    for row in mcv_records:
+        row["clause_indexes"] = sorted(int(index) for index in clauses.get(str(row["stat_oid"]), []))
+    return {
+        "diagnostics_status": "VERIFIED",
+        "relation_oid": base_relation_oid,
+        "estimate_preclamp": str(Decimal(raw_result["estimate_preclamp"])),
+        "mcv_diagnostics_status": "VERIFIED" if mcv_records else "NO_MCV_EVENTS",
+        "mcv_records": mcv_records,
+    }
+
+
+def _compare_diagnostic_summaries(legacy: dict[str, Any], structured: dict[str, Any]) -> dict[str, Any]:
+    """Compare exact Decimal values and event identities without retaining raw output."""
+    if legacy.get("diagnostics_status") != "VERIFIED":
+        raise RuntimeError("legacy server-log diagnostics are not verified")
+    if structured.get("diagnostics_status") != "complete":
+        raise RuntimeError("structured diagnostics are not complete")
+    legacy_base = Decimal(legacy["estimate_preclamp"])
+    structured_base = Decimal(structured["estimate_preclamp"])
+    base_delta = legacy_base - structured_base
+    old_mcv = legacy["mcv_records"]
+    new_mcv = structured["mcv_records"]
+    comparison: dict[str, Any] = {
+        "legacy_diagnostics_status": legacy["diagnostics_status"],
+        "structured_diagnostics_status": structured["diagnostics_status"],
+        "base_relation_oid_equal": legacy["relation_oid"] == structured["relation_oid"],
+        "legacy_preclamp": str(legacy_base),
+        "structured_preclamp": str(structured_base),
+        "preclamp_delta_legacy_minus_structured": str(base_delta),
+        "preclamp_exact_decimal_match": base_delta == 0,
+        "mcv_event_presence": "BOTH_PRESENT" if old_mcv and new_mcv else (
+            "BOTH_ABSENT" if not old_mcv and not new_mcv else "MISMATCH"
+        ),
+        "mcv_records": [],
+    }
+    if not old_mcv and not new_mcv:
+        comparison["mcv_hit_parity"] = "NOT_VERIFIED_NO_MCV_EVENTS"
+    elif bool(old_mcv) != bool(new_mcv):
+        comparison["mcv_hit_parity"] = "MISMATCH"
+    else:
+        old_by_oid = {row["stat_oid"]: row for row in old_mcv}
+        new_by_oid = {row["stat_oid"]: row for row in new_mcv}
+        if set(old_by_oid) != set(new_by_oid):
+            comparison["mcv_hit_parity"] = "MISMATCH"
+        else:
+            records_match = True
+            for oid in sorted(old_by_oid):
+                before, after = old_by_oid[oid], new_by_oid[oid]
+                terms = {}
+                for name in MCV_NUMERIC_FIELDS:
+                    left = Decimal(before["numeric_terms"][name])
+                    right = Decimal(after[name])
+                    delta = left - right
+                    terms[name] = {
+                        "legacy": str(left),
+                        "structured": str(right),
+                        "delta_legacy_minus_structured": str(delta),
+                        "exact_decimal_match": delta == 0,
+                    }
+                    records_match &= delta == 0
+                identity_match = (
+                    before["relation_oid"] == after["relation_oid"]
+                    and before["clause_indexes"] == after["clause_indexes"]
+                )
+                records_match &= identity_match
+                comparison["mcv_records"].append({
+                    "relation_oid": before["relation_oid"],
+                    "stat_oid": oid,
+                    "clause_indexes": before["clause_indexes"],
+                    "identity_match": identity_match,
+                    "numeric_terms": terms,
+                })
+            comparison["mcv_hit_parity"] = "MATCH" if records_match else "MISMATCH"
+    if comparison["mcv_event_presence"] == "MISMATCH":
+        comparison["status"] = "MISMATCH_MCV_EVENT_PRESENCE"
+    elif not comparison["base_relation_oid_equal"]:
+        comparison["status"] = "MISMATCH_RELATION_OID"
+    elif not comparison["preclamp_exact_decimal_match"]:
+        comparison["status"] = "MISMATCH_PRECLAMP"
+    elif comparison["mcv_hit_parity"] == "MISMATCH":
+        comparison["status"] = "MISMATCH_MCV_DIAGNOSTICS"
+    elif comparison["mcv_hit_parity"] == "NOT_VERIFIED_NO_MCV_EVENTS":
+        comparison["status"] = "BASE_MATCH_MCV_NOT_VERIFIED"
+    else:
+        comparison["status"] = "MATCH"
+    return comparison
 
 
 def _worker(root: Path) -> int:
@@ -684,20 +833,23 @@ def _worker(root: Path) -> int:
         if root.parent.resolve() != runtime_root or not root.is_dir() or root.is_symlink():
             raise RuntimeError("worker runtime root is not the dedicated pilot directory")
         summary["checks"]["unix_socket_path_bytes_upper_bound"] = _validate_socket_path(root)
-        helpers, run_formal, pr58_pin = _load_pinned_pr58_modules(root)
+        helpers, run_formal, pr58_pin = timed(
+            "pr58_helper_fetch_hash_verification_and_import",
+            lambda: _load_pinned_pr58_modules(root),
+        )
         import forest10_runner as issue64_runner
         summary["checks"]["pr58_source_pin"] = pr58_pin
 
-        query_id, source_index, query_sql = timed(
+        query = timed(
             "valid_workload_and_query_resolution",
-            lambda: _load_first_valid_query(configured_root("ESS_DATA_ROOT")),
+            lambda: _load_fixed_valid_query(configured_root("ESS_DATA_ROOT")),
         )
         summary["query"] = {
-            "query_id": query_id,
-            "source_index": source_index,
+            "query_id": query["query_id"],
+            "source_index": query["source_index"],
             "split": "valid",
             "static_e00_01_eligibility": "PASS",
-            "same_sql_used_for_both_configurations": True,
+            "same_sql_used_for_both_diagnostic_paths": True,
         }
 
         input_root = root / "input"
@@ -742,6 +894,7 @@ def _worker(root: Path) -> int:
             helpers,
             phase_sink=set_pg_phase,
             failure_sink=pg_command_failures,
+            phase_times=summary["phases_seconds"],
         )
         try:
             backend_context = helpers.owned_cluster(prefix, root / "cluster", os.environ.copy())
@@ -793,14 +946,6 @@ def _worker(root: Path) -> int:
             if absent != "0":
                 raise RuntimeError("e00_01 statistics object was unexpectedly present for Empty")
 
-            explain_sql = "EXPLAIN (FORMAT JSON) " + query_sql
-            before = time.monotonic()
-            summary["explain"]["attempts"] += 1
-            helpers.psql(prefix, cluster["socket_dir"], cluster["port"], explain_sql,
-                         dict(os.environ, LD_LIBRARY_PATH=str(prefix / "lib")), timeout=60)
-            summary["phases_seconds"]["empty_one_valid_explain"] = round(time.monotonic() - before, 3)
-            summary["explain"]["completed"] += 1
-
             issue64_runner.validate_fresh_sample_identity(sample, run_formal_identity, helpers)
             singleton_ledger = timed(
                 "e00_01_sample_replay_analyze",
@@ -831,13 +976,63 @@ def _worker(root: Path) -> int:
                 "catalog_verification": "PASS",
             }
 
-            before = time.monotonic()
+            summary["explain"]["planner_gucs"] = {
+                "plan_cache_mode": {"legacy": "force_custom_plan", "structured": "force_custom_plan"},
+                "max_parallel_workers_per_gather": {"legacy": 0, "structured": 0},
+                "explicit_planner_guc_values_match": True,
+                "same_database_and_statistic_state": True,
+                "client_min_messages": {
+                    "legacy": "debug1",
+                    "structured": "warning",
+                    "difference_is_planner_guc": False,
+                    "reason": "legacy trace visibility; structured diagnostics do not require DEBUG1 client messages",
+                },
+            }
             summary["explain"]["attempts"] += 1
-            helpers.psql(prefix, cluster["socket_dir"], cluster["port"], explain_sql,
-                         dict(os.environ, LD_LIBRARY_PATH=str(prefix / "lib")), timeout=60)
-            summary["phases_seconds"]["e00_01_one_valid_explain"] = round(time.monotonic() - before, 3)
+            legacy_raw = timed(
+                "legacy_pr58_server_log_trace_explain",
+                lambda: run_formal.run_query(
+                    prefix,
+                    cluster,
+                    query,
+                    singleton_ledger,
+                    "issue64-pr7-pair-legacy-valid-000005",
+                    backend._log_offset,
+                    backend.name_to_id,
+                ),
+            )
+            legacy_result, backend._log_offset = legacy_raw
             summary["explain"]["completed"] += 1
-            summary["checks"]["same_query_two_explains_no_values_retained"] = "PASS"
+            legacy_diagnostic = _legacy_trace_summary(
+                helpers,
+                legacy_result,
+                singleton_ledger,
+                query,
+                "issue64-pr7-pair-legacy-valid-000005",
+            )
+            summary["explain"]["legacy_server_log"] = legacy_diagnostic
+
+            structured_adapter = issue64_runner.PR7StructuredExplainAdapter(
+                helpers,
+                prefix,
+                cluster,
+                int(identity["header"]["relation_oid"]),
+                singleton_ledger,
+                backend.name_to_id,
+            )
+            summary["explain"]["attempts"] += 1
+            structured_diagnostic = timed(
+                "pr7_structured_diagnostics_explain",
+                lambda: structured_adapter.explain(query),
+            )
+            summary["explain"]["completed"] += 1
+            summary["explain"]["structured"] = structured_diagnostic
+            comparison = _compare_diagnostic_summaries(legacy_diagnostic, structured_diagnostic)
+            summary["explain"]["comparison"] = comparison
+            summary["checks"]["two_diagnostic_paths_complete"] = "PASS"
+            if comparison["status"] not in {"MATCH", "BASE_MATCH_MCV_NOT_VERIFIED"}:
+                raise RuntimeError("legacy and structured EXPLAIN diagnostics did not match")
+            summary["checks"]["same_query_same_e00_01_state_and_planner_gucs"] = "PASS"
             summary["status"] = "SUCCESS"
         except BaseException as exc:
             summary["status"] = "FAILED"
