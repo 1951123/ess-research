@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import hashlib
+import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -27,19 +29,32 @@ class OfficialArecelProtocolTests(unittest.TestCase):
         counts = CONFIG["outcome_free_plan_count"]
         repo = Path(__file__).parents[3]
         pins = CONFIG["selection"]["candidate_source_pins"]
-        candidate_path = repo / "src/ess_research/arecel/candidates.py"
-        report_path = repo / "experiments/arecel/issue67-candidate-discovery.md"
-        archive_path = repo / "src/ess_research/arecel/archive.py"
+
+        source_match = re.search(
+            r"merge commit ([0-9a-f]{40})",
+            CONFIG["selection"]["candidate_universe_source"],
+        )
+        self.assertIsNotNone(source_match, "candidate source must identify its immutable merge commit")
+        source_commit = source_match.group(1)
+
+        def source_sha256(path: str) -> str:
+            content = subprocess.run(
+                ["git", "-C", str(repo), "show", f"{source_commit}:{path}"],
+                check=True,
+                capture_output=True,
+            ).stdout
+            return hashlib.sha256(content).hexdigest()
+
         self.assertEqual(
-            hashlib.sha256(candidate_path.read_bytes()).hexdigest(),
+            source_sha256("src/ess_research/arecel/candidates.py"),
             pins["candidate_module_sha256"],
         )
         self.assertEqual(
-            hashlib.sha256(report_path.read_bytes()).hexdigest(),
+            source_sha256("experiments/arecel/issue67-candidate-discovery.md"),
             pins["discovery_report_sha256"],
         )
         self.assertEqual(
-            hashlib.sha256(archive_path.read_bytes()).hexdigest(),
+            source_sha256("src/ess_research/arecel/archive.py"),
             pins["archive_module_sha256_at_merge"],
         )
         candidate_counts = CONFIG["selection"]["candidate_counts"]
