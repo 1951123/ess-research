@@ -12,6 +12,13 @@ from ess_research.arecel.forest10 import SOURCE_COLUMNS
 
 
 class Forest10TraceProbeTests(unittest.TestCase):
+    def test_executable_runners_do_not_reference_issue38_runtime_artifacts(self):
+        for name in ("run_forest10_setup_pilot.py", "run_forest10_trace_probe.py"):
+            source = (Path(__file__).parent / name).read_text(encoding="utf-8")
+            for legacy in ("issue38/pg-prefix", "issue38/pg-src", "issue38/results/heldout-v1", "replay-sample.bin"):
+                with self.subTest(script=name, legacy=legacy):
+                    self.assertNotIn(legacy, source)
+
     def test_fixed_valid_query_schedule_and_maximum_calls(self):
         indices = probe._selected_source_indices()
         self.assertEqual(len(indices), 20)

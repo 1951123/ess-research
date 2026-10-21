@@ -24,6 +24,32 @@ class _FakeProcess:
 
 
 class Forest10SetupPilotWatchdogTests(unittest.TestCase):
+    def test_private_build_failure_retains_phase_and_exit_code_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            command = ["make", "-j2"]
+            result = pilot.subprocess.CompletedProcess(command, 17, "private stdout", "error: private detail")
+            phases = {}
+            observed_phase = []
+            with patch.object(pilot.subprocess, "run", return_value=result):
+                with self.assertRaises(pilot.PilotPostgreSQLFailure) as caught:
+                    pilot._run_build_command(
+                        command,
+                        cwd=root,
+                        env={},
+                        log_path=root / "build.log",
+                        phase="postgresql_compile",
+                        phase_sink=observed_phase.append,
+                        phase_times=phases,
+                        timeout=1,
+                    )
+            record = caught.exception.record()
+            self.assertEqual(observed_phase, ["postgresql_compile"])
+            self.assertEqual(record["phase"], "postgresql_compile")
+            self.assertEqual(record["postgresql_command"]["exit_code"], 17)
+            self.assertNotIn("private detail", json.dumps(record))
+            self.assertEqual(set(phases), {"postgresql_compile"})
+
     def test_socket_path_limit_counts_bytes_and_accepts_boundary(self):
         suffix = "/cluster/socket/.s.PGSQL.65535"
         root = Path("/" + "x" * (107 - len(suffix) - 1))

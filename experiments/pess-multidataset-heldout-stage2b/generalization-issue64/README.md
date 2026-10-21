@@ -1,5 +1,7 @@
 # Issue #64 — Stage 2B generalization protocol (Phase 0 only)
 
+> **Implementation follow-up (2026-10-21):** the Forest10 runner now prepares a private, pinned PR #7 PostgreSQL source/build/install under each run root and includes a strict structured EXPLAIN adapter. Details and the code-only validation boundary are in [environment-migration-pr7-adapter-v1.md](environment-migration-pr7-adapter-v1.md). No PostgreSQL build or execution was performed; prior pilot reports and frozen protocol/evidence remain unchanged.
+
 > **Scope update:** this earlier Phase 0/self-generated-cohort proposal is retained as historical context. It is superseded for the first implementation by [`forest10-first-implementation-v1.json`](forest10-first-implementation-v1.json) and [`forest10-preflight-v1.md`](forest10-preflight-v1.md), following the researcher-approved Issue #64 scope (2026-10-21). No historical protocol or evidence is deleted or rewritten.
 
 **Status: `OUTCOME_FREE_DRAFT_REQUIRES_RESEARCHER_APPROVAL`.** This is a design artifact, not a frozen execution authorization or an experimental result. No fresh cohort has been generated, no test truth or estimate was read, and no PostgreSQL held-out query was measured.

@@ -6,6 +6,7 @@ PR #58 helpers, but this module never loads AreCEL files or starts PostgreSQL.
 
 from __future__ import annotations
 
+import json
 import math
 from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 from fractions import Fraction
@@ -111,6 +112,196 @@ def validate_fresh_sample_identity(
         raise ValueError("sample version or Forest10 column count differs from the pinned contract")
     if helpers.sha256_file(sample) != identity.get("sha256"):
         raise ValueError("sample bytes do not match the fresh-bootstrap identity digest")
+
+
+def parse_pr7_structured_explain(
+    output: str,
+    *,
+    query_id: str,
+    relation_oid: int,
+    expected_stat_oids: Mapping[int, str],
+) -> dict[str, Any]:
+    """Strictly parse the pinned PR #7 ``EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON)``.
+
+    An empty MCV event stream is reported as *no observed MCV coverage*, not
+    as evidence that a configured statistic was selected. When events exist,
+    every selected OID must map to the current configured-stat ledger and its
+    clauses and numeric estimate must form one ordered, complete record.
+    """
+    if not query_id or isinstance(relation_oid, bool) or relation_oid <= 0:
+        raise ValueError("query ID and positive relation OID are required")
+    if len(expected_stat_oids) != len(set(expected_stat_oids)):
+        raise ValueError("configured statistic OIDs must be unique")
+    if any(isinstance(oid, bool) or oid <= 0 or not stat_id for oid, stat_id in expected_stat_oids.items()):
+        raise ValueError("configured statistic ledger contains an invalid OID or ID")
+    try:
+        document = json.loads(output)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise ValueError("structured EXPLAIN output is not valid JSON") from exc
+    if not isinstance(document, list) or len(document) != 1 or not isinstance(document[0], dict):
+        raise ValueError("structured EXPLAIN must contain exactly one top-level query record")
+    result = document[0]
+    if not isinstance(result.get("Plan"), dict):
+        raise ValueError("structured EXPLAIN is missing the Plan object")
+    diagnostics = result.get("ESS Diagnostics")
+    if not isinstance(diagnostics, dict):
+        raise ValueError("structured EXPLAIN is missing ESS Diagnostics")
+    if diagnostics.get("Status") != "complete":
+        raise ValueError("ESS Diagnostics status is not complete")
+    events = diagnostics.get("Events")
+    event_count = diagnostics.get("Event Count")
+    if not isinstance(events, list) or isinstance(event_count, bool) or not isinstance(event_count, int):
+        raise ValueError("ESS Diagnostics event list/count is missing or malformed")
+    if event_count != len(events) or event_count <= 0:
+        raise ValueError("ESS Diagnostics Event Count does not match a nonempty Events list")
+
+    bases: list[dict[str, Any]] = []
+    mcv_records: list[dict[str, Any]] = []
+    active: dict[str, Any] | None = None
+
+    def integer(event: Mapping[str, Any], key: str, *, minimum: int = 0) -> int:
+        value = event.get(key)
+        if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
+            raise ValueError(f"ESS Diagnostics event has invalid {key}")
+        return value
+
+    for expected_sequence, event in enumerate(events, start=1):
+        if not isinstance(event, dict) or integer(event, "sequence", minimum=1) != expected_sequence:
+            raise ValueError("ESS Diagnostics event sequence is missing, duplicated, or out of order")
+        event_type = event.get("type")
+        if event_type == "base_estimate":
+            if active is not None:
+                raise ValueError("base-estimate event interrupts an MCV diagnostic record")
+            bases.append(event)
+            continue
+        if event_type == "mcv_selection":
+            if active is not None:
+                raise ValueError("MCV selection arrived before the prior MCV record completed")
+            relid = integer(event, "relation_oid", minimum=1)
+            statoid = integer(event, "stat_oid", minimum=1)
+            if relid != relation_oid or statoid not in expected_stat_oids:
+                raise ValueError("MCV selection does not correspond to the query relation/configured OID ledger")
+            if integer(event, "key_count", minimum=1) != 2:
+                raise ValueError("selected Forest10 MCV statistic is not a two-key object")
+            active = {"relation_oid": relid, "stat_oid": statoid, "clause_indexes": []}
+            continue
+        if event_type == "mcv_clause":
+            if active is None:
+                raise ValueError("MCV clause has no preceding selected-stat record")
+            identity = (integer(event, "relation_oid", minimum=1), integer(event, "stat_oid", minimum=1))
+            if identity != (active["relation_oid"], active["stat_oid"]):
+                raise ValueError("MCV clause relation/stat OID differs from its selected statistic")
+            clause_index = integer(event, "clause_index")
+            if clause_index in active["clause_indexes"]:
+                raise ValueError("MCV statistic claimed a duplicate clause index")
+            active["clause_indexes"].append(clause_index)
+            continue
+        if event_type == "mcv_estimate":
+            if active is None:
+                raise ValueError("MCV estimate has no preceding selected-stat record")
+            identity = (integer(event, "relation_oid", minimum=1), integer(event, "stat_oid", minimum=1))
+            if identity != (active["relation_oid"], active["stat_oid"]):
+                raise ValueError("MCV estimate relation/stat OID differs from its selected statistic")
+            clause_count = integer(event, "clause_count", minimum=1)
+            if clause_count != len(active["clause_indexes"]):
+                raise ValueError("MCV estimate clause_count differs from its claimed clause records")
+            numeric_fields = (
+                "simple_sel", "mcv_sel", "mcv_basesel", "mcv_totalsel", "stat_sel"
+            )
+            numeric: dict[str, str] = {}
+            for field in numeric_fields:
+                try:
+                    value = Decimal(str(event[field]))
+                except (KeyError, ValueError, ArithmeticError) as exc:
+                    raise ValueError(f"MCV estimate is missing or has invalid {field}") from exc
+                if not value.is_finite():
+                    raise ValueError(f"MCV estimate has non-finite {field}")
+                numeric[field] = str(value)
+            mcv_records.append({
+                "relation_oid": active["relation_oid"],
+                "stat_oid": active["stat_oid"],
+                "statistic_id": expected_stat_oids[active["stat_oid"]],
+                "clause_indexes": list(active["clause_indexes"]),
+                "clause_count": clause_count,
+                **numeric,
+            })
+            active = None
+            continue
+        raise ValueError("ESS Diagnostics contains an unknown event type")
+
+    if active is not None:
+        raise ValueError("ESS Diagnostics ends with an unmatched MCV selection")
+    if len(bases) != 1:
+        raise ValueError("Forest10 query must have exactly one base-estimate event")
+    base = bases[0]
+    if integer(base, "relation_oid", minimum=1) != relation_oid:
+        raise ValueError("base-estimate relation OID does not match fresh public.forest10")
+    try:
+        preclamp = Decimal(str(base["nrows_preclamp"]))
+    except (KeyError, ValueError, ArithmeticError) as exc:
+        raise ValueError("base estimate is missing a valid nrows_preclamp") from exc
+    if not preclamp.is_finite() or preclamp <= 0:
+        raise ValueError("base estimate nrows_preclamp must be finite and positive")
+    return {
+        "query_id": query_id,
+        "relation_oid": relation_oid,
+        "estimate_preclamp": str(preclamp),
+        "diagnostics_status": "complete",
+        "event_count": event_count,
+        "mcv_diagnostics_status": "VERIFIED" if mcv_records else "NO_MCV_EVENTS",
+        "selected_statistic_ids": [record["statistic_id"] for record in mcv_records],
+        "mcv_records": mcv_records,
+    }
+
+
+class PR7StructuredExplainAdapter:
+    """Opt-in PR #7 adapter; the legacy PR #58 server-log path remains separate."""
+
+    def __init__(
+        self,
+        helpers: Any,
+        prefix: Path,
+        cluster: Mapping[str, Any],
+        relation_oid: int,
+        configured_ledger: Sequence[Mapping[str, Any]],
+        statistic_name_to_id: Mapping[str, str] | None = None,
+    ) -> None:
+        self.helpers = helpers
+        self.prefix = prefix
+        self.cluster = cluster
+        self.relation_oid = relation_oid
+        name_to_id = statistic_name_to_id or {}
+        self.expected_stat_oids = {
+            int(row["oid"]): str(
+                row.get("id") or row.get("statistic_id")
+                or name_to_id.get(str(row.get("statistic_name", "")), "")
+            )
+            for row in configured_ledger
+        }
+        if len(self.expected_stat_oids) != len(configured_ledger):
+            raise ValueError("configured statistics ledger contains duplicate OIDs")
+        if any(not statistic_id for statistic_id in self.expected_stat_oids.values()):
+            raise ValueError("configured statistics ledger cannot be mapped to candidate IDs")
+
+    def explain(self, query: Mapping[str, Any]) -> dict[str, Any]:
+        query_id = str(query.get("query_id", ""))
+        sql_text = str(query.get("sql", ""))
+        if not query_id or not sql_text.lstrip().upper().startswith("SELECT "):
+            raise ValueError("structured EXPLAIN requires a named SELECT query")
+        env = dict(self.helpers.os.environ, LD_LIBRARY_PATH=str(self.prefix / "lib"))
+        sql = (
+            "SET client_min_messages=warning; SET plan_cache_mode=force_custom_plan; "
+            "SET max_parallel_workers_per_gather=0; "
+            "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) " + sql_text
+        )
+        output = self.helpers.psql(
+            self.prefix, self.cluster["socket_dir"], self.cluster["port"],
+            sql, env, tuples=True,
+        )
+        return parse_pr7_structured_explain(
+            output.strip(), query_id=query_id, relation_oid=self.relation_oid,
+            expected_stat_oids=self.expected_stat_oids,
+        )
 
 
 def build_task_models(

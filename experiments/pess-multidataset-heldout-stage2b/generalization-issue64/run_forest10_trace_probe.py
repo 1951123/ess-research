@@ -38,9 +38,6 @@ SOFT_DISK_BYTES = 384 * 1024**2
 HARD_DISK_BYTES = 512 * 1024**2
 RUNTIME_PREFIX = "f10trace-"
 SUMMARY_NAME = "trace-worker-summary.json"
-SOURCE_COMMIT = "23c7c2fdd4bfb561f3257d947fee956a2999fdb6"
-RUN_FORMAL_SHA256 = "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322"
-SAMPLE_SOURCE_SHA256 = "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
 
 
 def _sha256(path: Path) -> str:
@@ -123,32 +120,11 @@ def _worker(root: Path) -> int:
     try:
         if root.parent.resolve() != runtime_runs("ess-research", 64).resolve() or root.is_symlink():
             raise RuntimeError("runtime root is not an isolated Issue #64 child")
-        runtime = configured_root("ESS_RUNTIME_PARENT")
         data_root = configured_root("ESS_DATA_ROOT")
-        prefix = runtime / "issue38" / "pg-prefix"
-        pg_source = runtime / "issue38" / "pg-src"
-        pg_manifest = runtime / "issue38" / "results" / "heldout-v1" / "runtime-manifest.json"
-        pr58_root = ISSUE64_ROOT.parent / "ess-research-issue48" / "experiments" / "pess-multidataset-heldout-stage2b"
-        run_formal_path = pr58_root / "run_formal.py"
-        if _sha256(run_formal_path) != RUN_FORMAL_SHA256:
-            raise RuntimeError("pinned PR #58 run_formal.py SHA-256 mismatch")
-        if str(pr58_root) not in sys.path:
-            sys.path.insert(0, str(pr58_root))
-        import gate_audit_v2 as helpers
-        import run_formal
-
-        if helpers.EXPECTED_PG_COMMIT != SOURCE_COMMIT:
-            raise RuntimeError("pinned PostgreSQL source commit mismatch")
-        if helpers.audit_pg_source(pg_source).get("status") != "VERIFIED":
-            raise RuntimeError("pinned PostgreSQL source audit failed")
-        if helpers.audit_pg_binary(prefix, pg_manifest).get("status") != "VERIFIED":
-            raise RuntimeError("pinned PostgreSQL binary audit failed")
-        if _sha256(pg_source / "src/backend/commands/analyze_sample_cache.c") != SAMPLE_SOURCE_SHA256:
-            raise RuntimeError("pinned sample import source SHA-256 mismatch")
+        helpers, run_formal, pr58_pin = pilot._load_pinned_pr58_modules()
         summary["pins"] = {
-            "postgresql_commit": SOURCE_COMMIT,
-            "run_formal_sha256": RUN_FORMAL_SHA256,
-            "trace_helper_sha256": _sha256(pr58_root / "gate_audit_v2.py"),
+            "postgresql_commit": pilot.ESS_POSTGRESQL_COMMIT,
+            **pr58_pin,
             "probe_sha256": _sha256(Path(__file__).resolve()),
             "issue64_protocol_sha256": _sha256(HERE / "protocol-v1.json"),
         }
@@ -156,7 +132,7 @@ def _worker(root: Path) -> int:
         current_phase = "valid_workload_and_candidate_preflight"
 
         def load_workload():
-            with prepare_valid_workload(issue=64, dataset="forest10") as prepared:
+            with prepare_valid_workload(issue=64, dataset="forest10", run_root=root) as prepared:
                 workload = json.loads(prepared.workload_path.read_text(encoding="utf-8"))
                 discovery = discover_candidates(workload["queries"], SOURCE_COLUMNS)
                 return workload, discovery, dict(prepared.manifest)
@@ -219,6 +195,20 @@ def _worker(root: Path) -> int:
         csv_path = input_root / "forest10-original.csv"
         input_root.mkdir(exist_ok=True)
         _timed_call(phases, "pinned_csv_extract", lambda: pilot._extract_csv(data_root, csv_path))
+
+        def record_build_phase(phase: str) -> None:
+            nonlocal current_phase
+            current_phase = phase
+
+        prefix, pg_source, pg_build = _timed_call(
+            phases,
+            "private_postgresql_fetch_build_install",
+            lambda: pilot._prepare_owned_postgresql(
+                root, phase_sink=record_build_phase, phase_times=phases
+            ),
+        )
+        summary["postgresql_build"] = pg_build
+        del pg_source
 
         restore_helpers = pilot._install_pinned_pg_diagnostics(
             helpers,

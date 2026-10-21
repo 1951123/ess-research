@@ -44,6 +44,12 @@ SAMPLE_RELATION_IDENTITY = "6:public8:forest10"
 PILOT_RUNTIME_PREFIX = "f10-"
 # The pinned Linux PostgreSQL build uses sockaddr_un.sun_path[108].
 UNIX_SOCKET_PATH_MAX_BYTES = 107
+ESS_POSTGRESQL_URL = "https://github.com/1951123/ess-postgresql.git"
+ESS_POSTGRESQL_COMMIT = "f1bf37b5dd3d3a7087fc0af5de550ca31035854c"
+PR58_SOURCE_COMMIT = "76106024611ae91505f1f05bdc35aed44d9c38c4"
+PR58_RUN_FORMAL_SHA256 = "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322"
+PR58_GATE_AUDIT_SHA256 = "03823ad30b0ab4e7073b347ebfddb5578467cad28cb28f0ae8768dd233a855c4"
+SAMPLE_IMPORT_SOURCE_SHA256 = "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
 
 
 def _validate_socket_path(root: Path) -> int:
@@ -62,6 +68,141 @@ def _sha256(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def _pinned_pr58_root() -> Path:
+    return ISSUE64_ROOT.parent / "ess-research-issue48" / "experiments" / "pess-multidataset-heldout-stage2b"
+
+
+def _load_pinned_pr58_modules() -> tuple[Any, Any, dict[str, str]]:
+    """Import only the clean, exact corrected-log PR #58 source commit."""
+    source_root = _pinned_pr58_root()
+    repository_root = source_root.parents[1]
+    head = subprocess.run(
+        ["git", "-C", str(repository_root), "rev-parse", "HEAD"],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip()
+    status = subprocess.run(
+        ["git", "-C", str(repository_root), "status", "--porcelain"],
+        check=True, capture_output=True, text=True,
+    ).stdout
+    if head != PR58_SOURCE_COMMIT or status:
+        raise RuntimeError("PR #58 source checkout is not the pinned clean commit")
+    run_formal_path = source_root / "run_formal.py"
+    gate_audit_path = source_root / "gate_audit_v2.py"
+    if _sha256(run_formal_path) != PR58_RUN_FORMAL_SHA256:
+        raise RuntimeError("PR #58 run_formal.py file hash differs from its source pin")
+    if _sha256(gate_audit_path) != PR58_GATE_AUDIT_SHA256:
+        raise RuntimeError("PR #58 gate_audit_v2.py file hash differs from its source pin")
+    if str(source_root) not in sys.path:
+        sys.path.insert(0, str(source_root))
+    import gate_audit_v2
+    import run_formal
+
+    return gate_audit_v2, run_formal, {
+        "pr58_source_commit": head,
+        "run_formal_sha256": PR58_RUN_FORMAL_SHA256,
+        "gate_audit_v2_sha256": PR58_GATE_AUDIT_SHA256,
+    }
+
+
+def _run_build_command(
+    command: list[str], *, cwd: Path, env: dict[str, str], log_path: Path,
+    phase: str, phase_sink: Callable[[str], None], phase_times: dict[str, float], timeout: int,
+) -> subprocess.CompletedProcess[str]:
+    phase_sink(phase)
+    started = time.monotonic()
+    try:
+        result = subprocess.run(
+            command, cwd=cwd, env=env, text=True, capture_output=True,
+            check=False, timeout=timeout,
+        )
+    except subprocess.TimeoutExpired:
+        raise PilotPostgreSQLFailure(phase, Path(command[0]).name, "timeout", None) from None
+    finally:
+        phase_times[phase] = round(time.monotonic() - started, 3)
+    with log_path.open("ab") as log:
+        log.write((result.stdout or "").encode("utf-8", errors="replace"))
+        log.write((result.stderr or "").encode("utf-8", errors="replace"))
+    if result.returncode:
+        raise PilotPostgreSQLFailure(
+            phase, Path(command[0]).name, _safe_pg_cause(result.stderr or ""), result.returncode
+        )
+    return result
+
+
+def _prepare_owned_postgresql(
+    run_root: Path, *, phase_sink: Callable[[str], None], phase_times: dict[str, float]
+) -> tuple[Path, Path, dict[str, Any]]:
+    """Fetch, build out-of-tree, and install PR #7 PostgreSQL inside this run."""
+    pg_root = run_root / "postgresql"
+    pg_root.mkdir()
+    source = pg_root / "source"
+    build = pg_root / "build"
+    prefix = pg_root / "install"
+    log_path = pg_root / "build.log"
+    source.mkdir()
+    env = dict(os.environ, LC_ALL="C")
+    _run_build_command(["git", "init", str(source)], cwd=pg_root, env=env,
+                       log_path=log_path, phase="postgresql_source_init",
+                       phase_sink=phase_sink, phase_times=phase_times, timeout=60)
+    _run_build_command(["git", "-C", str(source), "remote", "add", "origin", ESS_POSTGRESQL_URL],
+                       cwd=pg_root, env=env, log_path=log_path,
+                       phase="postgresql_source_pin", phase_sink=phase_sink, phase_times=phase_times, timeout=60)
+    _run_build_command(["git", "-C", str(source), "fetch", "--depth=1", "origin", ESS_POSTGRESQL_COMMIT],
+                       cwd=pg_root, env=env, log_path=log_path,
+                       phase="postgresql_source_fetch", phase_sink=phase_sink, phase_times=phase_times, timeout=300)
+    _run_build_command(["git", "-C", str(source), "checkout", "--detach", "FETCH_HEAD"],
+                       cwd=pg_root, env=env, log_path=log_path,
+                       phase="postgresql_source_checkout", phase_sink=phase_sink, phase_times=phase_times, timeout=60)
+    head = subprocess.run(
+        ["git", "-C", str(source), "rev-parse", "HEAD"],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip()
+    source_status = subprocess.run(
+        ["git", "-C", str(source), "status", "--porcelain"],
+        check=True, capture_output=True, text=True,
+    ).stdout
+    if head != ESS_POSTGRESQL_COMMIT or source_status:
+        raise RuntimeError("independent PostgreSQL source checkout does not match the immutable pin")
+    if _sha256(source / "src/backend/commands/analyze_sample_cache.c") != SAMPLE_IMPORT_SOURCE_SHA256:
+        raise RuntimeError("pinned sample-import source file SHA-256 mismatch")
+
+    build.mkdir()
+    _run_build_command(
+        [str(source / "configure"), f"--prefix={prefix}", "--without-readline", "--without-zlib"],
+        cwd=build, env=env, log_path=log_path, phase="postgresql_configure",
+        phase_sink=phase_sink, phase_times=phase_times, timeout=300,
+    )
+    _run_build_command(
+        ["make", "-j2"], cwd=build, env=env, log_path=log_path,
+        phase="postgresql_compile", phase_sink=phase_sink, phase_times=phase_times, timeout=1200,
+    )
+    _run_build_command(
+        ["make", "install"], cwd=build, env=env, log_path=log_path,
+        phase="postgresql_install", phase_sink=phase_sink, phase_times=phase_times, timeout=300,
+    )
+    binaries = {name: prefix / "bin" / name for name in ("postgres", "initdb", "pg_ctl", "psql", "pg_config")}
+    if any(not path.is_file() for path in binaries.values()):
+        raise RuntimeError("fresh PostgreSQL install is missing a required executable")
+    hashes = {name: _sha256(path) for name, path in binaries.items()}
+    versions = {}
+    for name in ("postgres", "pg_config"):
+        result = subprocess.run(
+            [str(binaries[name]), "--version"], env=dict(env, LD_LIBRARY_PATH=str(prefix / "lib")),
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+        versions[name] = result.stdout.strip()
+    if any("16.14" not in version for version in versions.values()):
+        raise RuntimeError("fresh PostgreSQL binaries are not version 16.14")
+    return prefix, source, {
+        "repository": ESS_POSTGRESQL_URL,
+        "commit": head,
+        "sample_import_source_sha256": SAMPLE_IMPORT_SOURCE_SHA256,
+        "binary_sha256": hashes,
+        "versions": versions,
+        "build_mode": "out_of_tree_private_per_run",
+    }
 
 
 def _allocated_bytes(root: Path) -> int:
@@ -466,33 +607,9 @@ def _worker(root: Path) -> int:
         if root.parent.resolve() != runtime_root or not root.is_dir() or root.is_symlink():
             raise RuntimeError("worker runtime root is not the dedicated pilot directory")
         summary["checks"]["unix_socket_path_bytes_upper_bound"] = _validate_socket_path(root)
-        original_runtime = configured_root("ESS_RUNTIME_PARENT")
-        prefix = original_runtime / "issue38" / "pg-prefix"
-        pg_source = original_runtime / "issue38" / "pg-src"
-        pg_manifest = original_runtime / "issue38" / "results" / "heldout-v1" / "runtime-manifest.json"
-
-        pr58_root = ISSUE64_ROOT.parent / "ess-research-issue48" / "experiments" / "pess-multidataset-heldout-stage2b"
-        expected_run_formal_sha = "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322"
-        run_formal_path = pr58_root / "run_formal.py"
-        if _sha256(run_formal_path) != expected_run_formal_sha:
-            raise RuntimeError("PR #58 run_formal.py does not match the pinned source SHA-256")
-        if str(pr58_root) not in sys.path:
-            sys.path.insert(0, str(pr58_root))
-        import gate_audit_v2 as helpers
-        import run_formal
+        helpers, run_formal, pr58_pin = _load_pinned_pr58_modules()
         import forest10_runner as issue64_runner
-
-        if helpers.EXPECTED_PG_COMMIT != "23c7c2fdd4bfb561f3257d947fee956a2999fdb6":
-            raise RuntimeError("PR #58 PG source pin differs from the approved protocol")
-        source_audit = helpers.audit_pg_source(pg_source)
-        binary_audit = helpers.audit_pg_binary(prefix, pg_manifest)
-        if source_audit.get("status") != "VERIFIED" or binary_audit.get("status") != "VERIFIED":
-            raise RuntimeError("pinned PostgreSQL source/binary audit did not pass")
-        sample_source = pg_source / "src/backend/commands/analyze_sample_cache.c"
-        if _sha256(sample_source) != "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68":
-            raise RuntimeError("sample-import source file differs from its pinned SHA-256")
-        summary["checks"]["postgresql_source_and_binaries"] = "PASS"
-        summary["checks"]["pr58_run_formal_sha256"] = expected_run_formal_sha
+        summary["checks"]["pr58_source_pin"] = pr58_pin
 
         query_id, source_index, query_sql = timed(
             "valid_workload_and_query_resolution",
@@ -519,6 +636,19 @@ def _worker(root: Path) -> int:
         (prepared_root / "schema.sql").write_text(schema_sql, encoding="utf-8")
         csv_path = input_root / "forest10-original.csv"
         timed("pinned_csv_verification_and_extraction", lambda: _extract_csv(configured_root("ESS_DATA_ROOT"), csv_path))
+
+        def record_build_phase(phase: str) -> None:
+            nonlocal current_phase
+            current_phase = phase
+
+        prefix, _pg_source, pg_build = timed(
+            "private_postgresql_fetch_build_install",
+            lambda: _prepare_owned_postgresql(
+                root, phase_sink=record_build_phase, phase_times=summary["phases_seconds"]
+            ),
+        )
+        summary["postgresql_build"] = pg_build
+        summary["checks"]["postgresql_source_and_binaries"] = "PASS"
 
         candidates = issue64_runner.pr58_candidate_specs((("e00_01", PILOT_EDGE),))
         backend_context = None
@@ -682,7 +812,6 @@ def _supervise(
     worker_summary_name: str = "pilot-worker-summary.json",
     summary_format: str = "ess-issue64-forest10-setup-pilot-supervisor-v1",
 ) -> int:
-    original_runtime = configured_root("ESS_RUNTIME_PARENT")
     root = root.resolve()
     if root.is_symlink() or root.parent.resolve() != runtime_runs("ess-research", 64).resolve():
         raise RuntimeError("pilot directory is not a newly isolated Issue #64 runtime child")
@@ -745,7 +874,7 @@ def _supervise(
         stop_reason = _watchdog_stop_reason(0, elapsed, wall_threshold_seconds=soft_wall_seconds)
     cluster_data = root / "cluster" / "pgdata"
     if (stop_reason is not None or return_code != 0) and cluster_data.exists():
-        pg_ctl = original_runtime / "issue38" / "pg-prefix" / "bin" / "pg_ctl"
+        pg_ctl = root / "postgresql" / "install" / "bin" / "pg_ctl"
         try:
             status = subprocess.run(
                 [str(pg_ctl), "-D", str(cluster_data), "status"],
