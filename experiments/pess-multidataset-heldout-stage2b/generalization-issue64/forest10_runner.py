@@ -16,6 +16,20 @@ from forest10_exact_selection import TaskModel, exact_select_many
 from forest10_q1 import parse_top_level_plan_rows, q1
 
 LOG_QUANTUM = Decimal("0.000000000000000001")
+FOREST10_RELATION = "public.forest10"
+FOREST10_SOURCE_COLUMNS = (
+    "Elevation",
+    "Aspect",
+    "Slope",
+    "Horizontal_Distance_To_Hydrology",
+    "Vertical_Distance_To_Hydrology",
+    "Horizontal_Distance_To_Roadways",
+    "Hillshade_9am",
+    "Hillshade_Noon",
+    "Hillshade_3pm",
+    "Horizontal_Distance_To_Fire_Points",
+)
+FOREST10_SAMPLE_RELATION_IDENTITY = "6:public8:forest10"
 
 
 class Forest10Backend(Protocol):
@@ -44,6 +58,59 @@ def _unique_query_map(queries: Sequence[Mapping[str, Any]]) -> dict[str, Mapping
     if len(result) != len(queries):
         raise ValueError("query IDs must be unique")
     return result
+
+
+def pr58_candidate_specs(
+    candidates: Sequence[tuple[str, Sequence[str]]],
+    source_columns: Sequence[str] = FOREST10_SOURCE_COLUMNS,
+) -> tuple[dict[str, Any], ...]:
+    """Translate PR #68 source-name pairs to PR #58 catalog candidates.
+
+    Forest10's pinned schema folds source identifiers to lowercase catalog
+    names. PR #58 creates all statistics on public.forest10.
+    """
+    columns = tuple(source_columns)
+    if columns != FOREST10_SOURCE_COLUMNS:
+        raise ValueError("Forest10 source-column order differs from the pinned schema")
+    column_names = set(columns)
+    result = []
+    seen: set[str] = set()
+    for edge, endpoints in candidates:
+        pair = tuple(endpoints)
+        if edge in seen or len(pair) != 2 or pair[0] == pair[1] or set(pair) - column_names:
+            raise ValueError(f"invalid Forest10 candidate definition: {edge}")
+        seen.add(edge)
+        result.append({
+            "id": edge,
+            "statistic_name": f"ess_issue64_forest10_{edge}",
+            "catalog_columns": [column.lower() for column in pair],
+        })
+    return tuple(result)
+
+
+def validate_fresh_sample_identity(
+    sample: Path, identity: Mapping[str, Any], helpers: Any
+) -> None:
+    """Reject the old forest10_original sample and stale/mismatched metadata.
+
+    This is an input/provenance check, not proof that PostgreSQL accepted a
+    replay. The approved bootstrap path must export the sample from the same
+    freshly loaded public.forest10 relation and cluster.
+    """
+    header = identity.get("header")
+    if identity.get("table") != FOREST10_RELATION:
+        raise ValueError("sample must have been exported from the Stage 2B public.forest10 relation")
+    if not isinstance(header, Mapping):
+        raise ValueError("fresh-bootstrap sample identity/header is required")
+    actual_header = helpers.sample_header(sample) if sample.is_file() else None
+    if actual_header != dict(header):
+        raise ValueError("sample header does not match the fresh-bootstrap identity")
+    if header.get("relation_identity") != FOREST10_SAMPLE_RELATION_IDENTITY:
+        raise ValueError("sample relation identity is not the encoded public.forest10 identity")
+    if header.get("server_version") != "16.14" or header.get("natts") != len(FOREST10_SOURCE_COLUMNS):
+        raise ValueError("sample version or Forest10 column count differs from the pinned contract")
+    if helpers.sha256_file(sample) != identity.get("sha256"):
+        raise ValueError("sample bytes do not match the fresh-bootstrap identity digest")
 
 
 def build_task_models(
@@ -167,18 +234,43 @@ class PR58Forest10Backend:
         cluster: dict[str, Any],
         candidates: Sequence[Mapping[str, Any]],
         sample: Path,
+        sample_identity: Mapping[str, Any],
     ) -> None:
+        validate_fresh_sample_identity(sample, sample_identity, helpers)
         self.helpers = helpers
         self.prefix = prefix
         self.cluster = cluster
         self.candidates = {str(candidate["id"]): dict(candidate) for candidate in candidates}
         self.sample = sample
+        self.sample_identity = dict(sample_identity)
         self.dataset = "forest10"
         self.name_to_id = {
             str(candidate["statistic_name"]): str(candidate["id"])
             for candidate in candidates
         }
         self._log_offset = int(cluster["server_log"].stat().st_size)
+
+    @classmethod
+    def from_fresh_bootstrap(
+        cls,
+        helpers: Any,
+        prefix: Path,
+        cluster: dict[str, Any],
+        candidates: Sequence[Mapping[str, Any]],
+        prepared_root: Path,
+        spec: dict[str, Any],
+        prepared_csv: Path,
+    ) -> "PR58Forest10Backend":
+        """Create the table and sample through PR #58 in the same PG cluster."""
+        sample, identity = helpers.bootstrap_cluster(
+            prefix,
+            cluster,
+            prepared_root,
+            "forest10",
+            spec,
+            prepared_csv,
+        )
+        return cls(helpers, prefix, cluster, candidates, sample, identity)
 
     def configure(self, selected: tuple[str, ...]) -> Any:
         return self.helpers.configure_statistics(

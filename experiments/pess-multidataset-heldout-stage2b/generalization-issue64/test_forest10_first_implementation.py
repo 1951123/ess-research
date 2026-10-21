@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import itertools
 import json
+import tempfile
 import unittest
 from fractions import Fraction
 from pathlib import Path
@@ -20,7 +22,11 @@ from forest10_runner import (
     build_task_models,
     calibrate_and_select,
     evaluate_frozen_selections,
+    pr58_candidate_specs,
     rational_log_ratio,
+    validate_fresh_sample_identity,
+    FOREST10_RELATION,
+    FOREST10_SAMPLE_RELATION_IDENTITY,
 )
 
 
@@ -177,6 +183,14 @@ class PlanRowsQ1Tests(unittest.TestCase):
         preflight = protocol["preflight"]
         self.assertEqual(protocol["scope"]["dataset"], "Forest10")
         self.assertEqual(protocol["selection"]["budgets"], [0, 2, 3])
+        self.assertEqual(protocol["candidate_universe"]["postgresql_mapping"]["relation"], "public.forest10")
+        replay = protocol["source_pins"]["postgresql_build_and_runtime"]["sample_replay"]
+        self.assertEqual(replay["status"], "OLD_SAMPLE_TARGET_INCOMPATIBLE; FRESH_SAME_CLUSTER_SAMPLE_REQUIRED")
+        self.assertEqual(replay["header_relation_identity"], "6:public17:forest10_original")
+        pilot = protocol["setup_only_pilot_proposal"]
+        self.assertEqual(pilot["status"], "PROPOSED_NOT_AUTHORIZED")
+        self.assertEqual(pilot["hard_caps"]["wall_clock_minutes"], 30)
+        self.assertEqual(pilot["hard_caps"]["incremental_disk_bytes"], 2 * 1024**3)
         self.assertEqual(
             preflight["calibration_explain_count_exact"],
             protocol["scope"]["valid_queries"] + protocol["candidate_universe"]["support_sum_eligible_query_candidate_pairs"],
@@ -245,6 +259,51 @@ def candidate_number(edge: str) -> int:
 
 
 class Forest10RunnerTests(unittest.TestCase):
+    def test_candidate_pairs_map_to_pinned_postgresql_relation_and_catalog_names(self) -> None:
+        mapped = pr58_candidate_specs((
+            ("e00_01", ("Elevation", "Aspect")),
+            ("e00_02", ("Elevation", "Slope")),
+        ))
+        self.assertEqual(FOREST10_RELATION, "public.forest10")
+        self.assertEqual(FOREST10_SAMPLE_RELATION_IDENTITY, "6:public8:forest10")
+        self.assertEqual(mapped[0]["catalog_columns"], ["elevation", "aspect"])
+        self.assertEqual(mapped[0]["statistic_name"], "ess_issue64_forest10_e00_01")
+        with self.assertRaisesRegex(ValueError, "candidate definition"):
+            pr58_candidate_specs((("bad", ("not_a_forest_column", "Aspect")),))
+
+    def test_fresh_sample_identity_rejects_old_relation_and_stale_header(self) -> None:
+        payload = b"synthetic sample bytes"
+        header = {
+            "relation_identity": FOREST10_SAMPLE_RELATION_IDENTITY,
+            "server_version": "16.14",
+            "natts": 10,
+        }
+
+        class Helpers:
+            @staticmethod
+            def sample_header(path: Path):
+                return header
+
+            @staticmethod
+            def sha256_file(path: Path):
+                return hashlib.sha256(path.read_bytes()).hexdigest()
+
+        with tempfile.TemporaryDirectory() as temporary:
+            sample = Path(temporary) / "fresh.fixed-sample"
+            sample.write_bytes(payload)
+            identity = {
+                "table": FOREST10_RELATION,
+                "header": header,
+                "sha256": hashlib.sha256(payload).hexdigest(),
+            }
+            validate_fresh_sample_identity(sample, identity, Helpers)
+            old_identity = {**identity, "table": "public.forest10_original"}
+            with self.assertRaisesRegex(ValueError, "public.forest10 relation"):
+                validate_fresh_sample_identity(sample, old_identity, Helpers)
+            stale_identity = {**identity, "sha256": "0" * 64}
+            with self.assertRaisesRegex(ValueError, "digest"):
+                validate_fresh_sample_identity(sample, stale_identity, Helpers)
+
     def test_rational_log_ratio_domain_and_quantization(self) -> None:
         self.assertEqual(rational_log_ratio(1, 1), 0)
         self.assertLess(rational_log_ratio(1, 2), 0)

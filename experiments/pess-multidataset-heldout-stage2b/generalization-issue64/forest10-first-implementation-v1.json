@@ -19,7 +19,20 @@
     "ordering": "published Issue #67 report order, equivalent to lexicographic unordered pairs in Forest10 source-schema column order",
     "static_eligibility_only": true,
     "not_a_claim_of_postgresql_consideration_or_selection": true,
-    "support_sum_eligible_query_candidate_pairs": 164088
+    "support_sum_eligible_query_candidate_pairs": 164088,
+    "postgresql_mapping": {
+      "relation": "public.forest10",
+      "query_adapter": "SELECT * FROM public.forest10 WHERE ...",
+      "source_column_order": [
+        "Elevation", "Aspect", "Slope", "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am", "Hillshade_Noon", "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points"
+      ],
+      "catalog_columns": "source names map positionally to lowercase catalog names; candidate endpoint order is preserved",
+      "statistics_relation": "PR #58 bootstrap and configure_statistics both address public.forest10",
+      "static_mapping_implementation": "forest10_runner.py::pr58_candidate_specs"
+    }
   },
   "selection": {
     "source_model": "corrected-log PR #58 run_formal.py at pinned commit 76106024611ae91505f1f05bdc35aed44d9c38c4",
@@ -111,16 +124,50 @@
       "verified_binary_versions": "postgres/initdb/pg_ctl/psql/pg_config 16.14",
       "binary_hashes": "verified against the external build manifest using PR #58 audit_pg_binary",
       "sample_replay": {
-        "status": "FORMAT_READABLE; TARGET_REUSE_NOT_VERIFIED",
+        "status": "OLD_SAMPLE_TARGET_INCOMPATIBLE; FRESH_SAME_CLUSTER_SAMPLE_REQUIRED",
         "runtime_parent_relative_path": "issue38/results/replay-sample.bin",
         "sha256": "812557e373ca81a3f20ed9827fcf3d7d219723b4a05ebf19b8ff14567f8089ef",
         "bytes": 3540470,
         "header_server_version": "16.14",
-        "header_relation_identity": "public.forest10_original",
-        "note": "existing replay artifact availability only; not used or asserted compatible with a fresh Forest10 Stage 2B table"
+        "header_relation_identity": "6:public17:forest10_original",
+        "incompatibility": "The replay format binds the sample to the recorded relation OID, filenode, page count, encoded schema/relation identity, tuple table OID, and attribute descriptor including names/order. The old sample names public.forest10_original and must not be replayed onto public.forest10.",
+        "approved_future_path": "On one disposable cluster, PR #58 bootstrap_cluster creates public.forest10 from the pinned Forest10 schema/CSV and exports one fixed sample from that same table; reuse that exact sample for every treatment without table rewrite/recreation.",
+        "static_status": "SOURCE_DERIVED_CONDITIONAL_NOT_RUNTIME_VERIFIED",
+        "sample_import_source": {
+          "repository": "1951123/ess-postgresql",
+          "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+          "path": "src/backend/commands/analyze_sample_cache.c",
+          "sha256": "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
+        },
+        "required_live_replay_check": "A future approved setup-only pilot must verify the freshly exported sample is accepted against its unchanged source relation; static identity/hash checks alone do not establish successful replay."
       },
-      "remaining": "fresh-cluster sample identity/replay compatibility, run-cap approval, and PostgreSQL runtime/storage estimates are not verified"
+      "remaining": "Fresh-cluster sample replay is not experimentally verified. Full calibration runtime/storage, pilot approval, and execution caps remain unresolved."
     }
+  },
+  "setup_only_pilot_proposal": {
+    "status": "PROPOSED_NOT_AUTHORIZED",
+    "purpose": "Verify same-table sample replay and obtain a rough setup/runtime/disk feasibility estimate only; no calibration decision or test outcome.",
+    "environment": "one disposable PostgreSQL cluster under a dedicated ESS_RUNTIME_PARENT child; no shared database/service",
+    "operations_cap": {
+      "cluster_bootstraps": 1,
+      "sample_exports": 1,
+      "initial_export_analyze": 1,
+      "treatment_configurations": 2,
+      "treatment_analyze_replays": 2,
+      "explain_queries": 2,
+      "explain_split": "official valid only",
+      "explain_query": "the minimum source_index valid query statically eligible for the first frozen candidate e00_01; same query in Empty and singleton configs",
+      "resource_selection": "none; e00_01 is a technical singleton fixed in advance, not a selected treatment"
+    },
+    "hard_caps": {
+      "wall_clock_minutes": 30,
+      "incremental_disk_bytes": 2147483648,
+      "abort_if_cap_monitoring_or_enforcement_unavailable": true,
+      "retries_or_substitutions": 0
+    },
+    "retained_observations": ["success/failure", "elapsed time", "peak incremental disk bytes", "sample/catalog compatibility"],
+    "forbidden_outputs": ["calibration records", "selection objectives", "resource decisions", "test outcomes", "per-query plan/estimate retention"],
+    "approval_required": "separate explicit researcher approval of this exact cap before any pilot command; Issue #64 outcome-free authorization does not cover it"
   },
   "phase_boundary": {
     "postgresql_execution_authorized": false,
