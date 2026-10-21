@@ -8,14 +8,14 @@ This is the default development workflow for **nontrivial, independently scoped*
 
 A small one-off documentation correction may use a simpler workflow when appropriate; do not create a Worktree for every trivial command or detached experiment. Multiple branches/Worktrees can coexist, but a single branch cannot normally be checked out in multiple Worktrees simultaneously.
 
-## Configure the three persistent roots
+## Configure the three stable root paths
 
-The user explicitly chooses exactly three stable roots, for example in `~/.bashrc`:
+The user explicitly chooses the following root paths, for example in `~/.bashrc`. Stable paths do not imply persistent runtime contents:
 
 ```sh
 # Examples only, never built-in defaults. Do not edit profiles automatically.
 export ESS_DATA_ROOT="$HOME/ess-data"
-export ESS_WORKTREE_PARENT="$HOME/ess-worktrees"
+export ESS_WORKTREE_PARENT="$HOME/projects/ess-research/.worktrees"
 export ESS_RUNTIME_PARENT="$HOME/ess-runtime"
 ```
 
@@ -75,7 +75,7 @@ git worktree add --no-track -b fix/issue53-archive-first-etl "$TASK_WORKTREE" or
 Open that Worktree in a separate VS Code window and start its own Codex session.
 Give the agent the Issue, permitted scope, evidence requirements, and Draft PR
 handoff requirement. Recheck path/branch/status before edits. Each Issue owns its
-`.venv/`, working files, and outputs. Worktrees do not isolate shared services.
+`.venv/` in its Worktree; generated experiment files belong under its isolated `ESS_RUNTIME_PARENT` run directory, not in its source Worktree. Worktrees do not isolate shared services.
 
 ## Shared raw archive, disposable Issue/run derivation
 
@@ -95,7 +95,7 @@ outputs, or touch the researcher's backup. Historical evidence is preserved.
 
 ### Independent PostgreSQL per Issue
 
-Every Issue that needs PostgreSQL starts and owns its **own isolated cluster**, even if another Issue uses the same PG fork/binaries and the same verified CSV. Unique PGDATA, socket directory, port, logs, database objects and statistics are mandatory. A single shared installed PostgreSQL binary can be reused *if its build is immutable and commit/build options are pinned*; Issues requiring different instrumentation/build flags use separate builds. No Issue may connect to, `ANALYZE`, `DROP`, change GUCs in, or shut down another Issue's cluster.
+Every PostgreSQL experiment pins its source commit and owns a **fresh, independent source checkout, out-of-tree build, installation and cluster** within its run directory under `ESS_RUNTIME_PARENT`. Even identical commits do not justify reusing another Issue's or run's PG binary, installed prefix, PGDATA or fixed ANALYZE sample. Unique socket directory, port, logs, database objects and statistics are mandatory. No Issue may connect to, `ANALYZE`, `DROP`, change GUCs in, or shut down another Issue's cluster.
 
 Illustrative setup **after verifying paths and allocating an unused port**:
 
@@ -106,16 +106,16 @@ export PGDATA="$ESS_ISSUE_ROOT/pgdata"
 export PGHOST="$ESS_ISSUE_ROOT/socket"
 export PGPORT=55NNN  # replace with a real unused integer port; not a literal value
 mkdir -p "$ESS_ISSUE_ROOT"/{socket,logs,results}
-# Use the explicitly pinned PostgreSQL build for this Issue:
-# /path/to/pg/bin/initdb -D "$PGDATA"
-# /path/to/pg/bin/pg_ctl -D "$PGDATA" -o "-k $PGHOST -p $PGPORT" -l "$ESS_ISSUE_ROOT/logs/server.log" start
+# Build and install the pinned PG source independently for this run before starting.
+# Example only: "$ESS_ISSUE_ROOT/pg-install/bin/initdb" -D "$PGDATA"
+# Example only: "$ESS_ISSUE_ROOT/pg-install/bin/pg_ctl" -D "$PGDATA" -o "-k $PGHOST -p $PGPORT" -l "$ESS_ISSUE_ROOT/logs/server.log" start
 ```
 
 Do not rely on the example port or assume the example paths exist. Avoid concurrent port allocation races; check ownership before starting and record the chosen port/build hash in the Issue's evidence manifest. Use disposable research databases, and import the frozen dataset separately into each Issue cluster. Fixed-sample `ANALYZE` files and their SHA-256 identities are **per-Issue artifacts**, not shared mutable resources. Shutdown the owned cluster with its matching `pg_ctl` before cleaning up; never recursively delete `PGDATA` merely because a Worktree was removed.
 
 ### Python environment per Worktree
 
-Use **one independent `.venv/` per Worktree**, not a sibling repository's or another Issue's environment. The same Python package download/wheel cache can be shared; installed environments cannot. `.venv/` is ignored by Git and may be safely recreated from a pinned Python version and the repository's declared requirements/lock/constraints.
+Use **one independent `.venv/` per Worktree**, not a sibling repository's or another Issue's environment. `.venv/` is ignored by Git and may be safely recreated from a pinned Python version and the repository's declared requirements/lock/constraints.
 
 ```sh
 cd /path/to/current/ess-research-issueNN
