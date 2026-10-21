@@ -54,6 +54,13 @@ class PreparedDataset:
         return self.dataset_root / "table.csv"
 
 
+@dataclass(frozen=True)
+class PreparedValidWorkload:
+    run_root: Path
+    workload_path: Path
+    manifest: dict[str, Any]
+
+
 class _ArchiveUnpickler(pickle.Unpickler):
     def find_class(self, module: str, name: str) -> Any:
         if module == "lecarb.workload.workload" and name in {"Query", "Label"}:
@@ -302,6 +309,93 @@ def _outputs(archive: BinaryIO, dataset: str, derived: Path) -> dict[str, int]:
         _write_json(split_root / "truth.json", {**common, "queries": truths})
         counts[split] = len(records)
     return counts
+
+
+@contextmanager
+def prepare_valid_workload(
+    *, issue: int, dataset: str
+) -> Iterator[PreparedValidWorkload]:
+    """Prepare only the official valid workload, without loading labels.
+
+    This bounded path reads the pinned workload pickle and applies the existing
+    schema/query adapter. It never opens the label pickle, table CSV, or writes
+    truth files. Only the valid split workload JSON is materialized, then
+    removed with this invocation's temporary run directory.
+    """
+    if dataset not in DATASETS:
+        raise PreparationError(f"choose one dataset from {DATASETS}")
+    cache = configured_root("ESS_DATA_ROOT")
+    runs = runtime_runs("ess-research", issue)
+    runtime_parent = configured_root("ESS_RUNTIME_PARENT")
+    if (
+        cache == runtime_parent
+        or cache in runtime_parent.parents
+        or runtime_parent in cache.parents
+    ):
+        raise ConfigurationError(
+            "ESS_DATA_ROOT and ESS_RUNTIME_PARENT must be disjoint directories"
+        )
+    runs.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.TemporaryDirectory(prefix="arecel-valid-workload-", dir=runs) as name:
+        run = Path(name)
+        workload_path = run / "valid" / "workload.json"
+        workload_path.parent.mkdir()
+        member_name = f"data/{dataset}/workload/base.pkl"
+        source_workload = None
+        with _archive(cache) as verified_archive:
+            with tarfile.open(fileobj=verified_archive, mode="r|gz") as archive:
+                for member in archive:
+                    if member.name.removeprefix("./") != member_name:
+                        continue
+                    if source_workload is not None or not member.isfile():
+                        raise PreparationError(
+                            f"duplicate/nonregular archive member: {member_name}"
+                        )
+                    stream = archive.extractfile(member)
+                    if stream is None:
+                        raise PreparationError(
+                            f"unreadable archive member: {member_name}"
+                        )
+                    with stream:
+                        source_workload = _ArchiveUnpickler(stream).load()
+        if not isinstance(source_workload, dict) or not isinstance(
+            source_workload.get("valid"), list
+        ):
+            raise PreparationError("pinned archive has no valid workload list")
+
+        source_queries = source_workload["valid"]
+        records = []
+        for index, query in enumerate(source_queries):
+            identity = {
+                "query_id": f"arecel:{dataset}:valid:{index:06d}",
+                "source_index": index,
+            }
+            records.append({**identity, **_query(query, dataset)})
+        _write_json(
+            workload_path,
+            {
+                "format": "arecel-prepared-v1",
+                "dataset": dataset,
+                "split": "valid",
+                "queries": records,
+            },
+        )
+        manifest = {
+            "format": "arecel-valid-workload-preparation-v1",
+            "dataset": dataset,
+            "split": "valid",
+            "query_count": len(records),
+            "archive_sha256": ARCHIVE_SHA256,
+            "archive_url": ARCHIVE_URL,
+            "upstream_commit": UPSTREAM_COMMIT,
+            "issue": issue,
+            "etl": _revision(),
+            "python": platform.python_version(),
+            "seed": None,
+            "labels_loaded": False,
+        }
+        yield PreparedValidWorkload(run, workload_path, manifest)
 
 
 def _revision() -> dict[str, Any]:
