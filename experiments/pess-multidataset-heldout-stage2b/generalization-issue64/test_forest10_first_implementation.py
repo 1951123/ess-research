@@ -9,12 +9,19 @@ from pathlib import Path
 from forest10_exact_selection import (
     TaskModel,
     exact_select,
+    exact_select_many,
     feasible_subsets,
     maximal_matchings,
     model_loss,
     ordered_candidates,
 )
 from forest10_q1 import parse_top_level_plan_rows, q1
+from forest10_runner import (
+    build_task_models,
+    calibrate_and_select,
+    evaluate_frozen_selections,
+    rational_log_ratio,
+)
 
 
 class ExactSelectionTests(unittest.TestCase):
@@ -79,6 +86,23 @@ class ExactSelectionTests(unittest.TestCase):
         self.assertEqual(result["all_optimal_sets"], [["ab"], ["bc"]])
         self.assertEqual(result["selected"], ["ab"])
         self.assertEqual(exact_select(tasks, candidates, 0, "PESS")["selected"], [])
+
+    def test_multi_budget_exact_search_matches_single_budget_api(self) -> None:
+        candidates = (("ab", ("a", "b")), ("bc", ("b", "c")), ("de", ("d", "e")))
+        tasks = (
+            TaskModel(Fraction(3, 7), {"ab": Fraction(-1, 4), "bc": Fraction(2, 5)}, ("ab", "bc")),
+            TaskModel(Fraction(-2, 3), {"bc": Fraction(1, 2), "de": Fraction(-1, 7)}, ("bc", "de")),
+        )
+        all_results = exact_select_many(tasks, candidates, (0, 2, 3))
+        for method in ("Nominal", "PESS"):
+            for budget in (0, 2, 3):
+                self.assertEqual(all_results[method][str(budget)], exact_select(tasks, candidates, budget, method))
+        with self.assertRaisesRegex(ValueError, "unique"):
+            exact_select_many(
+                (TaskModel(Fraction(0), {"ab": Fraction(0)}, ("ab", "ab")),),
+                candidates,
+                (1,),
+            )
 
     def test_complete_selection_matches_independent_small_oracle(self) -> None:
         candidates = (
@@ -191,6 +215,104 @@ class PlanRowsQ1Tests(unittest.TestCase):
         self.assertEqual(q1(12, 3), Fraction(4))
         with self.assertRaises(ValueError):
             q1(-1, 4)
+
+
+class SyntheticBackend:
+    def __init__(self, failing_query: str | None = None) -> None:
+        self.configured: list[tuple[str, ...]] = []
+        self.plan_calls = 0
+        self.failing_query = failing_query
+
+    def configure(self, selected: tuple[str, ...]) -> tuple[str, ...]:
+        self.configured.append(selected)
+        return selected
+
+    def preclamp_estimate(self, query, ledger, marker):
+        query_index = int(query["query_id"].split("-")[-1])
+        if not ledger:
+            return (10 + query_index) * 100
+        return (10 + query_index) * (100 + 10 * (candidate_number(ledger[0])))
+
+    def plan_rows(self, query):
+        self.plan_calls += 1
+        if query["query_id"] == self.failing_query:
+            raise RuntimeError("synthetic unavailable plan")
+        return int(query["plan_rows"])
+
+
+def candidate_number(edge: str) -> int:
+    return int(edge[1:])
+
+
+class Forest10RunnerTests(unittest.TestCase):
+    def test_rational_log_ratio_domain_and_quantization(self) -> None:
+        self.assertEqual(rational_log_ratio(1, 1), 0)
+        self.assertLess(rational_log_ratio(1, 2), 0)
+        self.assertGreater(rational_log_ratio(2, 1), 0)
+        self.assertEqual(rational_log_ratio(1000000000001, 1000000000000), rational_log_ratio(1000000000001, 1000000000000))
+        for bad in (0, -1):
+            with self.assertRaises(ValueError):
+                rational_log_ratio(bad, 1)
+
+    def test_task_models_use_only_eligible_positive_preclamp_inputs(self) -> None:
+        models = build_task_models(
+            ("q-0", "q-1"),
+            {"q-0": 10, "q-1": 0},
+            {"q-0": 20, "q-1": 30},
+            {"e0": {"q-0": 40}, "e1": {"q-1": 60}},
+            {"q-0": ("e0",), "q-1": ("e1",)},
+        )
+        self.assertEqual(models[0].alpha, rational_log_ratio(20, 10))
+        self.assertEqual(models[0].b, {"e0": rational_log_ratio(40, 20)})
+        self.assertEqual(models[1].alpha, rational_log_ratio(30, 1))
+        with self.assertRaisesRegex(ValueError, "positive"):
+            build_task_models(("q",), {"q": 1}, {"q": 0}, {"e0": {"q": 1}}, {"q": ("e0",)})
+
+    def test_valid_calibration_and_full_test_runner_wiring_with_synthetic_backend(self) -> None:
+        backend = SyntheticBackend()
+        candidates = (("e0", ("a", "b")), ("e1", ("b", "c")))
+        valid = ({"query_id": "q-0", "sql": "SELECT 1"}, {"query_id": "q-1", "sql": "SELECT 2"})
+        selection = calibrate_and_select(
+            valid,
+            {"q-0": 10, "q-1": 20},
+            candidates,
+            {"q-0": ("e0",), "q-1": ("e1",)},
+            backend,
+            budgets=(0, 1),
+            expected_query_count=2,
+        )
+        self.assertEqual(backend.configured, [(), ("e0",), ("e1",)])
+        self.assertEqual(selection["selection"]["Nominal"]["0"]["selected"], [])
+
+        test_backend = SyntheticBackend()
+        result = evaluate_frozen_selections(
+            ({"query_id": "t-0", "sql": "SELECT 1", "plan_rows": 10},
+             {"query_id": "t-1", "sql": "SELECT 2", "plan_rows": 0}),
+            {"t-0": 10, "t-1": 3},
+            {"Nominal_B2": (), "PESS_B2": ()},
+            test_backend,
+            expected_query_count=2,
+        )
+        self.assertEqual(test_backend.configured, [()])
+        self.assertEqual(test_backend.plan_calls, 2)
+        self.assertEqual(result["metrics"]["Nominal_B2"]["p95_q1"], "3")
+        self.assertEqual(result["paired_q1"]["B2"]["tie_count"], 2)
+
+    def test_unresolved_test_observation_is_retained_and_makes_summary_inconclusive(self) -> None:
+        backend = SyntheticBackend(failing_query="t-1")
+        result = evaluate_frozen_selections(
+            ({"query_id": "t-0", "sql": "SELECT 1", "plan_rows": 10},
+             {"query_id": "t-1", "sql": "SELECT 2", "plan_rows": 3}),
+            {"t-0": 10, "t-1": 3},
+            {"Nominal_B2": ()},
+            backend,
+            expected_query_count=2,
+        )
+        self.assertEqual(result["query_observations"][1]["status"], "UNRESOLVED")
+        summary = result["metrics"]["Nominal_B2"]
+        self.assertEqual(summary["status"], "INCONCLUSIVE_UNRESOLVED_ROWS")
+        self.assertEqual(summary["unresolved_count"], 1)
+        self.assertIsNone(summary["p95_q1"])
 
 
 if __name__ == "__main__":

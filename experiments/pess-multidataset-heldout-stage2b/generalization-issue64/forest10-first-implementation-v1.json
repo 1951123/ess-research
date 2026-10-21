@@ -39,13 +39,13 @@
     "ties": "retain all exact minimizers; choose the smallest-cardinality minimizer, then lexicographically earliest tuple of candidate-order positions for deployment",
     "nominal_greedy_order_is_not_postgresql_hidden_order": true,
     "current_resource_decisions": {
-      "B0": "Both Nominal and PESS select the unique feasible resource set, Empty; its validation objective is not computed because alpha requires valid calibration Plan Rows.",
-      "B2_B3": "NOT_COMPUTED: the required valid-query singleton/Empty calibration Plan Rows are unavailable without PostgreSQL calibration, which is prohibited in this phase."
+      "B0": "Both Nominal and PESS select the unique feasible resource set, Empty; its validation objective is not computed because alpha requires valid calibration data.",
+      "B2_B3": "NOT_COMPUTED: the required valid-query singleton/Empty positive pre-clamp trace estimates are unavailable without PostgreSQL calibration, which is prohibited in this phase."
     }
   },
   "calibration_inputs_and_boundary": {
     "empty": "one Empty configuration per each of the 10000 official valid queries",
-    "singleton": "measure each statically eligible candidate only on valid queries supporting that candidate",
+    "singleton": "measure each statically eligible candidate only on valid queries supporting that candidate; model inputs are the positive pre-clamp trace estimates returned by PR #58, not rounded/clamped Plan Rows",
     "truth": "official valid truth only may contribute to alpha, b, objective, or selection",
     "combined_label_pickle_deserialization": "permitted by researcher clarification; test labels must not influence calibration, selection, model/solver decisions, or tuning",
     "this_phase": "no PostgreSQL measurements or EXPLAIN; no valid truth or test outcomes were opened for this implementation/preflight"
@@ -66,6 +66,13 @@
     "physical_claim_boundary": "Plan Rows/Q1 evaluates estimates; it does not identify which extended-statistics OID PostgreSQL selected",
     "analysis_of_test_outcomes": "not performed in this phase"
   },
+  "runner_adapter": {
+    "code": "forest10_runner.py",
+    "calibration": "configure Empty once; obtain positive pre-clamp trace estimates for all valid queries; configure each eligible singleton and measure only statically eligible valid queries; form alpha/b with PR #58 Decimal-ln rationalization; invoke exact selection for B=0/2/3",
+    "evaluation": "after frozen selection and separate approval, require exactly 10000 supplied official test queries, configure each distinct selected set once, run ordinary EXPLAIN (FORMAT JSON) over every query, retain compact query-level Plan Rows/truth/Q1/status, and report P50/P95/P99/Max plus paired Q1 benefits/harms/ties; any unresolved row is retained and makes the policy summary INCONCLUSIVE",
+    "backend": "PR58Forest10Backend delegates configure_statistics, trace-backed run_query, and psql to the hash-pinned PR #58 module; test Plan Rows do not require an OID/payload trace",
+    "execution_status": "NOT RUN; module import and synthetic-backend tests only"
+  },
   "preflight": {
     "calibration_explain_count_exact": 174088,
     "test_explain_count_upper_bound": 50000,
@@ -73,7 +80,15 @@
     "total_plan_attempt_upper_bound": 224088,
     "these_are_plan_counts_not_runtime_or_storage_estimates": true,
     "exact_selector_task_subset_evaluations_upper_bound": 304520000,
-    "runtime_estimate": "NOT_MEASURED",
+    "selector_synthetic_benchmark": {
+      "script": "benchmark_forest10_exact_selection.py",
+      "synthetic_tasks": 100,
+      "candidates": 45,
+      "elapsed_seconds": 2.232956,
+      "linear_projection_10000_tasks_seconds": 223.296,
+      "limitation": "synthetic Fraction inputs only; linear projection is not a runtime guarantee and excludes input preparation, PostgreSQL plans, I/O, and serialization"
+    },
+    "runtime_estimate": "PostgreSQL calibration/evaluation runtime NOT_MEASURED; selector-only synthetic projection approximately 223 seconds",
     "runtime_cap_approval": "NOT_VERIFIED",
     "storage_estimate": "NOT_VERIFIED"
   },
@@ -87,7 +102,25 @@
     "pr58_corrected_log_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
     "pr58_run_formal_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
     "pr58_protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
-    "postgresql_build_and_runtime": "NOT_VERIFIED; pg_config and psql were not found on PATH during outcome-free preflight"
+    "postgresql_build_and_runtime": {
+      "status": "BINARY_HASH_AND_VERSION_VERIFIED; DATABASE_NOT_STARTED",
+      "runtime_parent_relative_prefix": "issue38/pg-prefix",
+      "runtime_parent_relative_build_manifest": "issue38/results/heldout-v1/runtime-manifest.json",
+      "build_manifest_sha256": "ca8c13c2193151bd5350bba4dd124d3f49d057e9ecf60c32cc70c900944a7ecf",
+      "expected_pg_source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+      "verified_binary_versions": "postgres/initdb/pg_ctl/psql/pg_config 16.14",
+      "binary_hashes": "verified against the external build manifest using PR #58 audit_pg_binary",
+      "sample_replay": {
+        "status": "FORMAT_READABLE; TARGET_REUSE_NOT_VERIFIED",
+        "runtime_parent_relative_path": "issue38/results/replay-sample.bin",
+        "sha256": "812557e373ca81a3f20ed9827fcf3d7d219723b4a05ebf19b8ff14567f8089ef",
+        "bytes": 3540470,
+        "header_server_version": "16.14",
+        "header_relation_identity": "public.forest10_original",
+        "note": "existing replay artifact availability only; not used or asserted compatible with a fresh Forest10 Stage 2B table"
+      },
+      "remaining": "fresh-cluster sample identity/replay compatibility, run-cap approval, and PostgreSQL runtime/storage estimates are not verified"
+    }
   },
   "phase_boundary": {
     "postgresql_execution_authorized": false,

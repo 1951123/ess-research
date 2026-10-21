@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from fractions import Fraction
 from itertools import combinations
+from math import lcm
 from typing import Literal, Mapping, Sequence
 
 Method = Literal["Nominal", "PESS"]
@@ -129,34 +130,111 @@ def exact_select(
     budget: int,
     method: Method,
 ) -> dict[str, object]:
-    """Globally minimize the frozen validation objective over all |S| <= B."""
+    """Globally minimize one method's frozen validation objective over |S| <= B."""
+    return exact_select_many(task_models, candidates, (budget,))[method][str(budget)]
+
+
+def exact_select_many(
+    task_models: Sequence[TaskModel],
+    candidates: Sequence[tuple[str, Sequence[str]]],
+    budgets: Sequence[int] = (0, 2, 3),
+) -> dict[str, dict[str, dict[str, object]]]:
+    """Score all subsets once for both methods; retain exact ties for each budget.
+
+    Coefficients share a common integer scale, so the hot loop uses Python ints
+    while preserving the exact rational objective. Matching schemes are cached
+    once per selected-set/availability pattern. Only compact objective integers
+    are retained; no per-task/per-set Fraction result table is materialized.
+    """
     candidate_ids = tuple(edge for edge, _ in candidates)
     candidate_endpoints = {edge: tuple(endpoints) for edge, endpoints in candidates}
     if len(candidate_endpoints) != len(candidates):
         raise ValueError("candidate IDs must be unique")
-    subsets = feasible_subsets(candidate_ids, budget)
-    scored = [
-        (
-            sum(
-                (model_loss(task, subset, method, candidate_endpoints, candidate_ids) for task in task_models),
-                Fraction(0),
-            ),
-            subset,
-        )
-        for subset in subsets
-    ]
-    optimum = min(score for score, _ in scored)
-    # combinations() emits candidate-order lexicographic order; retain every tie.
-    tied = [list(subset) for score, subset in scored if score == optimum]
-    return {
-        "method": method,
-        "budget_at_most": budget,
-        "feasible_subset_count": len(subsets),
-        "task_count": len(task_models),
-        "objective_fraction": str(optimum),
-        "tie_count": len(tied),
-        "all_optimal_sets": tied,
-        "selected": tied[0],
-        "objective_arithmetic": "exact Fraction over frozen rational model inputs",
-        "search": "complete enumeration of every subset with cardinality <= budget",
-    }
+    if any(len(endpoints) != 2 or endpoints[0] == endpoints[1] for endpoints in candidate_endpoints.values()):
+        raise ValueError("each candidate must join two distinct endpoints")
+    if not budgets or any(isinstance(budget, bool) or not isinstance(budget, int) or budget < 0 for budget in budgets):
+        raise ValueError("budgets must be a nonempty sequence of nonnegative integers")
+    if len(set(budgets)) != len(budgets):
+        raise ValueError("budgets must be unique")
+    max_budget = min(max(budgets), len(candidate_ids))
+    subsets = feasible_subsets(candidate_ids, max_budget)
+
+    scale = 1
+    for task in task_models:
+        scale = lcm(scale, task.alpha.denominator)
+        for value in task.b.values():
+            scale = lcm(scale, value.denominator)
+    edge_index = {edge: index for index, edge in enumerate(candidate_ids)}
+    compiled_tasks: list[tuple[int, tuple[int, ...], int]] = []
+    for task in task_models:
+        if len(task.available_edges) != len(set(task.available_edges)):
+            raise ValueError("task available_edges must be unique")
+        if set(task.available_edges) - set(edge_index):
+            raise ValueError("task model refers to an unknown candidate edge")
+        if set(task.available_edges) - set(task.b):
+            raise ValueError("validation model is missing b_e for an available edge")
+        values = tuple(int(task.b.get(edge, Fraction(0)) * scale) for edge in candidate_ids)
+        available_mask = sum(1 << edge_index[edge] for edge in task.available_edges)
+        compiled_tasks.append((int(task.alpha * scale), values, available_mask))
+
+    endpoints = {edge: tuple(ends) for edge, ends in candidate_endpoints.items()}
+    # Cache each resource subset's matching schemes for all possible query-
+    # availability intersections (at most 2^3 patterns for this milestone).
+    subset_data: list[tuple[tuple[str, ...], tuple[int, ...], int, dict[int, tuple[tuple[int, ...], tuple[tuple[int, ...], ...]]]]] = []
+    for subset in subsets:
+        indices = tuple(edge_index[edge] for edge in subset)
+        global_mask = sum(1 << index for index in indices)
+        patterns = {}
+        for local_mask in range(1 << len(indices)):
+            active_indices = tuple(indices[i] for i in range(len(indices)) if local_mask & (1 << i))
+            active_edges = tuple(candidate_ids[i] for i in active_indices)
+            nominal: list[int] = []
+            used_vertices: set[str] = set()
+            for index, edge in zip(active_indices, active_edges):
+                edge_vertices = set(endpoints[edge])
+                if used_vertices.isdisjoint(edge_vertices):
+                    nominal.append(index)
+                    used_vertices.update(edge_vertices)
+            pess_names = maximal_matchings(active_edges, endpoints)
+            pess = tuple(tuple(edge_index[edge] for edge in matching) for matching in pess_names)
+            patterns[local_mask] = (tuple(nominal), pess)
+        subset_data.append((subset, indices, global_mask, patterns))
+
+    nominal_scores = [0] * len(subsets)
+    pess_scores = [0] * len(subsets)
+    for alpha, values, available_mask in compiled_tasks:
+        for position, (_subset, indices, _global_mask, patterns) in enumerate(subset_data):
+            local_mask = 0
+            for local_index, candidate_index in enumerate(indices):
+                if available_mask & (1 << candidate_index):
+                    local_mask |= 1 << local_index
+            nominal_scheme, pess_schemes = patterns[local_mask]
+            nominal_scores[position] += abs(alpha + sum(values[index] for index in nominal_scheme))
+            pess_scores[position] += max(
+                abs(alpha + sum(values[index] for index in scheme)) for scheme in pess_schemes
+            )
+
+    result: dict[str, dict[str, dict[str, object]]] = {"Nominal": {}, "PESS": {}}
+    for budget in budgets:
+        feasible_positions = [position for position, subset in enumerate(subsets) if len(subset) <= budget]
+        for method, scores in (("Nominal", nominal_scores), ("PESS", pess_scores)):
+            optimum_integer = min(scores[position] for position in feasible_positions)
+            tied = [
+                list(subsets[position])
+                for position in feasible_positions
+                if scores[position] == optimum_integer
+            ]
+            objective = Fraction(optimum_integer, scale)
+            result[method][str(budget)] = {
+                "method": method,
+                "budget_at_most": budget,
+                "feasible_subset_count": len(feasible_positions),
+                "task_count": len(task_models),
+                "objective_fraction": str(objective),
+                "tie_count": len(tied),
+                "all_optimal_sets": tied,
+                "selected": tied[0],
+                "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+                "search": "complete enumeration of every subset with cardinality <= budget",
+            }
+    return result
