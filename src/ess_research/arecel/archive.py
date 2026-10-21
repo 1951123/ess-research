@@ -312,7 +312,9 @@ def _outputs(archive: BinaryIO, dataset: str, derived: Path) -> dict[str, int]:
 
 
 @contextmanager
-def prepare_valid_workload(*, issue: int, dataset: str) -> Iterator[PreparedValidWorkload]:
+def prepare_valid_workload(
+    *, issue: int, dataset: str
+) -> Iterator[PreparedValidWorkload]:
     """Prepare only the official valid workload, without loading labels.
 
     This bounded path reads the pinned workload pickle and applies the existing
@@ -352,7 +354,9 @@ def prepare_valid_workload(*, issue: int, dataset: str) -> Iterator[PreparedVali
                         )
                     stream = archive.extractfile(member)
                     if stream is None:
-                        raise PreparationError(f"unreadable archive member: {member_name}")
+                        raise PreparationError(
+                            f"unreadable archive member: {member_name}"
+                        )
                     with stream:
                         source_workload = _ArchiveUnpickler(stream).load()
         if not isinstance(source_workload, dict) or not isinstance(
