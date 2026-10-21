@@ -1,6 +1,6 @@
 # ESS Research — current status
 
-**Snapshot date:** 2026-10-20 (Asia/Taipei)
+**Snapshot date:** 2026-10-21 (Asia/Taipei)
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
