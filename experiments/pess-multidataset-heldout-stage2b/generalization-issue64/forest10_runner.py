@@ -289,19 +289,38 @@ class PR7StructuredExplainAdapter:
         if not query_id or not sql_text.lstrip().upper().startswith("SELECT "):
             raise ValueError("structured EXPLAIN requires a named SELECT query")
         env = dict(self.helpers.os.environ, LD_LIBRARY_PATH=str(self.prefix / "lib"))
-        sql = (
-            "SET client_min_messages=warning; SET plan_cache_mode=force_custom_plan; "
-            "SET max_parallel_workers_per_gather=0; "
-            "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) " + sql_text
+        # Keep the psql request to one tuple-producing SQL statement. With
+        # tuples-only output, preceding SET statements can still emit command
+        # tags on stdout and contaminate the JSON document. PGOPTIONS applies
+        # these session GUCs at connection startup, on the same backend used
+        # for EXPLAIN, without adding output rows or changing their scope.
+        pgoptions = env.get("PGOPTIONS", "").strip()
+        planner_options = (
+            "-c client_min_messages=warning "
+            "-c plan_cache_mode=force_custom_plan "
+            "-c max_parallel_workers_per_gather=0"
         )
+        env["PGOPTIONS"] = f"{pgoptions} {planner_options}".strip()
+        sql = "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) " + sql_text
         output = self.helpers.psql(
             self.prefix, self.cluster["socket_dir"], self.cluster["port"],
             sql, env, tuples=True,
         )
-        return parse_pr7_structured_explain(
-            output.strip(), query_id=query_id, relation_oid=self.relation_oid,
-            expected_stat_oids=self.expected_stat_oids,
-        )
+        try:
+            return parse_pr7_structured_explain(
+                output.strip(), query_id=query_id, relation_oid=self.relation_oid,
+                expected_stat_oids=self.expected_stat_oids,
+            )
+        except ValueError as exc:
+            first = output.lstrip().split(maxsplit=1)
+            token = first[0] if first else "<empty>"
+            safe_token = "".join(
+                char for char in token
+                if char.isascii() and (char.isalnum() or char in "_{}[]:.-")
+            )[:24] or "<other>"
+            raise ValueError(
+                f"{exc}; psql_stdout_chars={len(output)}, first_token={safe_token!r}"
+            ) from exc
 
 
 def build_task_models(

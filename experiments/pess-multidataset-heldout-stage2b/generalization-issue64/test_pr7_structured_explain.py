@@ -119,6 +119,14 @@ class PR7StructuredExplainTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Event Count"):
             self.parse(json.dumps(mismatch))
 
+    def test_rejects_psql_command_tags_before_json_instead_of_salvaging(self):
+        # psql can print command-completion tags for preceding SET statements
+        # even in tuples-only mode. The strict parser must not guess a JSON
+        # substring from that mixed transport.
+        mixed_output = "SET\nSET\nSET\n" + explain_payload()
+        with self.assertRaisesRegex(ValueError, "not valid JSON"):
+            self.parse(mixed_output)
+
     def test_rejects_missing_mcv_numeric_field(self):
         missing = json.loads(explain_payload())
         del missing[0]["ESS Diagnostics"]["Events"][3]["stat_sel"]
@@ -151,7 +159,7 @@ class PR7StructuredExplainTests(unittest.TestCase):
         calls = []
 
         def psql(prefix, socket_dir, port, sql, env, *, tuples=False):
-            calls.append((prefix, socket_dir, port, sql, tuples))
+            calls.append((prefix, socket_dir, port, sql, env, tuples))
             return explain_payload()
 
         helpers = SimpleNamespace(os=os, psql=psql)
@@ -169,8 +177,60 @@ class PR7StructuredExplainTests(unittest.TestCase):
         })
         self.assertEqual(result["query_id"], "arecel:forest10:valid:000005")
         self.assertEqual(len(calls), 1)
-        self.assertIn("EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)", calls[0][3])
-        self.assertTrue(calls[0][4])
+        self.assertEqual(
+            calls[0][3],
+            "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) "
+            'SELECT * FROM public.forest10 WHERE "Elevation" = 1',
+        )
+        self.assertEqual(
+            calls[0][4]["PGOPTIONS"],
+            "-c client_min_messages=warning -c plan_cache_mode=force_custom_plan "
+            "-c max_parallel_workers_per_gather=0",
+        )
+        self.assertTrue(calls[0][5])
+
+    def test_adapter_preserves_existing_pgoptions_and_appends_frozen_gucs(self):
+        calls = []
+
+        def psql(prefix, socket_dir, port, sql, env, *, tuples=False):
+            calls.append((sql, env, tuples))
+            return explain_payload(include_estimate=False)
+
+        helpers = SimpleNamespace(
+            os=SimpleNamespace(environ={"PGOPTIONS": "-c jit=off"}),
+            psql=psql,
+        )
+        adapter = PR7StructuredExplainAdapter(
+            helpers,
+            Path("/private/install"),
+            {"socket_dir": Path("/private/socket"), "port": 55432},
+            RELATION_OID,
+            [],
+        )
+        adapter.explain({"query_id": "q", "sql": "SELECT 1"})
+        self.assertEqual(
+            calls[0][1]["PGOPTIONS"],
+            "-c jit=off -c client_min_messages=warning -c plan_cache_mode=force_custom_plan "
+            "-c max_parallel_workers_per_gather=0",
+        )
+        self.assertEqual(calls[0][0], "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF) SELECT 1")
+        self.assertTrue(calls[0][2])
+
+    def test_adapter_failure_reports_only_sanitized_stdout_shape(self):
+        def psql(prefix, socket_dir, port, sql, env, *, tuples=False):
+            return "SET\n" + explain_payload()
+
+        adapter = PR7StructuredExplainAdapter(
+            SimpleNamespace(os=os, psql=psql),
+            Path("/private/install"),
+            {"socket_dir": Path("/private/socket"), "port": 55432},
+            RELATION_OID,
+            [{"oid": STAT_OID, "id": "e00_01"}],
+        )
+        with self.assertRaisesRegex(
+            ValueError, r"not valid JSON; psql_stdout_chars=\d+, first_token='SET'"
+        ):
+            adapter.explain({"query_id": "q", "sql": "SELECT 1"})
 
     def test_formal_backend_uses_only_json_preclamp_and_records_no_mcv(self):
         calls = []
