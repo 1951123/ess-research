@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import errno
 import hashlib
+import io
 import json
 import os
 import re
@@ -48,7 +49,7 @@ SAMPLE_RELATION_IDENTITY = "6:public8:forest10"
 PILOT_RUNTIME_PREFIX = "f10-"
 # The pinned Linux PostgreSQL build uses sockaddr_un.sun_path[108].
 UNIX_SOCKET_PATH_MAX_BYTES = 107
-ESS_POSTGRESQL_URL = "https://github.com/1951123/ess-postgresql.git"
+ESS_POSTGRESQL_OBJECT_STORE = Path("/home/wqts/projects/ess-postgresql")
 ESS_POSTGRESQL_COMMIT = "f1bf37b5dd3d3a7087fc0af5de550ca31035854c"
 PR58_REPOSITORY_URL = "https://github.com/1951123/ess-research.git"
 PR58_SOURCE_COMMIT = "76106024611ae91505f1f05bdc35aed44d9c38c4"
@@ -212,6 +213,75 @@ def _run_build_command(
     return result
 
 
+def _materialize_pinned_postgresql_source(run_root: Path) -> tuple[Path, str]:
+    """Export only the pinned commit from the local Git object store into this run."""
+    runs_root = runtime_runs("ess-research", 64).resolve()
+    if run_root.is_symlink():
+        raise RuntimeError("PostgreSQL source requires a direct, non-symlink Issue #64 run directory")
+    run_root = run_root.resolve(strict=True)
+    if run_root.parent != runs_root or not run_root.is_dir():
+        raise RuntimeError("PostgreSQL source requires a direct, non-symlink Issue #64 run directory")
+
+    object_store = ESS_POSTGRESQL_OBJECT_STORE
+    pin = ESS_POSTGRESQL_COMMIT
+    if len(pin) != 40 or any(ch not in "0123456789abcdef" for ch in pin):
+        raise RuntimeError("pinned PostgreSQL source commit is not a full lowercase SHA-1")
+
+    def git(args: list[str], *, binary: bool = False) -> subprocess.CompletedProcess[Any]:
+        try:
+            result = subprocess.run(
+                ["git", "-C", str(object_store), *args],
+                check=False, capture_output=True, text=not binary, timeout=120,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            reason = "timeout" if isinstance(exc, subprocess.TimeoutExpired) else type(exc).__name__
+            raise RuntimeError(f"pinned PostgreSQL source acquisition failed during {args[0]}: {reason}") from None
+        if result.returncode:
+            stderr = result.stderr.decode("utf-8", "replace") if binary else (result.stderr or "")
+            detail = stderr.strip().splitlines()
+            safe_detail = detail[-1][:200] if detail else "no Git diagnostic"
+            raise RuntimeError(
+                f"pinned PostgreSQL source acquisition failed during {args[0]} "
+                f"(exit {result.returncode}): {safe_detail}"
+            )
+        return result
+
+    resolved = git(["rev-parse", "--verify", f"{pin}^{{commit}}"]).stdout.strip()
+    if resolved != pin:
+        raise RuntimeError("local PostgreSQL object store resolved a different commit than the immutable pin")
+
+    pg_root = run_root / "postgresql"
+    pg_root.mkdir(exist_ok=True)
+    source = pg_root / "source"
+    try:
+        source.mkdir()
+    except FileExistsError:
+        raise RuntimeError("PostgreSQL source directory already exists; refusing reuse or overwrite") from None
+
+    archive = git(["archive", "--format=tar", pin], binary=True).stdout
+    if not archive:
+        raise RuntimeError("pinned PostgreSQL source archive is empty")
+    try:
+        with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
+            members = tar.getmembers()
+            for member in members:
+                member_path = Path(member.name)
+                if member_path.is_absolute() or ".." in member_path.parts:
+                    raise RuntimeError("pinned PostgreSQL source archive contains an unsafe path")
+                if not (member.isdir() or member.isfile()):
+                    raise RuntimeError("pinned PostgreSQL source archive contains a non-regular entry")
+            tar.extractall(path=source, members=members, filter="data")
+    except (tarfile.TarError, OSError) as exc:
+        raise RuntimeError(f"pinned PostgreSQL source archive extraction failed: {type(exc).__name__}") from None
+
+    if not (source / "configure").is_file():
+        raise RuntimeError("pinned PostgreSQL source extraction is incomplete (configure missing)")
+    source_hash = _sha256(source / "src/backend/commands/analyze_sample_cache.c")
+    if source_hash != SAMPLE_IMPORT_SOURCE_SHA256:
+        raise RuntimeError("pinned PostgreSQL sample-import source SHA-256 mismatch")
+    return source, resolved
+
+
 def _prepare_owned_postgresql(
     run_root: Path, *, phase_sink: Callable[[str], None], phase_times: dict[str, float]
 ) -> tuple[Path, Path, dict[str, Any]]:
@@ -222,32 +292,8 @@ def _prepare_owned_postgresql(
     build = pg_root / "build"
     prefix = pg_root / "install"
     log_path = pg_root / "build.log"
-    source.mkdir()
     env = dict(os.environ, LC_ALL="C")
-    _run_build_command(["git", "init", str(source)], cwd=pg_root, env=env,
-                       log_path=log_path, phase="postgresql_source_init",
-                       phase_sink=phase_sink, phase_times=phase_times, timeout=60)
-    _run_build_command(["git", "-C", str(source), "remote", "add", "origin", ESS_POSTGRESQL_URL],
-                       cwd=pg_root, env=env, log_path=log_path,
-                       phase="postgresql_source_pin", phase_sink=phase_sink, phase_times=phase_times, timeout=60)
-    _run_build_command(["git", "-C", str(source), "fetch", "--depth=1", "origin", ESS_POSTGRESQL_COMMIT],
-                       cwd=pg_root, env=env, log_path=log_path,
-                       phase="postgresql_source_fetch", phase_sink=phase_sink, phase_times=phase_times, timeout=300)
-    _run_build_command(["git", "-C", str(source), "checkout", "--detach", "FETCH_HEAD"],
-                       cwd=pg_root, env=env, log_path=log_path,
-                       phase="postgresql_source_checkout", phase_sink=phase_sink, phase_times=phase_times, timeout=60)
-    head = subprocess.run(
-        ["git", "-C", str(source), "rev-parse", "HEAD"],
-        check=True, capture_output=True, text=True,
-    ).stdout.strip()
-    source_status = subprocess.run(
-        ["git", "-C", str(source), "status", "--porcelain"],
-        check=True, capture_output=True, text=True,
-    ).stdout
-    if head != ESS_POSTGRESQL_COMMIT or source_status:
-        raise RuntimeError("independent PostgreSQL source checkout does not match the immutable pin")
-    if _sha256(source / "src/backend/commands/analyze_sample_cache.c") != SAMPLE_IMPORT_SOURCE_SHA256:
-        raise RuntimeError("pinned sample-import source file SHA-256 mismatch")
+    source, head = _materialize_pinned_postgresql_source(run_root)
 
     build.mkdir()
     _run_build_command(
@@ -277,7 +323,8 @@ def _prepare_owned_postgresql(
     if any("16.14" not in version for version in versions.values()):
         raise RuntimeError("fresh PostgreSQL binaries are not version 16.14")
     return prefix, source, {
-        "repository": ESS_POSTGRESQL_URL,
+        "source_acquisition": "local_git_archive_into_private_run",
+        "object_store": str(ESS_POSTGRESQL_OBJECT_STORE),
         "commit": head,
         "sample_import_source_sha256": SAMPLE_IMPORT_SOURCE_SHA256,
         "binary_sha256": hashes,
