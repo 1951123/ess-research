@@ -1,0 +1,59 @@
+{
+  "artifacts": {
+    "parallel-smoke.jsonl.gz": {
+      "bytes": 30049,
+      "rows": 501,
+      "sha256": "c503d2e7c4de0204961b9a5e032974eff0b083f8eb075ca7d2d20f6d3829f912",
+      "source_sha256": "2a63f9a355d34d62d0e4626550c4bfd09056282a6e9e8c1a80f4459a0341b6dc"
+    },
+    "serial-smoke.jsonl.gz": {
+      "bytes": 29216,
+      "rows": 501,
+      "sha256": "09f0463ea0b239d92449f9e1f999ca2f65bdd0d1af8d9dbe48b3a93401831043",
+      "source_sha256": "22a2edd330642f1db9628648a2cd12fff9c6f2a9bb29de31f744783457c85ffc"
+    }
+  },
+  "calls_per_mode": 501,
+  "elapsed_seconds_total": 118.144,
+  "format": "ess-issue71-census13-smoke-verification-v1",
+  "frozen_plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+  "labels_loaded": false,
+  "parallel": {
+    "calls": 501,
+    "calls_per_second": 70.07244794448648,
+    "elapsed_seconds": 7.1497430830004305,
+    "mcv_diagnostics_counts": {
+      "NO_MCV_EVENTS": 20,
+      "VERIFIED": 481
+    },
+    "mcv_event_count": 481,
+    "output_sha256": "2a63f9a355d34d62d0e4626550c4bfd09056282a6e9e8c1a80f4459a0341b6dc"
+  },
+  "parity": {
+    "compared_pairs": 501,
+    "diagnostic_semantics_equal": true,
+    "normalized_mcv_values_equal": true,
+    "oid_policy": "each cluster OID retained and validated independently; numeric OID equality is not required",
+    "preclamp_equal": true,
+    "status": "PASS"
+  },
+  "peak_allocated_bytes": 413667328,
+  "query_count": 20,
+  "run_id": "20261022-072525-census13-smoke",
+  "sample_sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+  "serial": {
+    "calls": 501,
+    "calls_per_second": 36.443374079933875,
+    "elapsed_seconds": 13.74735497599977,
+    "mcv_diagnostics_counts": {
+      "NO_MCV_EVENTS": 20,
+      "VERIFIED": 481
+    },
+    "mcv_event_count": 481,
+    "output_sha256": "22a2edd330642f1db9628648a2cd12fff9c6f2a9bb29de31f744783457c85ffc"
+  },
+  "speedup": 1.9227760797008406,
+  "status": "PASS",
+  "test_truth_loaded": false,
+  "valid_only": true
+}

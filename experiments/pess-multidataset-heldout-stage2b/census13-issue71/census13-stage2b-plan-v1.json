@@ -1,0 +1,1626 @@
+{
+  "acquisition": {
+    "configuration_assignment": "Empty on worker-0; candidate configurations round-robin by frozen candidate index; one owner per configuration; query loop serial within worker",
+    "configuration_count": 79,
+    "each_worker": "independent PGDATA, socket, log/output, and cluster; same pinned installed binaries, table bytes, and SHA-256-verified fixed ANALYZE sample",
+    "eligible_singleton_calls": 278849,
+    "empty_calls": 10000,
+    "full_valid_queries": 10000,
+    "hard_limits": {
+      "early_stop_elapsed_hours": 7.5,
+      "early_stop_run_directory_gib": 3,
+      "elapsed_hours": 8,
+      "run_directory_gib": 4
+    },
+    "interface": "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF); nrows_preclamp only",
+    "parallel_worker_count": 2,
+    "sample": "one freshly exported sample from the run-local public.census13 relation; replay identical sample bytes in every worker; require matching header/table identity and SHA-256",
+    "total_calls": 288849
+  },
+  "candidate_policy": {
+    "candidate_count": 78,
+    "candidate_support_sha256": "70591c2e075404e0f7dbe217e830e43046c1d09c4535fdac2bd0ffd38be43220",
+    "candidates": [
+      {
+        "eligible_valid_query_count": 3586,
+        "endpoints": [
+          "age",
+          "workclass"
+        ],
+        "id": "e00_01"
+      },
+      {
+        "eligible_valid_query_count": 3547,
+        "endpoints": [
+          "age",
+          "education"
+        ],
+        "id": "e00_02"
+      },
+      {
+        "eligible_valid_query_count": 3535,
+        "endpoints": [
+          "age",
+          "education_num"
+        ],
+        "id": "e00_03"
+      },
+      {
+        "eligible_valid_query_count": 3517,
+        "endpoints": [
+          "age",
+          "marital_status"
+        ],
+        "id": "e00_04"
+      },
+      {
+        "eligible_valid_query_count": 3568,
+        "endpoints": [
+          "age",
+          "occupation"
+        ],
+        "id": "e00_05"
+      },
+      {
+        "eligible_valid_query_count": 3551,
+        "endpoints": [
+          "age",
+          "relationship"
+        ],
+        "id": "e00_06"
+      },
+      {
+        "eligible_valid_query_count": 3606,
+        "endpoints": [
+          "age",
+          "race"
+        ],
+        "id": "e00_07"
+      },
+      {
+        "eligible_valid_query_count": 3604,
+        "endpoints": [
+          "age",
+          "sex"
+        ],
+        "id": "e00_08"
+      },
+      {
+        "eligible_valid_query_count": 3545,
+        "endpoints": [
+          "age",
+          "capital_gain"
+        ],
+        "id": "e00_09"
+      },
+      {
+        "eligible_valid_query_count": 3570,
+        "endpoints": [
+          "age",
+          "capital_loss"
+        ],
+        "id": "e00_10"
+      },
+      {
+        "eligible_valid_query_count": 3584,
+        "endpoints": [
+          "age",
+          "hours_per_week"
+        ],
+        "id": "e00_11"
+      },
+      {
+        "eligible_valid_query_count": 3568,
+        "endpoints": [
+          "age",
+          "native_country"
+        ],
+        "id": "e00_12"
+      },
+      {
+        "eligible_valid_query_count": 3603,
+        "endpoints": [
+          "workclass",
+          "education"
+        ],
+        "id": "e01_02"
+      },
+      {
+        "eligible_valid_query_count": 3606,
+        "endpoints": [
+          "workclass",
+          "education_num"
+        ],
+        "id": "e01_03"
+      },
+      {
+        "eligible_valid_query_count": 3582,
+        "endpoints": [
+          "workclass",
+          "marital_status"
+        ],
+        "id": "e01_04"
+      },
+      {
+        "eligible_valid_query_count": 3595,
+        "endpoints": [
+          "workclass",
+          "occupation"
+        ],
+        "id": "e01_05"
+      },
+      {
+        "eligible_valid_query_count": 3604,
+        "endpoints": [
+          "workclass",
+          "relationship"
+        ],
+        "id": "e01_06"
+      },
+      {
+        "eligible_valid_query_count": 3623,
+        "endpoints": [
+          "workclass",
+          "race"
+        ],
+        "id": "e01_07"
+      },
+      {
+        "eligible_valid_query_count": 3608,
+        "endpoints": [
+          "workclass",
+          "sex"
+        ],
+        "id": "e01_08"
+      },
+      {
+        "eligible_valid_query_count": 3591,
+        "endpoints": [
+          "workclass",
+          "capital_gain"
+        ],
+        "id": "e01_09"
+      },
+      {
+        "eligible_valid_query_count": 3598,
+        "endpoints": [
+          "workclass",
+          "capital_loss"
+        ],
+        "id": "e01_10"
+      },
+      {
+        "eligible_valid_query_count": 3579,
+        "endpoints": [
+          "workclass",
+          "hours_per_week"
+        ],
+        "id": "e01_11"
+      },
+      {
+        "eligible_valid_query_count": 3617,
+        "endpoints": [
+          "workclass",
+          "native_country"
+        ],
+        "id": "e01_12"
+      },
+      {
+        "eligible_valid_query_count": 3569,
+        "endpoints": [
+          "education",
+          "education_num"
+        ],
+        "id": "e02_03"
+      },
+      {
+        "eligible_valid_query_count": 3518,
+        "endpoints": [
+          "education",
+          "marital_status"
+        ],
+        "id": "e02_04"
+      },
+      {
+        "eligible_valid_query_count": 3594,
+        "endpoints": [
+          "education",
+          "occupation"
+        ],
+        "id": "e02_05"
+      },
+      {
+        "eligible_valid_query_count": 3560,
+        "endpoints": [
+          "education",
+          "relationship"
+        ],
+        "id": "e02_06"
+      },
+      {
+        "eligible_valid_query_count": 3581,
+        "endpoints": [
+          "education",
+          "race"
+        ],
+        "id": "e02_07"
+      },
+      {
+        "eligible_valid_query_count": 3585,
+        "endpoints": [
+          "education",
+          "sex"
+        ],
+        "id": "e02_08"
+      },
+      {
+        "eligible_valid_query_count": 3561,
+        "endpoints": [
+          "education",
+          "capital_gain"
+        ],
+        "id": "e02_09"
+      },
+      {
+        "eligible_valid_query_count": 3592,
+        "endpoints": [
+          "education",
+          "capital_loss"
+        ],
+        "id": "e02_10"
+      },
+      {
+        "eligible_valid_query_count": 3575,
+        "endpoints": [
+          "education",
+          "hours_per_week"
+        ],
+        "id": "e02_11"
+      },
+      {
+        "eligible_valid_query_count": 3573,
+        "endpoints": [
+          "education",
+          "native_country"
+        ],
+        "id": "e02_12"
+      },
+      {
+        "eligible_valid_query_count": 3562,
+        "endpoints": [
+          "education_num",
+          "marital_status"
+        ],
+        "id": "e03_04"
+      },
+      {
+        "eligible_valid_query_count": 3597,
+        "endpoints": [
+          "education_num",
+          "occupation"
+        ],
+        "id": "e03_05"
+      },
+      {
+        "eligible_valid_query_count": 3527,
+        "endpoints": [
+          "education_num",
+          "relationship"
+        ],
+        "id": "e03_06"
+      },
+      {
+        "eligible_valid_query_count": 3550,
+        "endpoints": [
+          "education_num",
+          "race"
+        ],
+        "id": "e03_07"
+      },
+      {
+        "eligible_valid_query_count": 3627,
+        "endpoints": [
+          "education_num",
+          "sex"
+        ],
+        "id": "e03_08"
+      },
+      {
+        "eligible_valid_query_count": 3590,
+        "endpoints": [
+          "education_num",
+          "capital_gain"
+        ],
+        "id": "e03_09"
+      },
+      {
+        "eligible_valid_query_count": 3614,
+        "endpoints": [
+          "education_num",
+          "capital_loss"
+        ],
+        "id": "e03_10"
+      },
+      {
+        "eligible_valid_query_count": 3569,
+        "endpoints": [
+          "education_num",
+          "hours_per_week"
+        ],
+        "id": "e03_11"
+      },
+      {
+        "eligible_valid_query_count": 3583,
+        "endpoints": [
+          "education_num",
+          "native_country"
+        ],
+        "id": "e03_12"
+      },
+      {
+        "eligible_valid_query_count": 3546,
+        "endpoints": [
+          "marital_status",
+          "occupation"
+        ],
+        "id": "e04_05"
+      },
+      {
+        "eligible_valid_query_count": 3506,
+        "endpoints": [
+          "marital_status",
+          "relationship"
+        ],
+        "id": "e04_06"
+      },
+      {
+        "eligible_valid_query_count": 3528,
+        "endpoints": [
+          "marital_status",
+          "race"
+        ],
+        "id": "e04_07"
+      },
+      {
+        "eligible_valid_query_count": 3582,
+        "endpoints": [
+          "marital_status",
+          "sex"
+        ],
+        "id": "e04_08"
+      },
+      {
+        "eligible_valid_query_count": 3582,
+        "endpoints": [
+          "marital_status",
+          "capital_gain"
+        ],
+        "id": "e04_09"
+      },
+      {
+        "eligible_valid_query_count": 3570,
+        "endpoints": [
+          "marital_status",
+          "capital_loss"
+        ],
+        "id": "e04_10"
+      },
+      {
+        "eligible_valid_query_count": 3552,
+        "endpoints": [
+          "marital_status",
+          "hours_per_week"
+        ],
+        "id": "e04_11"
+      },
+      {
+        "eligible_valid_query_count": 3570,
+        "endpoints": [
+          "marital_status",
+          "native_country"
+        ],
+        "id": "e04_12"
+      },
+      {
+        "eligible_valid_query_count": 3580,
+        "endpoints": [
+          "occupation",
+          "relationship"
+        ],
+        "id": "e05_06"
+      },
+      {
+        "eligible_valid_query_count": 3580,
+        "endpoints": [
+          "occupation",
+          "race"
+        ],
+        "id": "e05_07"
+      },
+      {
+        "eligible_valid_query_count": 3601,
+        "endpoints": [
+          "occupation",
+          "sex"
+        ],
+        "id": "e05_08"
+      },
+      {
+        "eligible_valid_query_count": 3565,
+        "endpoints": [
+          "occupation",
+          "capital_gain"
+        ],
+        "id": "e05_09"
+      },
+      {
+        "eligible_valid_query_count": 3562,
+        "endpoints": [
+          "occupation",
+          "capital_loss"
+        ],
+        "id": "e05_10"
+      },
+      {
+        "eligible_valid_query_count": 3561,
+        "endpoints": [
+          "occupation",
+          "hours_per_week"
+        ],
+        "id": "e05_11"
+      },
+      {
+        "eligible_valid_query_count": 3580,
+        "endpoints": [
+          "occupation",
+          "native_country"
+        ],
+        "id": "e05_12"
+      },
+      {
+        "eligible_valid_query_count": 3545,
+        "endpoints": [
+          "relationship",
+          "race"
+        ],
+        "id": "e06_07"
+      },
+      {
+        "eligible_valid_query_count": 3594,
+        "endpoints": [
+          "relationship",
+          "sex"
+        ],
+        "id": "e06_08"
+      },
+      {
+        "eligible_valid_query_count": 3528,
+        "endpoints": [
+          "relationship",
+          "capital_gain"
+        ],
+        "id": "e06_09"
+      },
+      {
+        "eligible_valid_query_count": 3565,
+        "endpoints": [
+          "relationship",
+          "capital_loss"
+        ],
+        "id": "e06_10"
+      },
+      {
+        "eligible_valid_query_count": 3546,
+        "endpoints": [
+          "relationship",
+          "hours_per_week"
+        ],
+        "id": "e06_11"
+      },
+      {
+        "eligible_valid_query_count": 3541,
+        "endpoints": [
+          "relationship",
+          "native_country"
+        ],
+        "id": "e06_12"
+      },
+      {
+        "eligible_valid_query_count": 3613,
+        "endpoints": [
+          "race",
+          "sex"
+        ],
+        "id": "e07_08"
+      },
+      {
+        "eligible_valid_query_count": 3600,
+        "endpoints": [
+          "race",
+          "capital_gain"
+        ],
+        "id": "e07_09"
+      },
+      {
+        "eligible_valid_query_count": 3583,
+        "endpoints": [
+          "race",
+          "capital_loss"
+        ],
+        "id": "e07_10"
+      },
+      {
+        "eligible_valid_query_count": 3556,
+        "endpoints": [
+          "race",
+          "hours_per_week"
+        ],
+        "id": "e07_11"
+      },
+      {
+        "eligible_valid_query_count": 3593,
+        "endpoints": [
+          "race",
+          "native_country"
+        ],
+        "id": "e07_12"
+      },
+      {
+        "eligible_valid_query_count": 3571,
+        "endpoints": [
+          "sex",
+          "capital_gain"
+        ],
+        "id": "e08_09"
+      },
+      {
+        "eligible_valid_query_count": 3632,
+        "endpoints": [
+          "sex",
+          "capital_loss"
+        ],
+        "id": "e08_10"
+      },
+      {
+        "eligible_valid_query_count": 3587,
+        "endpoints": [
+          "sex",
+          "hours_per_week"
+        ],
+        "id": "e08_11"
+      },
+      {
+        "eligible_valid_query_count": 3614,
+        "endpoints": [
+          "sex",
+          "native_country"
+        ],
+        "id": "e08_12"
+      },
+      {
+        "eligible_valid_query_count": 3567,
+        "endpoints": [
+          "capital_gain",
+          "capital_loss"
+        ],
+        "id": "e09_10"
+      },
+      {
+        "eligible_valid_query_count": 3541,
+        "endpoints": [
+          "capital_gain",
+          "hours_per_week"
+        ],
+        "id": "e09_11"
+      },
+      {
+        "eligible_valid_query_count": 3578,
+        "endpoints": [
+          "capital_gain",
+          "native_country"
+        ],
+        "id": "e09_12"
+      },
+      {
+        "eligible_valid_query_count": 3541,
+        "endpoints": [
+          "capital_loss",
+          "hours_per_week"
+        ],
+        "id": "e10_11"
+      },
+      {
+        "eligible_valid_query_count": 3589,
+        "endpoints": [
+          "capital_loss",
+          "native_country"
+        ],
+        "id": "e10_12"
+      },
+      {
+        "eligible_valid_query_count": 3586,
+        "endpoints": [
+          "hours_per_week",
+          "native_country"
+        ],
+        "id": "e11_12"
+      }
+    ],
+    "maximum_support": 3632,
+    "minimum_support": 3506,
+    "rule": "Issue #67 supported restriction screen over distinct source columns; keep each positively supported unordered pair in schema-column order",
+    "valid_queries_by_eligible_pair_count": {
+      "0": 761,
+      "1": 776,
+      "10": 854,
+      "15": 761,
+      "21": 725,
+      "28": 751,
+      "3": 786,
+      "36": 765,
+      "45": 756,
+      "55": 765,
+      "6": 753,
+      "66": 776,
+      "78": 771
+    }
+  },
+  "claim_limits": [
+    "This plan has no PostgreSQL observations yet.",
+    "Static eligibility is not actual PostgreSQL MCV selection or benefit.",
+    "No test truth, test estimates, or test outcomes may influence acquisition, fitting, or resource choice.",
+    "Official test evaluation is outside this Issue's current authorization."
+  ],
+  "dataset": "census13",
+  "dataset_shape": {
+    "official_relation": "public.census13",
+    "official_split_counts_from_pinned_inventory": {
+      "test": 10000,
+      "train": 100000,
+      "valid": 10000
+    },
+    "source_columns_in_order": [
+      "age",
+      "workclass",
+      "education",
+      "education_num",
+      "marital_status",
+      "occupation",
+      "relationship",
+      "race",
+      "sex",
+      "capital_gain",
+      "capital_loss",
+      "hours_per_week",
+      "native_country"
+    ],
+    "source_row_count": 48842,
+    "source_schema_sha256": "67990e92723eac01a9fc4811e7b95b96f6132d3fc35c87a13b375088d85f403c"
+  },
+  "execution_code_commit": "60ca1b366de6ca8ef996d05c86334b64fd48074d",
+  "format": "ess-issue71-census13-stage2b-plan-v1",
+  "nominal_priority_orders": {
+    "algorithm": "Python random.Random(seed).shuffle over schema-order candidate IDs; CPython version recorded above",
+    "duplicate_groups": [],
+    "order_count": 10,
+    "orders": [
+      {
+        "candidate_ids": [
+          "e00_01",
+          "e00_02",
+          "e00_03",
+          "e00_04",
+          "e00_05",
+          "e00_06",
+          "e00_07",
+          "e00_08",
+          "e00_09",
+          "e00_10",
+          "e00_11",
+          "e00_12",
+          "e01_02",
+          "e01_03",
+          "e01_04",
+          "e01_05",
+          "e01_06",
+          "e01_07",
+          "e01_08",
+          "e01_09",
+          "e01_10",
+          "e01_11",
+          "e01_12",
+          "e02_03",
+          "e02_04",
+          "e02_05",
+          "e02_06",
+          "e02_07",
+          "e02_08",
+          "e02_09",
+          "e02_10",
+          "e02_11",
+          "e02_12",
+          "e03_04",
+          "e03_05",
+          "e03_06",
+          "e03_07",
+          "e03_08",
+          "e03_09",
+          "e03_10",
+          "e03_11",
+          "e03_12",
+          "e04_05",
+          "e04_06",
+          "e04_07",
+          "e04_08",
+          "e04_09",
+          "e04_10",
+          "e04_11",
+          "e04_12",
+          "e05_06",
+          "e05_07",
+          "e05_08",
+          "e05_09",
+          "e05_10",
+          "e05_11",
+          "e05_12",
+          "e06_07",
+          "e06_08",
+          "e06_09",
+          "e06_10",
+          "e06_11",
+          "e06_12",
+          "e07_08",
+          "e07_09",
+          "e07_10",
+          "e07_11",
+          "e07_12",
+          "e08_09",
+          "e08_10",
+          "e08_11",
+          "e08_12",
+          "e09_10",
+          "e09_11",
+          "e09_12",
+          "e10_11",
+          "e10_12",
+          "e11_12"
+        ],
+        "label": "schema_order",
+        "seed": null
+      },
+      {
+        "candidate_ids": [
+          "e11_12",
+          "e10_12",
+          "e10_11",
+          "e09_12",
+          "e09_11",
+          "e09_10",
+          "e08_12",
+          "e08_11",
+          "e08_10",
+          "e08_09",
+          "e07_12",
+          "e07_11",
+          "e07_10",
+          "e07_09",
+          "e07_08",
+          "e06_12",
+          "e06_11",
+          "e06_10",
+          "e06_09",
+          "e06_08",
+          "e06_07",
+          "e05_12",
+          "e05_11",
+          "e05_10",
+          "e05_09",
+          "e05_08",
+          "e05_07",
+          "e05_06",
+          "e04_12",
+          "e04_11",
+          "e04_10",
+          "e04_09",
+          "e04_08",
+          "e04_07",
+          "e04_06",
+          "e04_05",
+          "e03_12",
+          "e03_11",
+          "e03_10",
+          "e03_09",
+          "e03_08",
+          "e03_07",
+          "e03_06",
+          "e03_05",
+          "e03_04",
+          "e02_12",
+          "e02_11",
+          "e02_10",
+          "e02_09",
+          "e02_08",
+          "e02_07",
+          "e02_06",
+          "e02_05",
+          "e02_04",
+          "e02_03",
+          "e01_12",
+          "e01_11",
+          "e01_10",
+          "e01_09",
+          "e01_08",
+          "e01_07",
+          "e01_06",
+          "e01_05",
+          "e01_04",
+          "e01_03",
+          "e01_02",
+          "e00_12",
+          "e00_11",
+          "e00_10",
+          "e00_09",
+          "e00_08",
+          "e00_07",
+          "e00_06",
+          "e00_05",
+          "e00_04",
+          "e00_03",
+          "e00_02",
+          "e00_01"
+        ],
+        "label": "complete_reverse",
+        "seed": null
+      },
+      {
+        "candidate_ids": [
+          "e02_11",
+          "e03_11",
+          "e03_08",
+          "e00_12",
+          "e11_12",
+          "e07_08",
+          "e04_05",
+          "e00_02",
+          "e01_08",
+          "e00_09",
+          "e06_07",
+          "e07_11",
+          "e05_10",
+          "e10_12",
+          "e01_04",
+          "e04_07",
+          "e00_03",
+          "e02_04",
+          "e00_08",
+          "e00_11",
+          "e01_05",
+          "e05_08",
+          "e02_12",
+          "e03_12",
+          "e04_10",
+          "e02_05",
+          "e02_09",
+          "e09_10",
+          "e01_02",
+          "e02_06",
+          "e02_03",
+          "e10_11",
+          "e00_01",
+          "e00_04",
+          "e06_08",
+          "e09_12",
+          "e02_08",
+          "e05_06",
+          "e05_12",
+          "e01_03",
+          "e06_10",
+          "e01_10",
+          "e07_12",
+          "e01_12",
+          "e05_11",
+          "e03_06",
+          "e02_10",
+          "e01_11",
+          "e04_06",
+          "e00_05",
+          "e04_09",
+          "e08_10",
+          "e01_09",
+          "e00_10",
+          "e08_11",
+          "e06_09",
+          "e08_09",
+          "e03_05",
+          "e01_06",
+          "e08_12",
+          "e03_10",
+          "e00_07",
+          "e04_11",
+          "e09_11",
+          "e03_07",
+          "e01_07",
+          "e07_09",
+          "e02_07",
+          "e04_08",
+          "e06_11",
+          "e03_09",
+          "e05_07",
+          "e06_12",
+          "e07_10",
+          "e03_04",
+          "e00_06",
+          "e05_09",
+          "e04_12"
+        ],
+        "label": "python_random_seed_0",
+        "seed": 0
+      },
+      {
+        "candidate_ids": [
+          "e07_12",
+          "e01_08",
+          "e00_03",
+          "e02_05",
+          "e01_09",
+          "e03_10",
+          "e03_11",
+          "e00_12",
+          "e10_12",
+          "e09_11",
+          "e10_11",
+          "e00_08",
+          "e01_11",
+          "e02_09",
+          "e00_05",
+          "e05_10",
+          "e08_09",
+          "e01_06",
+          "e00_11",
+          "e02_03",
+          "e05_08",
+          "e02_10",
+          "e00_06",
+          "e07_10",
+          "e05_06",
+          "e05_12",
+          "e04_05",
+          "e06_08",
+          "e00_10",
+          "e03_07",
+          "e04_06",
+          "e09_12",
+          "e04_08",
+          "e01_12",
+          "e07_11",
+          "e03_06",
+          "e02_11",
+          "e08_12",
+          "e05_09",
+          "e03_04",
+          "e04_10",
+          "e02_07",
+          "e01_03",
+          "e02_04",
+          "e06_09",
+          "e03_05",
+          "e03_12",
+          "e06_11",
+          "e08_11",
+          "e00_02",
+          "e01_10",
+          "e00_07",
+          "e03_08",
+          "e01_04",
+          "e05_07",
+          "e04_09",
+          "e11_12",
+          "e02_08",
+          "e04_07",
+          "e00_01",
+          "e07_09",
+          "e08_10",
+          "e03_09",
+          "e05_11",
+          "e04_12",
+          "e00_04",
+          "e06_12",
+          "e01_02",
+          "e02_06",
+          "e04_11",
+          "e06_10",
+          "e06_07",
+          "e07_08",
+          "e01_05",
+          "e02_12",
+          "e00_09",
+          "e09_10",
+          "e01_07"
+        ],
+        "label": "python_random_seed_1",
+        "seed": 1
+      },
+      {
+        "candidate_ids": [
+          "e00_01",
+          "e00_04",
+          "e08_10",
+          "e00_07",
+          "e06_09",
+          "e04_08",
+          "e09_11",
+          "e05_07",
+          "e02_05",
+          "e06_11",
+          "e00_10",
+          "e06_08",
+          "e01_03",
+          "e01_09",
+          "e07_11",
+          "e02_10",
+          "e01_08",
+          "e03_12",
+          "e07_09",
+          "e11_12",
+          "e01_06",
+          "e04_06",
+          "e03_05",
+          "e03_08",
+          "e02_11",
+          "e01_02",
+          "e05_09",
+          "e00_06",
+          "e09_12",
+          "e05_08",
+          "e03_07",
+          "e01_12",
+          "e03_09",
+          "e02_06",
+          "e02_08",
+          "e04_05",
+          "e04_12",
+          "e09_10",
+          "e07_08",
+          "e03_11",
+          "e06_12",
+          "e00_09",
+          "e04_07",
+          "e05_10",
+          "e04_11",
+          "e06_10",
+          "e01_04",
+          "e01_05",
+          "e10_12",
+          "e03_06",
+          "e10_11",
+          "e03_04",
+          "e08_11",
+          "e02_04",
+          "e08_09",
+          "e02_09",
+          "e02_03",
+          "e00_02",
+          "e07_12",
+          "e00_03",
+          "e06_07",
+          "e01_07",
+          "e08_12",
+          "e05_12",
+          "e04_10",
+          "e07_10",
+          "e05_06",
+          "e05_11",
+          "e01_10",
+          "e00_05",
+          "e02_07",
+          "e02_12",
+          "e03_10",
+          "e01_11",
+          "e04_09",
+          "e00_11",
+          "e00_12",
+          "e00_08"
+        ],
+        "label": "python_random_seed_2",
+        "seed": 2
+      },
+      {
+        "candidate_ids": [
+          "e04_07",
+          "e00_04",
+          "e05_09",
+          "e04_08",
+          "e05_07",
+          "e07_12",
+          "e03_12",
+          "e03_10",
+          "e02_12",
+          "e03_05",
+          "e07_08",
+          "e05_08",
+          "e04_11",
+          "e00_06",
+          "e06_09",
+          "e00_08",
+          "e01_12",
+          "e04_06",
+          "e00_12",
+          "e01_08",
+          "e01_02",
+          "e09_12",
+          "e02_06",
+          "e06_07",
+          "e01_10",
+          "e06_08",
+          "e01_03",
+          "e01_11",
+          "e02_11",
+          "e05_12",
+          "e01_05",
+          "e03_06",
+          "e04_09",
+          "e00_07",
+          "e02_03",
+          "e08_12",
+          "e02_08",
+          "e03_07",
+          "e02_05",
+          "e02_07",
+          "e05_10",
+          "e03_09",
+          "e11_12",
+          "e01_07",
+          "e08_11",
+          "e01_09",
+          "e00_03",
+          "e03_08",
+          "e00_11",
+          "e00_05",
+          "e04_12",
+          "e04_05",
+          "e00_01",
+          "e09_11",
+          "e07_11",
+          "e08_09",
+          "e06_11",
+          "e07_09",
+          "e06_12",
+          "e01_04",
+          "e00_10",
+          "e05_11",
+          "e03_11",
+          "e05_06",
+          "e07_10",
+          "e10_12",
+          "e02_04",
+          "e02_09",
+          "e03_04",
+          "e09_10",
+          "e00_02",
+          "e00_09",
+          "e06_10",
+          "e04_10",
+          "e01_06",
+          "e08_10",
+          "e10_11",
+          "e02_10"
+        ],
+        "label": "python_random_seed_3",
+        "seed": 3
+      },
+      {
+        "candidate_ids": [
+          "e04_11",
+          "e02_05",
+          "e01_10",
+          "e08_10",
+          "e00_04",
+          "e04_07",
+          "e08_11",
+          "e07_10",
+          "e03_07",
+          "e07_12",
+          "e05_12",
+          "e02_11",
+          "e06_12",
+          "e03_05",
+          "e00_05",
+          "e07_11",
+          "e03_04",
+          "e01_04",
+          "e05_10",
+          "e02_06",
+          "e03_10",
+          "e02_07",
+          "e06_07",
+          "e06_09",
+          "e06_10",
+          "e04_08",
+          "e07_08",
+          "e01_12",
+          "e07_09",
+          "e00_10",
+          "e02_09",
+          "e00_01",
+          "e04_10",
+          "e04_06",
+          "e09_12",
+          "e11_12",
+          "e04_05",
+          "e09_11",
+          "e01_05",
+          "e02_12",
+          "e02_04",
+          "e01_11",
+          "e10_12",
+          "e00_06",
+          "e02_03",
+          "e03_11",
+          "e01_08",
+          "e09_10",
+          "e00_11",
+          "e01_02",
+          "e01_07",
+          "e05_11",
+          "e06_08",
+          "e08_09",
+          "e03_12",
+          "e05_09",
+          "e00_02",
+          "e10_11",
+          "e01_06",
+          "e00_07",
+          "e05_08",
+          "e08_12",
+          "e04_12",
+          "e03_06",
+          "e04_09",
+          "e02_08",
+          "e00_08",
+          "e03_08",
+          "e05_07",
+          "e00_03",
+          "e00_09",
+          "e00_12",
+          "e01_09",
+          "e06_11",
+          "e05_06",
+          "e01_03",
+          "e03_09",
+          "e02_10"
+        ],
+        "label": "python_random_seed_4",
+        "seed": 4
+      },
+      {
+        "candidate_ids": [
+          "e09_12",
+          "e08_12",
+          "e02_09",
+          "e03_08",
+          "e06_08",
+          "e00_02",
+          "e01_06",
+          "e01_11",
+          "e02_05",
+          "e01_05",
+          "e05_10",
+          "e00_08",
+          "e08_10",
+          "e02_03",
+          "e01_12",
+          "e03_07",
+          "e01_09",
+          "e09_11",
+          "e02_07",
+          "e03_09",
+          "e00_03",
+          "e04_07",
+          "e05_06",
+          "e00_06",
+          "e03_04",
+          "e11_12",
+          "e04_05",
+          "e00_10",
+          "e07_08",
+          "e06_11",
+          "e02_10",
+          "e03_06",
+          "e06_07",
+          "e03_11",
+          "e03_05",
+          "e01_02",
+          "e08_11",
+          "e01_08",
+          "e08_09",
+          "e05_09",
+          "e03_12",
+          "e10_11",
+          "e04_06",
+          "e06_12",
+          "e10_12",
+          "e05_12",
+          "e02_08",
+          "e05_08",
+          "e03_10",
+          "e00_09",
+          "e00_05",
+          "e05_07",
+          "e07_10",
+          "e00_11",
+          "e02_04",
+          "e04_12",
+          "e05_11",
+          "e00_12",
+          "e01_07",
+          "e02_06",
+          "e07_09",
+          "e04_09",
+          "e00_01",
+          "e07_11",
+          "e01_03",
+          "e04_11",
+          "e09_10",
+          "e06_10",
+          "e04_10",
+          "e01_04",
+          "e01_10",
+          "e00_07",
+          "e02_11",
+          "e06_09",
+          "e00_04",
+          "e07_12",
+          "e04_08",
+          "e02_12"
+        ],
+        "label": "python_random_seed_5",
+        "seed": 5
+      },
+      {
+        "candidate_ids": [
+          "e05_12",
+          "e01_05",
+          "e02_04",
+          "e04_08",
+          "e01_07",
+          "e09_12",
+          "e05_10",
+          "e02_12",
+          "e11_12",
+          "e02_09",
+          "e00_02",
+          "e05_06",
+          "e01_04",
+          "e10_12",
+          "e00_09",
+          "e05_11",
+          "e00_04",
+          "e07_08",
+          "e00_10",
+          "e01_03",
+          "e01_09",
+          "e00_08",
+          "e00_12",
+          "e08_09",
+          "e09_10",
+          "e02_10",
+          "e07_09",
+          "e01_12",
+          "e01_10",
+          "e03_08",
+          "e03_12",
+          "e08_11",
+          "e02_11",
+          "e04_11",
+          "e03_09",
+          "e07_12",
+          "e04_12",
+          "e08_12",
+          "e06_07",
+          "e07_10",
+          "e02_08",
+          "e05_09",
+          "e02_06",
+          "e02_03",
+          "e08_10",
+          "e01_11",
+          "e02_07",
+          "e00_06",
+          "e06_09",
+          "e03_10",
+          "e04_05",
+          "e01_06",
+          "e04_09",
+          "e05_07",
+          "e04_07",
+          "e03_06",
+          "e03_07",
+          "e01_02",
+          "e00_07",
+          "e04_06",
+          "e06_11",
+          "e07_11",
+          "e06_08",
+          "e05_08",
+          "e02_05",
+          "e10_11",
+          "e03_05",
+          "e00_03",
+          "e03_11",
+          "e04_10",
+          "e06_10",
+          "e01_08",
+          "e00_01",
+          "e00_05",
+          "e03_04",
+          "e06_12",
+          "e00_11",
+          "e09_11"
+        ],
+        "label": "python_random_seed_6",
+        "seed": 6
+      },
+      {
+        "candidate_ids": [
+          "e03_09",
+          "e00_01",
+          "e11_12",
+          "e02_11",
+          "e03_10",
+          "e06_10",
+          "e02_08",
+          "e04_11",
+          "e01_06",
+          "e08_11",
+          "e02_04",
+          "e06_08",
+          "e02_12",
+          "e02_10",
+          "e06_12",
+          "e04_10",
+          "e01_10",
+          "e04_07",
+          "e00_11",
+          "e01_03",
+          "e02_09",
+          "e01_11",
+          "e06_11",
+          "e03_04",
+          "e04_05",
+          "e00_02",
+          "e05_07",
+          "e04_06",
+          "e01_12",
+          "e01_07",
+          "e04_08",
+          "e02_03",
+          "e08_12",
+          "e09_12",
+          "e07_10",
+          "e10_12",
+          "e05_10",
+          "e03_05",
+          "e09_11",
+          "e02_06",
+          "e01_08",
+          "e00_09",
+          "e06_09",
+          "e00_03",
+          "e07_08",
+          "e04_12",
+          "e02_05",
+          "e10_11",
+          "e09_10",
+          "e06_07",
+          "e03_08",
+          "e05_12",
+          "e03_11",
+          "e01_04",
+          "e08_10",
+          "e03_07",
+          "e05_08",
+          "e00_04",
+          "e07_12",
+          "e03_06",
+          "e00_06",
+          "e01_05",
+          "e07_11",
+          "e05_09",
+          "e05_11",
+          "e00_12",
+          "e00_05",
+          "e02_07",
+          "e07_09",
+          "e00_08",
+          "e04_09",
+          "e01_02",
+          "e08_09",
+          "e00_10",
+          "e00_07",
+          "e05_06",
+          "e01_09",
+          "e03_12"
+        ],
+        "label": "python_random_seed_7",
+        "seed": 7
+      }
+    ],
+    "seed_set": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "scientific_scope": "Census13 official valid-only model calibration and Nominal priority-order sensitivity; no test evaluation",
+  "selection": {
+    "budgets_at_most": [
+      0,
+      2,
+      3
+    ],
+    "coefficient_source": "Census13 official valid truth and valid-only Empty/singleton nrows_preclamp; positive finite pre-clamp values only; preserve NO_MCV_EVENTS rows",
+    "feasible_subset_counts": {
+      "0": 1,
+      "2": 3082,
+      "3": 79158
+    },
+    "nominal": "frozen corrected-log sum absolute residual; exact Fraction enumeration for each listed priority order; preserve all ties and existing deterministic first-in-enumeration representative",
+    "pess": "frozen task-wise maximum over all inclusion-maximal matchings; compute global exact optimum once; report PESS loss for each Nominal minimizer"
+  },
+  "serial_parallel_smoke": {
+    "calls_per_mode": 501,
+    "comparison": "require exact Decimal pre-clamp equality and equal normalized diagnostic status/MCV candidate/clause evidence for every (query_id, config_id); retain actual OIDs in raw records and verify each maps to its worker's configured catalog ledger",
+    "empty_calls_per_mode": 20,
+    "modes": [
+      "serial_one_cluster",
+      "two_workers_two_clusters"
+    ],
+    "parallel_configuration_owner": "same deterministic round-robin policy as full acquisition; Empty assigned only once",
+    "planned_calls_total": 1002,
+    "same_sample_across_modes": true,
+    "selection_rule": "source_index 0 through 19, fixed before measurements and using valid workload structure only",
+    "singleton_calls_per_mode": 481,
+    "valid_query_ids": [
+      "arecel:census13:valid:000000",
+      "arecel:census13:valid:000001",
+      "arecel:census13:valid:000002",
+      "arecel:census13:valid:000003",
+      "arecel:census13:valid:000004",
+      "arecel:census13:valid:000005",
+      "arecel:census13:valid:000006",
+      "arecel:census13:valid:000007",
+      "arecel:census13:valid:000008",
+      "arecel:census13:valid:000009",
+      "arecel:census13:valid:000010",
+      "arecel:census13:valid:000011",
+      "arecel:census13:valid:000012",
+      "arecel:census13:valid:000013",
+      "arecel:census13:valid:000014",
+      "arecel:census13:valid:000015",
+      "arecel:census13:valid:000016",
+      "arecel:census13:valid:000017",
+      "arecel:census13:valid:000018",
+      "arecel:census13:valid:000019"
+    ]
+  },
+  "source": {
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "candidate_discovery_code_sha256": "69bff45062c8fcbe092240d796e9ea910cb54ef9c79d162112ea22215a7890ca",
+    "etl_code_commit": "60ca1b366de6ca8ef996d05c86334b64fd48074d",
+    "etl_worktree_dirty": false,
+    "labels_loaded": false,
+    "plan_generator_sha256": "77c0cf31fdf6b990e601dd84edd4841b355660a8583169e8563dfddcb05ab1b9",
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "pr58_corrected_log_helper_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "python_version": "3.12.3",
+    "test_truth_loaded": false,
+    "valid_workload_json_sha256": "f591ccfe30c287849067349aed14ec9d801f86104ff863f812e3f958b84dcfb9"
+  },
+  "status": "FROZEN_OUTCOME_FREE_PLAN"
+}
