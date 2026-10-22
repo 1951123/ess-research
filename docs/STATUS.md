@@ -6,6 +6,8 @@
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
+**Latest Issue #64 / Draft PR #65 checkpoint (2026-10-22, Asia/Shanghai):** Following separate researcher authorization after Phase B review, the fixed first-20-valid JSON-only observation smoke at execution commit `da5c547446b63231e2c7cb43ae39416069dc1867` passed its precommitted 212-call plan (20 Empty + 192 eligible singleton calls), all 46 configurations, positive-domain/complete-diagnostic and query/OID association checks. There were 102 complete MCV-event observations across 16 queries / 23 singleton configurations; 90 eligible singleton calls and all 20 Empty calls explicitly had no MCV events. Run `f10json-gy49u7l6`: 111.796 s, measured peak 448,634,880 bytes, no safety stop, cluster confirmed stopped. Offline suite: 118 tests passed before and after execution. Compact raw observations and report: `experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-json-calibration-smoke-v1.{jsonl,md}`. This supersedes the earlier Phase C NOT RUN checkpoint below; earlier evidence remains immutable. No truth, objectives, fitting, resource selection or test evaluation occurred. Stopped for researcher review; no full-calibration authorization inferred. PR remains Draft and Issue remains Open.
+
 ## 1. Executive checkpoint
 
 **Chosen paper direction:** a general, estimator-agnostic pessimistic admissibility-aware resource-selection framework; a pairwise labeled maximal-matching instantiation; exact/structured algorithms; PostgreSQL model/estimation/cost validation.
