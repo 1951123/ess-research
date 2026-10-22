@@ -1,0 +1,58 @@
+{
+  "format": "ess-issue74-advisor-integration-manifest-v1",
+  "stage": 1,
+  "advisor": {
+    "repository": "1951123/ess-advisor",
+    "source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+    "schema_version": "1",
+    "api": "pess_ess.solve_payload",
+    "pess_backend": "master_oracle",
+    "nominal_backend": "fixed_priority_milp"
+  },
+  "research_base_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+  "models": {
+    "forest10": {
+      "version": "forest10-positive-preclamp-v1",
+      "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "frozen_selection": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-valid-frozen-selection-v1.json",
+      "coefficients": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/coefficients.jsonl.gz",
+      "log_rule": "consume exact rational alpha/b from the frozen coefficient artifact",
+      "cost_proxy": "unit per candidate; the frozen budgets constrain |M| <= B",
+      "nominal_order": "frozen candidate order from valid calibration"
+    },
+    "census13": {
+      "version": "census13-clamped-log-v2",
+      "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+      "frozen_selection": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-clamped-log-v2-schema-order-frozen-selection-v1.json",
+      "observations": [
+        "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-full-valid-worker0.jsonl.gz",
+        "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-full-valid-worker1.jsonl.gz",
+        "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-valid-truth-counts.jsonl"
+      ],
+      "log_rule": "reproduce frozen g(x)=max(1,x), Decimal ln precision 80, 1e-18 half-even coefficients; require exact frozen coefficient digest",
+      "cost_proxy": "unit per candidate; the frozen budgets constrain |M| <= B",
+      "nominal_order": "predeclared schema_order"
+    }
+  },
+  "smoke": {
+    "datasets": ["forest10", "census13"],
+    "task_limit": 12,
+    "candidate_limit": 8,
+    "budgets": [0, 2, 3],
+    "objectives": ["nominal", "pess"],
+    "time_seconds": 5,
+    "inner_time_seconds": 2,
+    "total_time_seconds": 8,
+    "reference": "Advisor independent Fraction exhaustive reference on this explicitly truncated subproblem",
+    "scope_limit": "smoke verifies schema/solver integration only; it does not reproduce a full frozen-workload solve"
+  },
+  "postgresql": {
+    "source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "execution": "none"
+  },
+  "stage_gates": {
+    "official_test_inputs": "prohibited",
+    "full_workload_milp": "not part of bounded smoke",
+    "larger_budgets": "defer to Stage 2 protocol review"
+  }
+}

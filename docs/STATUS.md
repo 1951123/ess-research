@@ -4,6 +4,18 @@
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
+**Issue #74 / Stage 1 adapter (2026-10-22):** Draft implementation maps the
+frozen Forest10 positive-preclamp model and Census13 `clamped-log-v2` model to
+the pinned `ess-advisor@e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec` schema-v1
+API. Full valid-only source mappings and Census13's coefficient digest were
+checked; 4 offline tests passed; 12 bounded smoke cases matched exact
+Fraction-reference sets/objectives on the explicitly truncated models.
+Full-workload comparison is **incomplete**: the first Forest10 Nominal
+full-input attempt failed before allocation on an Advisor dense matrix request
+of about 1.69 TiB. Other full-workload solver runs, PostgreSQL execution,
+held-out test access, and Stage 2 were not performed. See
+[`experiments/solver-integration-issue74/stage1-report-v1.md`](../experiments/solver-integration-issue74/stage1-report-v1.md).
+
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
 **Current Issue #64 scientific checkpoint (2026-10-22):** The scoped Forest10 milestone is complete and recorded in [the concise closeout](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-stage2b-final-summary-v1.md). The full 174,088-row valid-only calibration was verified; corrected-log exact selection for `B=0/2/3` yielded identical unique Nominal/PESS sets (`{}`, `{e01_06,e02_07}`, `{e01_06,e02_07,e03_04}`). Official test evaluation completed 30,000/30,000 rows with no unresolved observations. P95 Q1 was Empty 17, B2 14.907407 (12.309% lower), B3 14 (17.647% lower); Nominal/PESS paired results tie on all queries because their sets are identical. This does **not** demonstrate a PESS advantage or unseen-template generalization; known template overlap, prior test exposure, and Forest10-only scope remain. Historical checkpoints and failed evidence below are retained; pending/not-run statements are historical and superseded by the linked versioned reports. PR #65 is still Draft; Issue #64 remains Open.

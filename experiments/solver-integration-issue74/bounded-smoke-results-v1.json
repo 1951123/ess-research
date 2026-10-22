@@ -1,0 +1,2284 @@
+{
+  "format": "ess-issue74-bounded-smoke-v1",
+  "results": [
+    {
+      "advisor_objective": "3426597230533415239/200000000000000000",
+      "advisor_selected": [],
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "3426597230533415239/200000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "04f0c68af1ffd67fff024379c6b9ea357a3984af1eb5014ca648b4751aacbbb6",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "0",
+          "objective_value": "3426597230533415239/200000000000000000",
+          "selected": [],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "3426597230533415239/200000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.13298615266708,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.13298615266708,
+            "duration_seconds": 0.0015201329997580615,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.132986152667076,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.0021720370004914002
+      },
+      "response_sha256": "778b58f3d284ef5a12cc914e13849a583cef7e491687b66c159e532cc74b6458",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "3426597230533415239/200000000000000000",
+      "advisor_selected": [],
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "3426597230533415239/200000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "904f9c5125e81730e38ba23ffb814f7bc391c65172818a02653ae3b812282e0e",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 2,
+          "master_iterations": 2,
+          "numerical_warnings": [
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06",
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06"
+          ],
+          "scenario_count": 2
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "0",
+          "selected": [],
+          "validated_feasible": true,
+          "witness_aggregate": "3426597230533415239/200000000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "fraction_certified_inner_bounds",
+          "inner_mip_solve_calls": 0,
+          "numerical_inner_oracle_invocations_during_run": 0,
+          "selected_pess_value_fraction_certified": true,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "3426597230533415239/200000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": null,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.132986152667076,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0007069499997669482,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.132986152667076,
+            "duration_seconds": 0.0006111510001574061,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.132986152667076,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violation outside configured numerical tolerance",
+        "wall_time_seconds": 0.003965851000430121
+      },
+      "response_sha256": "aa19d7811d7474db194eb1b7fee2847330350d74b90ededc5f8a4836b9c653d6",
+      "selected_pess_value_fraction_certified": true,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "8555033164031484987/500000000000000000",
+      "advisor_selected": [
+        "e00_01",
+        "e00_02"
+      ],
+      "advisor_status": "optimal",
+      "budget": 2,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "8555033164031484987/500000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02"
+        ],
+        [
+          "e00_02"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_04"
+        ],
+        [
+          "e00_02",
+          "e00_05"
+        ],
+        [
+          "e00_02",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "b9ed00eeac2e98c7dd8a6533237c19c18fa17f41f2e0771c219d96b257b22371",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "2",
+          "objective_value": "8555033164031484987/500000000000000000",
+          "selected": [
+            "e00_01",
+            "e00_02"
+          ],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "8555033164031484987/500000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.11006632806297,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.005072572000244691,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.005446329000733385
+      },
+      "response_sha256": "774568a69f6b1ced7a3a0fc09ee8c6531d30ac397cf8f92cd29cf74dbb61869d",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "8555033164031484987/500000000000000000",
+      "advisor_selected": [
+        "e00_02"
+      ],
+      "advisor_status": "optimal",
+      "budget": 2,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "8555033164031484987/500000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02"
+        ],
+        [
+          "e00_02"
+        ]
+      ],
+      "request_sha256": "f62f039b4c7fbbb78a465ff54f97db60a5fe2c9083b63962d9e28be424a32b97",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 6,
+          "master_iterations": 4,
+          "numerical_warnings": [
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06",
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06",
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06"
+          ],
+          "scenario_count": 6
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "1",
+          "selected": [
+            "e00_02"
+          ],
+          "validated_feasible": true,
+          "witness_aggregate": "8555033164031484987/500000000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "witnesses_with_numerical_inner_mip_status",
+          "inner_mip_solve_calls": 10,
+          "numerical_inner_oracle_invocations_during_run": 5,
+          "selected_pess_value_fraction_certified": false,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": null,
+          "global_upper_bound_is_fraction_certified": false,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": null,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.11006632806297,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0006301070006884402,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0006034859998180764,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.000592538999626413,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -2.86e-16,
+            "duration_seconds": 0.0006129149996922933,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -2.86e-16,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 2.86e-16,
+            "duration_seconds": 0.0005151370005478384,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 2.86e-16,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.00015137716660025,
+            "duration_seconds": 0.0005817379997097305,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.00015137716660025,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.00015137716660025,
+            "duration_seconds": 0.0005638559996441472,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.00015137716660025,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.000620449312561609,
+            "duration_seconds": 0.0005418479995569214,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.000620449312561609,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.000620449312561609,
+            "duration_seconds": 0.00048791900007927325,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.000620449312561609,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0006462619994636043,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.004432185531649699,
+            "duration_seconds": 0.0005712530000892002,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.004432185531649699,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.004432185531649699,
+            "duration_seconds": 0.0004882880002696766,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.004432185531649699,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.018487639072456524,
+            "duration_seconds": 0.0005265230001896271,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.018487639072456524,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.018487639072456524,
+            "duration_seconds": 0.00048708400026953313,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.018487639072456524,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violation outside configured numerical tolerance",
+        "wall_time_seconds": 0.015210528000352497
+      },
+      "response_sha256": "a8a8eb614434f3ddd5ef51a3d20dce568db675e0a91f7c7d8656bfa03be20dce",
+      "selected_pess_value_fraction_certified": false,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "8555033164031484987/500000000000000000",
+      "advisor_selected": [
+        "e00_01",
+        "e00_02",
+        "e00_08"
+      ],
+      "advisor_status": "optimal",
+      "budget": 3,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "8555033164031484987/500000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_04"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_05"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_06"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_07"
+        ],
+        [
+          "e00_01",
+          "e00_02",
+          "e00_08"
+        ],
+        [
+          "e00_02"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_05"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_04"
+        ],
+        [
+          "e00_02",
+          "e00_04",
+          "e00_05"
+        ],
+        [
+          "e00_02",
+          "e00_04",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_04",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_04",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_05"
+        ],
+        [
+          "e00_02",
+          "e00_05",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_05",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_05",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_06",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_06",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_07",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "caba2be1582d40148212f8550d0c4106a2eb90f2f7a2d91eaa25ce49d9f30e7a",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "3",
+          "objective_value": "8555033164031484987/500000000000000000",
+          "selected": [
+            "e00_01",
+            "e00_02",
+            "e00_08"
+          ],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "8555033164031484987/500000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.11006632806297,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.004818175999389496,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.005207168000197271
+      },
+      "response_sha256": "3e9c15eb786fc94c1ba376e64d8be21e7381431191dd99bda57a3a2a9b2869a5",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "8555033164031484987/500000000000000000",
+      "advisor_selected": [
+        "e00_02"
+      ],
+      "advisor_status": "optimal",
+      "budget": 3,
+      "candidate_count": 8,
+      "dataset": "forest10",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "8555033164031484987/500000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02"
+        ],
+        [
+          "e00_02"
+        ]
+      ],
+      "request_sha256": "5f3144162e3c11d99b4c8be0243f09ca4008e072d649c99445dd761f27054c0e",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 6,
+          "master_iterations": 4,
+          "numerical_warnings": [
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06",
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06",
+            "arecel:forest10:valid:000005: positive cut violation 8.88e-16 within tolerance 1e-06"
+          ],
+          "scenario_count": 6
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "1",
+          "selected": [
+            "e00_02"
+          ],
+          "validated_feasible": true,
+          "witness_aggregate": "8555033164031484987/500000000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue64-forest10-valid-v1",
+          "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+          "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+          "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+          "model_version": "forest10-positive-preclamp-v1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+          "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "witnesses_with_numerical_inner_mip_status",
+          "inner_mip_solve_calls": 10,
+          "numerical_inner_oracle_invocations_during_run": 5,
+          "selected_pess_value_fraction_certified": false,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": null,
+          "global_upper_bound_is_fraction_certified": false,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": null,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 17.11006632806297,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0009256630000891164,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0006160399998407229,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.0006326000002445653,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -2.86e-16,
+            "duration_seconds": 0.0005535239997698227,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -2.86e-16,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 2.86e-16,
+            "duration_seconds": 0.0005029370004194789,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 2.86e-16,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.00015137716660025,
+            "duration_seconds": 0.0005298289997881511,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.00015137716660025,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.00015137716660025,
+            "duration_seconds": 0.0005230340002526646,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.00015137716660025,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.000620449312561609,
+            "duration_seconds": 0.0005132740006956737,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.000620449312561609,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.000620449312561609,
+            "duration_seconds": 0.000507525999637437,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.000620449312561609,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 17.11006632806297,
+            "duration_seconds": 0.000706478999745741,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 17.11006632806297,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.004432185531649699,
+            "duration_seconds": 0.0005660940005327575,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.004432185531649699,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.004432185531649699,
+            "duration_seconds": 0.0004836509997403482,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.004432185531649699,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.018487639072456524,
+            "duration_seconds": 0.0005201620006118901,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.018487639072456524,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.018487639072456524,
+            "duration_seconds": 0.0004946540002492839,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.018487639072456524,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violation outside configured numerical tolerance",
+        "wall_time_seconds": 0.01579757099989365
+      },
+      "response_sha256": "c2bff9b7d887f1e04ff512a9b89cc787d16f7ef5d52cfe0693cee07663d50a7a",
+      "selected_pess_value_fraction_certified": false,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "680702786004608303/62500000000000000",
+      "advisor_selected": [],
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "680702786004608303/62500000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "e6895e8429409b4212b911fc173dce6c20908362184f02de311c15227f9761a5",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "0",
+          "objective_value": "680702786004608303/62500000000000000",
+          "selected": [],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "680702786004608303/62500000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.891244553096652,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.891244553096652,
+            "duration_seconds": 0.0010120930000994122,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.891244553096652,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.001353710999865143
+      },
+      "response_sha256": "f73e559ea55f7594a59ac1ecf05f1df02419e1c5e112fa325a913107ba514f73",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "680702786004608303/62500000000000000",
+      "advisor_selected": [],
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "680702786004608303/62500000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "46764547f5c9d96d4b382eb6873b955bc74fcb330f324635b2c76839ebf49ae9",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 1,
+          "master_iterations": 2,
+          "numerical_warnings": [],
+          "scenario_count": 1
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "0",
+          "selected": [],
+          "validated_feasible": true,
+          "witness_aggregate": "680702786004608303/62500000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "fraction_certified_inner_bounds",
+          "inner_mip_solve_calls": 0,
+          "numerical_inner_oracle_invocations_during_run": 0,
+          "selected_pess_value_fraction_certified": true,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "680702786004608303/62500000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.891244576073733,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006724169998051366,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.891244576073733,
+            "duration_seconds": 0.0005685370006176527,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.891244576073733,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violated conditional cut",
+        "wall_time_seconds": 0.0032629990000714315
+      },
+      "response_sha256": "b76a4e7b1aca276ea97f9d32a8ae11341a88eec29ec376803ab1ff0bb914587e",
+      "selected_pess_value_fraction_certified": true,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "2693046072693570561/250000000000000000",
+      "advisor_selected": [
+        "e00_01",
+        "e00_03"
+      ],
+      "advisor_status": "optimal",
+      "budget": 2,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "2693046072693570561/250000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_03"
+        ],
+        [
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_03",
+          "e00_05"
+        ],
+        [
+          "e00_03",
+          "e00_06"
+        ],
+        [
+          "e00_03",
+          "e00_07"
+        ],
+        [
+          "e00_03",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "3d1c8b427932b289baf78a26397a7ba0effce4559d7fbc8002fd7627abdad9c5",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "2",
+          "objective_value": "2693046072693570561/250000000000000000",
+          "selected": [
+            "e00_01",
+            "e00_03"
+          ],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "2693046072693570561/250000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.7721842677972,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.7721842677972,
+            "duration_seconds": 0.004248121999808063,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.7721842677972,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.004628747000424482
+      },
+      "response_sha256": "18fd67c1b4a8b9dee207269aece5c952be4842327ac70280799a0d0c43af4f63",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "2693046072693570561/250000000000000000",
+      "advisor_selected": [
+        "e00_03"
+      ],
+      "advisor_status": "optimal",
+      "budget": 2,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "2693046072693570561/250000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_03"
+        ],
+        [
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_03",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "d1ada0650b498c47b9cdf75d9c0901b84945313664e7190a32436213109c49c9",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 4,
+          "master_iterations": 5,
+          "numerical_warnings": [],
+          "scenario_count": 4
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "1",
+          "selected": [
+            "e00_03"
+          ],
+          "validated_feasible": true,
+          "witness_aggregate": "2693046072693570561/250000000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "witnesses_with_numerical_inner_mip_status",
+          "inner_mip_solve_calls": 6,
+          "numerical_inner_oracle_invocations_during_run": 3,
+          "selected_pess_value_fraction_certified": false,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": null,
+          "global_upper_bound_is_fraction_certified": false,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": null,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.772184290774282,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0005893859997740947,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0005695220006600721,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0005573569997068262,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.030540954468826848,
+            "duration_seconds": 0.0006114759999036323,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.030540954468826848,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.030540954468826848,
+            "duration_seconds": 0.0005153219999556313,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.030540954468826848,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006037579996700515,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.0936949753665326,
+            "duration_seconds": 0.0005104760002723197,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.0936949753665326,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.0936949753665326,
+            "duration_seconds": 0.0004987259999325033,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.0936949753665326,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.000669133999508631,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.1190602852994506,
+            "duration_seconds": 0.000529566999830422,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.1190602852994506,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.1190602852994506,
+            "duration_seconds": 0.0005264969995550928,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.1190602852994506,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violated conditional cut",
+        "wall_time_seconds": 0.013729137000154878
+      },
+      "response_sha256": "b62b30a9de68def326fc16b4cd68868eec88ab00afb60f4dacb30fa7136ef842",
+      "selected_pess_value_fraction_certified": false,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "2693046072693570561/250000000000000000",
+      "advisor_selected": [
+        "e00_01",
+        "e00_03"
+      ],
+      "advisor_status": "optimal",
+      "budget": 3,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "nominal",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "2693046072693570561/250000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_01",
+          "e00_03"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_05"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_06"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_07"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_05"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_06"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_07"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_08"
+        ],
+        [
+          "e00_03"
+        ],
+        [
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_03",
+          "e00_04",
+          "e00_05"
+        ],
+        [
+          "e00_03",
+          "e00_04",
+          "e00_06"
+        ],
+        [
+          "e00_03",
+          "e00_04",
+          "e00_07"
+        ],
+        [
+          "e00_03",
+          "e00_04",
+          "e00_08"
+        ],
+        [
+          "e00_03",
+          "e00_05"
+        ],
+        [
+          "e00_03",
+          "e00_05",
+          "e00_06"
+        ],
+        [
+          "e00_03",
+          "e00_05",
+          "e00_07"
+        ],
+        [
+          "e00_03",
+          "e00_05",
+          "e00_08"
+        ],
+        [
+          "e00_03",
+          "e00_06"
+        ],
+        [
+          "e00_03",
+          "e00_06",
+          "e00_07"
+        ],
+        [
+          "e00_03",
+          "e00_06",
+          "e00_08"
+        ],
+        [
+          "e00_03",
+          "e00_07"
+        ],
+        [
+          "e00_03",
+          "e00_07",
+          "e00_08"
+        ],
+        [
+          "e00_03",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "90c4bf4444f1d04265ec02f81c643a19e3ce7e0c7d4509d943593ad49b016b96",
+      "response": {
+        "backend": "fixed_priority_milp",
+        "diagnostics": {
+          "distinct_cuts": 0,
+          "master_iterations": 1,
+          "numerical_warnings": [],
+          "scenario_count": 0
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "2",
+          "objective_value": "2693046072693570561/250000000000000000",
+          "selected": [
+            "e00_01",
+            "e00_03"
+          ],
+          "validated_feasible": true
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "nominal",
+        "objective_evidence": {
+          "basis": "fixed_global_priority_greedy_replay",
+          "priority_order_shared_across_tasks": true,
+          "selected_nominal_value_fraction_certified": true,
+          "task_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": "2693046072693570561/250000000000000000",
+          "global_upper_bound_is_fraction_certified": true,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "complete_fixed_priority_formulation",
+          "mip_gap": 0.0,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.7721842677972,
+          "solver_reported_optimal": true
+        },
+        "policy": {
+          "kind": "fixed_global_candidate_priority_greedy",
+          "priority_order": [
+            "e00_01",
+            "e00_02",
+            "e00_03",
+            "e00_04",
+            "e00_05",
+            "e00_06",
+            "e00_07",
+            "e00_08"
+          ]
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.7721842677972,
+            "duration_seconds": 0.004262786000253982,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.7721842677972,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+        "wall_time_seconds": 0.004593636999743467
+      },
+      "response_sha256": "5e09201a9d54c3cffa430b2cd5630a22202e9d60174dc0c63938503bf092ed16",
+      "selected_pess_value_fraction_certified": null,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    },
+    {
+      "advisor_objective": "2693046072693570561/250000000000000000",
+      "advisor_selected": [
+        "e00_03"
+      ],
+      "advisor_status": "optimal",
+      "budget": 3,
+      "candidate_count": 8,
+      "dataset": "census13",
+      "objective": "pess",
+      "objective_matches_reference": true,
+      "reference_objective_fraction": "2693046072693570561/250000000000000000",
+      "reference_selected_sets": [
+        [
+          "e00_01",
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_01",
+          "e00_03"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_01",
+          "e00_03",
+          "e00_08"
+        ],
+        [
+          "e00_02",
+          "e00_03"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_02",
+          "e00_03",
+          "e00_08"
+        ],
+        [
+          "e00_03"
+        ],
+        [
+          "e00_03",
+          "e00_04"
+        ],
+        [
+          "e00_03",
+          "e00_04",
+          "e00_08"
+        ],
+        [
+          "e00_03",
+          "e00_08"
+        ]
+      ],
+      "request_sha256": "02f60ab6b383d2ee192e5066b8aecc6d7c9a61d323efb299339ea0c994d6f74c",
+      "response": {
+        "backend": "master_oracle",
+        "diagnostics": {
+          "distinct_cuts": 4,
+          "master_iterations": 5,
+          "numerical_warnings": [],
+          "scenario_count": 4
+        },
+        "feasibility": "feasible",
+        "incumbent": {
+          "available": true,
+          "maintenance_cost": "1",
+          "selected": [
+            "e00_03"
+          ],
+          "validated_feasible": true,
+          "witness_aggregate": "2693046072693570561/250000000000000000"
+        },
+        "input_provenance": {
+          "advisor_source_commit": "e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec",
+          "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+          "calibration_id": "issue71-census13-valid-schema-order-v1",
+          "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+          "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+          "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+          "model_version": "census13-clamped-log-v2",
+          "observation_sha256": {
+            "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+            "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+          },
+          "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+          "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+          "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+          "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+          "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+        },
+        "objective": "pess",
+        "objective_evidence": {
+          "basis": "witnesses_with_numerical_inner_mip_status",
+          "inner_mip_solve_calls": 6,
+          "numerical_inner_oracle_invocations_during_run": 3,
+          "selected_pess_value_fraction_certified": false,
+          "witness_losses_aggregated_with_fraction_arithmetic": true
+        },
+        "optimality": {
+          "global_incumbent_upper_bound": null,
+          "global_upper_bound_is_fraction_certified": false,
+          "kind": "floating_point_milp_status",
+          "lower_bound_is_mathematical_certificate": false,
+          "lower_bound_scope": "restricted_master_at_termination",
+          "mip_gap": null,
+          "outer_global_optimum_fraction_certified": false,
+          "solver_reported_lower_bound": 10.772184290774282,
+          "solver_reported_optimal": true
+        },
+        "provenance": {
+          "backend_solver": "HiGHS via SciPy",
+          "highs_version": null,
+          "highs_version_note": "SciPy milp does not expose its bundled HiGHS version",
+          "milp_api": "scipy.optimize.milp",
+          "package": "pess-ess",
+          "package_version": "0.1.0",
+          "scipy_version": "1.18.1"
+        },
+        "schema_version": "1",
+        "solver_statuses": [
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0005839440000272589,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006273829994825064,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006066240002837731,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.030540954468826848,
+            "duration_seconds": 0.0005072650001238799,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.030540954468826848,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.030540954468826848,
+            "duration_seconds": 0.0005097200000818702,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.030540954468826848,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006319880003502476,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.0936949753665326,
+            "duration_seconds": 0.0005517250001503271,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.0936949753665326,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.0936949753665326,
+            "duration_seconds": 0.0004859829996348708,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.0936949753665326,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 10.772184290774282,
+            "duration_seconds": 0.0006003469998177025,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 10.772184290774282,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": -0.1190602852994506,
+            "duration_seconds": 0.0005292540008667856,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": -0.1190602852994506,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          },
+          {
+            "dual_bound": 0.1190602852994506,
+            "duration_seconds": 0.00047848900067037903,
+            "highs_invocations": 1,
+            "incumbent_returned": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+            "mip_gap": 0.0,
+            "primal_objective": 0.1190602852994506,
+            "selected_attempt": "initial",
+            "solver_reported_optimal": true,
+            "status_code": 0
+          }
+        ],
+        "status": "optimal",
+        "termination_reason": "no violated conditional cut",
+        "wall_time_seconds": 0.013440973000797385
+      },
+      "response_sha256": "d1ffee9741ec453efae6fba924622f577204cc223f3994702b8130112edc0b2f",
+      "selected_pess_value_fraction_certified": false,
+      "solver_reported_optimal": true,
+      "tasks": 12
+    }
+  ]
+}
