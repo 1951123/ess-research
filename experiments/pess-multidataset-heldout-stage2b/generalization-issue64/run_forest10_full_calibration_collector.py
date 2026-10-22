@@ -1,4 +1,4 @@
-"""Collection-only full-valid JSON runner. Not selection and not execution-authorized by default."""
+"""Researcher-authorized, collection-only full-valid JSON runner; never performs selection."""
 from __future__ import annotations
 
 import argparse
@@ -27,15 +27,15 @@ from ess_research.task_paths import configured_root, runtime_runs
 from forest10_runner import PR58Forest10Backend, pr58_candidate_specs, validate_fresh_sample_identity
 
 PLAN = HERE / "forest10-json-full-observation-plan-v1.json"
-PLAN_SHA256 = "4eddf7fadc6683bcdadbf428d8b0fa8c96f69805e31f72bf605e8ff613193026"
+PLAN_SHA256 = "5483f55046e287594eb2090557c68d3334cefda8318c29a707a0631623284db2"
 RUN_PREFIX = "f10full-"
 MANIFEST = "collection-manifest.json"
 SUMMARY = "collector-worker-summary.json"
-APPROVED_PLAN_STATUS = "RESEARCHER_APPROVED_EXECUTION"
+APPROVED_PLAN_STATUS = "RESEARCHER_APPROVED_EXECUTION_2026-10-22"
 PART_RECORD_LIMIT = 2048
 PART_BYTES_LIMIT = 8 * 1024 * 1024
 FSYNC_BATCH = 256
-# Proposed in the committed plan; still requires separate researcher approval.
+# Approved in the Issue #64 decision dated 2026-10-22; enforced by the run watchdog.
 HARD_WALL_SECONDS = 8 * 60 * 60
 SOFT_WALL_SECONDS = 7 * 60 * 60 + 30 * 60
 HARD_DISK_BYTES = 4 * 1024**3
@@ -48,6 +48,17 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def validate_approved_plan(plan: dict[str, Any], actual_sha256: str) -> None:
+    if actual_sha256 != PLAN_SHA256:
+        raise RuntimeError("frozen full-observation plan hash mismatch")
+    if plan.get("status") != APPROVED_PLAN_STATUS:
+        raise RuntimeError("full-valid collection plan is not researcher-approved")
+    if plan.get("approved_limits", {}).get("status") != "RESEARCHER_APPROVED_2026-10-22":
+        raise RuntimeError("full-valid collection limits do not match the researcher approval")
+    if plan.get("retention", {}).get("status") != "RESEARCHER_APPROVED_2026-10-22":
+        raise RuntimeError("full-valid observation retention does not match the researcher approval")
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -244,19 +255,14 @@ def _record_error(exc: BaseException, phase: str) -> dict[str, str]:
 def _worker(root: Path) -> int:
     started = time.monotonic()
     plan = json.loads(PLAN.read_text(encoding="utf-8"))
-    if sha256_file(PLAN) != PLAN_SHA256:
-        raise RuntimeError("committed collection plan hash mismatch")
-    if plan.get("status") != APPROVED_PLAN_STATUS:
-        raise RuntimeError("full-valid collector is disabled until the committed plan records researcher execution approval")
-    if plan["proposed_limits"]["status"] != "PROPOSED_ONLY_NOT_APPROVED":
-        raise RuntimeError("this collector only recognizes the review-only proposed budget")
+    validate_approved_plan(plan, sha256_file(PLAN))
     if (plan["retention"]["max_records_per_part"], plan["retention"]["max_uncompressed_bytes_per_part"],
             plan["retention"]["flush_fsync_every_records"],
-            plan["proposed_limits"]["wall_seconds_hard"], plan["proposed_limits"]["wall_seconds_early_stop"],
-            plan["proposed_limits"]["disk_bytes_hard"], plan["proposed_limits"]["disk_bytes_early_stop"]) != (
+            plan["approved_limits"]["wall_seconds_hard"], plan["approved_limits"]["wall_seconds_early_stop"],
+            plan["approved_limits"]["disk_bytes_hard"], plan["approved_limits"]["disk_bytes_early_stop"]) != (
             PART_RECORD_LIMIT, PART_BYTES_LIMIT, FSYNC_BATCH, HARD_WALL_SECONDS, SOFT_WALL_SECONDS,
             HARD_DISK_BYTES, SOFT_DISK_BYTES):
-        raise RuntimeError("collector code limits differ from the committed review-only plan")
+        raise RuntimeError("collector code limits differ from the committed approved plan")
     root.parent.resolve()
     manifest = _initial_manifest(root, plan)
     manifest_path = root / MANIFEST
@@ -525,17 +531,18 @@ def main() -> int:
         return _worker(args.worker.resolve())
     if not args.researcher_approved:
         raise SystemExit("refusing collector execution without explicit --researcher-approved")
-    if sha256_file(PLAN) != PLAN_SHA256:
-        raise SystemExit("frozen full-observation plan hash mismatch")
-    if json.loads(PLAN.read_text(encoding="utf-8")).get("status") != APPROVED_PLAN_STATUS:
-        raise SystemExit("full-valid collection plan is still review-only; no runtime directory created")
+    try:
+        plan = json.loads(PLAN.read_text(encoding="utf-8"))
+        validate_approved_plan(plan, sha256_file(PLAN))
+    except (OSError, json.JSONDecodeError, RuntimeError) as exc:
+        raise SystemExit(f"refusing full-valid collection before runtime allocation: {exc}") from exc
     runs = runtime_runs("ess-research", 64)
     runs.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(runs).free < HARD_DISK_BYTES:
         raise SystemExit("insufficient free space for the proposed 4-GiB cap")
     root = Path(tempfile.mkdtemp(prefix=RUN_PREFIX, dir=runs))
     (root / "observations").mkdir()
-    manifest = _initial_manifest(root, json.loads(PLAN.read_text()))
+    manifest = _initial_manifest(root, plan)
     atomic_json(root / MANIFEST, manifest)
     print(f"FULL_VALID_COLLECTOR_RUN_ROOT={root}", flush=True)
     rc = pilot._supervise(

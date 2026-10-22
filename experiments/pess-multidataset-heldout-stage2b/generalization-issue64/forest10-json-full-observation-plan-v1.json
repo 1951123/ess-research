@@ -1,6 +1,6 @@
 {
   "format": "ess-issue64-forest10-json-full-observation-plan-v1",
-  "status": "CODE_ONLY_RESEARCHER_REVIEW_REQUIRED_BEFORE_EXECUTION",
+  "status": "RESEARCHER_APPROVED_EXECUTION_2026-10-22",
   "scope": "full official Forest10 valid query JSON observation acquisition only",
   "source_pins": {
     "postgresql_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
@@ -33,6 +33,7 @@
   "positive_preclamp_policy": "Require complete JSON diagnostics and finite positive nrows_preclamp. Reject zero/negative/nonfinite/missing/incomplete/incorrectly-associated observations; no clamp, epsilon, substitution or omission. NO_MCV_EVENTS is a valid observation state.",
   "failure_policy": "Write explicit error/configuration failure and preserve the completed prefix; mark run INCOMPLETE; stop without retry or resume; unattempted suffix remains explicit; incomplete cohorts cannot be passed to model fitting or selection.",
   "retention": {
+    "status": "RESEARCHER_APPROVED_2026-10-22",
     "format": "gzip JSONL parts",
     "max_records_per_part": 2048,
     "max_uncompressed_bytes_per_part": 8388608,
@@ -43,8 +44,8 @@
     "atomic_progress_manifest": true,
     "one_authoritative_copy": true
   },
-  "proposed_limits": {
-    "status": "PROPOSED_ONLY_NOT_APPROVED",
+  "approved_limits": {
+    "status": "RESEARCHER_APPROVED_2026-10-22",
     "wall_seconds_hard": 28800,
     "wall_seconds_early_stop": 27000,
     "disk_bytes_hard": 4294967296,

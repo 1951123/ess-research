@@ -122,26 +122,37 @@ class Forest10TraceProbeTests(unittest.TestCase):
                 part.open("xb")
             self.assertEqual(len(gzip.open(part, "rt").read().splitlines()), 17)
 
-    def test_full_collector_refuses_to_run_until_plan_has_researcher_approval(self):
+    def test_researcher_approved_plan_and_budget_are_consistent_and_pinned(self):
+        plan = json.loads(full_collector.PLAN.read_text())
+        digest = full_collector.sha256_file(full_collector.PLAN)
+        full_collector.validate_approved_plan(plan, digest)
+        for key, value, message in (
+            ("status", "CODE_ONLY_REVIEW", "plan is not researcher-approved"),
+            ("approved_limits", {"status": "PROPOSED_ONLY_NOT_APPROVED"}, "limits do not match"),
+            ("retention", {"status": "NOT_APPROVED"}, "retention does not match"),
+        ):
+            changed = dict(plan)
+            changed[key] = value
+            with self.subTest(key=key), self.assertRaisesRegex(RuntimeError, message):
+                full_collector.validate_approved_plan(changed, digest)
+        with self.assertRaisesRegex(RuntimeError, "plan hash mismatch"):
+            full_collector.validate_approved_plan(plan, "0" * 64)
+
+    def test_worker_refuses_plan_hash_mismatch_before_runtime_or_build(self):
         with tempfile.TemporaryDirectory() as temporary, unittest.mock.patch.object(
-            full_collector, "runtime_runs", side_effect=lambda *args: Path(temporary)
-        ), unittest.mock.patch.object(pilot, "_validate_socket_path"), unittest.mock.patch.object(
-            full_collector, "configured_root", return_value=Path(temporary)
-        ), unittest.mock.patch.object(
-            pilot, "_load_pinned_pr58_modules", side_effect=RuntimeError("synthetic helper failure")
+            full_collector, "PLAN", Path(temporary) / "missing-plan.json"
         ), unittest.mock.patch.object(pilot, "_prepare_owned_postgresql") as build:
             root = Path(temporary) / "run"
             root.mkdir()
-            (root / "observations").mkdir()
-            with self.assertRaisesRegex(RuntimeError, "researcher execution approval"):
+            with self.assertRaisesRegex(FileNotFoundError, "missing-plan"):
                 full_collector._worker(root)
             self.assertFalse((root / full_collector.MANIFEST).exists())
             build.assert_not_called()
 
-    def test_cli_does_not_create_run_directory_for_review_only_plan(self):
-        with unittest.mock.patch.object(sys, "argv", ["collector", "--researcher-approved"]), \
+    def test_cli_requires_explicit_run_command_before_creating_directory(self):
+        with unittest.mock.patch.object(sys, "argv", ["collector"]), \
              unittest.mock.patch.object(full_collector, "runtime_runs") as runtime:
-            with self.assertRaisesRegex(SystemExit, "still review-only"):
+            with self.assertRaisesRegex(SystemExit, "explicit --researcher-approved"):
                 full_collector.main()
             runtime.assert_not_called()
 
