@@ -340,13 +340,19 @@ def prepare_valid_workload(
     scratch_parent = runs
     if run_root is not None:
         if run_root.is_symlink() or not run_root.is_dir():
-            raise ConfigurationError("run_root must be an existing, non-symlink run directory")
+            raise ConfigurationError(
+                "run_root must be an existing, non-symlink run directory"
+            )
         owned_root = run_root.resolve(strict=True)
         if owned_root.parent != runs.resolve(strict=True):
-            raise ConfigurationError("run_root must be one direct child of this Issue's runtime runs directory")
+            raise ConfigurationError(
+                "run_root must be one direct child of this Issue's runtime runs directory"
+            )
         scratch_parent = owned_root
 
-    with tempfile.TemporaryDirectory(prefix="arecel-valid-workload-", dir=scratch_parent) as name:
+    with tempfile.TemporaryDirectory(
+        prefix="arecel-valid-workload-", dir=scratch_parent
+    ) as name:
         run = Path(name)
         workload_path = run / "valid" / "workload.json"
         workload_path.parent.mkdir()
