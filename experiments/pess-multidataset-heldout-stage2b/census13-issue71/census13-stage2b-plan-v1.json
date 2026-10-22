@@ -697,7 +697,7 @@
     "source_row_count": 48842,
     "source_schema_sha256": "67990e92723eac01a9fc4811e7b95b96f6132d3fc35c87a13b375088d85f403c"
   },
-  "execution_code_commit": "0cd439bb47e2a90926c557c83781601405595160",
+  "execution_code_commit": "60ca1b366de6ca8ef996d05c86334b64fd48074d",
   "format": "ess-issue71-census13-stage2b-plan-v1",
   "nominal_priority_orders": {
     "algorithm": "Python random.Random(seed).shuffle over schema-order candidate IDs; CPython version recorded above",
@@ -1612,8 +1612,8 @@
     "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
     "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
     "candidate_discovery_code_sha256": "69bff45062c8fcbe092240d796e9ea910cb54ef9c79d162112ea22215a7890ca",
-    "etl_code_commit": "0cd439bb47e2a90926c557c83781601405595160",
-    "etl_worktree_dirty": true,
+    "etl_code_commit": "60ca1b366de6ca8ef996d05c86334b64fd48074d",
+    "etl_worktree_dirty": false,
     "labels_loaded": false,
     "plan_generator_sha256": "77c0cf31fdf6b990e601dd84edd4841b355660a8583169e8563dfddcb05ab1b9",
     "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
