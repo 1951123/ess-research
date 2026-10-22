@@ -22,7 +22,7 @@ This addendum documents the correct status for merge review. It does **not** aut
 
 ## Pointers
 
-- Historical original: [formal v4 report](../formal-20261020-v4/report.md).
-- Validation-only root-cause analysis: [empty-selection diagnostic](../empty-selection-diagnostic-20261020-v1/empty-selection-diagnostic.md).
-- Corrected exploratory diagnostic: [post-log-fix diagnostic JSON](../empty-selection-log-fix-20261020-v1/diagnostic.json).
+- Historical original: [formal v4 report](formal-20261020-v4/report.md).
+- Validation-only root-cause analysis: [empty-selection diagnostic](empty-selection-diagnostic-20261020-v1/empty-selection-diagnostic.md).
+- Corrected exploratory diagnostic: [post-log-fix diagnostic JSON](empty-selection-log-fix-20261020-v1/diagnostic.json).
 - PR #58 scientific review chronology: https://github.com/1951123/ess-research/pull/58.
