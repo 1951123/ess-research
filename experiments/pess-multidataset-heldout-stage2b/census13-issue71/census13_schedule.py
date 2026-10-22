@@ -81,9 +81,35 @@ def compare_smoke_observations(
     if set(left) != expected or set(right) != expected:
         raise ValueError("serial and parallel observations must exactly cover the frozen schedule")
 
-    compared_fields = (
-        "diagnostics_status", "mcv_diagnostics_status", "mcv_candidate_ids", "clause_indexes"
-    )
+    numeric_fields = ("simple_sel", "mcv_sel", "mcv_basesel", "mcv_totalsel", "stat_sel")
+
+    def normalized_events(row: Mapping[str, Any], key: tuple[str, str]):
+        events = row.get("mcv_events")
+        if not isinstance(events, list):
+            raise ValueError(f"MCV event list is missing: {key}")
+        normalized = []
+        for event in events:
+            if not isinstance(event, Mapping) or not event.get("statistic_id"):
+                raise ValueError(f"MCV event is not mapped to a configured candidate: {key}")
+            clauses = event.get("clause_indexes")
+            if not isinstance(clauses, list) or len(clauses) != len(set(clauses)):
+                raise ValueError(f"MCV event has invalid clause indexes: {key}")
+            numeric = []
+            for field in numeric_fields:
+                try:
+                    value = Decimal(str(event[field]))
+                except (KeyError, InvalidOperation, ValueError) as exc:
+                    raise ValueError(f"MCV event lacks numeric field {field}: {key}") from exc
+                if not value.is_finite():
+                    raise ValueError(f"MCV event has non-finite {field}: {key}")
+                numeric.append(value)
+            for oid_field in ("relation_oid", "stat_oid"):
+                oid = event.get(oid_field)
+                if isinstance(oid, bool) or not isinstance(oid, int) or oid <= 0:
+                    raise ValueError(f"MCV event lacks a valid per-cluster {oid_field}: {key}")
+            normalized.append((event["statistic_id"], tuple(clauses), event.get("clause_count"), tuple(numeric)))
+        return tuple(normalized)
+
     for key in sorted(expected):
         a, b = left[key], right[key]
         if a.get("status") != "SUCCESS" or b.get("status") != "SUCCESS":
@@ -95,12 +121,18 @@ def compare_smoke_observations(
             raise ValueError(f"smoke observation lacks a decimal pre-clamp estimate: {key}") from exc
         if not estimate_a.is_finite() or estimate_a <= 0 or estimate_a != estimate_b:
             raise ValueError(f"serial/parallel pre-clamp values differ or are invalid: {key}")
-        if any(a.get(field) != b.get(field) for field in compared_fields):
+        if (a.get("diagnostics_status") != b.get("diagnostics_status")
+                or a.get("mcv_diagnostics_status") != b.get("mcv_diagnostics_status")
+                or a.get("mcv_candidate_ids") != b.get("mcv_candidate_ids")
+                or a.get("clause_indexes") != b.get("clause_indexes")):
             raise ValueError(f"serial/parallel diagnostic semantics differ: {key}")
+        if normalized_events(a, key) != normalized_events(b, key):
+            raise ValueError(f"serial/parallel normalized MCV values differ: {key}")
         for row in (a, b):
             if isinstance(row.get("relation_oid"), bool) or not isinstance(row.get("relation_oid"), int) or row["relation_oid"] <= 0:
                 raise ValueError(f"observation lacks a valid per-cluster relation OID: {key}")
             if row.get("mcv_diagnostics_status") == "NO_MCV_EVENTS" and row.get("mcv_candidate_ids"):
                 raise ValueError(f"NO_MCV_EVENTS row contains an MCV selection: {key}")
     return {"status": "PASS", "compared_pairs": len(expected), "preclamp_equal": True,
-            "diagnostic_semantics_equal": True, "oid_policy": "each cluster OID retained and validated independently"}
+            "diagnostic_semantics_equal": True, "normalized_mcv_values_equal": True,
+            "oid_policy": "each cluster OID retained and validated independently; numeric OID equality is not required"}
