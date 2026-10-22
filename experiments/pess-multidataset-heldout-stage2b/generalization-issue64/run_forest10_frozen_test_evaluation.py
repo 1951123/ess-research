@@ -166,7 +166,7 @@ def _worker(run_root: Path) -> int:
         summary["test_input"] = source
 
         t = time.monotonic()
-        helper, run_formal, helper_pin = pilot._load_pinned_pr58_modules(run_root)
+        gate_audit, run_formal, helper_pin = pilot._load_pinned_pr58_modules(run_root)
         summary["phase_seconds"]["pinned_pr58_helper_acquisition"] = round(time.monotonic() - t, 3)
         summary["pr58_helper"] = helper_pin
 
@@ -187,8 +187,8 @@ def _worker(run_root: Path) -> int:
         )
         summary["postgresql"] = build
         summary["phase_seconds"]["postgresql_build_install"] = round(time.monotonic() - t, 3)
-        restore = pilot._install_pinned_pg_diagnostics(helper, phase_sink=lambda _: None, failure_sink=failures)
-        cluster_context = helper.owned_cluster(prefix, run_root / "cluster", os.environ.copy())
+        restore = pilot._install_pinned_pg_diagnostics(gate_audit, phase_sink=lambda _: None, failure_sink=failures)
+        cluster_context = gate_audit.owned_cluster(prefix, run_root / "cluster", os.environ.copy())
         t = time.monotonic()
         cluster = cluster_context.__enter__()
         cluster_entered = True
@@ -200,7 +200,7 @@ def _worker(run_root: Path) -> int:
             {"catalog_columns": [name for name, _ in columns], "source_rows": EXPECTED_ROWS}, csv_path,
         )
         sample_identity = {key: identity[key] for key in ("table", "header", "sha256")}
-        runner.validate_fresh_sample_identity(sample, sample_identity, helper)
+        runner.validate_fresh_sample_identity(sample, sample_identity, run_formal)
         summary["sample"] = {
             "table": identity["table"], "header": identity["header"],
             "bytes": identity["bytes"], "sha256": identity["sha256"],
@@ -209,7 +209,7 @@ def _worker(run_root: Path) -> int:
 
         candidate_ids = frozen["inputs"]["candidate_order"]
         candidates = runner.pr58_candidate_specs(_candidate_edges(candidate_ids))
-        backend = runner.PR58Forest10Backend(helper, prefix, cluster, candidates, sample, sample_identity)
+        backend = runner.PR58Forest10Backend(run_formal, prefix, cluster, candidates, sample, sample_identity)
         t = time.monotonic()
         result = runner.evaluate_frozen_selections(
             queries, truths, selected, backend, expected_query_count=10_000,
