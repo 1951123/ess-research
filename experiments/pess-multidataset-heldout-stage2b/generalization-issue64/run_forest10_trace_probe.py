@@ -27,6 +27,7 @@ from ess_research.arecel.archive import _schema, prepare_valid_workload
 from ess_research.arecel.candidates import discover_candidates
 from ess_research.arecel.forest10 import EXPECTED_ROWS, SOURCE_COLUMNS
 from ess_research.task_paths import configured_root, runtime_runs
+from forest10_runner import PR58Forest10Backend, pr58_candidate_specs, validate_fresh_sample_identity
 
 QUERY_COUNT = 20
 MAX_JSON_CALLS = QUERY_COUNT * 46
@@ -37,6 +38,7 @@ HARD_DISK_BYTES = pilot.HARD_DISK_BYTES
 RUNTIME_PREFIX = "f10json-"
 SUMMARY_NAME = "json-calibration-smoke-worker-summary.json"
 OBSERVATIONS_NAME = "json-calibration-smoke-observations.jsonl"
+FROZEN_PLAN = HERE / "forest10-json-smoke-plan-v1.json"
 
 
 def _sha256(path: Path) -> str:
@@ -85,6 +87,50 @@ def _bounded_call_count(eligibility: dict[int, tuple[str, ...]]) -> int:
     return count
 
 
+def _call_plan(workload: dict[str, Any], discovery: dict[str, Any], archive_sha256: str) -> dict[str, Any]:
+    """Freeze only identities/eligibility, using the existing static screen."""
+    queries = workload.get("queries")
+    candidates, support_sum = _candidate_rows(discovery)
+    if workload.get("dataset") != "forest10" or workload.get("split") != "valid" or len(queries or []) != 10_000:
+        raise RuntimeError("official Forest10 valid workload count/split mismatch")
+    if discovery.get("candidate_count") != 45 or support_sum != 164_088:
+        raise RuntimeError("Forest10 candidate count/support differs from merged PR #68")
+    sampled = sorted(queries, key=lambda query: int(query["source_index"]))[:QUERY_COUNT]
+    if [query.get("source_index") for query in sampled] != list(_selected_source_indices(len(queries))):
+        raise RuntimeError("first 20 valid queries are not the frozen ascending source_index cohort")
+    candidate_ids = [edge for edge, _ in candidates]
+    rows = []
+    eligibility = {}
+    for query in sampled:
+        eligible_pairs, _ = _candidate_rows(discover_candidates([query], SOURCE_COLUMNS))
+        eligible = tuple(edge for edge, _ in eligible_pairs)
+        if set(eligible) - set(candidate_ids):
+            raise RuntimeError("sample query has eligibility outside frozen candidate universe")
+        index = int(query["source_index"])
+        if query["query_id"] != f"arecel:forest10:valid:{index:06d}":
+            raise RuntimeError("fixed query ID does not match its official valid source index")
+        eligibility[index] = eligible
+        rows.append({
+            "query_id": query["query_id"], "source_index": index,
+            "sql_sha256": hashlib.sha256(query["sql"].encode("utf-8")).hexdigest(),
+            "eligible_candidate_ids": list(eligible),
+        })
+    active = {edge for edges in eligibility.values() for edge in edges}
+    return {
+        "format": "ess-issue64-forest10-json-smoke-call-plan-v1",
+        "config": "forest10-json-only-v2.json",
+        "config_sha256": _sha256(HERE / "forest10-json-only-v2.json"),
+        "arecel_archive_sha256": archive_sha256,
+        "full_valid_query_count": len(queries),
+        "full_valid_candidate_support_sum": support_sum,
+        "candidate_ids": candidate_ids,
+        "queries": rows,
+        "configuration_order": ["Empty"] + [edge for edge in candidate_ids if edge in active],
+        "expected_structured_explain_calls": _bounded_call_count(eligibility),
+        "expected_configuration_count": 1 + len(active),
+    }
+
+
 def _safe_probe_error(exc: BaseException, phase: str) -> dict[str, Any]:
     if isinstance(exc, pilot.PilotPostgreSQLFailure):
         return exc.record()
@@ -116,16 +162,24 @@ def _worker(root: Path) -> int:
     sample: Path | None = None
     csv_path: Path | None = None
     schema_path: Path | None = None
+    json_calls = 0
+    successful_calls = 0
+    config_count = 0
+    json_seconds = 0.0
     try:
         if root.parent.resolve() != runtime_runs("ess-research", 64).resolve() or root.is_symlink():
             raise RuntimeError("runtime root is not an isolated Issue #64 child")
         data_root = configured_root("ESS_DATA_ROOT")
-        helpers, run_formal, pr58_pin = pilot._load_pinned_pr58_modules(root)
+        pilot._validate_socket_path(root)
+        helpers, run_formal, pr58_pin = _timed_call(
+            phases, "pr58_helper_fetch_hash_import", lambda: pilot._load_pinned_pr58_modules(root)
+        )
         summary["pins"] = {
             "postgresql_commit": pilot.ESS_POSTGRESQL_COMMIT,
             **pr58_pin,
             "probe_sha256": _sha256(Path(__file__).resolve()),
-            "issue64_protocol_sha256": _sha256(HERE / "protocol-v1.json"),
+            "issue64_protocol": "forest10-json-only-v2.json",
+            "issue64_protocol_sha256": _sha256(HERE / "forest10-json-only-v2.json"),
         }
 
         current_phase = "valid_workload_and_candidate_preflight"
@@ -141,32 +195,16 @@ def _worker(root: Path) -> int:
         )
         queries = workload.get("queries")
         candidates, support_sum = _candidate_rows(discovery)
-        if workload.get("split") != "valid" or len(queries or []) != 10_000:
-            raise RuntimeError("official Forest10 valid workload count/split mismatch")
         if workload_manifest.get("labels_loaded") is not False:
             raise RuntimeError("workload-only preparation did not attest labels_loaded=false")
-        if discovery.get("candidate_count") != 45 or support_sum != 164_088:
-            raise RuntimeError("Forest10 candidate count/support differs from merged PR #68")
-        selected_indices = _selected_source_indices(len(queries))
+        plan = _call_plan(workload, discovery, workload_manifest["archive_sha256"])
+        if json.loads(FROZEN_PLAN.read_text(encoding="utf-8")) != plan:
+            raise RuntimeError("workload/eligibility differs from the committed pre-execution call plan")
+        summary["pins"]["frozen_call_plan_sha256"] = _sha256(FROZEN_PLAN)
         ordered_queries = sorted(queries, key=lambda query: int(query["source_index"]))
         sampled = ordered_queries[:QUERY_COUNT]
-        if [query.get("source_index") for query in sampled] != list(selected_indices):
-            raise RuntimeError("first 20 valid queries are not the frozen ascending source_index cohort")
-        candidate_ids = {edge for edge, _ in candidates}
-        sampled_eligible: dict[int, tuple[str, ...]] = {}
-        for index, query in zip(selected_indices, sampled, strict=True):
-            one = discover_candidates([query], SOURCE_COLUMNS)
-            eligible = tuple(
-                f"e{min(SOURCE_COLUMNS.index(row['column_a']), SOURCE_COLUMNS.index(row['column_b'])):02d}_"
-                f"{max(SOURCE_COLUMNS.index(row['column_a']), SOURCE_COLUMNS.index(row['column_b'])):02d}"
-                for row in one["candidates"]
-            )
-            if set(eligible) - candidate_ids:
-                raise RuntimeError("sample query has eligibility outside frozen candidate universe")
-            sampled_eligible[index] = eligible
-        expected_calls = _bounded_call_count(sampled_eligible)
-        if not 0 < expected_calls <= MAX_JSON_CALLS:
-            raise RuntimeError("fixed valid JSON sample violates its predeclared call cap")
+        sampled_eligible = {row["source_index"]: tuple(row["eligible_candidate_ids"]) for row in plan["queries"]}
+        expected_calls = plan["expected_structured_explain_calls"]
         summary["workload_preflight"] = {
             "dataset": "forest10",
             "split": "valid",
@@ -176,7 +214,8 @@ def _worker(root: Path) -> int:
             "candidate_count": discovery["candidate_count"],
             "candidate_support_sum": support_sum,
             "sample_schedule": {"rule": "ascending source_index, take first 20", "count": QUERY_COUNT},
-            "sampled_query_ids_or_sql_retained": False,
+            "sampled_query_ids_retained": True,
+            "sql_retained": False,
             "static_candidate_pair_call_count_for_sample": sum(map(len, sampled_eligible.values())),
             "structured_json_call_count_expected": expected_calls,
             "configuration_count_expected": 1 + len({edge for edges in sampled_eligible.values() for edge in edges}),
@@ -218,7 +257,7 @@ def _worker(root: Path) -> int:
         )
         current_phase = "isolated_cluster_bootstrap_sample_export_analyze"
         cluster_context = helpers.owned_cluster(prefix, root / "cluster", os.environ.copy())
-        cluster = cluster_context.__enter__()
+        cluster = _timed_call(phases, "cluster_init_start_identity", cluster_context.__enter__)
         cluster_entered = True
         spec = {"catalog_columns": [name for name, _ in columns], "source_rows": EXPECTED_ROWS}
         sample, identity = _timed_call(
@@ -230,17 +269,14 @@ def _worker(root: Path) -> int:
         if sample_identity["table"] != "public.forest10":
             raise RuntimeError("fixed sample was not exported from public.forest10")
         validate_fresh_sample_identity(sample, sample_identity, helpers)
-        from forest10_runner import PR58Forest10Backend, pr58_candidate_specs, validate_fresh_sample_identity
+        summary["sample"] = {**sample_identity, "bytes": identity["bytes"]}
 
         stats = pr58_candidate_specs(candidates)
         backend = PR58Forest10Backend(run_formal, prefix, cluster, stats, sample, sample_identity)
         active_edges = tuple(edge for edge, _ in candidates if any(edge in es for es in sampled_eligible.values()))
         config_seconds = 0.0
-        config_count = 0
-        json_seconds = 0.0
-        json_calls = 0
         observation_path = root / "results" / OBSERVATIONS_NAME
-        observation_path.parent.mkdir()
+        observation_path.parent.mkdir(exist_ok=True)
 
         def configure(selected: tuple[str, ...]):
             nonlocal config_seconds, config_count
@@ -254,12 +290,16 @@ def _worker(root: Path) -> int:
         current_phase = "structured_json_calibration_observations"
         with observation_path.open("x", encoding="utf-8") as observations:
             def observe(query: dict[str, Any], config_id: str, ledger: Any, eligible: bool | None) -> None:
-                nonlocal json_seconds, json_calls
+                nonlocal json_seconds, json_calls, successful_calls
                 before = time.monotonic()
                 row: dict[str, Any] = {
                     "query_id": query["query_id"],
                     "config_id": config_id,
                     "static_eligible": eligible,
+                    "diagnostics_status": None,
+                    "nrows_preclamp": None,
+                    "mcv_diagnostics_status": None,
+                    "mcv_events": [],
                 }
                 try:
                     estimate = backend.preclamp_estimate(query, ledger, "")
@@ -271,11 +311,7 @@ def _worker(root: Path) -> int:
                         "nrows_preclamp": str(estimate),
                         "mcv_diagnostics_status": result["mcv_diagnostics_status"],
                         "relation_oid": result["relation_oid"],
-                        "mcv_events": [
-                            {"stat_oid": event["stat_oid"], "statistic_id": event["statistic_id"],
-                             "clause_indexes": event["clause_indexes"]}
-                            for event in result["mcv_records"]
-                        ],
+                        "mcv_events": result["mcv_records"],
                         "status": "SUCCESS",
                     })
                 except BaseException as exc:
@@ -288,6 +324,7 @@ def _worker(root: Path) -> int:
                     json_calls += 1
                 observations.write(json.dumps(row, sort_keys=True) + "\n")
                 observations.flush()
+                successful_calls += 1
 
             current_ledger = _timed_call(phases, "empty_configuration_analyze_replay", lambda: configure(()))
             for query in sampled:
@@ -328,10 +365,17 @@ def _worker(root: Path) -> int:
         summary["status"] = "FAILED"
         summary["error"] = _safe_probe_error(exc, current_phase)
     finally:
+        summary.setdefault("calibration_observations", {}).update({
+            "attempted_calls": json_calls,
+            "completed_calls": successful_calls,
+            "failed_calls": json_calls - successful_calls,
+            "configuration_count": config_count,
+            "aggregate_structured_explain_seconds": round(json_seconds, 6),
+        })
         current_phase = "postgresql_shutdown"
         if cluster_context is not None and cluster_entered:
             try:
-                cluster_context.__exit__(None, None, None)
+                _timed_call(phases, "cluster_shutdown", lambda: cluster_context.__exit__(None, None, None))
                 summary["postgresql_shutdown"] = "PASS"
             except BaseException as exc:
                 summary["status"] = "FAILED"
@@ -370,6 +414,7 @@ def main() -> int:
     import tempfile
 
     root = Path(tempfile.mkdtemp(prefix=RUNTIME_PREFIX, dir=runs))
+    print(f"JSON_SMOKE_RUNTIME_ROOT={root}", flush=True)
     worker_command = [sys.executable, str(Path(__file__).resolve()), "--worker", str(root)]
     return pilot._supervise(
         root,
