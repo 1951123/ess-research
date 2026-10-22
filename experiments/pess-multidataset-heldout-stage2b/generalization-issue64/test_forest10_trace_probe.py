@@ -19,7 +19,9 @@ from test_pr7_structured_explain import explain_payload
 
 
 class Forest10TraceProbeTests(unittest.TestCase):
-    def run_synthetic_worker(self, *, invalid_json=False, changed_plan=False):
+    def run_synthetic_worker(self, *, invalid_json=False, changed_plan=False,
+                             fail_after=0, bad_estimate=None, interrupt=False,
+                             singleton_config_failure=False):
         """Exercise the real orchestration/adapter; only external I/O is fake."""
         with tempfile.TemporaryDirectory() as temporary, ExitStack() as stack:
             root = Path(temporary) / "run"
@@ -73,12 +75,29 @@ class Forest10TraceProbeTests(unittest.TestCase):
 
             def configure(prefix, cluster, dataset, candidates, selected, sample):
                 configurations.append(selected)
+                if selected and singleton_config_failure:
+                    raise RuntimeError("synthetic singleton replay failure")
                 return [{"oid": 42002, "statistic_name": candidates[e]["statistic_name"]} for e in selected]
+
+            calls = 0
+
+            def explain(*args, **kwargs):
+                nonlocal calls
+                index = calls
+                calls += 1
+                if index == fail_after:
+                    if interrupt:
+                        raise KeyboardInterrupt("synthetic graceful interruption")
+                    if invalid_json:
+                        return "SET\n[]"
+                    if bad_estimate is not None:
+                        return explain_payload(include_estimate=False, estimate=bad_estimate)
+                return explain_payload(include_estimate=False)
 
             fake = SimpleNamespace(owned_cluster=owned_cluster, bootstrap_cluster=bootstrap,
                                    sample_header=lambda p: dict(header), sha256_file=probe._sha256,
                                    configure_statistics=configure, os=os,
-                                   psql=lambda *args, **kwargs: "SET\n[]" if invalid_json else explain_payload(include_estimate=False))
+                                   psql=explain)
             for name, value in {"FROZEN_PLAN": plan_path, "runtime_runs": lambda *a: root.parent,
                                 "configured_root": lambda *a: root.parent,
                                 "prepare_valid_workload": prepare}.items():
@@ -126,6 +145,49 @@ class Forest10TraceProbeTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertEqual(summary["error"]["phase"], "valid_workload_and_candidate_preflight")
         self.assertEqual((rows, configurations, closed), ([], [], []))
+
+    def test_failure_after_empty_preserves_prefix_and_stops_singleton(self):
+        code, summary, rows, configurations, closed = self.run_synthetic_worker(
+            invalid_json=True, fail_after=20)
+        self.assertEqual(code, 2)
+        self.assertEqual(configurations, [(), ("e00_01",)])
+        self.assertEqual(closed, [True])
+        self.assertEqual(len(rows), 21)
+        self.assertTrue(all(row["status"] == "SUCCESS" and row["config_id"] == "Empty" for row in rows[:20]))
+        self.assertEqual((rows[-1]["config_id"], rows[-1]["status"]), ("e00_01", "ERROR"))
+        counts = summary["calibration_observations"]
+        self.assertEqual((counts["completed_calls"], counts["failed_calls"]), (20, 1))
+
+    def test_invalid_preclamp_never_clamps_or_continues(self):
+        for value in (0, -1, "NaN", "Infinity", "-Infinity"):
+            with self.subTest(estimate=value):
+                code, summary, rows, _, closed = self.run_synthetic_worker(bad_estimate=value, fail_after=2)
+                self.assertEqual(code, 2)
+                self.assertEqual(len(rows), 3)
+                self.assertEqual(rows[-1]["status"], "ERROR")
+                self.assertIsNone(rows[-1]["nrows_preclamp"])
+                self.assertEqual(summary["calibration_observations"]["completed_calls"], 2)
+                self.assertEqual(closed, [True])
+
+    def test_graceful_interrupt_retains_prefix_and_closes_cluster(self):
+        code, summary, rows, _, closed = self.run_synthetic_worker(interrupt=True, fail_after=3)
+        self.assertEqual(code, 2)
+        self.assertEqual(len(rows), 4)
+        self.assertEqual(rows[-1]["error_class"], "KeyboardInterrupt")
+        self.assertEqual(summary["calibration_observations"]["completed_calls"], 3)
+        self.assertEqual(summary["postgresql_shutdown"], "PASS")
+        self.assertEqual(closed, [True])
+
+    def test_configuration_failure_is_not_a_fabricated_query_failure(self):
+        code, summary, rows, configurations, closed = self.run_synthetic_worker(singleton_config_failure=True)
+        self.assertEqual(code, 2)
+        self.assertEqual(configurations, [(), ("e00_01",)])
+        self.assertEqual(len(rows), 20)
+        self.assertTrue(all(row["status"] == "SUCCESS" for row in rows))
+        counts = summary["calibration_observations"]
+        self.assertEqual((counts["attempted_calls"], counts["completed_calls"], counts["failed_calls"]), (20, 20, 0))
+        self.assertEqual(summary["status"], "FAILED")
+        self.assertEqual(closed, [True])
 
     def test_executable_runners_do_not_reference_issue38_runtime_artifacts(self):
         for name in ("run_forest10_setup_pilot.py", "run_forest10_trace_probe.py"):
