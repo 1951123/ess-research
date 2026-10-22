@@ -29,6 +29,19 @@ We prescribe an admissibility rule for **complete estimation schemes**, potentia
 
 Provisional positioning: an *optimization-oriented database research paper*, not solely a PG-specific advisor and not an unrestricted generic robust-optimization paper.
 
+### Research architecture agreed 2026-10-22
+
+The enduring project has **two independently publishable research tracks**, without requiring every optimization formulation to have a novel solver or every solver to introduce a new objective:
+
+- **Optimization Modeling:** specify information and uncertainty assumptions, feasible decisions, objectives (currently Nominal, task-wise PESS, and Joint-Robust), and compare decisions under common held-out evaluation conditions.
+- **Optimization Algorithms:** for a fixed, explicitly defined problem, study exact references, scalable exact optimization, and bounded/approximate solvers with their correctness, runtime, and solution-quality evidence.
+
+PostgreSQL is the **primary empirical instantiation**, supplying versioned cardinality-estimation behavior, statistics-maintenance measurements and workload evidence. It does not define the general estimator-agnostic model. In a controlled comparison, pin PG source, data, calibration, evaluation and cost assumptions; any changed calibration/loss convention is a separately identified model version.
+
+**Separate model from solver from evaluator.** Adopt minimal shared semantics for a *Problem Instance* (objective, resources, constraints, assumptions and input provenance), *Solver Result* (selected resource set, feasibility, objective, status, trustworthy bounds/certificates and resources consumed), and *Evaluation Result* (independent held-out measurements). These are conceptual contracts, **not authorization to implement a new framework**. A solver may support only a restricted problem class and must state it. Keep independently proven optima separate from solver-reported floating-point optimality and from feasible solutions lacking a global certificate. The latter can support clearly labeled auxiliary comparisons, not unqualified claims about differences between true model optima.
+
+Earlier first-paper positioning above is a historical target, not a requirement that one paper combine both tracks. See [D-008](DECISIONS.md) and the phase plan in [STATUS.md](STATUS.md).
+
 ## 3. Generic mathematical model
 
 - Tasks: finite set \(\mathcal I\), task weights \(w_i>0\), true cardinalities \(N_i\ge0\), reference \(T_i=\max\{1,N_i\}\).

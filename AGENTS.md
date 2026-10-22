@@ -1,6 +1,6 @@
 # Agent instructions — ESS Research
 
-This file applies to **this repository** (`1951123/ess-research`) and is intended for Codex in VS Code and other coding/research agents. It is not an authorization to alter the other repositories.
+This file applies to **this repository** (`1951123/ess-research`) and covers VS Code/Codex local Worktree work and expressly authorized ChatGPT GitHub API work. It is not an authorization to alter the other repositories.
 
 ## 1. Mandatory context before changing research artifacts
 
@@ -80,7 +80,11 @@ These are **default scope and cost constraints, not permission to compromise cor
 
 ### Mandatory source-commit and PR-head integrity (Codex)
 
-**One Issue, one authoritative Git commit history.** For source, documentation, scripts and experiment evidence, the assigned local Worktree is the **sole writer**: edit files locally, `git commit` locally, and `git push` from that Worktree. **Do not use GitHub API/MCP contents or Git-data endpoints to create/update/delete repository files, source commits, or task branches.** GitHub API/MCP may read repository state and manage Issue/PR metadata and review comments. Exceptions require explicit, task-specific researcher authorization and a synchronization plan; API permission alone is not permission to bypass this rule.
+**One task, one authoritative branch history; choose a single writer per task.** **VS Code/local Codex** continues to edit, commit and push from its assigned local Git Worktree; it must not bypass that path with GitHub API source writes. **Chat-mode ChatGPT**, when the researcher explicitly authorizes it for a scoped task, **may create a separate task branch, write files/commits via GitHub API/MCP, and open a Draft PR directly**. This does not grant standing permission to overwrite Codex-owned branches, local changes, frozen evidence, or other repositories. Never mix API and Worktree writes on the same branch without a fresh explicit handoff, synchronization and head-SHA check. The researcher controls merges. A newly created API branch is not automatically present in a local clone; local Codex must fetch before inspecting or continuing it.
+
+**API-authorized ChatGPT procedure:** read the live base commit and relevant documents; use a fresh uniquely named branch and non-force commits; keep changes small and scoped; verify the live branch HEAD equals the created commit and the Draft PR head SHA; report exactly what was changed and checked. If the base advanced, describe the divergence and request review instead of rewriting history or forcing a branch update. API work cannot attest to local Worktree cleanliness or locally executed tests and must say so explicitly.
+
+**Local Codex-only integrity checks (below):**
 
 - Before work: verify `pwd`, `git rev-parse --show-toplevel`, `git branch --show-current`, `git status --short`, `git worktree list`, and the target Issue/PR. Never use `origin/main` as an Issue branch's upstream.
 - Before a PR update: ensure intended files are committed and the Worktree is clean; push the **exact current HEAD** with an explicit refspec, `git push -u origin HEAD:refs/heads/<issue-branch>` (replace the placeholder). Verify the **live server** branch SHA using `git ls-remote --heads origin refs/heads/<issue-branch>`; it must equal `git rev-parse HEAD`. A stale `origin/<issue-branch>` alone is insufficient.

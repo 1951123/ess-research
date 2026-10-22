@@ -96,3 +96,20 @@ These inequalities express the inclusion of modeled uncertainties; they do **not
 **Context:** [Issue #14](https://github.com/1951123/ess-research/issues/14) (decision value / price of pessimism) and [completed Issue #23](https://github.com/1951123/ess-research/issues/23) (real Forest10 measured-input model comparison). Neither supplies a policy-agnostic empirical dominance claim.
 
 **Revisit if:** New source/runtime evidence establishes stronger shared-policy constraints, disproves the chosen admissibility coverage, or motivates a different justified uncertainty or stochastic model.
+
+
+## D-008 — Independent modeling and algorithm tracks; scoped solver and PG evidence (2026-10-22; accepted, revisable)
+
+**Decision:** ESS Research treats **Optimization Modeling** and **Optimization Algorithms** as separate, independently contributable research tracks. A model study need not introduce a novel solver; an algorithm study fixes the optimization problem it solves. The project retains general estimator-agnostic theory with PostgreSQL as the principal, versioned empirical instantiation for estimation behavior, maintenance costs and held-out evaluation. This extends project planning under D-001 and D-007 without replacing their mathematical assumptions or rewriting any frozen study.
+
+**Model-comparison rule:** Under a common problem instance and budget, compare the choices implied by distinct objectives under a separately frozen evaluation protocol. Report independently proven optima separately from solver-reported numerical optimality and from unproven but feasible bounded-time results. The latter are allowed in explicitly qualified *auxiliary* model comparisons, with valid bounds/gaps when available; do not attribute differences solely to the modeling choice when optimization error remains a confounder. Different objectives' native objective values are not directly comparable measures of held-out quality.
+
+**Algorithm-comparison rule:** Fix objective, feasible region, semantics and instances while comparing correctness, scaling, memory, certificates and time-limited solution quality. Preserve task-wise versus shared-policy aggregation, labeled maximal matchings, and the generic nonadditive-maintenance boundary. A model-specific additive PG cost proxy must be labeled as such.
+
+**Minimal interface principle:** Reuse the smallest compatible Problem Instance / Solver Result / Evaluation Result semantics needed for cross-model and cross-solver studies. No new general-purpose abstraction, implementation refactor or required solver matrix follows from this decision.
+
+**Evidence and workflow:** Keep model evidence, solver evidence, PostgreSQL physical evidence and independent generalization evidence distinct. Finish bounded Issues/PRs when their approved question is answered, including NO-GO or inconclusive results; substantive extensions receive new scoped tasks. The researcher retains control of scientific scope and merging.
+
+**Rationale:** Prevent solver enumeration bottlenecks from silently narrowing scientific conclusions to low budgets, without treating algorithm innovation as a prerequisite for comparing optimization formulations. Preserve reproducibility and prevent physical PG conclusions from exceeding observed evidence.
+
+**Revisit if:** A proposed comparison cannot control or report solver error, a shared interface would materially compromise model semantics, or new PG evidence requires revising an explicit instantiation assumption.
