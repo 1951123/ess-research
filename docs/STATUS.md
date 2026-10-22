@@ -4,7 +4,8 @@
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
-**Issue #74 / Stage 1 adapter (2026-10-22):** Draft implementation maps the
+**Issue #74 / [Draft PR #75](https://github.com/1951123/ess-research/pull/75)
+(2026-10-22):** Implementation maps the
 frozen Forest10 positive-preclamp model and Census13 `clamped-log-v2` model to
 the pinned `ess-advisor@e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec` schema-v1
 API. Full valid-only source mappings and Census13's coefficient digest were
