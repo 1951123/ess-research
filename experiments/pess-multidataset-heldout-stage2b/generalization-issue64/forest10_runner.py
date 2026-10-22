@@ -538,17 +538,24 @@ class PR58Forest10Backend:
 
     def plan_rows(self, query: Mapping[str, Any]) -> int:
         env = dict(self.helpers.os.environ, LD_LIBRARY_PATH=str(self.prefix / "lib"))
-        sql = (
-            "SET client_min_messages=warning; SET plan_cache_mode=force_custom_plan; "
-            "SET max_parallel_workers_per_gather=0; EXPLAIN (FORMAT JSON, SUMMARY OFF) "
-            + str(query["sql"])
+        # Use startup PGOPTIONS on the same psql session as the single EXPLAIN.
+        # Multiple SET commands contaminate psql stdout with command tags, so
+        # strict whole-document JSON parsing then fails for every valid plan.
+        pgoptions = env.get("PGOPTIONS", "").strip()
+        planner_options = (
+            "-c client_min_messages=warning "
+            "-c plan_cache_mode=force_custom_plan "
+            "-c max_parallel_workers_per_gather=0"
         )
+        env["PGOPTIONS"] = f"{pgoptions} {planner_options}".strip()
+        sql = "EXPLAIN (FORMAT JSON, SUMMARY OFF) " + str(query["sql"])
         output = self.helpers.psql(
             self.prefix,
             self.cluster["socket_dir"],
             self.cluster["port"],
             sql,
             env,
+            tuples=True,
         )
         return parse_top_level_plan_rows(output.strip())
 
