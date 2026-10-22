@@ -537,6 +537,7 @@ class PR58Forest10Backend:
         return estimate
 
     def plan_rows(self, query: Mapping[str, Any]) -> int:
+        self.plan_rows_calls = getattr(self, "plan_rows_calls", 0) + 1
         env = dict(self.helpers.os.environ, LD_LIBRARY_PATH=str(self.prefix / "lib"))
         # Use startup PGOPTIONS on the same psql session as the single EXPLAIN.
         # Multiple SET commands contaminate psql stdout with command tags, so

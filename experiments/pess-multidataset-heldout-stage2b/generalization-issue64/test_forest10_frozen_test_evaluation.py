@@ -28,6 +28,28 @@ class FrozenTestEvaluationPlanTests(unittest.TestCase):
         self.assertEqual(edges[0], ("e00_01", ("Elevation", "Aspect")))
         self.assertEqual(edges[-1][0], "e08_09")
 
+    def test_v2_supersedes_call_cap_and_freezes_one_transport_plus_full_schedule(self) -> None:
+        plan = json.loads(evaluation.PLAN_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(plan["call_budget"]["aggregate_hard_max"], 60_001)
+        self.assertEqual(plan["transport_check"]["calls"], 1)
+        self.assertEqual(plan["evaluation"]["plan_calls"], 30_000)
+        self.assertEqual(plan["call_budget"]["new_run"]["total"], 30_001)
+        self.assertEqual(plan["supersedes"]["sha256"], evaluation.sha256(evaluation.HERE / plan["supersedes"]["plan"]))
+
+    def test_transport_check_discards_value_and_rejects_wrong_query_or_invalid_rows(self) -> None:
+        qid = "arecel:forest10:test:000000"
+        backend = Mock()
+        backend.plan_rows.return_value = 12
+        status = evaluation.transport_check(backend, {"query_id": qid}, qid)
+        self.assertEqual(status, {"status": "PASS", "query_id": qid, "configuration": "Empty"})
+        self.assertNotIn("plan_rows", status)
+        with self.assertRaisesRegex(RuntimeError, "query ID"):
+            evaluation.transport_check(backend, {"query_id": "other"}, qid)
+        for invalid in (-1, 1.2, True):
+            backend.plan_rows.return_value = invalid
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(RuntimeError, "nonnegative integer"):
+                evaluation.transport_check(backend, {"query_id": qid}, qid)
+
     def test_plan_rows_uses_one_tuples_only_json_explain_with_startup_gucs(self) -> None:
         response = '[{"Plan":{"Node Type":"Seq Scan","Plan Rows":17}}]\n'
         psql = Mock(return_value=response)

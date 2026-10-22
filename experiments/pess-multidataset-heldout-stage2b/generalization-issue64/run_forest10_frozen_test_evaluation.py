@@ -25,8 +25,8 @@ from ess_research.task_paths import configured_root, runtime_runs
 import forest10_runner as runner
 import run_forest10_setup_pilot as pilot
 
-PLAN_PATH = HERE / "forest10-test-evaluation-plan-v1.json"
-PLAN_SHA256 = "bafee85b8d8be674c045610362f9a1af34eda3993f169c09a64c7df3aeb23f86"
+PLAN_PATH = HERE / "forest10-test-evaluation-plan-v2.json"
+PLAN_SHA256 = "a7d89c6317e1fca13ed83a578c54d72e4dc3ad7793b961a99714b5cb4c5c098d"
 SELECTION_PATH = HERE / "forest10-valid-frozen-selection-v1.json"
 SELECTION_SHA256 = "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798"
 RUN_PREFIX = "f10-test-eval-"
@@ -53,7 +53,7 @@ def _frozen_inputs() -> tuple[dict[str, Any], dict[str, Any]]:
         raise RuntimeError("frozen valid-selection hash mismatch")
     plan = json.loads(PLAN_PATH.read_text(encoding="utf-8"))
     frozen = json.loads(SELECTION_PATH.read_text(encoding="utf-8"))
-    if plan.get("status") != "FROZEN_BEFORE_TEST_OUTCOME_ACCESS":
+    if plan.get("status") != "FROZEN_BEFORE_NEW_TEST_RUN":
         raise RuntimeError("test evaluation plan is not frozen")
     expected = plan.get("frozen_selection", {}).get("selected_sets", {})
     for method in ("Nominal", "PESS"):
@@ -78,6 +78,17 @@ def _selected_sets(frozen: dict[str, Any]) -> dict[str, tuple[str, ...]]:
     if tuple(dict.fromkeys(selected.values())) != ((), selected["Nominal_B2"], selected["Nominal_B3"]):
         raise RuntimeError("distinct deployment set schedule differs from the frozen plan")
     return selected
+
+
+def transport_check(backend: Any, query: dict[str, Any], expected_query_id: str) -> dict[str, str]:
+    """Check only that one fixed ordinary EXPLAIN response parses; discard its value."""
+    if query.get("query_id") != expected_query_id:
+        raise RuntimeError("transport-check query differs from the frozen query ID")
+    estimate = backend.plan_rows(query)
+    if isinstance(estimate, bool) or not isinstance(estimate, int) or estimate < 0:
+        raise RuntimeError("transport-check Plan Rows is not a nonnegative integer")
+    del estimate
+    return {"status": "PASS", "query_id": expected_query_id, "configuration": "Empty"}
 
 
 def _candidate_edges(candidate_ids: list[str]) -> tuple[tuple[str, tuple[str, str]], ...]:
@@ -145,6 +156,9 @@ def _worker(run_root: Path) -> int:
     cluster_context = None
     cluster_entered = False
     restore = None
+    backend = None
+    transport_check_attempted = False
+    evaluation_call_start = None
     failures: list[dict[str, Any]] = []
     try:
         runtime_root = runtime_runs("ess-research", 64).resolve()
@@ -158,8 +172,8 @@ def _worker(run_root: Path) -> int:
             "selection_status": frozen["status"],
             "execution_code_commit": os.environ.get("ESS_ISSUE64_EXECUTION_COMMIT", "recorded-by-caller"),
         }
-        if int(plan["expected_plan_calls"]) != 30_000:
-            raise RuntimeError("frozen test plan call count is not 30,000")
+        if plan["evaluation"]["plan_calls"] != 30_000 or plan["transport_check"]["calls"] != 1:
+            raise RuntimeError("frozen v2 plan does not contain the exact 30,001-call new-run schedule")
         t = time.monotonic()
         queries, truths, source, derived = _load_test_inputs(run_root)
         summary["phase_seconds"]["test_input_load_and_identity"] = round(time.monotonic() - t, 3)
@@ -210,7 +224,15 @@ def _worker(run_root: Path) -> int:
         candidate_ids = frozen["inputs"]["candidate_order"]
         candidates = runner.pr58_candidate_specs(_candidate_edges(candidate_ids))
         backend = runner.PR58Forest10Backend(run_formal, prefix, cluster, candidates, sample, sample_identity)
+        backend.configure(())
         t = time.monotonic()
+        transport_check_attempted = True
+        summary["transport_check"] = transport_check(
+            backend, queries[0], plan["transport_check"]["query_id"]
+        )
+        summary["phase_seconds"]["outcome_blind_transport_check"] = round(time.monotonic() - t, 3)
+        t = time.monotonic()
+        evaluation_call_start = getattr(backend, "plan_rows_calls", 0)
         result = runner.evaluate_frozen_selections(
             queries, truths, selected, backend, expected_query_count=10_000,
         )
@@ -245,6 +267,13 @@ def _worker(run_root: Path) -> int:
                 summary["status"] = "FAILED"
         if restore is not None:
             restore()
+        if backend is not None:
+            total_calls = getattr(backend, "plan_rows_calls", 0)
+            summary["test_explain_calls_attempted"] = total_calls
+            summary["test_evaluation_plan_calls"] = (
+                total_calls - evaluation_call_start if evaluation_call_start is not None else 0
+            )
+            summary["transport_check_calls_attempted"] = int(transport_check_attempted)
         summary["elapsed_seconds"] = round(time.monotonic() - started, 3)
         _write_json(run_root / "test-evaluation-summary.json", summary)
     return 0 if summary["status"] == "COMPLETE" else 2
@@ -269,7 +298,7 @@ def main() -> int:
         soft_wall_seconds=SOFT_WALL, hard_wall_seconds=HARD_WALL,
         soft_disk_bytes=SOFT_DISK, hard_disk_bytes=HARD_DISK,
         worker_summary_name="test-evaluation-summary.json",
-        summary_format="ess-issue64-forest10-test-evaluation-supervisor-v1",
+        summary_format="ess-issue64-forest10-test-evaluation-supervisor-v2",
     )
 
 

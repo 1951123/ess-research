@@ -1,0 +1,76 @@
+{
+  "format": "ess-issue64-forest10-test-evaluation-plan-v2",
+  "status": "FROZEN_BEFORE_NEW_TEST_RUN",
+  "supersedes": {
+    "plan": "forest10-test-evaluation-plan-v1.json",
+    "sha256": "bafee85b8d8be674c045610362f9a1af34eda3993f169c09a64c7df3aeb23f86",
+    "reason": "v1's sole complete schedule was attempted but no Plan Rows were accepted; the transport fix requires a separately budgeted fixed check and one complete, unchanged schedule"
+  },
+  "dataset": "forest10",
+  "split": "official test",
+  "query_count": 10000,
+  "query_order": "ascending source_index, exactly 0..9999",
+  "frozen_selection": {
+    "path": "forest10-valid-frozen-selection-v1.json",
+    "sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+    "budgets": [0, 2, 3],
+    "selected_sets": {
+      "B0": [],
+      "B2": ["e01_06", "e02_07"],
+      "B3": ["e01_06", "e02_07", "e03_04"]
+    },
+    "nominal_equals_pess": true,
+    "resource_selection_or_retuning": "prohibited"
+  },
+  "distinct_deployments": ["Empty", "B2", "B3"],
+  "transport_check": {
+    "calls": 1,
+    "query_id": "arecel:forest10:test:000000",
+    "configuration": "Empty",
+    "acceptance": "ordinary EXPLAIN FORMAT JSON output parses as exactly one top-level Plan Rows value that is a nonnegative integer",
+    "use_of_result": "parser/transport acceptance only; numeric Plan Rows is neither persisted nor used for truth comparison, metrics, selection, tuning, query filtering, or schedule changes",
+    "failure": "stop before the 30,000-call evaluation schedule; retain only sanitized failure class"
+  },
+  "evaluation": {
+    "plan_calls": 30000,
+    "deployment_schedule": "each of Empty, frozen B2 and frozen B3 on every official test query in ascending source_index order",
+    "estimate": "ordinary EXPLAIN (FORMAT JSON), top-level Plan Rows",
+    "primary": "nearest-rank P95 Q1; Q1=max(E,A,1)/max(min(E,A),1)",
+    "secondary": ["nearest-rank P50/P99/Max Q1", "mean absolute natural-log error on strictly positive estimate/truth pairs"],
+    "paired_nominal_pess": "per-query Q1 differences; identical frozen sets are deduplicated and therefore identical observations/ties",
+    "missing_or_invalid": "retain an unresolved row; no fallback to pre-clamp or Plan Rows from another path"
+  },
+  "call_budget": {
+    "historical_v1_attempts": {
+      "first_run_calls": 0,
+      "second_run_calls": 30000,
+      "total": 30000,
+      "evidence": "forest10-test-evaluation-v1.md and its immutable observations"
+    },
+    "new_run": {
+      "transport_check_calls": 1,
+      "evaluation_calls": 30000,
+      "total": 30001
+    },
+    "aggregate_hard_max": 60001,
+    "supersedes_v1_aggregate_hard_max": 50000,
+    "retry_or_extra_calls": 0
+  },
+  "source_pins": {
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "postgresql_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "pr58_helper_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4"
+  },
+  "runtime_safety": {
+    "plans_hard_max": 50000,
+    "wall_seconds_hard": 28800,
+    "wall_seconds_early_stop": 27000,
+    "disk_bytes_hard": 4294967296,
+    "disk_bytes_early_stop": 3221225472,
+    "retries": 0,
+    "one_private_cluster_and_fresh_same_run_sample": true
+  },
+  "boundary": "No selection/metric/accuracy use of the transport-check result. The full evaluation consumes only the immutable valid-frozen sets and the complete official test workload/truth; no post-outcome resource selection, tuning, calibration, or claims about unseen templates."
+}
