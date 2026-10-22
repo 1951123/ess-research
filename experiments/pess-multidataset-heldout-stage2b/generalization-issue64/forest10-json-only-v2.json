@@ -1,0 +1,66 @@
+{
+  "format": "ess-issue64-forest10-json-only-config-v2",
+  "status": "RESEARCHER_AUTHORIZED_BOUNDED_EXECUTION; NO_SELECTION_OR_TEST_EVALUATION",
+  "authority": "Issue #64 researcher decision dated 2026-10-21, JSON-only calibration; current task grants one integration pilot and conditionally one first-20 valid-only observation smoke",
+  "supersedes_for_active_measurement": "forest10-first-implementation-v1.json measurement transport only; frozen scientific choices are unchanged",
+  "scope": {
+    "dataset": "Forest10",
+    "calibration_split": "official valid only",
+    "test_access": false,
+    "valid_truth_access": false,
+    "resource_selection_or_objective": false,
+    "candidate_universe_count": 45,
+    "candidate_order": "merged PR #68 deterministic published order / unordered pairs in Forest10 source-column order",
+    "budgets_preserved_for_later_selection": [0, 2, 3],
+    "model": "pinned corrected-log PR #58 model; alpha=ln(n0/max(1,valid_truth)); b=ln(ne/n0); positive pre-clamp inputs; Decimal precision 80; half-even 1e-18 quantization; Fraction exact enumeration",
+    "selection_algorithm_and_tie_break": "unchanged from forest10-first-implementation-v1.json"
+  },
+  "source_pins": {
+    "postgresql_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "pr58_model_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "pr58_run_formal_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+    "pr58_gate_audit_v2_sha256": "03823ad30b0ab4e7073b347ebfddb5578467cad28cb28f0ae8768dd233a855c4",
+    "pr7_structured_explain_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "issue67_candidate_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c"
+  },
+  "active_calibration_interface": {
+    "adapter": "PR7StructuredExplainAdapter",
+    "sql": "EXPLAIN (ESS_DIAGNOSTICS, FORMAT JSON, SUMMARY OFF)",
+    "estimate_field": "nrows_preclamp only; never Plan Rows",
+    "required": ["Status=complete", "exactly one base_estimate", "correct base relation OID", "query ID association", "finite positive nrows_preclamp"],
+    "mcv": "Record complete OID/clause/numeric events if present; record NO_MCV_EVENTS explicitly when absent; absence does not fail base-estimate acquisition",
+    "failure": "reject malformed/incomplete diagnostics; no legacy server-log fallback or retry",
+    "legacy_transport": "not used by active calibration; historical code/reports retained only"
+  },
+  "phase_b_integration_pilot": {
+    "query_id": "arecel:forest10:valid:000005",
+    "configurations": ["Empty", "e00_01"],
+    "one_new_private_cluster_and_build": true,
+    "one_fresh_same_cluster_sample": true,
+    "structured_explain_count_under_e00_01": 1,
+    "legacy_server_log_calls": 0,
+    "selection_or_truth": false
+  },
+  "phase_c_observation_smoke": {
+    "run_only_if_phase_b_success": true,
+    "queries": "first 20 official valid queries after ascending source_index sort",
+    "configurations": "one Empty plus each singleton candidate with at least one statically eligible query in the fixed 20-query slice",
+    "calls": "20 Empty calls plus one call per statically eligible query-candidate pair; exact integer and query/candidate map frozen in a committed plan before the independent PostgreSQL run",
+    "same_sample_for_all_configurations": true,
+    "candidate_universe": "all 45 pinned candidates; no candidate substitution",
+    "record": ["query_id", "config_id", "static_eligible", "diagnostics_status", "positive finite nrows_preclamp", "MCV event status/OID/clause", "error status"],
+    "forbidden": ["valid truth", "test workload/outcomes", "model coefficients", "objective", "resource selection", "Q1"]
+  },
+  "per_run_limits": {
+    "wall_clock_seconds_hard": 1800,
+    "wall_clock_seconds_early_stop": 1680,
+    "allocated_disk_bytes_hard": 2147483648,
+    "allocated_disk_bytes_early_stop": 1610612736,
+    "monitor_interval_seconds": 0.1,
+    "clusters": 1,
+    "automatic_retries": 0,
+    "each_phase_c_run_uses_fresh_build_pgdata_sample": true
+  }
+}

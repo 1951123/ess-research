@@ -1,0 +1,1476 @@
+{
+  "distinct_order_count": 10,
+  "duplicate_order_groups": [],
+  "evidence_label": "EXPLORATORY VALID-ONLY / NOT HELD-OUT EVIDENCE",
+  "format": "ess-issue64-forest10-nominal-order-sensitivity-v1",
+  "frozen_pess_global_results": {
+    "0": {
+      "all_optimal_sets": [
+        []
+      ],
+      "objective_fraction": "23326825631265146269149/1000000000000000000",
+      "selected": []
+    },
+    "2": {
+      "all_optimal_sets": [
+        [
+          "e01_06",
+          "e02_07"
+        ]
+      ],
+      "objective_fraction": "4374828918765339127297/200000000000000000",
+      "selected": [
+        "e01_06",
+        "e02_07"
+      ]
+    },
+    "3": {
+      "all_optimal_sets": [
+        [
+          "e01_06",
+          "e02_07",
+          "e03_04"
+        ]
+      ],
+      "objective_fraction": "21512755121155336377967/1000000000000000000",
+      "selected": [
+        "e01_06",
+        "e02_07",
+        "e03_04"
+      ]
+    }
+  },
+  "inputs": {
+    "analysis_script_sha256": "d5280697b1b00eb188a3fd7dc3596a61631884d6d17dc4f79a535630d09575a3",
+    "candidate_count": 45,
+    "candidate_endpoints": {
+      "e00_01": [
+        "v00",
+        "v01"
+      ],
+      "e00_02": [
+        "v00",
+        "v02"
+      ],
+      "e00_03": [
+        "v00",
+        "v03"
+      ],
+      "e00_04": [
+        "v00",
+        "v04"
+      ],
+      "e00_05": [
+        "v00",
+        "v05"
+      ],
+      "e00_06": [
+        "v00",
+        "v06"
+      ],
+      "e00_07": [
+        "v00",
+        "v07"
+      ],
+      "e00_08": [
+        "v00",
+        "v08"
+      ],
+      "e00_09": [
+        "v00",
+        "v09"
+      ],
+      "e01_02": [
+        "v01",
+        "v02"
+      ],
+      "e01_03": [
+        "v01",
+        "v03"
+      ],
+      "e01_04": [
+        "v01",
+        "v04"
+      ],
+      "e01_05": [
+        "v01",
+        "v05"
+      ],
+      "e01_06": [
+        "v01",
+        "v06"
+      ],
+      "e01_07": [
+        "v01",
+        "v07"
+      ],
+      "e01_08": [
+        "v01",
+        "v08"
+      ],
+      "e01_09": [
+        "v01",
+        "v09"
+      ],
+      "e02_03": [
+        "v02",
+        "v03"
+      ],
+      "e02_04": [
+        "v02",
+        "v04"
+      ],
+      "e02_05": [
+        "v02",
+        "v05"
+      ],
+      "e02_06": [
+        "v02",
+        "v06"
+      ],
+      "e02_07": [
+        "v02",
+        "v07"
+      ],
+      "e02_08": [
+        "v02",
+        "v08"
+      ],
+      "e02_09": [
+        "v02",
+        "v09"
+      ],
+      "e03_04": [
+        "v03",
+        "v04"
+      ],
+      "e03_05": [
+        "v03",
+        "v05"
+      ],
+      "e03_06": [
+        "v03",
+        "v06"
+      ],
+      "e03_07": [
+        "v03",
+        "v07"
+      ],
+      "e03_08": [
+        "v03",
+        "v08"
+      ],
+      "e03_09": [
+        "v03",
+        "v09"
+      ],
+      "e04_05": [
+        "v04",
+        "v05"
+      ],
+      "e04_06": [
+        "v04",
+        "v06"
+      ],
+      "e04_07": [
+        "v04",
+        "v07"
+      ],
+      "e04_08": [
+        "v04",
+        "v08"
+      ],
+      "e04_09": [
+        "v04",
+        "v09"
+      ],
+      "e05_06": [
+        "v05",
+        "v06"
+      ],
+      "e05_07": [
+        "v05",
+        "v07"
+      ],
+      "e05_08": [
+        "v05",
+        "v08"
+      ],
+      "e05_09": [
+        "v05",
+        "v09"
+      ],
+      "e06_07": [
+        "v06",
+        "v07"
+      ],
+      "e06_08": [
+        "v06",
+        "v08"
+      ],
+      "e06_09": [
+        "v06",
+        "v09"
+      ],
+      "e07_08": [
+        "v07",
+        "v08"
+      ],
+      "e07_09": [
+        "v07",
+        "v09"
+      ],
+      "e08_09": [
+        "v08",
+        "v09"
+      ]
+    },
+    "candidate_ids": [
+      "e00_01",
+      "e00_02",
+      "e00_03",
+      "e00_04",
+      "e00_05",
+      "e00_06",
+      "e00_07",
+      "e00_08",
+      "e00_09",
+      "e01_02",
+      "e01_03",
+      "e01_04",
+      "e01_05",
+      "e01_06",
+      "e01_07",
+      "e01_08",
+      "e01_09",
+      "e02_03",
+      "e02_04",
+      "e02_05",
+      "e02_06",
+      "e02_07",
+      "e02_08",
+      "e02_09",
+      "e03_04",
+      "e03_05",
+      "e03_06",
+      "e03_07",
+      "e03_08",
+      "e03_09",
+      "e04_05",
+      "e04_06",
+      "e04_07",
+      "e04_08",
+      "e04_09",
+      "e05_06",
+      "e05_07",
+      "e05_08",
+      "e05_09",
+      "e06_07",
+      "e06_08",
+      "e06_09",
+      "e07_08",
+      "e07_09",
+      "e08_09"
+    ],
+    "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+    "exact_selector_sha256": "75265ea7d256eb62ec17bd1c8c46dd670e52ad4ecd8ebac64cc7c0953bbfe97a",
+    "coefficient_task_count": 10000,
+    "frozen_selection_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798"
+  },
+  "method": {
+    "budgets": [
+      0,
+      2,
+      3
+    ],
+    "coefficients": "reused exact alpha_fraction and b_fraction from frozen artifact; no refit",
+    "nominal_matching": "existing exact selector greedy maximal matching in supplied priority order",
+    "objective_arithmetic": "exact Fraction comparisons over frozen rationalized coefficients",
+    "randomization": "Python random.Random(seed).shuffle; seeds 0 through 7; no rerolls"
+  },
+  "order_count": 10,
+  "runtime": {
+    "python_implementation": "CPython",
+    "python_version": "3.12.3"
+  },
+  "orders": [
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e00_01",
+        "e00_02",
+        "e00_03",
+        "e00_04",
+        "e00_05",
+        "e00_06",
+        "e00_07",
+        "e00_08",
+        "e00_09",
+        "e01_02",
+        "e01_03",
+        "e01_04",
+        "e01_05",
+        "e01_06",
+        "e01_07",
+        "e01_08",
+        "e01_09",
+        "e02_03",
+        "e02_04",
+        "e02_05",
+        "e02_06",
+        "e02_07",
+        "e02_08",
+        "e02_09",
+        "e03_04",
+        "e03_05",
+        "e03_06",
+        "e03_07",
+        "e03_08",
+        "e03_09",
+        "e04_05",
+        "e04_06",
+        "e04_07",
+        "e04_08",
+        "e04_09",
+        "e05_06",
+        "e05_07",
+        "e05_08",
+        "e05_09",
+        "e06_07",
+        "e06_08",
+        "e06_09",
+        "e07_08",
+        "e07_09",
+        "e08_09"
+      ],
+      "label": "frozen_original",
+      "seed": null
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e03_04",
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e03_04",
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e08_09",
+        "e07_09",
+        "e07_08",
+        "e06_09",
+        "e06_08",
+        "e06_07",
+        "e05_09",
+        "e05_08",
+        "e05_07",
+        "e05_06",
+        "e04_09",
+        "e04_08",
+        "e04_07",
+        "e04_06",
+        "e04_05",
+        "e03_09",
+        "e03_08",
+        "e03_07",
+        "e03_06",
+        "e03_05",
+        "e03_04",
+        "e02_09",
+        "e02_08",
+        "e02_07",
+        "e02_06",
+        "e02_05",
+        "e02_04",
+        "e02_03",
+        "e01_09",
+        "e01_08",
+        "e01_07",
+        "e01_06",
+        "e01_05",
+        "e01_04",
+        "e01_03",
+        "e01_02",
+        "e00_09",
+        "e00_08",
+        "e00_07",
+        "e00_06",
+        "e00_05",
+        "e00_04",
+        "e00_03",
+        "e00_02",
+        "e00_01"
+      ],
+      "label": "complete_reverse",
+      "seed": null
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06",
+              "e03_04"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06",
+            "e03_04"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e00_02",
+        "e04_09",
+        "e01_05",
+        "e00_01",
+        "e06_07",
+        "e02_07",
+        "e01_04",
+        "e00_08",
+        "e07_09",
+        "e06_09",
+        "e03_09",
+        "e02_06",
+        "e01_07",
+        "e00_07",
+        "e00_06",
+        "e02_09",
+        "e01_08",
+        "e01_03",
+        "e07_08",
+        "e03_08",
+        "e01_02",
+        "e05_07",
+        "e03_07",
+        "e05_06",
+        "e02_03",
+        "e04_08",
+        "e05_09",
+        "e05_08",
+        "e00_04",
+        "e08_09",
+        "e00_05",
+        "e02_04",
+        "e00_09",
+        "e06_08",
+        "e01_06",
+        "e02_08",
+        "e04_05",
+        "e02_05",
+        "e03_05",
+        "e04_06",
+        "e04_07",
+        "e01_09",
+        "e00_03",
+        "e03_06",
+        "e03_04"
+      ],
+      "label": "python_random_seed_0",
+      "seed": 0
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06",
+              "e03_04"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06",
+            "e03_04"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e00_03",
+        "e01_02",
+        "e07_08",
+        "e04_07",
+        "e00_06",
+        "e03_05",
+        "e01_05",
+        "e01_04",
+        "e02_09",
+        "e01_08",
+        "e05_08",
+        "e02_06",
+        "e03_09",
+        "e04_09",
+        "e03_07",
+        "e06_09",
+        "e02_03",
+        "e02_07",
+        "e03_06",
+        "e01_03",
+        "e00_04",
+        "e02_04",
+        "e06_08",
+        "e08_09",
+        "e01_07",
+        "e02_08",
+        "e00_01",
+        "e05_09",
+        "e04_08",
+        "e02_05",
+        "e05_06",
+        "e07_09",
+        "e00_02",
+        "e06_07",
+        "e00_07",
+        "e01_06",
+        "e03_04",
+        "e04_05",
+        "e03_08",
+        "e04_06",
+        "e00_08",
+        "e01_09",
+        "e00_05",
+        "e05_07",
+        "e00_09"
+      ],
+      "label": "python_random_seed_1",
+      "seed": 1
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e03_04",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e03_04",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e06_07",
+        "e01_02",
+        "e02_08",
+        "e04_08",
+        "e00_07",
+        "e01_08",
+        "e00_05",
+        "e04_06",
+        "e03_06",
+        "e02_07",
+        "e02_06",
+        "e02_04",
+        "e05_07",
+        "e03_04",
+        "e08_09",
+        "e00_08",
+        "e04_05",
+        "e07_08",
+        "e04_09",
+        "e05_08",
+        "e01_05",
+        "e05_06",
+        "e03_08",
+        "e01_04",
+        "e00_01",
+        "e00_02",
+        "e00_09",
+        "e05_09",
+        "e01_07",
+        "e03_09",
+        "e02_03",
+        "e06_09",
+        "e04_07",
+        "e03_05",
+        "e03_07",
+        "e06_08",
+        "e00_03",
+        "e01_06",
+        "e01_09",
+        "e02_05",
+        "e01_03",
+        "e02_09",
+        "e07_09",
+        "e00_06",
+        "e00_04"
+      ],
+      "label": "python_random_seed_2",
+      "seed": 2
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e01_06",
+        "e04_07",
+        "e00_02",
+        "e00_07",
+        "e00_04",
+        "e00_06",
+        "e06_09",
+        "e02_07",
+        "e01_03",
+        "e01_04",
+        "e02_05",
+        "e02_04",
+        "e01_02",
+        "e03_07",
+        "e03_05",
+        "e00_03",
+        "e05_06",
+        "e03_04",
+        "e04_08",
+        "e07_08",
+        "e06_08",
+        "e00_08",
+        "e05_07",
+        "e02_06",
+        "e04_06",
+        "e03_09",
+        "e03_08",
+        "e03_06",
+        "e02_03",
+        "e08_09",
+        "e02_08",
+        "e01_05",
+        "e01_07",
+        "e01_09",
+        "e06_07",
+        "e00_01",
+        "e00_05",
+        "e07_09",
+        "e04_05",
+        "e05_09",
+        "e02_09",
+        "e00_09",
+        "e04_09",
+        "e05_08",
+        "e01_08"
+      ],
+      "label": "python_random_seed_3",
+      "seed": 3
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ]
+          ],
+          "deterministic_representative": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e05_08",
+        "e08_09",
+        "e04_06",
+        "e00_03",
+        "e00_08",
+        "e01_05",
+        "e04_07",
+        "e03_07",
+        "e02_08",
+        "e07_09",
+        "e01_03",
+        "e04_09",
+        "e01_09",
+        "e01_06",
+        "e05_07",
+        "e01_04",
+        "e02_03",
+        "e06_07",
+        "e03_08",
+        "e03_09",
+        "e02_07",
+        "e05_06",
+        "e02_06",
+        "e00_01",
+        "e07_08",
+        "e06_08",
+        "e04_08",
+        "e03_06",
+        "e05_09",
+        "e03_04",
+        "e00_09",
+        "e02_09",
+        "e01_07",
+        "e00_04",
+        "e02_04",
+        "e06_09",
+        "e00_02",
+        "e00_05",
+        "e00_06",
+        "e01_02",
+        "e04_05",
+        "e03_05",
+        "e00_07",
+        "e02_05",
+        "e01_08"
+      ],
+      "label": "python_random_seed_4",
+      "seed": 4
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e03_04",
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e03_04",
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e01_02",
+        "e03_07",
+        "e01_04",
+        "e07_09",
+        "e08_09",
+        "e03_04",
+        "e03_06",
+        "e02_07",
+        "e07_08",
+        "e05_06",
+        "e03_08",
+        "e02_05",
+        "e03_05",
+        "e04_06",
+        "e05_09",
+        "e01_07",
+        "e00_05",
+        "e00_03",
+        "e02_06",
+        "e04_07",
+        "e00_06",
+        "e00_09",
+        "e01_06",
+        "e00_07",
+        "e06_08",
+        "e00_01",
+        "e04_09",
+        "e02_04",
+        "e05_07",
+        "e02_03",
+        "e01_05",
+        "e05_08",
+        "e04_05",
+        "e02_09",
+        "e00_08",
+        "e01_03",
+        "e00_04",
+        "e01_08",
+        "e03_09",
+        "e00_02",
+        "e04_08",
+        "e06_09",
+        "e02_08",
+        "e01_09",
+        "e06_07"
+      ],
+      "label": "python_random_seed_5",
+      "seed": 5
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e03_04",
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e03_04",
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e04_09",
+        "e01_08",
+        "e05_09",
+        "e06_07",
+        "e02_05",
+        "e01_04",
+        "e06_09",
+        "e02_08",
+        "e01_07",
+        "e00_08",
+        "e00_05",
+        "e03_08",
+        "e01_05",
+        "e07_09",
+        "e04_08",
+        "e01_03",
+        "e03_06",
+        "e06_08",
+        "e00_09",
+        "e03_04",
+        "e02_04",
+        "e03_09",
+        "e00_04",
+        "e02_07",
+        "e08_09",
+        "e04_07",
+        "e01_06",
+        "e03_07",
+        "e05_06",
+        "e00_07",
+        "e03_05",
+        "e07_08",
+        "e02_03",
+        "e00_02",
+        "e02_06",
+        "e02_09",
+        "e04_05",
+        "e05_08",
+        "e01_02",
+        "e00_01",
+        "e00_03",
+        "e01_09",
+        "e04_06",
+        "e00_06",
+        "e05_07"
+      ],
+      "label": "python_random_seed_6",
+      "seed": 6
+    },
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "deterministic_representative": [],
+          "frozen_pess_global_optimum_fraction": "23326825631265146269149/1000000000000000000",
+          "nominal_objective_fraction": "23326825631265146269149/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "": "23326825631265146269149/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "23326825631265146269149/1000000000000000000",
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "4374828918765339127297/200000000000000000",
+          "nominal_objective_fraction": "4374828918765339127297/200000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07": "4374828918765339127297/200000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "4374828918765339127297/200000000000000000",
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e02_07",
+              "e03_04",
+              "e01_06"
+            ]
+          ],
+          "deterministic_representative": [
+            "e02_07",
+            "e03_04",
+            "e01_06"
+          ],
+          "frozen_pess_global_optimum_fraction": "21512755121155336377967/1000000000000000000",
+          "nominal_objective_fraction": "21512755121155336377967/1000000000000000000",
+          "pess_worst_case_fraction_for_each_nominal_minimizer": {
+            "e01_06,e02_07,e03_04": "21512755121155336377967/1000000000000000000"
+          },
+          "representative_edges_pairwise_vertex_disjoint": true,
+          "representative_pess_gap_to_frozen_global_optimum_fraction": "0",
+          "representative_pess_worst_case_fraction": "21512755121155336377967/1000000000000000000",
+          "tie_count": 1
+        }
+      },
+      "candidate_order": [
+        "e02_07",
+        "e04_06",
+        "e01_07",
+        "e01_08",
+        "e01_03",
+        "e07_09",
+        "e01_04",
+        "e01_09",
+        "e03_04",
+        "e07_08",
+        "e05_08",
+        "e06_07",
+        "e03_06",
+        "e00_09",
+        "e00_01",
+        "e08_09",
+        "e02_05",
+        "e01_05",
+        "e05_07",
+        "e02_08",
+        "e03_07",
+        "e05_06",
+        "e02_04",
+        "e00_02",
+        "e03_09",
+        "e02_03",
+        "e03_08",
+        "e00_08",
+        "e05_09",
+        "e04_05",
+        "e04_08",
+        "e00_06",
+        "e00_03",
+        "e01_06",
+        "e04_07",
+        "e06_08",
+        "e02_09",
+        "e00_07",
+        "e04_09",
+        "e00_05",
+        "e00_04",
+        "e06_09",
+        "e03_05",
+        "e01_02",
+        "e02_06"
+      ],
+      "label": "python_random_seed_7",
+      "seed": 7
+    }
+  ],
+  "scope_limits": [
+    "No PostgreSQL was run; priority orders are model inputs, not observed OID assignments.",
+    "No test truth, estimates, outcomes, or test evaluation were read or used.",
+    "Nominal and PESS objective values are different criteria; their numerical difference is not a PostgreSQL gain.",
+    "PESS global optimum and minimizers are cited from the previously frozen exact selection artifact."
+  ],
+  "summary_by_budget": {
+    "0": {
+      "all_representatives_pairwise_vertex_disjoint": true,
+      "distinct_deterministic_representatives_across_10_orders": 1,
+      "distinct_nominal_optimal_sets_across_10_orders": 1,
+      "nominal_objective_max_fraction": "23326825631265146269149/1000000000000000000",
+      "nominal_objective_min_fraction": "23326825631265146269149/1000000000000000000",
+      "nominal_objective_range_fraction": "0",
+      "representative_edge_frequency": {},
+      "union_of_all_order_minimizers": [
+        []
+      ]
+    },
+    "2": {
+      "all_representatives_pairwise_vertex_disjoint": true,
+      "distinct_deterministic_representatives_across_10_orders": 2,
+      "distinct_nominal_optimal_sets_across_10_orders": 1,
+      "nominal_objective_max_fraction": "4374828918765339127297/200000000000000000",
+      "nominal_objective_min_fraction": "4374828918765339127297/200000000000000000",
+      "nominal_objective_range_fraction": "0",
+      "representative_edge_frequency": {
+        "e01_06": 10,
+        "e02_07": 10
+      },
+      "union_of_all_order_minimizers": [
+        [
+          "e01_06",
+          "e02_07"
+        ]
+      ]
+    },
+    "3": {
+      "all_representatives_pairwise_vertex_disjoint": true,
+      "distinct_deterministic_representatives_across_10_orders": 4,
+      "distinct_nominal_optimal_sets_across_10_orders": 1,
+      "nominal_objective_max_fraction": "21512755121155336377967/1000000000000000000",
+      "nominal_objective_min_fraction": "21512755121155336377967/1000000000000000000",
+      "nominal_objective_range_fraction": "0",
+      "representative_edge_frequency": {
+        "e01_06": 10,
+        "e02_07": 10,
+        "e03_04": 10
+      },
+      "union_of_all_order_minimizers": [
+        [
+          "e01_06",
+          "e02_07",
+          "e03_04"
+        ]
+      ]
+    }
+  }
+}

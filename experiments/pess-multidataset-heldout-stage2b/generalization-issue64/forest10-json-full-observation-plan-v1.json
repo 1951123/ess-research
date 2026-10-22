@@ -1,0 +1,64 @@
+{
+  "format": "ess-issue64-forest10-json-full-observation-plan-v1",
+  "status": "RESEARCHER_APPROVED_EXECUTION_2026-10-22",
+  "scope": "full official Forest10 valid query JSON observation acquisition only",
+  "source_pins": {
+    "postgresql_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "pr58_model_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "active_protocol": "forest10-json-only-v2.json",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "candidate_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c",
+    "candidate_ids": ["e00_01","e00_02","e00_03","e00_04","e00_05","e00_06","e00_07","e00_08","e00_09","e01_02","e01_03","e01_04","e01_05","e01_06","e01_07","e01_08","e01_09","e02_03","e02_04","e02_05","e02_06","e02_07","e02_08","e02_09","e03_04","e03_05","e03_06","e03_07","e03_08","e03_09","e04_05","e04_06","e04_07","e04_08","e04_09","e05_06","e05_07","e05_08","e05_09","e06_07","e06_08","e06_09","e07_08","e07_09","e08_09"]
+  },
+  "workload": {
+    "dataset": "forest10",
+    "split": "valid",
+    "query_count": 10000,
+    "order": "ascending source_index",
+    "candidate_count": 45,
+    "static_eligible_query_candidate_pairs": 164088
+  },
+  "schedule": {
+    "configurations": [
+      "Empty",
+      "each singleton candidate with at least one statically eligible valid query"
+    ],
+    "configuration_count": 46,
+    "empty_calls": 10000,
+    "singleton_calls": 164088,
+    "total_structured_explain_calls": 174088,
+    "one_configuration_at_a_time": true,
+    "same_run_cluster_table_and_fresh_analyze_sample": true
+  },
+  "positive_preclamp_policy": "Require complete JSON diagnostics and finite positive nrows_preclamp. Reject zero/negative/nonfinite/missing/incomplete/incorrectly-associated observations; no clamp, epsilon, substitution or omission. NO_MCV_EVENTS is a valid observation state.",
+  "failure_policy": "Write explicit error/configuration failure and preserve the completed prefix; mark run INCOMPLETE; stop without retry or resume; unattempted suffix remains explicit; incomplete cohorts cannot be passed to model fitting or selection.",
+  "retention": {
+    "status": "RESEARCHER_APPROVED_2026-10-22",
+    "format": "gzip JSONL parts",
+    "max_records_per_part": 2048,
+    "max_uncompressed_bytes_per_part": 8388608,
+    "flush_fsync_every_records": 256,
+    "atomic_manifest_update_after_each_fsync": true,
+    "retain_query_level_estimate_and_full_compact_mcv_records": true,
+    "part_sha256": true,
+    "atomic_progress_manifest": true,
+    "one_authoritative_copy": true
+  },
+  "approved_limits": {
+    "status": "RESEARCHER_APPROVED_2026-10-22",
+    "wall_seconds_hard": 28800,
+    "wall_seconds_early_stop": 27000,
+    "disk_bytes_hard": 4294967296,
+    "disk_bytes_early_stop": 3221225472,
+    "monitor_interval_seconds": 0.1
+  },
+  "forbidden": [
+    "truth access",
+    "model coefficient fitting",
+    "resource selection",
+    "objective computation",
+    "test access/evaluation",
+    "automatic retry/resume",
+    "cross-run sample concatenation"
+  ]
+}

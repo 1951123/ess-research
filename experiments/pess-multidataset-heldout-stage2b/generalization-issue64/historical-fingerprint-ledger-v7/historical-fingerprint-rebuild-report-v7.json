@@ -1,0 +1,1813 @@
+{
+  "arecel_workload_coverage": {
+    "cross_split_overlap": {
+      "census13": {
+        "train__test": {
+          "exact_fingerprint": {
+            "distinct_left": 92714,
+            "distinct_right": 9476,
+            "shared_distinct_fingerprints": 281
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 92714,
+            "distinct_right": 9476,
+            "shared_distinct_fingerprints": 281
+          },
+          "template_fingerprint": {
+            "distinct_left": 23941,
+            "distinct_right": 5551,
+            "shared_distinct_fingerprints": 4388
+          }
+        },
+        "train__valid": {
+          "exact_fingerprint": {
+            "distinct_left": 92714,
+            "distinct_right": 9472,
+            "shared_distinct_fingerprints": 281
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 92714,
+            "distinct_right": 9472,
+            "shared_distinct_fingerprints": 281
+          },
+          "template_fingerprint": {
+            "distinct_left": 23941,
+            "distinct_right": 5577,
+            "shared_distinct_fingerprints": 4408
+          }
+        },
+        "valid__test": {
+          "exact_fingerprint": {
+            "distinct_left": 9472,
+            "distinct_right": 9476,
+            "shared_distinct_fingerprints": 137
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 9472,
+            "distinct_right": 9476,
+            "shared_distinct_fingerprints": 137
+          },
+          "template_fingerprint": {
+            "distinct_left": 5577,
+            "distinct_right": 5551,
+            "shared_distinct_fingerprints": 1925
+          }
+        }
+      },
+      "dmv11": {
+        "train__test": {
+          "exact_fingerprint": {
+            "distinct_left": 76463,
+            "distinct_right": 8482,
+            "shared_distinct_fingerprints": 1260
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 76463,
+            "distinct_right": 8482,
+            "shared_distinct_fingerprints": 1260
+          },
+          "template_fingerprint": {
+            "distinct_left": 3397,
+            "distinct_right": 2407,
+            "shared_distinct_fingerprints": 2378
+          }
+        },
+        "train__valid": {
+          "exact_fingerprint": {
+            "distinct_left": 76463,
+            "distinct_right": 8490,
+            "shared_distinct_fingerprints": 1273
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 76463,
+            "distinct_right": 8490,
+            "shared_distinct_fingerprints": 1273
+          },
+          "template_fingerprint": {
+            "distinct_left": 3397,
+            "distinct_right": 2411,
+            "shared_distinct_fingerprints": 2379
+          }
+        },
+        "valid__test": {
+          "exact_fingerprint": {
+            "distinct_left": 8490,
+            "distinct_right": 8482,
+            "shared_distinct_fingerprints": 497
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 8490,
+            "distinct_right": 8482,
+            "shared_distinct_fingerprints": 497
+          },
+          "template_fingerprint": {
+            "distinct_left": 2411,
+            "distinct_right": 2407,
+            "shared_distinct_fingerprints": 1976
+          }
+        }
+      },
+      "forest10": {
+        "train__test": {
+          "exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 30922,
+            "distinct_right": 5753,
+            "shared_distinct_fingerprints": 3720
+          }
+        },
+        "train__valid": {
+          "exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 30922,
+            "distinct_right": 5766,
+            "shared_distinct_fingerprints": 3742
+          }
+        },
+        "valid__test": {
+          "exact_fingerprint": {
+            "distinct_left": 10000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 10000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 5766,
+            "distinct_right": 5753,
+            "shared_distinct_fingerprints": 1687
+          }
+        }
+      },
+      "power7": {
+        "train__test": {
+          "exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 4068,
+            "distinct_right": 1656,
+            "shared_distinct_fingerprints": 1534
+          }
+        },
+        "train__valid": {
+          "exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 100000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 4068,
+            "distinct_right": 1654,
+            "shared_distinct_fingerprints": 1510
+          }
+        },
+        "valid__test": {
+          "exact_fingerprint": {
+            "distinct_left": 10000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "protocol_v4_exact_fingerprint": {
+            "distinct_left": 10000,
+            "distinct_right": 10000,
+            "shared_distinct_fingerprints": 0
+          },
+          "template_fingerprint": {
+            "distinct_left": 1654,
+            "distinct_right": 1656,
+            "shared_distinct_fingerprints": 1144
+          }
+        }
+      }
+    },
+    "interpretation": "Historical exact/template overlap is retained and added to the quarantine union; it is not treated as a new-cohort collision. No prospective candidate pool was generated.",
+    "source_coverage": {
+      "all_frozen_identity_claims_match": true,
+      "arecel_all_dataset_splits_present": true,
+      "arecel_missing_splits": [],
+      "issue48_claims_complete_match": true,
+      "stage1a_claims_complete_match": true
+    },
+    "split_counts": {
+      "census13": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "dmv11": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "forest10": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      },
+      "power7": {
+        "test": 10000,
+        "train": 100000,
+        "valid": 10000
+      }
+    },
+    "total_queries": 480000
+  },
+  "evidence_label": "OUTCOME_FREE_SOURCE_IDENTITY_RECONSTRUCTION",
+  "exact_fingerprint_contract_comparison": {
+    "by_source": {
+      "issue48:test_cohort": {
+        "claims": 112,
+        "different_digest_due_to_contract": 49,
+        "same_digest": 63
+      },
+      "issue48:validation_calibration": {
+        "claims": 0,
+        "different_digest_due_to_contract": 0,
+        "same_digest": 0
+      },
+      "stage1a-issue38:heldout_selection": {
+        "claims": 0,
+        "different_digest_due_to_contract": 0,
+        "same_digest": 0
+      }
+    },
+    "interpretation": "Different digests are not identity failures: v4 sorts predicate tuples while Issue #59 preserves source predicate order. Each is verified against its own frozen/reconstructed contract.",
+    "scope": "claims with both Issue #59 reconstruction and PR #58 frozen exact hashes"
+  },
+  "format": "issue64-historical-fingerprint-rebuild-report-v7",
+  "frozen_protocol_claims": {
+    "claim_count": 184,
+    "claims": [
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000219",
+        "source": "issue48:test_cohort",
+        "source_index": 219,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000239",
+        "source": "issue48:test_cohort",
+        "source_index": 239,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000379",
+        "source": "issue48:test_cohort",
+        "source_index": 379,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000544",
+        "source": "issue48:test_cohort",
+        "source_index": 544,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000934",
+        "source": "issue48:test_cohort",
+        "source_index": 934,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000985",
+        "source": "issue48:test_cohort",
+        "source_index": 985,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001172",
+        "source": "issue48:test_cohort",
+        "source_index": 1172,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001190",
+        "source": "issue48:test_cohort",
+        "source_index": 1190,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001263",
+        "source": "issue48:test_cohort",
+        "source_index": 1263,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001429",
+        "source": "issue48:test_cohort",
+        "source_index": 1429,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001539",
+        "source": "issue48:test_cohort",
+        "source_index": 1539,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001666",
+        "source": "issue48:test_cohort",
+        "source_index": 1666,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001853",
+        "source": "issue48:test_cohort",
+        "source_index": 1853,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002242",
+        "source": "issue48:test_cohort",
+        "source_index": 2242,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002638",
+        "source": "issue48:test_cohort",
+        "source_index": 2638,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002959",
+        "source": "issue48:test_cohort",
+        "source_index": 2959,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003339",
+        "source": "issue48:test_cohort",
+        "source_index": 3339,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003477",
+        "source": "issue48:test_cohort",
+        "source_index": 3477,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003574",
+        "source": "issue48:test_cohort",
+        "source_index": 3574,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004019",
+        "source": "issue48:test_cohort",
+        "source_index": 4019,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004159",
+        "source": "issue48:test_cohort",
+        "source_index": 4159,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004221",
+        "source": "issue48:test_cohort",
+        "source_index": 4221,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004250",
+        "source": "issue48:test_cohort",
+        "source_index": 4250,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004577",
+        "source": "issue48:test_cohort",
+        "source_index": 4577,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004592",
+        "source": "issue48:test_cohort",
+        "source_index": 4592,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004597",
+        "source": "issue48:test_cohort",
+        "source_index": 4597,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004793",
+        "source": "issue48:test_cohort",
+        "source_index": 4793,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004960",
+        "source": "issue48:test_cohort",
+        "source_index": 4960,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005197",
+        "source": "issue48:test_cohort",
+        "source_index": 5197,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005250",
+        "source": "issue48:test_cohort",
+        "source_index": 5250,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005361",
+        "source": "issue48:test_cohort",
+        "source_index": 5361,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005368",
+        "source": "issue48:test_cohort",
+        "source_index": 5368,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005545",
+        "source": "issue48:test_cohort",
+        "source_index": 5545,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005600",
+        "source": "issue48:test_cohort",
+        "source_index": 5600,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005934",
+        "source": "issue48:test_cohort",
+        "source_index": 5934,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006222",
+        "source": "issue48:test_cohort",
+        "source_index": 6222,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006322",
+        "source": "issue48:test_cohort",
+        "source_index": 6322,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006333",
+        "source": "issue48:test_cohort",
+        "source_index": 6333,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006434",
+        "source": "issue48:test_cohort",
+        "source_index": 6434,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006522",
+        "source": "issue48:test_cohort",
+        "source_index": 6522,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006611",
+        "source": "issue48:test_cohort",
+        "source_index": 6611,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006689",
+        "source": "issue48:test_cohort",
+        "source_index": 6689,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007004",
+        "source": "issue48:test_cohort",
+        "source_index": 7004,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007445",
+        "source": "issue48:test_cohort",
+        "source_index": 7445,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007726",
+        "source": "issue48:test_cohort",
+        "source_index": 7726,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007900",
+        "source": "issue48:test_cohort",
+        "source_index": 7900,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007949",
+        "source": "issue48:test_cohort",
+        "source_index": 7949,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008102",
+        "source": "issue48:test_cohort",
+        "source_index": 8102,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008214",
+        "source": "issue48:test_cohort",
+        "source_index": 8214,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008646",
+        "source": "issue48:test_cohort",
+        "source_index": 8646,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008677",
+        "source": "issue48:test_cohort",
+        "source_index": 8677,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008782",
+        "source": "issue48:test_cohort",
+        "source_index": 8782,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009041",
+        "source": "issue48:test_cohort",
+        "source_index": 9041,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009189",
+        "source": "issue48:test_cohort",
+        "source_index": 9189,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009308",
+        "source": "issue48:test_cohort",
+        "source_index": 9308,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009393",
+        "source": "issue48:test_cohort",
+        "source_index": 9393,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009740",
+        "source": "issue48:test_cohort",
+        "source_index": 9740,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009807",
+        "source": "issue48:test_cohort",
+        "source_index": 9807,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009895",
+        "source": "issue48:test_cohort",
+        "source_index": 9895,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009960",
+        "source": "issue48:test_cohort",
+        "source_index": 9960,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000005",
+        "source": "issue48:validation_calibration",
+        "source_index": 5,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000003",
+        "source": "issue48:validation_calibration",
+        "source_index": 3,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000009",
+        "source": "issue48:validation_calibration",
+        "source_index": 9,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000001",
+        "source": "issue48:validation_calibration",
+        "source_index": 1,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000010",
+        "source": "issue48:validation_calibration",
+        "source_index": 10,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:valid:000011",
+        "source": "issue48:validation_calibration",
+        "source_index": 11,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000019",
+        "source": "issue48:test_cohort",
+        "source_index": 19,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000121",
+        "source": "issue48:test_cohort",
+        "source_index": 121,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000200",
+        "source": "issue48:test_cohort",
+        "source_index": 200,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000348",
+        "source": "issue48:test_cohort",
+        "source_index": 348,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000439",
+        "source": "issue48:test_cohort",
+        "source_index": 439,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000518",
+        "source": "issue48:test_cohort",
+        "source_index": 518,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:000891",
+        "source": "issue48:test_cohort",
+        "source_index": 891,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:001032",
+        "source": "issue48:test_cohort",
+        "source_index": 1032,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:001165",
+        "source": "issue48:test_cohort",
+        "source_index": 1165,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:001203",
+        "source": "issue48:test_cohort",
+        "source_index": 1203,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:001444",
+        "source": "issue48:test_cohort",
+        "source_index": 1444,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:001846",
+        "source": "issue48:test_cohort",
+        "source_index": 1846,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002026",
+        "source": "issue48:test_cohort",
+        "source_index": 2026,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002336",
+        "source": "issue48:test_cohort",
+        "source_index": 2336,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002380",
+        "source": "issue48:test_cohort",
+        "source_index": 2380,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002492",
+        "source": "issue48:test_cohort",
+        "source_index": 2492,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002570",
+        "source": "issue48:test_cohort",
+        "source_index": 2570,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:002615",
+        "source": "issue48:test_cohort",
+        "source_index": 2615,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003096",
+        "source": "issue48:test_cohort",
+        "source_index": 3096,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003108",
+        "source": "issue48:test_cohort",
+        "source_index": 3108,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003157",
+        "source": "issue48:test_cohort",
+        "source_index": 3157,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003402",
+        "source": "issue48:test_cohort",
+        "source_index": 3402,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003411",
+        "source": "issue48:test_cohort",
+        "source_index": 3411,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003446",
+        "source": "issue48:test_cohort",
+        "source_index": 3446,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:003613",
+        "source": "issue48:test_cohort",
+        "source_index": 3613,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004180",
+        "source": "issue48:test_cohort",
+        "source_index": 4180,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004380",
+        "source": "issue48:test_cohort",
+        "source_index": 4380,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004705",
+        "source": "issue48:test_cohort",
+        "source_index": 4705,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004716",
+        "source": "issue48:test_cohort",
+        "source_index": 4716,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004782",
+        "source": "issue48:test_cohort",
+        "source_index": 4782,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:004799",
+        "source": "issue48:test_cohort",
+        "source_index": 4799,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:005260",
+        "source": "issue48:test_cohort",
+        "source_index": 5260,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:005375",
+        "source": "issue48:test_cohort",
+        "source_index": 5375,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006230",
+        "source": "issue48:test_cohort",
+        "source_index": 6230,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006305",
+        "source": "issue48:test_cohort",
+        "source_index": 6305,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006447",
+        "source": "issue48:test_cohort",
+        "source_index": 6447,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006629",
+        "source": "issue48:test_cohort",
+        "source_index": 6629,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006666",
+        "source": "issue48:test_cohort",
+        "source_index": 6666,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006685",
+        "source": "issue48:test_cohort",
+        "source_index": 6685,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006797",
+        "source": "issue48:test_cohort",
+        "source_index": 6797,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:006881",
+        "source": "issue48:test_cohort",
+        "source_index": 6881,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:007287",
+        "source": "issue48:test_cohort",
+        "source_index": 7287,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:007590",
+        "source": "issue48:test_cohort",
+        "source_index": 7590,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:007820",
+        "source": "issue48:test_cohort",
+        "source_index": 7820,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:007958",
+        "source": "issue48:test_cohort",
+        "source_index": 7958,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:007974",
+        "source": "issue48:test_cohort",
+        "source_index": 7974,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:008293",
+        "source": "issue48:test_cohort",
+        "source_index": 8293,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:008459",
+        "source": "issue48:test_cohort",
+        "source_index": 8459,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:009313",
+        "source": "issue48:test_cohort",
+        "source_index": 9313,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:009509",
+        "source": "issue48:test_cohort",
+        "source_index": 9509,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": false,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:009638",
+        "source": "issue48:test_cohort",
+        "source_index": 9638,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": true,
+        "mismatch": null,
+        "query_id": "arecel:census13:test:009656",
+        "source": "issue48:test_cohort",
+        "source_index": 9656,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000000",
+        "source": "issue48:validation_calibration",
+        "source_index": 0,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000001",
+        "source": "issue48:validation_calibration",
+        "source_index": 1,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000002",
+        "source": "issue48:validation_calibration",
+        "source_index": 2,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000009",
+        "source": "issue48:validation_calibration",
+        "source_index": 9,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000012",
+        "source": "issue48:validation_calibration",
+        "source_index": 12,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:census13:valid:000006",
+        "source": "issue48:validation_calibration",
+        "source_index": 6,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000015",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 15,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000134",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 134,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000320",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 320,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000419",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 419,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000509",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 509,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000550",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 550,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000728",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 728,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000857",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 857,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:000867",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 867,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001377",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1377,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001645",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1645,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001679",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1679,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001680",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1680,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001720",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1720,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:001981",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 1981,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002067",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2067,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002110",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2110,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002363",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2363,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002464",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2464,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002541",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2541,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002657",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2657,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002664",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2664,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:002903",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 2903,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003045",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3045,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003283",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3283,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003333",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3333,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003545",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3545,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003705",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3705,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003716",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3716,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:003958",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 3958,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004234",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4234,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004343",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4343,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004350",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4350,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004681",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4681,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004735",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4735,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:004978",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 4978,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005224",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 5224,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005305",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 5305,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005880",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 5880,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:005892",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 5892,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006078",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 6078,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006097",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 6097,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006104",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 6104,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006199",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 6199,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:006915",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 6915,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007037",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 7037,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007062",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 7062,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007183",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 7183,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007793",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 7793,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:007937",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 7937,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008052",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 8052,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008117",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 8117,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008477",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 8477,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008737",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 8737,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:008907",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 8907,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009119",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 9119,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009143",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 9143,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009346",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 9346,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009620",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 9620,
+        "verified": true
+      },
+      {
+        "issue59_ordered_equals_protocol_v4_sorted": null,
+        "mismatch": null,
+        "query_id": "arecel:forest10:test:009679",
+        "source": "stage1a-issue38:heldout_selection",
+        "source_index": 9679,
+        "verified": true
+      }
+    ],
+    "errors": [],
+    "verified_count": 184
+  },
+  "historical_quarantine": {
+    "arecel_query_identity_count": 480000,
+    "issue48_frozen_identity_claims": 124,
+    "prospective_candidate_pool_status": "NOT_RUN_BY_TASK_BOUNDARY; candidate-level zero-collision gate remains untested",
+    "stage1a_frozen_identity_claims": 60,
+    "status": "PASS_SOURCE_IDENTITY_COVERAGE",
+    "unique_quarantine_exact_fingerprint_digest_union": 803798,
+    "unique_quarantine_issue59_ordered_exact_fingerprints": 441962,
+    "unique_quarantine_protocol_v4_sorted_exact_fingerprints": 441962,
+    "unique_quarantine_template_fingerprints": 68897
+  },
+  "limitations": [
+    "Reconstructing historical identities and the quarantine union does not prove a future fixed-attempt candidate pool can meet quotas.",
+    "If any source split is absent or any frozen identity claim mismatches, the historical identity gate is BLOCKED.",
+    "No new cohort was generated, and no PostgreSQL or held-out measurement was run."
+  ],
+  "scope": {
+    "exact_hash_contract_note": "Issue #59 canonical exact preserves source predicate order; PR #58 protocol-v4 sorts (column, operator, value) tuples before hashing. Both are retained and independently checked; hashes are not interchangeable.",
+    "ledger_fields": [
+      "dataset",
+      "split",
+      "query_id",
+      "source_index",
+      "source_sql_sha256",
+      "exact_fingerprint_sha256 (Issue #59 ordered)",
+      "protocol_v4_exact_fingerprint_sha256 (sorted tuple contract)",
+      "template_fingerprint_sha256",
+      "historical_sources"
+    ],
+    "not_opened": [
+      "base-original-label.pkl",
+      "truth files",
+      "estimate files",
+      "PostgreSQL traces",
+      "EXPLAIN or measurement results",
+      "result summaries"
+    ],
+    "opened_artifacts": [
+      "AreCEL archive metadata",
+      "four workload/base.pkl members",
+      "Issue #48 frozen protocol-v4 identity fields",
+      "Stage 1A frozen protocol identity fields"
+    ],
+    "raw_sql_or_literals_written": false,
+    "stage1a_canonical_record_sha256_ignored": true
+  },
+  "sources": {
+    "archive_sha256_expected_and_verified": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "fingerprint_contract_source": "Issue #59 audit_structure.py pinned in Issue #64 schema_capacity.py source pins; PR #58 protocol-v4 exact hash reconstructed separately as sorted predicate tuples",
+    "issue48_protocol_v4_path": "/home/wqts/projects/ess-research/.worktrees/ess-research-issue48/experiments/pess-multidataset-heldout-stage2b/protocol-v4.json",
+    "issue48_protocol_v4_sha256_expected_and_verified": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "stage1a_protocol_path": "/home/wqts/projects/ess-research/.worktrees/ess-research-issue64/experiments/forest10-heldout-decision-stage1a/protocol.json",
+    "stage1a_protocol_sha256": "79d76dbb2cd5c47e3fe434c32a9156040c66bac13f8d7a4cfbda8538fef74307",
+    "workload_pickle_sha256_by_dataset": {
+      "census13": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba",
+      "dmv11": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc",
+      "forest10": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+      "power7": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5"
+    }
+  },
+  "status": "PASS_HISTORICAL_IDENTITY_RECONSTRUCTION"
+}

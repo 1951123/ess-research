@@ -1,0 +1,80 @@
+{
+  "format": "ess-stage2b-official-arecel-splits-v1",
+  "issue": 64,
+  "status": "OUTCOME_FREE_PROTOCOL_FROZEN_FOR_RESEARCHER_REVIEW",
+  "scientific_question": "Within each AreCEL dataset, compare PostgreSQL cardinality-estimation error on official test queries for resource sets selected by validation-calibrated Empty, Nominal, and PESS policies.",
+  "minimum_experiment_sentence": "Reuse pinned AreCEL official splits, PR #68's valid-workload candidate discovery, corrected PR #58 model definitions, and the existing PG sample-replay runner; add only a valid-truth firewall, tractable exact resource selection, full-split Plan Rows Q1 evaluation, and compact query-level observations needed for the comparison.",
+  "scope_reset": {
+    "cohort_source": "official_arecel_train_valid_test_only",
+    "self_generated_cohort_route": "SUPERSEDED_FOR_THIS_QUESTION; preserve prior protocol, ledger, and feasibility reports unchanged as historical work",
+    "template_disjointness": "not required; do not claim generalization to unseen templates",
+    "dataset_transfer": "none; calibrate and report each table separately",
+    "test_exposure": "prior Issue #48 outcomes exposed 60 Forest10 and 52 Census13 test identities; classify those identities from frozen identity protocols, retain them in the official test set, report the exposed/unexposed identity strata separately, and do not use prior outcomes to tune any choice",
+    "historical_overlap": "Issue #59 reports train/valid/test template overlap; treat the official split as the target benchmark and disclose overlap rather than filtering queries or claiming independent template groups"
+  },
+  "official_inputs": {
+    "upstream_repository": "sfu-db/AreCELearnedYet",
+    "upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "split_counts_per_dataset": {"train": 100000, "valid": 10000, "test": 10000},
+    "dataset_inputs": {
+      "forest10": {"csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c", "workload_pickle_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea", "label_pickle_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974"},
+      "census13": {"csv_sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a", "workload_pickle_sha256": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba", "label_pickle_sha256": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451"},
+      "dmv11": {"csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a", "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc", "label_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65"},
+      "power7": {"csv_sha256": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9", "workload_pickle_sha256": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5", "label_pickle_sha256": "d7369b34d2ddc866dbb16c3b2f5147cb10a86832dba54c905ef400bc3514cdf5"}
+    },
+    "identity": "archive.py emits arecel:{dataset}:{split}:{source_index:06d}; preserve this source index and source-SQL hash as query ID integrity fields",
+    "identity_preflight": "compare each workload split's unique IDs/counts and source-SQL hashes with the pinned official source using workload definitions only; do not read label_pickle_sha256 inputs during this preflight"
+  },
+  "selection": {
+    "calibration_split": "valid",
+    "calibration_queries": "all 10000 official valid queries per dataset; no subsampling; train is development-only and never required for selection",
+    "candidate_universe_source": "Issue #67 merged PR #68: src/ess_research/arecel/candidates.py on merge commit da2472604c1ef85a745603934c58c2d316c14958; discovery report experiments/arecel/issue67-candidate-discovery.md",
+    "candidate_source_pins": {"candidate_module_sha256": "69bff45062c8fcbe092240d796e9ea910cb54ef9c79d162112ea22215a7890ca", "archive_module_sha256_at_merge": "ab18abcfec08302d27b07a721537b8d77edd9060f52473a9d5db5311623db55c", "discovery_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c"},
+    "candidate_policy": "for each dataset independently, include every distinct source-column pair with positive eligible_valid_query_count from Issue #67 discovery on the complete valid workload; no top-K, handpicked restriction, or cross-dataset transfer. Static eligibility is not evidence of PostgreSQL use or benefit.",
+    "candidate_counts": {"forest10": 45, "census13": 78, "dmv11": 55, "power7": 21},
+    "candidate_order_and_ids": "use the discovery output's schema-ordered candidate list; assign zero-padded ordinal IDs within each dataset and create statistics in that same order; freeze the resulting list before calibration",
+    "methods": ["Empty", "Nominal", "PESS"],
+    "budgets_proxy_units": [0, 2, 3, 5],
+    "cost": "one proxy unit per candidate statistics object; not physical ANALYZE cost",
+    "calibration_measurements": "one Empty per valid task and one singleton only for candidates statically eligible for that task, on the same frozen dataset sample; b values for unavailable edges are not used by the frozen model objective. Use valid truth only for corrected-log model inputs; select one deterministic set per method/budget and record all optimal ties.",
+    "calibration_query_count_and_preflight": "all 10000 official valid tasks per dataset; before any calibration measurement, sum eligible_valid_query_count over the frozen discovery candidate list to freeze the exact candidate-task measurement count; this workload-only count may not inspect labels or outcomes. This count preflight is pending because the Issue64 Worktree Python lacks NumPy needed to deserialize the workload pickle; the attempt produced no candidate results, no dependency was installed, and no other Worktree environment was borrowed.",
+    "objective_and_ties": "reuse PR #58 corrected-log model, Nominal greedy matching in frozen candidate order, and PESS maximal-matching objective; exact Fraction reference for recorded rationalized inputs; select lexicographically smallest candidate-ID tuple and retain all tied sets",
+    "corrected_log_source_pin": {"pr58_commit": "245b2b131f9acb361b3f613d654e23e61d10d79a", "formal_runner_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322", "protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad", "reuse_boundary": "verify these pins against PR #58 before adaptation; reuse model definitions only, not old calibration records or selected sets"}
+  },
+  "evaluation": {
+    "split": "all 10000 official test queries per dataset, with one observation per query/treatment",
+    "query": "the existing AreCEL single-table predicate query; retain >2 predicates and do not filter by candidate-edge coverage, operator, or prior overlap",
+    "test_truth_firewall": "freeze this config, source/code pins, valid-derived selections, and evaluation schedule before materializing or reading any test label, estimate, plan, or trace; separate researcher approval is required before any test execution or outcome access",
+    "primary_estimator": "integer Plan Rows on the top-level EXPLAIN (FORMAT JSON) plan node, which estimates output rows for the AreCEL SELECT * query; reject malformed, missing, negative, or nonintegral values",
+    "primary_metric": "per-dataset nearest-rank P95 Q1, Q1(E,A)=max(E,A,1)/max(min(E,A),1), for nonnegative integer Plan Rows E and AreCEL truth A",
+    "zero_and_invalid": "retain raw E=0 and A=0 values/status; Q1 is defined for nonnegative values; missing, negative, nonintegral, or nonfinite estimate/truth is INVALID and is never dropped or replaced",
+    "secondary": ["P50/P99/Max Q1", "floor-one MALE = mean(abs(ln(max(E,1))-ln(max(A,1)))) over all valid nonnegative integer pairs; additionally report natural MALE = mean(abs(ln(E/A))) on the E>0,A>0 subset and its n", "paired per-query Q1 benefit/harm/tie counts for PESS versus Nominal; compare exact Q1 values, no tolerance"],
+    "quantile_and_repetition": "one fixed sample per dataset, replayed byte-identically for every treatment; one Plan Rows observation per query/treatment; no averaging across repetitions; nearest-rank quantile at rank ceil(p*n); no population confidence/significance claim",
+    "exposure_reporting": "report complete official test metrics and separately identify the frozen previously exposed query-ID subset; unexposed-subset results are a sensitivity description, not a new untouched confirmatory benchmark",
+    "trace": "no per-query trace required for Q1; capture a targeted trace only if making a claim about a statistic object actually selected by PostgreSQL; missing mechanism trace does not remove a valid Plan Rows observation",
+    "raw_observations": "retain compact query ID, treatment/set ID, Plan Rows, AreCEL truth, validity/status, and sample identity sufficient to recompute metrics; do not retain full plan/trace dumps unless a specific mechanism claim requires them"
+  },
+  "execution_pins_to_reverify": {
+    "arecel_source_files": {"src/ess_research/arecel/archive.py": "ab18abcfec08302d27b07a721537b8d77edd9060f52473a9d5db5311623db55c", "src/ess_research/arecel/real.py": "0c3f33594ae35cbca77f578752d28050dc88a4a9c5999965dea526eaf5f7cbf7", "src/ess_research/arecel/forest10.py": "e0ff5bec3acaeaae638eee760c5a3b9f57288062d23e7d05f09f3d87a787b5ac"},
+    "metric_reference_sha256": "42a7d08d826a5080706386bf630e560785728ea626eae4752d07fd2e915c9c1e",
+    "postgresql_target": {"version": "16.14", "candidate_source_commit_from_Gate_A_only": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6", "candidate_postgres_binary_sha256_from_Gate_A_only": "4efe8b77273e48f36d31beb7acf8ab4a8b8a3fd5240ba477adba25c8a60b42f7", "boundary": "Gate A is infrastructure evidence, not this experiment's runtime approval; reverify actual source commit, build flags, binary hashes and clean state before execution"}
+  },
+  "outcome_free_plan_count": {
+    "assumptions": "full 10000 valid queries; one Empty per query and singleton measurements only for statically eligible candidate/query pairs; full 10000 test queries; at most seven unique test treatment sets after deduplicating the shared budget-0 Empty plus up to two selected sets at each of budgets 2, 3, and 5; one sample and one estimate per query/treatment; no retries included",
+    "calibration_query_plans_max": {"forest10": 460000, "census13": 790000, "dmv11": 560000, "power7": 220000},
+    "test_query_plans_max": {"forest10": 70000, "census13": 70000, "dmv11": 70000, "power7": 70000},
+    "per_dataset_total_max": {"forest10": 530000, "census13": 860000, "dmv11": 630000, "power7": 290000},
+    "total_max": 2310000,
+    "existing_issue48_cap_per_dataset": 1800,
+    "existing_issue48_cap_scope": "held-out raw query measurements only; the full 10000-query test design alone requires up to 70000 per dataset",
+    "cap_status": "EXISTING_RUNNER_CAP_PER_DATASET_IS_INSUFFICIENT; 2310000 is a conservative deterministic upper bound assuming every pair is eligible on every valid query, not the planned count, runtime estimate, or execution authorization; exact planned calibration count must be frozen from discovery support counts and researcher must approve a feasible cap before measured work"
+  },
+  "genuine_correctness_blockers_before_execution": [
+    "PR #68 provides a workload-only valid-split reader, but calibration still requires valid cardinality truth. The legacy AreCEL prepare() unpickles one all-split label pickle and writes every truth split; establish a valid-only truth path that does not expose test labels before selection, or stop if the pinned format cannot support that firewall.",
+    "PR #58's choose_model_sets enumerates range(1 << candidate_count); at 78 candidates this is 2^78 masks per budget and cannot be reused as-is. An exact, tractable selection method compatible with the frozen Nominal/PESS objectives is required; do not top-K candidates or substitute an unapproved approximation.",
+    "The PR #58 runner uses small frozen cohorts and positive pre-clamp traces, not full-split Plan Rows Q1; adapt it for all official split IDs and validate top-level Plan Rows parsing with a small synthetic EXPLAIN JSON fixture.",
+    "The full-test upper bound is 70000 per dataset, above the existing 1800 held-out-query cap; the total experiment ceiling is 2310000 plans (530000/860000/630000/290000 by dataset). A new total cap and researcher approval of runtime/disk limits are required before any calibration or test measurement."
+  ],
+  "phase_boundary": {"postgresql_execution_authorized": false, "test_outcome_access_authorized": false, "next_step": "researcher_review_of_this_outcome_free_protocol_and_minimal_runner_plan"}
+}

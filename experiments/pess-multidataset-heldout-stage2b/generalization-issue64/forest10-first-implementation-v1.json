@@ -1,0 +1,178 @@
+{
+  "format": "ess-stage2b-issue64-forest10-first-implementation-v1",
+  "issue": 64,
+  "status": "OUTCOME_FREE_IMPLEMENTATION_DRAFT; RESEARCHER_REVIEW_REQUIRED_BEFORE_PG_EXECUTION",
+  "scientific_question": "On the official Forest10 test split, do Nominal- and PESS-selected pairwise-MCV resource sets have different PostgreSQL cardinality-estimation Q1 errors, when selection is calibrated only from official valid data?",
+  "scope": {
+    "dataset": "Forest10",
+    "valid_queries": 10000,
+    "test_queries": 10000,
+    "calibration_split": "official_valid_only",
+    "evaluation_split": "official_test_only_after_protocol_selection_freeze_and_separate_execution_approval",
+    "template_overlap": "allowed; claim is generalization under the official AreCEL split, not to unseen templates",
+    "other_datasets": "future replications, not prerequisites for this first milestone"
+  },
+  "candidate_universe": {
+    "source": "merged PR #68 workload-derived Forest10 valid-split discovery",
+    "support_report_path": "experiments/arecel/issue67-candidate-discovery.md",
+    "candidate_count": 45,
+    "ordering": "published Issue #67 report order, equivalent to lexicographic unordered pairs in Forest10 source-schema column order",
+    "static_eligibility_only": true,
+    "not_a_claim_of_postgresql_consideration_or_selection": true,
+    "support_sum_eligible_query_candidate_pairs": 164088,
+    "postgresql_mapping": {
+      "relation": "public.forest10",
+      "query_adapter": "SELECT * FROM public.forest10 WHERE ...",
+      "source_column_order": [
+        "Elevation", "Aspect", "Slope", "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am", "Hillshade_Noon", "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points"
+      ],
+      "catalog_columns": "source names map positionally to lowercase catalog names; candidate endpoint order is preserved",
+      "statistics_relation": "PR #58 bootstrap and configure_statistics both address public.forest10",
+      "static_mapping_implementation": "forest10_runner.py::pr58_candidate_specs"
+    }
+  },
+  "selection": {
+    "source_model": "corrected-log PR #58 run_formal.py at pinned commit 76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "budgets": [0, 2, 3],
+    "constraint": "resource-set cardinality <= B; every budget includes Empty",
+    "nominal": "greedy matching over selected, query-available edges in frozen candidate order",
+    "pess": "maximum loss over every inclusion-maximal matching of selected, query-available edges",
+    "objective": "sum of task-wise frozen validation losses over all 10000 valid queries",
+    "corrected_log_coefficients": {
+      "target": "T_i=max(1, valid_truth_i)",
+      "alpha": "ln(n0_i/T_i), where n0_i is the positive Empty pre-clamp estimate",
+      "edge_coefficient": "b_e_i=ln(n_e_i/n0_i), where n_e_i is that eligible singleton's positive pre-clamp estimate",
+      "rationalization": "PR #58 uses Decimal natural log at precision 80, quantized half-even to 1e-18, then parsed as Fraction; exact enumeration is over these rationalized inputs"
+    },
+    "enumeration": "complete exact enumeration of every feasible subset; no heuristic, truncation, or solver approximation",
+    "objective_arithmetic": "exact Fraction over the rationalized alpha and b inputs produced by the pinned corrected-log model",
+    "ties": "retain all exact minimizers; choose the smallest-cardinality minimizer, then lexicographically earliest tuple of candidate-order positions for deployment",
+    "nominal_greedy_order_is_not_postgresql_hidden_order": true,
+    "current_resource_decisions": {
+      "B0": "Both Nominal and PESS select the unique feasible resource set, Empty; its validation objective is not computed because alpha requires valid calibration data.",
+      "B2_B3": "NOT_COMPUTED: the required valid-query singleton/Empty positive pre-clamp trace estimates are unavailable without PostgreSQL calibration, which is prohibited in this phase."
+    }
+  },
+  "calibration_inputs_and_boundary": {
+    "empty": "one Empty configuration per each of the 10000 official valid queries",
+    "singleton": "measure each statically eligible candidate only on valid queries supporting that candidate; model inputs are the positive pre-clamp trace estimates returned by PR #58, not rounded/clamped Plan Rows",
+    "truth": "official valid truth only may contribute to alpha, b, objective, or selection",
+    "combined_label_pickle_deserialization": "permitted by researcher clarification; test labels must not influence calibration, selection, model/solver decisions, or tuning",
+    "this_phase": "no PostgreSQL measurements or EXPLAIN; no valid truth or test outcomes were opened for this implementation/preflight"
+  },
+  "evaluation_adapter": {
+    "input": "one ordinary EXPLAIN (FORMAT JSON) result per query and each distinct deployed resource set, after separate researcher execution approval",
+    "sample_policy": "reuse one pinned ANALYZE sample per dataset across treatment sets; record and compare PG build, table/schema, GUC, target, sample seed/identity, and setup metadata before claiming paired comparability",
+    "estimate": "integer Plan Rows at the top-level Plan only",
+    "primary_metric": "Q1=max(estimate, truth, 1)/max(min(estimate, truth), 1)",
+    "zeros": "Q1 is defined for nonnegative integer estimate/truth including zero; retain/report zero-zero, estimate-only-zero, truth-only-zero explicitly",
+    "invalids": "missing, negative, non-integer, or malformed Plan Rows/truth are unresolved and must not be silently dropped",
+    "primary_summary": "per-query Q1, nearest-rank P95 per policy",
+    "secondary": [
+      "nearest-rank P50, P99, and maximum Q1",
+      "mean |ln(estimate/truth)| on strictly positive estimate/truth pairs, with denominator reported",
+      "paired per-query PESS versus Nominal Q1: benefit if PESS Q1 is lower, harm if higher, tie if equal, on the common valid test-query set"
+    ],
+    "physical_claim_boundary": "Plan Rows/Q1 evaluates estimates; it does not identify which extended-statistics OID PostgreSQL selected",
+    "analysis_of_test_outcomes": "not performed in this phase"
+  },
+  "runner_adapter": {
+    "code": "forest10_runner.py",
+    "calibration": "configure Empty once; obtain positive pre-clamp trace estimates for all valid queries; configure each eligible singleton and measure only statically eligible valid queries; form alpha/b with PR #58 Decimal-ln rationalization; invoke exact selection for B=0/2/3",
+    "evaluation": "after frozen selection and separate approval, require exactly 10000 supplied official test queries, configure each distinct selected set once, run ordinary EXPLAIN (FORMAT JSON) over every query, retain compact query-level Plan Rows/truth/Q1/status, and report P50/P95/P99/Max plus paired Q1 benefits/harms/ties; any unresolved row is retained and makes the policy summary INCONCLUSIVE",
+    "backend": "PR58Forest10Backend delegates configure_statistics, trace-backed run_query, and psql to the hash-pinned PR #58 module; test Plan Rows do not require an OID/payload trace",
+    "execution_status": "NOT RUN; module import and synthetic-backend tests only"
+  },
+  "preflight": {
+    "calibration_explain_count_exact": 174088,
+    "test_explain_count_upper_bound": 50000,
+    "test_upper_bound_reason": "10000 official test queries times at most five distinct sets: Empty plus Nominal/PESS selections for B=2 and B=3; B=0 is Empty and duplicate sets are deduplicated",
+    "total_plan_attempt_upper_bound": 224088,
+    "these_are_plan_counts_not_runtime_or_storage_estimates": true,
+    "exact_selector_task_subset_evaluations_upper_bound": 304520000,
+    "selector_synthetic_benchmark": {
+      "script": "benchmark_forest10_exact_selection.py",
+      "synthetic_tasks": 100,
+      "candidates": 45,
+      "elapsed_seconds": 2.232956,
+      "linear_projection_10000_tasks_seconds": 223.296,
+      "limitation": "synthetic Fraction inputs only; linear projection is not a runtime guarantee and excludes input preparation, PostgreSQL plans, I/O, and serialization"
+    },
+    "runtime_estimate": "PostgreSQL calibration/evaluation runtime NOT_MEASURED; selector-only synthetic projection approximately 223 seconds",
+    "runtime_cap_approval": "NOT_VERIFIED",
+    "storage_estimate": "NOT_VERIFIED"
+  },
+  "source_pins": {
+    "issue67_pr68_merge_commit": "da2472604c1ef85a745603934c58c2d316c14958",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "issue67_etl_source_commit": "1edfba0b093a462192ef33a3d5a7bda5e18d822f",
+    "issue67_candidate_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c",
+    "issue68_candidate_discovery_code_sha256": "69bff45062c8fcbe092240d796e9ea910cb54ef9c79d162112ea22215a7890ca",
+    "pr58_corrected_log_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "pr58_run_formal_sha256": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+    "pr58_protocol_v4_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "postgresql_build_and_runtime": {
+      "status": "BINARY_HASH_AND_VERSION_VERIFIED; DATABASE_NOT_STARTED",
+      "runtime_parent_relative_prefix": "issue38/pg-prefix",
+      "runtime_parent_relative_build_manifest": "issue38/results/heldout-v1/runtime-manifest.json",
+      "build_manifest_sha256": "ca8c13c2193151bd5350bba4dd124d3f49d057e9ecf60c32cc70c900944a7ecf",
+      "expected_pg_source_commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+      "verified_binary_versions": "postgres/initdb/pg_ctl/psql/pg_config 16.14",
+      "binary_hashes": "verified against the external build manifest using PR #58 audit_pg_binary",
+      "sample_replay": {
+        "status": "OLD_SAMPLE_TARGET_INCOMPATIBLE; FRESH_SAME_CLUSTER_SAMPLE_REQUIRED",
+        "runtime_parent_relative_path": "issue38/results/replay-sample.bin",
+        "sha256": "812557e373ca81a3f20ed9827fcf3d7d219723b4a05ebf19b8ff14567f8089ef",
+        "bytes": 3540470,
+        "header_server_version": "16.14",
+        "header_relation_identity": "6:public17:forest10_original",
+        "incompatibility": "The replay format binds the sample to the recorded relation OID, filenode, page count, encoded schema/relation identity, tuple table OID, and attribute descriptor including names/order. The old sample names public.forest10_original and must not be replayed onto public.forest10.",
+        "approved_future_path": "On one disposable cluster, PR #58 bootstrap_cluster creates public.forest10 from the pinned Forest10 schema/CSV and exports one fixed sample from that same table; reuse that exact sample for every treatment without table rewrite/recreation.",
+        "static_status": "SOURCE_DERIVED_CONDITIONAL_NOT_RUNTIME_VERIFIED",
+        "sample_import_source": {
+          "repository": "1951123/ess-postgresql",
+          "commit": "23c7c2fdd4bfb561f3257d947fee956a2999fdb6",
+          "path": "src/backend/commands/analyze_sample_cache.c",
+          "sha256": "661c03c59a2a4ca1273a205d3e0c1ae2f2dc9c1fdf8c39076cd0085be6880e68"
+        },
+        "required_live_replay_check": "A future approved setup-only pilot must verify the freshly exported sample is accepted against its unchanged source relation; static identity/hash checks alone do not establish successful replay."
+      },
+      "remaining": "Fresh-cluster sample replay is not experimentally verified. Full calibration runtime/storage, pilot approval, and execution caps remain unresolved."
+    }
+  },
+  "setup_only_pilot_proposal": {
+    "status": "PROPOSED_NOT_AUTHORIZED",
+    "purpose": "Verify same-table sample replay and obtain a rough setup/runtime/disk feasibility estimate only; no calibration decision or test outcome.",
+    "environment": "one disposable PostgreSQL cluster under a dedicated ESS_RUNTIME_PARENT child; no shared database/service",
+    "operations_cap": {
+      "cluster_bootstraps": 1,
+      "sample_exports": 1,
+      "initial_export_analyze": 1,
+      "treatment_configurations": 2,
+      "treatment_analyze_replays": 2,
+      "explain_queries": 2,
+      "explain_split": "official valid only",
+      "explain_query": "the minimum source_index valid query statically eligible for the first frozen candidate e00_01; same query in Empty and singleton configs",
+      "resource_selection": "none; e00_01 is a technical singleton fixed in advance, not a selected treatment"
+    },
+    "hard_caps": {
+      "wall_clock_minutes": 30,
+      "incremental_disk_bytes": 2147483648,
+      "abort_if_cap_monitoring_or_enforcement_unavailable": true,
+      "retries_or_substitutions": 0
+    },
+    "retained_observations": ["success/failure", "elapsed time", "peak incremental disk bytes", "sample/catalog compatibility"],
+    "forbidden_outputs": ["calibration records", "selection objectives", "resource decisions", "test outcomes", "per-query plan/estimate retention"],
+    "approval_required": "separate explicit researcher approval of this exact cap before any pilot command; Issue #64 outcome-free authorization does not cover it"
+  },
+  "phase_boundary": {
+    "postgresql_execution_authorized": false,
+    "valid_calibration_measurement_authorized": false,
+    "test_plan_or_truth_access_authorized": false,
+    "next_step": "researcher review of code, preflight, calibration plan cap, runtime/storage feasibility, and pinned PostgreSQL build before separate execution approval"
+  }
+}

@@ -313,7 +313,7 @@ def _outputs(archive: BinaryIO, dataset: str, derived: Path) -> dict[str, int]:
 
 @contextmanager
 def prepare_valid_workload(
-    *, issue: int, dataset: str
+    *, issue: int, dataset: str, run_root: Path | None = None
 ) -> Iterator[PreparedValidWorkload]:
     """Prepare only the official valid workload, without loading labels.
 
@@ -337,7 +337,22 @@ def prepare_valid_workload(
         )
     runs.mkdir(parents=True, exist_ok=True)
 
-    with tempfile.TemporaryDirectory(prefix="arecel-valid-workload-", dir=runs) as name:
+    scratch_parent = runs
+    if run_root is not None:
+        if run_root.is_symlink() or not run_root.is_dir():
+            raise ConfigurationError(
+                "run_root must be an existing, non-symlink run directory"
+            )
+        owned_root = run_root.resolve(strict=True)
+        if owned_root.parent != runs.resolve(strict=True):
+            raise ConfigurationError(
+                "run_root must be one direct child of this Issue's runtime runs directory"
+            )
+        scratch_parent = owned_root
+
+    with tempfile.TemporaryDirectory(
+        prefix="arecel-valid-workload-", dir=scratch_parent
+    ) as name:
         run = Path(name)
         workload_path = run / "valid" / "workload.json"
         workload_path.parent.mkdir()
