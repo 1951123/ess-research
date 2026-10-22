@@ -1,8 +1,10 @@
-# Issue #64 — Stage 2B generalization protocol (Phase 0 only)
+# Issue #64 — Stage 2B generalization protocol
 
 > **Researcher-authorized full-valid collection (2026-10-22):** Issue #64 now explicitly approves one 174,088-call / 46-configuration Forest10 valid-only JSON acquisition, one fresh private PG/sample run, and hard 8-hour/4-GiB caps with 7.5-hour/3-GiB early stops. The approved plan is hash-pinned and the collector remains collection-only. No fitting, resource selection or test access is in scope.
 
 > **Latest execution checkpoint — full valid acquisition PASS (2026-10-22):** [Collection report](forest10-json-full-valid-collection-v1.md) and compact raw observations are preserved under [`runs/20261022-forest10-full-valid-v1/`](runs/20261022-forest10-full-valid-v1/). All 174,088 observations across 46 configs passed integrity checks; 87,404 contained verified MCV events and 86,684 were `NO_MCV_EVENTS`. Runtime 840.865 s; watchdog peak 534,147,072 bytes; cluster stopped. This is acquisition only, not model fitting, Nominal/PESS selection or test evaluation.
+
+> **Independent read-only recheck (2026-10-22):** [`verify_forest10_full_valid_observations.py`](verify_forest10_full_valid_observations.py) revalidated the durable manifest, gzip members, row sequence and valid-only static schedule (`labels_loaded=false`); PASS for all 174,088 rows. Two synthetic verifier tests and the 133-test offline Issue #64 suite passed. Valid-truth fitting and exact Nominal/PESS selection remain outside the current collection-only authorization.
 
 > **Historical code-only checkpoint (before the authorization above):** [Preflight v2](forest10-full-calibration-preflight-v2.md) documents implementation and synthetic checks at that earlier point. Its review-only plan status and “not approved” statements describe the prior commit and are superseded by the researcher decision above; the report itself remains unchanged as historical evidence.
 
