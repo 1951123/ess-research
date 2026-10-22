@@ -1,0 +1,350 @@
+{
+  "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+  "budgets": [
+    0,
+    2,
+    3
+  ],
+  "candidate_ids": [
+    "e00_01",
+    "e00_02",
+    "e00_03",
+    "e00_04",
+    "e00_05",
+    "e00_06",
+    "e00_07",
+    "e00_08",
+    "e00_09",
+    "e00_10",
+    "e00_11",
+    "e00_12",
+    "e01_02",
+    "e01_03",
+    "e01_04",
+    "e01_05",
+    "e01_06",
+    "e01_07",
+    "e01_08",
+    "e01_09",
+    "e01_10",
+    "e01_11",
+    "e01_12",
+    "e02_03",
+    "e02_04",
+    "e02_05",
+    "e02_06",
+    "e02_07",
+    "e02_08",
+    "e02_09",
+    "e02_10",
+    "e02_11",
+    "e02_12",
+    "e03_04",
+    "e03_05",
+    "e03_06",
+    "e03_07",
+    "e03_08",
+    "e03_09",
+    "e03_10",
+    "e03_11",
+    "e03_12",
+    "e04_05",
+    "e04_06",
+    "e04_07",
+    "e04_08",
+    "e04_09",
+    "e04_10",
+    "e04_11",
+    "e04_12",
+    "e05_06",
+    "e05_07",
+    "e05_08",
+    "e05_09",
+    "e05_10",
+    "e05_11",
+    "e05_12",
+    "e06_07",
+    "e06_08",
+    "e06_09",
+    "e06_10",
+    "e06_11",
+    "e06_12",
+    "e07_08",
+    "e07_09",
+    "e07_10",
+    "e07_11",
+    "e07_12",
+    "e08_09",
+    "e08_10",
+    "e08_11",
+    "e08_12",
+    "e09_10",
+    "e09_11",
+    "e09_12",
+    "e10_11",
+    "e10_12",
+    "e11_12"
+  ],
+  "decimal_log_quantization": "pinned PR65 build_task_models: Decimal ln at precision 80, 1e-18 half-even, Fraction exact selection",
+  "fit_transform": "g(x)=max(1,x) applied uniformly to raw Empty preclamp, singleton preclamp, and valid truth only during coefficient construction",
+  "format": "ess-issue71-census13-clamped-log-v2-schema-order-valid-selection-v1",
+  "model_coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+  "nominal_by_order": [
+    {
+      "budgets": {
+        "0": {
+          "all_optimal_sets": [
+            []
+          ],
+          "all_optimal_sets_pess_worst_case_fractions": [
+            {
+              "loss": "4069678531214269000459/500000000000000000",
+              "set": []
+            }
+          ],
+          "budget_at_most": 0,
+          "feasible_subset_count": 1,
+          "method": "Nominal",
+          "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+          "objective_fraction": "4069678531214269000459/500000000000000000",
+          "regret_vs_pess_global_fraction": "0",
+          "search": "complete enumeration of every subset with cardinality <= budget",
+          "selected": [],
+          "selected_set_pess_worst_case_fraction": "4069678531214269000459/500000000000000000",
+          "task_count": 10000,
+          "tie_count": 1
+        },
+        "2": {
+          "all_optimal_sets": [
+            [
+              "e02_03",
+              "e04_06"
+            ]
+          ],
+          "all_optimal_sets_pess_worst_case_fractions": [
+            {
+              "loss": "733156246462852301047/125000000000000000",
+              "set": [
+                "e02_03",
+                "e04_06"
+              ]
+            }
+          ],
+          "budget_at_most": 2,
+          "feasible_subset_count": 3082,
+          "method": "Nominal",
+          "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+          "objective_fraction": "733156246462852301047/125000000000000000",
+          "regret_vs_pess_global_fraction": "0",
+          "search": "complete enumeration of every subset with cardinality <= budget",
+          "selected": [
+            "e02_03",
+            "e04_06"
+          ],
+          "selected_set_pess_worst_case_fraction": "733156246462852301047/125000000000000000",
+          "task_count": 10000,
+          "tie_count": 1
+        },
+        "3": {
+          "all_optimal_sets": [
+            [
+              "e01_05",
+              "e02_03",
+              "e04_06"
+            ]
+          ],
+          "all_optimal_sets_pess_worst_case_fractions": [
+            {
+              "loss": "5486660099511517437079/1000000000000000000",
+              "set": [
+                "e01_05",
+                "e02_03",
+                "e04_06"
+              ]
+            }
+          ],
+          "budget_at_most": 3,
+          "feasible_subset_count": 79158,
+          "method": "Nominal",
+          "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+          "objective_fraction": "5486660099511517437079/1000000000000000000",
+          "regret_vs_pess_global_fraction": "0",
+          "search": "complete enumeration of every subset with cardinality <= budget",
+          "selected": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "selected_set_pess_worst_case_fraction": "5486660099511517437079/1000000000000000000",
+          "task_count": 10000,
+          "tie_count": 1
+        }
+      },
+      "candidate_ids": [
+        "e00_01",
+        "e00_02",
+        "e00_03",
+        "e00_04",
+        "e00_05",
+        "e00_06",
+        "e00_07",
+        "e00_08",
+        "e00_09",
+        "e00_10",
+        "e00_11",
+        "e00_12",
+        "e01_02",
+        "e01_03",
+        "e01_04",
+        "e01_05",
+        "e01_06",
+        "e01_07",
+        "e01_08",
+        "e01_09",
+        "e01_10",
+        "e01_11",
+        "e01_12",
+        "e02_03",
+        "e02_04",
+        "e02_05",
+        "e02_06",
+        "e02_07",
+        "e02_08",
+        "e02_09",
+        "e02_10",
+        "e02_11",
+        "e02_12",
+        "e03_04",
+        "e03_05",
+        "e03_06",
+        "e03_07",
+        "e03_08",
+        "e03_09",
+        "e03_10",
+        "e03_11",
+        "e03_12",
+        "e04_05",
+        "e04_06",
+        "e04_07",
+        "e04_08",
+        "e04_09",
+        "e04_10",
+        "e04_11",
+        "e04_12",
+        "e05_06",
+        "e05_07",
+        "e05_08",
+        "e05_09",
+        "e05_10",
+        "e05_11",
+        "e05_12",
+        "e06_07",
+        "e06_08",
+        "e06_09",
+        "e06_10",
+        "e06_11",
+        "e06_12",
+        "e07_08",
+        "e07_09",
+        "e07_10",
+        "e07_11",
+        "e07_12",
+        "e08_09",
+        "e08_10",
+        "e08_11",
+        "e08_12",
+        "e09_10",
+        "e09_11",
+        "e09_12",
+        "e10_11",
+        "e10_12",
+        "e11_12"
+      ],
+      "order_label": "schema_order",
+      "seed": null
+    }
+  ],
+  "observation_sha256": {
+    "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+    "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+  },
+  "pess_global": {
+    "0": {
+      "all_optimal_sets": [
+        []
+      ],
+      "budget_at_most": 0,
+      "feasible_subset_count": 1,
+      "method": "PESS",
+      "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+      "objective_fraction": "4069678531214269000459/500000000000000000",
+      "search": "complete enumeration of every subset with cardinality <= budget",
+      "selected": [],
+      "task_count": 10000,
+      "tie_count": 1
+    },
+    "2": {
+      "all_optimal_sets": [
+        [
+          "e02_03",
+          "e04_06"
+        ]
+      ],
+      "budget_at_most": 2,
+      "feasible_subset_count": 3082,
+      "method": "PESS",
+      "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+      "objective_fraction": "733156246462852301047/125000000000000000",
+      "search": "complete enumeration of every subset with cardinality <= budget",
+      "selected": [
+        "e02_03",
+        "e04_06"
+      ],
+      "task_count": 10000,
+      "tie_count": 1
+    },
+    "3": {
+      "all_optimal_sets": [
+        [
+          "e01_05",
+          "e02_03",
+          "e04_06"
+        ]
+      ],
+      "budget_at_most": 3,
+      "feasible_subset_count": 79158,
+      "method": "PESS",
+      "objective_arithmetic": "exact common-denominator integer sum; equivalent Fraction over rationalized inputs",
+      "objective_fraction": "5486660099511517437079/1000000000000000000",
+      "search": "complete enumeration of every subset with cardinality <= budget",
+      "selected": [
+        "e01_05",
+        "e02_03",
+        "e04_06"
+      ],
+      "task_count": 10000,
+      "tie_count": 1
+    }
+  },
+  "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+  "raw_counts": {
+    "Empty": {
+      "positive_below_one": 3143,
+      "zero": 0
+    },
+    "singleton": {
+      "positive_below_one": 154213,
+      "zero": 625
+    }
+  },
+  "raw_observations_clamped_during_acquisition": false,
+  "run_id": "20261022-084335-census13-full-valid",
+  "sample_sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+  "selection_scope": "single predeclared schema_order only; other nine frozen orders were not evaluated",
+  "status": "FROZEN",
+  "test_truth_or_outcomes_accessed": false,
+  "valid_source_sql_sha256": "0aee5a6f6faf62ca0a5b465db95d28c808b3952e490cac0510b9ae79ddff0650",
+  "valid_truth_method": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+  "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d",
+  "zero_policy": "clamped-log-v2"
+}

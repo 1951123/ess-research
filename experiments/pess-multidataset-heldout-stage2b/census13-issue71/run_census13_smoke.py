@@ -130,13 +130,27 @@ def load_helpers(root: Path):
     for name in PR65_FILES:
         path = f"experiments/pess-multidataset-heldout-stage2b/generalization-issue64/{name}"
         content = git_output(REPO_ROOT, "show", f"{PR65_COMMIT}:{path}", binary=True)
+        if name == "forest10_runner.py":
+            original_digest = hashlib.sha256(content).hexdigest()
+            content = census13_adapter_overlay(content)
+            hashes["pr65/forest10_runner.py_original_sha256"] = original_digest
+            hashes["pr65/forest10_runner.py_census13_overlay_sha256"] = hashlib.sha256(content).hexdigest()
         (source_dir / name).write_bytes(content)
-        hashes[f"pr65/{name}"] = hashlib.sha256(content).hexdigest()
+        hashes.setdefault(f"pr65/{name}", hashlib.sha256(content).hexdigest())
     sys.path.insert(0, str(source_dir))
     import gate_audit_v2 as helpers
     import run_formal
     import forest10_runner
     return helpers, run_formal, forest10_runner, hashes
+
+
+def census13_adapter_overlay(content: bytes) -> bytes:
+    """Apply the frozen Census13-only nonnegative adapter rule to pinned PR65."""
+    strict_guard = b"if not preclamp.is_finite() or preclamp <= 0:"
+    census13_guard = b"if not preclamp.is_finite() or preclamp < 0:"
+    if content.count(strict_guard) != 1:
+        raise RuntimeError("pinned PR65 adapter guard differs from expected source")
+    return content.replace(strict_guard, census13_guard, 1)
 
 
 def extract_csv(root: Path) -> Path:

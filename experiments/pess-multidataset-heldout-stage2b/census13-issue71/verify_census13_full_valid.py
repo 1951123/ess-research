@@ -14,8 +14,21 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[2] / "src"))
 
 from census13_schedule import assign_configurations, calls_for_worker
-from freeze_census13_plan import sha256_file
 from run_census13_full_valid import PLAN_SHA256, _queries_and_schedule, smoke
+sha256_file = smoke.sha256_file
+
+
+def raw_preclamp(value: Any, *, query_id: str, config_id: str) -> Decimal:
+    """Parse a preserved JSON numeric token; zero is valid, non-finite is not."""
+    if isinstance(value, bool) or value is None:
+        raise ValueError(f"missing/malformed pre-clamp estimate at {query_id}/{config_id}")
+    try:
+        estimate = Decimal(str(value))
+    except (InvalidOperation, ValueError) as exc:
+        raise ValueError(f"malformed pre-clamp estimate at {query_id}/{config_id}") from exc
+    if not estimate.is_finite() or estimate < 0:
+        raise ValueError(f"negative/nonfinite pre-clamp estimate at {query_id}/{config_id}")
+    return estimate
 
 
 def verify(run_dir: Path) -> dict[str, Any]:
@@ -55,6 +68,8 @@ def verify(run_dir: Path) -> dict[str, Any]:
     if set(worker_summaries) != {0, 1}:
         raise ValueError("both worker result summaries are required")
     config_counts: dict[str, int] = {}
+    raw_value_counts = {"Empty": {"zero": 0, "positive_below_one": 0},
+                        "singleton": {"zero": 0, "positive_below_one": 0}}
     config_query_hashes: dict[str, str] = {}
     total = 0
     for worker_id in (0, 1):
@@ -79,12 +94,13 @@ def verify(run_dir: Path) -> dict[str, Any]:
                 per_config_ids.setdefault(config_id, []).append(query_id)
                 if row.get("diagnostics_status") != "complete":
                     raise ValueError(f"incomplete ESS diagnostics at {query_id}/{config_id}")
-                try:
-                    estimate = Decimal(str(row["nrows_preclamp"]))
-                except (KeyError, InvalidOperation, ValueError) as exc:
-                    raise ValueError(f"invalid pre-clamp estimate at {query_id}/{config_id}") from exc
-                if not estimate.is_finite() or estimate <= 0:
-                    raise ValueError(f"nonpositive/nonfinite pre-clamp estimate at {query_id}/{config_id}")
+                estimate = raw_preclamp(row.get("nrows_preclamp"), query_id=query_id,
+                                         config_id=config_id)
+                kind = "Empty" if config_id == "Empty" else "singleton"
+                if estimate == 0:
+                    raw_value_counts[kind]["zero"] += 1
+                elif estimate < 1:
+                    raw_value_counts[kind]["positive_below_one"] += 1
                 events = row.get("mcv_events")
                 state = row.get("mcv_diagnostics_status")
                 if not isinstance(events, list) or state not in {"VERIFIED", "NO_MCV_EVENTS"}:
@@ -136,6 +152,7 @@ def verify(run_dir: Path) -> dict[str, Any]:
             "empty_calls": config_counts["Empty"],
             "singleton_calls": total - config_counts["Empty"],
             "configuration_call_counts": dict(sorted(config_counts.items())),
+            "raw_preclamp_counts_by_configuration_family": raw_value_counts,
             "worker_call_counts": {str(key): value["calls"] for key, value in worker_summaries.items()},
             "configuration_ordered_query_sha256": dict(sorted(config_query_hashes.items())),
             "raw_worker_sha256": {str(key): value["output_sha256"] for key, value in worker_summaries.items()},
