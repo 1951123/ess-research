@@ -6,6 +6,21 @@
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
+## Roadmap and research-architecture checkpoint (2026-10-22; planning, not an experimental result)
+
+The researcher accepted [D-008](DECISIONS.md): **Optimization Modeling** and **Optimization Algorithms** are independently contributable tracks; PostgreSQL provides the principal empirical estimation/maintenance basis; auxiliary comparisons using unproven optimal solutions must be labeled separately from exact-optimum claims; use only minimal shared Problem Instance / Solver Result / Evaluation Result semantics; close completed scoped tasks and open new Issues for substantial extensions.
+
+**Phases (dependency-oriented, not strictly serial):**
+1. **Research consolidation:** review existing evidence, Docs and Draft PRs; preserve negative/inconclusive results and make each task's exit criterion explicit.
+2. **Solver capability:** diagnose outer resource-selection and inner admissible-scheme costs against unchanged mathematical formulations; verify small cases independently and report valid feasible solutions, bounds, gaps and statuses at larger budgets. Solver code belongs in `ess-advisor` unless separately authorized.
+3. **Controlled model comparison:** first complete approved Forest10 validation-only fitting/resource selection, freeze decisions, then conduct separately authorized held-out Nominal/PESS comparison with common evaluation conditions and appropriately stratified solver certificates.
+4. **Replication:** treat Census13's `clamped-log-v2` model convention as separately versioned from frozen Forest10 calibration; decide on further datasets only after reviewing needed evidence.
+5. **Synthesis:** judge modeling, algorithm and PG empirical contributions independently; do not force them into one publication.
+
+**Open-work disposition proposed, not completed:** [#48 / Draft #58](https://github.com/1951123/ess-research/pull/58) review bounded Empty-only negative results for closure; [#64 / Draft #65](https://github.com/1951123/ess-research/pull/65) retain Forest10 model-comparison work within currently approved validation-only scope; [#71 / Draft #72](https://github.com/1951123/ess-research/pull/72) preserve Census13 numerical-policy decisions and staged evidence; [#29](https://github.com/1951123/ess-research/issues/29) assess existing audit deliverables for closure; [#28](https://github.com/1951123/ess-research/issues/28) retain as an algorithm research umbrella with bounded child work. No Issue closure, PR merge, new test access or experiment run is authorized by this checkpoint.
+
+**Priority:** stable scope and reviews first, then restore trustworthy wider-budget model comparisons using solver improvements as enabling infrastructure. Existing frozen studies and version-specific PG claims remain unchanged.
+
 ## 1. Executive checkpoint
 
 **Chosen paper direction:** a general, estimator-agnostic pessimistic admissibility-aware resource-selection framework; a pairwise labeled maximal-matching instantiation; exact/structured algorithms; PostgreSQL model/estimation/cost validation.
