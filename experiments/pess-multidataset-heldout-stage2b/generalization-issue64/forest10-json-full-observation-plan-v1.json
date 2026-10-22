@@ -1,0 +1,60 @@
+{
+  "format": "ess-issue64-forest10-json-full-observation-plan-v1",
+  "status": "CODE_ONLY_RESEARCHER_REVIEW_REQUIRED_BEFORE_EXECUTION",
+  "scope": "full official Forest10 valid query JSON observation acquisition only",
+  "source_pins": {
+    "postgresql_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "pr58_model_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "active_protocol": "forest10-json-only-v2.json",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "candidate_report_sha256": "df053272413837425499e7e776a2368ff2ceb4e7a882631916a959b5e184771c"
+  },
+  "workload": {
+    "dataset": "forest10",
+    "split": "valid",
+    "query_count": 10000,
+    "order": "ascending source_index",
+    "candidate_count": 45,
+    "static_eligible_query_candidate_pairs": 164088
+  },
+  "schedule": {
+    "configurations": [
+      "Empty",
+      "each singleton candidate with at least one statically eligible valid query"
+    ],
+    "configuration_count": 46,
+    "empty_calls": 10000,
+    "singleton_calls": 164088,
+    "total_structured_explain_calls": 174088,
+    "one_configuration_at_a_time": true,
+    "same_run_cluster_table_and_fresh_analyze_sample": true
+  },
+  "positive_preclamp_policy": "Require complete JSON diagnostics and finite positive nrows_preclamp. Reject zero/negative/nonfinite/missing/incomplete/incorrectly-associated observations; no clamp, epsilon, substitution or omission. NO_MCV_EVENTS is a valid observation state.",
+  "failure_policy": "Write explicit error/configuration failure and preserve the completed prefix; mark run INCOMPLETE; stop without retry or resume; unattempted suffix remains explicit; incomplete cohorts cannot be passed to model fitting or selection.",
+  "retention": {
+    "format": "gzip JSONL parts",
+    "max_records_per_part": 2048,
+    "flush_fsync_every_records": 256,
+    "retain_query_level_estimate_and_full_compact_mcv_records": true,
+    "part_sha256": true,
+    "atomic_progress_manifest": true,
+    "one_authoritative_copy": true
+  },
+  "proposed_limits": {
+    "status": "PROPOSED_ONLY_NOT_APPROVED",
+    "wall_seconds_hard": 28800,
+    "wall_seconds_early_stop": 27000,
+    "disk_bytes_hard": 4294967296,
+    "disk_bytes_early_stop": 3221225472,
+    "monitor_interval_seconds": 0.1
+  },
+  "forbidden": [
+    "truth access",
+    "model coefficient fitting",
+    "resource selection",
+    "objective computation",
+    "test access/evaluation",
+    "automatic retry/resume",
+    "cross-run sample concatenation"
+  ]
+}
