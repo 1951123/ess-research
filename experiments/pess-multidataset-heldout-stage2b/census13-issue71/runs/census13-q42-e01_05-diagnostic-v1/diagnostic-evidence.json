@@ -1,0 +1,56 @@
+{
+  "run_id": "20261022-census13-q42-e01_05-diagnostic-v1",
+  "query_id": "arecel:census13:valid:000042",
+  "config_id": "e01_05",
+  "sql_sha256": "14d8fbb8f75d03ff9f56cd53de9bbf87f4f7b2708c3fadfbfec12cef87dc7369",
+  "response_sha256": "be330351b4f9d761ebf5afc023c2b7f7302a9df80781993ac869407e43be1a05",
+  "diagnostics_status": "complete",
+  "event_count": 5,
+  "relation_oid": 16384,
+  "base_estimate": {
+    "json_path": "$[0][\"ESS Diagnostics\"][\"Events\"][4][\"nrows_preclamp\"]",
+    "json_type": "number",
+    "raw_value": "0",
+    "event_sequence": 5,
+    "relation_oid": 16384,
+    "selectivity": "0",
+    "rows_postclamp": "1"
+  },
+  "catalog_statistic": {
+    "candidate_id": "e01_05",
+    "statistic_name": "ess_issue71_census13_e01_05",
+    "stat_oid": 16389,
+    "stxkeys": "2 6",
+    "statistics_target": 300,
+    "mcv_payload_present": true,
+    "mcv_item_count": 85
+  },
+  "mcv_selection": {
+    "selected_stat_oid": 16389,
+    "key_count": 2,
+    "clause_indexes": [5, 8],
+    "clause_count": 2,
+    "simple_sel": "8.6856614463364803e-06",
+    "mcv_sel": "0",
+    "mcv_basesel": "0",
+    "mcv_totalsel": "1.0000000000000002",
+    "stat_sel": "0"
+  },
+  "diagnostic_events": [
+    {"sequence": 1, "type": "mcv_selection", "relation_oid": 16384, "stat_oid": 16389, "key_count": 2},
+    {"sequence": 2, "type": "mcv_clause", "relation_oid": 16384, "stat_oid": 16389, "clause_index": 5},
+    {"sequence": 3, "type": "mcv_clause", "relation_oid": 16384, "stat_oid": 16389, "clause_index": 8},
+    {"sequence": 4, "type": "mcv_estimate", "relation_oid": 16384, "stat_oid": 16389, "clause_count": 2,
+     "simple_sel": "8.6856614463364803e-06", "mcv_sel": "0", "mcv_basesel": "0",
+     "mcv_totalsel": "1.0000000000000002", "stat_sel": "0"},
+    {"sequence": 5, "type": "base_estimate", "relation_oid": 16384, "rte_index": 1,
+     "rel_tuples": "48842", "selectivity": "0", "nrows_preclamp": "0", "rows_postclamp": "1"}
+  ],
+  "adapter": {
+    "result": "REJECTED",
+    "rule": "nrows_preclamp must be finite and positive",
+    "explain_calls": 1
+  },
+  "test_accessed": false,
+  "truth_loaded": false
+}
