@@ -194,13 +194,13 @@ def execute(root: Path) -> dict[str, Any]:
                 header = helpers.sample_header(sample)
                 if header != sample_identity["header"] or header["relation_identity"] != "6:public8:census13":
                     raise RuntimeError("fixed ANALYZE sample header/relation identity mismatch")
+                smoke.populate_replay_cluster(helpers, prefix, clusters[1], schema, csv_path, sample, columns)
                 relation_oids = [int(helpers.psql(prefix, cluster["socket_dir"], cluster["port"],
                     "SELECT 'public.census13'::regclass::oid;",
                     dict(os.environ, LD_LIBRARY_PATH=str(prefix / "lib")), tuples=True).strip())
                     for cluster in clusters]
                 if header["relation_oid"] != relation_oids[0]:
                     raise RuntimeError("sample header relation OID differs from export cluster")
-                smoke.populate_replay_cluster(helpers, prefix, clusters[1], schema, csv_path, sample, columns)
                 output_dir = root / "observations"
                 output_dir.mkdir()
                 failures: list[dict[str, Any]] = []
