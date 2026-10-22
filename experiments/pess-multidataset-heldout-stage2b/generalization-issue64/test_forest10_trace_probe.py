@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+import gzip
+import hashlib
+import itertools
 import os
 import sys
 import tempfile
@@ -14,11 +17,147 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import run_forest10_setup_pilot as pilot
 import run_forest10_trace_probe as probe
+from ess_research.arecel.candidates import discover_candidates
 from ess_research.arecel.forest10 import SOURCE_COLUMNS
 from test_pr7_structured_explain import explain_payload
+import run_forest10_full_calibration_collector as full_collector
 
 
 class Forest10TraceProbeTests(unittest.TestCase):
+    def test_full_schedule_reproduces_frozen_call_and_candidate_counts(self):
+        subsets = list(itertools.combinations(SOURCE_COLUMNS, 6))
+        seven_subsets = list(itertools.combinations(SOURCE_COLUMNS, 7))
+        sizes = [6] * 6000 + [7] * 3528 + [0] * 472
+        queries = []
+        for index, size in enumerate(sizes):
+            columns = () if size == 0 else (subsets[index % len(subsets)] if size == 6
+                                            else seven_subsets[index % len(seven_subsets)])
+            queries.append({
+                "query_id": f"arecel:forest10:valid:{index:06d}", "source_index": index,
+                "sql": "SELECT * FROM public.forest10 WHERE synthetic = 1",
+                "predicates": [{"column": column, "operator": "=", "value": 1} for column in columns],
+            })
+        discovery = discover_candidates(queries, SOURCE_COLUMNS)
+        ordered, candidates, per_candidate = full_collector.build_schedule(
+            {"dataset": "forest10", "split": "valid", "queries": queries}, discovery)
+        self.assertEqual((len(ordered), len(candidates), sum(map(len, per_candidate.values()))),
+                         (10_000, 45, 164_088))
+        self.assertEqual(len(per_candidate), 45)
+        self.assertEqual(len(ordered) + sum(map(len, per_candidate.values())), 174_088)
+
+    def test_segmented_gzip_writer_fsyncs_and_hashes_bounded_parts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "observations"
+            output.mkdir()
+            plan = json.loads(full_collector.PLAN.read_text())
+            manifest = full_collector._initial_manifest(root, plan)
+            calls = []
+
+            def save():
+                calls.append(manifest["committed_observation_count"])
+                full_collector.atomic_json(root / full_collector.MANIFEST, manifest)
+
+            writer = full_collector.SegmentedJsonl(output, manifest, save)
+            for i in range(full_collector.PART_RECORD_LIMIT + 3):
+                manifest["attempted_calls"] = i + 1
+                manifest["completed_calls"] = i + 1
+                writer.write({"sequence": i + 1, "query_id": f"q{i}", "status": "SUCCESS"})
+            writer.close()
+            self.assertEqual([part["rows"] for part in manifest["parts"]], [2048, 3])
+            self.assertTrue(all(part["compressed_bytes"] < 10_000_000 for part in manifest["parts"]))
+            self.assertGreaterEqual(len(calls), 2048 // full_collector.FSYNC_BATCH)
+            self.assertGreaterEqual(len(manifest["durable_blocks"]), 2048 // full_collector.FSYNC_BATCH)
+            self.assertTrue(all(block["gzip_member_sha256"] and block["uncompressed_sha256"]
+                                for block in manifest["durable_blocks"]))
+            lines = []
+            for part in manifest["parts"]:
+                path = output / part["path"]
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), part["sha256"])
+                lines.extend(gzip.open(path, "rt", encoding="utf-8").read().splitlines())
+            self.assertEqual(len(lines), full_collector.PART_RECORD_LIMIT + 3)
+            self.assertEqual(manifest["committed_observation_count"], len(lines))
+
+    def test_segmented_writer_rotates_at_the_smaller_byte_limit(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "observations"
+            output.mkdir()
+            manifest = full_collector._initial_manifest(root, json.loads(full_collector.PLAN.read_text()))
+            writer = full_collector.SegmentedJsonl(output, manifest,
+                                                   lambda: full_collector.atomic_json(root / full_collector.MANIFEST, manifest))
+            payload = "x" * 180_000
+            for index in range(100):
+                manifest["attempted_calls"] += 1
+                manifest["completed_calls"] += 1
+                writer.write({"sequence": index, "payload": payload})
+            writer.close()
+            self.assertGreater(len(manifest["parts"]), 2)
+            self.assertTrue(all(part["uncompressed_bytes"] <= full_collector.PART_BYTES_LIMIT
+                                for part in manifest["parts"]))
+            self.assertTrue(all(part["compressed_bytes"] < 10_000_000 for part in manifest["parts"]))
+            self.assertTrue(all(len(gzip.open(output / part["path"], "rt").read().splitlines()) == part["rows"]
+                                for part in manifest["parts"]))
+
+    def test_handled_interruption_leaves_explicit_incomplete_run_and_no_append_mode(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "observations"
+            output.mkdir()
+            plan = json.loads(full_collector.PLAN.read_text())
+            manifest = full_collector._initial_manifest(root, plan)
+            writer = full_collector.SegmentedJsonl(output, manifest,
+                                                   lambda: full_collector.atomic_json(root / full_collector.MANIFEST, manifest))
+            for index in range(17):
+                manifest["attempted_calls"] += 1
+                manifest["completed_calls"] += 1
+                writer.write({"sequence": index + 1, "status": "SUCCESS"})
+            manifest["status"] = "INCOMPLETE"
+            manifest["completion"] = "PREFIX_ONLY; NOT ELIGIBLE FOR MODEL FITTING OR SELECTION"
+            manifest["unattempted_calls"] -= 17
+            writer.close()
+            self.assertEqual(manifest["status"], "INCOMPLETE")
+            part = output / manifest["parts"][0]["path"]
+            with self.assertRaises(FileExistsError):
+                part.open("xb")
+            self.assertEqual(len(gzip.open(part, "rt").read().splitlines()), 17)
+
+    def test_full_collector_refuses_to_run_until_plan_has_researcher_approval(self):
+        with tempfile.TemporaryDirectory() as temporary, unittest.mock.patch.object(
+            full_collector, "runtime_runs", side_effect=lambda *args: Path(temporary)
+        ), unittest.mock.patch.object(pilot, "_validate_socket_path"), unittest.mock.patch.object(
+            full_collector, "configured_root", return_value=Path(temporary)
+        ), unittest.mock.patch.object(
+            pilot, "_load_pinned_pr58_modules", side_effect=RuntimeError("synthetic helper failure")
+        ), unittest.mock.patch.object(pilot, "_prepare_owned_postgresql") as build:
+            root = Path(temporary) / "run"
+            root.mkdir()
+            (root / "observations").mkdir()
+            with self.assertRaisesRegex(RuntimeError, "researcher execution approval"):
+                full_collector._worker(root)
+            self.assertFalse((root / full_collector.MANIFEST).exists())
+            build.assert_not_called()
+
+    def test_cli_does_not_create_run_directory_for_review_only_plan(self):
+        with unittest.mock.patch.object(sys, "argv", ["collector", "--researcher-approved"]), \
+             unittest.mock.patch.object(full_collector, "runtime_runs") as runtime:
+            with self.assertRaisesRegex(SystemExit, "still review-only"):
+                full_collector.main()
+            runtime.assert_not_called()
+
+    def test_supervisor_nonzero_exit_cannot_leave_success_manifest(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest = full_collector._initial_manifest(root, json.loads(full_collector.PLAN.read_text()))
+            manifest.update({"status": "SUCCESS", "committed_observation_count": 174_088,
+                            "attempted_calls": 174_088, "unattempted_calls": 0})
+            full_collector.atomic_json(root / full_collector.MANIFEST, manifest)
+            full_collector._mark_supervisor_exit(root, 137)
+            updated = json.loads((root / full_collector.MANIFEST).read_text())
+            self.assertEqual(updated["status"], "INCOMPLETE")
+            self.assertEqual(updated["terminal_error"]["return_code"], 137)
+            self.assertEqual(updated["unattempted_calls"], 0)
+
     def run_synthetic_worker(self, *, invalid_json=False, changed_plan=False,
                              fail_after=0, bad_estimate=None, interrupt=False,
                              singleton_config_failure=False):
@@ -206,6 +345,15 @@ class Forest10TraceProbeTests(unittest.TestCase):
         self.assertIn("PR7StructuredExplainAdapter", runner_source)
         self.assertIn("adapter.explain(query)", runner_source)
         self.assertNotIn("Plan Rows", smoke_source)
+
+    def test_full_collector_source_has_no_truth_selection_or_test_path(self):
+        collector_path = Path(__file__).parent / "run_forest10_full_calibration_collector.py"
+        source = collector_path.read_text()
+        for forbidden in ("valid_truth", "test_truth", "calibrate_and_select(", "exact_select_many(",
+                          "evaluate_frozen_selections(", "test_workload"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, source)
+        self.assertIn("mkdir(exist_ok=True)", source)
 
     def test_fixed_valid_query_schedule_and_maximum_calls(self):
         indices = probe._selected_source_indices()
