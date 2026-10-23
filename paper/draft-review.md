@@ -108,7 +108,7 @@ enumeration, B>=4 solve, or solver experiment was performed for this revision.
 
 ## Build and manuscript length
 
-- Command: `latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex`, from `paper/`.
+- Command: `latexmk -g -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex`, from `paper/`.
 - Environment: Latexmk 4.83, TeX Live 2023.
 - Final PDF: **13 letter-size pages total: 12 main text and 1 references page.**
 - No undefined citations/references, BibTeX warnings, or overfull boxes.
