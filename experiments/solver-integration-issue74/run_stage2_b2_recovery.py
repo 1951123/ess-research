@@ -1,6 +1,7 @@
 """Single-case, interruption-durable Issue #74 recovery runner.
 
-The checked-in protocol is deliberately unauthorized. CI never starts a solver.
+Execution is effective only for the reviewed, merged, source-pinned gate.
+CI tests mock the outer launch and never start a solver.
 """
 
 from __future__ import annotations
@@ -19,6 +20,8 @@ from typing import Any
 
 HERE = Path(__file__).resolve().parent
 PROTOCOL = HERE / "stage2-b2-recovery-protocol-v1.json"
+AUTHORIZATION_REQUEST = HERE / "stage2-b2-recovery-authorization-request-v1.json"
+EXECUTION_GATE = HERE / "stage2-b2-recovery-execution-gate-v1.json"
 
 
 def canonical(value: object) -> bytes:
@@ -98,6 +101,8 @@ def reconcile_scope_exit(
 
 def protocol() -> dict[str, Any]:
     p = json.loads(PROTOCOL.read_text())
+    request = json.loads(AUTHORIZATION_REQUEST.read_text())
+    gate = json.loads(EXECUTION_GATE.read_text())
     if (
         p["format"] != "ess-issue74-stage2-b2-recovery-protocol-v1"
         or p["scope"]["cases"] != ["forest10-nominal-b2"]
@@ -114,6 +119,79 @@ def protocol() -> dict[str, Any]:
         or p["gates"]["this_pull_request_may_execute_solver"] is not False
     ):
         raise RuntimeError("recovery limits or solver-free PR gate changed")
+    if (
+        request["execution_authorized"] is not False
+        or request["authorization_gate"]["current_execution_authorized"] is not False
+        or hashlib.sha256(PROTOCOL.read_bytes()).hexdigest()
+        != gate["base_protocol"]["sha256"]
+        or gate["base_protocol"]["path"]
+        != "experiments/solver-integration-issue74/stage2-b2-recovery-protocol-v1.json"
+        or hashlib.sha256(AUTHORIZATION_REQUEST.read_bytes()).hexdigest()
+        != gate["authorization_request"]["sha256"]
+        or gate["authorization_request"]["path"]
+        != "experiments/solver-integration-issue74/stage2-b2-recovery-authorization-request-v1.json"
+    ):
+        raise RuntimeError(
+            "execution gate does not match reviewed authorization inputs"
+        )
+    if (
+        gate["format"] != "ess-issue74-stage2-b2-recovery-execution-gate-v1"
+        or gate["execution_authorized"] is not True
+        or gate["status"]
+        != "CONDITIONALLY_AUTHORIZED_EFFECTIVE_ONLY_AFTER_REVIEWED_MERGE"
+        or gate["grant"]["issue_number"] != 74
+        or gate["grant"]["authorized_by"] != "1951123"
+        or gate["grant"]["authorized_case"] != "forest10-nominal-b2"
+        or gate["grant"]["authorized_attempts"] != 1
+        or gate["grant"]["conditional_on_reviewed_merge"] is not True
+        or gate["grant"]["base_protocol_sha256"] != gate["base_protocol"]["sha256"]
+        or gate["one_shot"]["enabled"] is not True
+        or gate["one_shot"]["retry_permitted"] is not False
+        or gate["one_shot"]["concurrent_attempts_permitted"] is not False
+        or gate["one_shot"]["outer_requires_valid_child_start_claim_for_pass"]
+        is not True
+        or gate["runner_source"]["path"]
+        != "experiments/solver-integration-issue74/run_stage2_b2_recovery.py"
+        or len(gate["runner_source"]["blob_git_sha1"]) != 40
+        or any(
+            c not in "0123456789abcdef" for c in gate["runner_source"]["blob_git_sha1"]
+        )
+    ):
+        raise RuntimeError("execution gate scope, grant, or runner pin mismatch")
+    if (
+        request["scope"]["cases"] != p["scope"]["cases"]
+        or request["scope"]["retries"] != p["scope"]["retries"]
+        or request["scope"]["tasks"] != p["scope"]["tasks"]
+        or request["scope"]["candidates"] != p["scope"]["candidates"]
+        or request["scope"]["budget"] != p["scope"]["budget"]
+        or request["solver_limits"]["outer_memory_max_bytes"]
+        != p["solver"]["outer_memory_max_bytes"]
+        or request["solver_limits"]["outer_runtime_max_seconds"]
+        != p["solver"]["outer_runtime_max_seconds"]
+        or request["solver_limits"]["advisor_time_limit_seconds"]
+        != p["solver"]["time_limit_seconds"]
+        or request["solver_limits"]["advisor_total_time_limit_seconds"]
+        != p["solver"]["total_time_limit_seconds"]
+        or gate["grant"]["research_runner_merge_commit"]
+        != "d4a3fd6636b28fc33adfb51d45e652c534175ec8"
+        or gate["grant"]["research_runner_source_commit"]
+        != request["immutable_software"]["research_runner_source_commit"]
+        or gate["grant"]["research_runner_merge_commit"]
+        != request["immutable_software"]["research_runner_merge_commit"]
+        or gate["grant"]["advisor_source_commit"]
+        != p["immutable_software"]["advisor_source_commit"]
+        or gate["grant"]["advisor_source_commit"]
+        != request["immutable_software"]["advisor_source_commit"]
+    ):
+        raise RuntimeError("execution gate changes the reviewed recovery scope")
+    p["execution_authorized"] = True
+    p["execution_gate"] = gate
+    p["immutable_software"]["recovery_runner_blob_git_sha1"] = gate["runner_source"][
+        "blob_git_sha1"
+    ]
+    p["immutable_software"]["recovery_runner_source_commit"] = gate["grant"][
+        "research_runner_source_commit"
+    ]
     return p
 
 
@@ -151,6 +229,94 @@ def scope_command(
 
 def systemd_unit_name(run_id: str) -> str:
     return f"ess-issue74-b2-{run_id}.scope"
+
+
+def consume_execution_grant_once(
+    runtime: Path, run_id: str, protocol_sha: str, gate_sha: str
+) -> Path:
+    runs = runtime / "ess-research" / "issue74" / "runs"
+    runs.mkdir(parents=True, exist_ok=True)
+    record_path = runs / f"authorization-consumed-{gate_sha}.json"
+    record = canonical(
+        {
+            "run_id": run_id,
+            "protocol_sha256": protocol_sha,
+            "execution_gate_sha256": gate_sha,
+            "consumed_utc_epoch_seconds": time.time(),
+            "retry_permitted": False,
+        }
+    )
+    try:
+        fd = os.open(record_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError as exc:
+        raise RuntimeError(
+            "single execution grant was already consumed; retry is prohibited"
+        ) from exc
+    with os.fdopen(fd, "wb") as claim:
+        claim.write(record)
+        claim.flush()
+        os.fsync(claim.fileno())
+    dir_fd = os.open(runs, os.O_RDONLY)
+    try:
+        os.fsync(dir_fd)
+    finally:
+        os.close(dir_fd)
+    return record_path
+
+
+def claim_child_start_once(root: Path, runtime: Path, p: dict[str, Any]) -> Path:
+    run_id = root.name
+    if not run_id or any(
+        c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-"
+        for c in run_id
+    ):
+        raise RuntimeError("invalid child run directory")
+    runs = runtime.resolve() / "ess-research" / "issue74" / "runs"
+    root = root.resolve()
+    if root.parent != runs.resolve():
+        raise RuntimeError("child run directory is outside the pinned runtime root")
+    gate_sha = hashlib.sha256(EXECUTION_GATE.read_bytes()).hexdigest()
+    protocol_sha = hashlib.sha256(PROTOCOL.read_bytes()).hexdigest()
+    parent_claim = runs / f"authorization-consumed-{gate_sha}.json"
+    try:
+        claim = json.loads(parent_claim.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            "child requires the durable outer authorization claim"
+        ) from exc
+    if (
+        claim.get("run_id") != run_id
+        or claim.get("protocol_sha256") != protocol_sha
+        or claim.get("execution_gate_sha256") != gate_sha
+        or claim.get("retry_permitted") is not False
+    ):
+        raise RuntimeError("outer authorization claim does not match this child")
+    marker = root / "child-start-consumed.json"
+    record = canonical(
+        {
+            "run_id": run_id,
+            "protocol_sha256": protocol_sha,
+            "execution_gate_sha256": gate_sha,
+            "child_started_utc_epoch_seconds": time.time(),
+            "retry_permitted": False,
+        }
+    )
+    try:
+        fd = os.open(marker, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError as exc:
+        raise RuntimeError(
+            "child start was already consumed; retry is prohibited"
+        ) from exc
+    with os.fdopen(fd, "wb") as started:
+        started.write(record)
+        started.flush()
+        os.fsync(started.fileno())
+    dir_fd = os.open(root, os.O_RDONLY)
+    try:
+        os.fsync(dir_fd)
+    finally:
+        os.close(dir_fd)
+    return marker
 
 
 def collect_systemd_status(unit_name: str) -> dict[str, Any]:
@@ -235,6 +401,7 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
         raise RuntimeError(
             "reviewed protocol and separate researcher execution authorization required"
         )
+    runner_commit = verify(repo, p)
     runtime = Path(os.environ["ESS_RUNTIME_PARENT"]).resolve()
     if not run_id or any(
         c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-"
@@ -243,19 +410,38 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
         raise ValueError("invalid run id")
     root = runtime / "ess-research" / "issue74" / "runs" / run_id
     root.resolve().relative_to(runtime)
-    root.mkdir(parents=True, exist_ok=False)
+    if root.exists():
+        raise FileExistsError(f"run directory already exists: {root}")
     protocol_sha = hashlib.sha256(PROTOCOL.read_bytes()).hexdigest()
+    execution_gate_sha = hashlib.sha256(EXECUTION_GATE.read_bytes()).hexdigest()
+    authorization_claim = consume_execution_grant_once(
+        runtime, run_id, protocol_sha, execution_gate_sha
+    )
+    root.mkdir(parents=True, exist_ok=False)
     write_atomic(
         root / "run-metadata.json",
         {
             "status": "RUNNING",
             "case_id": "forest10-nominal-b2",
             "protocol_sha256": protocol_sha,
+            "execution_gate_sha256": execution_gate_sha,
+            "authorization_claim_path": str(authorization_claim),
+            "runner_source_commit": runner_commit,
+            "runner_blob_git_sha1": p["immutable_software"][
+                "recovery_runner_blob_git_sha1"
+            ],
             "advisor_source_commit": p["immutable_software"]["advisor_source_commit"],
             "limits": p["solver"],
         },
     )
-    event(root, "run_started", protocol_sha256=protocol_sha)
+    event(
+        root,
+        "run_started",
+        protocol_sha256=protocol_sha,
+        execution_gate_sha256=execution_gate_sha,
+        authorization_claim_path=str(authorization_claim),
+        runner_source_commit=runner_commit,
+    )
     unit_name = systemd_unit_name(run_id)
     try:
         with (root / "runner.log").open("wb") as log:
@@ -285,6 +471,28 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
     else:
         result = reconcile_scope_exit(json.loads(result_path.read_text()), exit_code)
         result["systemd_status"] = systemd_status
+    child_claim_path = root / "child-start-consumed.json"
+    try:
+        child_claim = json.loads(child_claim_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        child_claim = None
+    child_claim_valid = (
+        isinstance(child_claim, dict)
+        and child_claim.get("run_id") == run_id
+        and child_claim.get("protocol_sha256") == protocol_sha
+        and child_claim.get("execution_gate_sha256") == execution_gate_sha
+        and child_claim.get("retry_permitted") is False
+    )
+    if result.get("outcome") == "PASS" and not child_claim_valid:
+        result.update(
+            outcome="STOP_FOR_REVIEW",
+            error="PASS result lacks a valid one-shot child-start claim",
+        )
+    result["child_start_claim_valid"] = child_claim_valid
+    result["child_start_claim_path"] = str(child_claim_path)
+    result["protocol_sha256"] = protocol_sha
+    result["execution_gate_sha256"] = execution_gate_sha
+    result["authorization_claim_path"] = str(authorization_claim)
     child_checkpoint = result.get("last_child_checkpoint")
     write_atomic(result_path, result)
     if checkpoint(root).get("phase") != "run_finished":
@@ -294,13 +502,17 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
             outcome=result["outcome"],
             systemd_exit_code=exit_code,
             systemd_status=systemd_status,
+            execution_gate_sha256=execution_gate_sha,
         )
     metadata = json.loads((root / "run-metadata.json").read_text())
     metadata.update(
         status=result["outcome"],
+        child_start_claim_valid=child_claim_valid,
         systemd_exit_code=exit_code,
         systemd_unit=unit_name,
         systemd_status=systemd_status,
+        execution_gate_sha256=execution_gate_sha,
+        authorization_claim_path=str(authorization_claim),
         last_child_checkpoint=child_checkpoint,
     )
     write_atomic(root / "run-metadata.json", metadata)
@@ -330,6 +542,10 @@ def verify(repo: Path, p: dict[str, Any]) -> str:
         != expected
     ):
         raise RuntimeError("Stage-1 adapter content differs from pinned blob")
+    expected_runner = p["immutable_software"]["recovery_runner_blob_git_sha1"]
+    actual_runner = git("hash-object", p["execution_gate"]["runner_source"]["path"])
+    if actual_runner != expected_runner:
+        raise RuntimeError("recovery runner content differs from execution-gate pin")
     return head
 
 
@@ -362,10 +578,13 @@ def child(repo: Path, root: Path) -> int:
         or os.getenv("ESS_ISSUE74_B2_RECOVERY_SCOPE") != "1"
     ):
         raise RuntimeError("child requires separately authorized systemd scope")
+    runtime = Path(os.environ["ESS_RUNTIME_PARENT"]).resolve()
+    child_claim = claim_child_start_once(root, runtime, p)
     started = time.monotonic()
     try:
         runner_commit = verify(repo, p)
         verify_environment(p)
+        event(root, "child_start_claimed", claim_path=str(child_claim))
         frozen_file_hashes = verify_frozen_file_hashes(repo, p)
         event(root, "frozen_files_verified", sha256=frozen_file_hashes)
         sys.path.insert(0, str(HERE))
@@ -566,8 +785,15 @@ def child(repo: Path, root: Path) -> int:
         result = {
             "outcome": "PASS" if passed else "STOP_FOR_REVIEW",
             "runner_source_commit": runner_commit,
+            "runner_blob_git_sha1": p["immutable_software"][
+                "recovery_runner_blob_git_sha1"
+            ],
             "advisor_source_commit": p["immutable_software"]["advisor_source_commit"],
             "protocol_sha256": hashlib.sha256(PROTOCOL.read_bytes()).hexdigest(),
+            "execution_gate_sha256": hashlib.sha256(
+                EXECUTION_GATE.read_bytes()
+            ).hexdigest(),
+            "child_start_claim_path": str(child_claim),
             "request_sha256": hashlib.sha256(request_bytes).hexdigest(),
             "frozen_file_sha256": frozen_file_hashes,
             "response_sha256": hashlib.sha256(response_bytes).hexdigest(),
