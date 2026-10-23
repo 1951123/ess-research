@@ -13,6 +13,21 @@ import run_stage2_b2_recovery as runner
 
 
 class RecoveryRunnerTests(unittest.TestCase):
+    def test_separate_authorization_request_is_bound_to_locked_base(self) -> None:
+        request_path = runner.HERE / "stage2-b2-recovery-authorization-request-v1.json"
+        request = json.loads(request_path.read_text())
+        base_path = runner.HERE / "stage2-b2-recovery-protocol-v1.json"
+        base_sha = hashlib.sha256(base_path.read_bytes()).hexdigest()
+        self.assertEqual(request["base_protocol"]["sha256"], base_sha)
+        self.assertEqual(request["scope"]["cases"], ["forest10-nominal-b2"])
+        self.assertEqual(request["scope"]["retries"], 0)
+        self.assertFalse(request["execution_authorized"])
+        self.assertFalse(
+            request["authorization_gate"]["merge_alone_authorizes_execution"]
+        )
+        self.assertFalse(request["authorization_gate"]["current_execution_authorized"])
+        self.assertTrue(base_path.exists())
+
     def test_protocol_is_single_case_pinned_and_locked(self) -> None:
         protocol = runner.protocol()
         self.assertEqual(protocol["scope"]["cases"], ["forest10-nominal-b2"])

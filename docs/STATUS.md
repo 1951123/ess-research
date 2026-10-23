@@ -62,12 +62,17 @@ Issue #74 remains open. No B>=4, PostgreSQL, test-set, or refit was included.
 
 **Issue #74 prospective recovery proposal (2026-10-23):** Advisor PR #8 was
 reviewed with no blocking changes, CI passed, and merged at
-`369d90217e931c7d1b0cd6e82c88527a25cc7129`. [Draft PR #79](https://github.com/1951123/ess-research/pull/79)
-proposes one Forest10 Nominal B=2 recovery attempt with the same frozen input
-and resource caps, a new immutable Advisor pin, and interruption-durable phase events.
-Protocol `execution_authorized` is false; no solver was run and separate
-researcher authorization remains required after review/merge. The historical
-Stage2 timeout report and its original records remain unchanged.
+`369d90217e931c7d1b0cd6e82c88527a25cc7129`. Recovery PR #79 was reviewed,
+CI-passed and merged at `d4a3fd6636b28fc33adfb51d45e652c534175ec8` (reviewed
+runner source `272dbb25edb320991f8813dd1902fcfedeebfd0d`). It adds one
+Forest10 Nominal B=2 recovery protocol and interruption-durable runner, pinned
+to the same frozen input and resource caps. A separate authorization request
+is recorded in
+[`stage2-b2-recovery-authorization-request-v1.json`](../experiments/solver-integration-issue74/stage2-b2-recovery-authorization-request-v1.json).
+Both the merged base protocol and this request keep
+`execution_authorized=false`; no solver was run. A separate researcher grant
+and reviewed execution-gate revision remain required. The historical Stage2
+timeout report and its original records remain unchanged.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 

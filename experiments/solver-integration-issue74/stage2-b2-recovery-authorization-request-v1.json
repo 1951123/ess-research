@@ -1,0 +1,50 @@
+{
+  "format": "ess-issue74-stage2-b2-recovery-authorization-request-v1",
+  "status": "PROPOSED_NOT_REVIEWED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "execution_authorized": false,
+  "scientific_question": "For the frozen valid-only Forest10 model, does the pinned fixed-priority Nominal MILP at B=2 return a validated selection in the archived exact Fraction argmin set?",
+  "purpose": "Request review of exactly one prospective recovery attempt after the historical B=2 run stopped at the outer timeout. This request is not execution authorization and does not replace or edit the frozen base protocol.",
+  "base_protocol": {
+    "path": "experiments/solver-integration-issue74/stage2-b2-recovery-protocol-v1.json",
+    "sha256": "5971ded0a9a458b86dbf1e885bd5dd58260a6dab90a0ca9cccd53b18755c6ed3"
+  },
+  "scope": {
+    "cases": ["forest10-nominal-b2"],
+    "tasks": 10000,
+    "candidates": 45,
+    "budget": 2,
+    "priority_order": "frozen adapter order",
+    "retries": 0,
+    "continue_after_any_failure": false,
+    "run_id": "Generate a new unique issue74-b2-recovery-<UTC timestamp>-<unique token> only after all gates are satisfied.",
+    "prohibited": ["cases 2-8", "PESS", "Census13", "B=0 reruns", "B>=3", "PostgreSQL", "official test", "refit", "option tuning", "resource escalation"]
+  },
+  "immutable_software": {
+    "research_runner_source_commit": "272dbb25edb320991f8813dd1902fcfedeebfd0d",
+    "research_runner_merge_commit": "d4a3fd6636b28fc33adfb51d45e652c534175ec8",
+    "advisor_source_commit": "369d90217e931c7d1b0cd6e82c88527a25cc7129"
+  },
+  "solver_limits": {
+    "outer_memory_max_bytes": 12884901888,
+    "outer_runtime_max_seconds": 900,
+    "advisor_time_limit_seconds": 600,
+    "advisor_total_time_limit_seconds": 600,
+    "solver_options": {},
+    "retries": 0,
+    "resource_escalation": false
+  },
+  "acceptance_and_stop": {
+    "inherit_base_protocol_acceptance": true,
+    "stop_on": ["any missing or mismatched pin/hash", "incomplete or invalid response", "nonpassing solver status", "numerical warning", "timeout", "OOM", "systemd status unknown", "exact Fraction comparison failure", "resource limit exceedance"],
+    "after_stop": "Preserve all attempt evidence as STOP_FOR_REVIEW; do not retry or start another case."
+  },
+  "authorization_gate": {
+    "state": "PENDING_SEPARATE_RESEARCHER_GRANT",
+    "this_pull_request_may_execute_solver": false,
+    "requires_protocol_and_runner_review": true,
+    "requires_researcher_explicit_grant_for_this_single_case": true,
+    "merge_alone_authorizes_execution": false,
+    "current_execution_authorized": false,
+    "next_action_after_review": "If the researcher explicitly grants this exact single attempt, encode that grant in a separately reviewed execution-gate revision before any solver launch. Until then, the merged runner must continue to refuse execution."
+  }
+}

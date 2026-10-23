@@ -127,3 +127,14 @@ OOM from the process exit code. The committed protocol sets
 runner refuses to launch until a later reviewed protocol revision and separate
 explicit researcher authorization. Its regression tests are solver-free.
 Review or merge of this proposal is not execution authorization.
+
+## Separate one-run authorization request
+
+After PR #79 merged, the authorization request in
+[`stage2-b2-recovery-authorization-request-v1.json`](stage2-b2-recovery-authorization-request-v1.json)
+proposes exactly one new Forest10 Nominal B=2 attempt against the merged runner
+and Advisor pins. It binds to the SHA-256 of the unchanged recovery protocol,
+repeats the existing resource caps and stop rules, and leaves
+`execution_authorized` false. This request cannot launch the solver; merge of
+its review PR is not a grant. Any actual run requires a separate explicit
+researcher grant and a separately reviewed execution-gate revision.
