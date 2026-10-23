@@ -1,0 +1,35 @@
+{
+  "format": "ess-issue74-full-input-b0-config-v1",
+  "question": "Can the pinned sparse Advisor finish full-input B=0 solves for the frozen Forest10 and Census13 models within explicit memory and time limits, matching the independent Fraction reference?",
+  "research_repository_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+  "advisor": {
+    "repository": "1951123/ess-advisor",
+    "source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+    "api": "pess_ess.solve_payload",
+    "milp_api": "scipy.optimize.milp"
+  },
+  "models": {
+    "forest10": "forest10-positive-preclamp-v1",
+    "census13": "census13-clamped-log-v2"
+  },
+  "input_scope": "all archived valid-only tasks; no official test inputs, PostgreSQL run, refit, or candidate changes",
+  "budget": 0,
+  "objectives": ["nominal", "pess"],
+  "cases": [
+    "forest10/nominal", "forest10/pess",
+    "census13/nominal", "census13/pess"
+  ],
+  "reference": "Direct exact Fraction evaluation by the pinned Advisor reference_nominal_objective/reference_objective functions on the unique feasible empty set; no candidate-subset enumeration is used, and the complete B=0 tie set is the empty set.",
+  "limits": {
+    "memory_max_bytes": 12884901888,
+    "runtime_max_seconds_per_case": 900,
+    "advisor_time_seconds": 600,
+    "stop_policy": "Stop the case on timeout, memory limit, exception, absent validated feasible result, exact objective mismatch, or selected-set mismatch. Do not proceed to B=2/3."
+  },
+  "environment": {
+    "python": "3.12",
+    "solver": "HiGHS via SciPy",
+    "seed": null
+  },
+  "artifact_policy": "Keep compact per-case outcomes, request/response hashes, solver statuses and resource logs under ESS_RUNTIME_PARENT; commit only this config, analysis runner and concise findings report."
+}
