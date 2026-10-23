@@ -19,7 +19,7 @@
     "forest10/nominal", "forest10/pess",
     "census13/nominal", "census13/pess"
   ],
-  "reference": "Pinned Advisor independent Fraction exhaustive reference on the full B=0 instance, preserving all exact ties.",
+  "reference": "Direct exact Fraction evaluation by the pinned Advisor reference_nominal_objective/reference_objective functions on the unique feasible empty set; no candidate-subset enumeration is used, and the complete B=0 tie set is the empty set.",
   "limits": {
     "memory_max_bytes": 12884901888,
     "runtime_max_seconds_per_case": 900,
