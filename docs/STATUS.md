@@ -98,7 +98,23 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 **Current Issue #64 scientific checkpoint (2026-10-22):** The scoped Forest10 milestone is complete and recorded in [the concise closeout](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-stage2b-final-summary-v1.md). The full 174,088-row valid-only calibration was verified; corrected-log exact selection for `B=0/2/3` yielded identical unique Nominal/PESS sets (`{}`, `{e01_06,e02_07}`, `{e01_06,e02_07,e03_04}`). Official test evaluation completed 30,000/30,000 rows with no unresolved observations. P95 Q1 was Empty 17, B2 14.907407 (12.309% lower), B3 14 (17.647% lower); Nominal/PESS paired results tie on all queries because their sets are identical. This does **not** demonstrate a PESS advantage or unseen-template generalization; known template overlap, prior test exposure, and Forest10-only scope remain. Historical checkpoints and failed evidence below are retained; pending/not-run statements are historical and superseded by the linked versioned reports. PR #65 is still Draft; Issue #64 remains Open.
 
-**Issue #84 review-driven manuscript v2 (2026-10-23):** The local PR #85 branch revises the decision-separation interpretation, distinguishes raw candidate-graph conflict from strict syntax eligibility and realized PostgreSQL ambiguity, and states the selected-set conflict-free certificate as the bounded testable claim. Frozen exact records show four PESS/Joint optima at B=3 and B=5, including `{e34}`; Issue #38's `{e01,e34}` and `{e34}` held-out summaries are identical, so the `+0.02422` deployment difference is not causal evidence of policy uncertainty. Issue #59 does not retain the query-level intersection of strict eligibility and raw conflict; it remains unknown. The PostgreSQL source reference now uses year 2026 and tag `REL_16_14`. Local LaTeX build: 13 pages, TeX Live 2023; no undefined citations/references, BibTeX warnings, or overfull boxes; underfull boxes and a column-balance warning remain. No new database experiment, refit, or solver run was performed. Regular-paper novelty remains a bounded, researcher-approved comparison gap; real PostgreSQL scheme coverage remains unestablished. PR #85 remains Draft and unmerged.
+**Issue #84 scientific-thesis manuscript v3 (2026-10-23):** On the existing
+Issue #84 worktree and Draft PR #85, the Abstract/Introduction now center
+prescribed complete-scheme admissibility, partial estimator-policy
+information, and separately supplied scheme losses. Related Work adds
+claim-level comparisons with the closest statistics-selection, estimator
+composition, robust optimization, AutoCE, and PostgreSQL advising sources.
+Decision Analysis derives the active-MCV-only B=3 separation from the frozen
+Issue #23 exact Fraction optima; no enumeration or experiment was rerun.
+The self-review records Issue #86 objections addressed, novelty as not yet
+sufficiently supported, and counterfactual scheme-loss fidelity as the
+largest open scientific gap. Final local Latexmk 4.83 / TeX Live 2023 build:
+14 letter pages (13 main-text, 1 references), with no undefined
+references/citations, BibTeX warnings, or overfull boxes; underfull boxes and
+the template column-balance warning remain. The 12-page main-text target was
+not met. No PostgreSQL execution, data collection, refit, official test
+access, large enumeration, or solver run was performed. PR #85 remains Draft
+and unmerged; PR-head CI is pending.
 
 **Exploratory Nominal order sensitivity (2026-10-22):** Reusing the frozen valid coefficients and exact selector, all ten predeclared priority orders (original, reverse, seeds 0–7) produced the same unique resource set and exact Nominal optimum at B=0/2/3; the B2/B3 winning sets are vertex-disjoint and their PESS worst-case losses equal the frozen PESS optima. Full permutations, exact values and source mapping are in [the exploratory report](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-nominal-order-sensitivity-v1.md). No PostgreSQL or test data was used; dynamic OID validation remains a separately authorized future experiment.
 

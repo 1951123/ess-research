@@ -1,134 +1,171 @@
-# Issue #84 paper draft: author self-review
+# Issue #84 paper draft: v3 self-review
 
-This review accompanies the complete manuscript draft in `main.tex`. It is
-an academic scope check, not a claim that the work has passed external peer
-review.
+This self-review records the v3 response to the scientific-positioning review
+in Issue #86. It is an author-side scope and evidence check, not an
+independent referee decision.
 
-**Readiness recommendation: FOCUSED-GAP.** The manuscript is complete for
-end-to-end researcher review. The remaining gap is one bounded claim-level
-novelty comparison: test whether the selected-set conflict-free certificate
-and its evidence add to automatic statistics selection/composition and robust
-physical-design/query-optimization work. This comparison needs separate
-researcher approval before it is treated as a new work item; it does not
-require reopening frozen experiments to produce this reviewable revision.
+**Thesis: REFINE. Technical novelty: NOT YET sufficiently supported for a
+SIGMOD/PVLDB/ICDE regular research paper.** The paper now centers the
+information boundary between prescribed complete-scheme admissibility,
+estimator-policy knowledge, and scheme-loss prediction. This makes the
+question coherent and falsifiable; it does not establish that the resulting
+database contribution clears the regular-paper novelty threshold.
 
-## Innovation and positioning
+## What changed in v3
 
-The manuscript's specific testable claim is that conflict in the selected
-resource set gives a decision-level certificate that raw ambiguity across
-the full candidate universe cannot provide by itself. Under the stated
-model, a conflict-free Nominal optimum is also optimal for Joint and PESS.
-The larger frozen fits meet this condition and have coincident selections;
-the six-task model has a conflict-bearing Nominal optimum and a distinct,
-nonunique PESS optimum. This is model-level evidence, not a general empirical
-law or an empirical PESS advantage.
+- Rewrote the Abstract and Introduction around the question: when can an
+  advisor use knowledge of admissible complete schemes without knowing the
+  actual selection policy to make budgeted resource decisions?
+- Separated requested statistics, catalog objects, effective MCV payloads,
+  eligibility in a complete scheme, policy-selected schemes, and resulting
+  estimates/losses.
+- Stated that knowing Gamma_i(M) does not reveal counterfactual scheme
+  losses. An executable instance also needs an estimator oracle, measurements,
+  or an explicitly stated loss approximation.
+- Distinguished a known but uncontrollable deterministic policy (Nominal),
+  one unknown shared policy (Joint-Robust), and taskwise admissibility-only
+  uncertainty (PESS). PESS is described as a conservative risk criterion,
+  not a PostgreSQL adversary.
+- Expanded Related Work with claim-level comparisons to Chaudhuri–Narasayya
+  (ICDE 2000), Bruno–Chaudhuri (SIGMOD 2002 and 2004), MAXENT (SIGMOD 2006),
+  Babcock–Chaudhuri (SIGMOD 2005), El Gebaly–Aboulnaga (EDBT 2008),
+  Nohadani–Sharma (SIAM J. Optimization 2018), AutoCE (ICDE 2023), and EDB
+  Statistics Advisor/PostgreSQL documentation. Added source-verified AutoCE
+  and PostgreSQL 16 documentation entries.
+- Added an active-MCV-only restriction corollary from the frozen Issue #23
+  exact B=3 results. It lists all four original PESS ties and establishes
+  that only {e34} remains optimal in the restricted universe, while the
+  unique Nominal optimum remains {e12,e23,e34} and has a strictly larger
+  PESS value. This is a logical inheritance argument, not a new enumeration
+  or physical result.
+- Kept the conflict-free result as an elementary sufficient certificate.
+  The text now says conflict alone is neither necessary nor sufficient for a
+  policy-sensitive optimal decision.
+- Retained the v2 corrections on physical outcomes, raw graph ambiguity,
+  cohort counts, frozen objective versions, and noncausal interpretation.
 
-Novelty remains the largest publication risk. The repository's prior-art
-audit found the previously considered structural and algorithmic claims to
-be classical ingredients or special cases, and did not support novelty claims
-for them (`notes/stage1d-proof-priorart/audit-report.md`). The current draft
-therefore limits its theory claims to model-internal statements and does not
-claim a new matching result. Its broader framing and empirical synthesis
-still need comparison against a more complete literature review before a
-submission claim of novelty is defensible.
+## Issue #86 objections
 
-## Theory and model limits
+| Review point | v3 response | Status |
+|---|---|---|
+| #6367455608: REFINE the information-boundary thesis | Abstract, Introduction, Model, and Discussion distinguish admissibility, policy, and losses. | Addressed |
+| Unknown policy is not the same as uncontrollable policy | Nominal allows a known deterministic policy even if the advisor cannot control it. | Addressed |
+| Admissibility does not supply counterfactual estimates/losses | Model input requirements and the calibrated-loss limitation are explicit. | Addressed as a limitation; predictive validity remains open |
+| Prior-work novelty and AutoCE comparator | Named primary works are compared by decision owner, uncertain quantity, effect of resource availability, and remaining ESS distinction. Metadata was checked against publisher or primary records. | Comparison added; novelty remains unproven |
+| Conflict-free certificate is elementary; conflict does not imply sensitivity | Labeled as a sufficient certificate and explicitly disclaimed necessary/sufficient implications from conflict alone. | Addressed |
+| Larger valid-only cohorts have coincident optima and no treatment contrast | Discussion explains that agreement means no decision value from changing policy objective in those tested models/budgets; raw ambiguity is not realized PG ambiguity. | Addressed |
+| #6367624297: active-MCV-only candidate restriction | Exact archived optima imply model-level separation survives restriction to A={e12,e23,e34}; all four full-universe PESS ties are stated. | Addressed by derivation; not rerun |
+| Physical effect, real-scheme coverage, or causal PESS benefit | Not claimed. The selected held-out sets have different effective payloads and the {e01,e34} and {e34} summaries are identical. | Remains unsupported, correctly scoped |
 
-- The pointwise Nominal--Joint--PESS hierarchy follows from set inclusion.
-  The conflict-free lemma is correct under its stated singleton-family
-  premise, but is sufficient rather than necessary.
-- The generic problem retains nonadditive maintenance, complete schemes, and
-  a prescribed nonempty `Gamma_i(M)`. A real-system worst-case guarantee
-  still requires `R_i(M) subseteq Gamma_i(M)` and aligned estimator and loss
-  definitions; the PostgreSQL evidence does not establish this generally.
-- The PostgreSQL correspondence is conditional on the restricted PostgreSQL
-  16.14 selector path. Abstract priority-order completeness does not imply
-  all orders are physically realizable in a fixed catalog.
-- Positive pre-clamp log loss and multiplicative factor composition are
-  modeling assumptions. The composition check is mixed, and PostgreSQL's
-  rounded/clamped `Plan Rows` is a separate outcome.
-- The fixed-set hardness observation cites a classical minimum maximal
-  matching result. The outer SUBSET SUM construction is limited to direct
-  signed-log coefficient representations. Neither should be presented as a
-  new general complexity theorem.
+## Novelty assessment
 
-## Experimental limits
+The cited prior work controls neighboring decisions directly: statistics advisors
+select resources; Bruno–Chaudhuri and MAXENT specify ways to use or combine
+statistics; robust query optimization and physical design model other
+uncertainties; decision-dependent robust optimization already studies
+decision-shaped uncertainty sets; AutoCE selects a learned estimator model.
+The current review did not verify an exact antecedent to ESS's full
+advisor/admissibility/policy triple. That absence is not evidence of priority.
 
-- Issue #23 uses six construction-sample Forest10 tasks and one-unit object
-  costs. Its reference calculation is exact only for the recorded
-  18-decimal rationalized log inputs. The 720 Joint orders are abstract
-  scenarios, not verified PostgreSQL catalog orders.
-- Issue #38 covers 60 frozen query IDs with two repeated PostgreSQL
-  measurements. The exact B=3 PESS/Joint optimum has four tied sets,
-  including `{e34}`; the held-out summary for `{e01,e34}` is exactly the same
-  as for `{e34}`. The displayed PESS deployment has one effective payload,
-  versus three for Nominal. Its small higher mean, lower median, same P90 and
-  maximum, and 11 query-level improvements are descriptive contrasts between
-  different as-built sets, not a causal policy effect or price of robustness.
-- Forest10 and Census13 valid-only models return coincident Nominal and PESS
-  optima at the tested budgets. They provide no treatment contrast. Their
-  model versions differ, and Census13's PESS solution was reused rather than
-  reoptimized in its ten-order Nominal run.
-- Forest10 `Plan Rows` results compare the common selected deployments with
-  Empty. The official test split has template overlap and earlier exposure;
-  no MCV selection trace, latency, or physical maintenance cost was measured.
-- Raw graph ambiguity is not actual catalog eligibility. Issue #59 archives
-  marginal raw-conflict and strict-eligibility counts, not their query-level
-  intersection; that intersection is unknown. Neither count measures actual
-  catalogs with multiple simultaneously eligible, built MCV objects.
+The remaining ESS distinction is a formulation of an external statistics
+advisor that receives a resource-dependent family of complete admissible
+estimator schemes plus scheme-loss inputs, while the selection policy may be
+known, shared-but-unknown, or unavailable beyond taskwise admissibility.
+The PostgreSQL maximal-matching construction is conditional, and its
+conflict-free certificate is elementary. The exact six-task separation is a
+small measured-input model result, not a new general theorem or solver
+contribution. The restricted-universe corollary removes one artifact concern
+but is an inheritance argument, not an independent novelty claim.
 
-## Checks completed for this draft
+**Assessment:** The thesis is coherent and database-relevant, but this
+manuscript does not yet demonstrate sufficient technical novelty or
+externally meaningful decision value for a regular research-paper
+submission. No first claim is made.
 
-- Review-driven revision rebuilt locally with `latexmk` 4.83 and TeX Live
-  2023. The PDF has 13 pages total, letter size; the final pass has no
-  undefined citations/references, BibTeX warnings, or overfull boxes.
-  Underfull boxes and the template's column-balance warning remain. The
-  repository CI pins TeX Live 2026 and has not yet run on this revised head.
-- External publication metadata in `references.bib` was checked against
-  publisher or DOI records. Versioned repository reports and PostgreSQL
-  16.14 source are cited separately as evidence sources.
-- The current VLDB paper template was compiled with the manuscript-specific
-  sources. Final build: **13 pages total, pages 1--12 main text and page 13
-  references**; letter size. The compile used the standard `pdflatex`,
-  `bibtex`, `pdflatex`, `pdflatex` sequence. BibTeX emitted no warnings; the
-  final LaTeX pass had no undefined citations/references or overfull boxes.
-  No new database experiment, model refit, or optimization solve was run for
-  this manuscript.
+## Most consequential remaining scientific gap
+
+> Can an advisor obtain sufficiently faithful counterfactual complete-scheme
+> loss estimates to make externally meaningful resource decisions under
+> unknown estimator policy?
+
+The optimizer needs defensible Gamma_i(M) families and a loss value (or
+exact loss-maximum oracle) for every admissible counterfactual scheme across
+candidate resource sets. In the frozen calibration, singleton corrections
+are measured and multiplied by an explicit approximation. The overlapping
+composition residuals show that this is not universally faithful to
+PostgreSQL. Knowing admissibility does not fix this gap. Resolving it would
+require a separately scoped validation and decision-value study; v3 performs
+no such study.
+
+## Evidence and nonclaims retained
+
+- The generic maintenance function remains nonadditive; unit-cost sums are
+  experiment-specific proxies.
+- The positive pre-clamp absolute log loss requires positive estimates and is
+  distinct from rounded/clamped Plan Rows, physical maintenance cost, and
+  query runtime.
+- Gamma_i(M) is prescribed; R_i(M) is physically reachable. No general
+  inclusion or equality is established.
+- The restricted PostgreSQL 16.14 maximal-matching correspondence is
+  conditional on the stated built-payload, eligibility, and execution-path
+  assumptions. Abstract priority-order coverage does not imply all orders
+  occur in a fixed catalog.
+- The Issue #23 exact rational reference is exact for its stored
+  18-decimal rationalized inputs. It is separate from floating-point
+  PostgreSQL observations and solver-reported optimality.
+- The B=3 PESS/Joint model has four ties:
+  {e01,e34}, {e01,e34,e56}, {e34}, and {e34,e56}. The displayed
+  {e01,e34} set had only e34 with an effective MCV payload.
+- Issue #38's approximately +0.024223 held-out mean error difference is
+  descriptive, not a causal policy effect or intrinsic price of robustness.
+- Forest10/Census13 raw graph ambiguity rates 47.49%/46.27% are distinct
+  from syntax-eligible cohorts of 135/58 queries out of 10,000 and do not
+  measure realized PostgreSQL ambiguity. The query-level intersection was
+  not archived.
+- Forest10/Census13 full-valid B<=3 models have coincident Nominal/PESS
+  optima and no between-policy treatment contrast. Their loss conventions
+  differ, so their objective values are not pooled.
+- The held-out Plan Rows comparison uses a frozen test split with template
+  overlap and earlier exposure; it does not establish unseen-template
+  generalization. It compares deployments with Empty, not a Nominal-versus-
+  PESS treatment.
+- No new PostgreSQL run, data collection, model fit, official test access,
+  large enumeration, B>=4 solve, or HiGHS experiment was performed for v3.
+
+## Build and manuscript length
+
+- Build command: latexmk -pdf -interaction=nonstopmode -halt-on-error
+  -file-line-error main.tex, run from paper/. Local environment: Latexmk
+  4.83 and TeX Live 2023.
+- Final PDF: 14 letter-size pages total; pages 1--13 are main text and page
+  14 contains references. The 12-page main-text target was not met after
+  adding the claim-level literature comparison and active-MCV restriction
+  result; the additional page was retained rather than removing those
+  scientific qualifications.
+- Final build has no undefined references or citations, BibTeX warnings, or
+  overfull boxes. Underfull boxes and the template's column-balance warning
+  remain. The new PR-head CI has not yet run.
 
 ## Exhibit-to-source map
 
-- Figure 1 is the generic model boundary defined in `main.tex`; it makes no
-  empirical claim.
-- Figure 2 is the directly traced PostgreSQL 16.14 path fixture
-  (`pgtrace2026`); the equality-gate topology table is from `pg_gate2026`.
-- Figure 3 is a model-only illustration of the strict Joint/PESS gap and the
-  conflict-free certificate; its values are the mathematical example in the
-  manuscript, not experimental measurements.
-- Figure 4 is the 60-query-ID paired held-out summary from Issue #38
-  (`issue38_heldout`), with two repetitions averaged before the harm/better/tie
-  counts.
-- The related-work table cites the listed papers and EDB product documentation.
-  The provenance table points to the versioned reports for experimental
-  setup and scope.
-- The six-task anchor, payload/composition, and exact-decision tables use
-  Issues #23 and #38 (`issue23_forest10`, `issue38_heldout`).
-- The raw-graph ambiguity and valid-only objective tables use Issues #59,
-  #64, and #71 (`issue59_structure`, `issue64_forest10`, `issue71_census13`).
-- The Plan Rows table uses the frozen Forest10 test report
-  (`issue64_forest10_test`); it is a deployment-versus-Empty comparison,
-  not a Nominal-versus-PESS treatment contrast.
+- Figure 1 is the generic advisor/estimator information boundary.
+- Figure 2 and the eligibility table use the versioned PostgreSQL 16.14
+  source/fixture reports (pgsource1614, pgtrace2026, pg_gate2026).
+- Figure 3 is a model-only illustration of shared versus taskwise risk and
+  the sufficient singleton-family certificate.
+- Figure 4 and the six-task calibration/results tables cite frozen Issues
+  #23 and #38.
+- The restricted-universe corollary inherits the exact Issue #23 Fraction
+  optima; it adds no observation.
+- Larger-workload ambiguity, validity, and Plan Rows displays cite Issues
+  #59, #64, and #71 and retain their separate denominators and model versions.
+- Related Work citations refer to the primary publication or publisher/
+  author-hosted source listed in paper/references.bib.
 
-## Review priorities
+## Review priority
 
-1. With researcher approval, complete the bounded comparison of the
-   selected-set certificate against the closest statistics-selection,
-   statistics-composition, and robust physical-design/query-optimization
-   work; until then, regular-paper novelty remains open.
-2. Challenge the real-scheme coverage assumptions and the practical
-   relevance of the pairwise MCV eligibility gate.
-3. Treat the six-task PostgreSQL deployment contrast as descriptive and
-   noncausal until a separate, adequately powered, independently held-out
-   study compares deployments with controlled effective payloads.
-4. Require calibrated maintenance measurements and estimator traces before
-   any claim about physical cost, real worst-case guarantees, or advisor
-   deployment recommendations.
+Keep the draft in review until an independent novelty assessment and a
+counterfactual scheme-loss fidelity/decision-value study establish what
+external decision benefit the model can support. The latter is the single
+most consequential scientific gap; this manuscript revision does not
+authorize or conduct that study.
