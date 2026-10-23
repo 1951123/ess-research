@@ -1,0 +1,36 @@
+{
+  "format": "ess-issue74-stage2-b23-runner-config-v1",
+  "status": "RUNNER_PROPOSAL_NOT_EXECUTED",
+  "protocol_merge_commit": "9b858e47284a290c1b078333929238cf55efdbff",
+  "protocol_path": "experiments/solver-integration-issue74/stage2-b23-protocol-v1.json",
+  "protocol_sha256": "57ba752c16dc188e4d24ef24a758590281a5f77c0418cd5911038a8d2a50af60",
+  "stage1_adapter_base_commit": "6c0d82d258faaa817f2bc977ff99b04971550aa0",
+  "advisor_source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+  "execution_authorization_source": "1951123/ess-research Issue #74, updated 2026-10-23; eight B=2/3 cases only, conditional on reviewed and merged runner",
+  "case_order": [
+    "forest10-nominal-b2",
+    "forest10-pess-b2",
+    "forest10-nominal-b3",
+    "forest10-pess-b3",
+    "census13-nominal-b2",
+    "census13-pess-b2",
+    "census13-nominal-b3",
+    "census13-pess-b3"
+  ],
+  "limits": {
+    "memory_max_bytes": 12884901888,
+    "runtime_max_seconds_per_case": 900,
+    "advisor_time_seconds": 600,
+    "advisor_total_time_seconds": 600,
+    "pess_inner_time_seconds": 120,
+    "max_concurrent_cases": 1,
+    "case_retry_count": 0
+  },
+  "environment": {
+    "python": "3.12.3",
+    "pess_ess": "0.1.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "artifact_policy": "Write one compact result and the complete Advisor response plus /usr/bin/time output per case under ESS_RUNTIME_PARENT; do not add generated run artifacts to Git."
+}
