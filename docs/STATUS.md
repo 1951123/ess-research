@@ -1,6 +1,6 @@
 # ESS Research — current status
 
-**Snapshot date:** 2026-10-22 (Asia/Taipei)
+**Snapshot date:** 2026-10-23 (Asia/Taipei)
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
@@ -42,8 +42,17 @@ protocol review.
 **Issue #74 latest review follow-up (2026-10-23):** Corrected the B=0 config
 to describe direct exact Fraction evaluation of the unique feasible empty set,
 without calling the subset-enumeration wrapper. No experiment was rerun. The
-final-head Python/evidence and PDF checks passed, and PR #75 is open for review
-(not merged); Issue #74 remains open.
+final-head Python/evidence and PDF checks passed, and PR #75 was subsequently
+merged to `main` at `6c0d82d258faaa817f2bc977ff99b04971550aa0`; Issue #74
+remains open.
+
+**Issue #74 Stage 2 protocol proposal (2026-10-23):** The latest Issue comment
+proposes a protocol-only Draft PR for eight serial full-valid-input B=2/3
+cases, with no solver-run authorization. The protocol records immutable
+research/Advisor pins, frozen exact objectives and tie sets, fixed case order,
+resource limits and a first-failure stop rule. It remains proposed and not
+frozen; execution requires review/merge plus separate explicit owner
+authorization. No solver job was run while preparing it.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 

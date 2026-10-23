@@ -1,0 +1,165 @@
+{
+  "format": "ess-issue74-stage2-b23-protocol-v1",
+  "status": "PROPOSED_NOT_FROZEN_NOT_EXECUTED",
+  "solver_jobs_authorized": false,
+  "protocol_review_and_execution_gate": "This protocol-only Draft PR must be reviewed and merged, and the research owner must separately authorize execution before any Stage 2 solver process starts.",
+  "scientific_question": "For the frozen valid-only Forest10 and Census13 models at the already predeclared B=2 and B=3 budgets, how do pinned conventional Nominal and task-wise PESS solver decisions compare with the archived exact Fraction optima?",
+  "immutable_software": {
+    "research_repository": "1951123/ess-research",
+    "stage1_adapter_baseline_commit": "6c0d82d258faaa817f2bc977ff99b04971550aa0",
+    "adapter_path": "experiments/solver-integration-issue74/adapter.py",
+    "advisor_repository": "1951123/ess-advisor",
+    "advisor_source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+    "advisor_schema_version": "1",
+    "pess_ess_version": "0.1.0",
+    "python_version": "3.12.3",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "milp_implementation": "scipy.optimize.milp using the SciPy-bundled HiGHS",
+    "request_source_pin_rule": "The protocol runner must set and verify input_provenance.advisor_source_commit=d40a57d4704345fef85298dd97192b2d998dc6eb before canonical request hashing. Record the Stage-1 adapter code commit separately. Preserve frozen model/data provenance fields from the adapter; do not relabel their historical source commit as the adapter code commit."
+  },
+  "frozen_inputs": {
+    "candidate_order_hash_method": "SHA-256 of UTF-8 json.dumps(candidate_ids, separators=(',', ':')) using JSON's default ensure_ascii=true",
+    "research_model_input_base_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+    "forest10": {
+      "model_version": "forest10-positive-preclamp-v1",
+      "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "task_count": 10000,
+      "candidate_count": 45,
+      "cost_proxy": "unit per candidate; |M| <= B",
+      "nominal_order": "frozen candidate order",
+      "candidate_order_sha256": "d8efee32db760af2f70ecb494f5dae26c7e99faa9914fd7c60781774bc7482cb",
+      "frozen_selection_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-valid-frozen-selection-v1.json",
+      "frozen_selection_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+      "coefficient_artifact_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/coefficients.jsonl.gz",
+      "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+      "valid_truth_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90",
+      "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79"
+    },
+    "census13": {
+      "model_version": "census13-clamped-log-v2",
+      "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+      "task_count": 10000,
+      "candidate_count": 78,
+      "cost_proxy": "unit per candidate; |M| <= B",
+      "nominal_order": "predeclared schema_order",
+      "candidate_order_sha256": "131d526d4fa7540dede14923c2e6a08b2b4238c11ba9399f7c061e587ca65e97",
+      "frozen_selection_path": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-clamped-log-v2-schema-order-frozen-selection-v1.json",
+      "frozen_selection_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+      "plan_path": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-stage2b-plan-v1.json",
+      "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+      "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+      "observation_sha256": {
+        "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+        "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+      },
+      "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d",
+      "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79"
+    }
+  },
+  "budgets": [2, 3],
+  "objectives": {
+    "nominal": {
+      "backend": "fixed_priority_milp",
+      "priority_order": "the dataset's frozen order; no tuning, reordering or OID search"
+    },
+    "pess": {
+      "backend": "master_oracle",
+      "aggregation": "task-wise worst-case loss; no shared-policy global worst case",
+      "priority_order": null
+    }
+  },
+  "solver_settings": {
+    "options": {
+      "precompute_invariants": false,
+      "task_local_cache": false
+    },
+    "case_time_seconds": 600,
+    "total_time_seconds": 600,
+    "pess_inner_time_seconds": 120,
+    "outer_memory_max_bytes": 12884901888,
+    "outer_runtime_max_seconds": 900,
+    "outer_enforcement": "one systemd scope per case with MemoryMax=12G and RuntimeMaxSec=900; /usr/bin/time -v records wall time and peak RSS",
+    "numerical_tolerances": "Use the pinned SciPy/HiGHS defaults without additional tolerance overrides. The d40a57d Advisor source passes only time_limit to the initial scipy.optimize.milp invocation and retries with presolve=False only on its internal status-4 fallback; record every invocation, fallback and status. Do not modify or suppress this pinned behavior.",
+    "effective_options": "Preserve Advisor defaults and option values above; no static backend, no parameter sweeps."
+  },
+  "case_order": [
+    {"index": 1, "case_id": "forest10-nominal-b2", "dataset": "forest10", "objective": "nominal", "budget": 2},
+    {"index": 2, "case_id": "forest10-pess-b2", "dataset": "forest10", "objective": "pess", "budget": 2},
+    {"index": 3, "case_id": "forest10-nominal-b3", "dataset": "forest10", "objective": "nominal", "budget": 3},
+    {"index": 4, "case_id": "forest10-pess-b3", "dataset": "forest10", "objective": "pess", "budget": 3},
+    {"index": 5, "case_id": "census13-nominal-b2", "dataset": "census13", "objective": "nominal", "budget": 2},
+    {"index": 6, "case_id": "census13-pess-b2", "dataset": "census13", "objective": "pess", "budget": 2},
+    {"index": 7, "case_id": "census13-nominal-b3", "dataset": "census13", "objective": "nominal", "budget": 3},
+    {"index": 8, "case_id": "census13-pess-b3", "dataset": "census13", "objective": "pess", "budget": 3}
+  ],
+  "frozen_exact_references": {
+    "forest10": {
+      "source_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-valid-frozen-selection-v1.json",
+      "source_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+      "nominal": {
+        "2": {"objective_fraction": "4374828918765339127297/200000000000000000", "all_optimal_sets": [["e01_06", "e02_07"]]},
+        "3": {"objective_fraction": "21512755121155336377967/1000000000000000000", "all_optimal_sets": [["e01_06", "e02_07", "e03_04"]]}
+      },
+      "pess": {
+        "2": {"objective_fraction": "4374828918765339127297/200000000000000000", "all_optimal_sets": [["e01_06", "e02_07"]]},
+        "3": {"objective_fraction": "21512755121155336377967/1000000000000000000", "all_optimal_sets": [["e01_06", "e02_07", "e03_04"]]}
+      }
+    },
+    "census13": {
+      "source_path": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-clamped-log-v2-schema-order-frozen-selection-v1.json",
+      "source_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+      "nominal": {
+        "2": {"objective_fraction": "733156246462852301047/125000000000000000", "all_optimal_sets": [["e02_03", "e04_06"]]},
+        "3": {"objective_fraction": "5486660099511517437079/1000000000000000000", "all_optimal_sets": [["e01_05", "e02_03", "e04_06"]]}
+      },
+      "pess": {
+        "2": {"objective_fraction": "733156246462852301047/125000000000000000", "all_optimal_sets": [["e02_03", "e04_06"]]},
+        "3": {"objective_fraction": "5486660099511517437079/1000000000000000000", "all_optimal_sets": [["e01_05", "e02_03", "e04_06"]]}
+      }
+    },
+    "comparison_rule": "Use only these frozen global exact Fraction objective values and complete tie sets. Do not run candidate-subset exhaustive search on the full instance. For Nominal, independently replay the frozen priority on the returned set. For PESS, directly evaluate the returned selected-set task losses over maximal matchings restricted to at most the selected 2/3 candidates with exact Fraction arithmetic; this is not global candidate-subset search. Require its exact selected-set objective to equal the frozen objective. Do not equate a numerical witness aggregate with a certified PESS value."
+  },
+  "acceptance_and_reporting": {
+    "case_pass_requires": [
+      "exact immutable research/advisor commits, dataset hashes and model version verified before solving",
+      "all 10000 valid tasks and the complete original 45/78 candidate universe accepted without filtering",
+      "validated feasible incumbent and complete solver termination/status evidence",
+      "selected set is a member of the matching frozen exact argmin tie set",
+      "the independently exact selected-set objective equals the archived frozen Fraction optimum",
+      "Nominal exact replay or PESS selected-set exact evaluation is reported separately from solver objective evidence"
+    ],
+    "numerical_status_label": "solver-reported floating-point optimality; not an exact MILP proof",
+    "pess_reporting": "Record witness_aggregate, selected_pess_value_fraction_certified, solver_statuses, all inner MIP statuses, primal/dual bounds and gaps separately. A Fraction sum of a numeric witness alone is not a true-value certificate.",
+    "per_case_artifacts": [
+      "canonical request SHA-256 and response SHA-256",
+      "research adapter commit, Advisor commit, schema and dependency versions",
+      "model version, all input hashes, full candidate IDs/order hash, task count and budget",
+      "selected IDs, frozen exact objective and all archived exact ties",
+      "validated feasibility, termination reason, solver status, numerical bounds/gaps and their scope",
+      "PESS witness and true-value certification flags, inner solver statuses",
+      "wall time, peak RSS, configured limits, case outcome and failure details"
+    ],
+    "solver_status_capture": "Retain the complete API response and each solver_statuses entry verbatim. Preserve status_code, message, selected_attempt, highs_invocations, primal/dual bounds, mip_gap, duration and all PESS objective_evidence counters. The pinned API may serialize a selected MIP attempt rather than both internal presolve-fallback attempt records; if status-4 fallback occurs and initial/retry codes cannot be recovered from the pinned callable result, mark the status evidence incomplete and stop for protocol review instead of inferring codes from message text.",
+    "case_retry_count": 0,
+    "max_concurrent_cases": 1,
+    "first_failure_policy": "On the first case with a hash/schema/pin mismatch, task or candidate loss, timeout/OOM, exception, nonfinite or incomplete result, absent validated feasible incumbent, feasible_unproven/non-optimal status, exact-reference contradiction, invalid numerical warning or exceeded limit: preserve that case's failure record, halt the full sequence, and request review. Do not start the next case or retry any case. Do not raise limits, alter options, drop tasks, switch solver/backend or change order.",
+    "prohibited_scope": [
+      "B=0 reruns",
+      "budgets B>=4",
+      "PostgreSQL execution or plan inspection",
+      "official test truth/outcome/EXPLAIN access",
+      "refitting, candidate or cost changes, priority tuning",
+      "new solver algorithms, parameter sweeps or static full-scenario expansion"
+    ]
+  },
+  "execution_gate": {
+    "this_protocol_pr_may_execute_solver": false,
+    "prerequisites_for_any_future_run": [
+      "review and merge this protocol-only PR",
+      "separate explicit execution authorization from the research owner",
+      "verify protocol hash and all frozen input hashes on the authorized run branch",
+      "use a separately reviewed runner that emits all configured per-case artifacts"
+    ]
+  }
+}
