@@ -64,25 +64,34 @@ case at a time. Enforce the documented `MemoryMax=12G` and
 configured `ESS_RUNTIME_PARENT`. It verifies the installed immutable Advisor
 commit and checks the full 10,000-task B=0 result against direct Fraction
 evaluation of the sole feasible empty set. These results do not cover B=2/3;
-those budgets remain behind Stage 2's separate review gate.
+those budgets remain behind the separately reviewed Stage 2 runner gate.
 
-## Proposed Stage 2 B=2/3 protocol (not run-authorized)
+## Stage 2 B=2/3 protocol and runner gate
 
 [`stage2-b23-protocol-v1.json`](stage2-b23-protocol-v1.json) records a
-prospective eight-case, serial B=2/3 protocol against the frozen Fraction
-references. It is explicitly `PROPOSED_NOT_FROZEN_NOT_EXECUTED`; this protocol
-PR does not authorize solver execution. Review and merge of the protocol plus
-separate explicit execution authorization from the research owner are required
-before any Stage 2 solver process starts.
+reviewed and merged eight-case, serial B=2/3 protocol against frozen Fraction
+references. Its `PROPOSED_NOT_FROZEN_NOT_EXECUTED` label is historical and is
+preserved. The merged protocol alone did not authorize execution; Issue #74
+later granted bounded execution authorization conditional on review and merge
+of a separate runner PR.
 
-The protocol-only regression test checks config structure, exact case order,
-resource/stop rules, frozen file hashes, and the archived exact tie sets. It
-does not import or invoke Advisor or run solver code. Run it with:
+`run_stage2_b23.py` is the proposed narrow runner. It verifies the protocol
+merge SHA and content hash, immutable Stage-1 adapter and Advisor pins, frozen
+environment, clean merged source tree, input/candidate hashes and all 10,000
+tasks per case. It launches one case at a time in its own systemd scope, keeps
+full API responses and compact records under `ESS_RUNTIME_PARENT`, computes
+the selected-set objective independently with exact Fraction arithmetic, and
+stops at the first failure. It requires both a merged runner commit and the
+explicit `--research-owner-authorized` acknowledgment. **Do not invoke it
+until the runner PR is reviewed and merged.**
+
+The protocol and runner regression tests do not import or invoke Advisor and
+never start solver code. Run them with:
 
 ```bash
-python3 -m pytest -q \
-  experiments/solver-integration-issue74/test_stage2_b23_protocol.py
+python3 -m unittest discover \
+  -s experiments/solver-integration-issue74 -p 'test_stage2_b23_*.py' -v
 ```
 
-Any later solver run must be separately authorized and follow the frozen
-protocol without retries, concurrency, option changes, or budget escalation.
+The eight-case run remains unexecuted while this runner is under review. No
+retry, concurrent case, option change, or resource escalation is permitted.

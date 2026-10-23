@@ -36,8 +36,8 @@ independent Fraction objective on 10,000 valid tasks each. Peak observed RSS
 was 3.17 GiB; longest outer wall was 107.63 s. See the bounded run report,
 config and compact raw outcomes in
 [`experiments/solver-integration-issue74/full-input-b0-report-v1.md`](../experiments/solver-integration-issue74/full-input-b0-report-v1.md).
-This does not validate B=2/3; do not proceed to larger budgets before Stage 2
-protocol review.
+This does not validate B=2/3. At the time of that B=0 report, Stage 2 had not
+been reviewed; the later protocol and runner gates are recorded below.
 
 **Issue #74 latest review follow-up (2026-10-23):** Corrected the B=0 config
 to describe direct exact Fraction evaluation of the unique feasible empty set,
@@ -46,13 +46,14 @@ final-head Python/evidence and PDF checks passed, and PR #75 was subsequently
 merged to `main` at `6c0d82d258faaa817f2bc977ff99b04971550aa0`; Issue #74
 remains open.
 
-**Issue #74 Stage 2 protocol proposal (2026-10-23):** The latest Issue comment
-proposes a protocol-only Draft PR for eight serial full-valid-input B=2/3
-cases, with no solver-run authorization. The protocol-only Draft PR [#76](https://github.com/1951123/ess-research/pull/76)
-records immutable research/Advisor pins, frozen exact objectives and tie sets,
-fixed case order, resource limits and a first-failure stop rule. It remains
-proposed and not frozen; execution requires review/merge plus separate explicit
-owner authorization. No solver job was run while preparing it.
+**Issue #74 Stage 2 runner gate (2026-10-23):** Protocol PR [#76](https://github.com/1951123/ess-research/pull/76)
+was reviewed and merged at `9b858e47284a290c1b078333929238cf55efdbff`; its
+content SHA-256 is `57ba752c16dc188e4d24ef24a758590281a5f77c0418cd5911038a8d2a50af60`.
+Issue #74 now grants execution authorization for only the eight serial B=2/3
+cases, conditional on a separately reviewed and merged runner. The runner PR is
+the open [Draft PR #77](https://github.com/1951123/ess-research/pull/77); its
+CI/review gate is pending. No Stage 2 solver job has run. No B>=4, PostgreSQL,
+test-set, refit, or retry after a failure is included in the authorization.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 

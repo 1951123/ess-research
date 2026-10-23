@@ -9,8 +9,8 @@ re-run expensive PostgreSQL CPU benchmarks.
 
 1. **Python tests and evidence integrity** (Python 3.13, pytest 8.4.2):
    executes the repository's *offline* PostgreSQL-maintenance and numerical
-   tracing tests, the Issue #74 solver-free Stage 2 protocol validation, and the
-   validator's positive/negative regression tests. It
+   tracing tests, the Issue #74 solver-free Stage 2 protocol and runner
+   validations, and the validator's positive/negative regression tests. It
    checks all committed experimental `SHA256SUMS` files, including the full
    coverage of the Issue #9 evidence directory. The checksum step is strictly
    read-only. A mismatched hash, missing file or malformed manifest fails CI.
@@ -32,6 +32,7 @@ python -m pip install pytest==8.4.2
 python -m pytest -q \
   ci/test_check_evidence.py \
   experiments/solver-integration-issue74/test_stage2_b23_protocol.py \
+  experiments/solver-integration-issue74/test_stage2_b23_runner.py \
   experiments/pg-maintenance/test_analyze_benchmark.py \
   experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py \
   experiments/pg-tracing/test_analyze_mcv_numeric_followup.py
