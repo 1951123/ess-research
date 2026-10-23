@@ -47,15 +47,22 @@ we model complete schemes as inclusion-wise maximal matchings and state the
 conditions under which this corresponds to the source selector. We prove a
 conflict-free certificate under which a nominal optimum is also optimal for
 both conservative objectives. Frozen Forest10 evidence gives a six-resource
-measured-input instance with distinct nominal and pessimistic optima; its
-60-query PostgreSQL follow-up has a small adverse mean difference for the
-pessimistic set. On larger Forest10 and Census13 validation instances,
-nominal and pessimistic selections coincide at the tested small budgets even
-though many raw candidate graphs admit multiple maximal matchings. The
-evidence characterizes model sensitivity and selected-set ambiguity; it does
-not establish that the prescribed schemes cover every real PostgreSQL choice,
-that additive unit budgets measure physical maintenance, or that pessimism
-improves query performance.
+measured-input instance whose displayed nominal and pessimistic optimum
+representatives differ at $B=3$. The exact PESS objective has four tied
+minimizers, including $\{e_{34}\}$; $e_{01}$ had no built MCV payload, and
+the displayed $\{e_{01},e_{34}\}$ set has the same held-out error summary as
+$\{e_{34}\}$. Its $+0.02422$ mean difference over 60 query IDs and two
+repetitions is descriptive, not a causal estimate of policy uncertainty or
+an intrinsic price of robustness. On larger Forest10 and Census13
+validation instances, nominal and pessimistic selections coincide at the
+tested small budgets. Although 47.49\% and 46.27\% of their raw complete
+candidate graphs admit multiple maximal matchings, only 135 and 58 of 10,000
+queries, respectively, pass the stricter pairwise syntax screen. Neither
+count measures catalogs with multiple built, simultaneously eligible MCV
+objects. The evidence characterizes model sensitivity and selected-set
+ambiguity; it does not establish that the prescribed schemes cover every real
+PostgreSQL choice, that additive unit budgets measure physical maintenance,
+or that pessimism improves query performance.
 \end{abstract}
 
 \maketitle
@@ -107,25 +114,44 @@ a positive pre-clamp multiplicative estimate, the corresponding raw loss is
 an absolute signed-log sum. PostgreSQL's rounded and clamped \texttt{Plan
 Rows} values remain a separate evaluation measure.
 
-This paper makes three bounded contributions. First, it gives an explicit
-model boundary between a global resource decision and task-dependent complete
-schemes, including nominal, shared-policy robust, and task-wise pessimistic
-objectives. Second, it states a conditional PostgreSQL-to-maximal-matching
-correspondence and reports its source premises and fixture-scoped runtime
-evidence. Third, it derives a conflict-free sufficient condition for
-policy-insensitive optimality and synthesizes frozen studies that exhibit
-both policy-sensitive and coincident decisions. We do not present a new
-general-purpose solver or claim physical maintenance-cost calibration.
+Our testable claim is that, in this pairwise-matching model, conflict among
+selected resources is more informative about policy-sensitive decisions than
+ambiguity in the full candidate universe. A conflict-free nominal optimum
+certifies a common optimum for Nominal, Joint, and PESS, whereas raw graph
+ambiguity alone does not imply different optima. The frozen Forest10 and
+Census13 fits meet the certificate at the tested budgets despite high raw
+graph-conflict rates; the six-task rationalized instance has a conflict-
+bearing Nominal optimum and a distinct PESS optimum at $B=3$. The held-out
+PostgreSQL comparison for those displayed representatives is confounded by
+their different effective MCV payload counts and cannot identify a causal
+policy effect \cite{issue23_forest10,issue38_heldout,issue59_structure,
+issue64_forest10,issue71_census13}. This exact model certificate and these
+bounded comparisons are the claim's scope; they do not establish a general
+empirical law.
+
+The paper also gives an explicit model boundary between a global resource
+decision and task-dependent complete schemes, and a conditional PostgreSQL-
+to-maximal-matching correspondence with source and fixture-scoped runtime
+evidence. Automatic statistics-selection and statistics-composition work
+already studies resource choice and estimator use; robust query-optimization
+work already studies uncertainty at plan choice. We do not claim to replace
+those methods, provide a new general-purpose solver, or calibrate physical
+maintenance cost. Whether this narrower result clears a regular research
+paper novelty threshold remains open.
 
 The evaluation asks three narrower questions. Can uncertainty about the
 estimator's scheme choice change an optimal resource set on measured inputs?
-When it does, do the selected sets behave differently on an already frozen
-PostgreSQL cohort? And can structural ambiguity in a workload's candidate
-graphs coexist with coincident nominal and pessimistic optima? The evidence
-answers each question only for the stated model version, resource budget,
-database build, and query cohort. We treat the six-task case as an existence
-example and the two larger valid-only fits as counterexamples to the idea
-that many ambiguous candidate graphs must imply different selected sets.
+When it does, what can a frozen PostgreSQL cohort say about deploying those
+different sets? And can raw graph ambiguity coexist with coincident
+Nominal/PESS optima? The evidence answers each question only for the stated
+model version, resource budget, database build, and query cohort. In the
+10,000-query valid splits, multiple maximal matchings occur in 47.49\% of
+Forest10 and 46.27\% of Census13 raw candidate graphs, but only 135 and 58
+queries pass the stricter pairwise syntax screen. The archived Issue~\#59
+summaries do not retain the per-query intersection of those two conditions,
+so it is unknown; neither marginal count is a prevalence estimate for
+catalogs with multiple built, simultaneously eligible MCV objects
+\cite{issue59_structure}.
 
 The rest of the paper proceeds from the generic decision interface to its
 restricted PostgreSQL instance, then gives model-internal results separately
@@ -183,7 +209,11 @@ estimator context to which they apply; two schemes can therefore differ even
 when both use subsets of the same created set. We do not replace the
 estimator-combination mechanisms in prior work. We expose the policy boundary
 that a resource-selection analysis would need to specify if such mechanisms
-are uncertain to the advisor.
+are uncertain to the advisor. These prior results establish statistics
+selection and estimator-side composition; our narrower comparison asks whether
+the conflict structure of a selected set certifies that the choice among
+prescribed schemes cannot change the optimal resource set. We claim no new
+statistics-selection or combination mechanism.
 
 Robustness has also been studied at the query-optimization and physical
 design levels. Babcock and Chaudhuri vary cardinality estimates to trade
@@ -225,8 +255,11 @@ not exhaustive, prior work. We make no claim that this paper exhausts the
 literature on statistics selection, cardinality estimation, or robust
 physical design. The existing decision-dependent uncertainty and graph
 optimization literatures provide the general mathematical context; the
-present evidence is a scoped integration of that context with one PostgreSQL
-estimator path rather than a new general robust-optimization method.
+present evidence tests a selected-set certificate against frozen
+policy-sensitive and policy-invariant model cases, rather than proposing a
+new general robust-optimization method. This claim-level comparison is
+bounded and does not establish that the paper clears a regular research-paper
+novelty threshold.
 
 \begin{table*}[t]
 \centering
@@ -1000,12 +1033,11 @@ all disjoint pairs compose exactly.
 The 84-record calibration led to a sharp separation between requested
 resources and effective MCV objects in this fixed sample: $e_{12}$,
 $e_{23}$, and $e_{34}$ each had 300 MCV items, while $e_{01}$, $e_{45}$,
-and $e_{56}$ had none. The model still retained all six candidate resources
-as available choices, because payload realization belongs to the observed
-PostgreSQL layer rather than the abstract candidate-set definition. This
-gap is material at budget three: the model's pessimistic choice includes
-$e_{01}$, but the held-out catalog snapshots did not provide an effective
-two-column MCV payload for it.
+and $e_{56}$ had none. The model retained all six resources as available
+choices because payload realization belongs to the observed PostgreSQL
+layer, not the abstract candidate universe. The mismatch matters at $B=3$:
+the displayed PESS representative includes $e_{01}$, but the frozen catalog
+had no MCV payload for it.
 
 \begin{table*}[t]
 \centering
@@ -1038,26 +1070,27 @@ $e_{23}+e_{34}$ & One object & $-0.4904$\\
 \begin{table*}[t]
 \centering
 \small
-\caption{Issue~\#23 exact reference decisions and Issue~\#38 held-out
-PostgreSQL measurements are separate evidence panels. Values in panel (a)
-are rounded displays of exact rational objectives for the rationalized
-instance. Panel (b) summarizes 120 repeated measurements per deployment;
-paired counts average the two repetitions within each of 60 query IDs.}
+\caption{Issue~\#23 exact Fraction model objectives and Issue~\#38 observed
+PostgreSQL errors are separate evidence panels. Panel (a) reports one
+recorded optimum representative; displayed objectives are rounded from exact
+rational values, and tied optima are described below. Panel (b) reports 120
+measurements per deployment from 60 query IDs with two repetitions each;
+repetitions are not independent query IDs.}
 \label{tab:issue23}
 \begin{tabular}{rp{4.2cm}p{4.2cm}p{5.4cm}}
 \toprule
-\multicolumn{4}{c}{(a) Exact reference selections for the six-task model}\\
+\multicolumn{4}{c}{(a) Exact six-task model optima (Fraction objectives; rounded display)}\\
 \midrule
-B & Nominal set (native objective) & Joint/PESS set (native objective) & Relation\\
+B & Nominal representative (objective) & Joint/PESS representative (objective) & Optimum relation\\
 \midrule
 $0$ & $\varnothing$ (14.672700) & $\varnothing$ (14.672700) & Same set\\
 $2$ & $\{e_{01},e_{34}\}$ (13.498446) & $\{e_{01},e_{34}\}$ (13.498446) & Same set\\
-$3$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct sets\\
-$5$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct sets\\
+$3$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct representatives; 4 PESS/Joint optima\\
+$5$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct representatives; 4 optima each\\
 \midrule
-\multicolumn{4}{c}{(b) Frozen PostgreSQL held-out comparison ($n=120$ repeated rows per set)}\\
+\multicolumn{4}{c}{(b) Descriptive PG error: 60 query IDs $\times$ 2 repetitions (120 rows per set)}\\
 \midrule
-Selected set & MCV payloads & Trace rows & Mean / median / P90 / max log error\\
+Selected set & Effective MCV payloads & Trace rows & Mean / median / P90 / max $|\ln(\widehat N/T)|$\\
 \midrule
 Empty & None & $0/120$ & 5.02104 / 2.55550 / 12.79932 / 33.44741\\
 Nominal $\{e_{12},e_{23},e_{34}\}$ & $e_{12},e_{23},e_{34}$ & $114/120$ &
@@ -1068,37 +1101,41 @@ PESS $\{e_{01},e_{34}\}$ & $e_{34}$ & $94/120$ &
 \end{tabular}
 \end{table*}
 
-At budget three, the nominal optimum has model objective $13.303092$ but a
-task-wise PESS value of $14.320234$ on that same set. The pessimistic optimum
-$\{e_{01},e_{34}\}$ has PESS value $13.498446$, so the nominal set's exact
-rational PESS regret rounds to $0.821788$ for display. The nominal set
-remains optimal for its own objective at budgets
-three and five, while the Joint and PESS choices remain $\{e_{01},e_{34}\}$.
-This is the measured-input instance in which the nominal decision differs
-from the two conservative regimes; the displayed magnitudes are native
-model objectives, not comparable to the PostgreSQL held-out mean below.
+At $B=3$, the nominal optimum has model objective $13.303092$ but a
+task-wise PESS value of $14.320234$ on that same set. The PESS value of
+$\{e_{01},e_{34}\}$ is $13.498446$, so the nominal set's exact rational PESS
+regret rounds to $0.821788$. The exact archive records four tied PESS/Joint
+minimizers at both $B=3$ and $B=5$:
+$\{e_{01},e_{34}\}$, $\{e_{01},e_{34},e_{56}\}$, $\{e_{34}\}$, and
+$\{e_{34},e_{56}\}$. Nominal has a unique minimizer at $B=3$ and four at
+$B=5$. Thus $e_{01}$ has zero incremental PESS-objective benefit when added
+to the equally optimal $\{e_{34}\}$ at $B=3$; it is not a uniquely required
+part of the pessimistic decision. The table shows the recorded representative
+used in the held-out comparison. These exact model values are not comparable
+to the PostgreSQL held-out errors below.
 
-The set geometry clarifies why the model decisions separate. At $B=3$, the
+The set geometry clarifies this model-level separation. At $B=3$, the
 Nominal set $\{e_{12},e_{23},e_{34}\}$ forms a three-edge path and admits two
-maximal matchings, $\{e_{12},e_{34}\}$ and $\{e_{23}\}$. The selected
-Joint/PESS set $\{e_{01},e_{34}\}$ is conflict-free and therefore has a
-singleton maximal-matching family in this instance. It removes the model's
-within-task choice while trading away Nominal objective value. This is
-consistent with the conflict-free certificate, although the certificate
-alone does not predict which conflict-free set the optimizer will choose.
-The budgets are upper bounds under unit object-count cost: at $B=5$ the
-optimizers still choose only three resources, so the additional capacity is
-not forced to be used.
+maximal matchings, $\{e_{12},e_{34}\}$ and $\{e_{23}\}$. Every listed
+PESS/Joint optimum is conflict-free, including the equally optimal
+$\{e_{34}\}$, and therefore has a singleton maximal-matching family in this
+instance. This satisfies the conflict-free certificate, which does not
+predict which conflict-free set the optimizer will choose. At $B=5$, the
+displayed representatives use three resources for Nominal and two for
+PESS/Joint; the exact archive also contains tied supersets, so these
+representative cardinalities are not unique optimizer outcomes.
 
 The paired query-level comparison has 34 IDs with higher PESS error, 11 with
-lower error, and 15 ties; the mean difference is $+0.02422$ for PESS minus
-Nominal. The requested
-$e_{01}$ object had no effective MCV payload in the fixed-sample snapshots;
-thus the physical PESS deployment did not realize every correction assumed
-by the model. Figure~\ref{fig:paired} displays the 60 query-level
-comparisons. The result is a bounded adverse price-of-pessimism example, not
-a population ranking, significance claim, or evidence that PESS generally
-harms estimates.
+lower error, and 15 ties; the mean difference is $+0.02422$ for the displayed
+PESS deployment minus the displayed Nominal deployment. This is a descriptive
+comparison of different as-built effective sets: the former has only the
+$e_{34}$ MCV payload, while the latter has three payloads. The held-out
+summary for $\{e_{01},e_{34}\}$ is exactly the same as for $\{e_{34}\}$,
+consistent with the missing $e_{01}$ payload and the model's tied optimum.
+Consequently, these observations do not identify a causal effect of policy
+uncertainty or an intrinsic price of robustness. Figure~\ref{fig:paired}
+displays the 60 query-level comparisons; they are not a population ranking,
+significance claim, or evidence that PESS generally harms estimates.
 
 \begin{figure}[t]
 \centering
@@ -1123,24 +1160,28 @@ on 34, lower error on 11, and equal error on 15.}
 
 \subsection{Ambiguity in Candidate Graphs and Selected Sets}
 
-Table~\ref{tab:larger} contrasts graph-level opportunities with frozen
-small-budget optima. The ambiguity percentages are computed on the raw
-candidate graphs for the full 10,000-query validation split. Strictly
-eligible Stage~2B query counts are much smaller. Neither raw graph ambiguity
-nor query syntax establishes built PostgreSQL MCV payloads or realized
-scheme choice.
+Table~\ref{tab:larger} contrasts raw graph opportunities with frozen
+small-budget optima. The 47.49\% and 46.27\% figures count complete
+candidate graphs with at least two maximal matchings across all 10,000
+queries in each valid split. The strict Stage~2B counts (135 and 58) are a
+separate syntactic screen. The Issue~\#59 archive stores these as separate
+marginals, so their per-query intersection is unknown; neither measure
+establishes catalogs with multiple built, simultaneously eligible MCV
+objects or realized scheme choice.
 
 \begin{table*}[t]
 \centering
 \small
-\caption{Raw validation-graph ambiguity and frozen valid-only selections.
-Forest10 uses a corrected-log model; Census13 uses the separately versioned
-\texttt{clamped-log-v2} model. Their numeric objectives are not pooled.}
+\caption{Raw structural opportunities for graph ambiguity, strict syntax
+eligibility, and frozen valid-only selections. The graph counts are not
+eligible or realized PostgreSQL ambiguity. Forest10 uses a corrected-log
+model; Census13 uses the separately versioned \texttt{clamped-log-v2} model.
+Their numeric objectives are not pooled.}
 \label{tab:larger}
 \begin{tabularx}{\textwidth}{p{1.8cm}p{2.5cm}p{2.5cm}p{3.4cm}X}
 \toprule
-Dataset/model & Raw graphs with $\geq2$ maximal matchings & Strict eligible
-queries & Unique frozen selections & Nominal/PESS comparison\\
+Dataset/model & Raw structural opportunities ($\geq2$ maximal matchings; not
+PG ambiguity) & Strict syntax-eligible queries & Unique frozen selections & Nominal/PESS comparison\\
 \midrule
 Forest10, corrected-log
 & 4,749/10,000 (47.49\%)
@@ -1271,35 +1312,41 @@ establish unseen-template generalization.
 \FloatBarrier
 \section{Discussion}
 
-The studies show two different decision regimes. On the six-resource
-measured-input instance, information about the internal policy changes the
-selected set, and the pessimistic set is slightly worse on a small frozen
-held-out cohort. On the larger Forest10 and Census13 valid-only models, the
-small-budget optima coincide and are conflict-free despite structural
-ambiguity in the raw candidate universe. Thus, policy uncertainty can affect
-resource selection, but it need not remain exposed after optimization.
-Neither outcome supports a universal ranking of the policy objectives.
+The model evidence shows two decision regimes. In the six-resource instance,
+the exact Nominal and PESS optimum sets differ at $B=3$, while the PESS
+optimum is nonunique and includes $\{e_{34}\}$. In the larger Forest10 and
+Census13 valid-only fits, the small-budget optima coincide and are
+conflict-free despite high raw graph-conflict rates. This is consistent with
+the selected-set certificate and shows why raw candidate-graph ambiguity
+alone does not determine whether policy objectives choose different
+resources. It does not establish a universal ranking of those objectives.
 
 These cases answer different empirical questions. Issue~\#23 establishes
 that the objective choice can alter a finite measured-input optimum after
-high-precision log coefficients are rationalized. Issue~\#38 evaluates the
-resulting two budget-three sets on 60 test query IDs; it does not provide a
-new selection model or an independent test cohort. The small positive mean
-difference for PESS is accompanied by a lower median, identical P90 and
-maximum, and 11 query-level improvements. The evidence therefore supports a
-bounded adverse example, not a claim that the PESS set is uniformly worse.
-In the larger fits, selection agreement removes a treatment contrast: the
-test results can compare the common Forest10 deployments with Empty, but they
-cannot attribute any difference to the Nominal or PESS objective.
+high-precision log coefficients are rationalized. The PESS/Joint optimum
+has four exact minimizers at $B=3$, including $\{e_{34}\}$, which has the
+same exact PESS value as $\{e_{01},e_{34}\}$. Issue~\#38 evaluates the
+recorded representatives on 60 query IDs with two repetitions each. The
+$+0.02422$ mean difference for the displayed PESS deployment is accompanied
+by a lower median, identical P90 and maximum, and 11 query-level improvements.
+Because $e_{01}$ had no built payload, this compares one effective MCV object
+against three; the archived PG summary for $\{e_{01},e_{34}\}$ is identical
+to the summary for $\{e_{34}\}$. The observed difference therefore does not
+identify a causal effect of the policy model or an intrinsic price of
+robustness. In the larger fits, selection agreement removes a treatment
+contrast: the Forest10 test results compare common Nominal/PESS deployments
+with Empty, not the two objectives with each other.
 
-The graph audit also has two distinct denominators. Almost half of all raw
-query candidate graphs in each 10,000-query valid split admit multiple
-maximal matchings, yet only 135 Forest10 and 58 Census13 queries met the
-stricter eligibility screen used for the later pairwise evidence. Neither
-number is a count of catalogs in which PostgreSQL actually has multiple
-usable MCV objects. The ambiguity rate describes a potential property of a
-candidate representation; the smaller eligible count describes a syntactic
-filter; catalog payload and runtime selection require separate evidence.
+The graph audit has two distinct denominators. Multiple maximal matchings
+occur in 47.49\% of raw Forest10 and 46.27\% of raw Census13 candidate graphs
+in the 10,000-query valid splits; 135 Forest10 and 58 Census13 queries pass
+the stricter Stage~2B syntax screen. Issue~\#59 stores the two as marginal
+counts, not a per-query cross-tab, so the intersection of strict eligibility
+and raw conflict is unknown. Neither number is a count of catalogs in which
+PostgreSQL has multiple simultaneously eligible, built MCV objects. The raw
+rate describes a property of the full candidate representation; the strict
+count describes a syntax filter. Payload and runtime selection require
+separate evidence.
 
 The PostgreSQL evidence is about selection behavior under explicit
 conditions. A fixed catalog order yields one maximal matching; the
@@ -1334,13 +1381,14 @@ causal effect of robust selection.
 
 Several limitations constrain a research claim. The six-task example uses a
 narrow construction sample, rationalized log coefficients, and unit costs.
-The 60-query follow-up is descriptive, and the PESS set included a requested
-object with no effective payload. The larger Forest10/Census13 model versions
-use different loss conventions; only Forest10 has the reported official
-test-split Plan Rows evaluation. That test split has known template overlap
-and prior exposure. No experiment measures physical maintenance cost or
-query latency. Finally, the conflict-free theorem is a sufficient model
-certificate, not a characterization of all robust optima.
+Its exact PESS ties and inactive payloads mean that the 60-query follow-up is
+a comparison of as-built effective sets, not a causal estimate of policy
+uncertainty. The larger Forest10/Census13 model versions use different loss
+conventions; only Forest10 has the reported official test-split Plan Rows
+evaluation. That test split has known template overlap and prior exposure.
+No experiment measures physical maintenance cost or query latency. Finally,
+the conflict-free theorem is a sufficient model certificate, not a
+characterization of all robust optima.
 
 The theoretical results should be read at the same level of scope. The
 pointwise objective hierarchy is an immediate consequence of set inclusion.
@@ -1349,9 +1397,12 @@ stronger than necessary. The fixed-set hardness observation invokes a
 classical minimum maximal-matching problem, and the outer SUBSET SUM mapping
 uses directly represented signed-log coefficients. Neither is a new
 algorithmic result, a solver-complexity classification for all input
-encodings, or evidence of a runtime speedup. A broad novelty claim would
-require a more complete prior-art comparison and a result beyond these
-standard reductions and structural conditions.
+encodings, or evidence of a runtime speedup. One bounded novelty gap remains:
+a claim-level comparison of this selected-set certificate and its evidence
+against automatic statistics selection/composition and robust physical-design
+and query-optimization work. Until that review establishes what is additional,
+the manuscript makes no regular research-paper novelty claim and proposes no
+new algorithm.
 
 For future empirical use, the key missing input is not another objective
 variant but evidence that connects the abstraction to deployments: which
@@ -1368,12 +1419,12 @@ resource-dependent choice of complete schemes, and made the information
 assumptions behind Nominal, Joint, and task-wise PESS explicit. A restricted
 PostgreSQL 16.14 MCV selector motivates a maximal-matching instance, with
 source and runtime evidence limited to declared single-table conditions.
-The decision analysis gives a simple certificate for policy-insensitive
-optimality. Frozen evidence includes both a policy-sensitive adverse
-comparison and larger cases where optimal selections coincide and remove
-modeled ambiguity. Stronger claims require broader literature positioning,
-justified real-scheme coverage, calibrated physical maintenance costs, and
-independent held-out evidence that separates model decisions.
+The decision analysis gives a conflict-free certificate for policy-invariant
+model optima. Frozen evidence includes a model-level policy-sensitive case
+with tied PESS optima, a confounded descriptive PostgreSQL deployment
+comparison, and larger model cases with coincident conflict-free selections.
+The novelty threshold remains open pending a bounded comparison with the
+closest statistics-selection and robust-optimization literature.
 
 \FloatBarrier
 \clearpage

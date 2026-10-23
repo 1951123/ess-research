@@ -5,22 +5,23 @@ an academic scope check, not a claim that the work has passed external peer
 review.
 
 **Readiness recommendation: FOCUSED-GAP.** The manuscript is complete for
-end-to-end researcher review. Before submission, the focused remaining gap is
-a broader claim-level novelty comparison, especially against recent robust
-query-plan methods and practical workload-aware statistics advisors. This
-gap does not require reopening the frozen experiments to produce a reviewable
-draft.
+end-to-end researcher review. The remaining gap is one bounded claim-level
+novelty comparison: test whether the selected-set conflict-free certificate
+and its evidence add to automatic statistics selection/composition and robust
+physical-design/query-optimization work. This comparison needs separate
+researcher approval before it is treated as a new work item; it does not
+require reopening frozen experiments to produce this reviewable revision.
 
 ## Innovation and positioning
 
-The strongest current contribution is a clear separation between a global,
-unordered resource decision and task-dependent families of complete
-estimation schemes, with Nominal, shared-policy Joint, and task-wise PESS
-objectives stated under one interface. The PostgreSQL matching instance
-makes that boundary concrete, and the frozen studies show both a
-policy-sensitive decision and cases where optimization removes modeled
-ambiguity. The paper does not establish a new general-purpose algorithm or
-an empirical PESS advantage.
+The manuscript's specific testable claim is that conflict in the selected
+resource set gives a decision-level certificate that raw ambiguity across
+the full candidate universe cannot provide by itself. Under the stated
+model, a conflict-free Nominal optimum is also optimal for Joint and PESS.
+The larger frozen fits meet this condition and have coincident selections;
+the six-task model has a conflict-bearing Nominal optimum and a distinct,
+nonunique PESS optimum. This is model-level evidence, not a general empirical
+law or an empirical PESS advantage.
 
 Novelty remains the largest publication risk. The repository's prior-art
 audit found the previously considered structural and algorithmic claims to
@@ -58,10 +59,12 @@ submission claim of novelty is defensible.
   18-decimal rationalized log inputs. The 720 Joint orders are abstract
   scenarios, not verified PostgreSQL catalog orders.
 - Issue #38 covers 60 frozen query IDs with two repeated PostgreSQL
-  measurements. PESS has a small higher mean error than Nominal, but also a
-  lower median, the same P90 and maximum, and 11 query-level improvements.
-  This is descriptive, not a significance or population claim. The PESS
-  selected `e01`, which lacked an effective MCV payload in the frozen sample.
+  measurements. The exact B=3 PESS/Joint optimum has four tied sets,
+  including `{e34}`; the held-out summary for `{e01,e34}` is exactly the same
+  as for `{e34}`. The displayed PESS deployment has one effective payload,
+  versus three for Nominal. Its small higher mean, lower median, same P90 and
+  maximum, and 11 query-level improvements are descriptive contrasts between
+  different as-built sets, not a causal policy effect or price of robustness.
 - Forest10 and Census13 valid-only models return coincident Nominal and PESS
   optima at the tested budgets. They provide no treatment contrast. Their
   model versions differ, and Census13's PESS solution was reused rather than
@@ -69,12 +72,18 @@ submission claim of novelty is defensible.
 - Forest10 `Plan Rows` results compare the common selected deployments with
   Empty. The official test split has template overlap and earlier exposure;
   no MCV selection trace, latency, or physical maintenance cost was measured.
-- Raw graph ambiguity is not actual catalog eligibility. The strict syntax
-  cohorts and frozen payload observations are much smaller and answer
-  different questions.
+- Raw graph ambiguity is not actual catalog eligibility. Issue #59 archives
+  marginal raw-conflict and strict-eligibility counts, not their query-level
+  intersection; that intersection is unknown. Neither count measures actual
+  catalogs with multiple simultaneously eligible, built MCV objects.
 
 ## Checks completed for this draft
 
+- Review-driven revision rebuilt locally with `latexmk` 4.83 and TeX Live
+  2023. The PDF has 13 pages total, letter size; the final pass has no
+  undefined citations/references, BibTeX warnings, or overfull boxes.
+  Underfull boxes and the template's column-balance warning remain. The
+  repository CI pins TeX Live 2026 and has not yet run on this revised head.
 - External publication metadata in `references.bib` was checked against
   publisher or DOI records. Versioned repository reports and PostgreSQL
   16.14 source are cited separately as evidence sources.
@@ -111,13 +120,15 @@ submission claim of novelty is defensible.
 
 ## Review priorities
 
-1. Decide whether the scoped formulation-and-evidence synthesis is sufficient
-   for a regular research paper after a broader novelty review.
+1. With researcher approval, complete the bounded comparison of the
+   selected-set certificate against the closest statistics-selection,
+   statistics-composition, and robust physical-design/query-optimization
+   work; until then, regular-paper novelty remains open.
 2. Challenge the real-scheme coverage assumptions and the practical
    relevance of the pairwise MCV eligibility gate.
-3. Treat the six-task adverse example as hypothesis-generating until a
-   separate, adequately powered, independently held-out study can compare
-   deployments whose selected sets differ.
+3. Treat the six-task PostgreSQL deployment contrast as descriptive and
+   noncausal until a separate, adequately powered, independently held-out
+   study compares deployments with controlled effective payloads.
 4. Require calibrated maintenance measurements and estimator traces before
    any claim about physical cost, real worst-case guarantees, or advisor
    deployment recommendations.
