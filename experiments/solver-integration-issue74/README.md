@@ -111,11 +111,18 @@ stop-for-review on every incomplete or nonpassing result. This is a new
 prospective question about whether the fixed implementation returns the
 archived exact selection; it does not reinterpret the historical timeout.
 
-`run_stage2_b2_recovery.py` writes fsynced phase events and an atomically
-replaced checkpoint, including Python constraint construction, COO assembly,
-COO-to-CSR conversion, remaining solver-input preparation, and entry/exit from
-each HiGHS invocation. An interruption therefore retains the last completed
-stage and whether HiGHS had started. The committed protocol sets
+`run_stage2_b2_recovery.py` computes and verifies the frozen selection and
+coefficient file SHA-256 values from repository bytes before preparing a
+solver request, then records the hashes in durable evidence. It writes fsynced
+phase events and an atomically replaced checkpoint, including Python
+constraint construction, COO assembly, COO-to-CSR conversion, remaining
+solver-input preparation, and entry/exit from each HiGHS invocation. An
+interruption therefore retains the last completed stage and whether HiGHS had
+started. The outer runner uses a unique systemd unit name and immediately
+captures its raw `Result`, `MemoryPeak`, and `ExecMainStatus` properties with
+the command exit code. If the transient unit has disappeared or the query
+fails, the record says systemd status is unknown; it does not infer timeout or
+OOM from the process exit code. The committed protocol sets
 `execution_authorized` to `false`; the
 runner refuses to launch until a later reviewed protocol revision and separate
 explicit researcher authorization. Its regression tests are solver-free.

@@ -65,19 +65,24 @@ def checkpoint(root: Path) -> dict[str, Any] | None:
 
 
 def record_missing_child_result(
-    root: Path, exit_code: int | None, failure: dict[str, Any] | None = None
+    root: Path,
+    exit_code: int | None,
+    failure: dict[str, Any] | None = None,
+    systemd_status: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     last_child = checkpoint(root)
     event(
         root,
         "child_missing_result",
         systemd_exit_code=exit_code,
+        systemd_status=systemd_status or {"available": False, "state": "unknown"},
         last_child_checkpoint=last_child,
         **(failure or {}),
     )
     return {
         "outcome": "STOP_FOR_REVIEW",
         "systemd_exit_code": exit_code,
+        "systemd_status": systemd_status or {"available": False, "state": "unknown"},
         "last_child_checkpoint": last_child,
     }
 
@@ -112,13 +117,19 @@ def protocol() -> dict[str, Any]:
     return p
 
 
-def scope_command(repo: Path, root: Path, python: str = sys.executable) -> list[str]:
+def scope_command(
+    repo: Path,
+    root: Path,
+    python: str = sys.executable,
+    unit_name: str = "ess-issue74-b2-recovery.scope",
+) -> list[str]:
     limits = protocol()["solver"]
     return [
         "systemd-run",
         "--user",
         "--scope",
         "--quiet",
+        f"--unit={unit_name}",
         "-p",
         f"MemoryMax={limits['outer_memory_max_bytes']}",
         "-p",
@@ -136,6 +147,86 @@ def scope_command(repo: Path, root: Path, python: str = sys.executable) -> list[
         "--run-dir",
         str(root.resolve()),
     ]
+
+
+def systemd_unit_name(run_id: str) -> str:
+    return f"ess-issue74-b2-{run_id}.scope"
+
+
+def collect_systemd_status(unit_name: str) -> dict[str, Any]:
+    try:
+        result = subprocess.run(
+            [
+                "systemctl",
+                "--user",
+                "show",
+                unit_name,
+                "-p",
+                "Id",
+                "-p",
+                "Result",
+                "-p",
+                "MemoryPeak",
+                "-p",
+                "ExecMainStatus",
+            ],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        return {
+            "available": False,
+            "state": "unknown",
+            "unit": unit_name,
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+    raw = result.stdout
+    if result.returncode != 0:
+        return {
+            "available": False,
+            "state": "unknown",
+            "unit": unit_name,
+            "query_returncode": result.returncode,
+            "raw_properties": raw,
+            "query_stderr": result.stderr,
+        }
+    properties = dict(line.split("=", 1) for line in raw.splitlines() if "=" in line)
+    return {
+        "available": True,
+        "state": "collected",
+        "unit": unit_name,
+        "query_returncode": result.returncode,
+        "properties": properties,
+        "raw_properties": raw,
+    }
+
+
+def verify_frozen_file_hashes(repo: Path, p: dict[str, Any]) -> dict[str, str]:
+    frozen = p["frozen_input"]
+    pins = {
+        "frozen_selection": (
+            frozen["frozen_selection_path"],
+            frozen["frozen_selection_sha256"],
+        ),
+        "coefficient_artifact": (
+            frozen["coefficient_artifact_path"],
+            frozen["coefficient_artifact_sha256"],
+        ),
+    }
+    hashes: dict[str, str] = {}
+    repo = repo.resolve()
+    for name, (relative_path, expected) in pins.items():
+        path = (repo / relative_path).resolve()
+        try:
+            path.relative_to(repo)
+        except ValueError as exc:
+            raise RuntimeError(f"pinned {name} path escapes repository") from exc
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != expected:
+            raise RuntimeError(f"pinned {name} SHA-256 mismatch: {actual}")
+        hashes[name] = actual
+    return hashes
 
 
 def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
@@ -165,10 +256,11 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
         },
     )
     event(root, "run_started", protocol_sha256=protocol_sha)
+    unit_name = systemd_unit_name(run_id)
     try:
         with (root / "runner.log").open("wb") as log:
             completed = subprocess.run(
-                scope_command(repo, root),
+                scope_command(repo, root, unit_name=unit_name),
                 stdout=log,
                 stderr=subprocess.STDOUT,
                 check=False,
@@ -179,21 +271,36 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
         failure = {"exception_type": type(exc).__name__, "message": str(exc)}
     else:
         failure = {}
+    systemd_status = collect_systemd_status(unit_name)
+    event(
+        root,
+        "systemd_status_collected",
+        unit=unit_name,
+        systemd_exit_code=exit_code,
+        systemd_status=systemd_status,
+    )
     result_path = root / "case-result.json"
     if not result_path.exists():
-        result = record_missing_child_result(root, exit_code, failure)
+        result = record_missing_child_result(root, exit_code, failure, systemd_status)
     else:
         result = reconcile_scope_exit(json.loads(result_path.read_text()), exit_code)
+        result["systemd_status"] = systemd_status
     child_checkpoint = result.get("last_child_checkpoint")
     write_atomic(result_path, result)
     if checkpoint(root).get("phase") != "run_finished":
         event(
-            root, "run_finished", outcome=result["outcome"], systemd_exit_code=exit_code
+            root,
+            "run_finished",
+            outcome=result["outcome"],
+            systemd_exit_code=exit_code,
+            systemd_status=systemd_status,
         )
     metadata = json.loads((root / "run-metadata.json").read_text())
     metadata.update(
         status=result["outcome"],
         systemd_exit_code=exit_code,
+        systemd_unit=unit_name,
+        systemd_status=systemd_status,
         last_child_checkpoint=child_checkpoint,
     )
     write_atomic(root / "run-metadata.json", metadata)
@@ -259,6 +366,8 @@ def child(repo: Path, root: Path) -> int:
     try:
         runner_commit = verify(repo, p)
         verify_environment(p)
+        frozen_file_hashes = verify_frozen_file_hashes(repo, p)
+        event(root, "frozen_files_verified", sha256=frozen_file_hashes)
         sys.path.insert(0, str(HERE))
         import adapter
         from pess_ess import mip, nominal, solve_payload
@@ -294,6 +403,7 @@ def child(repo: Path, root: Path) -> int:
             tasks=10000,
             candidates=45,
             candidate_order_sha256=order_sha,
+            frozen_file_sha256=frozen_file_hashes,
         )
         payload = adapter.advisor_request_payload(
             source, "nominal", priority_order=source["_nominal_priority_order"]
@@ -380,7 +490,7 @@ def child(repo: Path, root: Path) -> int:
             began = time.monotonic()
             try:
                 result = original_milp(**kwargs)
-            except BaseException as exc:
+            except Exception as exc:
                 event(
                     root,
                     "solver_invocation_raised",
@@ -459,6 +569,7 @@ def child(repo: Path, root: Path) -> int:
             "advisor_source_commit": p["immutable_software"]["advisor_source_commit"],
             "protocol_sha256": hashlib.sha256(PROTOCOL.read_bytes()).hexdigest(),
             "request_sha256": hashlib.sha256(request_bytes).hexdigest(),
+            "frozen_file_sha256": frozen_file_hashes,
             "response_sha256": hashlib.sha256(response_bytes).hexdigest(),
             "selected": sorted(selected) if selected is not None else None,
             "selected_set_exact_objective_fraction": str(exact)
@@ -481,7 +592,7 @@ def child(repo: Path, root: Path) -> int:
         write_atomic(root / "case-result.json", result)
         event(root, "run_finished", outcome=result["outcome"])
         return 0 if passed else 2
-    except BaseException as exc:
+    except Exception as exc:
         last = checkpoint(root)
         event(
             root,
