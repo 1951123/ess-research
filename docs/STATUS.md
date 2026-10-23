@@ -62,9 +62,9 @@ Issue #74 remains open. No B>=4, PostgreSQL, test-set, or refit was included.
 
 **Issue #74 prospective recovery proposal (2026-10-23):** Advisor PR #8 was
 reviewed with no blocking changes, CI passed, and merged at
-`369d90217e931c7d1b0cd6e82c88527a25cc7129`. A separate Draft proposes one
-Forest10 Nominal B=2 recovery attempt with the same frozen input and resource
-caps, a new immutable Advisor pin, and interruption-durable phase events.
+`369d90217e931c7d1b0cd6e82c88527a25cc7129`. [Draft PR #79](https://github.com/1951123/ess-research/pull/79)
+proposes one Forest10 Nominal B=2 recovery attempt with the same frozen input
+and resource caps, a new immutable Advisor pin, and interruption-durable phase events.
 Protocol `execution_authorized` is false; no solver was run and separate
 researcher authorization remains required after review/merge. The historical
 Stage2 timeout report and its original records remain unchanged.
