@@ -1,171 +1,123 @@
-# Issue #84 paper draft: v3 self-review
+# Issue #84 paper draft: v4 self-review
 
-This self-review records the v3 response to the scientific-positioning review
-in Issue #86. It is an author-side scope and evidence check, not an
-independent referee decision.
+This review records the v3 response to Issue #86 and the targeted editorial
+revision following PR #85 review `5630310609`. It is an author-side scope and
+evidence check, not an independent novelty decision.
 
-**Thesis: REFINE. Technical novelty: NOT YET sufficiently supported for a
-SIGMOD/PVLDB/ICDE regular research paper.** The paper now centers the
-information boundary between prescribed complete-scheme admissibility,
-estimator-policy knowledge, and scheme-loss prediction. This makes the
-question coherent and falsifiable; it does not establish that the resulting
-database contribution clears the regular-paper novelty threshold.
+**Recommendation: keep PR #85 Draft. Thesis: REFINE. Technical novelty is
+still NOT YET sufficiently supported for a SIGMOD/PVLDB/ICDE regular research
+paper.** The paper now states a falsifiable, evidence-scoped claim: policy
+information changes the model-selected resource set in the frozen six-task
+case at B=3, even after restricting to effective-MCV candidates, while the
+two larger valid-only fitted models have coincident Nominal/PESS optima for
+the tested B<=3. This is an instance-level result, not evidence of a physical
+policy effect or sufficient publication novelty.
 
-## What changed in v3
+## Changes following PR review `5630310609`
 
-- Rewrote the Abstract and Introduction around the question: when can an
-  advisor use knowledge of admissible complete schemes without knowing the
-  actual selection policy to make budgeted resource decisions?
-- Separated requested statistics, catalog objects, effective MCV payloads,
-  eligibility in a complete scheme, policy-selected schemes, and resulting
-  estimates/losses.
-- Stated that knowing Gamma_i(M) does not reveal counterfactual scheme
-  losses. An executable instance also needs an estimator oracle, measurements,
-  or an explicitly stated loss approximation.
-- Distinguished a known but uncontrollable deterministic policy (Nominal),
-  one unknown shared policy (Joint-Robust), and taskwise admissibility-only
-  uncertainty (PESS). PESS is described as a conservative risk criterion,
-  not a PostgreSQL adversary.
-- Expanded Related Work with claim-level comparisons to Chaudhuri–Narasayya
-  (ICDE 2000), Bruno–Chaudhuri (SIGMOD 2002 and 2004), MAXENT (SIGMOD 2006),
-  Babcock–Chaudhuri (SIGMOD 2005), El Gebaly–Aboulnaga (EDBT 2008),
-  Nohadani–Sharma (SIAM J. Optimization 2018), AutoCE (ICDE 2023), and EDB
-  Statistics Advisor/PostgreSQL documentation. Added source-verified AutoCE
-  and PostgreSQL 16 documentation entries.
-- Added an active-MCV-only restriction corollary from the frozen Issue #23
-  exact B=3 results. It lists all four original PESS ties and establishes
-  that only {e34} remains optimal in the restricted universe, while the
-  unique Nominal optimum remains {e12,e23,e34} and has a strictly larger
-  PESS value. This is a logical inheritance argument, not a new enumeration
-  or physical result.
-- Kept the conflict-free result as an elementary sufficient certificate.
-  The text now says conflict alone is neither necessary nor sufficient for a
-  policy-sensitive optimal decision.
-- Retained the v2 corrections on physical outcomes, raw graph ambiguity,
-  cohort counts, frozen objective versions, and noncausal interpretation.
+- Foregrounded that the B=3 displayed PESS deployment `{e01,e34}` had only
+  `e34` with an effective MCV payload, while Nominal `{e12,e23,e34}` had
+  three. The held-out summary for `{e01,e34}` equals that for `{e34}`; the
+  `+0.024223` comparison is descriptive and does not identify a policy
+  effect.
+- Clarified the raw ambiguity denominators: 47.49%/46.27% count raw complete
+  candidate graphs; strict syntax cohorts contain 135/58 queries out of
+  10,000; the per-query intersection and realized PostgreSQL ambiguity are
+  unknown.
+- Corrected the overlap-composition interpretation. The archived check
+  multiplied both created objects even where PostgreSQL selected only one
+  overlapping statistic. Residuals 0.1590 and -0.4904 reject that all-created
+  product; they do not test the matching-conditioned product over the selected
+  matching. The matching-conditioned counterfactual loss prediction remains
+  unvalidated, rather than refuted by those residuals.
+- Compressed the nonessential six-row anchor and four-topology tables into
+  prose, retaining their query/truth values and bounded fixture outcomes.
+  Replaced the larger objective table with compact prose retaining all six
+  exact objective displays and separate model scales. The manuscript now
+  meets the 12-page main-text target.
+- The B=5 text distinguishes the displayed representatives (three Nominal,
+  two PESS/Joint resources) and notes tied supersets. The Issue #38 table
+  caption identifies 60 query IDs, two repetitions, 120 rows, and that
+  repetitions are not independent query IDs.
+- `pgsource1614` already has year 2026 in the reviewed PR head and cites the
+  exact upstream `REL_16_14` tag. The official [PostgreSQL 16.14 release
+  notes](https://www.postgresql.org/docs/release/16.14/) date it 2026-05-14;
+  no bibliography correction was needed.
 
-## Issue #86 objections
+## Review responses
 
-| Review point | v3 response | Status |
+| Review point | v4 response | Status |
 |---|---|---|
-| #6367455608: REFINE the information-boundary thesis | Abstract, Introduction, Model, and Discussion distinguish admissibility, policy, and losses. | Addressed |
-| Unknown policy is not the same as uncontrollable policy | Nominal allows a known deterministic policy even if the advisor cannot control it. | Addressed |
-| Admissibility does not supply counterfactual estimates/losses | Model input requirements and the calibrated-loss limitation are explicit. | Addressed as a limitation; predictive validity remains open |
-| Prior-work novelty and AutoCE comparator | Named primary works are compared by decision owner, uncertain quantity, effect of resource availability, and remaining ESS distinction. Metadata was checked against publisher or primary records. | Comparison added; novelty remains unproven |
-| Conflict-free certificate is elementary; conflict does not imply sensitivity | Labeled as a sufficient certificate and explicitly disclaimed necessary/sufficient implications from conflict alone. | Addressed |
-| Larger valid-only cohorts have coincident optima and no treatment contrast | Discussion explains that agreement means no decision value from changing policy objective in those tested models/budgets; raw ambiguity is not realized PG ambiguity. | Addressed |
-| #6367624297: active-MCV-only candidate restriction | Exact archived optima imply model-level separation survives restriction to A={e12,e23,e34}; all four full-universe PESS ties are stated. | Addressed by derivation; not rerun |
-| Physical effect, real-scheme coverage, or causal PESS benefit | Not claimed. The selected held-out sets have different effective payloads and the {e01,e34} and {e34} summaries are identical. | Remains unsupported, correctly scoped |
+| PR review `5630310609`: distinguish modeled optimum from as-built effective resources | Abstract, Introduction, table interpretation, and Discussion identify the one-payload PESS representative versus three-payload Nominal set, identical `{e01,e34}`/`{e34}` summaries, and noncausal `+0.024223` comparison. | Addressed |
+| Raw graph ambiguity versus eligible/realized PostgreSQL ambiguity | First percentage discussion and table labels distinguish all three layers; the archived intersection remains explicitly unknown. | Addressed |
+| Tighten a falsifiable central claim and assess novelty | The claim is scoped to one separating six-task exact model, its active-MCV restriction, and two larger coincident-optimum models. It does not establish regular-paper novelty. | Claim sharpened; novelty remains open |
+| Matching-conditioned loss fidelity | The prose now distinguishes the all-created product check from the estimator's selected-matching prediction. No archived recalculation or new measurement was performed. | Interpretation corrected; prediction fidelity remains unknown |
+| 13 main pages versus 12-page target | Removed redundant tables and consolidated Discussion/Conclusion while retaining result values and qualifications. | Addressed; compile confirms 12 main pages |
+| `pgsource1614` year and source tag | Year was already 2026 on reviewed HEAD; exact `REL_16_14` tag is in the source entry. | Already correct; verified against official release notes |
+| B=5 set cardinalities and Issue #38 repetition counts | Text gives two versus three displayed resources; caption gives 60 IDs, 120 repeated rows, and the non-independence limitation. | Addressed |
 
-## Novelty assessment
+The original Issue #86 comments are also addressed in the v3 responses:
+information-boundary thesis, known versus uncontrollable policy,
+per-scheme loss inputs, closest-work comparisons, elementary conflict-free
+certificate, no conflict-only sensitivity inference, and the active-MCV-only
+restriction corollary.
 
-The cited prior work controls neighboring decisions directly: statistics advisors
-select resources; Bruno–Chaudhuri and MAXENT specify ways to use or combine
-statistics; robust query optimization and physical design model other
-uncertainties; decision-dependent robust optimization already studies
-decision-shaped uncertainty sets; AutoCE selects a learned estimator model.
-The current review did not verify an exact antecedent to ESS's full
-advisor/admissibility/policy triple. That absence is not evidence of priority.
+## Novelty and scientific gap
 
-The remaining ESS distinction is a formulation of an external statistics
-advisor that receives a resource-dependent family of complete admissible
-estimator schemes plus scheme-loss inputs, while the selection policy may be
-known, shared-but-unknown, or unavailable beyond taskwise admissibility.
-The PostgreSQL maximal-matching construction is conditional, and its
-conflict-free certificate is elementary. The exact six-task separation is a
-small measured-input model result, not a new general theorem or solver
-contribution. The restricted-universe corollary removes one artifact concern
-but is an inheritance argument, not an independent novelty claim.
+Related Work compares statistics selection and composition, MAXENT, robust
+query optimization/physical design, decision-dependent uncertainty, AutoCE,
+and practical PostgreSQL advising by decision owner, uncertain quantity,
+resource-dependent outcomes, and the limited ESS distinction. It does not
+claim a first advisor or a new generic robust-optimization framework. The
+active-MCV restriction inherits the archived exact optima and is not a new
+theorem or experiment. The six-task separation is a small model result; the
+larger full-valid fitted models show no policy contrast at tested budgets.
 
-**Assessment:** The thesis is coherent and database-relevant, but this
-manuscript does not yet demonstrate sufficient technical novelty or
-externally meaningful decision value for a regular research-paper
-submission. No first claim is made.
+**Assessment:** The formulation and evidence are clearer, but this manuscript
+does not yet establish sufficient technical novelty or external decision
+value for a regular research-paper submission.
 
-## Most consequential remaining scientific gap
+**Most consequential open question:** Can an advisor obtain sufficiently
+faithful counterfactual complete-scheme loss estimates to make externally
+meaningful resource decisions under unknown estimator policy?
 
-> Can an advisor obtain sufficiently faithful counterfactual complete-scheme
-> loss estimates to make externally meaningful resource decisions under
-> unknown estimator policy?
+The optimizer needs defensible `Gamma_i(M)` families and per-scheme losses (or
+an exact loss-maximum oracle) across counterfactual resource sets. The frozen
+model multiplies measured singleton corrections over an admissible matching.
+The one recorded disjoint-pair check is supportive for that observation only;
+the reported overlapping-pair residuals compare PostgreSQL with a product of
+both created objects after PG selected only one, so they do not validate or
+falsify the matching-conditioned prediction. No archive-only recalculation,
+new PostgreSQL run, data collection, fitting, official test access, large
+enumeration, B>=4 solve, or solver experiment was performed for this revision.
 
-The optimizer needs defensible Gamma_i(M) families and a loss value (or
-exact loss-maximum oracle) for every admissible counterfactual scheme across
-candidate resource sets. In the frozen calibration, singleton corrections
-are measured and multiplied by an explicit approximation. The overlapping
-composition residuals show that this is not universally faithful to
-PostgreSQL. Knowing admissibility does not fix this gap. Resolving it would
-require a separately scoped validation and decision-value study; v3 performs
-no such study.
+## Evidence boundaries retained
 
-## Evidence and nonclaims retained
-
-- The generic maintenance function remains nonadditive; unit-cost sums are
-  experiment-specific proxies.
-- The positive pre-clamp absolute log loss requires positive estimates and is
-  distinct from rounded/clamped Plan Rows, physical maintenance cost, and
-  query runtime.
-- Gamma_i(M) is prescribed; R_i(M) is physically reachable. No general
-  inclusion or equality is established.
-- The restricted PostgreSQL 16.14 maximal-matching correspondence is
-  conditional on the stated built-payload, eligibility, and execution-path
-  assumptions. Abstract priority-order coverage does not imply all orders
-  occur in a fixed catalog.
-- The Issue #23 exact rational reference is exact for its stored
-  18-decimal rationalized inputs. It is separate from floating-point
-  PostgreSQL observations and solver-reported optimality.
-- The B=3 PESS/Joint model has four ties:
-  {e01,e34}, {e01,e34,e56}, {e34}, and {e34,e56}. The displayed
-  {e01,e34} set had only e34 with an effective MCV payload.
-- Issue #38's approximately +0.024223 held-out mean error difference is
-  descriptive, not a causal policy effect or intrinsic price of robustness.
-- Forest10/Census13 raw graph ambiguity rates 47.49%/46.27% are distinct
-  from syntax-eligible cohorts of 135/58 queries out of 10,000 and do not
-  measure realized PostgreSQL ambiguity. The query-level intersection was
-  not archived.
-- Forest10/Census13 full-valid B<=3 models have coincident Nominal/PESS
-  optima and no between-policy treatment contrast. Their loss conventions
-  differ, so their objective values are not pooled.
-- The held-out Plan Rows comparison uses a frozen test split with template
-  overlap and earlier exposure; it does not establish unseen-template
-  generalization. It compares deployments with Empty, not a Nominal-versus-
-  PESS treatment.
-- No new PostgreSQL run, data collection, model fit, official test access,
-  large enumeration, B>=4 solve, or HiGHS experiment was performed for v3.
+- Generic maintenance remains nonadditive; unit-cost sums are experiment-
+  specific proxies.
+- Positive pre-clamp absolute log loss requires positive estimates and is
+  distinct from finalized Plan Rows, physical maintenance, and runtime.
+- Prescribed `Gamma_i(M)` is not asserted equal to or a superset of real
+  reachable `R_i(M)`; no real worst-case guarantee follows.
+- Exact Fraction results apply to stored rationalized inputs, separately
+  from floating-point PostgreSQL values or solver optimality.
+- Forest10 and Census13 use different frozen loss conventions; objective
+  values are not pooled. Their larger B<=3 Nominal/PESS optima coincide.
+- The held-out test has template overlap and prior exposure; it does not
+  establish unseen-template generalization.
 
 ## Build and manuscript length
 
-- Build command: latexmk -pdf -interaction=nonstopmode -halt-on-error
-  -file-line-error main.tex, run from paper/. Local environment: Latexmk
-  4.83 and TeX Live 2023.
-- Final PDF: 14 letter-size pages total; pages 1--13 are main text and page
-  14 contains references. The 12-page main-text target was not met after
-  adding the claim-level literature comparison and active-MCV restriction
-  result; the additional page was retained rather than removing those
-  scientific qualifications.
-- Final build has no undefined references or citations, BibTeX warnings, or
-  overfull boxes. Underfull boxes and the template's column-balance warning
-  remain. The new PR-head CI has not yet run.
-
-## Exhibit-to-source map
-
-- Figure 1 is the generic advisor/estimator information boundary.
-- Figure 2 and the eligibility table use the versioned PostgreSQL 16.14
-  source/fixture reports (pgsource1614, pgtrace2026, pg_gate2026).
-- Figure 3 is a model-only illustration of shared versus taskwise risk and
-  the sufficient singleton-family certificate.
-- Figure 4 and the six-task calibration/results tables cite frozen Issues
-  #23 and #38.
-- The restricted-universe corollary inherits the exact Issue #23 Fraction
-  optima; it adds no observation.
-- Larger-workload ambiguity, validity, and Plan Rows displays cite Issues
-  #59, #64, and #71 and retain their separate denominators and model versions.
-- Related Work citations refer to the primary publication or publisher/
-  author-hosted source listed in paper/references.bib.
+- Command: `latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex`, from `paper/`.
+- Environment: Latexmk 4.83, TeX Live 2023.
+- Final PDF: **13 letter-size pages total: 12 main text and 1 references page.**
+- No undefined citations/references, BibTeX warnings, or overfull boxes.
+  Underfull boxes and the ACM template's column-balance warning remain.
+- The v3 Lightweight CI run passed. CI for the current v4 head has not yet
+  reported a result.
 
 ## Review priority
 
-Keep the draft in review until an independent novelty assessment and a
-counterfactual scheme-loss fidelity/decision-value study establish what
-external decision benefit the model can support. The latter is the single
-most consequential scientific gap; this manuscript revision does not
-authorize or conduct that study.
+Keep PR #85 Draft. An independent novelty assessment and a separately scoped
+validation of matching-conditioned counterfactual loss predictions are still
+needed before claiming external decision value or submission readiness.
