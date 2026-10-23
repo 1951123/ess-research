@@ -37,7 +37,8 @@ jobs:
             tests/test_verified_pickle_converter.py \
             tests/test_arecel_prepare.py \
             experiments/solver-integration-issue74/test_stage2_b23_protocol.py \
-            experiments/solver-integration-issue74/test_stage2_b23_runner.py
+            experiments/solver-integration-issue74/test_stage2_b23_runner.py \
+            experiments/solver-integration-issue74/test_stage2_b2_recovery_runner.py
       - name: Lint archive-first infrastructure
         run: |
           ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py

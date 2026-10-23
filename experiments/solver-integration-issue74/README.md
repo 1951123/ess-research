@@ -75,15 +75,17 @@ preserved. The merged protocol alone did not authorize execution; Issue #74
 later granted bounded execution authorization conditional on review and merge
 of a separate runner PR.
 
-`run_stage2_b23.py` is the proposed narrow runner. It verifies the protocol
+`run_stage2_b23.py` was the narrow runner. It verified the protocol
 merge SHA and content hash, immutable Stage-1 adapter and Advisor pins, frozen
 environment, clean merged source tree, input/candidate hashes and all 10,000
 tasks per case. It launches one case at a time in its own systemd scope, keeps
 full API responses and compact records under `ESS_RUNTIME_PARENT`, computes
 the selected-set objective independently with exact Fraction arithmetic, and
 stops at the first failure. It requires both a merged runner commit and the
-explicit `--research-owner-authorized` acknowledgment. **Do not invoke it
-until the runner PR is reviewed and merged.**
+explicit `--research-owner-authorized` acknowledgment. The separately
+authorized run was attempted after review/merge, then stopped on case 1
+(`forest10-nominal-b2`) at the 900-second outer timeout; cases 2–8 did not
+start. See [the immutable stop report](stage2-b23-run-20261023-stop-report-v1.md).
 
 The protocol and runner regression tests do not import or invoke Advisor and
 never start solver code. Run them with:
@@ -93,5 +95,28 @@ python3 -m unittest discover \
   -s experiments/solver-integration-issue74 -p 'test_stage2_b23_*.py' -v
 ```
 
-The eight-case run remains unexecuted while this runner is under review. No
-retry, concurrent case, option change, or resource escalation is permitted.
+The original eight-case authorization was consumed by the stopped first
+attempt. Do not retry or run cases 2–8 under that authorization; a separate
+prospective protocol and new explicit authorization are required.
+
+## Prospective single-case B=2 recovery proposal
+
+After the first B=2 case stopped at the outer timeout and the Advisor CSR fix
+merged at `369d90217e931c7d1b0cd6e82c88527a25cc7129`, a separate recovery
+proposal is recorded in
+[`stage2-b2-recovery-protocol-v1.json`](stage2-b2-recovery-protocol-v1.json).
+It proposes only one Forest10 Nominal B=2 attempt on the same frozen valid-only
+input, with the prior 12 GiB / 900 s outer and 600 s Advisor caps, no retry and
+stop-for-review on every incomplete or nonpassing result. This is a new
+prospective question about whether the fixed implementation returns the
+archived exact selection; it does not reinterpret the historical timeout.
+
+`run_stage2_b2_recovery.py` writes fsynced phase events and an atomically
+replaced checkpoint, including Python constraint construction, COO assembly,
+COO-to-CSR conversion, remaining solver-input preparation, and entry/exit from
+each HiGHS invocation. An interruption therefore retains the last completed
+stage and whether HiGHS had started. The committed protocol sets
+`execution_authorized` to `false`; the
+runner refuses to launch until a later reviewed protocol revision and separate
+explicit researcher authorization. Its regression tests are solver-free.
+Review or merge of this proposal is not execution authorization.

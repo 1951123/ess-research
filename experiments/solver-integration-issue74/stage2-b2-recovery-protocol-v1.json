@@ -1,0 +1,73 @@
+{
+  "format": "ess-issue74-stage2-b2-recovery-protocol-v1",
+  "status": "PROPOSED_NOT_REVIEWED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "execution_authorized": false,
+  "scientific_question": "For the frozen valid-only Forest10 model, does the pinned fixed-priority Nominal MILP at B=2 return a validated selection in the archived exact Fraction argmin set?",
+  "scope": {
+    "cases": ["forest10-nominal-b2"],
+    "tasks": 10000,
+    "candidates": 45,
+    "budget": 2,
+    "priority_order": "frozen adapter order",
+    "retries": 0,
+    "continue_after_any_failure": false,
+    "prohibited": ["cases 2-8", "PESS", "Census13", "B=0 reruns", "B>=3", "PostgreSQL", "official test", "refit", "option tuning", "resource escalation"]
+  },
+  "immutable_software": {
+    "research_repository": "1951123/ess-research",
+    "advisor_repository": "1951123/ess-advisor",
+    "advisor_source_commit": "369d90217e931c7d1b0cd6e82c88527a25cc7129",
+    "advisor_schema_version": "1",
+    "pess_ess_version": "0.1.0",
+    "python_version": "3.12.3",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "stage1_adapter_commit": "6c0d82d258faaa817f2bc977ff99b04971550aa0",
+    "stage1_adapter_path": "experiments/solver-integration-issue74/adapter.py",
+    "stage1_adapter_blob_git_sha1": "f5c80c8041f1f166ad0e84816adb851692ddfdaa",
+    "research_model_input_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207"
+  },
+  "frozen_input": {
+    "model_version": "forest10-positive-preclamp-v1",
+    "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "frozen_selection_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-valid-frozen-selection-v1.json",
+    "frozen_selection_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+    "coefficient_artifact_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/coefficients.jsonl.gz",
+    "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+    "valid_truth_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "candidate_order_sha256": "d8efee32db760af2f70ecb494f5dae26c7e99faa9914fd7c60781774bc7482cb",
+    "maintenance_proxy": "unit per candidate; |M| <= 2",
+    "frozen_exact_objective_fraction": "4374828918765339127297/200000000000000000",
+    "all_frozen_exact_tie_sets": [["e01_06", "e02_07"]]
+  },
+  "solver": {
+    "backend": "fixed_priority_milp",
+    "options": {},
+    "time_limit_seconds": 600,
+    "total_time_limit_seconds": 600,
+    "outer_memory_max_bytes": 12884901888,
+    "outer_runtime_max_seconds": 900,
+    "outer_enforcement": "single systemd user scope; one attempt only",
+    "numerical_policy": "pinned SciPy/HiGHS defaults; solver-reported floating-point optimality is reported separately from exact Fraction selected-set evaluation"
+  },
+  "durable_evidence": {
+    "root": "$ESS_RUNTIME_PARENT/ess-research/issue74/runs/<unique-run-id>/",
+    "events": "append-only JSONL; fsync after each event",
+    "checkpoint": "atomically replaced phase checkpoint after each event",
+    "events_required": ["run_started", "input_verified", "request_prepared", "python_constraints_ready", "coo_csr_ready", "solver_invocation_started", "solver_invocation_finished", "response_saved", "exact_selection_evaluated", "run_finished"],
+    "outer_failure_record": "On timeout, OOM, signal, or missing child result, preserve the last checkpoint and write systemd exit/result metadata without retry. The last solver event distinguishes pre-solver interruption from interruption during HiGHS.",
+    "artifacts": ["run metadata and protocol hash", "request and response SHA-256", "full Advisor response when returned", "phase events/checkpoint", "systemd exit and /usr/bin/time report", "compact exact-reference comparison and final disposition"]
+  },
+  "acceptance": {
+    "pass_requires": ["all immutable pins and full input hashes verified", "all 10000 tasks and 45 candidates loaded", "validated feasible incumbent", "complete solver statuses and solver-reported optimality", "selected set belongs to frozen exact tie set", "independent exact Fraction selected-set objective equals frozen objective", "normal systemd exit within both caps"],
+    "otherwise": "STOP_FOR_REVIEW; preserve evidence and make no retry or follow-on case",
+    "solver_status_label": "solver-reported floating-point optimality; not an exact MILP proof"
+  },
+  "gates": {
+    "review_and_merge_this_protocol_and_runner": true,
+    "separate_researcher_execution_authorization_required": true,
+    "current_execution_authorized": false,
+    "this_pull_request_may_execute_solver": false
+  }
+}
