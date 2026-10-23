@@ -46,14 +46,19 @@ final-head Python/evidence and PDF checks passed, and PR #75 was subsequently
 merged to `main` at `6c0d82d258faaa817f2bc977ff99b04971550aa0`; Issue #74
 remains open.
 
-**Issue #74 Stage 2 runner gate (2026-10-23):** Protocol PR [#76](https://github.com/1951123/ess-research/pull/76)
+**Issue #74 Stage 2 execution checkpoint (2026-10-23):** Protocol PR [#76](https://github.com/1951123/ess-research/pull/76)
 was reviewed and merged at `9b858e47284a290c1b078333929238cf55efdbff`; its
 content SHA-256 is `57ba752c16dc188e4d24ef24a758590281a5f77c0418cd5911038a8d2a50af60`.
-Issue #74 now grants execution authorization for only the eight serial B=2/3
-cases, conditional on a separately reviewed and merged runner. The runner PR is
-the open [Draft PR #77](https://github.com/1951123/ess-research/pull/77); its
-CI/review gate is pending. No Stage 2 solver job has run. No B>=4, PostgreSQL,
-test-set, refit, or retry after a failure is included in the authorization.
+Runner PR [#77](https://github.com/1951123/ess-research/pull/77) was reviewed,
+CI-passed and merged at `a0aac71de45f2c2440b2fa959620954901ae67f8`.
+The separately authorized eight-case serial run started but stopped at case 1,
+`forest10-nominal-b2`: systemd reached its 900-second outer timeout (MemoryPeak
+2,556,788,736 bytes), no Advisor response was produced, and cases 2–8 were not
+started. The runner wrote `STOP_FOR_REVIEW` and `STOPPED_FOR_REVIEW`; no retry
+or limit increase occurred. See the [stop report](../experiments/solver-integration-issue74/stage2-b23-run-20261023-stop-report-v1.md)
+and external raw records under `$ESS_RUNTIME_PARENT/ess-research/issue74/stage2-b23-issue74-20261023-v1/`.
+**Pause for researcher review; this outcome does not authorize another run.**
+Issue #74 remains open. No B>=4, PostgreSQL, test-set, or refit was included.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
