@@ -70,9 +70,14 @@ to the same frozen input and resource caps. A separate authorization request
 is recorded in
 [`stage2-b2-recovery-authorization-request-v1.json`](../experiments/solver-integration-issue74/stage2-b2-recovery-authorization-request-v1.json).
 Both the merged base protocol and this request keep
-`execution_authorized=false`; no solver was run. A separate researcher grant
-and reviewed execution-gate revision remain required. The historical Stage2
-timeout report and its original records remain unchanged.
+`execution_authorized=false`; no solver was run. Issue #74 now records the
+researcher's explicit grant for exactly one recovery, conditional on a
+separate reviewed and merged execution-gate revision, recorded in
+[`stage2-b2-recovery-execution-gate-v1.json`](../experiments/solver-integration-issue74/stage2-b2-recovery-execution-gate-v1.json).
+The versioned gate pins its source and adds durable outer and child one-shot
+consumption checks; it does not modify either earlier protocol or allow a
+launch from an unmerged branch. The historical Stage2 timeout report and its
+original records remain unchanged. No recovery solver has run.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 

@@ -122,11 +122,14 @@ started. The outer runner uses a unique systemd unit name and immediately
 captures its raw `Result`, `MemoryPeak`, and `ExecMainStatus` properties with
 the command exit code. If the transient unit has disappeared or the query
 fails, the record says systemd status is unknown; it does not infer timeout or
-OOM from the process exit code. The committed protocol sets
-`execution_authorized` to `false`; the
-runner refuses to launch until a later reviewed protocol revision and separate
-explicit researcher authorization. Its regression tests are solver-free.
-Review or merge of this proposal is not execution authorization.
+OOM from the process exit code. The historical base protocol keeps
+`execution_authorized` set to `false`. A separate reviewed execution-gate
+revision records later authorization; its regression tests are solver-free.
+An outer PASS additionally requires a collected systemd `Result=success`; an
+unknown status, missing `Result`, timeout, or OOM result is retained verbatim
+and demoted to `STOP_FOR_REVIEW` even if the child and command exit codes say
+success.
+Review or merge of the recovery proposal alone is not execution authorization.
 
 ## Separate one-run authorization request
 
@@ -135,6 +138,14 @@ After PR #79 merged, the authorization request in
 proposes exactly one new Forest10 Nominal B=2 attempt against the merged runner
 and Advisor pins. It binds to the SHA-256 of the unchanged recovery protocol,
 repeats the existing resource caps and stop rules, and leaves
-`execution_authorized` false. This request cannot launch the solver; merge of
-its review PR is not a grant. Any actual run requires a separate explicit
-researcher grant and a separately reviewed execution-gate revision.
+`execution_authorized` false. The researcher has since explicitly granted
+this exact one-case attempt, conditional on a separate execution-gate PR being
+reviewed and merged; see Issue #74. The new versioned
+[`stage2-b2-recovery-execution-gate-v1.json`](stage2-b2-recovery-execution-gate-v1.json)
+records that grant without editing either earlier protocol. Its `true` gate is
+effective only from a clean checkout containing the reviewed runner in
+`origin/main`; the runner verifies its source blob before any systemd launch.
+An fsynced exclusive outer claim and child-start marker consume the grant
+once and block retries, including direct child re-entry. The parent rejects a
+reported PASS without a matching child marker. No solver is run by this PR or
+its CI.

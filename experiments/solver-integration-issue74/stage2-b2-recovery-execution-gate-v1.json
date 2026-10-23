@@ -1,0 +1,45 @@
+{
+  "format": "ess-issue74-stage2-b2-recovery-execution-gate-v1",
+  "status": "CONDITIONALLY_AUTHORIZED_EFFECTIVE_ONLY_AFTER_REVIEWED_MERGE",
+  "execution_authorized": true,
+  "grant": {
+    "issue_number": 74,
+    "authorized_by": "1951123",
+    "authorization_record": "Issue #74 handoff updated 2026-10-23; explicit researcher grant in the 2026-10-23 06:48:42Z conversation, reaffirmed by PR #80 review",
+    "authorized_case": "forest10-nominal-b2",
+    "authorized_attempts": 1,
+    "conditional_on_reviewed_merge": true,
+    "research_runner_source_commit": "272dbb25edb320991f8813dd1902fcfedeebfd0d",
+    "research_runner_merge_commit": "d4a3fd6636b28fc33adfb51d45e652c534175ec8",
+    "advisor_source_commit": "369d90217e931c7d1b0cd6e82c88527a25cc7129",
+    "base_protocol_sha256": "5971ded0a9a458b86dbf1e885bd5dd58260a6dab90a0ca9cccd53b18755c6ed3"
+  },
+  "base_protocol": {
+    "path": "experiments/solver-integration-issue74/stage2-b2-recovery-protocol-v1.json",
+    "sha256": "5971ded0a9a458b86dbf1e885bd5dd58260a6dab90a0ca9cccd53b18755c6ed3"
+  },
+  "authorization_request": {
+    "path": "experiments/solver-integration-issue74/stage2-b2-recovery-authorization-request-v1.json",
+    "sha256": "254bed8b47729c9ec4cda419b1beaddd9021e49ca8a9918f232c02afd8809f0a"
+  },
+  "runner_source": {
+    "path": "experiments/solver-integration-issue74/run_stage2_b2_recovery.py",
+    "blob_git_sha1": "ebb64def38dae0b613d5117a7a032cd1ddcf6d26"
+  },
+  "one_shot": {
+    "enabled": true,
+    "claim_record": "$ESS_RUNTIME_PARENT/ess-research/issue74/runs/authorization-consumed-<execution-gate-sha256>.json",
+    "consume_when": "After checking the reviewed runner is merged, the checkout is clean, all code pins match, the run ID is valid and unused; immediately before the first systemd scope launch.",
+    "retry_permitted": false,
+    "concurrent_attempts_permitted": false,
+    "child_start_marker": "<run-root>/child-start-consumed.json",
+    "outer_requires_valid_child_start_claim_for_pass": true,
+    "on_launch_or_case_failure": "Keep the claim record; mark STOP_FOR_REVIEW and do not retry."
+  },
+  "effective_gate": {
+    "active_only_if": ["this gate file is in a reviewed commit that is an ancestor of origin/main", "the checkout is clean", "the runner source blob equals the pin above", "the explicit --research-owner-authorized flag is supplied"],
+    "draft_or_unmerged_branch_may_launch_solver": false,
+    "pull_request_review_alone_grants_execution": false,
+    "merge_without_the_recorded_researcher_grant_grants_execution": false
+  }
+}

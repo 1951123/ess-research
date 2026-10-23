@@ -13,31 +13,54 @@ import run_stage2_b2_recovery as runner
 
 
 class RecoveryRunnerTests(unittest.TestCase):
-    def test_separate_authorization_request_is_bound_to_locked_base(self) -> None:
+    def test_authorization_request_and_execution_gate_match_frozen_inputs(self) -> None:
         request_path = runner.HERE / "stage2-b2-recovery-authorization-request-v1.json"
         request = json.loads(request_path.read_text())
         base_path = runner.HERE / "stage2-b2-recovery-protocol-v1.json"
+        gate_path = runner.EXECUTION_GATE
+        gate = json.loads(gate_path.read_text())
         base_sha = hashlib.sha256(base_path.read_bytes()).hexdigest()
+        request_sha = hashlib.sha256(request_path.read_bytes()).hexdigest()
+        runner_source = (
+            runner.HERE.parent.parent / gate["runner_source"]["path"]
+        ).read_bytes()
+        blob_header = f"blob {len(runner_source)}\0".encode()
+        runner_blob_sha = hashlib.sha1(blob_header + runner_source).hexdigest()
         self.assertEqual(request["base_protocol"]["sha256"], base_sha)
+        self.assertEqual(gate["base_protocol"]["sha256"], base_sha)
+        self.assertEqual(gate["authorization_request"]["sha256"], request_sha)
         self.assertEqual(request["scope"]["cases"], ["forest10-nominal-b2"])
         self.assertEqual(request["scope"]["retries"], 0)
         self.assertFalse(request["execution_authorized"])
+        self.assertTrue(gate["execution_authorized"])
+        self.assertEqual(gate["runner_source"]["blob_git_sha1"], runner_blob_sha)
+        self.assertEqual(gate["grant"]["authorized_attempts"], 1)
+        self.assertTrue(gate["one_shot"]["enabled"])
+        self.assertFalse(gate["one_shot"]["retry_permitted"])
         self.assertFalse(
             request["authorization_gate"]["merge_alone_authorizes_execution"]
         )
         self.assertFalse(request["authorization_gate"]["current_execution_authorized"])
         self.assertTrue(base_path.exists())
+        self.assertFalse(json.loads(base_path.read_text())["execution_authorized"])
 
-    def test_protocol_is_single_case_pinned_and_locked(self) -> None:
+    def test_effective_protocol_is_single_case_and_conditionally_authorized(
+        self,
+    ) -> None:
         protocol = runner.protocol()
         self.assertEqual(protocol["scope"]["cases"], ["forest10-nominal-b2"])
-        self.assertFalse(protocol["execution_authorized"])
+        self.assertTrue(protocol["execution_authorized"])
+        self.assertFalse(
+            protocol["execution_gate"]["effective_gate"][
+                "draft_or_unmerged_branch_may_launch_solver"
+            ]
+        )
         self.assertEqual(
             protocol["immutable_software"]["advisor_source_commit"],
             "369d90217e931c7d1b0cd6e82c88527a25cc7129",
         )
 
-    def test_runner_refuses_before_launch_without_new_authorization(self) -> None:
+    def test_runner_refuses_before_launch_without_cli_authorization_ack(self) -> None:
         with (
             tempfile.TemporaryDirectory() as temporary,
             patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
@@ -46,8 +69,199 @@ class RecoveryRunnerTests(unittest.TestCase):
             with self.assertRaisesRegex(
                 RuntimeError, "separate researcher execution authorization"
             ):
-                runner.run(Path("/repo"), "test", True)
+                runner.run(Path("/repo"), "test", False)
             launch.assert_not_called()
+
+    def test_runner_refuses_before_launch_when_gate_is_not_merged(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+            patch.object(
+                runner,
+                "verify",
+                side_effect=RuntimeError("reviewed runner commit must be merged"),
+            ),
+            patch.object(runner.subprocess, "run") as launch,
+        ):
+            with self.assertRaisesRegex(RuntimeError, "must be merged"):
+                runner.run(Path("/repo"), "unmerged", True)
+            launch.assert_not_called()
+            self.assertFalse((Path(temporary) / "ess-research").exists())
+
+    def test_verify_rejects_unmerged_checkout_before_any_systemd_launch(self) -> None:
+        completed = [
+            type("Completed", (), {"stdout": "draft-head", "returncode": 0})(),
+            type("Completed", (), {"stdout": "", "returncode": 0})(),
+            type("Completed", (), {"stdout": "", "returncode": 1})(),
+        ]
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+            patch.object(runner.subprocess, "run", side_effect=completed) as commands,
+        ):
+            with self.assertRaisesRegex(RuntimeError, "must be merged"):
+                runner.run(Path("/repo"), "unmerged", True)
+        self.assertEqual(commands.call_count, 3)
+        self.assertFalse((Path(temporary) / "ess-research").exists())
+
+    def test_child_claim_requires_outer_latch_and_is_one_shot(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            runtime = Path(temporary)
+            p = runner.protocol()
+            protocol_sha = hashlib.sha256(runner.PROTOCOL.read_bytes()).hexdigest()
+            gate_sha = hashlib.sha256(runner.EXECUTION_GATE.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(RuntimeError, "outer authorization claim"):
+                runner.claim_child_start_once(
+                    runtime / "ess-research" / "issue74" / "runs" / "attempt-one",
+                    runtime,
+                    p,
+                )
+            runner.consume_execution_grant_once(
+                runtime, "attempt-one", protocol_sha, gate_sha
+            )
+            run_dir = runtime / "ess-research" / "issue74" / "runs" / "attempt-one"
+            run_dir.mkdir()
+            marker = runner.claim_child_start_once(run_dir, runtime, p)
+            self.assertTrue(marker.exists())
+            self.assertFalse(json.loads(marker.read_text())["retry_permitted"])
+            with self.assertRaisesRegex(RuntimeError, "already consumed"):
+                runner.claim_child_start_once(run_dir, runtime, p)
+
+    def test_execution_grant_is_consumed_once_without_retry(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            runtime = Path(temporary)
+
+            def fake_launch(command: list[str], **_: object) -> object:
+                run_dir = Path(command[command.index("--run-dir") + 1])
+                runner.claim_child_start_once(run_dir, runtime, runner.protocol())
+                runner.write_atomic(run_dir / "case-result.json", {"outcome": "PASS"})
+                return type("Completed", (), {"returncode": 0})()
+
+            with (
+                patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+                patch.object(runner, "verify", return_value="reviewed-main-head"),
+                patch.object(
+                    runner.subprocess, "run", side_effect=fake_launch
+                ) as launch,
+                patch.object(
+                    runner,
+                    "collect_systemd_status",
+                    return_value={
+                        "available": True,
+                        "state": "collected",
+                        "properties": {"Result": "success", "ExecMainStatus": "0"},
+                        "raw_properties": "Result=success\nExecMainStatus=0\n",
+                    },
+                ),
+            ):
+                self.assertEqual(runner.run(Path("/repo"), "attempt-one", True), 0)
+                gate_sha = hashlib.sha256(
+                    runner.EXECUTION_GATE.read_bytes()
+                ).hexdigest()
+                claim_path = (
+                    runtime
+                    / "ess-research"
+                    / "issue74"
+                    / "runs"
+                    / f"authorization-consumed-{gate_sha}.json"
+                )
+                claim = json.loads(claim_path.read_text())
+                self.assertEqual(claim["run_id"], "attempt-one")
+                self.assertFalse(claim["retry_permitted"])
+                with self.assertRaisesRegex(RuntimeError, "already consumed"):
+                    runner.run(Path("/repo"), "attempt-two", True)
+                self.assertEqual(launch.call_count, 1)
+
+    def test_outer_rejects_pass_without_valid_child_start_claim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            runtime = Path(temporary)
+
+            def fake_launch(command: list[str], **_: object) -> object:
+                run_dir = Path(command[command.index("--run-dir") + 1])
+                runner.write_atomic(run_dir / "case-result.json", {"outcome": "PASS"})
+                return type("Completed", (), {"returncode": 0})()
+
+            with (
+                patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+                patch.object(runner, "verify", return_value="reviewed-main-head"),
+                patch.object(runner.subprocess, "run", side_effect=fake_launch),
+                patch.object(
+                    runner,
+                    "collect_systemd_status",
+                    return_value={"available": True, "state": "collected"},
+                ),
+            ):
+                self.assertEqual(runner.run(Path("/repo"), "missing-child", True), 2)
+            result_path = (
+                runtime
+                / "ess-research"
+                / "issue74"
+                / "runs"
+                / "missing-child"
+                / "case-result.json"
+            )
+            result = json.loads(result_path.read_text())
+            self.assertEqual(result["outcome"], "STOP_FOR_REVIEW")
+            self.assertFalse(result["child_start_claim_valid"])
+
+    def test_outer_rejects_pass_without_successful_systemd_result(self) -> None:
+        statuses = [
+            {"available": False, "state": "unknown", "raw_properties": ""},
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"Result": "timeout", "ExecMainStatus": "0"},
+                "raw_properties": "Result=timeout\nExecMainStatus=0\n",
+            },
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"Result": "oom-kill", "ExecMainStatus": "0"},
+                "raw_properties": "Result=oom-kill\nExecMainStatus=0\n",
+            },
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"ExecMainStatus": "0"},
+                "raw_properties": "ExecMainStatus=0\n",
+            },
+        ]
+        for index, status in enumerate(statuses):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as temporary:
+                runtime = Path(temporary)
+
+                def fake_launch(command: list[str], **_: object) -> object:
+                    run_dir = Path(command[command.index("--run-dir") + 1])
+                    runner.claim_child_start_once(run_dir, runtime, runner.protocol())
+                    runner.write_atomic(
+                        run_dir / "case-result.json", {"outcome": "PASS"}
+                    )
+                    return type("Completed", (), {"returncode": 0})()
+
+                with (
+                    patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+                    patch.object(runner, "verify", return_value="reviewed-main-head"),
+                    patch.object(runner.subprocess, "run", side_effect=fake_launch),
+                    patch.object(
+                        runner, "collect_systemd_status", return_value=status
+                    ),
+                ):
+                    run_id = f"systemd-reject-{index}"
+                    self.assertEqual(runner.run(Path("/repo"), run_id, True), 2)
+
+                result_path = (
+                    runtime
+                    / "ess-research"
+                    / "issue74"
+                    / "runs"
+                    / run_id
+                    / "case-result.json"
+                )
+                result = json.loads(result_path.read_text())
+                self.assertEqual(result["outcome"], "STOP_FOR_REVIEW")
+                self.assertTrue(result["child_start_claim_valid"])
+                self.assertEqual(result["systemd_status"], status)
+                self.assertIn("successful systemd Result", result["error"])
 
     def test_scope_command_carries_frozen_resource_limits(self) -> None:
         command = runner.scope_command(
