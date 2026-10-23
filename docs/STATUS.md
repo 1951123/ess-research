@@ -17,6 +17,16 @@ of about 1.69 TiB. Other full-workload solver runs, PostgreSQL execution,
 held-out test access, and Stage 2 were not performed. See
 [`experiments/solver-integration-issue74/stage1-report-v1.md`](../experiments/solver-integration-issue74/stage1-report-v1.md).
 
+**Issue #74 review follow-up (2026-10-23):** The latest PR review accepts
+Stage 1 as a **partial integration milestone**; it confirms the bounded smoke
+does not validate full 10,000-task optima. The reported dense-matrix allocation
+failure is specific to that representation and is not evidence of a lower
+bound on MILP memory or budget scaling. Both PR checks passed on HEAD
+`a813884f1b5f532ce1b66351bab90ed8f6335432`: Python tests/evidence integrity
+and paper PDF build. PR #75 remains Draft and Issue #74 remains open. Sparse
+solver investigation belongs in a separate `ess-advisor` task; any full-input
+recheck is deferred until a reviewed sparse backend is pinned.
+
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
 **Current Issue #64 scientific checkpoint (2026-10-22):** The scoped Forest10 milestone is complete and recorded in [the concise closeout](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-stage2b-final-summary-v1.md). The full 174,088-row valid-only calibration was verified; corrected-log exact selection for `B=0/2/3` yielded identical unique Nominal/PESS sets (`{}`, `{e01_06,e02_07}`, `{e01_06,e02_07,e03_04}`). Official test evaluation completed 30,000/30,000 rows with no unresolved observations. P95 Q1 was Empty 17, B2 14.907407 (12.309% lower), B3 14 (17.647% lower); Nominal/PESS paired results tie on all queries because their sets are identical. This does **not** demonstrate a PESS advantage or unseen-template generalization; known template overlap, prior test exposure, and Forest10-only scope remain. Historical checkpoints and failed evidence below are retained; pending/not-run statements are historical and superseded by the linked versioned reports. PR #65 is still Draft; Issue #64 remains Open.
