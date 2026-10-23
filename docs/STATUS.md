@@ -48,11 +48,11 @@ remains open.
 
 **Issue #74 Stage 2 protocol proposal (2026-10-23):** The latest Issue comment
 proposes a protocol-only Draft PR for eight serial full-valid-input B=2/3
-cases, with no solver-run authorization. The protocol records immutable
-research/Advisor pins, frozen exact objectives and tie sets, fixed case order,
-resource limits and a first-failure stop rule. It remains proposed and not
-frozen; execution requires review/merge plus separate explicit owner
-authorization. No solver job was run while preparing it.
+cases, with no solver-run authorization. The protocol-only Draft PR [#76](https://github.com/1951123/ess-research/pull/76)
+records immutable research/Advisor pins, frozen exact objectives and tie sets,
+fixed case order, resource limits and a first-failure stop rule. It remains
+proposed and not frozen; execution requires review/merge plus separate explicit
+owner authorization. No solver job was run while preparing it.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
