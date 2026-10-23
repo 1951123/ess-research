@@ -99,6 +99,29 @@ def reconcile_scope_exit(
     return result
 
 
+def reconcile_systemd_acceptance(
+    result: dict[str, Any], systemd_status: dict[str, Any]
+) -> dict[str, Any]:
+    """A child PASS also requires a collected successful systemd outcome."""
+    if result.get("outcome") != "PASS":
+        return result
+    properties = systemd_status.get("properties")
+    systemd_result = properties.get("Result") if isinstance(properties, dict) else None
+    if (
+        systemd_status.get("available") is not True
+        or not isinstance(systemd_result, str)
+        or systemd_result != "success"
+    ):
+        result.update(
+            outcome="STOP_FOR_REVIEW",
+            error=(
+                "PASS result lacks a collected successful systemd Result; "
+                f"observed {systemd_result!r}"
+            ),
+        )
+    return result
+
+
 def protocol() -> dict[str, Any]:
     p = json.loads(PROTOCOL.read_text())
     request = json.loads(AUTHORIZATION_REQUEST.read_text())
@@ -471,6 +494,7 @@ def run(repo: Path, run_id: str, authorized_flag: bool) -> int:
     else:
         result = reconcile_scope_exit(json.loads(result_path.read_text()), exit_code)
         result["systemd_status"] = systemd_status
+    result = reconcile_systemd_acceptance(result, systemd_status)
     child_claim_path = root / "child-start-consumed.json"
     try:
         child_claim = json.loads(child_claim_path.read_text())

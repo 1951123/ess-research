@@ -146,7 +146,12 @@ class RecoveryRunnerTests(unittest.TestCase):
                 patch.object(
                     runner,
                     "collect_systemd_status",
-                    return_value={"available": True, "state": "collected"},
+                    return_value={
+                        "available": True,
+                        "state": "collected",
+                        "properties": {"Result": "success", "ExecMainStatus": "0"},
+                        "raw_properties": "Result=success\nExecMainStatus=0\n",
+                    },
                 ),
             ):
                 self.assertEqual(runner.run(Path("/repo"), "attempt-one", True), 0)
@@ -198,6 +203,65 @@ class RecoveryRunnerTests(unittest.TestCase):
             result = json.loads(result_path.read_text())
             self.assertEqual(result["outcome"], "STOP_FOR_REVIEW")
             self.assertFalse(result["child_start_claim_valid"])
+
+    def test_outer_rejects_pass_without_successful_systemd_result(self) -> None:
+        statuses = [
+            {"available": False, "state": "unknown", "raw_properties": ""},
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"Result": "timeout", "ExecMainStatus": "0"},
+                "raw_properties": "Result=timeout\nExecMainStatus=0\n",
+            },
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"Result": "oom-kill", "ExecMainStatus": "0"},
+                "raw_properties": "Result=oom-kill\nExecMainStatus=0\n",
+            },
+            {
+                "available": True,
+                "state": "collected",
+                "properties": {"ExecMainStatus": "0"},
+                "raw_properties": "ExecMainStatus=0\n",
+            },
+        ]
+        for index, status in enumerate(statuses):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as temporary:
+                runtime = Path(temporary)
+
+                def fake_launch(command: list[str], **_: object) -> object:
+                    run_dir = Path(command[command.index("--run-dir") + 1])
+                    runner.claim_child_start_once(run_dir, runtime, runner.protocol())
+                    runner.write_atomic(
+                        run_dir / "case-result.json", {"outcome": "PASS"}
+                    )
+                    return type("Completed", (), {"returncode": 0})()
+
+                with (
+                    patch.dict("os.environ", {"ESS_RUNTIME_PARENT": temporary}),
+                    patch.object(runner, "verify", return_value="reviewed-main-head"),
+                    patch.object(runner.subprocess, "run", side_effect=fake_launch),
+                    patch.object(
+                        runner, "collect_systemd_status", return_value=status
+                    ),
+                ):
+                    run_id = f"systemd-reject-{index}"
+                    self.assertEqual(runner.run(Path("/repo"), run_id, True), 2)
+
+                result_path = (
+                    runtime
+                    / "ess-research"
+                    / "issue74"
+                    / "runs"
+                    / run_id
+                    / "case-result.json"
+                )
+                result = json.loads(result_path.read_text())
+                self.assertEqual(result["outcome"], "STOP_FOR_REVIEW")
+                self.assertTrue(result["child_start_claim_valid"])
+                self.assertEqual(result["systemd_status"], status)
+                self.assertIn("successful systemd Result", result["error"])
 
     def test_scope_command_carries_frozen_resource_limits(self) -> None:
         command = runner.scope_command(

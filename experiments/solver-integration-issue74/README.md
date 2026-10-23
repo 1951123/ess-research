@@ -125,6 +125,10 @@ fails, the record says systemd status is unknown; it does not infer timeout or
 OOM from the process exit code. The historical base protocol keeps
 `execution_authorized` set to `false`. A separate reviewed execution-gate
 revision records later authorization; its regression tests are solver-free.
+An outer PASS additionally requires a collected systemd `Result=success`; an
+unknown status, missing `Result`, timeout, or OOM result is retained verbatim
+and demoted to `STOP_FOR_REVIEW` even if the child and command exit codes say
+success.
 Review or merge of the recovery proposal alone is not execution authorization.
 
 ## Separate one-run authorization request

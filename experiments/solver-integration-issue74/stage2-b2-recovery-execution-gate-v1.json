@@ -24,7 +24,7 @@
   },
   "runner_source": {
     "path": "experiments/solver-integration-issue74/run_stage2_b2_recovery.py",
-    "blob_git_sha1": "2fe494430c3db68ea764aa0a12385ccf7c844c82"
+    "blob_git_sha1": "ebb64def38dae0b613d5117a7a032cd1ddcf6d26"
   },
   "one_shot": {
     "enabled": true,
