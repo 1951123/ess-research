@@ -51,10 +51,9 @@ was reviewed and merged at `9b858e47284a290c1b078333929238cf55efdbff`; its
 content SHA-256 is `57ba752c16dc188e4d24ef24a758590281a5f77c0418cd5911038a8d2a50af60`.
 Issue #74 now grants execution authorization for only the eight serial B=2/3
 cases, conditional on a separately reviewed and merged runner. The runner PR is
-the open [Draft PR #77](https://github.com/1951123/ess-research/pull/77) at
-head `2c40046d899d82f92f2e16c48b92e2e5929d949b`; its CI/review gate is pending.
-No Stage 2 solver job has run. No B>=4, PostgreSQL, test-set, refit, or retry
-after a failure is included in the authorization.
+the open [Draft PR #77](https://github.com/1951123/ess-research/pull/77); its
+CI/review gate is pending. No Stage 2 solver job has run. No B>=4, PostgreSQL,
+test-set, refit, or retry after a failure is included in the authorization.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 

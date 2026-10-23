@@ -421,6 +421,52 @@ def run_sequence(cases: list[dict[str, Any]], invoke: Any) -> list[dict[str, Any
     return outcomes
 
 
+def invoke_case_process(repo: Path, run_root: Path, case: dict[str, Any],
+                        launcher: Any = None) -> dict[str, Any]:
+    """Run one systemd scope and durably record launch failures without retry."""
+    case_dir = run_root / f"{case['index']:02d}-{case['case_id']}"
+    case_dir.mkdir()
+    command = build_case_command(repo, case, run_root)
+    result_path = case_dir / "result.json"
+    try:
+        with (case_dir / "runner.log").open("wb") as log:
+            completed = (launcher or subprocess.run)(
+                command, cwd=repo, stdout=log, stderr=subprocess.STDOUT,
+                check=False)
+    except (OSError, subprocess.SubprocessError) as exc:
+        result = {
+            "format": "ess-issue74-stage2-b23-case-result-v1",
+            "case_id": case["case_id"], "index": case["index"],
+            "outcome": "STOP_FOR_REVIEW",
+            "failure_phase": "systemd_scope_launch",
+            "launch_exception_type": type(exc).__name__,
+            "launch_exception": repr(exc),
+            "systemd_exit_code": None,
+        }
+    else:
+        if not result_path.is_file():
+            result = {
+                "format": "ess-issue74-stage2-b23-case-result-v1",
+                "case_id": case["case_id"], "index": case["index"],
+                "outcome": "STOP_FOR_REVIEW",
+                "error": "systemd scope exited without a result; timeout/OOM/launch failure is possible",
+                "systemd_exit_code": completed.returncode,
+            }
+        else:
+            result = load_json(result_path)
+            result["systemd_exit_code"] = completed.returncode
+            if completed.returncode != 0 and result.get("outcome") == "PASS":
+                result["outcome"] = "STOP_FOR_REVIEW"
+                result["error"] = "systemd scope returned nonzero after case result"
+    result_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n",
+                           encoding="utf-8")
+    with (run_root / "case-outcomes.jsonl").open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(result, sort_keys=True, allow_nan=False) + "\n")
+    print(json.dumps({"case_id": case["case_id"], "outcome": result["outcome"]},
+                     sort_keys=True), flush=True)
+    return result
+
+
 def case_child(args: argparse.Namespace) -> int:
     repo = args.repo.resolve()
     config, protocol, protocol_sha = verify_static_pins(repo)
@@ -478,34 +524,7 @@ def main_run(args: argparse.Namespace) -> int:
         json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     def invoke(case: dict[str, Any]) -> dict[str, Any]:
-        case_dir = run_root / f"{case['index']:02d}-{case['case_id']}"
-        case_dir.mkdir()
-        command = build_case_command(repo, case, run_root)
-        with (case_dir / "runner.log").open("wb") as log:
-            completed = subprocess.run(command, cwd=repo,
-                                       stdout=log, stderr=subprocess.STDOUT,
-                                       check=False)
-        result_path = case_dir / "result.json"
-        if not result_path.is_file():
-            result = {
-                "format": "ess-issue74-stage2-b23-case-result-v1",
-                "case_id": case["case_id"], "index": case["index"],
-                "outcome": "STOP_FOR_REVIEW",
-                "error": "systemd scope exited without a result; timeout/OOM/launch failure is possible",
-                "systemd_exit_code": completed.returncode,
-            }
-        else:
-            result = load_json(result_path)
-            result["systemd_exit_code"] = completed.returncode
-            if completed.returncode != 0 and result.get("outcome") == "PASS":
-                result["outcome"] = "STOP_FOR_REVIEW"
-                result["error"] = "systemd scope returned nonzero after case result"
-        result_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n",
-                               encoding="utf-8")
-        with (run_root / "case-outcomes.jsonl").open("a", encoding="utf-8") as stream:
-            stream.write(json.dumps(result, sort_keys=True, allow_nan=False) + "\n")
-        print(json.dumps({"case_id": case["case_id"], "outcome": result["outcome"]}, sort_keys=True), flush=True)
-        return result
+        return invoke_case_process(repo, run_root, case)
 
     outcomes = run_sequence(protocol["case_order"], invoke)
     final = "ALL_EIGHT_PASS" if len(outcomes) == 8 and all(

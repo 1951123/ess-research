@@ -6,6 +6,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import run_stage2_b23 as runner
 
@@ -50,6 +51,32 @@ class Stage2B23RunnerTests(unittest.TestCase):
         self.assertEqual(invoked, [1, 2])
         self.assertEqual(len(results), 2)
         self.assertEqual(results[-1]["outcome"], "STOP_FOR_REVIEW")
+
+    def test_launch_exception_is_durably_recorded_and_stops_sequence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            run_root = Path(temporary)
+            cases = [
+                {"index": 1, "case_id": "forest10-nominal-b2"},
+                {"index": 2, "case_id": "forest10-pess-b2"},
+            ]
+            invoked: list[int] = []
+
+            def invoke(case: dict[str, object]) -> dict[str, object]:
+                invoked.append(int(case["index"]))
+                with patch.object(runner.subprocess, "run",
+                                  side_effect=FileNotFoundError("systemd-run missing")):
+                    return runner.invoke_case_process(run_root, run_root, case)
+
+            outcomes = runner.run_sequence(cases, invoke)
+            self.assertEqual(invoked, [1])
+            self.assertEqual(len(outcomes), 1)
+            self.assertEqual(outcomes[0]["outcome"], "STOP_FOR_REVIEW")
+            self.assertEqual(outcomes[0]["case_id"], cases[0]["case_id"])
+            self.assertEqual(outcomes[0]["index"], 1)
+            self.assertEqual(outcomes[0]["launch_exception_type"], "FileNotFoundError")
+            case_dir = run_root / "01-forest10-nominal-b2"
+            self.assertTrue((case_dir / "result.json").is_file())
+            self.assertTrue((run_root / "case-outcomes.jsonl").is_file())
 
     def test_solver_acceptance_rejects_incomplete_or_fallback_statuses(self) -> None:
         status = {
