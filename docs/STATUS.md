@@ -77,7 +77,22 @@ separate reviewed and merged execution-gate revision, recorded in
 The versioned gate pins its source and adds durable outer and child one-shot
 consumption checks; it does not modify either earlier protocol or allow a
 launch from an unmerged branch. The historical Stage2 timeout report and its
-original records remain unchanged. No recovery solver has run.
+original records remain unchanged. **This paragraph is the pre-run checkpoint**;
+the gate has since merged and the one newly authorized attempt has been
+consumed. See the dated outcome below.
+
+**Issue #74 one-run B=2 recovery outcome (2026-10-23):** Execution-gate PR
+[#81](https://github.com/1951123/ess-research/pull/81) was reviewed and merged
+at `498763d849bb57ac6fcced77e7a41f866b54da8c`; both Python/evidence and paper
+PDF checks passed on reviewed HEAD `d1b1ec659e9d17f65218e5fb446cbeabe4906e4e`.
+The single authorized `forest10-nominal-b2` attempt started with all pinned
+inputs verified, reached HiGHS, and was stopped after the 600 s Advisor wall
+limit was exceeded. No Advisor response or exact selected-set comparison was
+produced; the run is **STOP_FOR_REVIEW**, the one-shot grant is consumed, and
+no retry or follow-on case is authorized. Peak systemd memory was
+2,433,056,768 bytes; see the [concise stop report](../experiments/solver-integration-issue74/stage2-b2-recovery-20261023-stop-report-v1.md)
+and external raw evidence at
+`$ESS_RUNTIME_PARENT/ess-research/issue74/runs/issue74-forest10-nominal-b2-recovery-20261023/`.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
