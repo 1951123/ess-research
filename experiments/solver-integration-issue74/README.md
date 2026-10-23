@@ -65,3 +65,24 @@ configured `ESS_RUNTIME_PARENT`. It verifies the installed immutable Advisor
 commit and checks the full 10,000-task B=0 result against direct Fraction
 evaluation of the sole feasible empty set. These results do not cover B=2/3;
 those budgets remain behind Stage 2's separate review gate.
+
+## Proposed Stage 2 B=2/3 protocol (not run-authorized)
+
+[`stage2-b23-protocol-v1.json`](stage2-b23-protocol-v1.json) records a
+prospective eight-case, serial B=2/3 protocol against the frozen Fraction
+references. It is explicitly `PROPOSED_NOT_FROZEN_NOT_EXECUTED`; this protocol
+PR does not authorize solver execution. Review and merge of the protocol plus
+separate explicit execution authorization from the research owner are required
+before any Stage 2 solver process starts.
+
+The protocol-only regression test checks config structure, exact case order,
+resource/stop rules, frozen file hashes, and the archived exact tie sets. It
+does not import or invoke Advisor or run solver code. Run it with:
+
+```bash
+python3 -m pytest -q \
+  experiments/solver-integration-issue74/test_stage2_b23_protocol.py
+```
+
+Any later solver run must be separately authorized and follow the frozen
+protocol without retries, concurrency, option changes, or budget escalation.
