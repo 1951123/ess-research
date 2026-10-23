@@ -4,7 +4,7 @@
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
-**Issue #74 / [Draft PR #75](https://github.com/1951123/ess-research/pull/75)
+**Issue #74 / [PR #75](https://github.com/1951123/ess-research/pull/75)
 (2026-10-22):** Implementation maps the
 frozen Forest10 positive-preclamp model and Census13 `clamped-log-v2` model to
 the pinned `ess-advisor@e7bb42f5b9ac3f09dd45e341e0e215153ad5f8ec` schema-v1
@@ -23,9 +23,9 @@ does not validate full 10,000-task optima. The reported dense-matrix allocation
 failure is specific to that representation and is not evidence of a lower
 bound on MILP memory or budget scaling. Both PR checks passed on HEAD
 `a813884f1b5f532ce1b66351bab90ed8f6335432`: Python tests/evidence integrity
-and paper PDF build. PR #75 remains Draft and Issue #74 remains open. Sparse
-solver investigation belongs in a separate `ess-advisor` task; any full-input
-recheck is deferred until a reviewed sparse backend is pinned.
+and paper PDF build. At that checkpoint PR #75 was Draft and Issue #74 was
+open. Sparse solver investigation was handled in a separate `ess-advisor`
+task; bounded full-input B=0 results are recorded below.
 
 **Issue #74 sparse B=0 follow-up (2026-10-23):** `ess-advisor` sparse
 implementation is pinned at merged commit
@@ -38,6 +38,12 @@ config and compact raw outcomes in
 [`experiments/solver-integration-issue74/full-input-b0-report-v1.md`](../experiments/solver-integration-issue74/full-input-b0-report-v1.md).
 This does not validate B=2/3; do not proceed to larger budgets before Stage 2
 protocol review.
+
+**Issue #74 latest review follow-up (2026-10-23):** Corrected the B=0 config
+to describe direct exact Fraction evaluation of the unique feasible empty set,
+without calling the subset-enumeration wrapper. No experiment was rerun. The
+final-head Python/evidence and PDF checks passed, and PR #75 is open for review
+(not merged); Issue #74 remains open.
 
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
