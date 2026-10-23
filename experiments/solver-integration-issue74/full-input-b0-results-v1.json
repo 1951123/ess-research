@@ -1,0 +1,249 @@
+{
+  "advisor_source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+  "format": "ess-issue74-full-input-b0-results-v1",
+  "input_provenance_by_dataset": {
+    "census13": {
+      "advisor_source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+      "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "calibration_id": "issue71-census13-valid-schema-order-v1",
+      "coefficient_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+      "frozen_reference_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+      "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+      "model_version": "census13-clamped-log-v2",
+      "observation_sha256": {
+        "worker0": "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+        "worker1": "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+      },
+      "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+      "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+      "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+      "truth_provenance": "exact COUNT(*) over each official valid source_sql against the pinned AreCEL source table in worker-0's run-local PostgreSQL cluster; test labels were never opened",
+      "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d"
+    },
+    "forest10": {
+      "advisor_source_commit": "d40a57d4704345fef85298dd97192b2d998dc6eb",
+      "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+      "calibration_id": "issue64-forest10-valid-v1",
+      "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+      "frozen_reference_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+      "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "model_version": "forest10-positive-preclamp-v1",
+      "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+      "research_source_commit": "a7aa91e10dd199fd8eb6e5cbaaf1f6e05a607207",
+      "truth_provenance": "data/forest10/workload/base-original-label.pkl; only labels['valid'] was used",
+      "valid_truth_values_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90"
+    }
+  },
+  "results": [
+    {
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 45,
+      "dataset": "forest10",
+      "elapsed_seconds_including_adapter_and_reference": 47.17065086299999,
+      "exact_reference_objective_match": true,
+      "maximum_resident_set_kib": 1654872,
+      "objective": "nominal",
+      "objective_evidence": {
+        "basis": "fixed_global_priority_greedy_replay",
+        "priority_order_shared_across_tasks": true,
+        "selected_nominal_value_fraction_certified": true,
+        "task_losses_aggregated_with_fraction_arithmetic": true
+      },
+      "objective_value": "23326825631265146269149/1000000000000000000",
+      "outcome": "MATCH",
+      "outer_elapsed_wall": "0:47.57",
+      "reference_objective_fraction": "23326825631265146269149/1000000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "5eb4b7159b984376d273457ddba1f2d0d66a0d510d9ce63f9f62bd1afb41f83d",
+      "response_sha256": "2e10c3b93afeb8b5ac505a7dc6d19b209f5af974959e424eeb4c16411746bec1",
+      "selected": [],
+      "selected_set_in_exact_ties": true,
+      "solver_reported_optimal": true,
+      "solver_statuses": [
+        {
+          "dual_bound": 23326.825631264783,
+          "duration_seconds": 1.386438265000379,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 23326.82563126479,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        }
+      ],
+      "solver_wall_time_seconds": 45.68602906800015,
+      "task_count": 10000,
+      "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+      "validated_feasible": true
+    },
+    {
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 45,
+      "dataset": "forest10",
+      "elapsed_seconds_including_adapter_and_reference": 11.532497486000011,
+      "exact_reference_objective_match": true,
+      "maximum_resident_set_kib": 227716,
+      "objective": "pess",
+      "objective_evidence": {
+        "basis": "fraction_certified_inner_bounds",
+        "inner_mip_solve_calls": 0,
+        "numerical_inner_oracle_invocations_during_run": 0,
+        "selected_pess_value_fraction_certified": true,
+        "witness_losses_aggregated_with_fraction_arithmetic": true
+      },
+      "objective_value": "23326825631265146269149/1000000000000000000",
+      "outcome": "MATCH",
+      "outer_elapsed_wall": "0:11.92",
+      "reference_objective_fraction": "23326825631265146269149/1000000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "2b65f91904671711d107e341eb330267566469563059015c385a80e265d584ef",
+      "response_sha256": "c9871692f138bd5ec45554c9778b228524dbd5086dca615bdde11e01f94711ab",
+      "selected": [],
+      "selected_set_in_exact_ties": true,
+      "solver_reported_optimal": true,
+      "solver_statuses": [
+        {
+          "dual_bound": 19664.637558188348,
+          "duration_seconds": 0.016595851000147377,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 19664.637558188188,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        },
+        {
+          "dual_bound": 23326.825631265085,
+          "duration_seconds": 0.05639291199986474,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 23326.825631265147,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        }
+      ],
+      "solver_wall_time_seconds": 10.043790151999929,
+      "task_count": 10000,
+      "termination_reason": "no violation outside configured numerical tolerance",
+      "validated_feasible": true
+    },
+    {
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 78,
+      "dataset": "census13",
+      "elapsed_seconds_including_adapter_and_reference": 107.2568187249999,
+      "exact_reference_objective_match": true,
+      "maximum_resident_set_kib": 3324744,
+      "objective": "nominal",
+      "objective_evidence": {
+        "basis": "fixed_global_priority_greedy_replay",
+        "priority_order_shared_across_tasks": true,
+        "selected_nominal_value_fraction_certified": true,
+        "task_losses_aggregated_with_fraction_arithmetic": true
+      },
+      "objective_value": "4069678531214269000459/500000000000000000",
+      "outcome": "MATCH",
+      "outer_elapsed_wall": "1:47.63",
+      "reference_objective_fraction": "4069678531214269000459/500000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "74a5cb99ffba1ccaf141586f1c42a6badf907d194186a8901628c8d8d252297c",
+      "response_sha256": "9bd54149cea766307e8189342463a3d0010fd44ff0e9069f279fbb4cf52ec115",
+      "selected": [],
+      "selected_set_in_exact_ties": true,
+      "solver_reported_optimal": true,
+      "solver_statuses": [
+        {
+          "dual_bound": 8139.357034848873,
+          "duration_seconds": 3.033768440000131,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 8139.357034848872,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        }
+      ],
+      "solver_wall_time_seconds": 98.34058274100016,
+      "task_count": 10000,
+      "termination_reason": "fixed-priority MILP reported optimality; selected policy matching replayed and validated",
+      "validated_feasible": true
+    },
+    {
+      "advisor_status": "optimal",
+      "budget": 0,
+      "candidate_count": 78,
+      "dataset": "census13",
+      "elapsed_seconds_including_adapter_and_reference": 21.870815542999935,
+      "exact_reference_objective_match": true,
+      "maximum_resident_set_kib": 262688,
+      "objective": "pess",
+      "objective_evidence": {
+        "basis": "fraction_certified_inner_bounds",
+        "inner_mip_solve_calls": 0,
+        "numerical_inner_oracle_invocations_during_run": 0,
+        "selected_pess_value_fraction_certified": true,
+        "witness_losses_aggregated_with_fraction_arithmetic": true
+      },
+      "objective_value": "4069678531214269000459/500000000000000000",
+      "outcome": "MATCH",
+      "outer_elapsed_wall": "0:22.28",
+      "reference_objective_fraction": "4069678531214269000459/500000000000000000",
+      "reference_selected_sets": [
+        []
+      ],
+      "request_sha256": "26dc05449a3aa4011fc16691655fc33fd6a273f3e1d240dec357cafcbd14b858",
+      "response_sha256": "2647eea9b115527720741411bd68b018ab6c180f68f63b69cb092258ca4d3bcd",
+      "selected": [],
+      "selected_set_in_exact_ties": true,
+      "solver_reported_optimal": true,
+      "solver_statuses": [
+        {
+          "dual_bound": 3302.0040820843437,
+          "duration_seconds": 0.01593289199990977,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 3302.0040820843346,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        },
+        {
+          "dual_bound": 8139.357062428594,
+          "duration_seconds": 0.06132306100016649,
+          "highs_invocations": 1,
+          "incumbent_returned": true,
+          "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "mip_gap": 0.0,
+          "primal_objective": 8139.357062428538,
+          "selected_attempt": "initial",
+          "solver_reported_optimal": true,
+          "status_code": 0
+        }
+      ],
+      "solver_wall_time_seconds": 12.902192313000342,
+      "task_count": 10000,
+      "termination_reason": "no violated conditional cut",
+      "validated_feasible": true
+    }
+  ]
+}

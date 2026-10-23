@@ -27,6 +27,18 @@ and paper PDF build. PR #75 remains Draft and Issue #74 remains open. Sparse
 solver investigation belongs in a separate `ess-advisor` task; any full-input
 recheck is deferred until a reviewed sparse backend is pinned.
 
+**Issue #74 sparse B=0 follow-up (2026-10-23):** `ess-advisor` sparse
+implementation is pinned at merged commit
+`d40a57d4704345fef85298dd97192b2d998dc6eb`. Under per-case 12 GiB memory,
+900 s outer wall and 600 s Advisor limits, full-input B=0 Forest10/Census13
+Nominal and PESS runs all returned the empty selection and matched the
+independent Fraction objective on 10,000 valid tasks each. Peak observed RSS
+was 3.17 GiB; longest outer wall was 107.63 s. See the bounded run report,
+config and compact raw outcomes in
+[`experiments/solver-integration-issue74/full-input-b0-report-v1.md`](../experiments/solver-integration-issue74/full-input-b0-report-v1.md).
+This does not validate B=2/3; do not proceed to larger budgets before Stage 2
+protocol review.
+
 For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for justifications, [DECISIONS.md](DECISIONS.md). This file is the *handoff checkpoint* for new ChatGPT/Codex sessions.
 
 **Current Issue #64 scientific checkpoint (2026-10-22):** The scoped Forest10 milestone is complete and recorded in [the concise closeout](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-stage2b-final-summary-v1.md). The full 174,088-row valid-only calibration was verified; corrected-log exact selection for `B=0/2/3` yielded identical unique Nominal/PESS sets (`{}`, `{e01_06,e02_07}`, `{e01_06,e02_07,e03_04}`). Official test evaluation completed 30,000/30,000 rows with no unresolved observations. P95 Q1 was Empty 17, B2 14.907407 (12.309% lower), B3 14 (17.647% lower); Nominal/PESS paired results tie on all queries because their sets are identical. This does **not** demonstrate a PESS advantage or unseen-template generalization; known template overlap, prior test exposure, and Forest10-only scope remain. Historical checkpoints and failed evidence below are retained; pending/not-run statements are historical and superseded by the linked versioned reports. PR #65 is still Draft; Issue #64 remains Open.

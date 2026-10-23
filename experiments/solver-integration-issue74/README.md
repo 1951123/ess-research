@@ -47,3 +47,21 @@ response hashes are in `bounded-smoke-results-v1.json`.
 
 See `stage1-report-v1.md` for provenance, observed statuses, and the full-model
 memory bottleneck. No PostgreSQL process or held-out test input is involved.
+
+## Full-input B=0 follow-up
+
+After `ess-advisor` merged sparse matrix assembly at
+`d40a57d4704345fef85298dd97192b2d998dc6eb`, four bounded full-input B=0 cases
+were run (both objectives on both frozen models). The adapter's historical
+Stage-1 pin above is preserved; the new run pin, limits, exact-reference method,
+statuses, hashes and resource measurements are documented in
+[`full-input-b0-report-v1.md`](full-input-b0-report-v1.md) and
+[`full-input-b0-results-v1.json`](full-input-b0-results-v1.json).
+
+The narrow runner `run_full_input_b0.py` accepts exactly one dataset/objective
+case at a time. Enforce the documented `MemoryMax=12G` and
+`RuntimeMaxSec=900` around each process and keep its outputs under the
+configured `ESS_RUNTIME_PARENT`. It verifies the installed immutable Advisor
+commit and checks the full 10,000-task B=0 result against direct Fraction
+evaluation of the sole feasible empty set. These results do not cover B=2/3;
+those budgets remain behind Stage 2's separate review gate.

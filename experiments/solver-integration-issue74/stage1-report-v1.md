@@ -110,3 +110,13 @@ Committed artifacts are the adapter, smoke runner, four small offline tests,
 the versioned manifest, this report, and the compact 84 KB smoke evidence.
 The virtual environment and intermediate raw runs remain in the Worktree's
 ignored `.venv/` and configured runtime directory.
+
+## Later sparse-Advisor B=0 follow-up
+
+The dense-allocation observation above pertains to the original Advisor pin and
+remains historical. After sparse assembly merged in `ess-advisor@d40a57d...`,
+four bounded full-input B=0 comparisons completed. Their independently versioned
+config, compact outputs, resource observations and limitations are recorded in
+[`full-input-b0-report-v1.md`](full-input-b0-report-v1.md). This later evidence
+does not retroactively change this report's Stage-1 pin or establish results at
+B=2/3.
