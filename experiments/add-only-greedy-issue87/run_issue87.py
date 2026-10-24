@@ -1392,10 +1392,9 @@ def run(
             case = cases[case_index + offset]
             base_path = None
             if objective == "pess":
-                nominal_request_path = (
+                base_path = (
                     run_root / "cases" / f"{dataset}-nominal-b0" / "request.json"
                 )
-                base_path = nominal_request_path
             if budget > 0 and objective == "nominal":
                 base_path = (
                     run_root / "cases" / f"{dataset}-nominal-b0" / "request.json"
