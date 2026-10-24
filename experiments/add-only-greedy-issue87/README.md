@@ -2,7 +2,7 @@
 
 **Scientific question:** Under the already-frozen Forest10 and Census13 valid-only models, does the same strict-improvement `add_only_greedy` rule produce different Nominal and task-wise PESS selections at budgets above 3? Reuse the two existing 10,000-task models and adapters; the minimum future comparison is the frozen `B=0,2,3,4,5` sequence, with exact Fraction re-evaluation of both selected sets under both objectives.
 
-This directory records the frozen protocol and execution preparation; it contains no formal experiment results. The authoritative design, pins, fixed case order, limits, stop rules, and JSONL record fields are in [`protocol-v1.json`](protocol-v1.json). Issue #87 comment 6380444478 records the researcher's execution authorization; PR #90 updates only that gate and the runner's protocol hash pin.
+This directory records the frozen protocol and execution preparation, plus one stopped incomplete valid-only attempt. The authoritative design, pins, fixed case order, limits, stop rules, and record fields are in [`protocol-v1.json`](protocol-v1.json). Issue #87 comment 6380444478 records the researcher's execution authorization; PR #90 updates only that gate and the runner's protocol hash pin. The attempt is documented in [`valid-run-issue87-valid-only-20261024-v1-report.md`](valid-run-issue87-valid-only-20261024-v1-report.md).
 
 ## Fixed design
 
@@ -23,7 +23,7 @@ The existing preflight tests exercise the exact backend on synthetic inputs. Run
 
 ## Execution gate and limits
 
-No Forest10/Census13 selection request has been executed by this runner revision. The Issue #87 execution authorization is recorded separately from the software gate; formal execution starts only after this authorization/hash change passes review and CI. PostgreSQL, test split access/evaluation, refitting, and manuscript edits remain outside scope.
+The first authorized run attempted Forest10 Nominal B=0 and stopped because the exited systemd scope reported unbounded memory and wall properties. The raw Advisor response is retained but is not accepted as a completed choice. All remaining cases were not started. No PostgreSQL, test split access/evaluation, refitting, or manuscript work was performed.
 
 The planned decision is heuristic and model-internal. A difference between greedy outputs does not establish that global Nominal and PESS optima differ; a PESS gap is measured only relative to the PESS greedy incumbent. The modeled maximal-matching family is not claimed to contain every real PostgreSQL scheme.
 
@@ -35,4 +35,4 @@ GitHub Actions check status is tracked in the Draft PR and must correspond to th
 
 ## Runner revision check
 
-On Python 3.12.3 with the frozen dependency pins, the repository CI test command passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner checks built both 10,000-task frozen requests without solving them. A prior `/bin/true` systemd-scope probe returned `Result=success`, `MemoryMax=12884901888`, and `RuntimeMaxUSec=15min`; the runner accepted those effective limits and captured the `/usr/bin/time` report. This authorization revision does not run a solver case. The same synthetic control-flow and full-input builder checks are in CI.
+On Python 3.12.3 with the frozen dependency pins, the authorization PR's repository CI passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner's full-input CI tests build both 10,000-task requests without solving them. A post-merge `/bin/true` scope probe on this host returned the configured memory and wall properties, but the first actual runner scope later reported both as `infinity` and triggered the fail-closed stop. See the run report for exact evidence and the additional record-format issue discovered during review.
