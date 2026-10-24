@@ -38,6 +38,7 @@ jobs:
             experiments/pg-maintenance/fixed-target-cpu/test_fixed_target_cpu.py \
             experiments/pg-tracing/test_analyze_mcv_numeric_followup.py \
             experiments/theory/test_degree_two_oracle.py \
+            experiments/add-only-greedy-issue87/test_runner.py \
             tests/test_forest10_etl.py \
             tests/test_arecel_real_etl.py \
             tests/test_verified_pickle_converter.py \
@@ -47,8 +48,8 @@ jobs:
             experiments/solver-integration-issue74/test_stage2_b2_recovery_runner.py
       - name: Lint archive-first infrastructure
         run: |
-          ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py
-          ruff format --check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py
+          ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py experiments/add-only-greedy-issue87/run_issue87.py experiments/add-only-greedy-issue87/test_runner.py
+          ruff format --check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py experiments/add-only-greedy-issue87/run_issue87.py experiments/add-only-greedy-issue87/test_runner.py
       - name: Verify preserved experimental evidence
         run: python ci/check_evidence.py
 

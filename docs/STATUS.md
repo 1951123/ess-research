@@ -6,6 +6,8 @@
 
 **Issue #87 Stage 0 / [Draft PR #88](https://github.com/1951123/ess-research/pull/88) (2026-10-24):** Review at `9b47088b8a5ecafbf8de8eab071e193d3ddffe53` found no Stage 0 blocker and requested defensive checks. The follow-up revision copies nested provenance, rejects selected IDs outside the candidate universe, and treats cross-evaluation finishing after its deadline as incomplete. A full-case runner, OS-enforced resource limits, CI coverage of the pinned full-input builder, and JSONL evidence emission remain requirements for a separate reviewed execution-gate revision. No full-valid solve, PostgreSQL, held-out evaluation, calibration, model update or manuscript change was performed. `execution_authorized` remains **false**; Issue #87 remains open.
 
+**Issue #87 runner preparation (2026-10-24):** Protocol PR #88 was merged normally at `1f14ca2f64a457e53f2a5cb8045690f3188b6cf4`. A separate runner revision is under review in Draft PR #89. It adds serial systemd-scoped execution, request/response and per-case JSONL evidence, stop-on-incomplete handling, and CI construction checks for the two full frozen inputs without solving them. The protocol remains unchanged with `execution_authorized=false`; no formal solver case was run. Formal execution requires runner review and separate researcher authorization.
+
 **Issue #74 / [PR #75](https://github.com/1951123/ess-research/pull/75)
 (2026-10-22):** Implementation maps the
 frozen Forest10 positive-preclamp model and Census13 `clamped-log-v2` model to
