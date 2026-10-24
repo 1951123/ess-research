@@ -1,8 +1,10 @@
 # ESS Research — current status
 
-**Snapshot date:** 2026-10-23 (Asia/Taipei)
+**Snapshot date:** 2026-10-24 (Asia/Taipei)
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
+
+**Issue #87 Stage 0 / [Draft PR #88](https://github.com/1951123/ess-research/pull/88) (2026-10-24):** The valid-only Forest10/Census13 add-only greedy protocol, pinned inputs/backend, bounded resource plan and synthetic preflight are prepared for review. Local offline CI passed; GitHub checks remain pending. No full-valid solve, PostgreSQL, held-out evaluation, calibration, model update or manuscript change was performed. `execution_authorized` remains **false**; Issue #87 remains open pending review and a separate researcher execution decision.
 
 **Issue #74 / [PR #75](https://github.com/1951123/ess-research/pull/75)
 (2026-10-22):** Implementation maps the
