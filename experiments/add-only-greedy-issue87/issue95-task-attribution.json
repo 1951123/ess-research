@@ -1,0 +1,661 @@
+{
+  "advisor_source_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+  "analysis_script_sha256": "080320de10b82e109bdccb27b5d65469fe9c5a020edc2483fd7be3f4c29b56d5",
+  "analysis_source_commit": "0e7da4d2c7073e1a2dba531fda4e317adf414a10",
+  "analysis_wall_seconds": 4.445118,
+  "claim_scope": "fixed-set model-internal, valid-only; greedy selections",
+  "command": [
+    "experiments/add-only-greedy-issue87/analyze_issue95.py",
+    "--run-dir",
+    "/home/wqts/ess-runtime/ess-research/issue87/runs/issue87-valid-only-20261024-v4",
+    "--output",
+    "experiments/add-only-greedy-issue87/issue95-task-attribution.json"
+  ],
+  "contrasts": [
+    {
+      "budget": 4,
+      "dataset": "forest10",
+      "largest_risk_witnesses": [
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e02_07",
+              "e02_08"
+            ]
+          ],
+          "nominal_loss_fraction": "1582019776504112057/250000000000000000",
+          "nominal_matching_ids": [
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_loss_fraction": "8715182088074356469/1000000000000000000",
+          "pess_worst_matching_ids": [
+            "e02_08",
+            "e03_04"
+          ],
+          "risk_fraction": "2387102982057908241/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e02_07": [
+              "Hillshade_Noon",
+              "Slope"
+            ],
+            "e02_08": [
+              "Hillshade_3pm",
+              "Slope"
+            ],
+            "e03_04": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:004037"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e02_07",
+              "e02_08"
+            ]
+          ],
+          "nominal_loss_fraction": "1357531089366465497/125000000000000000",
+          "nominal_matching_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_loss_fraction": "12490647256752120353/1000000000000000000",
+          "pess_worst_matching_ids": [
+            "e01_06",
+            "e02_08",
+            "e03_04"
+          ],
+          "risk_fraction": "1630398541820396377/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e01_06": [
+              "Aspect",
+              "Hillshade_9am"
+            ],
+            "e02_07": [
+              "Hillshade_Noon",
+              "Slope"
+            ],
+            "e02_08": [
+              "Hillshade_3pm",
+              "Slope"
+            ],
+            "e03_04": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:003057"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e02_07",
+              "e02_08"
+            ]
+          ],
+          "nominal_loss_fraction": "8519968721785814749/1000000000000000000",
+          "nominal_matching_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_loss_fraction": "5065768549425323157/500000000000000000",
+          "pess_worst_matching_ids": [
+            "e01_06",
+            "e02_08",
+            "e03_04"
+          ],
+          "risk_fraction": "322313675412966313/200000000000000000",
+          "selected_edge_endpoints": {
+            "e01_06": [
+              "Aspect",
+              "Hillshade_9am"
+            ],
+            "e02_07": [
+              "Hillshade_Noon",
+              "Slope"
+            ],
+            "e02_08": [
+              "Hillshade_3pm",
+              "Slope"
+            ],
+            "e03_04": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:007766"
+        }
+      ],
+      "model_version": "forest10-positive-preclamp-v1",
+      "nominal_cross_objective_fraction": "10689188398207109051167/500000000000000000",
+      "nominal_loss_sum_fraction": "10689188398207109051167/500000000000000000",
+      "pess_cross_objective_on_nominal_set_fraction": "1354109352983758051097/62500000000000000",
+      "pess_loss_sum_fraction": "1354109352983758051097/62500000000000000",
+      "positive_risk_task_count": 1373,
+      "positive_risk_without_conflict_count": 0,
+      "reference_work": {
+        "fixed_set_task_evaluations": 10000,
+        "matching_subsets_examined": 46068,
+        "maximal_matchings_scored": 12747
+      },
+      "request_sha256": "55e2ed28b133d2696e81b3230c7ed45e1de7d88c3bc2c7a22c84c5421aef842f",
+      "response_sha256": "fa9322960c0b761f01dc2a33872890c95f5497337db46978215dde8d64d881de",
+      "selected_nominal_ids": [
+        "e01_06",
+        "e02_07",
+        "e02_08",
+        "e03_04"
+      ],
+      "summed_task_risk_fraction": "143686425662955357609/500000000000000000",
+      "task_count": 10000,
+      "tasks_with_applicable_endpoint_conflict_count": 2747,
+      "top_100_positive_risk": {
+        "risk_sum_fraction": "90768894956085055413/1000000000000000000",
+        "share_of_total_risk_fraction": "30256298318695018471/95790950441970238406",
+        "task_count": 100
+      },
+      "top_10_positive_risk": {
+        "risk_sum_fraction": "638272361972195223/40000000000000000",
+        "share_of_total_risk_fraction": "108549721423842725/1954917355958576294",
+        "task_count": 10
+      },
+      "zero_risk_with_conflict_count": 1374,
+      "zero_risk_without_conflict_count": 7253
+    },
+    {
+      "budget": 5,
+      "dataset": "forest10",
+      "largest_risk_witnesses": [
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e01_06",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "3470330316097476901/250000000000000000",
+          "nominal_matching_ids": [
+            "e01_06",
+            "e03_04"
+          ],
+          "pess_loss_fraction": "16536125536229560283/1000000000000000000",
+          "pess_worst_matching_ids": [
+            "e03_04",
+            "e06_08"
+          ],
+          "risk_fraction": "2654804271839652679/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e01_06": [
+              "Aspect",
+              "Hillshade_9am"
+            ],
+            "e03_04": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ],
+            "e06_08": [
+              "Hillshade_3pm",
+              "Hillshade_9am"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:007852"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e01_06",
+              "e06_08"
+            ],
+            [
+              "e02_08",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "2349590874690774571/500000000000000000",
+          "nominal_matching_ids": [
+            "e01_06",
+            "e02_08"
+          ],
+          "pess_loss_fraction": "888527283952140649/125000000000000000",
+          "pess_worst_matching_ids": [
+            "e06_08"
+          ],
+          "risk_fraction": "48180730444711521/20000000000000000",
+          "selected_edge_endpoints": {
+            "e01_06": [
+              "Aspect",
+              "Hillshade_9am"
+            ],
+            "e02_08": [
+              "Hillshade_3pm",
+              "Slope"
+            ],
+            "e06_08": [
+              "Hillshade_3pm",
+              "Hillshade_9am"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:008039"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e01_06",
+              "e06_08"
+            ],
+            [
+              "e02_07",
+              "e02_08"
+            ],
+            [
+              "e02_08",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "1257690573625991509/200000000000000000",
+          "nominal_matching_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_loss_fraction": "4344506971275980569/500000000000000000",
+          "pess_worst_matching_ids": [
+            "e02_07",
+            "e03_04",
+            "e06_08"
+          ],
+          "risk_fraction": "2400561074422003593/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e01_06": [
+              "Aspect",
+              "Hillshade_9am"
+            ],
+            "e02_07": [
+              "Hillshade_Noon",
+              "Slope"
+            ],
+            "e02_08": [
+              "Hillshade_3pm",
+              "Slope"
+            ],
+            "e03_04": [
+              "Horizontal_Distance_To_Hydrology",
+              "Vertical_Distance_To_Hydrology"
+            ],
+            "e06_08": [
+              "Hillshade_3pm",
+              "Hillshade_9am"
+            ]
+          },
+          "task_id": "arecel:forest10:valid:003650"
+        }
+      ],
+      "model_version": "forest10-positive-preclamp-v1",
+      "nominal_cross_objective_fraction": "1330529089981132363601/62500000000000000",
+      "nominal_loss_sum_fraction": "1330529089981132363601/62500000000000000",
+      "pess_cross_objective_on_nominal_set_fraction": "5478975028566803369823/250000000000000000",
+      "pess_loss_sum_fraction": "5478975028566803369823/250000000000000000",
+      "positive_risk_task_count": 2288,
+      "positive_risk_without_conflict_count": 0,
+      "reference_work": {
+        "fixed_set_task_evaluations": 10000,
+        "matching_subsets_examined": 78228,
+        "maximal_matchings_scored": 15637
+      },
+      "request_sha256": "4ec6a51340598ea05fe137339a12770f3482c8d02a1fe3bd1a84edbdef9f27de",
+      "response_sha256": "a8ee0c5b552ed7352291d6286a3963382dc89b4b5ab446ab87f3858937e7a6a1",
+      "selected_nominal_ids": [
+        "e01_06",
+        "e02_07",
+        "e02_08",
+        "e03_04",
+        "e06_08"
+      ],
+      "summed_task_risk_fraction": "156858668642273915419/250000000000000000",
+      "task_count": 10000,
+      "tasks_with_applicable_endpoint_conflict_count": 3841,
+      "top_100_positive_risk": {
+        "risk_sum_fraction": "17557777771487182081/125000000000000000",
+        "share_of_total_risk_fraction": "35115555542974364162/156858668642273915419",
+        "task_count": 100
+      },
+      "top_10_positive_risk": {
+        "risk_sum_fraction": "5724834190245236881/250000000000000000",
+        "share_of_total_risk_fraction": "5724834190245236881/156858668642273915419",
+        "task_count": 10
+      },
+      "zero_risk_with_conflict_count": 1553,
+      "zero_risk_without_conflict_count": 6159
+    },
+    {
+      "budget": 4,
+      "dataset": "census13",
+      "largest_risk_witnesses": [
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "0",
+          "nominal_matching_ids": [
+            "e04_06"
+          ],
+          "pess_loss_fraction": "1457059652726252777/1000000000000000000",
+          "pess_worst_matching_ids": [
+            "e06_08"
+          ],
+          "risk_fraction": "1457059652726252777/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:004945"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "1100317285962265613/1000000000000000000",
+          "nominal_matching_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_loss_fraction": "2279555745658687203/1000000000000000000",
+          "pess_worst_matching_ids": [
+            "e01_05",
+            "e02_03",
+            "e06_08"
+          ],
+          "risk_fraction": "117923845969642159/100000000000000000",
+          "selected_edge_endpoints": {
+            "e01_05": [
+              "occupation",
+              "workclass"
+            ],
+            "e02_03": [
+              "education",
+              "education_num"
+            ],
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:001814"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "791265803146087059/500000000000000000",
+          "nominal_matching_ids": [
+            "e04_06"
+          ],
+          "pess_loss_fraction": "55235401319771911/20000000000000000",
+          "pess_worst_matching_ids": [
+            "e06_08"
+          ],
+          "risk_fraction": "147404807462052679/125000000000000000",
+          "selected_edge_endpoints": {
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:008731"
+        }
+      ],
+      "model_version": "census13-clamped-log-v2",
+      "nominal_cross_objective_fraction": "2661002697992075697231/500000000000000000",
+      "nominal_loss_sum_fraction": "2661002697992075697231/500000000000000000",
+      "pess_cross_objective_on_nominal_set_fraction": "726172861228000098887/125000000000000000",
+      "pess_loss_sum_fraction": "726172861228000098887/125000000000000000",
+      "positive_risk_task_count": 1038,
+      "positive_risk_without_conflict_count": 0,
+      "reference_work": {
+        "fixed_set_task_evaluations": 10000,
+        "matching_subsets_examined": 45795,
+        "maximal_matchings_scored": 12682
+      },
+      "request_sha256": "fc6975aca9b02fe78835d201ca972851fd90ea51ca5825c4e76818dd88d85bac",
+      "response_sha256": "810cb30264e2297560dc6a8e3344a6616fe5d765c07140f2cb09cc3f8ecb5c9b",
+      "selected_nominal_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e06_08"
+      ],
+      "summed_task_risk_fraction": "243688746919924698317/500000000000000000",
+      "task_count": 10000,
+      "tasks_with_applicable_endpoint_conflict_count": 2682,
+      "top_100_positive_risk": {
+        "risk_sum_fraction": "21670965688196721219/200000000000000000",
+        "share_of_total_risk_fraction": "108354828440983606095/487377493839849396634",
+        "task_count": 100
+      },
+      "top_10_positive_risk": {
+        "risk_sum_fraction": "6035102894997022481/500000000000000000",
+        "share_of_total_risk_fraction": "6035102894997022481/243688746919924698317",
+        "task_count": 10
+      },
+      "zero_risk_with_conflict_count": 1644,
+      "zero_risk_without_conflict_count": 7318
+    },
+    {
+      "budget": 5,
+      "dataset": "census13",
+      "largest_risk_witnesses": [
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e04_08"
+            ],
+            [
+              "e04_06",
+              "e06_08"
+            ],
+            [
+              "e04_08",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "0",
+          "nominal_matching_ids": [
+            "e04_06"
+          ],
+          "pess_loss_fraction": "96448845743149587/50000000000000000",
+          "pess_worst_matching_ids": [
+            "e04_08"
+          ],
+          "risk_fraction": "96448845743149587/50000000000000000",
+          "selected_edge_endpoints": {
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e04_08": [
+              "marital_status",
+              "sex"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:004945"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e04_08"
+            ],
+            [
+              "e04_06",
+              "e06_08"
+            ],
+            [
+              "e04_08",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "1973080207132989157/1000000000000000000",
+          "nominal_matching_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_loss_fraction": "1919711461916337349/500000000000000000",
+          "pess_worst_matching_ids": [
+            "e02_03",
+            "e04_08"
+          ],
+          "risk_fraction": "1866342716699685541/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e02_03": [
+              "education",
+              "education_num"
+            ],
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e04_08": [
+              "marital_status",
+              "sex"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:000719"
+        },
+        {
+          "endpoint_conflict_pairs": [
+            [
+              "e04_06",
+              "e04_08"
+            ],
+            [
+              "e04_06",
+              "e06_08"
+            ],
+            [
+              "e04_08",
+              "e06_08"
+            ]
+          ],
+          "nominal_loss_fraction": "224475288760022931/200000000000000000",
+          "nominal_matching_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_loss_fraction": "747179790124950029/250000000000000000",
+          "pess_worst_matching_ids": [
+            "e02_03",
+            "e04_08"
+          ],
+          "risk_fraction": "1866342716699685461/1000000000000000000",
+          "selected_edge_endpoints": {
+            "e02_03": [
+              "education",
+              "education_num"
+            ],
+            "e04_06": [
+              "marital_status",
+              "relationship"
+            ],
+            "e04_08": [
+              "marital_status",
+              "sex"
+            ],
+            "e06_08": [
+              "relationship",
+              "sex"
+            ]
+          },
+          "task_id": "arecel:census13:valid:001446"
+        }
+      ],
+      "model_version": "census13-clamped-log-v2",
+      "nominal_cross_objective_fraction": "652685282834505874899/125000000000000000",
+      "nominal_loss_sum_fraction": "652685282834505874899/125000000000000000",
+      "pess_cross_objective_on_nominal_set_fraction": "2928651976860382342343/500000000000000000",
+      "pess_loss_sum_fraction": "2928651976860382342343/500000000000000000",
+      "positive_risk_task_count": 1088,
+      "positive_risk_without_conflict_count": 0,
+      "reference_work": {
+        "fixed_set_task_evaluations": 10000,
+        "matching_subsets_examined": 78258,
+        "maximal_matchings_scored": 15364
+      },
+      "request_sha256": "b033bc5df7c5a9934dfb584dfedb1cb233f5c9f3a7f8c309d37dea7e9a2a1e79",
+      "response_sha256": "918ab9f557808a37b978fb76f920cd7d335327bfe1965002fae4582713f59dda",
+      "selected_nominal_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e04_08",
+        "e06_08"
+      ],
+      "summed_task_risk_fraction": "317910845522358842747/500000000000000000",
+      "task_count": 10000,
+      "tasks_with_applicable_endpoint_conflict_count": 2682,
+      "top_100_positive_risk": {
+        "risk_sum_fraction": "70999966126414366311/500000000000000000",
+        "share_of_total_risk_fraction": "70999966126414366311/317910845522358842747",
+        "task_count": 100
+      },
+      "top_10_positive_risk": {
+        "risk_sum_fraction": "9363030682580080087/500000000000000000",
+        "share_of_total_risk_fraction": "9363030682580080087/317910845522358842747",
+        "task_count": 10
+      },
+      "zero_risk_with_conflict_count": 1594,
+      "zero_risk_without_conflict_count": 7318
+    }
+  ],
+  "environment": {
+    "networkx": "3.7",
+    "numpy": "2.3.4",
+    "pess_ess": "0.1.0",
+    "pess_ess_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+    "python": "3.12.3",
+    "scipy": "1.18.1"
+  },
+  "format": "issue95-task-matching-attribution-v1",
+  "issue87_run_id": "issue87-valid-only-20261024-v4",
+  "issue87_source_commit": "386658d7b3895a57bd138b24611672d329edaeda",
+  "protocol_sha256": "ef095a12dd1a1ac676acd822e24d93e369b61cbd56297ced87b6771111f07623",
+  "solver_runs": 0,
+  "v4_manifest_sha256": "6e1f9a07d52bf5dd2d5e250e80dad2146cacf8cadeeecf0f078a86b8017eb1e4"
+}

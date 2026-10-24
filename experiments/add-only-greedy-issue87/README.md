@@ -38,3 +38,7 @@ GitHub Actions check status is tracked in the Draft PR and must correspond to th
 ## Runner revision check (historical)
 
 On Python 3.12.3 with the frozen dependency pins, the authorization PR's repository CI passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner's full-input CI tests build both 10,000-task requests without solving them. A post-merge `/bin/true` scope probe on this host returned the configured memory and wall properties, but the first actual runner scope later reported both as `infinity` and triggered the fail-closed stop. See the run report for exact evidence and the additional record-format issue discovered during review.
+
+## Issue #95 task-level attribution
+
+[`analyze_issue95.py`](analyze_issue95.py) is a read-only fixed-set analysis of the four B=4/5 Nominal greedy selections from v4. It reuses the exact Advisor reference evaluator and stored v4 requests/cross-objectives; it does not rerun selection. The [findings report](issue95-task-attribution.md) and [compact exact output](issue95-task-attribution.json) record per-task risk counts, Top-10/Top-100 concentration, and maximal-matching witnesses. The separate test file uses only tiny synthetic tasks.
