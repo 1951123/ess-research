@@ -2,7 +2,7 @@
 
 **Scientific question:** Under the already-frozen Forest10 and Census13 valid-only models, does the same strict-improvement `add_only_greedy` rule produce different Nominal and task-wise PESS selections at budgets above 3? Reuse the two existing 10,000-task models and adapters; the minimum future comparison is the frozen `B=0,2,3,4,5` sequence, with exact Fraction re-evaluation of both selected sets under both objectives.
 
-This directory records **Stage 0 only**. The authoritative design, pins, fixed case order, limits, stop rules, and JSONL record fields are in [`protocol-v1.json`](protocol-v1.json). It is frozen as planned with `execution_authorized: false`.
+This directory records the frozen protocol and execution preparation only; it contains no formal experiment results. The authoritative design, pins, fixed case order, limits, stop rules, and JSONL record fields are in [`protocol-v1.json`](protocol-v1.json), which remains frozen with `execution_authorized: false`.
 
 ## Fixed design
 
@@ -13,17 +13,17 @@ This directory records **Stage 0 only**. The authoritative design, pins, fixed c
 - Cases are serial, single-process, with 600-second Advisor and 900-second outer wall limits and a 12-GiB memory limit. The fixed-evaluation caps are shared across objectives; PESS also has a derived cumulative matching-subset cap. The full cap table and derivation are in the protocol JSON.
 - Any mismatch, timeout, cap, incomplete round, missing exact value, or failed cross-evaluation makes the affected result incomplete, stops dependent cases, and requires review. No retry, limit increase, or partial-prefix comparison is allowed.
 
-## Stage 0 implementation
+## Protocol and run preparation
 
-`adapter.py` wraps the existing frozen-model request builder with schema-v1 `add_only_greedy` controls. `build_frozen_dataset_payload()` checks the full task count, candidate universe/order, unit costs, frozen selection/model hashes, and archived source adapter before constructing a request. It does not launch the solver. The tests use only tiny synthetic instances and do not call that full-input builder.
+`adapter.py` wraps the existing frozen-model request builder with schema-v1 `add_only_greedy` controls. `build_frozen_dataset_payload()` checks the full task count, candidate universe/order, unit costs, frozen selection/model hashes, and archived source adapter before constructing a request. It does not launch the solver. The Stage 0 adapter tests use tiny synthetic inputs; runner CI separately calls this builder for both frozen datasets without solving them.
 
-This is a request builder and exact fixed-set cross-evaluator, not a prospective full-case runner. Before any full-valid execution authorization, a separate reviewed and pinned execution-gate revision must implement and test serial case orchestration, OS-enforced memory/wall limits, process exit/RSS capture, a CI check of the pinned full-input builder, and the frozen JSONL evidence records. Stage 0 does not enforce those operating-system limits or test that full-input builder in CI.
+The minimal full-case runner is in [`run_issue87.py`](run_issue87.py). It checks the authorization flag and exact protocol hash before any worker path, reuses the B=0 frozen request for later cases, runs one case or cross-evaluation at a time in a systemd scope, and keeps exact request/response bytes, JSONL records, resource reports and failure details under `$ESS_RUNTIME_PARENT/ess-research/issue87/runs/<run-id>/`. Any failed or incomplete case stops the sequence; partial prefixes never become selected sets. The runner does not alter this protocol's `execution_authorized: false` setting. Any future authorization will require its own reviewed protocol/hash-pin change and a separate researcher decision.
 
-The seven preflight tests exercise the exact backend on synthetic inputs: B=0, deterministic candidate-ID ties, task eligibility, zero-cost feasibility, plateau stopping, incomplete-round handling, exact Fraction cross-objective re-evaluation, request immutability, candidate-universe validation, and post-deadline incomplete handling. No AreCEL data is needed for these tests.
+The existing preflight tests exercise the exact backend on synthetic inputs. Runner tests cover the frozen 20-case order and limits, the execution gate (including hidden worker commands), incomplete-result handling, and the full Forest10/Census13 input builder. The full-input test only builds and validates requests; it does not call the solver.
 
 ## Execution gate and limits
 
-This Stage 0 work does not execute any Forest10/Census13 selection request. The full-valid runs need a separate explicit researcher authorization after protocol review and merge. PostgreSQL, test split access/evaluation, refitting, and manuscript edits are outside this task.
+No Forest10/Census13 selection request has been executed by this runner revision. Formal runs still require the runner to pass independent review and a separate explicit researcher authorization. PostgreSQL, test split access/evaluation, refitting, and manuscript edits remain outside scope.
 
 The planned decision is heuristic and model-internal. A difference between greedy outputs does not establish that global Nominal and PESS optima differ; a PESS gap is measured only relative to the PESS greedy incumbent. The modeled maximal-matching family is not claimed to contain every real PostgreSQL scheme.
 
@@ -32,3 +32,7 @@ The planned decision is heuristic and model-internal. A difference between greed
 On Python 3.12.3 with NumPy 2.3.4, SciPy 1.18.1, NetworkX 3.7, and the local `ess-advisor` checkout verified at main commit `5d61f75fede37d34027b437c646000a3d78d00c6`, the synthetic Issue #87 preflight passed **7 tests** after review follow-ups. The pinned Advisor `test_greedy.py` passed **14 tests**. Ruff check and format checks passed for both new Python files. The research adapter was tested only with tiny synthetic requests; `build_frozen_dataset_payload()` was not called. No complete valid workload was solved, and no PostgreSQL, held-out test, or calibration data were accessed.
 
 GitHub Actions check status is tracked in the Draft PR and must correspond to the pushed head under review.
+
+## Runner revision check
+
+On Python 3.12.3 with the frozen dependency pins, the repository CI test command passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner checks built both 10,000-task frozen requests without solving them. A `/bin/true` systemd-scope probe returned `Result=success`, `MemoryMax=12884901888`, and `RuntimeMaxUSec=15min`; the runner accepted those effective limits and captured the `/usr/bin/time` report. No full-valid solve was run. The same synthetic control-flow and full-input builder checks are in CI; formal execution remains blocked by `execution_authorized: false` pending independent runner review and a separate researcher decision.
