@@ -1,0 +1,280 @@
+{
+  "format": "ess-issue87-add-only-greedy-protocol-v1",
+  "status": "STAGE0_PROTOCOL_ONLY_PLANNED_NO_EXECUTION_AUTHORIZATION",
+  "execution_authorized": false,
+  "research_question": "On the same frozen full-valid Forest10 and Census13 models, does the same strict-improvement add-only greedy rule produce meaningfully different Nominal and task-wise PESS resource sets as the unit-cost proxy budget increases above 3?",
+  "minimal_experiment": "Reuse the two archived 10,000-task valid-only models and their existing model adapters; after separate authorization, run the same deterministic greedy backend at B=0,2,3,4,5 for each objective and dataset, then exactly re-evaluate both selected sets under both frozen objectives.",
+  "scope": {
+    "datasets": ["forest10", "census13"],
+    "split": "official valid only; 10000 tasks per dataset, no subsampling",
+    "candidate_universe": "all archived workload-supported unordered pair candidates; 45 Forest10 and 78 Census13",
+    "primary_budgets": [4, 5],
+    "reference_budgets": [0, 2, 3],
+    "budget_sequence": [0, 2, 3, 4, 5],
+    "future_escalation": "B=6 or any other budget is outside this protocol and needs a separately reviewed protocol and explicit execution authorization",
+    "calibration_or_refitting": false,
+    "postgresql_or_test_evaluation": false,
+    "manuscript_changes": false
+  },
+  "immutable_software": {
+    "research_repository": "1951123/ess-research",
+    "research_source_base_commit": "b8b9711cf1950424eee10f17c741f2973b2f07b4",
+    "existing_model_adapter_path": "experiments/solver-integration-issue74/adapter.py",
+    "existing_model_adapter_sha256": "802a7d9a0bdfd6553830de25868e4a8da382c30f37e644562134f797b68e969c",
+    "existing_model_adapter_source_commit": "6c0d82d258faaa817f2bc977ff99b04971550aa0",
+    "new_issue87_adapter_path": "experiments/add-only-greedy-issue87/adapter.py",
+    "new_issue87_adapter_sha256": "26a3930c87d7b60f4561202734470326197f0c3bd55cdb8a4f909ef784138a39",
+    "advisor_repository": "1951123/ess-advisor",
+    "advisor_source_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+    "advisor_source_branch_at_freeze": "main",
+    "advisor_schema_version": "1",
+    "advisor_package": "pess-ess==0.1.0",
+    "advisor_backend": "add_only_greedy",
+    "python_version_for_future_execution": "3.12.3",
+    "dependency_versions_for_future_execution": {
+      "numpy": "2.3.4",
+      "scipy": "1.18.1",
+      "networkx": "3.7"
+    },
+    "source_note": "The adapter and model source commits identify the software used to create the frozen valid-only inputs. They are distinct from the Issue #87 adapter file hash and the future run commit."
+  },
+  "frozen_inputs": {
+    "archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "candidate_order_hash_method": "SHA-256 of UTF-8 json.dumps(candidate_ids, separators=(',', ':')) with ensure_ascii=True",
+    "task_weight": "1 for every task",
+    "maintenance_cost_proxy": "The request adapter assigns cost 1 to every supported candidate. Runtime preflight must verify every cost is exactly 1 before treating Maint(M)<=B as |M|<=B. This is an additive experimental proxy, not physical PostgreSQL maintenance cost.",
+    "forest10": {
+      "model_version": "forest10-positive-preclamp-v1",
+      "model_source_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+      "model_builder_sha256": "fc72b9de154da2da0b3a62d17baabaf31a973c992c9f3fcdffee3f8d849f07c3",
+      "exact_selector_sha256": "75265ea7d256eb62ec17bd1c8c46dd670e52ad4ecd8ebac64cc7c0953bbfe97a",
+      "valid_task_count": 10000,
+      "candidate_count": 45,
+      "candidate_order_sha256": "d8efee32db760af2f70ecb494f5dae26c7e99faa9914fd7c60781774bc7482cb",
+      "nominal_priority": "the frozen candidate order, used as one fixed global priority order for every task",
+      "valid_truth_sha256": "fc301ee43eac7dd1f3d381f0d0c8ad6bb4534dca6c1005719d703c18956c7d90",
+      "coefficient_artifact_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/coefficients.jsonl.gz",
+      "coefficient_artifact_sha256": "b1f0e6521804cc0e77f0616271d94b10a3602bde6eb677591ee040e14c7dbd04",
+      "frozen_selection_path": "experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-valid-frozen-selection-v1.json",
+      "frozen_selection_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+      "loss_input_note": "Positive pre-clamp observations and the archived corrected-log model are reused unchanged; no new observations or fit are permitted."
+    },
+    "census13": {
+      "model_version": "census13-clamped-log-v2",
+      "model_source_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+      "valid_task_count": 10000,
+      "candidate_count": 78,
+      "candidate_order_sha256": "131d526d4fa7540dede14923c2e6a08b2b4238c11ba9399f7c061e587ca65e97",
+      "nominal_priority": "the predeclared schema_order from the frozen plan; do not substitute another of the archived permutations",
+      "frozen_selection_path": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-clamped-log-v2-schema-order-frozen-selection-v1.json",
+      "frozen_selection_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7",
+      "plan_path": "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-stage2b-plan-v1.json",
+      "plan_sha256": "51842c6981936d9a5be39342eb5caee23b35f3137e5876064b0b1a649906d5e1",
+      "coefficient_digest_sha256": "7671c4d8837c4f63423bb4a0cf1a132923301ef4f6d04cdf5ee380dfe6cbc0a5",
+      "valid_observation_paths": [
+        "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-full-valid-worker0.jsonl.gz",
+        "experiments/pess-multidataset-heldout-stage2b/census13-issue71/census13-full-valid-worker1.jsonl.gz"
+      ],
+      "valid_observation_sha256": [
+        "3dccb9675648f1475bb098ecc8288b2b61bf8f4c13cdaee87a6ca276c8937602",
+        "341cebd27650cf34608073a4712b71fd1c4a26cc6338d581c1d1e01117ef88e4"
+      ],
+      "valid_truth_sha256": "2b88019f55b3e1ba172c5851e8c6adfb0f37ad878386e244e83d6fa3046ba28d",
+      "loss_input_note": "Reuse only the frozen valid-only observations and the clamped-log-v2 transform. Preserve raw zero observations; apply max(1,x) only in the already-frozen coefficient construction. No refit or model change is permitted."
+    }
+  },
+  "scientific_model": {
+    "outer_decision": "an unordered resource set M with additive unit-cost proxy and Maint(M)<=B; do not force budget fill",
+    "loss": "the existing nonnegative task loss and frozen rational coefficients, summed over all 10000 valid tasks with unit weights",
+    "nominal": "for each task, scan all selected eligible candidates in the one archived global priority order and greedily accept a candidate when both endpoints remain free; evaluate the resulting deterministic maximal matching",
+    "pess": "for each task independently, maximize its loss over every inclusion-maximal matching in the complete selected eligible candidate graph, then sum the task-wise maxima",
+    "loss_formula": "For a task and admissible matching S, the frozen rational loss is abs(alpha_i + sum_{e in S} b_e,i); task weight is 1. Forest10 retains its positive pre-clamp corrected-log inputs, while Census13 retains the distinct clamped-log-v2 transform.",
+    "not_allowed": [
+      "maximum-cardinality matching in place of maximal matching",
+      "one shared global matching policy across tasks",
+      "candidate trimming, subsampling, refitting, changed costs or a changed priority order",
+      "swaps, restarts, warm starts or forced budget use",
+      "a claim that the prescribed PESS family contains every real PostgreSQL scheme"
+    ],
+    "arithmetic_and_claims": "Advisor add_only_greedy uses exact Fraction fixed-set objective evaluations. The outer decision is heuristic and carries no global-optimum guarantee. Any PESS comparison is certified only within the frozen model and prescribed maximal-matching family."
+  },
+  "greedy_rule": {
+    "backend": "add_only_greedy",
+    "start": "empty set",
+    "each_round": "evaluate every remaining budget-feasible candidate with the objective's exact fixed-set Fraction value; choose the candidate with largest strictly positive objective reduction",
+    "tie_break": "ascending candidate_id, shared by both objectives and independent of the Nominal scheme priority order",
+    "stop": ["no feasible candidate remains", "best exact improvement is zero or negative"],
+    "round_commit": "a round is committed only after every remaining budget-feasible candidate has a completed exact evaluation",
+    "optimality_label": "add_only_greedy_heuristic; never report outer global optimality"
+  },
+  "outcome_interpretation": {
+    "separation_or_budget_use_is_not_assumed": true,
+    "report_same_sets_ties_positive_or_negative_PESS_gaps_and_incomplete_cases": true,
+    "practical_threshold": "none introduced; report the exact Fraction contrast. Different sets with zero PESS gap are policy disagreement with an objective tie, not a positive PESS regret result.",
+    "positive_pess_regret_scope": "PESS loss of the Nominal greedy set minus PESS loss of the PESS greedy set; relative only to the PESS heuristic incumbent, never global regret"
+  },
+  "case_order": {
+    "serial_order": "Forest10 then Census13; within each dataset B=0,2,3,4,5; within each budget Nominal then PESS",
+    "max_concurrent_cases": 1,
+    "seed": null,
+    "same_envelope": "Both objectives for a dataset/budget pair use the same host, one process, memory cap, outer wall deadline and max_evaluations. PESS alone also receives the explicitly reported inner subset-check cap."
+  },
+  "resource_limits": {
+    "host": "one designated host for the whole serial sequence; record hostname, CPU model and logical CPU allocation before a future authorized run",
+    "processes": 1,
+    "cpu_threads": 1,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "advisor_total_time_seconds": 600,
+    "outer_hard_wall_seconds": 900,
+    "outer_hard_wall_enforcement": "one OS cgroup/systemd scope per case; record effective limits and exit status",
+    "memory_limit_bytes": 12884901888,
+    "memory_limit_enforcement": "one OS cgroup/systemd scope per case; record peak RSS and memory limit outcome",
+    "fixed_set_evaluation_cap_formula": "1 + sum_{j=0}^{B-1}(N-j), where N is the complete candidate count; shared by Nominal and PESS",
+    "pess_inner_subset_cap_formula": "T * (1 + sum_{j=0}^{B-1}(N-j)*2^(j+1)), where T=10000; derived from at most B unit-cost additions and all eligible candidates present in every task, not from observed outcomes",
+    "per_dataset_budget_caps": {
+      "forest10": {
+        "0": {"max_evaluations": 1, "max_inner_matching_subsets_pess": 10000, "candidate_attempts_upper_bound": 45},
+        "2": {"max_evaluations": 90, "max_inner_matching_subsets_pess": 2670000, "candidate_attempts_upper_bound": 132},
+        "3": {"max_evaluations": 133, "max_inner_matching_subsets_pess": 6110000, "candidate_attempts_upper_bound": 174},
+        "4": {"max_evaluations": 175, "max_inner_matching_subsets_pess": 12830000, "candidate_attempts_upper_bound": 215},
+        "5": {"max_evaluations": 216, "max_inner_matching_subsets_pess": 25950000, "candidate_attempts_upper_bound": 255}
+      },
+      "census13": {
+        "0": {"max_evaluations": 1, "max_inner_matching_subsets_pess": 10000, "candidate_attempts_upper_bound": 78},
+        "2": {"max_evaluations": 156, "max_inner_matching_subsets_pess": 4650000, "candidate_attempts_upper_bound": 231},
+        "3": {"max_evaluations": 232, "max_inner_matching_subsets_pess": 10730000, "candidate_attempts_upper_bound": 306},
+        "4": {"max_evaluations": 307, "max_inner_matching_subsets_pess": 22730000, "candidate_attempts_upper_bound": 380},
+        "5": {"max_evaluations": 381, "max_inner_matching_subsets_pess": 46410000, "candidate_attempts_upper_bound": 453}
+      }
+    },
+    "fixed_set_cross_evaluation": {
+      "evaluations": "after both objective runs complete, evaluate each of the two selected sets under both exact objectives: two Nominal fixed-set values and two task-wise PESS fixed-set values",
+      "pess_inner_subset_cap_per_contrast": "2*T*2^B, where the two sets each contain at most B unit-cost resources",
+      "fixed_set_call_cap_per_contrast": 4,
+      "total_time_seconds": 600,
+      "outer_hard_wall_seconds": 900,
+      "same_memory_limit_bytes": 12884901888
+    },
+    "cap_reached": "INCOMPLETE; do not publish a last completed prefix as a completed policy selection"
+  },
+  "stopping_and_failure": {
+    "on_any_case_failure": "Mark the case INCOMPLETE, preserve the failure/status/counters, stop the remaining serial sequence, and request review. Do not retry, increase a limit, switch backend, drop tasks or use a partial round.",
+    "failure_conditions": [
+      "input, source, hash, model-version, schema, candidate, cost, priority or task-count mismatch",
+      "timeout, memory cap, max_evaluations cap or PESS subset cap",
+      "exception, missing or duplicated task, missing coefficient, nonfinite or uncertified objective",
+      "heuristic_incomplete, interrupted greedy round or absent complete response",
+      "cross-objective exact re-evaluation cannot be completed or certified"
+    ],
+    "cross_evaluation_failure": "Mark the dataset/budget contrast INCONCLUSIVE, record the failing evaluation, and stop remaining dependent runs; never substitute a partial value."
+  },
+  "result_record_format": {
+    "encoding": "UTF-8 JSON Lines; exact Fractions use canonical strings such as 0, 3 or -2/7",
+    "case_record_schema": "ess-issue87-greedy-case-v1; one record for each dataset/objective/budget",
+    "case_field_types_and_semantics": {
+      "case_id": "string: <dataset>-<objective>-b<budget>",
+      "dataset": "enum: forest10 | census13",
+      "model_version": "string from the frozen input pin",
+      "objective": "enum: nominal | pess",
+      "budget": "integer",
+      "task_count": "integer; exactly 10000 for a future complete case",
+      "candidate_count": "integer; exactly 45 or 78 for a future complete case",
+      "candidate_order_sha256": "64-character lowercase hexadecimal string",
+      "nominal_priority_order_sha256": "64-character lowercase hexadecimal string for Nominal; null for PESS",
+      "status": "enum: COMPLETE | INCOMPLETE",
+      "termination_reason": "string from the pinned Advisor response, or failure identifier",
+      "selected_ids": "sorted string array for COMPLETE; null for INCOMPLETE",
+      "last_completed_prefix": "string array for audit only; never treated as the selected policy after an incomplete round",
+      "addition_order": "string array from the complete greedy result; null for INCOMPLETE",
+      "objective_fraction": "canonical exact Fraction string or null",
+      "objective_trace": "ordered array of {candidate_id, objective_before_fraction, objective_after_fraction, improvement_fraction}",
+      "budget_used": "canonical exact Fraction string",
+      "budget_unused": "canonical exact Fraction string",
+      "outer_global_optimum_claim": "boolean; always false",
+      "resource_overlap": "object with the four integer fields defined below",
+      "wall_seconds": "nonnegative number measured around the case process",
+      "peak_rss_bytes": "nonnegative integer measured by the outer process monitor",
+      "resource_limits": "object containing the configured and effective time, memory, process and work caps",
+      "work_counters": "object with integer candidate/evaluation/matching counts",
+      "input_hashes": "object mapping pinned source paths and model artifacts to SHA-256 strings",
+      "advisor_source_commit": "40-character commit SHA; must equal the protocol pin",
+      "research_adapter_source_sha256": "64-character lowercase hexadecimal string; must equal the protocol pin",
+      "issue87_run_source_commit": "40-character research checkout HEAD used to build the request",
+      "request_sha256": "64-character lowercase hexadecimal SHA-256 of the exact UTF-8 schema-v1 request bytes sent to the pinned CLI, including any trailing newline",
+      "response_sha256": "64-character lowercase hexadecimal SHA-256 of the exact UTF-8 Advisor response bytes captured from the pinned CLI, including any trailing newline"
+    },
+    "case_record_required_fields": [
+      "schema_version", "case_id", "dataset", "model_version", "objective", "backend", "budget",
+      "task_count", "candidate_count", "candidate_order_sha256", "nominal_priority_order_sha256",
+      "status", "termination_reason", "selected_ids", "last_completed_prefix", "addition_order",
+      "objective_fraction", "objective_trace", "budget_used", "budget_unused", "outer_global_optimum_claim",
+      "resource_overlap", "wall_seconds", "peak_rss_bytes", "resource_limits", "work_counters",
+      "input_hashes", "advisor_source_commit", "research_adapter_source_sha256", "issue87_run_source_commit", "request_sha256", "response_sha256"
+    ],
+    "case_status": "COMPLETE only for heuristic_completed with a complete exact response; otherwise INCOMPLETE. On INCOMPLETE, selected_ids is null and any prefix is audit-only.",
+    "resource_overlap_fields": {
+      "global_overlapping_endpoint_count": "number of distinct endpoints incident to at least two selected resources",
+      "global_overlapping_resource_pair_count": "number of unordered selected-resource pairs sharing an endpoint",
+      "task_applicable_overlap_incidence_count": "sum over tasks of endpoints incident to at least two selected resources that are eligible for that task",
+      "tasks_with_task_applicable_overlap": "number of tasks with at least one such endpoint"
+    },
+    "work_counters": [
+      "candidate_attempts", "fixed_set_evaluation_calls", "completed_fixed_set_evaluations",
+      "matching_subsets_examined", "maximal_matchings_scored"
+    ],
+    "contrast_record_schema": "ess-issue87-greedy-contrast-v1; one record per dataset/budget after Nominal, PESS and all four exact fixed-set evaluations are complete",
+    "contrast_field_types_and_semantics": {
+      "status": "enum: COMPLETE | INCOMPLETE_OR_CENSORED",
+      "nominal_selected_ids": "sorted string array or null if Nominal was incomplete",
+      "pess_selected_ids": "sorted string array or null if PESS was incomplete",
+      "same_set": "boolean or null if either case was incomplete",
+      "nominal_selected_count": "integer or null if Nominal was incomplete",
+      "pess_selected_count": "integer or null if PESS was incomplete",
+      "nominal_budget_used_fraction": "canonical exact Fraction string or null if Nominal was incomplete",
+      "pess_budget_used_fraction": "canonical exact Fraction string or null if PESS was incomplete",
+      "nominal_vs_pess_resource_count_relation": "enum: more | equal | fewer | null",
+      "nominal_vs_pess_proxy_budget_use_relation": "enum: more | equal | fewer | null",
+      "*_fraction": "canonical exact Fraction string or null when the relevant evaluation was incomplete",
+      "pess_gap_nominal_minus_pess_incumbent_fraction": "PESS(Nominal set) - PESS(PESS greedy set), exact Fraction; not global regret",
+      "classification": "one value from contrast_classification",
+      "cross_evaluation_work": "object with exact fixed-set call, matching-subset, maximal-matching and wall-time counts",
+      "failure_reason": "null for COMPLETE; concrete failure/censoring reason otherwise"
+    },
+    "contrast_record_required_fields": [
+      "schema_version", "contrast_id", "dataset", "model_version", "budget", "status",
+      "nominal_selected_ids", "pess_selected_ids", "same_set", "nominal_selected_count", "pess_selected_count",
+      "nominal_budget_used_fraction", "pess_budget_used_fraction", "nominal_vs_pess_resource_count_relation",
+      "nominal_vs_pess_proxy_budget_use_relation", "nominal_objective_on_nominal_set_fraction",
+      "nominal_objective_on_pess_set_fraction", "pess_objective_on_nominal_set_fraction",
+      "pess_objective_on_pess_set_fraction", "pess_gap_nominal_minus_pess_incumbent_fraction",
+      "classification", "cross_evaluation_work", "failure_reason"
+    ],
+    "contrast_classification": [
+      "same_set",
+      "different_set_equal_pess_objective",
+      "different_set_positive_pess_regret_vs_pess_heuristic_incumbent",
+      "different_set_negative_pess_gap_vs_pess_heuristic_incumbent",
+      "incomplete_or_censored"
+    ],
+    "retention": "Keep one authoritative protocol/config, compact case and contrast JSONL records after separately authorized execution, the analysis code and one concise findings/limitations report. Do not copy source datasets or create duplicate summary artifacts."
+  },
+  "historical_reference": {
+    "use": "The archived exact B=0/2/3 selections and objectives are a future input/model sanity reference only. Greedy is heuristic and need not reproduce exact globally optimal sets.",
+    "forest10_selection_sha256": "10bcf1f6026aa4de025cbef360c8302aafb2f082d49138c4c5da2d1331f4c798",
+    "census13_selection_sha256": "7c4e0abeaff84a147c80a77a6d854df12950600cf2139a4fc661c21e140ff7a7"
+  },
+  "execution_gate": {
+    "this_protocol_pr_may_solve_full_valid_workloads": false,
+    "required_before_any_full_valid_solver_call": [
+      "independent review and merge of this protocol PR",
+      "a separate explicit researcher execution decision",
+      "a reviewed run entrypoint that checks the exact protocol/input/backend pins and resource controls",
+      "verification that the runtime adapter, all 10000 tasks, complete candidate universe, model hashes and unit costs match this config"
+    ]
+  }
+}
