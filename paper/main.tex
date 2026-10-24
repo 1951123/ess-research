@@ -5,14 +5,26 @@
 \usepackage{pvldb}
 %%% VLDB block end %%%
 
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
 \renewcommand\vldbdoi{XX.XX/XXX.XX}
 \renewcommand\vldbpages{XXX--XXX}
 \renewcommand\vldbavailabilityurl{}
 
 \newcommand{\E}{\mathcal{E}}
+\newcommand{\Nom}{\mathsf{Nom}}
+\newcommand{\Joint}{\mathsf{Joint}}
+\newcommand{\Pess}{\mathsf{PESS}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
 
 \begin{document}
-\title{Budgeted Pessimistic Extended-Statistics Selection under Maintenance Constraints}
+\title{Budgeted Statistics Selection with Prescribed Scheme Admissibility and Partial Policy Information}
 
 \author{Anonymous Author(s)}
 \affiliation{%
@@ -22,7 +34,26 @@
 }
 
 \begin{abstract}
-Placeholder abstract for the problem-formulation manuscript.
+An advisor chooses one global, unordered set of estimation resources, while
+the estimator selects a complete scheme for each task. We ask when an advisor
+can make budgeted decisions knowing or prescribing the nonempty family of
+admissible complete schemes, but lacking a sufficiently predictable
+selection policy. Admissibility does not determine the estimate or loss of
+each counterfactual scheme: these require an estimator oracle, measurements,
+or an explicit approximation. We distinguish a known nominal policy, one
+unknown shared policy, and a task-wise pessimistic risk criterion, retaining
+an arbitrary nonadditive maintenance function. For a restricted PostgreSQL
+16.14 setting with eligible built two-column most-common-value statistics,
+we instantiate admissible schemes as maximal matchings under stated source
+and fixture conditions. In the frozen rationalized Forest10 model, exact
+Nominal and PESS optima separate at budget three, and this model-level
+separation survives restriction to candidates with effective MCV payloads.
+The displayed PESS deployment had one effective MCV payload versus three
+for Nominal; their held-out error difference is descriptive and cannot
+identify a policy effect. Larger Forest10 and Census13 valid-only models
+have coincident Nominal and PESS optima at the tested budgets. These results
+do not establish physical policy regret, real-scheme coverage,
+maintenance-cost additivity, or improved query performance.
 \end{abstract}
 
 \maketitle
@@ -32,313 +63,1331 @@ Placeholder abstract for the problem-formulation manuscript.
 \vldbtopmatter
 %%% VLDB block end %%%
 
-\section{Problem Formulation}
+\section{Introduction}
 
-\subsection{Cardinality-Estimation Tasks and Resources}
+When can knowledge of admissible complete estimation schemes, without
+knowledge of the estimator's actual scheme-selection policy, support useful
+budgeted resource decisions? This question concerns a boundary between an
+advisor that chooses resources and an estimator that uses them. It requires
+separating the admissibility of a scheme from both the policy that selects a
+scheme and the estimate produced by that scheme.
 
-Let $\mathcal I$ be a finite collection of cardinality-estimation tasks.
-Task $i\in\mathcal I$ identifies a specified relational cardinality target
-and its estimation context.  It may describe a selection, a join result, a
-logical intermediate result, or another explicitly defined relational
-expression.  A task is not necessarily an entire SQL query or a physical
-execution-plan node.  Its true cardinality is $N_i\geq 0$, its positive
-reference target is
-\[
-  T_i=\max\{1,N_i\},
-\]
-and its workload weight is $w_i>0$.
+These are distinct stages in a database setting. First, the advisor requests
+an unordered set $M$ of candidate statistics. A requested object may be
+created in the catalog, yet have no usable most-common-value (MCV) payload
+after \texttt{ANALYZE}. Among payload-bearing objects, task predicates and
+other eligibility rules determine which complete schemes are admissible; the
+estimator's internal policy then selects one such scheme. Only after that
+selection does the estimator produce a cardinality and a loss. PostgreSQL
+documentation itself distinguishes creating an extended-statistics catalog
+entry from collecting its data during \texttt{ANALYZE}
+\cite{pgstatsdocs16}. Thus availability, payload, eligibility, selection,
+and numerical outcome are not interchangeable. In the frozen Forest10
+calibration, for example, requested $e_{01}$ had no built MCV payload, while
+$e_{12},e_{23},e_{34}$ each had 300 MCV items \cite{issue23_forest10}.
 
-Let $\E$ be a finite universe of candidate estimation resources.  The
-advisor chooses one global, unordered resource set $M\subseteq\E$ shared by
-all tasks.  No restriction on resource arity, representation, or internal
-implementation is imposed at this level.  The only resource constraint is a
-maintenance budget.  Let
-\[
-  \operatorname{Maint}:2^{\E}\longrightarrow\mathbb R_{\geq 0}
-\]
-be the additional maintenance cost relative to the baseline database
-maintenance process, normalized by
-$\operatorname{Maint}(\varnothing)=0$.  More generally, it may depend on
-fixed external conditions $\xi$, written
-$\operatorname{Maint}(M;\xi)$, including the database state, data-modification
-workload, refresh policy, evaluation horizon, and accounting convention.  We
-abbreviate the fixed-instance function to $\operatorname{Maint}(M)$ and
-require
-\[
-  \operatorname{Maint}(M)\leq B,\qquad B\geq 0.
-\]
-The function is not assumed to be additive, monotone, submodular, or
-determined by per-resource coefficients.
+For a path with candidate MCV edges $ab$, $bc$, and $cd$, if all three have
+usable payloads and satisfy the restricted eligibility conditions, the
+complete maximal matchings are $\{ab,cd\}$ and $\{bc\}$. A greedy selector
+that continues until no eligible edge remains selects one of them according
+to its priority rule. A PostgreSQL 16.14 trace fixture observed both outcomes
+under two object orders \cite{pgtrace2026,pgsource1614}; this supports only
+the restricted instance, not arbitrary queries or all outcomes in one fixed
+catalog.
 
-\subsection{Admissible Schemes and Estimation Models}
+The advisor may know or defensibly approximate the rules defining a
+nonempty family $\Gamma_i(M)$ of complete admissible schemes without knowing
+the policy $\theta$ that selects among them. These are separate information
+questions: a deterministic policy may be outside the advisor's control but
+still known and predictable, in which case Nominal is justified; an unknown
+policy shared across tasks motivates Joint-Robust; and when only task-wise
+admissibility is trusted, PESS is a conservative risk criterion. PESS does
+not assert that PostgreSQL acts adversarially or that the task-wise worst
+choices can occur under one shared policy. A known distribution could instead
+motivate expected loss.
 
-For each task $i$, let $\Omega_i$ be a finite universe of complete
-estimation schemes.  A scheme $\sigma\in\Omega_i$ contains all information
-needed to determine how the target is estimated; depending on the underlying
-system, it may encode selected resources, application order, predicate
-coverage, estimator-specific choices, and context.  Define the resources it
-requires by
-\[
-  \operatorname{used}(\sigma)\subseteq\E.
-\]
-The abstract admissibility interface is
-\[
-  \Gamma_i:2^{\E}\longrightarrow
-  2^{\Omega_i}\setminus\{\varnothing\},
-\]
-with the consistency condition
-\[
-  \sigma\in\Gamma_i(M)
-  \;\Longrightarrow\;
-  \operatorname{used}(\sigma)\subseteq M.
-\]
-We require directly that
-\[
-  \forall i\in\mathcal I,\;\forall M\subseteq\E:
-  \qquad \Gamma_i(M)\neq\varnothing.
-\]
-A baseline scheme $\sigma_i^{\varnothing}\in\Gamma_i(\varnothing)$ is
-available at $M=\varnothing$, but it need not remain admissible for nonempty
-created sets.  No monotonicity is imposed: creating additional resources need not imply
-$\Gamma_i(M_1)\subseteq\Gamma_i(M_2)$ when
-$M_1\subseteq M_2$.  Thus, resources created by the advisor and resources
-actually used by an admissible scheme are distinct concepts.  Schemes are
-not required to be sets, matchings, sequences, or execution plans.
+Knowing $\Gamma_i(M)$ alone does not reveal the estimate or loss of every
+counterfactual scheme. An executable optimization instance also needs
+scheme-wise losses, supplied by an estimator oracle, measurements, or an
+explicit approximation. Our generic formulation states this input
+requirement; the frozen numerical instance multiplies measured singleton
+corrections over an admissible matching. The archived composition check does
+not establish fidelity for these matching-conditioned counterfactual losses.
+The generic model retains an arbitrary nonnegative task loss and a
+nonadditive maintenance function.
 
-Separately, let the black-box estimator be
+We make four bounded contributions. First, we define one global unordered
+resource decision, distinguish prescribed families $\Gamma_i(M)$ from
+reachable schemes $\mathcal R_i(M)$, and state the policy information
+required by Nominal, Joint-Robust, and PESS.
+Second, we instantiate $\Gamma_i(M)$ as maximal matchings for a restricted
+PostgreSQL 16.14 pairwise-MCV path and report source-derived and fixture-level
+evidence for that correspondence. Third, we give model-internal decision
+comparisons: a conflict-free singleton-family condition is an elementary
+sufficient certificate for coincident optima, and the frozen six-task
+decision separation persists when the candidate universe is restricted to
+the three resources with effective MCV payloads. Fourth, we report both
+policy-sensitive and policy-insensitive frozen model cases alongside
+separately scoped physical observations. These claims have stated evidence
+boundaries: conflict alone does not determine policy sensitivity, and PESS
+is not shown to improve PostgreSQL outcomes.
+
+Our falsifiable evidence claim is that policy information can change the
+model-selected resource set in some frozen inputs but not others: the exact
+six-task Forest10 instance separates Nominal and PESS at $B=3$, including
+after restriction to effective-MCV candidates, while the larger Forest10 and
+Census13 valid-only models have coincident optima for tested $B\leq3$.
+These are model-level comparisons, not a claim that physical policy effects
+were measured. In the held-out six-task comparison, the displayed PESS set
+$\{e_{01},e_{34}\}$ had only $e_{34}$ with an effective payload, versus
+three payloads for the Nominal set; its $+0.024223$ mean pre-clamp loss
+difference over 60 query IDs and two repetitions is descriptive, not causal.
+The 47.49\% and 46.27\% rates count raw complete candidate graphs with at
+least two maximal matchings, not PostgreSQL catalogs with multiple built and
+eligible statistics. Strict syntax-eligible cohorts contain 135 and 58 of
+10,000 queries; their intersections with raw conflicts and realized
+PostgreSQL ambiguity are unknown \cite{issue38_heldout,issue59_structure,
+issue64_forest10,issue71_census13}.
+
+The paper's main empirical question is when policy knowledge changes the
+selected resource set, conditional on defensible schemes and loss estimates. Prior work already covers automatic statistics selection,
+statistics composition, robust query optimization, and decision-dependent
+uncertainty; we do not claim a new generic robust-optimization framework or
+a first statistics advisor. Whether the specific database coupling here is
+sufficiently distinctive for a regular research paper remains unresolved.
+The remaining sections define the interfaces and information regimes,
+present the restricted PostgreSQL instance and model analysis, and separate
+frozen model results from PostgreSQL observations.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners,align=center,minimum height=9mm,
+              minimum width=31mm,font=\small},
+  arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[box] (universe) {Candidate resources\\$\E$};
+\node[box,right=13mm of universe] (advisor) {Advisor chooses\\unordered $M\subseteq\E$};
+\node[box,right=13mm of advisor] (scheme) {Task $i$ chooses\\$\sigma_i\in\Gamma_i(M)$};
+\node[box,right=13mm of scheme] (loss) {Estimate and loss\\$\operatorname{Est}_i(\sigma_i),\ell_i(\sigma_i)$};
+\draw[arr] (universe) -- (advisor);
+\draw[arr] (advisor) -- (scheme);
+\draw[arr] (scheme) -- (loss);
+\node[font=\small,below=5mm of scheme,align=center] (policy)
+  {The prescribed family $\Gamma_i(M)$ models policy uncertainty;\\
+   it is not automatically the real set $\mathcal R_i(M)$.};
+\draw[dashed,->] (advisor.south) -- (policy.north);
+\end{tikzpicture}
+\caption{The advisor controls one global created set. The estimator's
+task-level scheme choice is modeled separately, and the prescribed
+admissibility family is not asserted to equal the real DBMS behavior.}
+\Description{A left-to-right flow from the candidate resource universe to the
+advisor's unordered created set, then to a task's admissible scheme and its
+estimate and loss. A note says the prescribed family need not equal the real
+DBMS scheme set.}
+\label{fig:decision-boundary}
+\end{figure*}
+
+\section{Related Work}
+
+Automatic statistics management is the closest resource-selection precedent.
+Chaudhuri and Narasayya select essential base-table statistics according to
+workload and the behavior of a specified optimizer
+\cite{chaudhuri_narasayya_2000}. Bruno and Chaudhuri's SIGMOD 2002 work is
+closer still: it selects a space-bounded subset of statistics on query
+expressions, using extreme hypothetical selectivities and optimizer plans to
+estimate which statistics matter \cite{bruno_chaudhuri_2002}. In both cases
+the advisor controls which statistics are created, while a concrete optimizer
+determines how the resulting information affects estimates and plans.
+Statistics availability changes the optimizer's possible inputs and plan
+responses, but these papers do not model an externally unknown policy over a
+resource-dependent family of complete estimation schemes. Thus ESS cannot
+claim novelty for resource selection under estimated benefits or hypothetical
+estimation scenarios; its proposed distinction is the explicit information
+boundary between a prescribed scheme family and a possibly unknown selector.
+
+Bruno and Chaudhuri's SIGMOD 2004 work directly studies the estimator-use
+layer: a dynamic program reasons over conditional selectivities to find an
+accurate estimate from available query-expression statistics
+\cite{bruno_chaudhuri_2004}. MAXENT is an even closer semantic predecessor
+to the observation that partial multivariate statistics may admit
+non-equivalent estimation methods; it chooses a consistent maximum-entropy
+model for using that information \cite{markl_et_al_2006}. Both make
+estimator-side combination explicit and resource availability affects the
+combinations or constraints available to their estimator. Their estimator
+choice is designed as part of the method, however, whereas ESS leaves the
+internal selection policy outside the advisor and asks how resource decisions
+depend on what that advisor knows about admissible schemes. This distinction
+does not make the existence of multiple estimates or combinations a new
+contribution.
+
+Robust query optimization and physical design address other decision layers.
+Babcock and Chaudhuri use Bayesian cardinality estimates from samples to
+trade query-plan performance against predictability
+\cite{babcock_chaudhuri_2005}. El Gebaly and Aboulnaga choose physical
+designs while accounting for estimated-benefit errors and workload changes;
+their PostgreSQL implementation evaluates risk and generality of designs
+\cite{elgebaly_aboulnaga_2008}. These works control plans or physical
+structures and model uncertain cardinalities, costs, or workloads, rather
+than uncertainty over complete estimator schemes induced by an advisor's
+statistics set. Nohadani and Sharma formalize robust optimization with
+decision-dependent uncertainty sets and study complexity and reformulations
+\cite{nohadani_sharma_2018}. ESS uses that established mathematical setting
+as context; neither decision-dependent uncertainty nor generic min--max
+optimization is claimed as new here.
+
+AutoCE is a useful recent advisor comparator. It chooses a learned
+cardinality-estimator model for a dataset using a learned recommendation
+model and integrates that advisor into PostgreSQL
+\cite{autoce_icde2023}. In AutoCE, the advisor chooses the estimator model;
+ESS instead chooses statistics resources while a separate estimator may
+select a scheme from those resources. EDB's Statistics Advisor is a practical
+PostgreSQL-facing resource-selection system: it monitors multi-column
+filters, considers extended-statistics candidates, and weights candidates
+using workload benefit and execution cost \cite{edb_statistics_advisor}.
+PostgreSQL's documentation also distinguishes a statistics object's
+catalog-level creation from data collection by \texttt{ANALYZE}
+\cite{pgstatsdocs16}. These systems establish that statistics advising and
+the requested-versus-built distinction are practical concerns; their
+documentation does not specify the scheme-family and policy-uncertainty
+model used here.
+
+Table~\ref{tab:related} summarizes, for each closest comparator, who controls
+the resource or estimator choice, the uncertain quantity, whether resource
+changes alter modeled outcomes, and the limited distinction ESS examines.
+Together, these works substantially narrow the novelty claim. The present
+manuscript contributes no new generic robust-optimization framework,
+estimator-combination algorithm, or statistics advisor. It formulates one
+specific external-advisor problem and reports finite model evidence under
+stated scheme and loss inputs. Whether that coupling is sufficiently
+distinctive for a regular research paper remains open.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Claim-level comparison with representative prior work.}
+\label{tab:related}
+\begin{tabularx}{\textwidth}{p{2.4cm}p{3.0cm}p{4.4cm}X}
+\toprule
+Work & Decision owner & Uncertain quantity and resource-dependent outcomes
+& ESS distinction\\
+\midrule
+Statistics management
+\cite{chaudhuri_narasayya_2000}
+& Advisor selects statistics; fixed optimizer uses them.
+& Workload/data-dependent utility and optimizer responses; no explicit hidden scheme policy.
+& ESS makes the admissible complete-scheme family and policy information explicit.\\
+Expression statistics
+\cite{bruno_chaudhuri_2002}
+& Advisor selects a space-bounded SIT subset; modified optimizer uses it.
+& Extreme hypothetical selectivities approximate plan responses; added SITs change available information and plans.
+& Similar resource decision; ESS models uncertain internal scheme choice instead of assuming the optimizer's selection mechanism.\\
+Conditional selectivity
+\cite{bruno_chaudhuri_2004}
+& Estimator-side dynamic program chooses how available SITs contribute to an estimate.
+& Resource presence changes conditional-selectivity combinations; the proposed estimator fixes how to evaluate them.
+& ESS leaves scheme selection external to the resource advisor and compares policy-information regimes.\\
+MAXENT
+\cite{markl_et_al_2006}
+& Estimator selects a consistent maximum-entropy model from partial multivariate statistics.
+& Partial joint information admits multiple estimation methods; available statistics constrain the model.
+& ESS studies resource selection under a possibly unknown choice among prescribed complete schemes.\\
+Robust query optimization
+\cite{babcock_chaudhuri_2005}
+& A Bayesian estimation method and the optimizer trade cardinality predictability against plan performance.
+& Cardinalities and resulting plan costs are uncertain; no advisor-selected statistics family.
+& Different decision layer: plan robustness versus ex-ante statistics selection.\\
+Robust physical design
+\cite{elgebaly_aboulnaga_2008}
+& Design advisor selects indexes/physical structures.
+& Estimated design benefits and production workload may differ; designs affect plans.
+& Risk-aware advice is prior art, but uncertainty is cost/workload based rather than complete estimator schemes.\\
+Decision-dependent uncertainty
+\cite{nohadani_sharma_2018}
+& Generic binary design decision changes an uncertainty set.
+& Set bounds depend on the decision; application outcomes depend on the chosen set.
+& ESS is a database-specific instance, not a new DDU formulation or solver.\\
+AutoCE
+\cite{autoce_icde2023}
+& Model advisor selects a learned CE model for each dataset.
+& Model suitability/performance varies by dataset; advisor recommends which estimator model runs.
+& AutoCE chooses the estimator; ESS chooses statistics while modeling a separate estimator's scheme choice.\\
+Practical PostgreSQL advising
+\cite{edb_statistics_advisor,pgstatsdocs16}
+& EDB advisor recommends extended statistics; PostgreSQL builds payloads during ANALYZE.
+& Candidate usefulness and whether requested objects yield collected data; docs do not specify an uncertain complete-scheme family.
+& Provides a practical comparator and motivates separating request, payload, eligibility, selection, and loss.\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\section{Model}
+
+\subsection{Resources, Tasks, and Admissible Schemes}
+
+Let $\mathcal I$ be a finite set of estimation tasks. Task $i$ has true
+cardinality $N_i\geq 0$, reference target
+$T_i=\max\{1,N_i\}$, and weight $w_i>0$. A task identifies the cardinality
+target and its estimation context; it need not be an entire SQL query or a
+physical plan node. Let $\E$ be a finite set of candidate estimation
+resources. The advisor chooses one global, unordered resource set
+$M\subseteq\E$, subject to a maintenance budget.
+
+The generic maintenance function
 \[
-  \operatorname{Est}_i:\Omega_i\longrightarrow\mathbb R_{>0}.
+  \operatorname{Maint}:2^\E\longrightarrow\mathbb R_{\geq0},
+  \qquad \operatorname{Maint}(\varnothing)=0
 \]
-It returns the estimated cardinality of task $i$ under scheme $\sigma$.
-The generic formulation imposes no algebraic structure on this function:
-there is no assumption of multiplicative separability, statistical
-independence, additive resource effects, or database-specific output
-conversion.  Admissibility determines which schemes may occur, whereas
-$\operatorname{Est}_i$ determines the estimate produced by each scheme.
-Finally, let $\ell_i:\Omega_i\to\mathbb R_{\geq0}$ be a task-specific loss.
-The principal illustrative choice is absolute logarithmic error,
+is the additional maintenance cost relative to the baseline database
+maintenance process. It may depend on fixed conditions $\xi$, such as
+database state, data-modification workload, refresh policy, evaluation
+horizon, and accounting convention. We write
+$\operatorname{Maint}(M;\xi)$ when exposing those conditions and abbreviate
+it as $\operatorname{Maint}(M)$ for a fixed instance. We require
+$\operatorname{Maint}(M)\leq B$ for $B\geq0$. No additivity, monotonicity, or
+submodularity is assumed.
+
+For each task, let $\Omega_i$ be a finite universe of complete estimation
+schemes. A scheme contains enough information to determine the estimate and
+has a resource-use set $\operatorname{used}(\sigma)\subseteq\E$. The
+scheme may encode selected resources, order, predicate coverage, and
+estimator-specific context; it need not itself be a set or a plan. The
+prescribed admissibility map is
+\[
+  \Gamma_i:2^\E\to 2^{\Omega_i}\setminus\{\varnothing\},
+  \qquad
+  \sigma\in\Gamma_i(M)\Longrightarrow\operatorname{used}(\sigma)\subseteq M.
+\]
+We require $\Gamma_i(M)\ne\varnothing$ for every task and created set.
+There is a baseline scheme in $\Gamma_i(\varnothing)$, but it need not remain
+admissible after resources are added. In particular, $\Gamma_i$ need not be
+nested. The estimator is a positive-valued map
+$\operatorname{Est}_i:\Omega_i\to\mathbb R_{>0}$ and the task loss is any
+nonnegative map $\ell_i:\Omega_i\to\mathbb R_{\geq0}$. Our leading
+illustration is absolute log error,
 \[
   \ell_i(\sigma)=
   \left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
 \]
+This expression is defined because $T_i\geq1$ and the modeled estimate is
+positive. It is a pre-clamp convention; it does not identify PostgreSQL
+\texttt{Plan Rows} with the raw estimator value.
 
-\subsection{General Pessimistic Selection}
+The maps $\Gamma_i$, $\operatorname{Est}_i$, and $\ell_i$ are distinct
+inputs to the optimization problem. An implementation must be able to
+evaluate or query $\Gamma_i(M)$ for the resource sets it considers and must
+obtain a loss for every admissible counterfactual scheme, or provide an
+oracle that computes the required maxima. The admissibility rules can be
+known or defensibly approximated without revealing the selector's policy;
+that knowledge alone does not reveal an estimate for a scheme that has not
+been measured or evaluated. Such losses therefore require an estimator
+oracle, measurements, or an explicitly stated approximation. The finite
+Forest10 model uses measured single-object corrections and an assumed
+multiplicative composition rule. The archived overlap residuals show that
+this rule is not a PostgreSQL identity, so the model optima are exact only
+for the stored rationalized inputs, not for every physical counterfactual
+estimate.
 
-The estimator-agnostic budgeted pessimistic selection problem is
+
+The generic estimator map has no assumed additive or multiplicative
+structure across resources. Nor does the scheme universe have to consist of
+resource subsets: a complete scheme may carry order, fallback, or estimator
+state that affects the output even when its selected resource set is the
+same. The resource-use consistency condition only says that a scheme cannot
+use an uncreated candidate; it does not say that every created candidate is
+used or that two schemes with the same used set have the same estimate.
+
+For comparison, let $\mathcal R_i(M)$ denote the set of complete schemes the
+deployed system can actually produce under the evaluation conditions. This
+real set is an empirical or source-dependent object, not part of the generic
+input unless an application supplies it. The formulation requires no
+containment between $\mathcal R_i(M)$ and $\Gamma_i(M)$. If every real
+outcome is represented by a scheme in $\Gamma_i(M)$ and the same loss is
+used, the model's task-wise maximum upper-bounds the real worst-case loss.
+Without that inclusion and aligned measurements, PESS is a model objective;
+it is not a database guarantee. Equality would be a stronger claim still.
+
+If each SQL query contributes exactly one task, the task set is
+query-indexed. A query may instead contribute several logical
+cardinality-estimation tasks. A task specifies the target cardinality, a
+scheme specifies how available resources and estimator choices produce
+that target, and a physical plan specifies execution; these objects are
+distinct.
+
+The pessimistic selection problem is
 \[
-\boxed{\begin{aligned}
-  \operatorname*{minimize}_{M\subseteq\E}\quad
-    &\sum_{i\in\mathcal I}w_i
-      \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma)\\
-  \text{subject to}\quad
-    &\operatorname{Maint}(M)\leq B.
-\end{aligned}}
-\]
-The decision is the created resource set $M$; the adversarial choice ranges
-only over admissible schemes, and the estimator and loss evaluate those
-schemes.  The individual task maxima are taken independently, so the model
-need not correspond to one globally consistent adversarial policy.  In
-particular, selecting more resources is not assumed to improve the objective
-monotonically.  The objective concerns cardinality-estimation accuracy, not
-physical plan selection or query execution time.
-
-For a nonempty family of actual policies $\Theta$ that produces schemes
-$\sigma_i(M;\theta)$ satisfying
-$\sigma_i(M;\theta)\in\Gamma_i(M)$ for every relevant $i$, $M$, and
-$\theta$, then, for the same loss model,
-\[
-  \max_{\theta\in\Theta}\sum_{i\in\mathcal I}w_i
-    \ell_i\bigl(\sigma_i(M;\theta)\bigr)
-  \leq
-  \sum_{i\in\mathcal I}w_i
+\boxed{
+\begin{aligned}
+  \min_{M\subseteq\E:\operatorname{Maint}(M)\leq B}\quad
+    &F_{\Pess}(M),\\
+  F_{\Pess}(M)&=
+    \sum_{i\in\mathcal I}w_i
     \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma).
+\end{aligned}
+}
+\tag{1}
 \]
-This conditional inequality may be strict when policy choices are coupled
-across tasks; it is not an unconditional guarantee about any particular
-database system.  If each SQL query contributes exactly one task, then
-$\mathcal I$ is equivalent to a query-indexed workload.  A query may instead
-contribute several logical cardinality tasks.  Such a task specifies what is
-estimated, an estimation scheme specifies how resources and estimator
-decisions are used, and a physical plan specifies how execution proceeds;
-these are distinct objects.
+The sum of task-wise maxima need not be attained by one shared policy.
+Also, if $\mathcal R_i(M)$ denotes the real set of schemes the DBMS can
+produce, no relation between $\mathcal R_i(M)$ and $\Gamma_i(M)$ is implicit.
+PESS bounds a real worst-case loss only under an appropriate containment
+$\mathcal R_i(M)\subseteq\Gamma_i(M)$ and aligned estimator/loss assumptions.
 
-\subsection{Pairwise PostgreSQL MCV Instantiation}
+\subsection{Three Information Regimes}
 
-We now specialize the abstract problem to the controlled single-table
-conjunctive cardinality-estimation tasks considered in this study.  This
-specialization is restricted to two-column PostgreSQL MCV statistics and
-does not define the generic problem.
-
-\paragraph{Pairwise admissibility.}
-Each candidate $e$ covers an attribute set $A_e$ with
-$|A_e|=2$.  For task $i$, let $\E_i\subseteq\E$ contain the candidates that
-are structurally eligible from their statistic kind, covered columns, and
-predicate operators.  These candidates form the edge-labeled multigraph
+Suppose a policy parameter $\theta$ induces a complete scheme
+$\sigma_i(M;\theta)\in\Gamma_i(M)$ for each task and created set. Let
+$\Theta$ be a finite nonempty family of globally shared policies, and let
+$\theta_0\in\Theta$ be a known nominal policy. For the same losses and budget
+define
 \[
-  H_i=(V_i,\E_i),\qquad
-  V_i=\bigcup_{e\in\E_i}A_e.
+\begin{aligned}
+F_{\Nom}(M)&=\sum_i w_i\ell_i(\sigma_i(M;\theta_0)),\\
+F_{\Joint}(M)&=\max_{\theta\in\Theta}
+  \sum_i w_i\ell_i(\sigma_i(M;\theta)),\\
+F_{\Pess}(M)&=\sum_i w_i\max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma).
+\end{aligned}
+\tag{2}
 \]
-Every edge retains its candidate identity; distinct statistics with the same
-endpoints are parallel edges.  For a created set $M$, $H_i[M]$ contains the
-eligible edges in $M\cap\E_i$.
+Nominal uses a policy mapping that is sufficiently known and credible for
+the advisor's counterfactual resource sets. A policy may be deterministic and
+outside the advisor's control yet still be known; lack of control alone does
+not justify uncertainty. Joint assumes one unknown policy parameter is shared
+across tasks, with a specified candidate family $\Theta$. PESS assumes only
+the task-specific admissibility families are justified and applies
+independent task-wise maxima. It is a conservative risk criterion, not a
+claim that a DBMS behaves adversarially or that all task maxima are jointly
+realizable. If a choice distribution is known and expected quality is the
+target, an expectation-based criterion may be preferable. Whenever every policy outcome lies in $\Gamma_i(M)$ and
+$\theta_0\in\Theta$, the fixed-set hierarchy
+$F_{\Nom}(M)\leq F_{\Joint}(M)\leq F_{\Pess}(M)$ follows. It compares the
+same set and modeled estimator, not the separately optimized sets under
+actual PostgreSQL outcomes.
 
-The concrete scheme universe and resource-use mapping are
-\[
-  \Omega_i^{\mathrm{MM}}=\operatorname{Matchings}(H_i),
-  \qquad \operatorname{used}(P)=P,
-\]
-where the matching universe includes the empty matching.  For a created set
-$M$, the concrete admissibility rule is
-\[
-  \boxed{\Gamma_i^{\mathrm{MM}}(M)=
-    \operatorname{MaximalMatchings}(H_i[M]).}
-\]
-Every maximal matching of $H_i[M]$ is a matching of the full graph, so
-$\Gamma_i^{\mathrm{MM}}(M)\subseteq\Omega_i^{\mathrm{MM}}$; moreover,
-$P\in\Gamma_i^{\mathrm{MM}}(M)$ implies
-$\operatorname{used}(P)=P\subseteq M$.  Finite graphs always have a maximal
-matching, including the unique empty matching of an edgeless graph, so this
-rule satisfies the generic nonemptiness requirement.
+The three quantities encode different information available at decision
+time. Nominal assumes the advisor knows or can predict the reference policy
+$\theta_0$ across candidate resource sets. Joint assumes it knows the finite
+policy family $\Theta$ but not which single member will govern all tasks.
+PESS does not require a common policy parameter; it uses only the per-task
+envelopes $\Gamma_i(M)$ together with their separately supplied scheme
+losses. The hierarchy is
+pointwise, before minimizing over $M$. Consequently, the values of the
+separately selected solutions need not be ordered when each is evaluated
+under a different objective, and the PESS optimizer need not minimize
+Nominal loss. The two-task example in Section~\ref{sec:decision-analysis}
+will show why the shared and task-wise maxima can differ strictly.
 
-A matching is a set of edges with no shared endpoint.  It is maximal if no
-additional available edge can be added while preserving that property;
-maximal does not mean maximum cardinality.  This rule is a deliberate
-abstraction of a restricted
-PostgreSQL estimator behavior motivated by compatible clause coverage.  It
-is not a universal characterization of PostgreSQL, arbitrary predicates,
-join or intermediate-result estimation, or statistics with more than two
-attributes.
+\subsection{Pairwise Maximal-Matching Instance}
 
-\paragraph{Pre-clamp multiplicative estimator.}
-Let $n_i^0>0$ be the baseline pre-clamp cardinality estimate and let
-$r_{e,i}>0$ be a fixed correction factor for each eligible candidate.  For a
-matching $P\in\Gamma_i^{\mathrm{MM}}(M)$, define
+For the PostgreSQL instance, each candidate $e\in\E_i$ is a built
+two-column MCV object over two distinct attributes. It is represented as a
+labeled edge in a graph $H_i=(V_i,\E_i)$; different objects with the same
+endpoints remain distinct parallel edges. For a created set $M$,
+$H_i[M]$ contains edges in $M\cap\E_i$. A matching is a set of edges with no
+shared endpoint. We prescribe
 \[
-  \boxed{\operatorname{Est}_i^{\mathrm{mult}}(P)=
-    n_i^0\prod_{e\in P}r_{e,i}.}
+\begin{aligned}
+  \Omega_i^{\mathrm{MM}}&=\operatorname{Matchings}(H_i),\\
+  \Gamma_i^{\mathrm{MM}}(M)&=
+    \operatorname{MaximalMatchings}(H_i[M]).
+\end{aligned}
+\tag{3}
 \]
-The factors are calibrated from full-precision, pre-clamp estimation
-quantities rather than rounded displayed \texttt{Plan Rows}.  This is the
-explicit assumption of multiplicative separability: a factor is fixed for a
-task and does not depend on which other compatible resources are used.  It
-does not assert independence of the underlying attributes; a multivariate
-statistic may encode dependence within its own attribute group.  Define
+Maximal means that no available edge can be added; it does not mean
+maximum-cardinality. Every finite graph has a maximal matching, and an
+edgeless graph has the unique empty matching, so (3) is nonempty for all
+$M$. This is a structured instance of (1), not the generic interface.
+
+\section{PostgreSQL Instantiation}
+
+\subsection{When the Selector Is a Greedy Matching Procedure}
+
+The PostgreSQL correspondence is conditional on PostgreSQL 16.14 and a
+restricted single-relation AND path. Each relevant clause must be a
+supported, simple predicate on one distinct attribute, with exactly one
+relevant clause per attribute. Every candidate must be a built two-column
+MCV object on that relation, and both of its attribute clauses must remain
+eligible for the MCV path. We exclude joins, OR expressions, expression
+keys, repeated attributes, multiple relevant clauses on one attribute,
+permission exclusions, and other estimators that pre-consume a clause. Under
+these assumptions, all currently eligible two-key objects tie on newly
+covered attributes and width. The pinned source resolves that tie by
+candidate-list order; the list is normally ordered by statistics-object OID.
+It then marks the selected clauses consumed and repeats until no candidate
+remains \cite{pgsource1614}.
+
+Under this gate, each selected statistic contributes two distinct attribute
+vertices. A later eligible statistic can be selected only while both of its
+attributes remain available to the MCV estimation path; any shared endpoint
+would have been consumed by the earlier selection. The source loop therefore
+acts as a priority-ordered greedy procedure on the candidate graph. Its
+tie-breaking order selects one matching for a fixed catalog state. The
+abstract matching family in (3) ranges over multiple orders to represent
+uncertainty about that choice; it should not be read as a randomized runtime
+policy or as empirical evidence about the frequency of any matching.
+
+\begin{proposition}[Restricted selector correspondence]
+Under the preceding assumptions, the statistics selected by one fixed
+PostgreSQL candidate order form a maximal matching of $H_i[M]$.
+\end{proposition}
+\begin{proof}
+Each selected two-column object consumes two distinct clauses. A later
+selected object must therefore be disjoint from every earlier one, so the
+selected edges form a matching. If an available edge were disjoint from that
+matching at termination, both of its clauses would remain unconsumed and it
+would still be eligible, contradicting termination. Thus the matching is
+maximal.
+\end{proof}
+
+Under an arbitrary abstract total priority order, every maximal matching can
+be obtained by placing its edges before the other edges.
+
+\begin{proposition}[Abstract order completeness]
+Under the same eligibility assumptions, the set of outcomes over all
+abstract total priority orders is exactly
+$\operatorname{MaximalMatchings}(H_i[M])$.
+\end{proposition}
+\begin{proof}
+The selector correspondence proves that each outcome is a maximal
+matching. Conversely, fix a maximal matching $P$ and order its edges before
+all other available edges. Each edge of $P$ remains eligible until selected
+because $P$ has disjoint endpoints. After its edges have been selected,
+maximality implies that every remaining edge meets a covered endpoint, so
+the selector stops with exactly $P$.
+\end{proof}
+
+Order completeness is a mathematical statement about a freely varying
+abstract priority order. It does not say that arbitrary orders are
+realizable by changing OIDs in one fixed catalog, or that PostgreSQL's real
+possible-scheme set equals (3).
+
+Figure~\ref{fig:path} shows the narrow runtime fixture. An instrumented
+PostgreSQL 16.14 build traced selected OIDs and consumed clause indices,
+observing $\{ab,cd\}$ in one creation order and $\{bc\}$ in another
+\cite{pgtrace2026}. A separate equality-only gate covered path, star,
+disconnected, and parallel-edge cases: 26 observations were within the
+source-derived gate with no counterexample, two were outside it because an
+MCV payload was absent, and four empty-resource observations were
+inconclusive because the trace loop was not entered \cite{pg_gate2026}. These
+results support the stated scope; they are not universal PostgreSQL evidence.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  v/.style={circle,draw,inner sep=1.5pt,font=\small},
+  selected/.style={line width=1.5pt},
+  available/.style={line width=.6pt,gray},
+  panel/.style={draw,rounded corners,minimum width=57mm,minimum height=17mm,
+                align=center,font=\small}
+]
+\node[v] (a) at (0,1.3) {$a$};
+\node[v] (b) at (2,1.3) {$b$};
+\node[v] (c) at (4,1.3) {$c$};
+\node[v] (d) at (6,1.3) {$d$};
+\draw[available] (a)--(b) node[midway,above] {$e_{ab}$};
+\draw[available] (b)--(c) node[midway,above] {$e_{bc}$};
+\draw[available] (c)--(d) node[midway,above] {$e_{cd}$};
+\node[font=\small,above=2mm of b] {Created path $H_i[M]$};
+\node[panel] (left) at (2,-.1)
+  {Order A: selected $\{e_{ab},e_{cd}\}$\\both disjoint; no remaining edge can be added};
+\node[panel] (right) at (8,-.1)
+  {Order B: selected $\{e_{bc}\}$\\both remaining edges meet $e_{bc}$};
+\end{tikzpicture}
+\caption{A single created path has two possible maximal matchings. The
+PostgreSQL 16.14 trace fixture observed the two selected sets after changing
+statistics-object creation order under the restricted assumptions in the
+text. The two panels list outcomes read from traced selected OIDs, not
+inferred from \texttt{EXPLAIN}.}
+\Description{A four-vertex path with edges ab, bc, and cd, followed by two
+observed outcomes: ab and cd under one object order, and bc under another.}
+\label{fig:path}
+\end{figure*}
+
+\subsection{Positive Pre-Clamp Loss and Maintenance}
+
+For a task with positive baseline pre-clamp estimate $n_i^0$ and positive
+single-object correction factors $r_{e,i}$, the model assumes
 \[
-  \alpha_i=\log\frac{n_i^0}{T_i},\qquad
-  b_{e,i}=\log r_{e,i}.
+  \operatorname{Est}^{\mathrm{mult}}_i(P)
+    =n_i^0\prod_{e\in P}r_{e,i},\quad
+  \alpha_i=\log(n_i^0/T_i),\quad b_{e,i}=\log r_{e,i},
 \]
-The resulting raw loss is
+and hence
 \[
   \ell_i^{\mathrm{raw}}(P)=
   \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|.
+\tag{4}
 \]
+This is an explicit multiplicative-separability assumption, not an
+identity for PostgreSQL. A bounded Forest10 composition check found near
+agreement for one disjoint pair but relative residuals $0.1590$ and
+$-0.4904$ for two overlapping pairs \cite{issue23_forest10}. The log loss
+also requires positive pre-clamp estimates. PostgreSQL's finalized
+\texttt{Plan Rows} applies rounding and clamping, so its error is a separate
+metric.
 
-For comparison with finalized PostgreSQL row estimates, the concrete
-instantiation may apply the implementation-scoped transformation
+For the ordinary finite-positive PostgreSQL regime, the source-scoped
+conversion can be represented as
 \[
-  C_{\mathrm{PG}}(x)=
-  \begin{cases}
-    1,&0<x\leq 1,\\
-    \operatorname{rint}(x),&1<x\leq x_{\max},
-  \end{cases}
+\begin{aligned}
+ C_{\mathrm{PG}}(x)&=
+ \begin{cases}
+  1,&0<x\leq1,\\
+  \operatorname{rint}(x),&1<x\leq x_{\max},
+ \end{cases}\\
+ \ell_i^{\mathrm{plan}}(P)&=
+  \left|\log C_{\mathrm{PG}}(\operatorname{Est}^{\mathrm{mult}}_i(P))\right.\\[-2pt]
+ &\qquad\left.-\log T_i\right|.
+\end{aligned}
+\tag{5}
 \]
-for finite positive $x$ in the ordinary regime.  Here $x_{\max}$ denotes
-the implementation's finite cap and $\operatorname{rint}$ follows its
-floating-point rounding mode; nonfinite inputs and other very-large-value
-paths are outside this instantiation.  The corresponding secondary plan
-loss is
+Here $x_{\max}$ is the implementation's finite cap and
+$\operatorname{rint}$ follows its floating-point rounding mode. Nonfinite
+inputs and separate very-large-value paths are outside this expression.
+Raw and plan loss need not have the same optimizer. We use raw
+pre-clamp loss for the theoretical model and report finalized Plan Rows only
+as a separate observed outcome.
+
+\subsection{Maintenance Cost and Experimental Proxies}
+
+The abstract $\operatorname{Maint}(M)$ in (1) remains nonadditive. For a
+controlled PostgreSQL instance, one possible period-level proxy is
 \[
-  \ell_i^{\mathrm{plan}}(P)=
-  \left|\log C_{\mathrm{PG}}
-    \bigl(\operatorname{Est}_i^{\mathrm{mult}}(P)\bigr)-\log T_i\right|.
-\]
-Raw and plan loss are distinct objectives and need not have the same
-optimizer.  In the remainder, raw loss is the primary theoretical
-convention.
-
-\paragraph{PostgreSQL maintenance cost.}
-For the controlled PostgreSQL instance, assume PostgreSQL 16.14 and
-two-column MCV objects.  All analyzed ordinary single-column statistics and
-all candidate MCV objects use the same fixed, positive effective statistics
-target $\tau$, with candidate-object targets explicitly specified.  The
-advisor selects only the object set $M$, not statistics targets; this is a
-restriction of the PostgreSQL instantiation, not of the general problem.
-With all other sampling requirements fixed, including when $M=\varnothing$,
-this common target keeps the source-derived requested sampling requirement
-unchanged across resource selections.  Equal targets alone do not ensure
-identical realized samples; the fixed-reference-sample assumption below is
-separate and stronger.
-
-For each relevant table $t$, let $S_t$ denote one
-fixed realized sample of table tuples, and let $\widehat R_t$ be its
-associated estimated total row count supplied to the statistics-building
-procedure.  Across compared resource selections, the actual tuple contents
-of $S_t$, including relevant attribute values, $\widehat R_t$, candidate
-definitions, effective statistics targets, relation schema, data types,
-collations, and other relevant build and estimator settings are fixed.  The
-reference sample must be adequate for the statistics-target requirements of
-all considered candidates.  Candidate selection does not change the shared
-sample-acquisition workload.  Thus, the complete sample-derived MCV build
-input, rather than only its tuple count, is controlled in the fixed
-evaluation environment.
-
-This is an experimental and mathematical control assumption, not a claim
-that standard PostgreSQL reuses identical random samples across repeated
-\texttt{ANALYZE} executions; no sample-fixing capability is presumed to be
-implemented here.  Fixing $S_t$ and its associated metadata makes candidate
-statistics comparable, but does not establish multiplicative separability.
-That separability remains the explicit estimator assumption above.  Likewise,
-fixed sampling and sequential per-object construction do not imply additive physical
-CPU time.
-
-Let $p_e(S_{t(e)})\geq0$ denote the modeled additional CPU work, in
-CPU-seconds, attributable to refreshing candidate MCV $e$ once, conditioned
-on the fixed reference sample and controlled PostgreSQL environment.  Its
-intended full-refresh scope includes candidate-specific build-data
-preparation, MCV construction, MCV serialization, and attributable CPU work
-of persisting the statistics result.  Shared sample acquisition and baseline
-single-column statistics maintenance are excluded.  CPU-seconds measure
-computing work, not wall-clock response time; memory peaks and I/O bytes are
-not additional terms in this scalar budget without a separate conversion
-model.  The coefficient is a defined, presently uncalibrated model
-parameter: a catalog-free offline profiler can directly measure
-construction-related work, but catalog-update overhead requires separate
-estimation or calibration if complete refresh overhead is intended.
-
-Let $\nu_t\geq0$ be the externally specified expected number of refreshes for
-table $t$ during the fixed evaluation horizon.  Define
-\[
+  \widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)
+     =\sum_{e\in M}\bar m_e,\qquad
   \bar m_e=\nu_{t(e)}p_e(S_{t(e)}),
-  \qquad
-  \boxed{\widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)=
-    \sum_{e\in M}\bar m_e.}
+\tag{6}
 \]
-This is a reference-sample-based period-level proxy.  Using one per-refresh
-coefficient over multiple refreshes assumes that it is sufficiently
-representative of that period; it does not claim that future \texttt{ANALYZE}
-executions reuse the same tuples.  Changes in table contents, value widths,
-data distributions, or maintenance workload may change realized costs.
-The refresh counts and horizon are fixed external inputs, not advisor
-decisions, and neither the coefficients nor the representative-sample
-assumption has yet been experimentally validated.
+where $p_e(S_t)$ denotes candidate-specific CPU work for refreshing object
+$e$ from a fixed reference sample of table $t$, and $\nu_t$ is an externally
+specified refresh count over the evaluation horizon. This expression is a
+model, not an empirical identity. Candidate-specific construction work,
+serialization, and attributable catalog work would need separate
+measurement; shared sample acquisition and baseline single-column
+maintenance are outside the proxy.
 
-\paragraph{Concrete optimization problem.}
-Substituting the pairwise admissibility rule, raw loss, and PostgreSQL
-maintenance proxy into the general problem gives
+Equal positive statistics targets can keep the source-derived requested
+sampling requirement unchanged across candidate sets, but they do not force
+repeated \texttt{ANALYZE} runs to realize identical random samples. Holding
+the tuple values and estimated relation size fixed is a stronger experimental
+control; even that does not prove additive CPU time. The coefficients in (6)
+have not been calibrated in the reported selection studies. Instead, the
+selection experiments use $\bar m_e=1$ and
+$B\in\{0,2,3\}$, so the empirical constraint is an object-count proxy.
+We report no physical maintenance cost or latency result.
+
+\section{Decision Analysis}
+\label{sec:decision-analysis}
+
+\subsection{Pointwise Bounds and a Conflict-Free Certificate}
+
+The hierarchy in (2) follows directly from set inclusion. For a fixed $M$,
+the nominal scheme is one member of the shared family, and each shared-policy
+scheme is in $\Gamma_i(M)$. Therefore,
 \[
-\boxed{\begin{aligned}
-  \operatorname*{minimize}_{M\subseteq\E}\quad
-    &\sum_{i\in\mathcal I}w_i
-      \max_{P\in\operatorname{MaximalMatchings}(H_i[M])}
-      \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|\\
-  \text{subject to}\quad
-    &\sum_{e\in M}\bar m_e\leq B.
-\end{aligned}}
+F_{\Nom}(M)\leq F_{\Joint}(M)\leq F_{\Pess}(M).
+\tag{7}
 \]
-Here $B$ is measured in CPU-seconds over the fixed evaluation horizon.
-This is a concrete maintenance-cost specialization; it does not impose
-additivity on the abstract function $\operatorname{Maint}$.  The numerical
-cost coefficients and the resulting optimization are not claimed to have
-been empirically validated here.
+The inequalities do not order the actual outcomes of the separately selected
+sets, and they do not establish a real-system guarantee when the prescribed
+families are misspecified.
+
+\begin{lemma}[Conflict-free nominal optimum]
+Let $M_{\Nom}$ be a global minimizer of $F_{\Nom}$ over the budget-feasible
+sets. If every $\Gamma_i(M_{\Nom})$ is a singleton containing the nominal
+scheme, then $M_{\Nom}$ is also a global minimizer of $F_{\Joint}$ and
+$F_{\Pess}$, and all three objective values agree at $M_{\Nom}$.
+\end{lemma}
+\begin{proof}
+The singleton condition gives equality of all three objectives at
+$M_{\Nom}$. For any feasible $M$, the fixed-set hierarchy and nominal
+optimality give
+\[
+  F_{\Pess}(M)\geq F_{\Joint}(M)\geq F_{\Nom}(M)
+  \geq F_{\Nom}(M_{\Nom}).
+\]
+Thus $M_{\Nom}$ is optimal for both conservative objectives as well.
+\end{proof}
+
+In the matching instance it suffices that each $H_i[M_{\Nom}]$ is itself a
+matching: its only maximal matching is the set of all its edges (including
+the empty case). This is a model-internal sufficient certificate. It does
+not say that optimal sets will usually be conflict-free or that every PG
+catalog realizes every modeled scheme.
+Within this instance, conflict permits multiple maximal matchings but
+does not ensure different losses or different optimal resource sets. In the
+generic interface, complete schemes can also differ by order or estimator
+context without a graph-edge conflict. Thus edge conflict alone is neither
+a sufficient nor a generally necessary test for policy-sensitive decisions.
+
+\subsection{Active-MCV-Only Restriction of the Frozen Model}
+
+The exact Issue~\#23 model at budget $B=3$ has the unique Nominal optimum
+$M_N=\{e_{12},e_{23},e_{34}\}$. Its four tied PESS optima are
+\[
+\begin{aligned}
+\arg\min_{M\subseteq\E:\,|M|\leq3}F_{\Pess}(M)
+=\{&\{e_{01},e_{34}\},\{e_{01},e_{34},e_{56}\},\\
+&\{e_{34}\},\{e_{34},e_{56}\}\}.
+\end{aligned}
+\]
+At $M_N$, the full-universe PESS value is
+$14.320233961846\ldots$; the optimum is
+$13.498446365277\ldots$. The strict gap is approximately
+$0.821787596569$. These decimals summarize the exact Fraction comparison
+recorded for the frozen inputs \cite{issue23_forest10}.
+
+\begin{proposition}[Restriction to candidates with effective MCV payloads]
+Restrict the allowed candidate universe to
+$A=\{e_{12},e_{23},e_{34}\}$, the only three objects with effective
+300-item MCV payloads in the frozen calibration. Hold fixed the six task
+coefficients, original relative nominal priority, maximal-matching
+admissibility rule, losses, unit costs, and budget $B=3$. Then $M_N$
+remains the unique Nominal optimum; $\{e_{34}\}$ is the unique PESS optimum
+in the restricted universe; and $M_N$ remains strictly suboptimal for PESS.
+\end{proposition}
+\begin{proof}
+For every $M\subseteq A$, its induced task graphs, admissible schemes, and
+losses are unchanged from the full-universe model, since no removed
+candidate is installed. Costs and feasibility are unchanged as well. Thus
+the full-universe Nominal optimum remains the unique optimum on the
+restricted domain. The original full-universe PESS optimum set has four
+members listed above; only $\{e_{34}\}$ lies in $2^A$. Since the archived
+exact enumeration lists all ties, it is the unique restricted PESS optimum.
+The PESS value and strict gap at $M_N$ are unchanged.
+\end{proof}
+
+This restriction-inheritance argument is a logical corollary of archived
+exact results, not a newly executed enumeration or theorem of independent
+novelty. It shows that the model-level decision separation does not depend
+solely on retaining candidates without effective payloads. It does not
+predict PostgreSQL numeric outcomes or establish a physical policy effect.
+
+\subsection{Why Shared and Task-Wise Robustness Differ}
+
+Consider two tasks and two overlapping resources $e,f$. With both resources
+created, the maximal matchings are $\{e\}$ and $\{f\}$. Let losses for task
+1 under $(e,f)$ be $(1,0)$ and for task 2 be $(0,1)$, with unit weights. A
+single shared priority selects the same edge for both tasks, so
+$F_{\Joint}(\{e,f\})=1$. Independent task-wise maximization selects the
+harmful edge separately for each task, giving
+$F_{\Pess}(\{e,f\})=2$. Thus PESS is an envelope over task-wise admissible
+schemes, not necessarily a realizable global policy.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  v/.style={circle,draw,inner sep=1.3pt,font=\small},
+  panel/.style={draw,rounded corners,minimum width=70mm,minimum height=42mm},
+  txt/.style={font=\small,align=center}
+]
+\draw[rounded corners] (-.35,-1.25) rectangle (6.35,2.45);
+\node[txt] at (3,2.12) {Overlapping choices: strict shared--taskwise gap};
+\node[v] (a) at (.7,1.25) {$a$};
+\node[v] (b) at (2.0,1.25) {$b$};
+\node[v] (c) at (3.3,1.25) {$c$};
+\draw[thick] (a)--node[above,font=\small] {$e$}(b);
+\draw[thick] (b)--node[above,font=\small] {$f$}(c);
+\node[txt] at (4.9,1.25) {$e$ and $f$\\overlap};
+\node[txt] at (3,-.05) {Task 1 losses $(1,0)$; Task 2 losses $(0,1)$};
+\node[txt] at (3,-.72) {One shared priority: $F_{\Joint}=1$\quad Independent PESS: $F_{\Pess}=2$};
+
+\draw[rounded corners] (7.0,-1.25) rectangle (13.7,2.45);
+\node[txt] at (10.35,2.12) {Conflict-free selected set: policy choice collapses};
+\node[v] (d) at (8.0,1.25) {$d$};
+\node[v] (e) at (9.2,1.25) {$e$};
+\node[v] (g) at (11.0,1.25) {$g$};
+\node[v] (h) at (12.2,1.25) {$h$};
+\draw[thick] (d)--node[above,font=\small] {$r$}(e);
+\draw[thick] (g)--node[above,font=\small] {$s$}(h);
+\node[txt] at (10.35,.35) {$M=\{r,s\}$ has one maximal matching};
+\node[txt] at (10.35,-.48) {If $M$ is Nominal-optimal, Lemma 1\\also certifies Joint and PESS optimality};
+\end{tikzpicture}
+\caption{Model-only examples of the information-regime gap and its
+conflict-free collapse. In the left panel, one globally shared priority
+cannot choose the harmful edge independently for both tasks. In the right
+panel, the selected edges have a unique maximal matching; the lemma requires
+that this conflict-free set also be a global Nominal optimum. These examples
+are mathematical illustrations, not PostgreSQL measurements.}
+\Description{Two panels. The first shows overlapping edges e and f and two
+tasks whose loss vectors make the shared-policy objective one and the
+task-wise pessimistic objective two. The second shows two disjoint selected
+edges with a unique maximal matching and notes the conflict-free optimality
+certificate.}
+\label{fig:policy-examples}
+\end{figure*}
+
+The dependence of $\Gamma_i$ on $M$ is also necessary for a nontrivial
+worst-case selection objective.
+
+\begin{proposition}[Nested-family degeneracy]
+Suppose, for every task $i$, that
+$\Gamma_i(M)\subseteq\Gamma_i(M')$ whenever $M\subseteq M'$. Then
+$F_{\Pess}(M)\leq F_{\Pess}(M')$. Consequently, the empty set is optimal
+for every budget $B\geq0$.
+\end{proposition}
+\begin{proof}
+For each task, the maximum of a nonnegative loss over the smaller family
+cannot exceed its maximum over the larger family. Multiplying by $w_i>0$
+and summing gives monotonicity. Since
+$\operatorname{Maint}(\varnothing)=0\leq B$, the empty set is feasible and
+has value no greater than any feasible set.
+\end{proof}
+
+Maximal-matching families need not be nested: adding an edge can make an old
+complete matching non-maximal. For example, with one available edge $e_{ab}$,
+the unique admissible matching is $\{e_{ab}\}$. Add a disjoint edge
+$e_{cd}$; the old singleton is no longer maximal, because $e_{cd}$ can be
+added, and the new admissible family contains only $\{e_{ab},e_{cd}\}$.
+Whether this change raises or lowers the worst loss depends on the task's
+losses. Thus the matching instance can violate the nesting premise behind the
+degeneracy result, but it does not imply that every resource addition helps
+or that every instance has a useful nonempty optimum.
+
+\subsection{Loss Geometry and Inherited Hardness}
+
+For a fixed task and created set, let
+\[
+  \mathcal M_i(M)=\operatorname{MaximalMatchings}(H_i[M])
+\]
+and define
+\[
+  U_i(M)=\max_{P\in\mathcal M_i(M)}\sum_{e\in P}b_{e,i},
+  \qquad
+  L_i(M)=\min_{P\in\mathcal M_i(M)}\sum_{e\in P}b_{e,i}.
+\]
+The task's worst raw loss has the endpoint form
+\[
+  \max_{P\in\mathcal M_i(M)}
+  \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|
+  =
+  \max\{\alpha_i+U_i(M),-\alpha_i-L_i(M)\}.
+\tag{8}
+\]
+This follows from $|x|=\max\{x,-x\}$ and finiteness of
+$\mathcal M_i(M)$. The two extrema are over maximal matchings, not ordinary
+maximum-weight or maximum-cardinality matchings.
+
+Exact evaluation can inherit the known hardness of minimum maximal
+matching \cite{yannakakis_gavril_1980}. Let a graph have $m\geq1$ edges,
+make all edges available to one task, and set $b_e=1$ and $\alpha=-m$.
+Every maximal matching $P$ has $|P|\leq m$, so its loss is $m-|P|$.
+Maximizing the loss therefore computes the minimum cardinality of a maximal
+matching. This is a fixed-$M$ hardness observation; it is not a new graph
+result or a general classification of the estimator-agnostic problem.
+
+Outer selection can also remain difficult when there is no scheme
+uncertainty. With vertex-disjoint candidate edges, every selected set has
+one maximal matching and raw loss
+$|\alpha+\sum_{e\in M}b_e|$. If integer coefficients are represented
+directly, setting $\alpha=-T$, $b_{e_j}=a_j$, and zero maintenance costs
+reduces SUBSET SUM on positive integers $a_j$ and target $T$ to deciding
+whether some selection has zero loss. This is a representation-scoped
+weak-hardness construction: it does not establish a polynomial-time
+reduction for every encoding through measured multipliers $r_{e,i}$, and it
+says nothing about physical PostgreSQL instances.
+
+\subsection{Computational Scope}
+
+The generic interfaces permit arbitrary finite admissibility maps, losses,
+and nonadditive maintenance functions, so complexity depends on the input
+representation and evaluation oracles. The preceding reductions explain why
+an unrestricted tractability claim would be inappropriate. We do not claim
+an algorithmic speedup in this paper.
+
+\section{Evaluation}
+
+\subsection{Evidence and Comparison Protocols}
+
+We synthesize already frozen evidence; this paper reports no new PostgreSQL
+run, refit, or optimization solve. Each study has a different role and
+model version. Issue~\#23 used six Forest10 valid tasks, six adjacent
+resources, positive pre-clamp measurements from a fixed sample, 18-decimal
+rationalized log coefficients, one-unit costs, and exact exhaustive
+references. Its result is exact for that rationalized finite instance, not
+for the original floating-point measurements. Issue~\#38 then compared the
+resulting budget-three sets on 60 frozen Forest10 test IDs, two repetitions
+per ID, in PostgreSQL 16.14; it reports observed pre-clamp estimates and
+catalog payloads \cite{issue23_forest10,issue38_heldout}.
+
+The six selection tasks are a deterministic construction sample rather than
+a workload-frequency sample. In $e_{01},e_{12},e_{23},e_{34},e_{45},e_{56}$
+order, their source query suffixes are 000005, 000003, 000009, 000001,
+000010, and 000011, with truth counts 3, 0, 119625, 343, 12916, and 8.
+The zero-truth task is retained with $T_i=1$; no task was replaced or
+removed to make the logarithm convenient.
+For each task, the calibration protocol measured the baseline and every
+candidate object twice after replaying the same fixed sample. The resulting
+84 records provide the per-task model inputs, but do not constitute a sample
+of all queries eligible for pairwise MCV statistics.
+
+The larger Forest10 model uses all 10,000 valid tasks and a corrected-log
+model; its B=0/2/3 exact selections are compared with an official test split
+using ordinary \texttt{Plan Rows}. Census13 uses a distinct
+\texttt{clamped-log-v2} model and a separate valid-only order-sensitivity
+analysis. Its Nominal enumeration across ten frozen orders was compared to
+the already frozen PESS result; it is not a PostgreSQL or test-set
+comparison \cite{issue64_forest10,issue71_census13}. Separately, the
+Issue~\#59 structure audit used 10,000 valid queries per dataset without
+reading truth or running PostgreSQL \cite{issue59_structure}.
+
+Across these comparisons, exactness refers to Fraction/reference
+calculations for recorded rationalized model inputs. It does not upgrade
+floating-point PostgreSQL values or solver status into exact model inputs,
+and it does not imply exact physical semantics. Candidate-graph ambiguity,
+model-level selected sets, pre-clamp observations, and rounded/clamped
+\texttt{Plan Rows} are reported as distinct evidence layers.
+
+\paragraph{Provenance boundaries.}
+The papers and results below are a synthesis of frozen, previously executed
+work. The Issue~\#23 and Issue~\#38 PostgreSQL records were author-reported
+local measurements; the source reports retain exact build commits, frozen
+inputs, commands, outputs, and limits. The full-valid Forest10 evaluation
+uses a separate PostgreSQL build and same-run sample. The Census13 table is
+an exact model comparison only. Table~\ref{tab:provenance} summarizes the
+distinctions needed to interpret the results.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Source, split, model, and output provenance for the frozen studies
+used in this paper. Detailed commands, hashes, and raw-record locations are
+in the cited reports.}
+\label{tab:provenance}
+\begin{tabularx}{\textwidth}{p{2.2cm}p{3.6cm}p{4.0cm}X}
+\toprule
+Study & Input and environment & Model or metric & Evidence boundary\\
+\midrule
+PG selector trace
+& PostgreSQL 16.14; pinned source tag and instrumented development build
+& Traced selected OIDs and consumed clause indices on controlled fixtures
+& Conditional source claim; fixture-level runtime observations only.\\
+Issue 23/38
+& AreCEL Forest10; six valid selection tasks and 60 frozen test IDs;
+PostgreSQL 16.14 at the recorded research commit
+& Rationalized raw pre-clamp log model; held-out raw pre-clamp errors
+& Construction sample and bounded cohort; repeated observations are paired by query ID.\\
+Issue 59
+& Forest10 and Census13 official 10,000-query valid splits; no truth reads or PostgreSQL
+& Raw graph ambiguity and strict pairwise syntax eligibility
+& Describes candidate-graph structure, not built MCV payloads or realized selection.\\
+Issue 64
+& Forest10: 10,000 valid and 10,000 official test queries; fresh PostgreSQL 16.14 build for test evaluation
+& Corrected-log valid-only decisions; test \texttt{Plan Rows} and Q1
+& Nominal/PESS sets coincide; official-split result has template overlap and prior exposure.\\
+Issue 71
+& Census13 10,000 valid tasks and existing full-valid observations
+& Separate \texttt{clamped-log-v2} model; ten Nominal priority orders
+& PESS comparison reuses the frozen baseline; no test evaluation or PostgreSQL claim.\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\paragraph{Metric definitions.}
+For positive pre-clamp estimates, the primary observed loss is
+$|\ln(\widehat N/T)|$ with $T=\max(1,N)$. The Issue~\#38 report pools
+120 repetitions per resource set for distributional summaries, and also
+averages repetitions within each of 60 query IDs for paired counts. The
+Issue~\#64 \texttt{Plan Rows} Q1 ratio is
+\[
+  Q1(\widehat N,N)=
+  \frac{\max\{\widehat N,N,1\}}{\max\{\min(\widehat N,N),1\}},
+\tag{9}
+\]
+and its quantiles use nearest rank over 10,000 queries. The reported mean
+absolute log error uses only query pairs with positive estimate and truth.
+Q1 is finite when either input is zero, but it is not the primary
+pre-clamp loss. Neither metric measures plan quality or latency.
+
+\subsection{Scoped PostgreSQL Selector Evidence}
+
+The runtime reports support a maximal-matching correspondence under a
+strict gate, not unrestricted coverage. Table~\ref{tab:pg-gate} summarizes
+the equality-only gate's classification and the separate path trace.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Frozen PostgreSQL 16.14 selector evidence. The gate is
+source-derived under the recorded eligibility premises; the path outcomes
+are directly traced fixture observations.}
+\label{tab:pg-gate}
+\begin{tabular}{lr}
+\toprule
+Observation class & Count\\
+\midrule
+Within-gate maximal-matching pass & 26\\
+Within-gate counterexample & 0\\
+Outside gate (no built MCV payload) & 2\\
+Inconclusive (empty setup bypassed trace loop) & 4\\
+\midrule
+Path fixture outcome, order A & $\{ab,cd\}$\\
+Path fixture outcome, order B & $\{bc\}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The equality-only gate used a deterministic fixture with 20,000 rows and
+eight labeled candidates. It covered ten equality queries and eleven
+setup/order combinations, each repeated twice. The resulting ledger
+reconciled 32 outcomes. Candidate consideration was inferred from pinned
+source control flow under the recorded premises; instrumentation did not
+independently trace every rejected candidate. The separate path fixture
+directly traced selected OIDs and consumed clause indices. Neither study
+establishes that every real possible scheme is represented in the prescribed
+family for general PostgreSQL workloads.
+
+\paragraph{Observed graph forms.}
+Beyond the path in Figure~\ref{fig:path}, the equality-only gate exercised
+disconnected-pair, star, and parallel-edge fixtures. The path and
+disconnected pair selected the same resource sets under both tested catalog
+orders; the star and parallel-edge cases produced different maximal
+matchings. Each order was repeated twice. These are bounded fixture
+observations, not a frequency estimate over PostgreSQL workloads
+\cite{pg_gate2026}.
+
+\subsection{A Policy-Sensitive Six-Resource Instance}
+
+Table~\ref{tab:issue23} separates exact model decisions from PostgreSQL
+outcomes. Exhaustive reference enumeration of the Issue~\#23 rationalized
+model found policy-sensitive selections at budgets three and five. The
+displayed objective values are rounded decimals of exact rational reference
+values; values from different policy objectives are not held-out prediction
+metrics and should not be ranked as if they measured the same quantity.
+
+The six-task model was built from six Forest10 valid queries selected by a
+fixed earliest-unused rule. PostgreSQL 16.14 was run twice for the baseline
+and each of six candidate objects using one replayed reference sample; the
+frozen calibration contains 84 task/candidate/repetition records. Objects
+$e_{12},e_{23},e_{34}$ each had 300 MCV items, whereas $e_{01},e_{45},e_{56}$
+had no MCV payload in that sample. The raw positive estimates were converted
+to natural logs with high-precision Decimal arithmetic, quantized to 18
+decimal places, and stored as exact Fractions. The experiment enumerated all
+720 common candidate orders for the Joint model and used exhaustive resource
+selection with independent objective verification \cite{issue23_forest10}.
+
+The same report checked how single-object factors compose for three
+two-object configurations. For the disjoint pair $e_{12}+e_{34}$, PostgreSQL
+selected both objects and the product prediction differed from the observed
+pre-clamp value by relative $-1.84\times10^{-16}$. For overlapping pairs
+$e_{12}+e_{23}$ and $e_{23}+e_{34}$, the selector used only one object and
+the product predictions had relative residuals $0.1590$ and $-0.4904$.
+Those residuals reject multiplying all created objects in the overlapping
+cases; they do not test the matching-conditioned product over the selected
+object. The disjoint result is one observation, not a general validation.
+
+The 84-record calibration led to a sharp separation between requested
+resources and effective MCV objects in this fixed sample: $e_{12}$,
+$e_{23}$, and $e_{34}$ each had 300 MCV items, while $e_{01}$, $e_{45}$,
+and $e_{56}$ had none. The model retained all six resources as available
+choices because payload realization belongs to the observed PostgreSQL
+layer, not the abstract candidate universe. The mismatch matters at $B=3$:
+the displayed PESS representative includes $e_{01}$, but the frozen catalog
+had no MCV payload for it.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Frozen Forest10 MCV payload and composition observations from one
+fixed sample. The residual compares PostgreSQL's pre-clamp estimate with the
+product of singleton ratios for both created objects. When an overlapping
+pair yielded only one selected object, this is the all-created product, not
+the matching-conditioned scheme prediction \cite{issue23_forest10}.}
+\label{tab:composition}
+\begin{tabular}{lll}
+\toprule
+\multicolumn{3}{c}{(a) Single-object MCV payloads}\\
+\midrule
+Candidate objects & MCV item count & Observed status\\
+\midrule
+$e_{01},e_{45},e_{56}$ & 0 / absent & No effective MCV payload\\
+$e_{12},e_{23},e_{34}$ & 300 each & Built MCV payload\\
+\midrule
+\multicolumn{3}{c}{(b) Product of both created objects on one valid task}\\
+\midrule
+Created subset & PG-selected objects & All-created product residual\\
+\midrule
+$e_{12}+e_{34}$ & Both & $-1.84\times10^{-16}$\\
+$e_{12}+e_{23}$ & One object & $0.1590$\\
+$e_{23}+e_{34}$ & One object & $-0.4904$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Issue~\#23 exact Fraction model objectives and Issue~\#38 observed
+PostgreSQL errors are separate evidence panels. Panel (a) reports one
+recorded optimum representative; displayed objectives are rounded from exact
+rational values, and tied optima are described below. Panel (b) reports 120
+measurements per deployment from 60 query IDs with two repetitions each;
+repetitions are not independent query IDs.}
+\label{tab:issue23}
+\begin{tabular}{rp{4.2cm}p{4.2cm}p{5.4cm}}
+\toprule
+\multicolumn{4}{c}{(a) Exact six-task model optima (Fraction objectives; rounded display)}\\
+\midrule
+B & Nominal representative (objective) & Joint/PESS representative (objective) & Optimum relation\\
+\midrule
+$0$ & $\varnothing$ (14.672700) & $\varnothing$ (14.672700) & Same set\\
+$2$ & $\{e_{01},e_{34}\}$ (13.498446) & $\{e_{01},e_{34}\}$ (13.498446) & Same set\\
+$3$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct representatives; 4 PESS/Joint optima\\
+$5$ & $\{e_{12},e_{23},e_{34}\}$ (13.303092) & $\{e_{01},e_{34}\}$ (13.498446) & Distinct representatives; 4 optima each\\
+\midrule
+\multicolumn{4}{c}{(b) Descriptive PG error: 60 query IDs $\times$ 2 repetitions (120 rows per set)}\\
+\midrule
+Selected set & Effective MCV payloads & Trace rows & Mean / median / P90 / max $|\ln(\widehat N/T)|$\\
+\midrule
+Empty & None & $0/120$ & 5.02104 / 2.55550 / 12.79932 / 33.44741\\
+Nominal $\{e_{12},e_{23},e_{34}\}$ & $e_{12},e_{23},e_{34}$ & $114/120$ &
+ 4.92783 / 2.55728 / 12.79932 / 33.44741\\
+PESS $\{e_{01},e_{34}\}$ & $e_{34}$ & $94/120$ &
+ 4.95206 / 2.47246 / 12.79932 / 33.44741\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+At $B=3$, the nominal optimum has model objective $13.303092$ but a
+task-wise PESS value of $14.320234$ on that same set. The PESS value of
+$\{e_{01},e_{34}\}$ is $13.498446$, so the nominal set's exact rational PESS
+regret rounds to $0.821788$. The exact archive records four tied PESS/Joint
+minimizers at both $B=3$ and $B=5$:
+$\{e_{01},e_{34}\}$, $\{e_{01},e_{34},e_{56}\}$, $\{e_{34}\}$, and
+$\{e_{34},e_{56}\}$. Nominal has a unique minimizer at $B=3$ and four at
+$B=5$. Thus $e_{01}$ has zero incremental PESS-objective benefit when added
+to the equally optimal $\{e_{34}\}$ at $B=3$; it is not a uniquely required
+part of the pessimistic decision. The table shows the recorded representative
+used in the held-out comparison. These exact model values are not comparable
+to the PostgreSQL held-out errors below.
+
+The set geometry clarifies this model-level separation. At $B=3$, the
+Nominal set $\{e_{12},e_{23},e_{34}\}$ forms a three-edge path and admits two
+maximal matchings, $\{e_{12},e_{34}\}$ and $\{e_{23}\}$. Every listed
+PESS/Joint optimum is conflict-free, including the equally optimal
+$\{e_{34}\}$, and therefore has a singleton maximal-matching family in this
+instance. This satisfies the conflict-free certificate, which does not
+predict which conflict-free set the optimizer will choose. At $B=5$, the
+displayed representatives use three resources for Nominal and two for
+PESS/Joint; the exact archive also contains tied supersets, so these
+representative cardinalities are not unique optimizer outcomes.
+
+The paired query-level comparison has 34 IDs with higher PESS error, 11 with
+lower error, and 15 ties; the mean difference is $+0.02422$ for the displayed
+PESS deployment minus the displayed Nominal deployment. This is a descriptive
+comparison of different as-built effective sets: the former has only the
+$e_{34}$ MCV payload, while the latter has three payloads. The held-out
+summary for $\{e_{01},e_{34}\}$ is exactly the same as for $\{e_{34}\}$,
+consistent with the missing $e_{01}$ payload and the model's tied optimum.
+Consequently, these observations do not identify a causal effect of policy
+uncertainty or an intrinsic price of robustness. Figure~\ref{fig:paired}
+displays the 60 query-level comparisons; they are not a population ranking,
+significance claim, or evidence that PESS generally harms estimates.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=0.075cm,y=1cm]
+\draw[->] (0,0)--(64,0) node[right,font=\small] {query IDs ($n=60$)};
+\draw[fill=black!65] (0,.25) rectangle (34,.85);
+\draw[fill=black!35] (34,.25) rectangle (45,.85);
+\draw[fill=black!15] (45,.25) rectangle (60,.85);
+\node[font=\scriptsize,text=white] at (17,.55) {Harm 34};
+\node[font=\scriptsize] at (39.5,.55) {Better 11};
+\node[font=\scriptsize] at (52.5,.55) {Tie 15};
+\foreach \x in {0,10,20,30,40,50,60}
+  {\draw (\x,0)--(\x,-.07) node[below,font=\scriptsize] {\x};}
+\end{tikzpicture}
+\caption{PESS minus Nominal error after averaging the two repetitions within
+each held-out query ID. Counts are descriptive paired outcomes, not
+independent repetitions or a significance test \cite{issue38_heldout}.}
+\Description{A stacked horizontal bar for 60 query IDs: PESS has higher error
+on 34, lower error on 11, and equal error on 15.}
+\label{fig:paired}
+\end{figure}
+
+\subsection{Ambiguity in Candidate Graphs and Selected Sets}
+
+Table~\ref{tab:larger} contrasts raw graph opportunities with frozen
+small-budget optima. The 47.49\% and 46.27\% figures count complete
+candidate graphs with at least two maximal matchings across all 10,000
+queries in each valid split. The strict Stage~2B counts (135 and 58) are a
+separate syntactic screen. The Issue~\#59 archive stores these as separate
+marginals, so their per-query intersection is unknown; neither measure
+establishes catalogs with multiple built, simultaneously eligible MCV
+objects or realized scheme choice.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Raw structural opportunities for graph ambiguity, strict syntax
+eligibility, and frozen valid-only selections. The graph counts are not
+eligible or realized PostgreSQL ambiguity. Forest10 uses a corrected-log
+model; Census13 uses the separately versioned \texttt{clamped-log-v2} model.
+Their numeric objectives are not pooled.}
+\label{tab:larger}
+\begin{tabularx}{\textwidth}{p{1.8cm}p{2.5cm}p{2.5cm}p{3.4cm}X}
+\toprule
+Dataset/model & Raw structural opportunities ($\geq2$ maximal matchings; not
+PG ambiguity) & Strict syntax-eligible queries & Unique frozen selections & Nominal/PESS comparison\\
+\midrule
+Forest10, corrected-log
+& 4,749/10,000 (47.49\%)
+& 135/10,000 (1.35\%)
+& $B=0:\varnothing$; $B=2:\{e_{01\_06},e_{02\_07}\}$; $B=3$ adds $e_{03\_04}$
+& Same unique exact Nominal and PESS sets at $B=0,2,3$.\\
+Census13, clamped-log-v2
+& 4,627/10,000 (46.27\%)
+& 58/10,000 (0.58\%)
+& $B=0:\varnothing$; $B=2:\{e_{02\_03},e_{04\_06}\}$; $B=3$ adds $e_{01\_05}$
+& Ten Nominal orders had the same unique optima; these equal the frozen PESS sets.\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+For the tested budgets, every nonempty winning set in both datasets contains
+mutually vertex-disjoint resource edges, so each selected instance has a
+unique maximal matching. This explains how the chosen configurations can
+remove modeled policy ambiguity even when many full candidate graphs are
+ambiguous. For Census13, the PESS result was reused from the frozen
+schema-order baseline rather than recomputed in the ten-order run. These
+findings are model-internal, not PostgreSQL traces or held-out PESS effects.
+
+For these frozen outputs, the conflict-free condition supplies a direct
+model-internal explanation for Nominal/PESS agreement. A set of pairwise
+disjoint selected edges has exactly one maximal matching in every task graph
+that contains those edges, so all modeled schemes collapse to the same
+resource-use set. When the Nominal optimizer returns such a globally
+optimal set, the lemma in Section~\ref{sec:decision-analysis} certifies it
+as optimal for Joint and PESS as well. This certificate is available after
+the selected set is known; it does not show that a generic optimizer will
+find a conflict-free optimum or that graph ambiguity elsewhere in the
+candidate universe is harmless to every decision.
+
+The Forest10 corrected-log fit used 45 workload-supported pair candidates
+and 174,088 verified valid-only observations across 46 configurations:
+10,000 Empty observations plus 164,088 statically eligible singleton
+observations. Of these, 87,404 contained verified MCV events and 86,684
+were explicitly recorded as \texttt{NO\_MCV\_EVENTS}. Complete exact
+feasible-subset enumeration gave the sets in Table~\ref{tab:larger};
+Nominal and PESS were identical at all three budgets. The Census13
+experiment used 78 candidates and 10,000 valid tasks from its separate
+\texttt{clamped-log-v2} model. Each of ten predeclared orders enumerated
+1, 3,082, and 79,158 feasible sets at $B=0,2,3$, respectively. All ten
+Nominal optima matched the already frozen PESS choices. This is an
+order-sensitivity result for those model inputs, not a test of PostgreSQL
+OID-order behavior \cite{issue64_forest10,issue71_census13}.
+
+The exact Fraction objective values are on separate, nonpooled scales.
+Forest10 corrected-log gives $23{,}326.825631$, $21{,}874.144594$, and
+$21{,}512.755121$ at $B=0,2,3$; Census13 \texttt{clamped-log-v2} gives
+$8{,}139.357062$, $5{,}865.249972$, and $5{,}486.660100$. At each budget,
+Nominal and PESS have the same unique set, but this does not make the
+objectives equal on other feasible sets. Forest10 uses complete enumeration
+for both methods; Census13's ten Nominal orders match the previously frozen
+PESS choices, which were not recomputed in that run. These are modeled
+pre-clamp decisions, not PostgreSQL outcomes.
+
+\subsection{Official Test-Split Plan Rows}
+
+The Forest10 full-valid selections were evaluated on all 10,000 official
+test queries with ordinary PostgreSQL \texttt{Plan Rows}. Table~\ref{tab:q1}
+reports the three distinct deployments. Nominal and PESS selected the same
+set at each budget; therefore these are comparisons with Empty, not a
+between-policy treatment effect. The test run used a fresh PostgreSQL 16.14
+build from \texttt{ess-postgresql@f1bf37b5}, a same-run sample, and the
+pinned evaluation helper. It produced 30,000 accepted
+estimate/truth rows with no unresolved observations. It did not collect
+MCV-selection traces, so the Plan Rows results do not identify which
+statistics the estimator used \cite{issue64_forest10_test}.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Forest10 official test-split \texttt{Plan Rows} metrics. Q1 uses
+10,000 queries; mean log error uses the 9,376 rows with positive estimate
+and truth. Earlier test exposure and template overlap limit
+generalization \cite{issue64_forest10_test}.}
+\label{tab:q1}
+\begin{tabular}{lrrrrr}
+\toprule
+Deployment & P50 Q1 & P95 Q1 & P99 Q1 & Max Q1 & Mean $|\ln(\widehat N/T)|$\\
+\midrule
+Empty ($B=0$) & 1.213347 & 17 & 71 & 9438 & 0.697851\\
+$B=2$ & 1.190081 & 14.907407 & 63 & 9438 & 0.635823\\
+$B=3$ & 1.192821 & 14 & 61.5 & 9438 & 0.622997\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+P95 Q1 fell relative to Empty by 12.309\% at $B=2$ and 17.647\% at $B=3$;
+the maximum Q1 remained 9438. Since the Nominal and PESS sets are identical
+at each budget, all 10,000 paired comparisons per budget tie. These are
+observed cardinality-error summaries for one frozen Forest10 environment.
+They do not measure query latency, show that PESS outperforms Nominal, or
+establish unseen-template generalization.
+
+\FloatBarrier
+\section{Discussion}
+
+The frozen models show that policy information can matter to resource choice,
+but not in every instance. Nominal and PESS optima differ at $B=3$ in the
+six-task rationalized model, including after restricting to effective-MCV
+candidates; they coincide for $B\leq3$ in both larger valid-only models.
+Policy sensitivity therefore depends on the prescribed schemes and their
+losses. Conflict alone does not establish different losses or optimal sets,
+and schemes can differ without edge conflict; the conflict-free result is
+only a sufficient certificate.
+
+The 47.49\% Forest10 and 46.27\% Census13 rates count raw candidate graphs
+with multiple maximal matchings. Strict syntax screens retain 135 and 58 of
+10,000 queries, and the archived intersection is unknown; neither measure
+realized PostgreSQL ambiguity. For the six-task held-out comparison, the
+reported PESS representative $\{e_{01},e_{34}\}$ had only $e_{34}$ built,
+while Nominal had three effective payloads. The PESS representative's error
+summary equals that for $\{e_{34}\}$; the $+0.024223$ difference from Nominal
+is descriptive over 60 query IDs and two repetitions (120 rows), not causal
+policy regret. The larger test comparison has identical Nominal/PESS sets
+and no treatment contrast.
+
+PostgreSQL requests, catalog objects, payloads, task eligibility, admissible
+schemes, selected schemes, and estimates are distinct. The restricted 16.14
+maximal-matching correspondence is conditional on stated source premises and
+a two-order fixture; it establishes neither $\mathcal R_i(M)\subseteq
+\Gamma_i(M)$ nor a real worst-case guarantee. Taskwise PESS maxima also need
+not be realized by one shared policy.
+
+The frozen composition check multiplied singleton corrections for both
+created objects. For one disjoint pair, PostgreSQL selected both and the
+product matched one observation to floating-point precision. For each
+overlapping pair it selected only one object, although the comparison
+multiplied both. The residuals were $0.1590$ and $-0.4904$. They reject
+that all-created product, not the matching-conditioned product over the
+selected matching.
+The check does not broadly validate or refute matched-scheme predictions.
+Their fidelity remains unknown, making counterfactual complete-scheme loss
+prediction the principal scientific gap: can it support externally
+meaningful resource decisions under unknown estimator policy?
+
+Positive pre-clamp absolute log error requires positive estimates; finalized
+\texttt{Plan Rows}, maintenance cost, and query runtime are different
+quantities. Generic $\operatorname{Maint}(M)$ remains nonadditive. The frozen
+studies measure neither physical maintenance cost nor latency, and the
+Forest10 test split has template overlap and prior exposure. Prior work
+narrows the possible ESS distinction to resource advice under a
+resource-dependent complete-scheme family and partial selector information,
+but the manuscript does not establish sufficient regular-paper novelty.
+
+\section{Conclusion}
+
+ESS separates budgeted resource choice, prescribed scheme admissibility,
+policy information, and counterfactual scheme losses. Frozen models show
+both policy-sensitive and insensitive decisions. PostgreSQL instantiation
+and deployment evidence remain conditional and noncausal; counterfactual
+loss fidelity and sufficient technical novelty remain unestablished.
+
+\FloatBarrier
+\clearpage
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
 
 \end{document}

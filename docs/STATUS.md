@@ -106,6 +106,25 @@ For long-lived premises, see [RESEARCH_CONTEXT.md](RESEARCH_CONTEXT.md); for jus
 
 **Current Issue #64 scientific checkpoint (2026-10-22):** The scoped Forest10 milestone is complete and recorded in [the concise closeout](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-stage2b-final-summary-v1.md). The full 174,088-row valid-only calibration was verified; corrected-log exact selection for `B=0/2/3` yielded identical unique Nominal/PESS sets (`{}`, `{e01_06,e02_07}`, `{e01_06,e02_07,e03_04}`). Official test evaluation completed 30,000/30,000 rows with no unresolved observations. P95 Q1 was Empty 17, B2 14.907407 (12.309% lower), B3 14 (17.647% lower); Nominal/PESS paired results tie on all queries because their sets are identical. This does **not** demonstrate a PESS advantage or unseen-template generalization; known template overlap, prior test exposure, and Forest10-only scope remain. Historical checkpoints and failed evidence below are retained; pending/not-run statements are historical and superseded by the linked versioned reports. PR #65 is still Draft; Issue #64 remains Open.
 
+**Issue #84 manuscript v4 (2026-10-23):** Continued the existing Issue #84
+worktree and Draft PR #85 after review `5630310609`. The paper now states a
+scoped falsifiable claim across the six-task separation, active-MCV-only
+restriction, and two larger coincident-optimum models. It corrects the
+overlap-composition interpretation: residuals compare PostgreSQL with the
+product of both created statistics even where only one overlapping object
+was selected; this rejects all-created multiplication but does not test the
+matching-conditioned prediction. It foregrounds the displayed PESS/Nominal
+payload mismatch and compresses redundant evidence tables/prose. Local
+Latexmk 4.83 / TeX Live 2023 build: 13 letter pages (12 main-text, 1
+references), with no undefined references/citations, BibTeX warnings, or
+overfull boxes; underfull boxes and the ACM template column-balance warning
+remain. The `pgsource1614` year was already 2026 and uses `REL_16_14`; no
+bibliography correction was needed. No archive-only recalculation,
+PostgreSQL execution, data collection, refit, official test access, large
+enumeration, or solver run was performed. Counterfactual matching-conditioned
+loss fidelity and publication novelty remain open; PR #85 remains Draft and
+unmerged.
+
 **Exploratory Nominal order sensitivity (2026-10-22):** Reusing the frozen valid coefficients and exact selector, all ten predeclared priority orders (original, reverse, seeds 0–7) produced the same unique resource set and exact Nominal optimum at B=0/2/3; the B2/B3 winning sets are vertex-disjoint and their PESS worst-case losses equal the frozen PESS optima. Full permutations, exact values and source mapping are in [the exploratory report](../experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-nominal-order-sensitivity-v1.md). No PostgreSQL or test data was used; dynamic OID validation remains a separately authorized future experiment.
 
 **Issue #64 review follow-up (2026-10-22; code only):** Review `5608528228` accepts the fixed first-20 JSON smoke within scope. `forest10-full-calibration-preflight-v1.md` audits long-run readiness: smoke output is flushed per row but is not crash-durable/resumable; the integrated full-calibration function retains observations in memory and immediately fits/selects. Four added synthetic failure-prefix/interrupt/invalid-value/configuration tests bring the suite to 122 passing tests. Positive-domain rules are unchanged; no production runner/config or PG execution changed. Full 174,088-call acquisition needs a minimal collection-only persistence adaptation and explicit retention/time/disk decision; observed slice timing and MCV rates cannot guarantee full-valid behavior. No new experiment was authorized or run; PR remains Draft, Issue Open.
