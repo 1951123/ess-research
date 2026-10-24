@@ -59,6 +59,7 @@ The conflict gives the task alternative maximal matchings; the frozen exact coef
 ## Provenance, work, and limits
 
 - Source worktree commit: `0e7da4d2c7073e1a2dba531fda4e317adf414a10`; analysis script SHA-256: `080320de10b82e109bdccb27b5d65469fe9c5a020edc2483fd7be3f4c29b56d5`.
+- The analysis ran from committed implementation `0e7da4d`. The later `208d7fd` commit published the derived JSON/report, README link, and CI test/lint entries; `9a439eb` updated `docs/STATUS.md`. Neither changed `analyze_issue95.py`; the current script SHA still matches the JSON and this report. Thus the recorded analysis source commit is the code/input state used for evaluation, while the PR head also includes the subsequent documentation/CI commits.
 - Frozen Issue #87 solver source: `386658d7b3895a57bd138b24611672d329edaeda`; Advisor: `5d61f75fede37d34027b437c646000a3d78d00c6`; protocol SHA-256: `ef095a12dd1a1ac676acd822e24d93e369b61cbd56297ced87b6771111f07623`.
 - v4 evidence manifest SHA-256: `6e1f9a07d52bf5dd2d5e250e80dad2146cacf8cadeeecf0f078a86b8017eb1e4`; analysis JSON SHA-256: `2be62f667251dfec5636efa790cbc7152cd5e451a203e81aacf994182d4bfc1f`.
 - Environment: Python 3.12.3, NumPy 2.3.4, SciPy 1.18.1, NetworkX 3.7, `pess-ess==0.1.0` from the pinned Advisor commit. Reproduction command:
