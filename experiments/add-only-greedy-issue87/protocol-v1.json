@@ -2,6 +2,16 @@
   "format": "ess-issue87-add-only-greedy-protocol-v1",
   "status": "STAGE0_PROTOCOL_ONLY_PLANNED_NO_EXECUTION_AUTHORIZATION",
   "execution_authorized": false,
+  "future_execution_gate": {
+    "full_case_runner_implemented_in_stage0": false,
+    "full_input_builder_checked_in_ci_in_stage0": false,
+    "requirements_before_any_full_valid_execution_authorization": [
+      "a separate reviewed and pinned runner that enforces the frozen serial case order and one-process limit",
+      "OS-enforced wall-clock and memory limits with effective limits, process exit status and peak RSS captured per case",
+      "the pinned full-input builder checked in CI without invoking the solver",
+      "the frozen JSONL case and contrast evidence records emitted with fail-closed handling"
+    ]
+  },
   "research_question": "On the same frozen full-valid Forest10 and Census13 models, does the same strict-improvement add-only greedy rule produce meaningfully different Nominal and task-wise PESS resource sets as the unit-cost proxy budget increases above 3?",
   "minimal_experiment": "Reuse the two archived 10,000-task valid-only models and their existing model adapters; after separate authorization, run the same deterministic greedy backend at B=0,2,3,4,5 for each objective and dataset, then exactly re-evaluate both selected sets under both frozen objectives.",
   "scope": {
@@ -23,7 +33,7 @@
     "existing_model_adapter_sha256": "802a7d9a0bdfd6553830de25868e4a8da382c30f37e644562134f797b68e969c",
     "existing_model_adapter_source_commit": "6c0d82d258faaa817f2bc977ff99b04971550aa0",
     "new_issue87_adapter_path": "experiments/add-only-greedy-issue87/adapter.py",
-    "new_issue87_adapter_sha256": "26a3930c87d7b60f4561202734470326197f0c3bd55cdb8a4f909ef784138a39",
+    "new_issue87_adapter_sha256": "b4f156ec32b7deae911570090d3e9da5bbec8ec3783c6055aa1c915d332aeb15",
     "advisor_repository": "1951123/ess-advisor",
     "advisor_source_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
     "advisor_source_branch_at_freeze": "main",

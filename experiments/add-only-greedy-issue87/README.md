@@ -17,7 +17,9 @@ This directory records **Stage 0 only**. The authoritative design, pins, fixed c
 
 `adapter.py` wraps the existing frozen-model request builder with schema-v1 `add_only_greedy` controls. `build_frozen_dataset_payload()` checks the full task count, candidate universe/order, unit costs, frozen selection/model hashes, and archived source adapter before constructing a request. It does not launch the solver. The tests use only tiny synthetic instances and do not call that full-input builder.
 
-The preflight tests exercise the exact backend on synthetic inputs: B=0, deterministic candidate-ID ties, task eligibility, zero-cost feasibility, plateau stopping, incomplete-round handling, and exact Fraction cross-objective re-evaluation. No AreCEL data is needed for these tests.
+This is a request builder and exact fixed-set cross-evaluator, not a prospective full-case runner. Before any full-valid execution authorization, a separate reviewed and pinned execution-gate revision must implement and test serial case orchestration, OS-enforced memory/wall limits, process exit/RSS capture, a CI check of the pinned full-input builder, and the frozen JSONL evidence records. Stage 0 does not enforce those operating-system limits or test that full-input builder in CI.
+
+The seven preflight tests exercise the exact backend on synthetic inputs: B=0, deterministic candidate-ID ties, task eligibility, zero-cost feasibility, plateau stopping, incomplete-round handling, exact Fraction cross-objective re-evaluation, request immutability, candidate-universe validation, and post-deadline incomplete handling. No AreCEL data is needed for these tests.
 
 ## Execution gate and limits
 
@@ -27,6 +29,6 @@ The planned decision is heuristic and model-internal. A difference between greed
 
 ## Stage 0 check
 
-On Python 3.12.3 with NumPy 2.3.4, SciPy 1.18.1, NetworkX 3.7, and the local `ess-advisor` checkout verified at main commit `5d61f75fede37d34027b437c646000a3d78d00c6`, the synthetic Issue #87 preflight passed **5 tests**. The pinned Advisor `test_greedy.py` passed **14 tests**. Ruff check and format checks passed for both new Python files. The research adapter was tested only with tiny synthetic requests; `build_frozen_dataset_payload()` was not called. No complete valid workload was solved, and no PostgreSQL, held-out test, or calibration data were accessed.
+On Python 3.12.3 with NumPy 2.3.4, SciPy 1.18.1, NetworkX 3.7, and the local `ess-advisor` checkout verified at main commit `5d61f75fede37d34027b437c646000a3d78d00c6`, the synthetic Issue #87 preflight passed **7 tests** after review follow-ups. The pinned Advisor `test_greedy.py` passed **14 tests**. Ruff check and format checks passed for both new Python files. The research adapter was tested only with tiny synthetic requests; `build_frozen_dataset_payload()` was not called. No complete valid workload was solved, and no PostgreSQL, held-out test, or calibration data were accessed.
 
-GitHub CI is part of the Draft PR review and is not yet reported as passed until its checks complete on the final pushed HEAD.
+GitHub Actions check status is tracked in the Draft PR and must correspond to the pushed head under review.

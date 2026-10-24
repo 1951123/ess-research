@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from copy import deepcopy
 import unittest
 from fractions import Fraction
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+from time import monotonic
+from unittest.mock import patch
 from pess_ess.api import result_to_dict, solve
 from pess_ess.model import instance_from_dict
 from pess_ess.reference import reference_nominal_objective, reference_objective
@@ -119,6 +122,22 @@ class Issue87Stage0Preflight(unittest.TestCase):
                     expected["candidate_attempts_upper_bound"],
                 )
 
+    def test_adapting_both_objectives_does_not_mutate_base_request(self) -> None:
+        request = base_request(
+            budget=2,
+            alpha="2",
+            candidates=[unit_candidate("a-resource", "a", "b")],
+            eligible=["a-resource"],
+            corrections={"a-resource": "-1"},
+            priority=["a-resource"],
+        )
+        original = deepcopy(request)
+
+        adapter.adapt_request(request, "nominal")
+        adapter.adapt_request(request, "pess")
+
+        self.assertEqual(request, original)
+
     def test_ties_eligibility_exact_values_and_cross_evaluation(self) -> None:
         # Input order intentionally differs from the backend's candidate-ID tie-break.
         request = base_request(
@@ -187,6 +206,11 @@ class Issue87Stage0Preflight(unittest.TestCase):
         self.assertEqual(
             contrast["cross_evaluation_work"]["fixed_set_evaluation_calls"], 4
         )
+
+        with self.assertRaisesRegex(ValueError, "outside the candidate universe"):
+            adapter.reevaluate_greedy_contrast(
+                request, ["unknown-resource"], ["a-resource"]
+            )
 
         reversed_request = dict(request)
         reversed_request["instance"] = dict(request["instance"])
@@ -276,6 +300,32 @@ class Issue87Stage0Preflight(unittest.TestCase):
         self.assertFalse(
             incomplete["optimality"]["outer_global_optimum_fraction_certified"]
         )
+
+    def test_cross_evaluation_that_finishes_after_deadline_is_incomplete(self) -> None:
+        request = base_request(
+            budget=1,
+            alpha="2",
+            candidates=[unit_candidate("a-resource", "a", "b")],
+            eligible=["a-resource"],
+            corrections={"a-resource": "-1"},
+            priority=["a-resource"],
+        )
+        started = monotonic()
+        time_limit = adapter._protocol()["resource_limits"][
+            "fixed_set_cross_evaluation"
+        ]["total_time_seconds"]
+        with patch.object(
+            adapter,
+            "monotonic",
+            side_effect=[started, started + time_limit + 1],
+        ):
+            with self.assertRaises(adapter.CrossEvaluationIncomplete) as raised:
+                adapter.reevaluate_greedy_contrast(
+                    request, ["a-resource"], ["a-resource"]
+                )
+
+        self.assertEqual(str(raised.exception), "time_limit_seconds")
+        self.assertEqual(raised.exception.completed_fixed_set_evaluations, 1)
 
 
 if __name__ == "__main__":

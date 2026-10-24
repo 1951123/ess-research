@@ -4,7 +4,7 @@
 **Owner of research decisions:** human researcher  
 **Scope of this file:** actionable state at the snapshot date, not a continuously updated GitHub dashboard. **Recheck PR/Issue state when resuming.**
 
-**Issue #87 Stage 0 / [Draft PR #88](https://github.com/1951123/ess-research/pull/88) (2026-10-24):** The valid-only Forest10/Census13 add-only greedy protocol, pinned inputs/backend, bounded resource plan and synthetic preflight are prepared for review. Local offline CI passed; GitHub Python/evidence and paper PDF jobs passed on protocol/code commit `a231db4a6632277aec2dcdf95a7dce2f94a02c00`. No full-valid solve, PostgreSQL, held-out evaluation, calibration, model update or manuscript change was performed. `execution_authorized` remains **false**; Issue #87 remains open pending review and a separate researcher execution decision.
+**Issue #87 Stage 0 / [Draft PR #88](https://github.com/1951123/ess-research/pull/88) (2026-10-24):** Review at `9b47088b8a5ecafbf8de8eab071e193d3ddffe53` found no Stage 0 blocker and requested defensive checks. The follow-up revision copies nested provenance, rejects selected IDs outside the candidate universe, and treats cross-evaluation finishing after its deadline as incomplete. A full-case runner, OS-enforced resource limits, CI coverage of the pinned full-input builder, and JSONL evidence emission remain requirements for a separate reviewed execution-gate revision. No full-valid solve, PostgreSQL, held-out evaluation, calibration, model update or manuscript change was performed. `execution_authorized` remains **false**; Issue #87 remains open.
 
 **Issue #74 / [PR #75](https://github.com/1951123/ess-research/pull/75)
 (2026-10-22):** Implementation maps the

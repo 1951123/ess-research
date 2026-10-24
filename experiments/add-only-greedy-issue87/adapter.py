@@ -148,6 +148,8 @@ def adapt_request(base_request: dict[str, Any], objective: str) -> dict[str, Any
     provenance = payload.get("input_provenance")
     if not isinstance(provenance, dict):
         raise ValueError("base request is missing input provenance")
+    provenance = dict(provenance)
+    payload["input_provenance"] = provenance
     provenance["advisor_source_commit"] = _protocol()["immutable_software"][
         "advisor_source_commit"
     ]
@@ -209,6 +211,12 @@ def reevaluate_greedy_contrast(
         source_ids = nominal_selected_ids if name == "nominal" else pess_selected_ids
         if len(selected) != len(source_ids):
             raise ValueError(f"{name} selection contains duplicate candidate IDs")
+        unknown_ids = selected - set(instance.candidate_ids)
+        if unknown_ids:
+            raise ValueError(
+                f"{name} selection contains IDs outside the candidate universe: "
+                f"{sorted(unknown_ids)}"
+            )
         if instance.maintenance_cost(selected) > instance.budget:
             raise ValueError(f"{name} selection exceeds the frozen budget")
 
@@ -231,6 +239,10 @@ def reevaluate_greedy_contrast(
             )
             completed_calls += 1
             values[f"nominal_objective_on_{set_name}_set_fraction"] = str(nominal_value)
+            if monotonic() > deadline:
+                raise CrossEvaluationIncomplete(
+                    "time_limit_seconds", completed_calls, work
+                )
 
             required_subsets = sum(
                 1 << len(set(task.eligible_candidates) & selected)
@@ -245,6 +257,10 @@ def reevaluate_greedy_contrast(
             )
             completed_calls += 1
             values[f"pess_objective_on_{set_name}_set_fraction"] = str(pess_value)
+            if monotonic() > deadline:
+                raise CrossEvaluationIncomplete(
+                    "time_limit_seconds", completed_calls, work
+                )
     except ReferenceEvaluationIncomplete as exc:
         raise CrossEvaluationIncomplete(str(exc), completed_calls, work) from exc
 
@@ -252,15 +268,19 @@ def reevaluate_greedy_contrast(
         raise CrossEvaluationIncomplete(
             "max_inner_matching_subsets", completed_calls, work
         )
-    return {
+    result = {
         **values,
         "cross_evaluation_work": {
             "fixed_set_evaluation_calls": completed_calls,
             "matching_subsets_examined": work.matching_subsets_examined,
             "maximal_matchings_scored": work.maximal_matchings_scored,
-            "wall_seconds": max(0.0, monotonic() - started),
         },
     }
+    finished = monotonic()
+    if finished > deadline:
+        raise CrossEvaluationIncomplete("time_limit_seconds", completed_calls, work)
+    result["cross_evaluation_work"]["wall_seconds"] = max(0.0, finished - started)
+    return result
 
 
 def build_frozen_dataset_payload(
