@@ -1245,6 +1245,8 @@ def _cross_attempt(
     directory.mkdir(parents=True)
     child_args = [
         "_cross",
+        "--case-dir",
+        str(directory),
         "--request",
         str(nominal_request),
         "--nominal-result",
@@ -1562,6 +1564,7 @@ def main() -> int:
     source.add_argument("--build-frozen-input", action="store_true")
     source.add_argument("--base-request", type=Path)
     cross = subparsers.add_parser("_cross", help=argparse.SUPPRESS)
+    cross.add_argument("--case-dir", type=Path, required=True)
     cross.add_argument("--request", type=Path, required=True)
     cross.add_argument("--nominal-result", type=Path, required=True)
     cross.add_argument("--pess-result", type=Path, required=True)
