@@ -10,6 +10,14 @@ Experiments do not require a prior merge to `main`. Record the exact clean devel
 
 A small one-off documentation correction may use a simpler workflow when appropriate; do not create a Worktree for every trivial command or detached experiment. Multiple branches/Worktrees can coexist, but a single branch cannot normally be checked out in multiple Worktrees simultaneously.
 
+## Autonomous execution within an approved task
+
+An approved research task authorizes the ordinary engineering/debug/test/run cycle within its frozen scientific and resource boundaries; approval is not renewed for every run or implementation repair. Run on the clean, committed task branch **before** merge when appropriate. Assign a unique run ID to each attempt, keep only evidence necessary to distinguish incomplete from complete results, and never overwrite irreplaceable observations.
+
+On ordinary failures: **diagnose → make the smallest repair → test → retry within the existing task authorization → report at a meaningful milestone**. A new Draft PR or approval request per failed attempt is not the default. Prefer continuing on the same task branch and one meaningful final review. If the researcher explicitly restricted permission to one attempt, honor that narrower limit.
+
+Escalate only for changed research assumptions, population/splits, metrics, resource envelope, destructive operations, evidence integrity or a genuinely unresolved blocker. Avoid speculative engineering: do not build generic runners, gates or manifests without a demonstrated need for the current experiment. A plausible future failure alone is not grounds to block progress. The researcher remains the final merge decision-maker.
+
 ## Configure the three stable root paths
 
 The user explicitly chooses the following root paths, for example in `~/.bashrc`. Stable paths do not imply persistent runtime contents:
