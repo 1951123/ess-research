@@ -4,7 +4,9 @@ This is the default development workflow for **nontrivial, independently scoped*
 
 ## Default lifecycle
 
-**One scoped Issue → one branch → one Git Worktree → one Codex session → one Draft PR → review → researcher merge → clean up the Worktree.**
+**One scoped Issue → one branch → one Git Worktree → one Codex session → authorized experiments and checks on the committed branch → one Draft PR with evidence → review → researcher-authorized merge → clean up the Worktree.**
+
+Experiments do not require a prior merge to `main`. Record the exact clean development-branch commit used for each run, preserve failed attempts separately, and integrate only after the agreed validation succeeds. The researcher's session instructions determine execution, repair/retry and merge authorization; an explicit continuing authorization does not need to be requested again for each engineering fix. Frozen scientific inputs and resource limits still apply.
 
 A small one-off documentation correction may use a simpler workflow when appropriate; do not create a Worktree for every trivial command or detached experiment. Multiple branches/Worktrees can coexist, but a single branch cannot normally be checked out in multiple Worktrees simultaneously.
 
@@ -200,7 +202,7 @@ After PR merge, remote task branches may be deleted; `origin/<issue-branch>` can
 
 - Scope tasks to avoid editing the same files when possible. Changes to common status or documentation may still conflict; this is normal and must be resolved semantically.
 - Commit and push only the current task branch. Open one reviewable **Draft PR** per bounded task with commands actually run, tests/CI status, hashes/provenance, limitations and relevant Issue link.
-- The reviewer can comment or request changes; Codex continues on the **same task branch**. No agent auto-merges, force-pushes, resets unrelated work or deletes someone else's Worktree.
+- The reviewer can comment or request changes; Codex continues on the **same task branch**. Merge requires researcher authorization, including explicit authorization conditioned on successful validation. Do not force-push, reset unrelated work or delete someone else's Worktree.
 - GitHub changes are **not automatically present locally**. Fetch before checking out, comparing or merging the newest remote branch.
 - When another PR merges into `main`, synchronize an active task branch (after ensuring local edits are safely committed or otherwise preserved):
 
