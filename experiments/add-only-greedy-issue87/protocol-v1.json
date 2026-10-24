@@ -1,7 +1,7 @@
 {
   "format": "ess-issue87-add-only-greedy-protocol-v1",
-  "status": "STAGE0_PROTOCOL_ONLY_PLANNED_NO_EXECUTION_AUTHORIZATION",
-  "execution_authorized": false,
+  "status": "EXECUTION_AUTHORIZED",
+  "execution_authorized": true,
   "future_execution_gate": {
     "full_case_runner_implemented_in_stage0": false,
     "full_input_builder_checked_in_ci_in_stage0": false,
