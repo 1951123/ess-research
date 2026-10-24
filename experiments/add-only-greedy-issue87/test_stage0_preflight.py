@@ -91,7 +91,7 @@ def execute(payload: dict, *, max_evaluations: int | None = None) -> dict:
 class Issue87Stage0Preflight(unittest.TestCase):
     def test_frozen_backend_and_protocol_pins_are_explicit(self) -> None:
         protocol = adapter._protocol()
-        self.assertFalse(protocol["execution_authorized"])
+        self.assertTrue(protocol["execution_authorized"])
         self.assertEqual(
             protocol["immutable_software"]["advisor_source_commit"],
             "5d61f75fede37d34027b437c646000a3d78d00c6",

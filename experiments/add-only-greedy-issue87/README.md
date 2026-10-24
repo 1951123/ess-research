@@ -2,7 +2,7 @@
 
 **Scientific question:** Under the already-frozen Forest10 and Census13 valid-only models, does the same strict-improvement `add_only_greedy` rule produce different Nominal and task-wise PESS selections at budgets above 3? Reuse the two existing 10,000-task models and adapters; the minimum future comparison is the frozen `B=0,2,3,4,5` sequence, with exact Fraction re-evaluation of both selected sets under both objectives.
 
-This directory records the frozen protocol and execution preparation only; it contains no formal experiment results. The authoritative design, pins, fixed case order, limits, stop rules, and JSONL record fields are in [`protocol-v1.json`](protocol-v1.json), which remains frozen with `execution_authorized: false`.
+This directory records the frozen protocol and execution preparation; it contains no formal experiment results. The authoritative design, pins, fixed case order, limits, stop rules, and JSONL record fields are in [`protocol-v1.json`](protocol-v1.json). Issue #87 comment 6380444478 records the researcher's execution authorization; PR #90 updates only that gate and the runner's protocol hash pin.
 
 ## Fixed design
 
@@ -17,13 +17,13 @@ This directory records the frozen protocol and execution preparation only; it co
 
 `adapter.py` wraps the existing frozen-model request builder with schema-v1 `add_only_greedy` controls. `build_frozen_dataset_payload()` checks the full task count, candidate universe/order, unit costs, frozen selection/model hashes, and archived source adapter before constructing a request. It does not launch the solver. The Stage 0 adapter tests use tiny synthetic inputs; runner CI separately calls this builder for both frozen datasets without solving them.
 
-The minimal full-case runner is in [`run_issue87.py`](run_issue87.py). It checks the authorization flag and exact protocol hash before any worker path, reuses the B=0 frozen request for later cases, runs one case or cross-evaluation at a time in a systemd scope, and keeps exact request/response bytes, JSONL records, resource reports and failure details under `$ESS_RUNTIME_PARENT/ess-research/issue87/runs/<run-id>/`. Any failed or incomplete case stops the sequence; partial prefixes never become selected sets. The runner does not alter this protocol's `execution_authorized: false` setting. Any future authorization will require its own reviewed protocol/hash-pin change and a separate researcher decision.
+The minimal full-case runner is in [`run_issue87.py`](run_issue87.py). It checks the authorization flag and exact protocol hash before any worker path, reuses the B=0 frozen request for later cases, runs one case or cross-evaluation at a time in a systemd scope, and keeps exact request/response bytes, JSONL records, resource reports and failure details under `$ESS_RUNTIME_PARENT/ess-research/issue87/runs/<run-id>/`. Any failed or incomplete case stops the sequence; partial prefixes never become selected sets. The authorized flag only takes effect when this reviewed hash-pinned revision is merged; formal runs start from that merged clean checkout.
 
 The existing preflight tests exercise the exact backend on synthetic inputs. Runner tests cover the frozen 20-case order and limits, the execution gate (including hidden worker commands), incomplete-result handling, and the full Forest10/Census13 input builder. The full-input test only builds and validates requests; it does not call the solver.
 
 ## Execution gate and limits
 
-No Forest10/Census13 selection request has been executed by this runner revision. Formal runs still require the runner to pass independent review and a separate explicit researcher authorization. PostgreSQL, test split access/evaluation, refitting, and manuscript edits remain outside scope.
+No Forest10/Census13 selection request has been executed by this runner revision. The Issue #87 execution authorization is recorded separately from the software gate; formal execution starts only after this authorization/hash change passes review and CI. PostgreSQL, test split access/evaluation, refitting, and manuscript edits remain outside scope.
 
 The planned decision is heuristic and model-internal. A difference between greedy outputs does not establish that global Nominal and PESS optima differ; a PESS gap is measured only relative to the PESS greedy incumbent. The modeled maximal-matching family is not claimed to contain every real PostgreSQL scheme.
 
@@ -35,4 +35,4 @@ GitHub Actions check status is tracked in the Draft PR and must correspond to th
 
 ## Runner revision check
 
-On Python 3.12.3 with the frozen dependency pins, the repository CI test command passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner checks built both 10,000-task frozen requests without solving them. A `/bin/true` systemd-scope probe returned `Result=success`, `MemoryMax=12884901888`, and `RuntimeMaxUSec=15min`; the runner accepted those effective limits and captured the `/usr/bin/time` report. No full-valid solve was run. The same synthetic control-flow and full-input builder checks are in CI; formal execution remains blocked by `execution_authorized: false` pending independent runner review and a separate researcher decision.
+On Python 3.12.3 with the frozen dependency pins, the repository CI test command passed **149 tests**; Ruff and all 22 evidence manifests also passed. The runner checks built both 10,000-task frozen requests without solving them. A prior `/bin/true` systemd-scope probe returned `Result=success`, `MemoryMax=12884901888`, and `RuntimeMaxUSec=15min`; the runner accepted those effective limits and captured the `/usr/bin/time` report. This authorization revision does not run a solver case. The same synthetic control-flow and full-input builder checks are in CI.

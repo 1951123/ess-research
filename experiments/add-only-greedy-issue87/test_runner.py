@@ -11,7 +11,7 @@ import run_issue87 as runner
 
 class Issue87RunnerTests(unittest.TestCase):
     def test_case_order_and_systemd_limits_are_frozen(self) -> None:
-        self.assertIs(runner.protocol()["execution_authorized"], False)
+        self.assertIs(runner.protocol()["execution_authorized"], True)
         self.assertEqual(
             runner.sha256_file(runner.PROTOCOL_PATH), runner.PROTOCOL_SHA256
         )
@@ -56,14 +56,22 @@ class Issue87RunnerTests(unittest.TestCase):
     def test_execution_gate_refuses_before_creating_run_directory(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             runtime = Path(temporary)
-            with self.assertRaisesRegex(
-                PermissionError, "execution_authorized is false"
+            unauthorized = runner.protocol() | {"execution_authorized": False}
+            with (
+                patch.object(runner, "protocol", return_value=unauthorized),
+                self.assertRaisesRegex(
+                    PermissionError, "execution_authorized is false"
+                ),
             ):
                 runner.run(runner.ROOT, "gate-test", runtime)
             self.assertEqual(list(runtime.iterdir()), [])
 
     def test_hidden_worker_commands_also_obey_execution_gate(self) -> None:
-        with patch.dict(runner.os.environ, {runner.SCOPE_ENV: "1"}):
+        unauthorized = runner.protocol() | {"execution_authorized": False}
+        with (
+            patch.dict(runner.os.environ, {runner.SCOPE_ENV: "1"}),
+            patch.object(runner, "protocol", return_value=unauthorized),
+        ):
             args = SimpleNamespace(
                 repo=runner.ROOT,
                 case_dir=Path("unused"),
@@ -84,7 +92,7 @@ class Issue87RunnerTests(unittest.TestCase):
 
     def test_serial_runner_stops_after_first_incomplete_case(self) -> None:
         planned_protocol = runner.protocol()
-        self.assertIs(planned_protocol["execution_authorized"], False)
+        self.assertIs(planned_protocol["execution_authorized"], True)
         with tempfile.TemporaryDirectory() as temporary:
             with (
                 patch.object(runner, "protocol", return_value=planned_protocol),
