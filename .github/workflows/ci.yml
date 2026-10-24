@@ -23,9 +23,15 @@ jobs:
           python-version: '3.13'
       - name: Install test runner
         run: python -m pip install 'pytest==8.4.2' 'ruff==0.14.1' -r requirements-arecel.txt
+      - name: Install pinned Advisor add-only greedy backend
+        run: >-
+          python -m pip install
+          'scipy==1.18.1' 'networkx==3.7'
+          'pess-ess @ git+https://github.com/1951123/ess-advisor.git@5d61f75fede37d34027b437c646000a3d78d00c6'
       - name: Run offline regression tests
         run: |
           python -m pytest -q \
+            experiments/add-only-greedy-issue87/test_stage0_preflight.py \
             ci/test_check_evidence.py \
             ci/test_theory_star_reductions.py \
             experiments/pg-maintenance/test_analyze_benchmark.py \
@@ -41,8 +47,8 @@ jobs:
             experiments/solver-integration-issue74/test_stage2_b2_recovery_runner.py
       - name: Lint archive-first infrastructure
         run: |
-          ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py
-          ruff format --check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py
+          ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py
+          ruff format --check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py
       - name: Verify preserved experimental evidence
         run: python ci/check_evidence.py
 
