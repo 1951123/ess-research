@@ -69,6 +69,7 @@ These are **default scope and cost constraints, not permission to compromise cor
 
 - The researcher retains the final choice of research direction and merge.
 - **Default for nontrivial code/research work:** one small task → short-lived branch → tests/evidence → reviewable **Draft PR**; use `main` directly only for simple, low-risk edits when expressly appropriate.
+- **Authorized experiments run on the development branch before merging.** Use a clean, committed Issue Worktree and record its exact source SHA. Validate implementation and experimental evidence there, then merge when the researcher has authorized merge and the agreed checks succeed. Do not require a prior `main` merge merely to execute or validate an authorized experiment. Follow the session's authorization for engineering fixes and further attempts without repeatedly requesting the same permission; retain each attempt separately and preserve scientific scope and resource limits.
 - Recommended branch prefixes: `research/`, `experiment/`, `fix/`, `docs/` or `workflow/`.
 - Before starting, inspect `git status` and existing branches. Never reset, clean, force-push, overwrite uncommitted work, or merge a draft PR as a shortcut.
 - Make smallest scoped changes that satisfy the task. Preserve unrelated work, file structure, and LaTeX manuscript template.

@@ -1245,6 +1245,8 @@ def _cross_attempt(
     directory.mkdir(parents=True)
     child_args = [
         "_cross",
+        "--case-dir",
+        str(directory),
         "--request",
         str(nominal_request),
         "--nominal-result",
@@ -1390,10 +1392,9 @@ def run(
             case = cases[case_index + offset]
             base_path = None
             if objective == "pess":
-                nominal_request_path = (
+                base_path = (
                     run_root / "cases" / f"{dataset}-nominal-b0" / "request.json"
                 )
-                base_path = nominal_request_path
             if budget > 0 and objective == "nominal":
                 base_path = (
                     run_root / "cases" / f"{dataset}-nominal-b0" / "request.json"
@@ -1562,6 +1563,7 @@ def main() -> int:
     source.add_argument("--build-frozen-input", action="store_true")
     source.add_argument("--base-request", type=Path)
     cross = subparsers.add_parser("_cross", help=argparse.SUPPRESS)
+    cross.add_argument("--case-dir", type=Path, required=True)
     cross.add_argument("--request", type=Path, required=True)
     cross.add_argument("--nominal-result", type=Path, required=True)
     cross.add_argument("--pess-result", type=Path, required=True)

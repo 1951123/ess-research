@@ -222,6 +222,80 @@ class Issue87RunnerTests(unittest.TestCase):
             self.assertEqual(metadata["failure_reason"], summary["failure_reason"])
             self.assertEqual(metadata["terminal_status_source"], "run-summary.json")
 
+    def test_serial_cross_evaluation_uses_current_budget_request(self) -> None:
+        def case_attempt(repo, root, run_id, case, base_path, commit, protocol):
+            expected_base = None
+            if case["objective"] == "pess" or case["budget"] > 0:
+                expected_base = (
+                    root / "cases" / f"{case['dataset']}-nominal-b0/request.json"
+                )
+            self.assertEqual(base_path, expected_base)
+            return (
+                {"status": "COMPLETE", "case_id": case["case_id"]},
+                root / "cases" / case["case_id"] / "request.json",
+            )
+
+        def cross_attempt(repo, root, run_id, dataset, budget, request, n, p, protocol):
+            self.assertEqual(
+                request, root / "cases" / f"{dataset}-nominal-b{budget}/request.json"
+            )
+            self.assertEqual(
+                n, root / "cases" / f"{dataset}-nominal-b{budget}/result.json"
+            )
+            self.assertEqual(
+                p, root / "cases" / f"{dataset}-pess-b{budget}/result.json"
+            )
+            return {}, {}, None
+
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch.object(runner, "verify_source_checkout", return_value="a" * 40),
+            patch.object(runner, "verify_run_environment", return_value={}),
+            patch.object(runner, "_case_attempt", side_effect=case_attempt) as cases,
+            patch.object(runner, "_cross_attempt", side_effect=cross_attempt) as cross,
+            patch.object(
+                runner, "contrast_record", return_value={"status": "COMPLETE"}
+            ),
+        ):
+            self.assertEqual(runner.run(runner.ROOT, "cross-paths", Path(temporary)), 0)
+            self.assertEqual(cases.call_count, 20)
+            self.assertEqual(cross.call_count, 10)
+
+    def test_cross_worker_command_passes_its_evidence_directory(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch.object(
+                runner, "_scope_invocation", side_effect=RuntimeError("capture command")
+            ) as invocation,
+        ):
+            root = Path(temporary)
+            with self.assertRaisesRegex(RuntimeError, "capture command"):
+                runner._cross_attempt(
+                    runner.ROOT,
+                    root,
+                    "fixture",
+                    "forest10",
+                    2,
+                    root / "request.json",
+                    root / "nominal.json",
+                    root / "pess.json",
+                    runner.protocol(),
+                )
+            child_args = invocation.call_args.args[4]
+            with (
+                patch.object(
+                    runner.sys,
+                    "argv",
+                    ["run_issue87.py", *child_args, "--scope-unit", "fixture.scope"],
+                ),
+                patch.object(runner, "_worker_cross", return_value=0) as worker,
+            ):
+                self.assertEqual(runner.main(), 0)
+                self.assertEqual(
+                    worker.call_args.args[0].case_dir,
+                    root / "contrasts" / "forest10-cross-b2",
+                )
+
     def test_incomplete_response_cannot_become_a_selected_set(self) -> None:
         p = runner.protocol()
         case = runner.case_plan(p)[0]
