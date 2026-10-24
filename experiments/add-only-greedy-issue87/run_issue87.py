@@ -15,9 +15,10 @@ import re
 import shutil
 import subprocess
 import sys
+from datetime import datetime, timezone
 from fractions import Fraction
 from pathlib import Path
-from time import monotonic
+from time import monotonic, sleep
 from typing import Any
 from uuid import uuid4
 
@@ -59,6 +60,19 @@ def json_bytes(value: Any) -> bytes:
     ).encode("utf-8")
 
 
+def jsonl_bytes(value: Any) -> bytes:
+    return (
+        json.dumps(
+            value,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
 def write_bytes(path: Path, data: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
@@ -76,7 +90,7 @@ def write_json(path: Path, value: Any) -> None:
 def append_jsonl(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("ab") as stream:
-        stream.write(json_bytes(value))
+        stream.write(jsonl_bytes(value))
         stream.flush()
         os.fsync(stream.fileno())
 
@@ -280,6 +294,10 @@ def scope_status(unit_name: str) -> dict[str, Any]:
         "-p",
         "Result",
         "-p",
+        "ActiveState",
+        "-p",
+        "ControlGroup",
+        "-p",
         "ExecMainStatus",
         "-p",
         "MemoryMax",
@@ -304,6 +322,113 @@ def scope_status(unit_name: str) -> dict[str, Any]:
         "raw_properties": completed.stdout,
         "query_stderr": completed.stderr,
     }
+
+
+def active_scope_enforcement(unit_name: str, p: dict[str, Any]) -> dict[str, Any]:
+    """Capture the active systemd limit and cgroup values from inside the scope."""
+    limits = p["resource_limits"]
+    deadline = monotonic() + 5
+    status: dict[str, Any] = {"available": False, "properties": {}}
+    while monotonic() < deadline:
+        status = scope_status(unit_name)
+        properties = status.get("properties", {})
+        if status.get("available") and properties.get("ActiveState") == "active":
+            break
+        sleep(0.05)
+
+    properties = status.get("properties", {}) if status.get("available") else {}
+    errors: list[str] = []
+    control_group = properties.get("ControlGroup")
+    process_group = None
+    cgroup_memory_max = None
+    cgroup_memory_max_bytes = None
+    if not status.get("available"):
+        errors.append("systemd_status_unavailable_while_active")
+    if properties.get("Id") != unit_name:
+        errors.append("active_scope_unit_id_missing_or_mismatched")
+    if properties.get("ActiveState") != "active":
+        errors.append("scope_not_observed_active")
+    if properties.get("MemoryMax") != str(limits["memory_limit_bytes"]):
+        errors.append("active_memory_max_missing_or_mismatched")
+    if (
+        systemd_seconds(properties.get("RuntimeMaxUSec", ""))
+        != limits["outer_hard_wall_seconds"]
+    ):
+        errors.append("active_runtime_max_missing_or_mismatched")
+    try:
+        process_group = next(
+            line.split("::", 1)[1]
+            for line in Path("/proc/self/cgroup")
+            .read_text(encoding="utf-8")
+            .splitlines()
+            if line.startswith("0::")
+        )
+        if process_group != control_group:
+            errors.append("process_cgroup_does_not_match_active_scope")
+        cgroup_root = Path("/sys/fs/cgroup").resolve()
+        cgroup_path = (cgroup_root / str(control_group).lstrip("/")).resolve()
+        if cgroup_root not in cgroup_path.parents:
+            raise ValueError("scope cgroup is outside the cgroup-v2 mount")
+        cgroup_memory_max = (
+            (cgroup_path / "memory.max").read_text(encoding="ascii").strip()
+        )
+        if cgroup_memory_max.isdigit():
+            cgroup_memory_max_bytes = int(cgroup_memory_max)
+        if cgroup_memory_max_bytes != limits["memory_limit_bytes"]:
+            errors.append("cgroup_memory_max_missing_or_mismatched")
+    except (OSError, StopIteration, ValueError) as exc:
+        errors.append(f"active_cgroup_memory_limit_unavailable:{type(exc).__name__}")
+    return {
+        "format": "ess-issue87-active-scope-enforcement-v1",
+        "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+        "unit": unit_name,
+        "verified": not errors,
+        "verification_errors": errors,
+        "properties": properties,
+        "control_group": control_group,
+        "process_control_group": process_group,
+        "cgroup_memory_max": cgroup_memory_max,
+        "cgroup_memory_max_bytes": cgroup_memory_max_bytes,
+        "status_query": status,
+    }
+
+
+def scope_enforcement_errors(
+    evidence: dict[str, Any] | None, p: dict[str, Any]
+) -> list[str]:
+    limits = p["resource_limits"]
+    failures: list[str] = []
+    if not evidence or evidence.get("verified") is not True:
+        failures.append("active_scope_limit_verification_missing_or_failed")
+    properties = evidence.get("properties", {}) if evidence else {}
+    if properties.get("ActiveState") != "active":
+        failures.append("scope_not_verified_active")
+    if properties.get("MemoryMax") != str(limits["memory_limit_bytes"]):
+        failures.append("active_memory_limit_missing_or_mismatched")
+    if (
+        systemd_seconds(properties.get("RuntimeMaxUSec", ""))
+        != limits["outer_hard_wall_seconds"]
+    ):
+        failures.append("active_wall_limit_missing_or_mismatched")
+    if evidence and evidence.get("control_group") != evidence.get(
+        "process_control_group"
+    ):
+        failures.append("active_scope_cgroup_identity_mismatch")
+    cgroup_memory = evidence.get("cgroup_memory_max_bytes") if evidence else None
+    if cgroup_memory != limits["memory_limit_bytes"]:
+        failures.append("active_cgroup_memory_limit_missing_or_mismatched")
+    return failures
+
+
+def write_active_scope_enforcement(
+    unit_name: str, evidence_path: Path, p: dict[str, Any]
+) -> dict[str, Any]:
+    evidence = active_scope_enforcement(unit_name, p)
+    write_json(evidence_path, evidence)
+    errors = scope_enforcement_errors(evidence, p)
+    if errors:
+        raise RuntimeError(";".join(errors))
+    return evidence
 
 
 def time_report(path: Path) -> dict[str, float | int] | None:
@@ -354,11 +479,7 @@ def scope_errors(
     if props.get("ExecMainStatus") not in (None, "", "0"):
         failures.append("systemd_exec_status_nonzero_or_missing")
     limits = p["resource_limits"]
-    if props.get("MemoryMax") != str(limits["memory_limit_bytes"]):
-        failures.append("effective_memory_limit_missing_or_mismatched")
-    runtime_max = systemd_seconds(props.get("RuntimeMaxUSec", ""))
-    if runtime_max != limits["outer_hard_wall_seconds"]:
-        failures.append("effective_wall_limit_missing_or_mismatched")
+    failures.extend(scope_enforcement_errors(invoked.get("live_scope_enforcement"), p))
     measured = invoked.get("time_report")
     if measured is None:
         failures.append("time_or_peak_rss_measurement_missing")
@@ -936,6 +1057,8 @@ def _scope_invocation(
     stdout_path = directory / "response.json"
     stderr_path = directory / "stderr.txt"
     time_path = directory / "resource-usage.txt"
+    enforcement_path = directory / "scope-enforcement.json"
+    child_args = [*child_args, "--scope-unit", unit]
     command = scope_command(unit, time_path, child_args, p)
     started = monotonic()
     launch_error = None
@@ -967,6 +1090,10 @@ def _scope_invocation(
     elapsed = max(0.0, monotonic() - started)
     status = scope_status(unit)
     write_json(directory / "systemd-status.json", status)
+    try:
+        live_enforcement = read_json(enforcement_path)
+    except (OSError, ValueError):
+        live_enforcement = None
     measured = time_report(time_path)
     invocation = {
         "unit": unit,
@@ -976,6 +1103,7 @@ def _scope_invocation(
         "wall_seconds": elapsed,
         "time_report": measured,
         "systemd_status": status,
+        "live_scope_enforcement": live_enforcement,
     }
     write_json(directory / "execution.json", invocation)
     return invocation
@@ -1218,38 +1346,37 @@ def run(
     runtime_parent = runtime_parent or Path(os.environ["ESS_RUNTIME_PARENT"])
     run_root = runtime_parent.resolve() / "ess-research" / "issue87" / "runs" / run_id
     run_root.mkdir(parents=True, exist_ok=False)
-    write_json(
-        run_root / "run-metadata.json",
-        {
-            "format": "ess-issue87-greedy-run-v1",
-            "status": "STARTED",
-            "run_id": run_id,
-            "run_source_commit": run_commit,
-            "protocol_sha256": sha256_file(PROTOCOL_PATH),
-            "adapter_sha256": sha256_file(ADAPTER_PATH),
-            "advisor": environment,
-            "host": {
-                "hostname": platform.node(),
-                "cpu_model": next(
-                    (
-                        line.split(":", 1)[1].strip()
-                        for line in Path("/proc/cpuinfo")
-                        .read_text(encoding="utf-8", errors="replace")
-                        .splitlines()
-                        if line.lower().startswith("model name") and ":" in line
-                    ),
-                    None,
+    metadata = {
+        "format": "ess-issue87-greedy-run-v1",
+        "status": "STARTED",
+        "started_at_utc": datetime.now(timezone.utc).isoformat(),
+        "run_id": run_id,
+        "run_source_commit": run_commit,
+        "protocol_sha256": sha256_file(PROTOCOL_PATH),
+        "adapter_sha256": sha256_file(ADAPTER_PATH),
+        "advisor": environment,
+        "host": {
+            "hostname": platform.node(),
+            "cpu_model": next(
+                (
+                    line.split(":", 1)[1].strip()
+                    for line in Path("/proc/cpuinfo")
+                    .read_text(encoding="utf-8", errors="replace")
+                    .splitlines()
+                    if line.lower().startswith("model name") and ":" in line
                 ),
-                "logical_cpu_count": os.cpu_count(),
-                "cpu_affinity": sorted(os.sched_getaffinity(0))
-                if hasattr(os, "sched_getaffinity")
-                else None,
-            },
-            "resource_limits": p["resource_limits"],
-            "case_order": case_plan(p),
-            "execution_authorized": p["execution_authorized"],
+                None,
+            ),
+            "logical_cpu_count": os.cpu_count(),
+            "cpu_affinity": sorted(os.sched_getaffinity(0))
+            if hasattr(os, "sched_getaffinity")
+            else None,
         },
-    )
+        "resource_limits": p["resource_limits"],
+        "case_order": case_plan(p),
+        "execution_authorized": p["execution_authorized"],
+    }
+    write_json(run_root / "run-metadata.json", metadata)
     cases = case_plan(p)
     attempted = 0
     failure_reason: str | None = None
@@ -1349,8 +1476,20 @@ def run(
         "attempted_cases": attempted,
         "not_started_case_ids": [case["case_id"] for case in unstarted],
         "failure_reason": failure_reason,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
     }
     write_json(run_root / "run-summary.json", summary)
+    metadata.update(
+        {
+            "status": summary["status"],
+            "finished_at_utc": summary["finished_at_utc"],
+            "attempted_cases": attempted,
+            "not_started_case_ids": summary["not_started_case_ids"],
+            "failure_reason": failure_reason,
+            "terminal_status_source": "run-summary.json",
+        }
+    )
+    write_json(run_root / "run-metadata.json", metadata)
     return 2 if failure_reason else 0
 
 
@@ -1358,6 +1497,9 @@ def _worker_case(args: argparse.Namespace) -> int:
     require_execution_authorized()
     if os.environ.get(SCOPE_ENV) != "1":
         raise RuntimeError("case child must run inside the systemd scope")
+    write_active_scope_enforcement(
+        args.scope_unit, args.case_dir / "scope-enforcement.json", protocol()
+    )
     if args.build_frozen_input:
         base = adapter.build_frozen_dataset_payload(
             args.repo, args.dataset, 0, "nominal"
@@ -1375,6 +1517,9 @@ def _worker_cross(args: argparse.Namespace) -> int:
     require_execution_authorized()
     if os.environ.get(SCOPE_ENV) != "1":
         raise RuntimeError("cross-evaluation child must run inside the systemd scope")
+    write_active_scope_enforcement(
+        args.scope_unit, args.case_dir / "scope-enforcement.json", protocol()
+    )
     request = read_json(args.request)
     nominal = read_json(args.nominal_result)
     pess = read_json(args.pess_result)
@@ -1412,6 +1557,7 @@ def main() -> int:
     child.add_argument("--dataset", choices=("forest10", "census13"), required=True)
     child.add_argument("--budget", type=int, choices=(0, 2, 3, 4, 5), required=True)
     child.add_argument("--objective", choices=("nominal", "pess"), required=True)
+    child.add_argument("--scope-unit", required=True)
     source = child.add_mutually_exclusive_group(required=True)
     source.add_argument("--build-frozen-input", action="store_true")
     source.add_argument("--base-request", type=Path)
@@ -1419,11 +1565,25 @@ def main() -> int:
     cross.add_argument("--request", type=Path, required=True)
     cross.add_argument("--nominal-result", type=Path, required=True)
     cross.add_argument("--pess-result", type=Path, required=True)
+    cross.add_argument("--scope-unit", required=True)
+    probe = subparsers.add_parser("_scope_probe", help=argparse.SUPPRESS)
+    probe.add_argument("--scope-unit", required=True)
+    probe.add_argument("--evidence", type=Path, required=True)
+    probe.add_argument("--child", choices=("/bin/true", "/bin/false"), required=True)
     args = parser.parse_args()
     if args.command == "_case":
         return _worker_case(args)
     if args.command == "_cross":
         return _worker_cross(args)
+    if args.command == "_scope_probe":
+        evidence = active_scope_enforcement(args.scope_unit, protocol())
+        result = subprocess.run([args.child], check=False)
+        evidence["probe_child"] = args.child
+        evidence["probe_child_returncode"] = result.returncode
+        write_json(args.evidence, evidence)
+        if not evidence.get("verified"):
+            return 90
+        return result.returncode
     return run(args.repo.resolve(), args.run_id)
 
 

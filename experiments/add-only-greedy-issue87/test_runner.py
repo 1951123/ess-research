@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -47,11 +50,100 @@ class Issue87RunnerTests(unittest.TestCase):
                             "MemoryPeak": "1024",
                         },
                     },
+                    "live_scope_enforcement": {
+                        "verified": True,
+                        "properties": {
+                            "ActiveState": "active",
+                            "MemoryMax": "12884901888",
+                            "RuntimeMaxUSec": "15min",
+                        },
+                        "control_group": "/user.slice/test.scope",
+                        "process_control_group": "/user.slice/test.scope",
+                        "cgroup_memory_max_bytes": 12884901888,
+                    },
                 },
                 runner.protocol(),
             ),
             [],
         )
+
+    def test_post_exit_properties_alone_do_not_verify_scope_limits(self) -> None:
+        errors = runner.scope_errors(
+            {
+                "returncode": 0,
+                "wall_seconds": 0.1,
+                "time_report": {"wall_seconds": 0.1, "peak_rss_bytes": 1024},
+                "systemd_status": {
+                    "available": True,
+                    "properties": {
+                        "Result": "success",
+                        "MemoryMax": "12884901888",
+                        "RuntimeMaxUSec": "15min",
+                    },
+                },
+            },
+            runner.protocol(),
+        )
+        self.assertIn("active_scope_limit_verification_missing_or_failed", errors)
+
+    def test_jsonl_records_are_one_compact_json_object_per_line(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "results.jsonl"
+            runner.append_jsonl(path, {"nested": {"values": [1, 2]}, "ok": True})
+            raw = path.read_bytes()
+            self.assertEqual(raw.count(b"\n"), 1)
+            self.assertFalse(raw.lstrip().startswith(b"{\n"))
+            self.assertEqual(
+                json.loads(raw.splitlines()[0]),
+                {"nested": {"values": [1, 2]}, "ok": True},
+            )
+
+    def test_live_systemd_scope_limits_for_true_and_false(self) -> None:
+        if shutil.which("systemctl") is None or shutil.which("systemd-run") is None:
+            self.skipTest("systemd commands are unavailable")
+        try:
+            manager = subprocess.run(
+                ["systemctl", "--user", "show-environment"],
+                check=False,
+                capture_output=True,
+                timeout=3,
+            )
+        except (OSError, subprocess.SubprocessError):
+            self.skipTest("user systemd manager is unavailable")
+        if manager.returncode != 0:
+            self.skipTest("user systemd manager is unavailable")
+
+        for child, expected_returncode in (("/bin/true", 0), ("/bin/false", 1)):
+            with self.subTest(child=child), tempfile.TemporaryDirectory() as temporary:
+                directory = Path(temporary)
+                unit = runner.systemd_unit_name("review", Path(child).name)
+                evidence = directory / "scope-enforcement.json"
+                command = runner.scope_command(
+                    unit,
+                    directory / "time.txt",
+                    [
+                        "_scope_probe",
+                        "--scope-unit",
+                        unit,
+                        "--evidence",
+                        str(evidence),
+                        "--child",
+                        child,
+                    ],
+                )
+                completed = subprocess.run(
+                    command,
+                    cwd=runner.ROOT,
+                    check=False,
+                    capture_output=True,
+                    timeout=30,
+                )
+                self.assertEqual(completed.returncode, expected_returncode)
+                record = runner.read_json(evidence)
+                self.assertTrue(record["verified"], record["verification_errors"])
+                self.assertEqual(record["properties"]["ActiveState"], "active")
+                self.assertEqual(record["cgroup_memory_max_bytes"], 12884901888)
+                self.assertEqual(record["probe_child_returncode"], expected_returncode)
 
     def test_execution_gate_refuses_before_creating_run_directory(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -121,6 +213,14 @@ class Issue87RunnerTests(unittest.TestCase):
             self.assertEqual(summary["status"], "STOPPED_INCOMPLETE")
             self.assertEqual(summary["attempted_cases"], 1)
             self.assertEqual(len(summary["not_started_case_ids"]), 19)
+            metadata = runner.read_json(
+                Path(temporary)
+                / "ess-research/issue87/runs/stop-test/run-metadata.json"
+            )
+            self.assertEqual(metadata["status"], summary["status"])
+            self.assertEqual(metadata["attempted_cases"], summary["attempted_cases"])
+            self.assertEqual(metadata["failure_reason"], summary["failure_reason"])
+            self.assertEqual(metadata["terminal_status_source"], "run-summary.json")
 
     def test_incomplete_response_cannot_become_a_selected_set(self) -> None:
         p = runner.protocol()
