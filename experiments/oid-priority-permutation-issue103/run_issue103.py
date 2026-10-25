@@ -275,25 +275,52 @@ def _load_train_inputs(dataset: str, frozen_dataset: dict[str, Any], rows: list[
             or manifest.get("label_pickle_sha256") != source_pin["train_label_hashes"][dataset]):
         raise ValueError(f"{dataset} archived train input hashes differ from Issue #99 protocol")
 
-    queries, candidates, eligible = runner._load_train_workload_only(dataset, Path("."))
-    if len(queries) != manifest.get("train_query_count"):
-        raise ValueError(f"{dataset} train workload count mismatch")
+    train_count = manifest.get("train_query_count")
+    if isinstance(train_count, bool) or not isinstance(train_count, int) or train_count != 100000:
+        raise ValueError(f"{dataset} train query count differs from the frozen Issue #99 protocol")
+    queries = [{"query_id": f"arecel:{dataset}:train:{index:06d}", "source_index": index}
+               for index in range(train_count)]
+    candidate_file = collection_root / "train/candidate-map.json"
+    support_path = collection_root / "train/candidate-support.json"
+    if candidate_file.is_symlink() or support_path.is_symlink() or not candidate_file.is_file() or not support_path.is_file():
+        raise ValueError(f"{dataset} train candidate map/support artifact is absent or a symlink")
+    candidate_rows = json.loads(candidate_file.read_text(encoding="utf-8"))
+    support_rows = json.loads(support_path.read_text(encoding="utf-8"))
+    if (not isinstance(candidate_rows, list) or not isinstance(support_rows, list)
+            or len(candidate_rows) != manifest.get("candidate_count") or len(support_rows) != len(candidate_rows)):
+        raise ValueError(f"{dataset} train candidate map/support dimensions mismatch")
+    candidate_ids_from_file = [row.get("id") for row in candidate_rows]
+    if any(not isinstance(item, str) for item in candidate_ids_from_file) or len(set(candidate_ids_from_file)) != len(candidate_ids_from_file):
+        raise ValueError(f"{dataset} candidate map has invalid or duplicate IDs")
+    if [row.get("id") for row in support_rows] != candidate_ids_from_file:
+        raise ValueError(f"{dataset} train support rows do not follow candidate order")
+    candidates = []
+    for candidate_row, support_row in zip(candidate_rows, support_rows):
+        endpoints = candidate_row.get("endpoints")
+        support_count = support_row.get("train_query_count")
+        if (not isinstance(endpoints, list) or len(endpoints) != 2 or endpoints[0] == endpoints[1]
+                or isinstance(support_count, bool) or not isinstance(support_count, int) or support_count <= 0):
+            raise ValueError(f"{dataset} candidate map/support row is malformed")
+        candidates.append({"id": candidate_row["id"], "endpoints": endpoints,
+                           "table": f"public.{dataset}", "maintenance_cost": "1",
+                           "train_query_count": support_count})
     candidate_ids = [candidate["id"] for candidate in candidates]
     candidate_map_rows = [{"id": candidate["id"], "endpoints": candidate["endpoints"]} for candidate in candidates]
     candidate_map_hash = sha256_bytes(json.dumps(candidate_map_rows, ensure_ascii=True, separators=(",", ":")).encode())
-    candidate_file = collection_root / "train/candidate-map.json"
-    if not candidate_file.is_file() or json.loads(candidate_file.read_text(encoding="utf-8")) != candidate_map_rows:
-        raise ValueError(f"{dataset} candidate map differs from the train workload")
     if candidate_map_hash != manifest["candidate_map_sha256"]:
         raise ValueError(f"{dataset} candidate map hash differs from the collection manifest")
-    support_path = collection_root / "train/candidate-support.json"
-    support = json.loads(support_path.read_text(encoding="utf-8"))
     expected_support = [{"id": candidate["id"], "train_query_count": candidate["train_query_count"]} for candidate in candidates]
-    if support != expected_support:
-        raise ValueError(f"{dataset} support map differs from the train workload")
+    if support_rows != expected_support:
+        raise ValueError(f"{dataset} train support map contents mismatch")
     support_hash = sha256_bytes(json.dumps(expected_support, ensure_ascii=True, separators=(",", ":")).encode())
     if support_hash != manifest["train_support_map_sha256"]:
         raise ValueError(f"{dataset} support map hash differs from the collection manifest")
+    frozen_hashes = rows[0]["input_hashes"]
+    if (runner.candidate_order_sha256(candidate_ids) != manifest["candidate_order_sha256"]
+            or candidate_map_hash != frozen_hashes["candidate_map_sha256"]
+            or support_hash != frozen_hashes["train_support_map_sha256"]
+            or runner.candidate_order_sha256(candidate_ids) != frozen_hashes["candidate_order_sha256"]):
+        raise ValueError(f"{dataset} candidate order/map/support differs from frozen train input hashes")
 
     truth = runner._load_train_truth(collection_root, queries, manifest)
     count = len(queries)
@@ -342,8 +369,6 @@ def _load_train_inputs(dataset: str, frozen_dataset: dict[str, Any], rows: list[
                         raise ValueError(f"{dataset} unknown singleton configuration {config}")
                     if target[index] is not None:
                         raise ValueError(f"{dataset} duplicate train observation for {row['query_id']}/{config}")
-                    if config != "Empty" and config not in eligible[queries[index]["query_id"]]:
-                        raise ValueError(f"{dataset} singleton outside train task eligibility")
                     target[index] = raw
             if part_rows != part["rows"]:
                 raise ValueError(f"{dataset} observation part row count mismatch")
@@ -359,6 +384,11 @@ def _load_train_inputs(dataset: str, frozen_dataset: dict[str, Any], rows: list[
     observation_aggregate = sha256_bytes(json.dumps(observation_files, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode())
     if observation_aggregate != frozen_dataset["observation_aggregate_sha256"]:
         raise ValueError(f"{dataset} raw observation aggregate differs from frozen Issue #99 source")
+    eligible = {
+        queries[index]["query_id"]: tuple(candidate_id for candidate_id in candidate_ids
+                                           if singleton[candidate_id][index] is not None)
+        for index in range(count)
+    }
     return collection_root, manifest, queries, candidates, eligible, truth, empty, singleton, observation_aggregate
 
 
@@ -622,6 +652,7 @@ def _evaluate_dataset(
             "train_truth_values_sha256": collection["train_truth"]["canonical_values_sha256"],
             "candidate_map_sha256": collection["candidate_map_sha256"],
             "train_support_map_sha256": collection["train_support_map_sha256"],
+            "task_applicability_source": "complete train singleton observation IDs, in frozen candidate-map order",
             "observation_aggregate_sha256": observations_aggregate,
             "reconstructed_coefficient_digest_sha256": model_hash.hexdigest(),
         },
@@ -648,9 +679,9 @@ def _build_report(summary: dict[str, Any]) -> str:
         "",
         f"The analysis used the four frozen Issue #99 training models ({summary['train_queries_per_dataset']:,} tasks per dataset), the exact frozen Nominal/PESS resource sets at B=0,2,3,4,5, and all distinct resource sets ({summary['unique_selected_sets']} total). It enumerated every global priority permutation for each set, applying the same deterministic greedy inclusion-maximal matching on each task’s statically eligible selected edges. Permutation multiplicity was retained even when orders induced the same task matching.",
         "",
-        "Coefficients were reconstructed from the pinned train workload, train truth, and Issue #99 raw singleton/baseline observations using the Issue #99 log transform and 1e-18 quantization. Each full coefficient digest matched the frozen train-model digest. For every task and selected set, the optimized integer-scaled calculation was compared with the pinned Advisor exact Fraction reference routines for both fixed-priority Nominal loss and task-wise PESS loss. Every frozen selection objective also matched exactly.",
+        "Coefficients were reconstructed from frozen train truth and Issue #99 raw singleton/baseline observations using the Issue #99 log transform and 1e-18 quantization. Task-specific applicability was recovered from the complete train-only singleton observation IDs in frozen candidate-map order and checked against all support counts. The workload and labels pickles were not opened. Each full coefficient digest matched the frozen train-model digest. For every task and selected set, the optimized integer-scaled calculation was compared with the pinned Advisor exact Fraction reference routines for both fixed-priority Nominal loss and task-wise PESS loss. Every frozen selection objective also matched exactly.",
         "",
-        "The comparison remains within the Issue #99 pre-clamp/clamped-log train model. To rebuild train task applicability, the trusted Issue #99 workload pickle was deserialized as a split container and only its `train` member was explicitly selected; no labels pickle was opened. No PostgreSQL query, ANALYZE, OID DDL, refitting, reselection, Issue #101 artifact, held-out label, or test outcome was read or run.",
+        "The comparison remains within the Issue #99 pre-clamp/clamped-log train model. Neither the workload pickle nor the labels pickle was opened. No PostgreSQL query, ANALYZE, OID DDL, refitting, reselection, Issue #101 artifact, held-out label, or test outcome was read or run.",
         "",
         "## Results",
         "",
@@ -681,7 +712,7 @@ def _build_report(summary: dict[str, Any]) -> str:
         f"- Frozen selection SHA-256: `{summary['frozen_selection_sha256']}`; Issue #99 protocol-v4 SHA-256: `{summary['issue99_protocol_sha256']}`.",
         f"- Advisor reference source commit: `{summary['advisor_reference_commit']}`; `model.py` SHA-256: `{summary['advisor_reference_file_sha256']['src/pess_ess/model.py']}`; `reference.py` SHA-256: `{summary['advisor_reference_file_sha256']['src/pess_ess/reference.py']}`.",
         f"- Python: `{summary['python_version']}`. Summary JSON contains per-dataset runtime IDs, source hashes, model digest checks, exact fractions, all 40 frozen case mappings, and paired contrasts.",
-        "- The workload pickle deserializer materialized its split container; the script explicitly iterated only its train split. The labels pickle was not opened. The analysis reads no Issue #101 runtime path or test-split outcome artifact.",
+        "- Task applicability is reconstructed from the complete frozen train singleton records, not from test queries. Neither workload nor labels pickle was opened. The analysis reads no Issue #101 runtime path or test-split outcome artifact.",
         "",
     ])
     return "\n".join(lines)
@@ -723,8 +754,7 @@ def run(advisor_source: Path, output_json: Path, output_report: Path) -> dict[st
         "permutation_multiplicity_retained": True,
         "heldout_labels_or_issue101_outcomes_read": False,
         "issue101_artifacts_read": False,
-        "nontrain_workload_container_materialized_by_pickle": True,
-        "train_split_explicitly_selected": True,
+        "workload_pickle_opened": False,
         "label_pickle_opened": False,
         "postgresql_commands_run": False,
         "unique_selected_sets": sum(item["unique_selected_set_count"] for item in dataset_results),
