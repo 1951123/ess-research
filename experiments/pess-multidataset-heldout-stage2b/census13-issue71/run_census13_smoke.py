@@ -313,14 +313,27 @@ def allocated_bytes(root: Path, external_paths: tuple[Path, ...] = ()) -> int:
 
 
 class AggregateGuard:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, *, hard_seconds: int = HARD_SECONDS,
+                 early_seconds: int = EARLY_SECONDS, hard_bytes: int = HARD_BYTES,
+                 early_bytes: int = EARLY_BYTES):
         self.root = root
+        self.hard_seconds = hard_seconds
+        self.early_seconds = early_seconds
+        self.hard_bytes = hard_bytes
+        self.early_bytes = early_bytes
+        self.early_disk_label = self._disk_limit_label(early_bytes)
+        self.hard_disk_label = self._disk_limit_label(hard_bytes)
         self.started = time.monotonic()
         self.peak = 0
         self.stop_reason = None
         self.external_paths: list[Path] = []
         self._halt = threading.Event()
         self.thread = threading.Thread(target=self._watch, daemon=True)
+
+    @staticmethod
+    def _disk_limit_label(limit_bytes: int) -> str:
+        gib_bytes = 1024**3
+        return f"{limit_bytes // gib_bytes}-GiB" if limit_bytes % gib_bytes == 0 else f"{limit_bytes}-byte"
 
     def _watch(self):
         while not self._halt.wait(1):
@@ -330,14 +343,15 @@ class AggregateGuard:
                 continue
             self.peak = max(self.peak, used)
             elapsed = time.monotonic() - self.started
-            if used >= EARLY_BYTES:
-                self.stop_reason = "aggregate run directory reached 3-GiB early-stop threshold"
+            if used >= self.early_bytes:
+                self.stop_reason = f"aggregate run directory reached {self.early_disk_label} early-stop threshold"
                 os.kill(os.getpid(), signal.SIGINT)
-            elif elapsed >= EARLY_SECONDS:
+            elif elapsed >= self.early_seconds:
                 self.stop_reason = "aggregate run reached 7.5-hour early-stop threshold"
                 os.kill(os.getpid(), signal.SIGINT)
-            if used >= HARD_BYTES or elapsed >= HARD_SECONDS:
-                self.stop_reason = "aggregate run exceeded hard resource cap"
+            if used >= self.hard_bytes or elapsed >= self.hard_seconds:
+                self.stop_reason = ("aggregate run exceeded hard resource cap" if self.hard_bytes == HARD_BYTES
+                                    else f"aggregate run exceeded {self.hard_disk_label} hard resource cap")
                 os.kill(os.getpid(), signal.SIGINT)
 
     def __enter__(self):

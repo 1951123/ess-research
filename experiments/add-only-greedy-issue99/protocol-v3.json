@@ -1,0 +1,346 @@
+{
+  "format": "ess-issue99-official-train-greedy-protocol-v3",
+  "issue": 99,
+  "status": "RESEARCHER_AUTHORIZED_BOUNDED_TRAIN_ONLY_EXECUTION_2026-10-25_RESOURCE_ENVELOPE_REVISION",
+  "research_question": "Using only each official AreCEL train split, what resource sets does the same deterministic add-only greedy algorithm select for Nominal and task-wise PESS at unit-proxy budgets 0, 2, 3, 4, and 5?",
+  "scientific_scope": {
+    "datasets": [
+      "forest10",
+      "census13",
+      "dmv11",
+      "power7"
+    ],
+    "split": "train",
+    "train_queries_per_dataset": 100000,
+    "official_test_labels_or_explain_accessed": false,
+    "official_valid_used_as_train": false,
+    "generalization_claim": false,
+    "outer_search_claim": "add_only_greedy_heuristic; no global optimality claim",
+    "pess_scheme_family": "all inclusion-maximal pairwise-disjoint subsets of the task-applicable selected MCV candidates",
+    "pess_aggregation": "sum across tasks of each task's worst-case loss",
+    "maintenance_cost": "unit additive proxy per candidate, as prescribed for this sweep; not physical PostgreSQL maintenance cost",
+    "budgets": [
+      0,
+      2,
+      3,
+      4,
+      5
+    ],
+    "case_accounting": "40 labeled dataset/objective/budget cases; each dataset's Nominal/PESS B=0 pair shares the identical empty resource set and objective value and may share one computation while retaining both records",
+    "tie_break": "ascending candidate ID, shared by Nominal and PESS",
+    "greedy_rule": "start empty; among all remaining feasible single additions choose the largest strictly positive exact objective reduction; stop if no feasible positive addition remains; no swaps, restarts, or forced budget fill"
+  },
+  "source_pins": {
+    "research_base_commit": "f62fa3bba891391d0e0b409e680c16ae86a359a4",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "pr58_helpers_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "pr65_structured_adapter_commit": "27677a17b7455d89e92d5028d9585418550a8ff8",
+    "advisor_source_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+    "postgresql_version": "16.14",
+    "python_version": "3.12.3",
+    "arecel_csv_hashes": {
+      "forest10": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "census13": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+      "dmv11": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+      "power7": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9"
+    },
+    "train_workload_hashes": {
+      "forest10": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+      "census13": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba",
+      "dmv11": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc",
+      "power7": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5"
+    },
+    "train_label_hashes": {
+      "forest10": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+      "census13": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451",
+      "dmv11": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+      "power7": "d7369b34d2ddc866dbb16c3b2f5147cb10a86832dba54c905ef400bc3514cdf5"
+    }
+  },
+  "postgresql_measurement": {
+    "measurement": "one empty-statistics baseline plus each full-universe candidate as a singleton, on every task where that pair is statically applicable from train predicates",
+    "structured_contract": "PR #7 ESS_DIAGNOSTICS JSON parser from the pinned PR #65 adapter; retain query-level raw pre-clamp estimates, statuses, and narrow MCV trace events",
+    "query_form": "official nonaggregate source SQL adapted to the pinned public.<dataset> table",
+    "candidate_universe": "all unordered pairs of source schema columns in schema order; train-only support determines task applicability, not candidate shortlist membership",
+    "candidate_id": "e<left schema index, two digits>_<right schema index, two digits>",
+    "statistics": "two-column MCV statistics; per-column and per-statistics target 300",
+    "analyze_sample": "one binary ANALYZE sample exported from a fresh run-local PostgreSQL 16.14 cluster per dataset, then replayed for all singleton configurations and the empty baseline on both measurement clusters",
+    "parallel_collection": "One run-local PostgreSQL cluster and one query loop per selected worker; all clusters replay identical fixed ANALYZE sample bytes; CLI parallelism is selectable from 1 to min(12, CPU affinity), with the maximum selected by default. Dataset runs remain serial.",
+    "claim_limit": "source-derived, conditional on the pinned instrumented PostgreSQL control flow; EXPLAIN alone is not treated as proof of statistic use"
+  },
+  "model_fit": {
+    "training_truth": "read only the official train label array for fitting; use T=max(1,N)",
+    "forest10": "forest10-positive-preclamp-v1; require finite positive baseline and singleton nrows_preclamp before logarithms",
+    "census13": "census13-clamped-log-v2; apply max(1,x) uniformly to raw pre-clamp estimates and train truth during coefficient construction, preserving the existing Census transform",
+    "dmv11": "positive-preclamp-v1; require finite positive baseline and singleton nrows_preclamp; do not introduce a clamp",
+    "power7": "positive-preclamp-v1; require finite positive baseline and singleton nrows_preclamp; do not introduce a clamp",
+    "coefficients": "alpha_i=ln(max(1,n0_i)/T_i) for the clamped Census model and ln(n0_i/T_i) for positive models; beta_ie=ln(n1_ie/n0_i); quantize Decimal natural logs at 1e-18 with precision 80 and ROUND_HALF_EVEN, then convert to exact Fraction strings",
+    "zero_or_negative_positive_model_input": "dataset model fit is INCOMPLETE; do not silently clamp or substitute",
+    "weights": "1 per official train task"
+  },
+  "preflight": {
+    "dataset_counts": {
+      "forest10": {
+        "train_queries": 100000,
+        "schema_columns": 10,
+        "full_pairs": 45,
+        "positive_train_support_pairs": 45,
+        "eligible_queries": 90026,
+        "empty_observations": 100000,
+        "singleton_observations": 1641931,
+        "total_observations": 1741931,
+        "candidate_order_sha256": "d8efee32db760af2f70ecb494f5dae26c7e99faa9914fd7c60781774bc7482cb",
+        "candidate_map_sha256": "8fd28b72e4b071dc2ca491502bb61b4652fe9b68269f1db2eef1f6f1f7ffc76b",
+        "train_support_map_sha256": "03f27d4abdf0ca04f3a4ba8e0573c1ace3e377831847b795cfbbea7430dcb99c"
+      },
+      "census13": {
+        "train_queries": 100000,
+        "schema_columns": 13,
+        "full_pairs": 78,
+        "positive_train_support_pairs": 78,
+        "eligible_queries": 92360,
+        "empty_observations": 100000,
+        "singleton_observations": 2801893,
+        "total_observations": 2901893,
+        "candidate_order_sha256": "131d526d4fa7540dede14923c2e6a08b2b4238c11ba9399f7c061e587ca65e97",
+        "candidate_map_sha256": "c661e07db8be24050417014bb5e280dd6cc1d856b26700075638a175e0dc8c64",
+        "train_support_map_sha256": "4e7184f90918ab403b1559916b6dbfbdbcd05de4004fad0ceae208ebcdbade8c"
+      },
+      "dmv11": {
+        "train_queries": 100000,
+        "schema_columns": 11,
+        "full_pairs": 55,
+        "positive_train_support_pairs": 55,
+        "eligible_queries": 90941,
+        "empty_observations": 100000,
+        "singleton_observations": 1994044,
+        "total_observations": 2094044,
+        "candidate_order_sha256": "88d96d9a64de771133d0a3383db2aaec28803f5341596b63f3893ad68e3e0f25",
+        "candidate_map_sha256": "8feab245abc557251d7446ff25d25ead1f43bdf0f39fbc591b19228a8e9d0f5d",
+        "train_support_map_sha256": "cd3fe0bcda0d226a523919269662237ebaf108e89095777e53e8fa54f499c5e0"
+      },
+      "power7": {
+        "train_queries": 100000,
+        "schema_columns": 7,
+        "full_pairs": 21,
+        "positive_train_support_pairs": 21,
+        "eligible_queries": 85830,
+        "empty_observations": 100000,
+        "singleton_observations": 802535,
+        "total_observations": 902535,
+        "candidate_order_sha256": "11ef38578064f385e28821788344b8e729a35d7f4c01f507df10f1c1618a4bcb",
+        "candidate_map_sha256": "0c17d1bced2f1ed9b48cb6867982b0938d180c996b3617cb36383d1851c8dfb4",
+        "train_support_map_sha256": "ae21cbd8b7a152d91f3e8c80c85cc5d9611bb68cf7cc17ad21a16667e298421f"
+      }
+    },
+    "total_train_queries": 400000,
+    "total_observations": 7640403,
+    "source_csv_bytes": 815189076,
+    "static_preflight_opens_train_workload_only": true,
+    "static_preflight_did_not_open_labels_or_start_postgresql": true
+  },
+  "resource_envelope": {
+    "basis": "historical full-valid Issue #64 run: 174088 structured calls in 716.951 seconds across two workers (242.82 calls/second); 6408799 allocated compressed observation bytes, or 36.82 bytes/call. These are sizing references, not train measurements.",
+    "estimated_measurement_seconds_by_dataset": {
+      "forest10": 7174,
+      "census13": 11951,
+      "dmv11": 8624,
+      "power7": 3717
+    },
+    "estimated_total_structured_explain_seconds": 31466,
+    "estimated_total_wall_hours_before_dataset_setup": 8.74,
+    "estimated_compressed_observations_bytes": 281270433,
+    "per_dataset_hard_limits": {
+      "wall_seconds": 28800,
+      "allocated_disk_bytes": 10737418240
+    },
+    "per_dataset_early_stop_limits": {
+      "wall_seconds": 27000,
+      "allocated_disk_bytes": 10200547328
+    },
+    "stop_rule": "run one dataset at a time; stop that attempt at 7.5 hours or 9.5 GiB allocated disk; never exceed 8 hours or 10 GiB; preserve INCOMPLETE evidence and do not subsample; begin the next dataset only after the prior cluster and run-local data are shut down",
+    "runtime_storage_location": "ESS_RUNTIME_PARENT/ess-research/issue99/runs/<run-id>; no observation or build artifact enters Git",
+    "revision_2_parallelism_basis": {
+      "source": "the interrupted Issue #99 Forest10 v1 two-worker collection; sizing evidence only, not a completed experiment result",
+      "source_commit": "dadb0a5ec3ed8a8ff0a6d5f2f32697e4616b1537",
+      "successful_observations_preserved_but_not_reused": 98616,
+      "worker_0_last_reported_calls_per_second": 273.215,
+      "worker_1_last_reported_calls_per_second": 262.582,
+      "combined_projection_calls_per_second": 535.797,
+      "projected_total_collection_wall_hours_before_setup": 3.961,
+      "peak_allocated_bytes_before_interruption": 643457024,
+      "source_csv_member_bytes": {
+        "forest10": 22878434,
+        "census13": 4662791,
+        "dmv11": 695149262,
+        "power7": 92498589
+      },
+      "limitation": "linear throughput scaling to 12 clusters is not assumed; protocol v3 raises the per-dataset disk early-stop/hard limits to 9.5/10 GiB, while preserving the same wall limits; any over-cap attempt remains INCOMPLETE"
+    },
+    "revision_3_resource_envelope": {
+      "researcher_authorization": "increase the per-dataset maximum disk use from 3 GiB to 10 GiB",
+      "authorized_at": "2026-10-25",
+      "early_stop_disk_bytes": 10200547328,
+      "hard_cap_disk_bytes": 10737418240,
+      "wall_limits_unchanged": {
+        "early_stop_seconds": 27000,
+        "hard_cap_seconds": 28800
+      },
+      "supersedes": "protocol-v2.json for newly started collections; v2 collection records remain valid under their pinned 3/4-GiB caps",
+      "dmv11_v2_attempts": [
+        {
+          "run_id": "20261025T074723Z-issue99-dmv11-942393",
+          "parallelism": 12,
+          "peak_allocated_disk_bytes": 3421331456,
+          "completed_observations": 0,
+          "stop": "3-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T074931Z-issue99-dmv11-d3b8bc",
+          "parallelism": 11,
+          "peak_allocated_disk_bytes": 3341623296,
+          "completed_observations": 0,
+          "stop": "3-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T075143Z-issue99-dmv11-857ada",
+          "parallelism": 10,
+          "completed_observations": 0,
+          "stop": "researcher-authorized resource-cap revision before collection"
+        }
+      ],
+      "runtime_filesystem_available_bytes_at_revision": 54045458432,
+      "initial_early_stop_disk_bytes": 9663676416,
+      "early_stop_adjustment_reason": "the initial 9-GiB early stop interrupted DMV11 cluster setup with zero observations; observed peaks were below the authorized 10-GiB hard cap, so the early stop was raised to 9.5 GiB while retaining the 10-GiB hard cap",
+      "initial_9_gib_early_stop_attempts": [
+        {
+          "run_id": "20261025T075718Z-issue99-dmv11-f5b5b9",
+          "parallelism": 12,
+          "peak_allocated_disk_bytes": 10048593920,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080011Z-issue99-dmv11-75e01f",
+          "parallelism": 11,
+          "peak_allocated_disk_bytes": 9861369856,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080251Z-issue99-dmv11-623a79",
+          "parallelism": 10,
+          "peak_allocated_disk_bytes": 9705107456,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080532Z-issue99-dmv11-c17f20",
+          "parallelism": 9,
+          "peak_allocated_disk_bytes": 9929543680,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080814Z-issue99-dmv11-32102a",
+          "parallelism": 8,
+          "peak_allocated_disk_bytes": 9892302848,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T081054Z-issue99-dmv11-f683d4",
+          "parallelism": 7,
+          "peak_allocated_disk_bytes": 9978306560,
+          "completed_observations": 0
+        }
+      ],
+      "revised_9_5_gib_early_stop_attempts": [
+        {
+          "run_id": "20261025T081616Z-issue99-dmv11-15b3e4",
+          "parallelism": 12,
+          "peak_allocated_disk_bytes": 10497945600,
+          "completed_observations": 0,
+          "status": "INCOMPLETE",
+          "stop": "9.5-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T081929Z-issue99-dmv11-ce8f09",
+          "parallelism": 11,
+          "peak_allocated_disk_bytes": 10497945600,
+          "completed_observations": 0,
+          "status": "INCOMPLETE",
+          "stop": "9.5-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T082244Z-issue99-dmv11-f46e72",
+          "parallelism": 10,
+          "peak_allocated_disk_bytes": 10497953792,
+          "completed_observations": 0,
+          "status": "INCOMPLETE",
+          "stop": "9.5-GiB early-stop threshold during cluster setup"
+        }
+      ],
+      "estimated_12_worker_full_run_disk_bytes": {
+        "lower_bound_from_observed_setup_peak": 10497945600,
+        "rough_full_setup_estimate_bytes": 23700000000,
+        "basis": "12-worker run peaked at 10497945600 allocated bytes during setup with worker0-worker4 directories present and zero observations; approximate common pre-cluster footprint was 1.08 billion bytes, and the remaining footprint was extrapolated from five visible worker directories to twelve; estimated observation output adds about 77089214 bytes based on the historical compressed-byte-per-call rate",
+        "evidence_label": "Conjecture / Open; no 12-worker cluster setup or observation collection completed"
+      },
+      "next_parallelism_attempt": null,
+      "next_parallelism_reason": "researcher requested that collection stop while the 12-worker disk requirement is estimated; no further collection attempt is started before the sizing decision"
+    }
+  },
+  "selection_limits": {
+    "schedule": "serial dataset then B ascending then Nominal before PESS; each case is independent and accounted COMPLETE or INCOMPLETE",
+    "processes": 1,
+    "cpu_threads": 1,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "advisor_time_seconds": 600,
+    "outer_hard_wall_seconds": 900,
+    "memory_limit_bytes": 12884901888,
+    "max_evaluations": "1 + sum_{j=0}^{min(B,N)-1}(N-j)",
+    "pess_subset_checks": "T * (1 + sum_{j=0}^{min(B,N)-1}(N-j)*2^(j+1)); safe outcome-independent upper bound, where T is 100000",
+    "timeout_or_unfinished_round": "INCOMPLETE; selected_ids is null; record last completed prefix only for audit"
+  },
+  "artifact_retention": {
+    "git": [
+      "this protocol/config",
+      "train-only preflight source",
+      "selection/analysis source",
+      "one concise findings report"
+    ],
+    "runtime": [
+      "compact manifest",
+      "fixed sample identity/hash",
+      "candidate support map",
+      "query-level raw structured baseline/singleton observations with statuses",
+      "train-only model coefficient evidence",
+      "case requests/responses and resource status"
+    ],
+    "not_retained": [
+      "source AreCEL archive bytes",
+      "full CSV duplicates",
+      "test labels or test observations",
+      "derivable plots or large summary ledgers"
+    ]
+  },
+  "supersedes_protocol": "protocol-v2.json for newly started collections; protocol-v1 and protocol-v2 remain preserved for their recorded attempts and completed runs",
+  "collection_parallelism": {
+    "maximum_workers": 12,
+    "selection": "collect DATASET --parallelism K; K must be in [1, min(12, CPU affinity count)]",
+    "default": "maximum allowed worker count for the current process CPU affinity",
+    "maximum_basis": "At revision, the process had affinity to 12 CPUs, no cgroup CPU quota, 14,280,892,416 bytes MemAvailable, and 54,045,458,432 bytes free on the runtime filesystem. Protocol v3 enforces a per-dataset 9.5-GiB early stop and 10-GiB hard cap; the maximum worker count remains an attempted CPU-affinity ceiling, not a guarantee that every dataset fits.",
+    "worker_model": "one run-local PostgreSQL cluster and one serial query loop per worker",
+    "sample_contract": "the same exported binary ANALYZE sample is replayed to every worker cluster; relation OID and sample identity are checked for every cluster",
+    "configuration_assignment": "empty baseline assigned to worker 0; singleton candidates assigned in descending train support to the least-loaded worker with worker-ID tie break; each worker then runs singleton IDs in ascending order",
+    "dataset_schedule": "datasets remain serial; only within-dataset worker count changed",
+    "failed_attempt_reuse": "all v1/v2 incomplete observations remain separate and are not reused; the v2 DMV11 attempts that stopped during cluster setup have zero observations"
+  },
+  "collection_environment": {
+    "python_version": "3.12.3",
+    "numpy_version": "2.3.4"
+  }
+}
