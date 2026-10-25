@@ -1500,15 +1500,22 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     if set(run_by_dataset) != set(datasets):
         raise ValueError("report requires exactly one recorded selection run per Issue #99 dataset")
     runs = runtime_runs("ess-research", 99).resolve(strict=True)
-    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-selection-v3", "issue": 99,
+    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-resource-config-v1", "issue": 99,
+        "prepared_for_issue": 96, "frozen_at_utc_date": "2026-10-25",
         "protocol_sha256": PROTOCOL_SHA256, "split": "train", "budgets": PROTOCOL["scientific_scope"]["budgets"],
-        "generalization_claim": False, "datasets": {}, "case_count_expected": 40}
+        "generalization_claim": False, "datasets": {}, "case_count_expected": 40,
+        "train_resource_configurations_frozen": True,
+        "issue96_test_evaluation_authorized": False,
+        "nontrain_labels_or_test_explain_used": False,
+        "issue96_remaining_postgresql_test_protocol_decisions_frozen": False}
     case_rows = []
     report_lines = ["# Issue #99 — official AreCEL train-only greedy sweep", "",
         "**Scope:** official AreCEL train queries and train labels only; Forest10, Census13, DMV11, and Power7; budgets `B=0,2,3,4,5`; unit candidate cost is a proxy. This report makes no held-out generalization claim.", "",
+        "**Issue #96 preparation:** the 40 train resource configurations are frozen in [`frozen-train-resources-issue96-v1.json`](frozen-train-resources-issue96-v1.json). This freezes train selections only. No official Test labels or Test EXPLAIN observations were used, Issue #96 Test evaluation is not authorized by this artifact, and its remaining PostgreSQL measurement settings are not settled here.", "",
         "## Evidence and interpretation", "",
         "Selections were computed with the pinned deterministic `add_only_greedy` implementation. Nominal and task-wise PESS use exact `Fraction` objective values under the stated fitted train model; the outer selection is a heuristic and is not globally optimal by claim. PESS is the task-wise sum of per-task worst losses over the prescribed inclusion-maximal matching family. PostgreSQL observations are conditional on the pinned instrumented build and replayed sample; an EXPLAIN alone is not evidence that every real PostgreSQL plan selected an MCV statistic.", "",
         "Train truth came from the pinned split-container label pickle. Standard unpickling materialized that container; the runner explicitly dereferenced only `train` and did not index, serialize, or use valid/test label values. No test EXPLAIN was run. Valid-only Issue #87 coefficients were not reused. Optional cross-objective fixed-set evaluation was not run. Training objective values describe the frozen training models and are not generalization accuracy.", "",
+        "Census13 PESS B=5 first stopped INCOMPLETE under the frozen 600-second Advisor / 900-second outer limit. The researcher authorized a continuation of this single case without wall-clock limits while retaining the 12-GiB memory, single-process/single-thread, 381 evaluation-call, and 464,100,000 matching-subset caps. The earlier attempt and a failed system-Python launch before solver start are preserved separately. The successful continuation completed 381/381 fixed-set evaluations in 723.79 seconds; its exact run and time-extension hashes are recorded per case in the frozen JSON.", "",
         "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused. A first 12-worker v2 implementation attempt was stopped after detecting duplicate baseline scheduling; its 167,593 baseline rows were retained as INCOMPLETE. Forest10 and Census13 completed under v2’s 3/4-GiB disk limits. Protocol v3 used a 9.5-GiB early stop and 10-GiB hard cap; the scientific scope, PostgreSQL measurement, model fit, and selection limits matched v2. The v2 DMV11 12/11-worker attempts stopped during cluster setup at the old disk cap with zero observations; the 10-worker attempt was stopped by the researcher before observation collection when the cap was revised. Six DMV11 attempts under the initial v3 9-GiB early stop also ended during cluster setup with zero observations; their allocated-storage peaks stayed below the 10-GiB hard cap, and they are preserved separately. Revised 9.5-GiB early-stop attempts at 12, 11 and 10 workers stopped during setup with zero observations at about 10,497,945,600 peak bytes (9.78 GiB). The 12-worker attempt had worker0-worker4 directories present at the last live snapshot. A preliminary linear extrapolation suggests around 22-24 GiB for a complete 12-worker run; this is unverified. The researcher authorized the remaining DMV11 and Power7 collections at six workers under protocol v4’s 19-GiB early stop and 20-GiB hard cap.", "",
         "## Cases", "",
         "| Dataset | B | Nominal case | PESS case | Same selected set? |",
@@ -1530,6 +1537,12 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         rows = [json.loads(line) for line in case_path.read_text(encoding="utf-8").splitlines() if line]
         if len(rows) != 10 or len({row["case_id"] for row in rows}) != 10:
             raise ValueError(f"{dataset} selection run does not account for ten distinct labeled cases")
+        selection_manifest_sha = sha256_file(selection_root / "selection-manifest.json")
+        for row in rows:
+            row.setdefault("selection_run_id", run_id)
+            row.setdefault("selection_manifest_sha256", selection_manifest_sha)
+            row.setdefault("selection_protocol_sha256", selection_protocol_sha)
+            row.setdefault("time_extension_sha256", selection_manifest.get("time_extension_sha256"))
         collection_root = runs / selection_manifest["collection_run_id"]
         collection = json.loads((collection_root / "collection-manifest.json").read_text(encoding="utf-8"))
         collection_protocol_sha = collection.get("protocol_sha256")
@@ -1544,7 +1557,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
             "hard_wall_seconds": resource["per_dataset_hard_limits"]["wall_seconds"],
             "hard_allocated_disk_bytes": resource["per_dataset_hard_limits"]["allocated_disk_bytes"]}
         frozen["datasets"][dataset] = {"selection_run_id": run_id,
-            "selection_manifest_sha256": sha256_file(selection_root / "selection-manifest.json"),
+            "selection_manifest_sha256": selection_manifest_sha,
             "selection_protocol_sha256": selection_protocol_sha,
             "collection_run_id": collection_root.name,
             "collection_manifest_sha256": sha256_file(collection_root / "collection-manifest.json"),
@@ -1557,7 +1570,8 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
             "completed_observations": collection.get("completed_observations"),
             "sample_sha256": collection.get("sample", {}).get("sha256"),
             "observation_aggregate_sha256": selection_manifest.get("observation_aggregate_sha256"),
-            "model_fit": selection_manifest.get("model_fit")}
+            "model_fit": selection_manifest.get("model_fit"),
+            "source_selection_runs": selection_manifest.get("source_selection_runs")}
         case_rows.extend(rows)
         for row in rows:
             if row["status"] == "COMPLETE":
@@ -1582,7 +1596,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     frozen["case_count_incomplete"] = incomplete
     frozen["status"] = "COMPLETE" if complete == 40 else "PARTIAL"
     frozen["cases"] = case_rows
-    manifest_path = HERE / "selection-manifest-v3.json"
+    manifest_path = HERE / "frozen-train-resources-issue96-v1.json"
     atomic_json(manifest_path, frozen)
     report_lines.extend(["", f"**Case accounting:** {complete}/40 COMPLETE; {incomplete}/40 INCOMPLETE. The sweep is labeled COMPLETE only when all 40 cases complete.", "",
         "## Collection evidence", "",
@@ -1594,8 +1608,8 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         limits = details["resource_limits"]
         report_lines.append(f"| {dataset} | {collection.get('parallelism', '—')} | {limits['early_stop_allocated_disk_bytes']} | {limits['hard_allocated_disk_bytes']} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
     report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Protocol v2 runs retain the 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit; protocol v3 runs use 7.5 hours/9.5 GiB and 8 hours/10 GiB; protocol v4 runs use six workers, 7.5 hours/19 GiB and 8 hours/20 GiB. The preliminary DMV11 12-worker disk estimate of 22-24 GiB and six-worker estimate of 12-14 GiB are low-confidence extrapolations from stopped setup attempts, not completed measurements. Historical DMV11 measurement sizing was 8,624 seconds before setup and is not a six-worker throughput guarantee. Each collection manifest pins its protocol hash and effective limits. Incomplete PG attempts remain separate in the runtime store.", "",
-        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v3.json`](selection-manifest-v3.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
-    report_path = HERE / "findings-v3.md"
+        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, per-case source-run provenance, and input hashes are in [`frozen-train-resources-issue96-v1.json`](frozen-train-resources-issue96-v1.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
+    report_path = HERE / "train-sweep-report-v2.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
     return report_path, manifest_path
 
