@@ -31,6 +31,14 @@ These fresh DMV11 attempts ran under the initial v3 9-GiB early stop. Each stopp
 | `20261025T080814Z-issue99-dmv11-32102a` | 8 | 9,892,302,848 | 9-GiB early stop during setup |
 | `20261025T081054Z-issue99-dmv11-f683d4` | 7 | 9,978,306,560 | 9-GiB early stop during setup |
 
+## Revised v3 9.5-GiB attempt
+
+The first attempt under the 9.5-GiB early stop used the maximum 12 workers. It stopped during cluster setup before any observations completed. The observed peak was 10,497,945,600 bytes (about 9.78 GiB), 239,472,640 bytes below the 10-GiB hard cap. The early stop remains at 9.5 GiB because setup approached the hard ceiling; the next attempt reduces parallelism to 11.
+
+| Run ID | Workers | Peak allocated bytes | Completed observations | Outcome |
+|---|---:|---:|---:|---|
+| `20261025T081616Z-issue99-dmv11-15b3e4` | 12 | 10,497,945,600 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
+
 ## Implementation and next step
 
 The collector now passes the v3 disk and wall thresholds into the shared aggregate guard and writes the effective values into each collection manifest. The shared guard keeps its existing 3/4-GiB defaults for other callers. The v3 report accepts the pinned v2 and v3 hashes, verifies their scientific and selection contracts match, and reports limits per dataset.
