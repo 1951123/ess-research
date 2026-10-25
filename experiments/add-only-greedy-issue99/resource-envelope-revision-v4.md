@@ -16,5 +16,11 @@ The v3 12-worker DMV11 setup attempts motivated a low-confidence 22–24-GiB ful
 
 Selection run `20261025T092424Z-issue99-dmv11-selection-79f148` completed all 10/10 frozen Nominal/PESS cases for budgets 0/2/3/4/5; none hit the 600-second advisor limit. Every case completed with termination reason `no_feasible_candidate`. The run is pinned to the same research commit and protocol hash, consumed the train-only collection, and did not use non-train labels or test EXPLAIN observations. The selection manifest and case-level evidence remain under the external runtime root.
 
-Power7 is the next dataset to collect at six workers under the same v4 limits. Dataset runs remain serial. Any resource-stopped run remains INCOMPLETE with its own run ID and raw evidence; no subsampling is allowed.
+## Power7 six-worker result
+
+**Experimentally observed:** Collection run `20261025T100019Z-issue99-power7-5e2aad`, pinned to research commit `279f824ad731432785d322d3a88731cd61d90464` and the same protocol-v4 SHA-256, completed all 902,535/902,535 expected train observations with six workers. Collection elapsed time was 1,055.852 seconds; total wall time was 1,056.812 seconds. Peak allocated disk was 3,093,200,896 bytes (about 2.88 GiB), well below the 19-GiB early stop. The identical 8,460,325-byte PostgreSQL 16.14 ANALYZE sample (90,000 tuples; SHA-256 `a9cea3b48a2eddd7c8285256eabe26373f39c58ff45095d3940042a7bbb9eba7`) was replayed to all six worker clusters. Each cluster imported and row-count-checked the full source CSV before sample replay. There were no worker errors or failure rows, PostgreSQL binary hashes remained unchanged, and stopped clusters/build/input directories were removed after shutdown.
+
+Selection run `20261025T101855Z-issue99-power7-selection-ac09df` completed all 10/10 frozen Nominal/PESS cases for budgets 0/2/3/4/5. No case hit the 600-second advisor limit. PESS B=4 and B=5 stopped after three additions because no strict objective improvement remained; these are complete greedy outcomes. Exact case evidence remains under the external runtime root.
+
+Both protocol-v4 collections and their selection runs are complete. Dataset runs were serial; any future resource-stopped run remains INCOMPLETE with its own run ID and raw evidence; no subsampling is allowed.
 
