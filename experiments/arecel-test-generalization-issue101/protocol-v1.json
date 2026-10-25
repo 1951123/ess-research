@@ -1,0 +1,829 @@
+{
+  "datasets": {
+    "census13": {
+      "cases": [
+        {
+          "budget": 0,
+          "case_id": "census13-nominal-b0",
+          "objective": "nominal",
+          "selected_ids": []
+        },
+        {
+          "budget": 0,
+          "case_id": "census13-pess-b0",
+          "objective": "pess",
+          "selected_ids": []
+        },
+        {
+          "budget": 2,
+          "case_id": "census13-nominal-b2",
+          "objective": "nominal",
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "budget": 2,
+          "case_id": "census13-pess-b2",
+          "objective": "pess",
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "census13-nominal-b3",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "census13-pess-b3",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "census13-nominal-b4",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e06_08"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "census13-pess-b4",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "census13-nominal-b5",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "census13-pess-b5",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e07_12"
+          ]
+        }
+      ],
+      "configurations": [
+        {
+          "case_ids": [
+            "census13-nominal-b0",
+            "census13-pess-b0"
+          ],
+          "configuration_id": "census13-set-00",
+          "selected_ids": []
+        },
+        {
+          "case_ids": [
+            "census13-nominal-b2",
+            "census13-pess-b2"
+          ],
+          "configuration_id": "census13-set-01",
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "census13-nominal-b3",
+            "census13-pess-b3"
+          ],
+          "configuration_id": "census13-set-02",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "census13-nominal-b4"
+          ],
+          "configuration_id": "census13-set-03",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e06_08"
+          ]
+        },
+        {
+          "case_ids": [
+            "census13-pess-b4"
+          ],
+          "configuration_id": "census13-set-04",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "census13-nominal-b5"
+          ],
+          "configuration_id": "census13-set-05",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ]
+        },
+        {
+          "case_ids": [
+            "census13-pess-b5"
+          ],
+          "configuration_id": "census13-set-06",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e07_12"
+          ]
+        }
+      ],
+      "distinct_config_count": 7,
+      "sample": {
+        "bytes": 8144782,
+        "sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+        "source_issue99_run_id": "20261025T055959Z-issue99-census13-591c9d",
+        "source_manifest_sha256": "844fcb7e3e171c97d0aab6593e2e10d15a154ea9e0a2d8f2d242d33ba14ea497"
+      },
+      "source_case_count": 10,
+      "test_queries": 10000
+    },
+    "dmv11": {
+      "cases": [
+        {
+          "budget": 0,
+          "case_id": "dmv11-nominal-b0",
+          "objective": "nominal",
+          "selected_ids": []
+        },
+        {
+          "budget": 0,
+          "case_id": "dmv11-pess-b0",
+          "objective": "pess",
+          "selected_ids": []
+        },
+        {
+          "budget": 2,
+          "case_id": "dmv11-nominal-b2",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ]
+        },
+        {
+          "budget": 2,
+          "case_id": "dmv11-pess-b2",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "dmv11-nominal-b3",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "dmv11-pess-b3",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "dmv11-nominal-b4",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "dmv11-pess-b4",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "dmv11-nominal-b5",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "dmv11-pess-b5",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ]
+        }
+      ],
+      "configurations": [
+        {
+          "case_ids": [
+            "dmv11-nominal-b0",
+            "dmv11-pess-b0"
+          ],
+          "configuration_id": "dmv11-set-00",
+          "selected_ids": []
+        },
+        {
+          "case_ids": [
+            "dmv11-nominal-b2",
+            "dmv11-pess-b2"
+          ],
+          "configuration_id": "dmv11-set-01",
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-nominal-b3"
+          ],
+          "configuration_id": "dmv11-set-02",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-pess-b3"
+          ],
+          "configuration_id": "dmv11-set-03",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-nominal-b4"
+          ],
+          "configuration_id": "dmv11-set-04",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-pess-b4"
+          ],
+          "configuration_id": "dmv11-set-05",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-nominal-b5"
+          ],
+          "configuration_id": "dmv11-set-06",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ]
+        },
+        {
+          "case_ids": [
+            "dmv11-pess-b5"
+          ],
+          "configuration_id": "dmv11-set-07",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ]
+        }
+      ],
+      "distinct_config_count": 8,
+      "sample": {
+        "bytes": 8820422,
+        "sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "source_issue99_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+        "source_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3"
+      },
+      "source_case_count": 10,
+      "test_queries": 10000
+    },
+    "forest10": {
+      "cases": [
+        {
+          "budget": 0,
+          "case_id": "forest10-nominal-b0",
+          "objective": "nominal",
+          "selected_ids": []
+        },
+        {
+          "budget": 0,
+          "case_id": "forest10-pess-b0",
+          "objective": "pess",
+          "selected_ids": []
+        },
+        {
+          "budget": 2,
+          "case_id": "forest10-nominal-b2",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ]
+        },
+        {
+          "budget": 2,
+          "case_id": "forest10-pess-b2",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "forest10-nominal-b3",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "forest10-pess-b3",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "forest10-nominal-b4",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "forest10-pess-b4",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "forest10-nominal-b5",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "forest10-pess-b5",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ]
+        }
+      ],
+      "configurations": [
+        {
+          "case_ids": [
+            "forest10-nominal-b0",
+            "forest10-pess-b0"
+          ],
+          "configuration_id": "forest10-set-00",
+          "selected_ids": []
+        },
+        {
+          "case_ids": [
+            "forest10-nominal-b2",
+            "forest10-pess-b2"
+          ],
+          "configuration_id": "forest10-set-01",
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ]
+        },
+        {
+          "case_ids": [
+            "forest10-nominal-b3",
+            "forest10-pess-b3",
+            "forest10-pess-b4",
+            "forest10-pess-b5"
+          ],
+          "configuration_id": "forest10-set-02",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ]
+        },
+        {
+          "case_ids": [
+            "forest10-nominal-b4"
+          ],
+          "configuration_id": "forest10-set-03",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ]
+        },
+        {
+          "case_ids": [
+            "forest10-nominal-b5"
+          ],
+          "configuration_id": "forest10-set-04",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ]
+        }
+      ],
+      "distinct_config_count": 5,
+      "sample": {
+        "bytes": 10620460,
+        "sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "source_issue99_run_id": "20261025T050116Z-issue99-forest10-fee458",
+        "source_manifest_sha256": "876a692bd3e067f48d70c870e612a900c5e876257ece6ac4e114af51cb45271f"
+      },
+      "source_case_count": 10,
+      "test_queries": 10000
+    },
+    "power7": {
+      "cases": [
+        {
+          "budget": 0,
+          "case_id": "power7-nominal-b0",
+          "objective": "nominal",
+          "selected_ids": []
+        },
+        {
+          "budget": 0,
+          "case_id": "power7-pess-b0",
+          "objective": "pess",
+          "selected_ids": []
+        },
+        {
+          "budget": 2,
+          "case_id": "power7-nominal-b2",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 2,
+          "case_id": "power7-pess-b2",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "power7-nominal-b3",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 3,
+          "case_id": "power7-pess-b3",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "power7-nominal-b4",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 4,
+          "case_id": "power7-pess-b4",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "power7-nominal-b5",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "budget": 5,
+          "case_id": "power7-pess-b5",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ]
+        }
+      ],
+      "configurations": [
+        {
+          "case_ids": [
+            "power7-nominal-b0",
+            "power7-pess-b0"
+          ],
+          "configuration_id": "power7-set-00",
+          "selected_ids": []
+        },
+        {
+          "case_ids": [
+            "power7-nominal-b2",
+            "power7-pess-b2"
+          ],
+          "configuration_id": "power7-set-01",
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "power7-nominal-b3",
+            "power7-pess-b3",
+            "power7-pess-b4",
+            "power7-pess-b5"
+          ],
+          "configuration_id": "power7-set-02",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "power7-nominal-b4"
+          ],
+          "configuration_id": "power7-set-03",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06"
+          ]
+        },
+        {
+          "case_ids": [
+            "power7-nominal-b5"
+          ],
+          "configuration_id": "power7-set-04",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ]
+        }
+      ],
+      "distinct_config_count": 5,
+      "sample": {
+        "bytes": 8460325,
+        "sha256": "a9cea3b48a2eddd7c8285256eabe26373f39c58ff45095d3940042a7bbb9eba7",
+        "source_issue99_run_id": "20261025T100019Z-issue99-power7-5e2aad",
+        "source_manifest_sha256": "ca3e9b3440fa0b7daca91ecf0004a7dc0d45b783341cb041f5653bbe7eb41665"
+      },
+      "source_case_count": 10,
+      "test_queries": 10000
+    }
+  },
+  "execution": {
+    "call_budget_includes_failed_plan_attempts": true,
+    "configuration_count": 25,
+    "failure_policy": "retain an unresolved status for every missing/invalid Plan Rows value; do not substitute, retry, filter, tune, or alter the frozen schedule based on test outcomes",
+    "max_concurrent_plan_clients": 6,
+    "no_retry_or_skip": true,
+    "parallel_clients_per_configuration": 6,
+    "parallelism_scope": "six read-only planner sessions share one stable per-dataset cluster; no concurrent DDL, statistics changes, data writes, or duplicate query IDs",
+    "per_dataset_calls": {
+      "census13": 70000,
+      "dmv11": 80000,
+      "forest10": 50000,
+      "power7": 50000
+    },
+    "pickle_boundary": "standard trusted-archive deserialization materializes each container; explicitly dereference only test keys; valid/train label values are not indexed, serialized or used",
+    "planned_explain_calls": 250000,
+    "test_access": "only after this protocol and runner are committed with a clean worktree; deserialize pinned split containers, index only test workload and test labels, and retain query-level estimate/truth/status records externally"
+  },
+  "execution_environment": {
+    "numpy_version": "2.3.4",
+    "python_version": "3.12.3"
+  },
+  "format": "ess-issue101-arecel-test-generalization-v1",
+  "limitations": [
+    "Target 300 follows the frozen Issue #99 train setup and the researcher decision; AreCEL public Justfile defaults to target 10000, so this is not a claim of exact published-environment parity.",
+    "PostgreSQL Plan Rows and AreCEL learned-estimator predictions are different estimators; published AreCEL numbers are historical context, not a same-environment head-to-head.",
+    "Selection remains the Issue #99 train-only heuristic result; this test run does not establish global optimality or causal physical-statistic use."
+  ],
+  "metrics": {
+    "paired": "per-query PESS-vs-Nominal Q-error lower/higher/tie counts within each dataset/budget on the same qids; identify identical frozen selections and exact ties",
+    "per_case": "report every objective/budget case including B0, P50/P95/P99/Max, valid and unresolved counts, and zero-case counts; incomplete sets remain incomplete and never silently shrink the reported denominator",
+    "qerror": "At pinned AreCEL utils.py qerror: both zero => 1; estimate zero => truth; truth zero => estimate; otherwise max/min.",
+    "rounding": "r=1.0 for the same AreCEL dataset version; apply numpy.round(r * Plan Rows)",
+    "source_reference": "sfu-db/AreCELearnedYet lecarb/estimator/utils.py at aa52da7768023270bad884232972e0b77ec6534a",
+    "summary": [
+      "numpy.median",
+      "numpy.percentile(errors, 95)",
+      "numpy.percentile(errors, 99)",
+      "numpy.max"
+    ]
+  },
+  "postgresql": {
+    "client_partition": "source_index modulo 6; output is reassembled by source index before pairing and aggregation",
+    "configuration_schedule": "one fresh run-local cluster per dataset; selected configurations are serialized; six psql clients read disjoint official test query IDs concurrently while a configuration remains fixed; datasets are serialized",
+    "estimate": "ordinary EXPLAIN (FORMAT JSON, SUMMARY OFF), top-level Plan.Plan Rows",
+    "extended_statistics_kind": "two-column MCV",
+    "extended_statistics_target": 300,
+    "fixed_sample": "copy the exact Issue #99 sample listed per dataset; validate source manifest SHA, file SHA, PostgreSQL 16.14, sample target 90000, tuple count, natts, relation OID and identity before replay; re-import and ANALYZE it for every selected set",
+    "full_source_table": "import all pinned original CSV rows for each dataset; no sample-only table",
+    "ordinary_column_statistics_target": 300,
+    "parallel_clients_per_configuration": 6,
+    "planner_startup_options": [
+      "client_min_messages=warning",
+      "plan_cache_mode=force_custom_plan",
+      "max_parallel_workers_per_gather=0"
+    ],
+    "query": "original nonaggregate AreCEL SELECT * query, converted by the pinned archive adapter to public.<dataset>"
+  },
+  "resource_envelope": {
+    "allocated_disk_early_stop_bytes": 20401094656,
+    "allocated_disk_hard_max_bytes": 21474836480,
+    "scope": "one issue run across sequential datasets; remove only this run\u2019s stopped PGDATA after each completed dataset; retain run logs, pinned build, samples, manifests and compressed raw observations",
+    "wall_time_limit_seconds": null
+  },
+  "scientific_question": "Do the fully frozen train-only Nominal and task-wise PESS selections differ in official AreCEL test Plan Rows Q-error under the same PostgreSQL build, full source table, fixed ANALYZE sample and settings?",
+  "scope": {
+    "additional_datasets_or_budgets": false,
+    "cases": 40,
+    "datasets": [
+      "forest10",
+      "census13",
+      "dmv11",
+      "power7"
+    ],
+    "split": "official AreCEL test",
+    "test_queries_per_dataset": 10000,
+    "train_selection_read_only": true
+  },
+  "source_pins": {
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "issue99_sample_runs": {
+      "census13": "20261025T055959Z-issue99-census13-591c9d",
+      "dmv11": "20261025T083515Z-issue99-dmv11-16fd8a",
+      "forest10": "20261025T050116Z-issue99-forest10-fee458",
+      "power7": "20261025T100019Z-issue99-power7-5e2aad"
+    },
+    "issue99_train_protocol_sha256": "2f40b265bacc96d965b59bcdccc25c9bb73e3a4d99481a82107db0542343a9e6",
+    "postgresql_build_flags": [
+      "--without-readline",
+      "--without-zlib",
+      "make -j2"
+    ],
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "train_resources_path": "experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json",
+    "train_resources_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca"
+  },
+  "status": "FROZEN_BEFORE_TEST_OUTCOME_ACCESS"
+}
