@@ -158,9 +158,9 @@
     },
     "per_dataset_early_stop_limits": {
       "wall_seconds": 27000,
-      "allocated_disk_bytes": 9663676416
+      "allocated_disk_bytes": 10200547328
     },
-    "stop_rule": "run one dataset at a time; stop that attempt at 7.5 hours or 9 GiB allocated disk; never exceed 8 hours or 10 GiB; preserve INCOMPLETE evidence and do not subsample; begin the next dataset only after the prior cluster and run-local data are shut down",
+    "stop_rule": "run one dataset at a time; stop that attempt at 7.5 hours or 9.5 GiB allocated disk; never exceed 8 hours or 10 GiB; preserve INCOMPLETE evidence and do not subsample; begin the next dataset only after the prior cluster and run-local data are shut down",
     "runtime_storage_location": "ESS_RUNTIME_PARENT/ess-research/issue99/runs/<run-id>; no observation or build artifact enters Git",
     "revision_2_parallelism_basis": {
       "source": "the interrupted Issue #99 Forest10 v1 two-worker collection; sizing evidence only, not a completed experiment result",
@@ -177,12 +177,12 @@
         "dmv11": 695149262,
         "power7": 92498589
       },
-      "limitation": "linear throughput scaling to 12 clusters is not assumed; protocol v3 raises the per-dataset disk early-stop/hard limits to 9/10 GiB, while preserving the same wall limits; any over-cap attempt remains INCOMPLETE"
+      "limitation": "linear throughput scaling to 12 clusters is not assumed; protocol v3 raises the per-dataset disk early-stop/hard limits to 9.5/10 GiB, while preserving the same wall limits; any over-cap attempt remains INCOMPLETE"
     },
     "revision_3_resource_envelope": {
       "researcher_authorization": "increase the per-dataset maximum disk use from 3 GiB to 10 GiB",
       "authorized_at": "2026-10-25",
-      "early_stop_disk_bytes": 9663676416,
+      "early_stop_disk_bytes": 10200547328,
       "hard_cap_disk_bytes": 10737418240,
       "wall_limits_unchanged": {
         "early_stop_seconds": 27000,
@@ -211,7 +211,47 @@
           "stop": "researcher-authorized resource-cap revision before collection"
         }
       ],
-      "runtime_filesystem_available_bytes_at_revision": 54045458432
+      "runtime_filesystem_available_bytes_at_revision": 54045458432,
+      "initial_early_stop_disk_bytes": 9663676416,
+      "early_stop_adjustment_reason": "the initial 9-GiB early stop interrupted DMV11 cluster setup with zero observations; observed peaks were below the authorized 10-GiB hard cap, so the early stop was raised to 9.5 GiB while retaining the 10-GiB hard cap",
+      "initial_9_gib_early_stop_attempts": [
+        {
+          "run_id": "20261025T075718Z-issue99-dmv11-f5b5b9",
+          "parallelism": 12,
+          "peak_allocated_disk_bytes": 10048593920,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080011Z-issue99-dmv11-75e01f",
+          "parallelism": 11,
+          "peak_allocated_disk_bytes": 9861369856,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080251Z-issue99-dmv11-623a79",
+          "parallelism": 10,
+          "peak_allocated_disk_bytes": 9705107456,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080532Z-issue99-dmv11-c17f20",
+          "parallelism": 9,
+          "peak_allocated_disk_bytes": 9929543680,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T080814Z-issue99-dmv11-32102a",
+          "parallelism": 8,
+          "peak_allocated_disk_bytes": 9892302848,
+          "completed_observations": 0
+        },
+        {
+          "run_id": "20261025T081054Z-issue99-dmv11-f683d4",
+          "parallelism": 7,
+          "peak_allocated_disk_bytes": 9978306560,
+          "completed_observations": 0
+        }
+      ]
     }
   },
   "selection_limits": {
@@ -258,7 +298,7 @@
     "maximum_workers": 12,
     "selection": "collect DATASET --parallelism K; K must be in [1, min(12, CPU affinity count)]",
     "default": "maximum allowed worker count for the current process CPU affinity",
-    "maximum_basis": "At revision, the process had affinity to 12 CPUs, no cgroup CPU quota, 14,280,892,416 bytes MemAvailable, and 54,045,458,432 bytes free on the runtime filesystem. Protocol v3 enforces a per-dataset 9-GiB early stop and 10-GiB hard cap; the maximum worker count remains an attempted CPU-affinity ceiling, not a guarantee that every dataset fits.",
+    "maximum_basis": "At revision, the process had affinity to 12 CPUs, no cgroup CPU quota, 14,280,892,416 bytes MemAvailable, and 54,045,458,432 bytes free on the runtime filesystem. Protocol v3 enforces a per-dataset 9.5-GiB early stop and 10-GiB hard cap; the maximum worker count remains an attempted CPU-affinity ceiling, not a guarantee that every dataset fits.",
     "worker_model": "one run-local PostgreSQL cluster and one serial query loop per worker",
     "sample_contract": "the same exported binary ANALYZE sample is replayed to every worker cluster; relation OID and sample identity are checked for every cluster",
     "configuration_assignment": "empty baseline assigned to worker 0; singleton candidates assigned in descending train support to the least-loaded worker with worker-ID tie break; each worker then runs singleton IDs in ascending order",
