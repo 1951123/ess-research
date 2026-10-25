@@ -32,7 +32,7 @@ from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-PROTOCOL_PATH = HERE / "protocol-v1.json"
+PROTOCOL_PATH = HERE / "protocol-v2.json"
 PROTOCOL = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
 PROTOCOL_SHA256 = hashlib.sha256(PROTOCOL_PATH.read_bytes()).hexdigest()
 CENSUS_DIR = ROOT / "experiments/pess-multidataset-heldout-stage2b/census13-issue71"
@@ -481,11 +481,15 @@ def _worker_collect(worker_id: int, cluster: dict[str, Any], relation_oid: int,
         "observation_manifest_sha256": sha256_file(manifest_path), "parts": len(state["parts"])}
 
 
-def _balance_configurations(candidates: list[dict[str, Any]], baseline_calls: int) -> tuple[list[list[tuple[str, tuple[str, ...]]]], list[int]]:
-    assignments: list[list[tuple[str, tuple[str, ...]]]] = [[("Empty", ())], []]
-    loads = [baseline_calls, 0]
+def _balance_configurations(candidates: list[dict[str, Any]], baseline_calls: int,
+                            worker_count: int) -> tuple[list[list[tuple[str, tuple[str, ...]]]], list[int]]:
+    if worker_count < 1:
+        raise ValueError("worker count must be positive")
+    assignments: list[list[tuple[str, tuple[str, ...]]]] = [[("Empty", ())]
+        for _ in range(worker_count)]
+    loads = [baseline_calls] + [0] * (worker_count - 1)
     for candidate in sorted(candidates, key=lambda item: (-item["train_query_count"], item["id"])):
-        worker = min(range(2), key=lambda idx: (loads[idx], idx))
+        worker = min(range(worker_count), key=lambda idx: (loads[idx], idx))
         assignments[worker].append((candidate["id"], (candidate["id"],)))
         loads[worker] += candidate["train_query_count"]
     for worker_configs in assignments:
@@ -495,12 +499,46 @@ def _balance_configurations(candidates: list[dict[str, Any]], baseline_calls: in
 
 def _signal_stop(_signum: int, _frame: Any) -> None:
     STOP.set()
-    raise KeyboardInterrupt("Issue #99 per-dataset resource guard requested stop")
+    raise KeyboardInterrupt("received SIGINT; stopping Issue #99 collection")
 
 
-def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
+def _worker_accounting(output_root: Path, worker_count: int) -> list[dict[str, Any]]:
+    summaries = []
+    for worker_id in range(worker_count):
+        worker_manifest_path = output_root / f"worker{worker_id}-manifest.json"
+        if not worker_manifest_path.is_file():
+            summaries.append({"worker_id": worker_id, "manifest_missing": True})
+            continue
+        worker = json.loads(worker_manifest_path.read_text(encoding="utf-8"))
+        summaries.append({"worker_id": worker_id,
+            "expected_calls": worker.get("expected_calls"),
+            "attempted_calls": worker.get("attempted_calls"),
+            "successful_calls": worker.get("successful_calls", 0),
+            "committed_observation_count": worker.get("committed_observation_count", 0),
+            "mcv_event_count": worker.get("mcv_event_count", 0),
+            "parts": len(worker.get("parts", []))})
+    return summaries
+
+
+def collect_dataset(dataset: str, run_id: str | None = None,
+                    parallelism: int | None = None) -> Path:
     if dataset not in PROTOCOL["scientific_scope"]["datasets"]:
         raise ValueError(f"unknown Issue #99 dataset: {dataset}")
+    if platform.python_version() != PROTOCOL["collection_environment"]["python_version"]:
+        raise RuntimeError("collector Python version differs from protocol-v2")
+    numpy_version = importlib.metadata.version("numpy")
+    if numpy_version != PROTOCOL["collection_environment"]["numpy_version"]:
+        raise RuntimeError("collector NumPy version differs from protocol-v2")
+    available_cpus = len(os.sched_getaffinity(0))
+    maximum_workers = min(PROTOCOL["collection_parallelism"]["maximum_workers"], available_cpus)
+    worker_count = maximum_workers if parallelism is None else parallelism
+    if isinstance(worker_count, bool) or not isinstance(worker_count, int) or not 1 <= worker_count <= maximum_workers:
+        raise ValueError(f"parallelism must be between 1 and {maximum_workers} CPUs available to this process")
+    available_memory_bytes = None
+    for line in Path("/proc/meminfo").read_text(encoding="ascii").splitlines():
+        if line.startswith("MemAvailable:"):
+            available_memory_bytes = int(line.split()[1]) * 1024
+            break
     STOP.clear()
     runs = runtime_runs("ess-research", 99)
     runs.mkdir(parents=True, exist_ok=True)
@@ -511,10 +549,13 @@ def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
     root.mkdir(parents=True, exist_ok=False)
     previous_handler = signal.signal(signal.SIGINT, _signal_stop)
     guard = legacy.AggregateGuard(root)
-    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v1", "issue": 99,
+    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v2", "issue": 99,
         "run_id": run_id, "dataset": dataset, "split": "train", "status": "INCOMPLETE",
         "phase": "initialization", "started_at_utc": now_utc(), "source_commit": current_source_commit(),
         "protocol_sha256": PROTOCOL_SHA256, "python": platform.python_version(),
+        "numpy": numpy_version,
+        "parallelism": worker_count, "available_cpu_affinity_count": available_cpus,
+        "available_memory_bytes_at_start": available_memory_bytes,
         "arecel_archive_sha256": PROTOCOL["source_pins"]["arecel_archive_sha256"],
         "label_pickle_standard_deserialization_materializes_container": True,
         "label_split_keys_explicitly_dereferenced": ["train"],
@@ -574,9 +615,9 @@ def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
             manifest["helper_sha256"] = helper_hashes
             atomic_json(root / "collection-manifest.json", manifest)
 
-            manifest["phase"] = "two_cluster_setup_and_fixed_sample"
+            manifest["phase"] = "parallel_cluster_setup_and_fixed_sample"
             atomic_json(root / "collection-manifest.json", manifest)
-            configs, worker_call_loads = _balance_configurations(candidates, len(queries))
+            configs, worker_call_loads = _balance_configurations(candidates, len(queries), worker_count)
             clusters_root = root / "clusters"
             with ExitStack() as stack:
                 cluster0 = stack.enter_context(legacy.owned_cluster(helpers, prefix, clusters_root / "worker0", os.environ.copy(), guard))
@@ -585,16 +626,19 @@ def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
                     {"catalog_columns": [name for name, _type in pg_columns], "source_rows": source_rows}, csv_path)
                 if sha256_file(sample) != sample_identity["sha256"]:
                     raise RuntimeError("exported common ANALYZE sample does not match its identity digest")
-                cluster1 = stack.enter_context(legacy.owned_cluster(helpers, prefix, clusters_root / "worker1", os.environ.copy(), guard))
-                cluster1["dataset"] = dataset
-                relation_oid1 = _populate_replay_cluster(helpers, prefix, cluster1, dataset, schema_path,
-                    csv_path, sample, source_rows, pg_columns)
-                relation_oids = [int(helpers.psql(prefix, c["socket_dir"], c["port"],
-                    f"SELECT '{table}'::regclass::oid;", dict(os.environ, LD_LIBRARY_PATH=str(prefix / "lib")), tuples=True).strip())
-                    for c in (cluster0, cluster1)]
                 header = helpers.sample_header(sample)
-                if relation_oids[0] != header["relation_oid"] or relation_oids[1] != header["relation_oid"] or relation_oid1 != header["relation_oid"]:
-                    raise RuntimeError("common fixed sample relation OID differs across collection clusters")
+                clusters = [cluster0]
+                relation_oids = [header["relation_oid"]]
+                for worker_id in range(1, worker_count):
+                    cluster = stack.enter_context(legacy.owned_cluster(helpers, prefix,
+                        clusters_root / f"worker{worker_id}", os.environ.copy(), guard))
+                    cluster["dataset"] = dataset
+                    relation_oid = _populate_replay_cluster(helpers, prefix, cluster, dataset, schema_path,
+                        csv_path, sample, source_rows, pg_columns)
+                    if relation_oid != header["relation_oid"]:
+                        raise RuntimeError(f"worker{worker_id} relation OID differs from the fixed sample")
+                    clusters.append(cluster)
+                    relation_oids.append(relation_oid)
                 sample_copy = root / "sample" / f"{dataset}.fixed-sample"
                 sample_copy.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(sample, sample_copy)
@@ -611,30 +655,17 @@ def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
                 failure_rows: list[dict[str, Any]] = []
                 workers = []
                 worker_errors = []
-                with ThreadPoolExecutor(max_workers=2, thread_name_prefix="issue99-pg") as pool:
+                with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="issue99-pg") as pool:
                     futures = [pool.submit(_worker_collect, worker_id, cluster, relation_oids[worker_id], configs[worker_id],
                         queries, query_by_id, eligible, candidates, sample, prefix, helpers, run_formal, forest_adapter,
                         output_root / f"worker{worker_id}", output_root / f"worker{worker_id}-manifest.json", failure_rows)
-                        for worker_id, cluster in enumerate((cluster0, cluster1))]
+                        for worker_id, cluster in enumerate(clusters)]
                 for worker_id, future in enumerate(futures):
                     try:
                         workers.append(future.result())
                     except BaseException as exc:
                         worker_errors.append({"worker_id": worker_id, "error_class": type(exc).__name__, "error": str(exc)[:500]})
-                worker_accounting = []
-                for worker_id in (0, 1):
-                    worker_manifest_path = output_root / f"worker{worker_id}-manifest.json"
-                    if worker_manifest_path.is_file():
-                        worker_manifest = json.loads(worker_manifest_path.read_text(encoding="utf-8"))
-                        worker_accounting.append({"worker_id": worker_id,
-                            "expected_calls": worker_manifest.get("expected_calls"),
-                            "attempted_calls": worker_manifest.get("attempted_calls"),
-                            "successful_calls": worker_manifest.get("successful_calls", 0),
-                            "committed_observation_count": worker_manifest.get("committed_observation_count", 0),
-                            "mcv_event_count": worker_manifest.get("mcv_event_count", 0),
-                            "parts": len(worker_manifest.get("parts", []))})
-                    else:
-                        worker_accounting.append({"worker_id": worker_id, "manifest_missing": True})
+                worker_accounting = _worker_accounting(output_root, worker_count)
                 completed = sum(worker.get("successful_calls", 0) for worker in worker_accounting)
                 manifest["workers"] = workers
                 manifest["worker_accounting"] = worker_accounting
@@ -674,6 +705,20 @@ def collect_dataset(dataset: str, run_id: str | None = None) -> Path:
             "resource_guard_stop_reason": guard.stop_reason}
         manifest["completed_at_utc"] = now_utc()
         manifest["peak_allocated_disk_bytes"] = guard.peak
+        manifest["total_wall_seconds"] = round(time.monotonic() - guard.started, 3)
+        output_root_local = locals().get("output_root")
+        if isinstance(output_root_local, Path) and output_root_local.is_dir():
+            accounting = _worker_accounting(output_root_local, worker_count)
+            manifest["worker_accounting"] = accounting
+            manifest["completed_observations"] = sum(
+                row.get("successful_calls", 0) for row in accounting)
+            manifest["attempted_observations"] = sum(
+                row.get("attempted_calls", 0) for row in accounting)
+            manifest["failure_rows"] = locals().get("failure_rows", [])
+            if guard.stop_reason is None and isinstance(exc, KeyboardInterrupt):
+                manifest["stop_origin"] = "received_sigint"
+            elif guard.stop_reason is not None:
+                manifest["stop_origin"] = "resource_guard"
         cleanup_complete = True
         for disposable in (root / "postgresql", root / "clusters", root / "input"):
             if disposable.exists():
@@ -1155,7 +1200,7 @@ def run_selection(dataset: str, collection_path: Path) -> Path:
     selection_root = expected_runs / root_id
     selection_root.mkdir(parents=True, exist_ok=False)
     source_commit = current_source_commit()
-    selection_manifest = {"format": "ess-issue99-train-selection-v1", "issue": 99,
+    selection_manifest = {"format": "ess-issue99-train-selection-v2", "issue": 99,
         "run_id": root_id, "dataset": dataset, "split": "train", "status": "INCOMPLETE",
         "started_at_utc": now_utc(), "collection_run_id": collection_path.name,
         "collection_manifest_sha256": sha256_file(collection_path / "collection-manifest.json"),
@@ -1264,7 +1309,8 @@ def mark_selection_incomplete(dataset: str, collection_path: Path, reason: str) 
         for row in rows:
             stream.write(jsonl_bytes(row))
         stream.flush(); os.fsync(stream.fileno())
-    summary = {"format": "ess-issue99-train-selection-v1", "issue": 99, "run_id": root.name,
+    summary = {"format": "ess-issue99-train-selection-v2", "issue": 99, "run_id": root.name,
+        "protocol_sha256": PROTOCOL_SHA256,
         "dataset": dataset, "status": "PARTIAL", "collection_run_id": collection_path.name,
         "case_count_expected": 10, "case_count_complete": 0, "case_count_incomplete": 10,
         "cases_recorded": 10, "failure_reason": reason,
@@ -1293,7 +1339,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     if set(run_by_dataset) != set(datasets):
         raise ValueError("report requires exactly one recorded selection run per Issue #99 dataset")
     runs = runtime_runs("ess-research", 99).resolve(strict=True)
-    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-selection-v1", "issue": 99,
+    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-selection-v2", "issue": 99,
         "protocol_sha256": PROTOCOL_SHA256, "split": "train", "budgets": PROTOCOL["scientific_scope"]["budgets"],
         "generalization_claim": False, "datasets": {}, "case_count_expected": 40}
     case_rows = []
@@ -1302,6 +1348,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         "## Evidence and interpretation", "",
         "Selections were computed with the pinned deterministic `add_only_greedy` implementation. Nominal and task-wise PESS use exact `Fraction` objective values under the stated fitted train model; the outer selection is a heuristic and is not globally optimal by claim. PESS is the task-wise sum of per-task worst losses over the prescribed inclusion-maximal matching family. PostgreSQL observations are conditional on the pinned instrumented build and replayed sample; an EXPLAIN alone is not evidence that every real PostgreSQL plan selected an MCV statistic.", "",
         "Train truth came from the pinned split-container label pickle. Standard unpickling materialized that container; the runner explicitly dereferenced only `train` and did not index, serialize, or use valid/test label values. No test EXPLAIN was run. Valid-only Issue #87 coefficients were not reused. Optional cross-objective fixed-set evaluation was not run. Training objective values describe the frozen training models and are not generalization accuracy.", "",
+        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations. Those observations are retained as incomplete evidence and were not reused by protocol v2.", "",
         "## Cases", "",
         "| Dataset | B | Nominal case | PESS case | Same selected set? |",
         "|---|---:|---|---|---|"]
@@ -1315,19 +1362,23 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         if selection_root.parent != runs:
             raise ValueError(f"selection run is not a direct Issue #99 runtime child: {run_id}")
         selection_manifest = json.loads((selection_root / "selection-manifest.json").read_text(encoding="utf-8"))
+        if selection_manifest.get("protocol_sha256") != PROTOCOL_SHA256:
+            raise ValueError(f"{dataset} selection run protocol differs from protocol-v2")
         case_path = selection_root / "case-results.jsonl"
         rows = [json.loads(line) for line in case_path.read_text(encoding="utf-8").splitlines() if line]
         if len(rows) != 10 or len({row["case_id"] for row in rows}) != 10:
             raise ValueError(f"{dataset} selection run does not account for ten distinct labeled cases")
         collection_root = runs / selection_manifest["collection_run_id"]
         collection = json.loads((collection_root / "collection-manifest.json").read_text(encoding="utf-8"))
-        if collection.get("dataset") != dataset or collection.get("split") != "train":
+        if (collection.get("dataset") != dataset or collection.get("split") != "train"
+                or collection.get("protocol_sha256") != PROTOCOL_SHA256):
             raise ValueError(f"{dataset} collection run provenance mismatch")
         frozen["datasets"][dataset] = {"selection_run_id": run_id,
             "selection_manifest_sha256": sha256_file(selection_root / "selection-manifest.json"),
             "collection_run_id": collection_root.name,
             "collection_manifest_sha256": sha256_file(collection_root / "collection-manifest.json"),
-            "collection_status": collection.get("status"), "train_queries": collection.get("train_query_count"),
+            "collection_status": collection.get("status"), "parallelism": collection.get("parallelism"),
+            "train_queries": collection.get("train_query_count"),
             "candidate_count": collection.get("candidate_count"),
             "expected_observations": collection.get("expected_observations"),
             "completed_observations": collection.get("completed_observations"),
@@ -1358,19 +1409,19 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     frozen["case_count_incomplete"] = incomplete
     frozen["status"] = "COMPLETE" if complete == 40 else "PARTIAL"
     frozen["cases"] = case_rows
-    manifest_path = HERE / "selection-manifest-v1.json"
+    manifest_path = HERE / "selection-manifest-v2.json"
     atomic_json(manifest_path, frozen)
     report_lines.extend(["", f"**Case accounting:** {complete}/40 COMPLETE; {incomplete}/40 INCOMPLETE. The sweep is labeled COMPLETE only when all 40 cases complete.", "",
         "## Collection evidence", "",
-        "| Dataset | Collection status | Train queries | Candidate pairs | Structured calls completed / required | Collection wall seconds | Peak allocated disk bytes |",
-        "|---|---|---:|---:|---:|---:|---:|"])
+        "| Dataset | Workers | Collection status | Train queries | Candidate pairs | Structured calls completed / required | Collection wall seconds | Peak allocated disk bytes |",
+        "|---|---:|---|---:|---:|---:|---:|---:|"])
     for dataset in datasets:
         details = frozen["datasets"][dataset]
         collection = json.loads((runs / details["collection_run_id"] / "collection-manifest.json").read_text(encoding="utf-8"))
-        report_lines.append(f"| {dataset} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
+        report_lines.append(f"| {dataset} | {collection.get('parallelism', '—')} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
     report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Per-dataset runs retained their own 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit. Incomplete PG attempts remain separate in the runtime store.", "",
-        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v1.json`](selection-manifest-v1.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
-    report_path = HERE / "findings-v1.md"
+        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v2.json`](selection-manifest-v2.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
+    report_path = HERE / "findings-v2.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
     return report_path, manifest_path
 
@@ -1381,6 +1432,8 @@ def main() -> int:
     collect_parser = sub.add_parser("collect", help="collect complete official train baseline/singleton observations for one dataset")
     collect_parser.add_argument("dataset", choices=PROTOCOL["scientific_scope"]["datasets"])
     collect_parser.add_argument("--run-id")
+    collect_parser.add_argument("--parallelism", type=int,
+        help=f"worker/cluster count (1..{PROTOCOL['collection_parallelism']['maximum_workers']}); defaults to maximum CPU affinity")
     select_parser = sub.add_parser("select", help="run the frozen train-only Nominal/PESS greedy case matrix")
     select_parser.add_argument("dataset", choices=PROTOCOL["scientific_scope"]["datasets"])
     select_parser.add_argument("--collection-run-id", required=True)
@@ -1395,11 +1448,12 @@ def main() -> int:
         _scope_child(args.case_dir, args.unit, args.request)
         return 127
     if args.command == "collect":
-        root = collect_dataset(args.dataset, args.run_id)
+        root = collect_dataset(args.dataset, args.run_id, args.parallelism)
         manifest = json.loads((root / "collection-manifest.json").read_text(encoding="utf-8"))
         print(json.dumps({"runtime_run": root.name, "status": manifest["status"],
             "completed_observations": manifest.get("completed_observations", 0),
-            "expected_observations": manifest.get("expected_observations")}, sort_keys=True))
+            "expected_observations": manifest.get("expected_observations"),
+            "parallelism": manifest.get("parallelism")}, sort_keys=True))
         return 0 if manifest["status"] == "COMPLETE" else 2
     if args.command == "select":
         runs = runtime_runs("ess-research", 99).resolve(strict=True)
