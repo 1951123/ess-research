@@ -485,8 +485,8 @@ def _balance_configurations(candidates: list[dict[str, Any]], baseline_calls: in
                             worker_count: int) -> tuple[list[list[tuple[str, tuple[str, ...]]]], list[int]]:
     if worker_count < 1:
         raise ValueError("worker count must be positive")
-    assignments: list[list[tuple[str, tuple[str, ...]]]] = [[("Empty", ())]
-        for _ in range(worker_count)]
+    assignments: list[list[tuple[str, tuple[str, ...]]]] = [[("Empty", ())]] + [
+        [] for _ in range(worker_count - 1)]
     loads = [baseline_calls] + [0] * (worker_count - 1)
     for candidate in sorted(candidates, key=lambda item: (-item["train_query_count"], item["id"])):
         worker = min(range(worker_count), key=lambda idx: (loads[idx], idx))
@@ -494,6 +494,14 @@ def _balance_configurations(candidates: list[dict[str, Any]], baseline_calls: in
         loads[worker] += candidate["train_query_count"]
     for worker_configs in assignments:
         worker_configs[1:] = sorted(worker_configs[1:], key=lambda item: item[0])
+    all_config_ids = [config_id for worker_configs in assignments
+        for config_id, _selected in worker_configs]
+    candidate_ids = [candidate["id"] for candidate in candidates]
+    if (all_config_ids.count("Empty") != 1
+            or len(all_config_ids) != len(set(all_config_ids))
+            or set(all_config_ids) != {"Empty", *candidate_ids}
+            or sum(loads) != baseline_calls + sum(c["train_query_count"] for c in candidates)):
+        raise RuntimeError("worker schedule must contain one baseline and each singleton exactly once")
     return assignments, loads
 
 
@@ -1348,7 +1356,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         "## Evidence and interpretation", "",
         "Selections were computed with the pinned deterministic `add_only_greedy` implementation. Nominal and task-wise PESS use exact `Fraction` objective values under the stated fitted train model; the outer selection is a heuristic and is not globally optimal by claim. PESS is the task-wise sum of per-task worst losses over the prescribed inclusion-maximal matching family. PostgreSQL observations are conditional on the pinned instrumented build and replayed sample; an EXPLAIN alone is not evidence that every real PostgreSQL plan selected an MCV statistic.", "",
         "Train truth came from the pinned split-container label pickle. Standard unpickling materialized that container; the runner explicitly dereferenced only `train` and did not index, serialize, or use valid/test label values. No test EXPLAIN was run. Valid-only Issue #87 coefficients were not reused. Optional cross-objective fixed-set evaluation was not run. Training objective values describe the frozen training models and are not generalization accuracy.", "",
-        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations. Those observations are retained as incomplete evidence and were not reused by protocol v2.", "",
+        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused by protocol v2. A first 12-worker v2 implementation attempt was also stopped after detecting duplicate baseline scheduling; 167,593 baseline rows were retained as INCOMPLETE and excluded from fitting/selection. The corrected runner was pinned before the v2 recollection.", "",
         "## Cases", "",
         "| Dataset | B | Nominal case | PESS case | Same selected set? |",
         "|---|---:|---|---|---|"]
