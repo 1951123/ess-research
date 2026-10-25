@@ -35,6 +35,7 @@ HERE = Path(__file__).resolve().parent
 PROTOCOL_PATH = HERE / "protocol-v4.json"
 PROTOCOL = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
 PROTOCOL_SHA256 = hashlib.sha256(PROTOCOL_PATH.read_bytes()).hexdigest()
+TIME_EXTENSION_PATH = HERE / "census13-pess-b5-time-extension-v1.json"
 PROTOCOL_V3_PATH = HERE / "protocol-v3.json"
 PROTOCOL_V3 = json.loads(PROTOCOL_V3_PATH.read_text(encoding="utf-8"))
 PROTOCOL_V3_SHA256 = hashlib.sha256(PROTOCOL_V3_PATH.read_bytes()).hexdigest()
@@ -987,10 +988,97 @@ def _fit_base_request(dataset: str, run_root: Path, collection: dict[str, Any], 
     return base, result
 
 
+def _time_extension_for_request(request: dict[str, Any]) -> dict[str, Any] | None:
+    provenance = request.get("input_provenance", {})
+    extension_sha = provenance.get("issue99_time_extension_sha256") if isinstance(provenance, dict) else None
+    if extension_sha is None:
+        return None
+    extension_bytes = TIME_EXTENSION_PATH.read_bytes()
+    if sha256_bytes(extension_bytes) != extension_sha:
+        raise ValueError("time-extension file hash differs from the request provenance")
+    extension = json.loads(extension_bytes)
+    target = extension["target"]
+    attempt = extension["previous_incomplete_attempt"]
+    limits = extension["unchanged_limits"]
+    expected_request = (target["dataset"], target["split"], target["objective"], target["budget"], target["case_id"])
+    observed_request = (provenance.get("issue99_dataset"), provenance.get("issue99_split"), request.get("objective"),
+        int(request.get("instance", {}).get("budget", -1)), provenance.get("issue99_case_id"))
+    if extension.get("parent_protocol_sha256") != PROTOCOL_SHA256 or observed_request != expected_request:
+        raise ValueError("time extension is not authorized for this exact train case")
+    if (request.get("limits", {}).get("total_time_seconds", "missing") is not None
+            or extension.get("time_limits") != {"advisor_total_time_seconds": None, "outer_hard_wall_seconds": None}):
+        raise ValueError("authorized time extension request must have no advisor or outer deadline")
+    if limits != {"memory_limit_bytes": 12884901888, "processes": 1, "cpu_threads": 1,
+            "max_evaluations": 381, "max_inner_matching_subsets": 464100000,
+            "thread_environment": PROTOCOL["selection_limits"]["thread_environment"]}:
+        raise ValueError("time extension changed the frozen memory/process/thread/evaluation limits")
+    if request.get("limits", {}).get("max_evaluations") != limits["max_evaluations"]:
+        raise ValueError("time extension changed the fixed-set evaluation cap")
+    if request.get("limits", {}).get("max_inner_matching_subsets") != limits["max_inner_matching_subsets"]:
+        raise ValueError("time extension changed the PESS subset cap")
+    if (provenance.get("issue99_collection_run_id") != target["collection_run_id"]
+            or provenance.get("issue99_previous_incomplete_run_id") != attempt["selection_run_id"]):
+        raise ValueError("time extension collection or prior-attempt provenance mismatch")
+    runs = runtime_runs("ess-research", 99).resolve(strict=True)
+    collection_root = runs / target["collection_run_id"]
+    if sha256_file(collection_root / "collection-manifest.json") != target["collection_manifest_sha256"]:
+        raise ValueError("time extension collection manifest hash mismatch")
+    previous_root = runs / attempt["selection_run_id"]
+    if sha256_file(previous_root / "selection-manifest.json") != attempt["selection_manifest_sha256"]:
+        raise ValueError("previous incomplete selection manifest hash mismatch")
+    previous_rows = [json.loads(line) for line in (previous_root / "case-results.jsonl").read_text(encoding="utf-8").splitlines() if line]
+    previous = [row for row in previous_rows if row.get("case_id") == target["case_id"]]
+    if (len(previous) != 1 or previous[0].get("status") != "INCOMPLETE"
+            or previous[0].get("selected_ids") is not None
+            or previous[0].get("request_sha256") != attempt["request_sha256"]
+            or previous[0].get("response_sha256") != attempt["response_sha256"]):
+        raise ValueError("previous timed attempt no longer matches the pinned incomplete evidence")
+    return extension
+
+
+def _effective_protocol(request: dict[str, Any]) -> dict[str, Any]:
+    p = issue87_runner.protocol()
+    extension = _time_extension_for_request(request)
+    if extension is not None:
+        p["resource_limits"] = dict(p["resource_limits"])
+        p["resource_limits"]["outer_hard_wall_seconds"] = None
+    return p
+
+
+def _unbounded_scope_errors(invoked: dict[str, Any], p: dict[str, Any]) -> list[str]:
+    failures = []
+    if invoked.get("launch_error"):
+        failures.append("systemd_scope_launch_failed")
+    if invoked.get("returncode") != 0:
+        failures.append("systemd_scope_returncode_nonzero_or_missing")
+    status = invoked.get("systemd_status", {})
+    props = status.get("properties", {}) if status.get("available") else {}
+    if not status.get("available"):
+        failures.append("systemd_status_unavailable")
+    if props.get("Result") != "success":
+        failures.append(f"systemd_result_{props.get('Result', 'unknown')}")
+    if props.get("ExecMainStatus") not in (None, "", "0"):
+        failures.append("systemd_exec_status_nonzero_or_missing")
+    failures.extend(issue87_runner.scope_enforcement_errors(invoked.get("live_scope_enforcement"), p))
+    if props.get("RuntimeMaxUSec") != "infinity":
+        failures.append("active_wall_limit_is_not_unbounded")
+    measured = invoked.get("time_report")
+    limits = p["resource_limits"]
+    if measured is None:
+        failures.append("time_or_peak_rss_measurement_missing")
+    elif measured["peak_rss_bytes"] > limits["memory_limit_bytes"]:
+        failures.append("measured_peak_rss_exceeded_memory_limit")
+    memory_peak = props.get("MemoryPeak")
+    if memory_peak and memory_peak.isdigit() and int(memory_peak) > limits["memory_limit_bytes"]:
+        failures.append("systemd_memory_peak_exceeded_memory_limit")
+    return failures
+
+
 def _scope_child(case_dir: Path, unit: str, request_path: Path) -> None:
     if os.environ.get(issue87_runner.SCOPE_ENV) != "1":
         raise RuntimeError("Advisor child is outside its configured Issue #99 systemd scope")
-    p = issue87_runner.protocol()
+    request = json.loads(request_path.read_text(encoding="utf-8"))
+    p = _effective_protocol(request)
     issue87_runner.write_active_scope_enforcement(unit, case_dir / "scope-enforcement.json", p)
     os.execv(sys.executable, [sys.executable, "-m", "pess_ess.cli", str(request_path)])
 
@@ -1003,7 +1091,9 @@ def _invoke_solver(case_dir: Path, run_id: str, case_id: str, request_path: Path
     stdout_path = case_dir / "response.json"
     stderr_path = case_dir / "stderr.txt"
     command = ["systemd-run", "--user", "--scope", "--quiet", f"--unit={unit}",
-        "-p", f"MemoryMax={limits['memory_limit_bytes']}", "-p", f"RuntimeMaxSec={limits['outer_hard_wall_seconds']}"]
+        "-p", f"MemoryMax={limits['memory_limit_bytes']}" ]
+    if limits["outer_hard_wall_seconds"] is not None:
+        command.extend(["-p", f"RuntimeMaxSec={limits['outer_hard_wall_seconds']}"])
     command.extend(f"--setenv={key}={value}" for key, value in limits["thread_environment"].items())
     command.append(f"--setenv={issue87_runner.SCOPE_ENV}=1")
     command.extend(["--", "/usr/bin/time", "-v", "-o", str(time_path), sys.executable,
@@ -1015,7 +1105,7 @@ def _invoke_solver(case_dir: Path, run_id: str, case_id: str, request_path: Path
     try:
         with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
             result = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr, check=False,
-                timeout=limits["outer_hard_wall_seconds"] + 30)
+                timeout=(limits["outer_hard_wall_seconds"] + 30) if limits["outer_hard_wall_seconds"] is not None else None)
             returncode = result.returncode
     except subprocess.TimeoutExpired:
         launch_error = "systemd-run client exceeded the configured outer wait timeout"
@@ -1035,7 +1125,7 @@ def _invoke_solver(case_dir: Path, run_id: str, case_id: str, request_path: Path
     invocation = {"unit": unit, "returncode": returncode, "launch_error": launch_error,
         "wall_seconds": elapsed, "time_report": issue87_runner.time_report(time_path),
         "systemd_status": status, "live_scope_enforcement": proof,
-        "scope_errors": issue87_runner.scope_errors({"unit": unit, "returncode": returncode,
+        "scope_errors": (_unbounded_scope_errors if limits["outer_hard_wall_seconds"] is None else issue87_runner.scope_errors)({"unit": unit, "returncode": returncode,
             "launch_error": launch_error, "wall_seconds": elapsed,
             "time_report": issue87_runner.time_report(time_path), "systemd_status": status,
             "live_scope_enforcement": proof}, p)}
@@ -1114,7 +1204,8 @@ def _response_errors(request: dict[str, Any], response: dict[str, Any] | None) -
     if request.get("objective") == "pess" and isinstance(subset_count, int) and isinstance(inner_cap, int) and subset_count > inner_cap:
         errors.append("pess_matching_subset_cap_exceeded")
     wall = response.get("wall_time_seconds")
-    if isinstance(wall, bool) or not isinstance(wall, (int, float)) or not math.isfinite(wall) or wall < 0 or wall > caps.get("total_time_seconds", 0):
+    if (isinstance(wall, bool) or not isinstance(wall, (int, float)) or not math.isfinite(wall)
+            or wall < 0 or (caps.get("total_time_seconds") is not None and wall > caps["total_time_seconds"])):
         errors.append("advisor_time_cap_exceeded_or_missing")
     return errors
 
@@ -1177,7 +1268,7 @@ def _case_record(case_id: str, dataset: str, budget: int, objective: str,
         "objective_after_fraction": step.get("objective_after"), "improvement_fraction": step.get("improvement")}
         for step in steps if isinstance(step, dict) and {"candidate_id", "objective_before", "objective_after", "improvement"} <= set(step)]
     limits = request.get("limits", {}) if request else {}
-    p = issue87_runner.protocol()
+    p = _effective_protocol(request or {})
     resource_limits = {"advisor_total_time_seconds": limits.get("total_time_seconds"),
         "outer_hard_wall_seconds": p["resource_limits"]["outer_hard_wall_seconds"],
         "memory_limit_bytes": p["resource_limits"]["memory_limit_bytes"],
@@ -1221,7 +1312,10 @@ def _case_record(case_id: str, dataset: str, budget: int, objective: str,
         "case_failure_reasons": case_errors}
 
 
-def run_selection(dataset: str, collection_path: Path) -> Path:
+def run_selection(dataset: str, collection_path: Path, *, only_case_id: str | None = None) -> Path:
+    time_extension = json.loads(TIME_EXTENSION_PATH.read_text(encoding="utf-8")) if only_case_id else None
+    if only_case_id is not None and (dataset != "census13" or only_case_id != "census13-pess-b5"):
+        raise ValueError("the one-case time extension is restricted to census13-pess-b5")
     collection_path = collection_path.expanduser()
     if collection_path.is_symlink():
         raise ValueError("collection path must not be a symlink")
@@ -1260,16 +1354,20 @@ def run_selection(dataset: str, collection_path: Path) -> Path:
         "collection_manifest_sha256": sha256_file(collection_path / "collection-manifest.json"),
         "protocol_sha256": PROTOCOL_SHA256, "source_commit": source_commit,
         "advisor_environment": software, "host_environment": environment,
-        "case_count_expected": 10, "case_count_complete": 0, "case_count_incomplete": 0,
+        "case_count_expected": 1 if only_case_id else 10, "case_count_complete": 0, "case_count_incomplete": 0,
         "model_fit": model, "nontrain_labels_or_test_explain_used": False,
         "observation_aggregate_sha256": observations_sha,
-        "cross_objective_evaluation": "not run; optional and outside the bounded predeclared case envelope"}
+        "cross_objective_evaluation": "not run; optional and outside the bounded predeclared case envelope",
+        "time_extension_sha256": sha256_file(TIME_EXTENSION_PATH) if only_case_id else None,
+        "time_extension_target_case_id": only_case_id}
     atomic_json(selection_root / "selection-manifest.json", selection_manifest)
     case_records = []
     b0_nominal: dict[str, Any] | None = None
     for budget in PROTOCOL["scientific_scope"]["budgets"]:
         for objective in ("nominal", "pess"):
             case_id = f"{dataset}-{objective}-b{budget}"
+            if only_case_id is not None and case_id != only_case_id:
+                continue
             if budget == 0 and objective == "pess" and b0_nominal is not None:
                 record = dict(b0_nominal)
                 record.update({"case_id": case_id, "objective": "pess", "nominal_priority_order_sha256": None,
@@ -1295,8 +1393,17 @@ def run_selection(dataset: str, collection_path: Path) -> Path:
                     "issue99_dataset": dataset, "issue99_collection_run_id": collection_path.name,
                     "issue99_observation_aggregate_sha256": observations_sha,
                     "issue99_train_truth_sha256": collection["train_truth"]["canonical_values_sha256"]})
+                if time_extension is not None:
+                    request["limits"]["total_time_seconds"] = None
+                    request["input_provenance"].update({
+                        "issue99_case_id": case_id,
+                        "issue99_split": "train",
+                        "issue99_time_extension_sha256": sha256_file(TIME_EXTENSION_PATH),
+                        "issue99_previous_incomplete_run_id": time_extension["previous_incomplete_attempt"]["selection_run_id"]})
+                    _time_extension_for_request(request)
                 request_sha = _write_request(request_path, request)
-                invocation = _invoke_solver(case_dir, root_id, case_id, request_path, p)
+                case_protocol = _effective_protocol(request)
+                invocation = _invoke_solver(case_dir, root_id, case_id, request_path, case_protocol)
                 response_path = case_dir / "response.json"
                 if response_path.is_file():
                     response_raw = response_path.read_bytes()
@@ -1504,6 +1611,10 @@ def main() -> int:
     select_parser = sub.add_parser("select", help="run the frozen train-only Nominal/PESS greedy case matrix")
     select_parser.add_argument("dataset", choices=PROTOCOL["scientific_scope"]["datasets"])
     select_parser.add_argument("--collection-run-id", required=True)
+    select_case_parser = sub.add_parser("select-case", help="complete the specifically authorized Census13 PESS B=5 case")
+    select_case_parser.add_argument("dataset", choices=["census13"])
+    select_case_parser.add_argument("--case-id", choices=["census13-pess-b5"], required=True)
+    select_case_parser.add_argument("--collection-run-id", required=True)
     report_parser = sub.add_parser("report", help="derive the concise report and frozen 40-case selection manifest")
     report_parser.add_argument("--selection", action="append", type=_selection_run_argument, required=True, metavar="DATASET=RUN_ID")
     child_parser = sub.add_parser("_solver-scope", help=argparse.SUPPRESS)
@@ -1522,17 +1633,22 @@ def main() -> int:
             "expected_observations": manifest.get("expected_observations"),
             "parallelism": manifest.get("parallelism")}, sort_keys=True))
         return 0 if manifest["status"] == "COMPLETE" else 2
-    if args.command == "select":
+    if args.command in ("select", "select-case"):
         runs = runtime_runs("ess-research", 99).resolve(strict=True)
         collection_path = runs / args.collection_run_id
         manifest = json.loads((collection_path / "collection-manifest.json").read_text(encoding="utf-8"))
+        if args.command == "select-case" and manifest.get("status") != "COMPLETE":
+            raise ValueError("single-case continuation requires the pinned complete collection")
         if manifest.get("status") != "COMPLETE":
             selection_root = mark_selection_incomplete(args.dataset, collection_path,
                 f"collection_incomplete:{manifest.get('failure') or manifest.get('status')}")
         else:
             try:
-                selection_root = run_selection(args.dataset, collection_path)
+                selection_root = run_selection(args.dataset, collection_path,
+                    only_case_id=args.case_id if args.command == "select-case" else None)
             except Exception as exc:
+                if args.command == "select-case":
+                    raise RuntimeError(f"authorized single-case setup failed: {type(exc).__name__}: {exc}") from exc
                 selection_root = mark_selection_incomplete(args.dataset, collection_path,
                     f"model_or_selection_setup_incomplete:{type(exc).__name__}:{str(exc)[:300]}")
         selection_manifest = json.loads((selection_root / "selection-manifest.json").read_text(encoding="utf-8"))
