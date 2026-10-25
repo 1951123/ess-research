@@ -792,9 +792,16 @@ def _load_observations(run_root: Path, manifest: dict[str, Any], queries: list[d
     mcv_status_counts: dict[str, int] = {}
     observation_files = []
     observed_count = 0
-    for worker_id in (0, 1):
+    worker_ids = [worker.get("worker_id") for worker in manifest.get("workers", [])]
+    parallelism = manifest.get("parallelism")
+    if (not isinstance(parallelism, int) or parallelism < 1
+            or len(worker_ids) != parallelism or set(worker_ids) != set(range(parallelism))):
+        raise ValueError("collection manifest worker IDs do not match its recorded parallelism")
+    for worker_id in sorted(worker_ids):
         worker_manifest_path = run_root / "observations" / f"worker{worker_id}-manifest.json"
         worker_manifest = json.loads(worker_manifest_path.read_text(encoding="utf-8"))
+        if worker_manifest.get("worker_id") != worker_id:
+            raise ValueError(f"worker{worker_id} durable manifest has a mismatched worker ID")
         if worker_manifest.get("committed_observation_count") != sum(part["rows"] for part in worker_manifest["parts"]):
             raise ValueError(f"worker{worker_id} durable count differs from its completed parts")
         for part in worker_manifest["parts"]:
