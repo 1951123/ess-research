@@ -32,9 +32,21 @@ from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-PROTOCOL_PATH = HERE / "protocol-v2.json"
+PROTOCOL_PATH = HERE / "protocol-v3.json"
 PROTOCOL = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
 PROTOCOL_SHA256 = hashlib.sha256(PROTOCOL_PATH.read_bytes()).hexdigest()
+PREVIOUS_PROTOCOL_PATH = HERE / "protocol-v2.json"
+PREVIOUS_PROTOCOL = json.loads(PREVIOUS_PROTOCOL_PATH.read_text(encoding="utf-8"))
+PREVIOUS_PROTOCOL_SHA256 = hashlib.sha256(PREVIOUS_PROTOCOL_PATH.read_bytes()).hexdigest()
+SUPPORTED_PROTOCOLS = {PROTOCOL_SHA256: PROTOCOL, PREVIOUS_PROTOCOL_SHA256: PREVIOUS_PROTOCOL}
+PARALLEL_COLLECTION_CONTRACT_FIELDS = ("maximum_workers", "selection", "default", "worker_model",
+    "sample_contract", "configuration_assignment", "dataset_schedule")
+if (any(PROTOCOL[key] != PREVIOUS_PROTOCOL[key]
+        for key in ("source_pins", "scientific_scope", "postgresql_measurement", "model_fit",
+                    "selection_limits", "collection_environment"))
+        or any(PROTOCOL["collection_parallelism"][key] != PREVIOUS_PROTOCOL["collection_parallelism"][key]
+               for key in PARALLEL_COLLECTION_CONTRACT_FIELDS)):
+    raise RuntimeError("protocol-v3 may change resource limits only; scientific and selection contracts must match v2")
 CENSUS_DIR = ROOT / "experiments/pess-multidataset-heldout-stage2b/census13-issue71"
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(CENSUS_DIR))
@@ -533,10 +545,10 @@ def collect_dataset(dataset: str, run_id: str | None = None,
     if dataset not in PROTOCOL["scientific_scope"]["datasets"]:
         raise ValueError(f"unknown Issue #99 dataset: {dataset}")
     if platform.python_version() != PROTOCOL["collection_environment"]["python_version"]:
-        raise RuntimeError("collector Python version differs from protocol-v2")
+        raise RuntimeError("collector Python version differs from protocol-v3")
     numpy_version = importlib.metadata.version("numpy")
     if numpy_version != PROTOCOL["collection_environment"]["numpy_version"]:
-        raise RuntimeError("collector NumPy version differs from protocol-v2")
+        raise RuntimeError("collector NumPy version differs from protocol-v3")
     available_cpus = len(os.sched_getaffinity(0))
     maximum_workers = min(PROTOCOL["collection_parallelism"]["maximum_workers"], available_cpus)
     worker_count = maximum_workers if parallelism is None else parallelism
@@ -556,12 +568,22 @@ def collect_dataset(dataset: str, run_id: str | None = None,
     root = runs / run_id
     root.mkdir(parents=True, exist_ok=False)
     previous_handler = signal.signal(signal.SIGINT, _signal_stop)
-    guard = legacy.AggregateGuard(root)
-    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v2", "issue": 99,
+    resource_envelope = PROTOCOL["resource_envelope"]
+    early_limits = resource_envelope["per_dataset_early_stop_limits"]
+    hard_limits = resource_envelope["per_dataset_hard_limits"]
+    guard = legacy.AggregateGuard(root,
+        early_seconds=early_limits["wall_seconds"], hard_seconds=hard_limits["wall_seconds"],
+        early_bytes=early_limits["allocated_disk_bytes"], hard_bytes=hard_limits["allocated_disk_bytes"])
+    resource_limits = {"early_stop_wall_seconds": early_limits["wall_seconds"],
+        "early_stop_allocated_disk_bytes": early_limits["allocated_disk_bytes"],
+        "hard_wall_seconds": hard_limits["wall_seconds"],
+        "hard_allocated_disk_bytes": hard_limits["allocated_disk_bytes"]}
+    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v3", "issue": 99,
         "run_id": run_id, "dataset": dataset, "split": "train", "status": "INCOMPLETE",
         "phase": "initialization", "started_at_utc": now_utc(), "source_commit": current_source_commit(),
         "protocol_sha256": PROTOCOL_SHA256, "python": platform.python_version(),
         "numpy": numpy_version,
+        "resource_limits": resource_limits,
         "parallelism": worker_count, "available_cpu_affinity_count": available_cpus,
         "available_memory_bytes_at_start": available_memory_bytes,
         "arecel_archive_sha256": PROTOCOL["source_pins"]["arecel_archive_sha256"],
@@ -1207,8 +1229,8 @@ def run_selection(dataset: str, collection_path: Path) -> Path:
     collection = json.loads((collection_path / "collection-manifest.json").read_text(encoding="utf-8"))
     if collection.get("dataset") != dataset or collection.get("status") != "COMPLETE" or collection.get("split") != "train":
         raise ValueError("selection requires the complete official train collection for this dataset")
-    if collection.get("protocol_sha256") != PROTOCOL_SHA256:
-        raise ValueError("collection protocol hash differs from the committed Issue #99 protocol")
+    if collection.get("protocol_sha256") not in SUPPORTED_PROTOCOLS:
+        raise ValueError("collection protocol hash is not a supported Issue #99 protocol revision")
     queries, candidates, eligible = _load_train_workload_only(dataset, collection_path / "scratch")
     if len(queries) != collection["train_query_count"]:
         raise ValueError("reloaded train workload count differs from collection manifest")
@@ -1228,7 +1250,7 @@ def run_selection(dataset: str, collection_path: Path) -> Path:
     selection_root = expected_runs / root_id
     selection_root.mkdir(parents=True, exist_ok=False)
     source_commit = current_source_commit()
-    selection_manifest = {"format": "ess-issue99-train-selection-v2", "issue": 99,
+    selection_manifest = {"format": "ess-issue99-train-selection-v3", "issue": 99,
         "run_id": root_id, "dataset": dataset, "split": "train", "status": "INCOMPLETE",
         "started_at_utc": now_utc(), "collection_run_id": collection_path.name,
         "collection_manifest_sha256": sha256_file(collection_path / "collection-manifest.json"),
@@ -1337,7 +1359,7 @@ def mark_selection_incomplete(dataset: str, collection_path: Path, reason: str) 
         for row in rows:
             stream.write(jsonl_bytes(row))
         stream.flush(); os.fsync(stream.fileno())
-    summary = {"format": "ess-issue99-train-selection-v2", "issue": 99, "run_id": root.name,
+    summary = {"format": "ess-issue99-train-selection-v3", "issue": 99, "run_id": root.name,
         "protocol_sha256": PROTOCOL_SHA256,
         "dataset": dataset, "status": "PARTIAL", "collection_run_id": collection_path.name,
         "case_count_expected": 10, "case_count_complete": 0, "case_count_incomplete": 10,
@@ -1367,7 +1389,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     if set(run_by_dataset) != set(datasets):
         raise ValueError("report requires exactly one recorded selection run per Issue #99 dataset")
     runs = runtime_runs("ess-research", 99).resolve(strict=True)
-    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-selection-v2", "issue": 99,
+    frozen: dict[str, Any] = {"format": "ess-issue99-frozen-train-selection-v3", "issue": 99,
         "protocol_sha256": PROTOCOL_SHA256, "split": "train", "budgets": PROTOCOL["scientific_scope"]["budgets"],
         "generalization_claim": False, "datasets": {}, "case_count_expected": 40}
     case_rows = []
@@ -1376,7 +1398,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         "## Evidence and interpretation", "",
         "Selections were computed with the pinned deterministic `add_only_greedy` implementation. Nominal and task-wise PESS use exact `Fraction` objective values under the stated fitted train model; the outer selection is a heuristic and is not globally optimal by claim. PESS is the task-wise sum of per-task worst losses over the prescribed inclusion-maximal matching family. PostgreSQL observations are conditional on the pinned instrumented build and replayed sample; an EXPLAIN alone is not evidence that every real PostgreSQL plan selected an MCV statistic.", "",
         "Train truth came from the pinned split-container label pickle. Standard unpickling materialized that container; the runner explicitly dereferenced only `train` and did not index, serialize, or use valid/test label values. No test EXPLAIN was run. Valid-only Issue #87 coefficients were not reused. Optional cross-objective fixed-set evaluation was not run. Training objective values describe the frozen training models and are not generalization accuracy.", "",
-        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused by protocol v2. A first 12-worker v2 implementation attempt was also stopped after detecting duplicate baseline scheduling; 167,593 baseline rows were retained as INCOMPLETE and excluded from fitting/selection. The corrected runner was pinned before the v2 recollection.", "",
+        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused. A first 12-worker v2 implementation attempt was stopped after detecting duplicate baseline scheduling; its 167,593 baseline rows were retained as INCOMPLETE. Forest10 and Census13 completed under v2’s 3/4-GiB disk limits. Protocol v3 changes only the disk envelope to a 9-GiB early stop and 10-GiB hard cap; the scientific scope, PostgreSQL measurement, model fit, and selection limits are unchanged. The v2 DMV11 12/11-worker attempts stopped during cluster setup at the old disk cap with zero observations; the 10-worker attempt was stopped by the researcher before observation collection when the cap was revised.", "",
         "## Cases", "",
         "| Dataset | B | Nominal case | PESS case | Same selected set? |",
         "|---|---:|---|---|---|"]
@@ -1390,21 +1412,33 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         if selection_root.parent != runs:
             raise ValueError(f"selection run is not a direct Issue #99 runtime child: {run_id}")
         selection_manifest = json.loads((selection_root / "selection-manifest.json").read_text(encoding="utf-8"))
-        if selection_manifest.get("protocol_sha256") != PROTOCOL_SHA256:
-            raise ValueError(f"{dataset} selection run protocol differs from protocol-v2")
+        selection_protocol_sha = selection_manifest.get("protocol_sha256")
+        if selection_protocol_sha not in SUPPORTED_PROTOCOLS:
+            raise ValueError(f"{dataset} selection run has an unsupported protocol hash")
         case_path = selection_root / "case-results.jsonl"
         rows = [json.loads(line) for line in case_path.read_text(encoding="utf-8").splitlines() if line]
         if len(rows) != 10 or len({row["case_id"] for row in rows}) != 10:
             raise ValueError(f"{dataset} selection run does not account for ten distinct labeled cases")
         collection_root = runs / selection_manifest["collection_run_id"]
         collection = json.loads((collection_root / "collection-manifest.json").read_text(encoding="utf-8"))
+        collection_protocol_sha = collection.get("protocol_sha256")
         if (collection.get("dataset") != dataset or collection.get("split") != "train"
-                or collection.get("protocol_sha256") != PROTOCOL_SHA256):
+                or collection_protocol_sha not in SUPPORTED_PROTOCOLS):
             raise ValueError(f"{dataset} collection run provenance mismatch")
+        collection_protocol = SUPPORTED_PROTOCOLS[collection_protocol_sha]
+        resource = collection_protocol["resource_envelope"]
+        resource_limits = collection.get("resource_limits") or {
+            "early_stop_wall_seconds": resource["per_dataset_early_stop_limits"]["wall_seconds"],
+            "early_stop_allocated_disk_bytes": resource["per_dataset_early_stop_limits"]["allocated_disk_bytes"],
+            "hard_wall_seconds": resource["per_dataset_hard_limits"]["wall_seconds"],
+            "hard_allocated_disk_bytes": resource["per_dataset_hard_limits"]["allocated_disk_bytes"]}
         frozen["datasets"][dataset] = {"selection_run_id": run_id,
             "selection_manifest_sha256": sha256_file(selection_root / "selection-manifest.json"),
+            "selection_protocol_sha256": selection_protocol_sha,
             "collection_run_id": collection_root.name,
             "collection_manifest_sha256": sha256_file(collection_root / "collection-manifest.json"),
+            "collection_protocol_sha256": collection_protocol_sha,
+            "resource_limits": resource_limits,
             "collection_status": collection.get("status"), "parallelism": collection.get("parallelism"),
             "train_queries": collection.get("train_query_count"),
             "candidate_count": collection.get("candidate_count"),
@@ -1437,19 +1471,20 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
     frozen["case_count_incomplete"] = incomplete
     frozen["status"] = "COMPLETE" if complete == 40 else "PARTIAL"
     frozen["cases"] = case_rows
-    manifest_path = HERE / "selection-manifest-v2.json"
+    manifest_path = HERE / "selection-manifest-v3.json"
     atomic_json(manifest_path, frozen)
     report_lines.extend(["", f"**Case accounting:** {complete}/40 COMPLETE; {incomplete}/40 INCOMPLETE. The sweep is labeled COMPLETE only when all 40 cases complete.", "",
         "## Collection evidence", "",
-        "| Dataset | Workers | Collection status | Train queries | Candidate pairs | Structured calls completed / required | Collection wall seconds | Peak allocated disk bytes |",
-        "|---|---:|---|---:|---:|---:|---:|---:|"])
+        "| Dataset | Workers | Early disk stop (bytes) | Hard disk cap (bytes) | Collection status | Train queries | Candidate pairs | Structured calls completed / required | Collection wall seconds | Peak allocated disk bytes |",
+        "|---|---:|---:|---:|---|---:|---:|---:|---:|---:|"])
     for dataset in datasets:
         details = frozen["datasets"][dataset]
         collection = json.loads((runs / details["collection_run_id"] / "collection-manifest.json").read_text(encoding="utf-8"))
-        report_lines.append(f"| {dataset} | {collection.get('parallelism', '—')} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
-    report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Per-dataset runs retained their own 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit. Incomplete PG attempts remain separate in the runtime store.", "",
-        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v2.json`](selection-manifest-v2.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
-    report_path = HERE / "findings-v2.md"
+        limits = details["resource_limits"]
+        report_lines.append(f"| {dataset} | {collection.get('parallelism', '—')} | {limits['early_stop_allocated_disk_bytes']} | {limits['hard_allocated_disk_bytes']} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
+    report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Protocol v2 runs retain the 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit; protocol v3 runs use 7.5 hours/9 GiB and 8 hours/10 GiB. Each collection manifest pins its protocol hash and effective limits. Incomplete PG attempts remain separate in the runtime store.", "",
+        "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v3.json`](selection-manifest-v3.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
+    report_path = HERE / "findings-v3.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
     return report_path, manifest_path
 
