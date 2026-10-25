@@ -1543,6 +1543,19 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
             row.setdefault("selection_manifest_sha256", selection_manifest_sha)
             row.setdefault("selection_protocol_sha256", selection_protocol_sha)
             row.setdefault("time_extension_sha256", selection_manifest.get("time_extension_sha256"))
+            scope_case_id = row.get("shared_b0_computation_from") or row["case_id"]
+            scope_path = runs / row["selection_run_id"] / "cases" / scope_case_id / "scope-enforcement.json"
+            if scope_path.is_file():
+                scope_proof = json.loads(scope_path.read_text(encoding="utf-8"))
+                if scope_proof.get("verified") is not True:
+                    raise ValueError(f"{row['case_id']} active resource-scope proof is not verified")
+                row["active_scope_enforcement_sha256"] = sha256_file(scope_path)
+                row["active_scope_enforcement_verified"] = True
+                resource_limits = row.get("resource_limits")
+                if isinstance(resource_limits, dict):
+                    resource_limits["effective_systemd"] = scope_proof.get("properties", {})
+            elif row["status"] == "COMPLETE":
+                raise ValueError(f"{row['case_id']} active resource-scope proof is missing")
         collection_root = runs / selection_manifest["collection_run_id"]
         collection = json.loads((collection_root / "collection-manifest.json").read_text(encoding="utf-8"))
         collection_protocol_sha = collection.get("protocol_sha256")
