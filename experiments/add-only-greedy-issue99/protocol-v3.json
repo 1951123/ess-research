@@ -268,10 +268,24 @@
           "completed_observations": 0,
           "status": "INCOMPLETE",
           "stop": "9.5-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T082244Z-issue99-dmv11-f46e72",
+          "parallelism": 10,
+          "peak_allocated_disk_bytes": 10497953792,
+          "completed_observations": 0,
+          "status": "INCOMPLETE",
+          "stop": "9.5-GiB early-stop threshold during cluster setup"
         }
       ],
-      "next_parallelism_attempt": 10,
-      "next_parallelism_reason": "the 12- and 11-worker attempts both stopped at the 9.5-GiB early stop with the same 10497945600-byte peak, 239472640 bytes below the 10-GiB hard cap; retain the early stop and attempt the next lower worker count"
+      "estimated_12_worker_full_run_disk_bytes": {
+        "lower_bound_from_observed_setup_peak": 10497945600,
+        "rough_full_setup_estimate_bytes": 23700000000,
+        "basis": "12-worker run peaked at 10497945600 allocated bytes during setup with worker0-worker4 directories present and zero observations; approximate common pre-cluster footprint was 1.08 billion bytes, and the remaining footprint was extrapolated from five visible worker directories to twelve; estimated observation output adds about 77089214 bytes based on the historical compressed-byte-per-call rate",
+        "evidence_label": "Conjecture / Open; no 12-worker cluster setup or observation collection completed"
+      },
+      "next_parallelism_attempt": null,
+      "next_parallelism_reason": "researcher requested that collection stop while the 12-worker disk requirement is estimated; no further collection attempt is started before the sizing decision"
     }
   },
   "selection_limits": {

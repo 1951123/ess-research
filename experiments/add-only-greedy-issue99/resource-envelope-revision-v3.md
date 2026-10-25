@@ -33,15 +33,20 @@ These fresh DMV11 attempts ran under the initial v3 9-GiB early stop. Each stopp
 
 ## Revised v3 9.5-GiB attempt
 
-The first attempt under the 9.5-GiB early stop used the maximum 12 workers. It stopped during cluster setup before any observations completed. The observed peak was 10,497,945,600 bytes (about 9.78 GiB), 239,472,640 bytes below the 10-GiB hard cap. The next attempt used 11 workers and stopped at the same peak and phase. The early stop remains at 9.5 GiB because setup approached the hard ceiling; the next attempt reduces parallelism to 10.
+The first attempt under the 9.5-GiB early stop used the maximum 12 workers. It stopped during cluster setup before any observations completed. The observed peak was 10,497,945,600 bytes (about 9.78 GiB), 239,472,640 bytes below the 10-GiB hard cap. Attempts at 11 and 10 workers stopped in the same phase at essentially the same peak. The researcher then asked to pause collection and estimate the 12-worker disk requirement before another attempt.
 
 | Run ID | Workers | Peak allocated bytes | Completed observations | Outcome |
 |---|---:|---:|---:|---|
 | `20261025T081616Z-issue99-dmv11-15b3e4` | 12 | 10,497,945,600 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
 | `20261025T081929Z-issue99-dmv11-ce8f09` | 11 | 10,497,945,600 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
+| `20261025T082244Z-issue99-dmv11-f46e72` | 10 | 10,497,953,792 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
+
+## Preliminary 12-worker storage estimate
+
+**Conjecture / Open:** the 12-worker attempt reached a 10,497,945,600-byte (9.777-GiB) peak before any EXPLAIN observations completed. At the last live directory snapshot, `worker0` through `worker4` directories were present. Subtracting the approximately 1.08-GB shared pre-cluster footprint leaves roughly 1.87 GB per visible worker directory. A straight extrapolation to 12 worker clusters gives about 23.7 GB decimal (22.1 GiB) for setup; the historical compressed-observation sizing adds about 77 MB for DMV11, before uncertain logs and other growth. A practical planning range is **22–24 GiB**. This is a low-confidence extrapolation, not a measured full-run requirement: worker4 may have been incomplete, and no attempt completed cluster setup. The authorized 10-GiB cap is therefore likely insufficient for 12 workers. No further collection was started for this estimate.
 
 ## Implementation and next step
 
 The collector now passes the v3 disk and wall thresholds into the shared aggregate guard and writes the effective values into each collection manifest. The shared guard keeps its existing 3/4-GiB defaults for other callers. The v3 report accepts the pinned v2 and v3 hashes, verifies their scientific and selection contracts match, and reports limits per dataset.
 
-The next attempt is a fresh DMV11 collection at 10 workers under the revised v3 cap. If that completes, higher parallelism remains unverified because the 11- and 12-worker settings hit the early stop. Power7 starts at the highest setting that completes DMV11, with all incomplete attempts preserved separately.
+The next collection step is intentionally unset while the researcher reviews the preliminary 12-worker disk estimate. All incomplete attempts remain separate; no further DMV11 or Power7 collection is active.
