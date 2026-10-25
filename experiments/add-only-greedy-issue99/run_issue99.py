@@ -626,6 +626,19 @@ def collect_dataset(dataset: str, run_id: str | None = None,
             manifest["phase"] = "parallel_cluster_setup_and_fixed_sample"
             atomic_json(root / "collection-manifest.json", manifest)
             configs, worker_call_loads = _balance_configurations(candidates, len(queries), worker_count)
+            scheduled_baselines = sum(config_id == "Empty" for worker_configs in configs
+                for config_id, _selected in worker_configs)
+            scheduled_singletons = sum(config_id != "Empty" for worker_configs in configs
+                for config_id, _selected in worker_configs)
+            scheduled_calls = sum(worker_call_loads)
+            if (scheduled_baselines != 1 or scheduled_singletons != len(candidates)
+                    or scheduled_calls != expected["total_observations"]):
+                raise RuntimeError("worker schedule does not match the frozen baseline/singleton call contract")
+            manifest["schedule_contract"] = {"empty_baseline_configurations": scheduled_baselines,
+                "singleton_configurations": scheduled_singletons,
+                "scheduled_observation_calls": scheduled_calls,
+                "expected_observation_calls": expected["total_observations"],
+                "verified": True}
             clusters_root = root / "clusters"
             with ExitStack() as stack:
                 cluster0 = stack.enter_context(legacy.owned_cluster(helpers, prefix, clusters_root / "worker0", os.environ.copy(), guard))
