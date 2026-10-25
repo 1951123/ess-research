@@ -33,14 +33,15 @@ These fresh DMV11 attempts ran under the initial v3 9-GiB early stop. Each stopp
 
 ## Revised v3 9.5-GiB attempt
 
-The first attempt under the 9.5-GiB early stop used the maximum 12 workers. It stopped during cluster setup before any observations completed. The observed peak was 10,497,945,600 bytes (about 9.78 GiB), 239,472,640 bytes below the 10-GiB hard cap. The early stop remains at 9.5 GiB because setup approached the hard ceiling; the next attempt reduces parallelism to 11.
+The first attempt under the 9.5-GiB early stop used the maximum 12 workers. It stopped during cluster setup before any observations completed. The observed peak was 10,497,945,600 bytes (about 9.78 GiB), 239,472,640 bytes below the 10-GiB hard cap. The next attempt used 11 workers and stopped at the same peak and phase. The early stop remains at 9.5 GiB because setup approached the hard ceiling; the next attempt reduces parallelism to 10.
 
 | Run ID | Workers | Peak allocated bytes | Completed observations | Outcome |
 |---|---:|---:|---:|---|
 | `20261025T081616Z-issue99-dmv11-15b3e4` | 12 | 10,497,945,600 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
+| `20261025T081929Z-issue99-dmv11-ce8f09` | 11 | 10,497,945,600 | 0 / 2,094,044 | 9.5-GiB early stop during cluster setup |
 
 ## Implementation and next step
 
 The collector now passes the v3 disk and wall thresholds into the shared aggregate guard and writes the effective values into each collection manifest. The shared guard keeps its existing 3/4-GiB defaults for other callers. The v3 report accepts the pinned v2 and v3 hashes, verifies their scientific and selection contracts match, and reports limits per dataset.
 
-The next attempt is a fresh DMV11 collection at the CPU-affinity maximum of 12 workers under the revised v3 cap. If 12 completes, Power7 also starts at 12. Every interrupted attempt stays separate and incomplete.
+The next attempt is a fresh DMV11 collection at 10 workers under the revised v3 cap. If that completes, higher parallelism remains unverified because the 11- and 12-worker settings hit the early stop. Power7 starts at the highest setting that completes DMV11, with all incomplete attempts preserved separately.

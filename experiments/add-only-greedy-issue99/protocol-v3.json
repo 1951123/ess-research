@@ -260,10 +260,18 @@
           "completed_observations": 0,
           "status": "INCOMPLETE",
           "stop": "9.5-GiB early-stop threshold during cluster setup"
+        },
+        {
+          "run_id": "20261025T081929Z-issue99-dmv11-ce8f09",
+          "parallelism": 11,
+          "peak_allocated_disk_bytes": 10497945600,
+          "completed_observations": 0,
+          "status": "INCOMPLETE",
+          "stop": "9.5-GiB early-stop threshold during cluster setup"
         }
       ],
-      "next_parallelism_attempt": 11,
-      "next_parallelism_reason": "the 12-worker peak stayed below the 10-GiB hard cap but came within 239472640 bytes of it; retain the 9.5-GiB early stop and attempt the next lower worker count"
+      "next_parallelism_attempt": 10,
+      "next_parallelism_reason": "the 12- and 11-worker attempts both stopped at the 9.5-GiB early stop with the same 10497945600-byte peak, 239472640 bytes below the 10-GiB hard cap; retain the early stop and attempt the next lower worker count"
     }
   },
   "selection_limits": {
