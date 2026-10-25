@@ -617,7 +617,7 @@ def configure_and_audit_arm(dataset: str, order: str, selected: list[str],
     if (header["server_version"] != "16.14" or header["sample_target"] != 90_000
             or header["tuple_count"] != min(source_rows, 90_000)
             or header["natts"] != column_count
-            or header["relation_oid"] != expected_table["relation_oid"]
+            or int(header["relation_oid"]) != int(expected_table["relation_oid"])
             or header["relation_identity"] != f"6:public{len(dataset)}:{dataset}"):
         raise RuntimeError(f"{dataset}/{order} sample relation identity differs from full table")
     return {
