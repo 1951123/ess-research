@@ -23,6 +23,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ISSUE101_DIR = ROOT / "experiments/arecel-test-generalization-issue101"
+sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ISSUE101_DIR))
 from ess_research.task_paths import runtime_runs
 import run_issue101 as issue101
