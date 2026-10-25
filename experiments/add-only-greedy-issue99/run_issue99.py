@@ -32,21 +32,25 @@ from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-PROTOCOL_PATH = HERE / "protocol-v3.json"
+PROTOCOL_PATH = HERE / "protocol-v4.json"
 PROTOCOL = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
 PROTOCOL_SHA256 = hashlib.sha256(PROTOCOL_PATH.read_bytes()).hexdigest()
+PROTOCOL_V3_PATH = HERE / "protocol-v3.json"
+PROTOCOL_V3 = json.loads(PROTOCOL_V3_PATH.read_text(encoding="utf-8"))
+PROTOCOL_V3_SHA256 = hashlib.sha256(PROTOCOL_V3_PATH.read_bytes()).hexdigest()
 PREVIOUS_PROTOCOL_PATH = HERE / "protocol-v2.json"
 PREVIOUS_PROTOCOL = json.loads(PREVIOUS_PROTOCOL_PATH.read_text(encoding="utf-8"))
 PREVIOUS_PROTOCOL_SHA256 = hashlib.sha256(PREVIOUS_PROTOCOL_PATH.read_bytes()).hexdigest()
-SUPPORTED_PROTOCOLS = {PROTOCOL_SHA256: PROTOCOL, PREVIOUS_PROTOCOL_SHA256: PREVIOUS_PROTOCOL}
-PARALLEL_COLLECTION_CONTRACT_FIELDS = ("maximum_workers", "selection", "default", "worker_model",
-    "sample_contract", "configuration_assignment", "dataset_schedule")
+SUPPORTED_PROTOCOLS = {PROTOCOL_SHA256: PROTOCOL, PROTOCOL_V3_SHA256: PROTOCOL_V3,
+    PREVIOUS_PROTOCOL_SHA256: PREVIOUS_PROTOCOL}
+PARALLEL_COLLECTION_CONTRACT_FIELDS = ("worker_model", "sample_contract",
+    "configuration_assignment", "dataset_schedule")
 if (any(PROTOCOL[key] != PREVIOUS_PROTOCOL[key]
         for key in ("source_pins", "scientific_scope", "postgresql_measurement", "model_fit",
                     "selection_limits", "collection_environment"))
-        or any(PROTOCOL["collection_parallelism"][key] != PREVIOUS_PROTOCOL["collection_parallelism"][key]
+        or any(PROTOCOL["collection_parallelism"][key] != PROTOCOL_V3["collection_parallelism"][key]
                for key in PARALLEL_COLLECTION_CONTRACT_FIELDS)):
-    raise RuntimeError("protocol-v3 may change resource limits only; scientific and selection contracts must match v2")
+    raise RuntimeError("protocol-v4 may change resource and parallelism limits only; scientific and selection contracts must match v2")
 CENSUS_DIR = ROOT / "experiments/pess-multidataset-heldout-stage2b/census13-issue71"
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(CENSUS_DIR))
@@ -545,10 +549,10 @@ def collect_dataset(dataset: str, run_id: str | None = None,
     if dataset not in PROTOCOL["scientific_scope"]["datasets"]:
         raise ValueError(f"unknown Issue #99 dataset: {dataset}")
     if platform.python_version() != PROTOCOL["collection_environment"]["python_version"]:
-        raise RuntimeError("collector Python version differs from protocol-v3")
+        raise RuntimeError("collector Python version differs from protocol-v4")
     numpy_version = importlib.metadata.version("numpy")
     if numpy_version != PROTOCOL["collection_environment"]["numpy_version"]:
-        raise RuntimeError("collector NumPy version differs from protocol-v3")
+        raise RuntimeError("collector NumPy version differs from protocol-v4")
     available_cpus = len(os.sched_getaffinity(0))
     maximum_workers = min(PROTOCOL["collection_parallelism"]["maximum_workers"], available_cpus)
     worker_count = maximum_workers if parallelism is None else parallelism
@@ -578,7 +582,7 @@ def collect_dataset(dataset: str, run_id: str | None = None,
         "early_stop_allocated_disk_bytes": early_limits["allocated_disk_bytes"],
         "hard_wall_seconds": hard_limits["wall_seconds"],
         "hard_allocated_disk_bytes": hard_limits["allocated_disk_bytes"]}
-    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v3", "issue": 99,
+    manifest: dict[str, Any] = {"format": "ess-issue99-dataset-collection-v4", "issue": 99,
         "run_id": run_id, "dataset": dataset, "split": "train", "status": "INCOMPLETE",
         "phase": "initialization", "started_at_utc": now_utc(), "source_commit": current_source_commit(),
         "protocol_sha256": PROTOCOL_SHA256, "python": platform.python_version(),
@@ -1398,7 +1402,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         "## Evidence and interpretation", "",
         "Selections were computed with the pinned deterministic `add_only_greedy` implementation. Nominal and task-wise PESS use exact `Fraction` objective values under the stated fitted train model; the outer selection is a heuristic and is not globally optimal by claim. PESS is the task-wise sum of per-task worst losses over the prescribed inclusion-maximal matching family. PostgreSQL observations are conditional on the pinned instrumented build and replayed sample; an EXPLAIN alone is not evidence that every real PostgreSQL plan selected an MCV statistic.", "",
         "Train truth came from the pinned split-container label pickle. Standard unpickling materialized that container; the runner explicitly dereferenced only `train` and did not index, serialize, or use valid/test label values. No test EXPLAIN was run. Valid-only Issue #87 coefficients were not reused. Optional cross-objective fixed-set evaluation was not run. Training objective values describe the frozen training models and are not generalization accuracy.", "",
-        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused. A first 12-worker v2 implementation attempt was stopped after detecting duplicate baseline scheduling; its 167,593 baseline rows were retained as INCOMPLETE. Forest10 and Census13 completed under v2’s 3/4-GiB disk limits. Protocol v3 changes only the disk envelope to a 9.5-GiB early stop and 10-GiB hard cap; the scientific scope, PostgreSQL measurement, model fit, and selection limits are unchanged. The v2 DMV11 12/11-worker attempts stopped during cluster setup at the old disk cap with zero observations; the 10-worker attempt was stopped by the researcher before observation collection when the cap was revised. Six DMV11 attempts under the initial v3 9-GiB early stop also ended during cluster setup with zero observations; their allocated-storage peaks stayed below the 10-GiB hard cap, and they are preserved separately. Revised 9.5-GiB early-stop attempts at 12, 11 and 10 workers stopped during setup with zero observations at about 10,497,945,600 peak bytes (9.78 GiB). The 12-worker attempt had worker0-worker4 directories present at the last live snapshot. A preliminary linear extrapolation suggests around 22-24 GiB for a complete 12-worker run; this is unverified, and the researcher requested a pause before any further collection.", "",
+        "The two-worker protocol-v1 Forest10 attempt was stopped at the researcher’s request for configurable parallelism after 98,616 successful observations; those observations were not reused. A first 12-worker v2 implementation attempt was stopped after detecting duplicate baseline scheduling; its 167,593 baseline rows were retained as INCOMPLETE. Forest10 and Census13 completed under v2’s 3/4-GiB disk limits. Protocol v3 used a 9.5-GiB early stop and 10-GiB hard cap; the scientific scope, PostgreSQL measurement, model fit, and selection limits matched v2. The v2 DMV11 12/11-worker attempts stopped during cluster setup at the old disk cap with zero observations; the 10-worker attempt was stopped by the researcher before observation collection when the cap was revised. Six DMV11 attempts under the initial v3 9-GiB early stop also ended during cluster setup with zero observations; their allocated-storage peaks stayed below the 10-GiB hard cap, and they are preserved separately. Revised 9.5-GiB early-stop attempts at 12, 11 and 10 workers stopped during setup with zero observations at about 10,497,945,600 peak bytes (9.78 GiB). The 12-worker attempt had worker0-worker4 directories present at the last live snapshot. A preliminary linear extrapolation suggests around 22-24 GiB for a complete 12-worker run; this is unverified. The researcher authorized the remaining DMV11 and Power7 collections at six workers under protocol v4’s 19-GiB early stop and 20-GiB hard cap.", "",
         "## Cases", "",
         "| Dataset | B | Nominal case | PESS case | Same selected set? |",
         "|---|---:|---|---|---|"]
@@ -1482,7 +1486,7 @@ def generate_report(selection_args: list[str]) -> tuple[Path, Path]:
         collection = json.loads((runs / details["collection_run_id"] / "collection-manifest.json").read_text(encoding="utf-8"))
         limits = details["resource_limits"]
         report_lines.append(f"| {dataset} | {collection.get('parallelism', '—')} | {limits['early_stop_allocated_disk_bytes']} | {limits['hard_allocated_disk_bytes']} | {collection.get('status')} | {collection.get('train_query_count', '—')} | {collection.get('candidate_count', '—')} | {collection.get('completed_observations', 0)} / {collection.get('expected_observations', '—')} | {collection.get('total_wall_seconds', collection.get('collection_elapsed_seconds', '—'))} | {collection.get('peak_allocated_disk_bytes', '—')} |")
-    report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Protocol v2 runs retain the 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit; revised protocol v3 runs use 7.5 hours/9.5 GiB and 8 hours/10 GiB. A preliminary DMV11 12-worker disk estimate of 22-24 GiB is a low-confidence extrapolation from a stopped setup attempt, not a completed measurement. Each collection manifest pins its protocol hash and effective limits. Incomplete PG attempts remain separate in the runtime store.", "",
+    report_lines.extend(["", "The sizing projection was based on a previous valid-only collection and was not treated as a runtime guarantee. Protocol v2 runs retain the 7.5-hour/3-GiB early stop and 8-hour/4-GiB hard limit; protocol v3 runs use 7.5 hours/9.5 GiB and 8 hours/10 GiB; protocol v4 runs use six workers, 7.5 hours/19 GiB and 8 hours/20 GiB. The preliminary DMV11 12-worker disk estimate of 22-24 GiB and six-worker estimate of 12-14 GiB are low-confidence extrapolations from stopped setup attempts, not completed measurements. Historical DMV11 measurement sizing was 8,624 seconds before setup and is not a six-worker throughput guarantee. Each collection manifest pins its protocol hash and effective limits. Incomplete PG attempts remain separate in the runtime store.", "",
         "Exact per-case fractions, greedy traces, addition orders, selected IDs, budgets, resource limits, work counters, and input hashes are in [`selection-manifest-v3.json`](selection-manifest-v3.json). Query-level structured observations and run-local sample files remain outside Git under the Issue #99 runtime path.", ""])
     report_path = HERE / "findings-v3.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
