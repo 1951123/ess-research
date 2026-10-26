@@ -18,6 +18,8 @@ Three task-applicable pairwise statistics resources form a triangle over the att
 | `e04_08` | `marital_status` — `sex` |
 | `e06_08` | `relationship` — `sex` |
 
+For a compact scheme-space visualization, the *task-local* graph can be read as a triangle of the three attributes, with edge labels e04_06, e04_08 and e06_08. The Nominal resource additions expose 1 \(\rightarrow\) 2 \(\rightarrow\) 3 singleton maximal-matching options for B3/B4/B5; the separate PESS selections retain only the task-applicable e04_06 edge. A diagram should depict these alternatives as **modeled schemes**, not observed PostgreSQL OID choices.
+
 All three candidate edges intersect pairwise. Consequently, when all three are present the inclusion-maximal matching family consists of **three singleton schemes**, not a matching containing all three objects.
 
 The five frozen resource choices are the shared \(B=3\) selection and the separate Nominal and PESS choices at \(B=4,5\). Only task-applicable members appear below; the full installed sets include additional resources that are inapplicable to this particular task.
@@ -50,6 +52,17 @@ The whole-Train objective totals are sums of **model absolute-log losses** and c
 
 The #99 Train-only sweep evaluated both selection objectives for \(B\in\{0,2,3,4,5\}\) across all four datasets, completing **40/40 labeled cases**. All \(B=0\) and \(B=2\) Nominal/PESS selected sets coincide, and at \(B=3\) they also coincide on Forest10, Census13 and Power7. At higher budgets, several sets differ in membership and size: for example Forest10 and Power7 PESS stop at three resources for B4/B5 whereas their B5 Nominal selections use five. The greedy procedure only adds a feasible resource when it gives a strict improvement; the selected count need not equal the budget cap and the procedure does not claim global optimality.
 
+The full budget dimension is summarized below using the **frozen #99 selected sets**. Entries report **Nominal/PESS installed-object counts**. An equals sign means the *identical resource-ID set* was selected, whereas \(\neq\) means different sets, even if their cardinalities agree. \(B\) is a proxy budget cap, not a requirement to install \(B\) objects.
+
+| Dataset | B0 | B2 | B3 | B4 | B5 | First different selection |
+|---|---|---|---|---|---|---|
+| Forest10 | 0/0 = | 2/2 = | 3/3 = | 4/3 ≠ | 5/3 ≠ | B4 |
+| Census13 | 0/0 = | 2/2 = | 3/3 = | 4/4 ≠ | 5/5 ≠ | B4 |
+| DMV11 | 0/0 = | 2/2 = | 3/3 ≠ | 4/4 ≠ | 5/5 ≠ | B3 |
+| Power7 | 0/0 = | 2/2 = | 3/3 = | 4/3 ≠ | 5/3 ≠ | B4 |
+
+These **selection counts** are not performance scores. Across the official physical #101 Test evaluation, any two labels mapping to an identical frozen physical configuration have identical measured Q-error distributions; the separate fixed-order B5 P95 outcomes are reported in Section 6.3. This prevents interpreting high-budget contrasts as representative of the many exactly shared low-budget decisions.
+
 The completed [#103 offline analysis, Draft PR #104](https://github.com/1951123/ess-research/pull/104) enumerated **906 global resource-priority permutations** across the **25 unique frozen sets**, using frozen Train-model losses and exact reference checks. **Nine of the 25** had nonzero aggregate modeled sensitivity to priority. The following B5 contrasts are differences in **expected global-permutation Train-model loss** \(A(M_{\rm PESS})-A(M_{\rm Nom})\), not Plan Rows Q-error and not cross-dataset normalized measurements:
 
 | Dataset | B5 modeled expected Train loss: PESS − Nominal | Lower is better within this frozen model |
@@ -58,6 +71,17 @@ The completed [#103 offline analysis, Draft PR #104](https://github.com/1951123/
 | Census13 | −1,956.368 | PESS |
 | DMV11 | −5,135.649 | PESS |
 | Power7 | +905.457 | Nominal |
+
+More importantly for the model's central distinction, the same #103 exhaustive enumeration directly identifies when independent task-wise pessimism exceeds the worst **single shared global order**. For **fixed B5 selected sets** below, the gap is \(P(M)-G(M)\), with \(G(M)=\max_{\pi}\sum_iL_i(\gamma_i(M,\pi))\) and \(P(M)=\sum_i\max_{\gamma\in\Gamma_i(M)}L_i(\gamma)\). These values are summed **Train-model absolute-log losses** over 100,000 tasks, not Q-error, percentages or an evaluation of separately optimized \(G\)-based selections.
+
+| Dataset | \(P-G\), B5 Nominal set | \(P-G\), B5 PESS set |
+|---|---:|---:|
+| Forest10 | 5,123.701 | 0 |
+| Census13 | 836.466 | 0 |
+| DMV11 | 1,772.145 | 0 |
+| Power7 | 5,385.310 | 0 |
+
+For the **four B5 Nominal sets**, \(P-G>0\) is an observed model-internal strict gap: the worst task-wise matching losses cannot all be realized by one global priority. For these **four frozen B5 PESS sets**, \(P=G\) within the analyzed model; this equality is an empirical property of these sets, **not** a theorem about PESS-selected sets in general. The PESS objectives were optimized using add-only greedy on Train, whereas \(G\) here is a **read-only comparator**. Neither a zero gap nor a positive gap by itself establishes physical order invariance, physical worst-case bounds or held-out superiority.
 
 Because \(A(M)\leq G(M)\leq P(M)\) compares **one fixed \(M\)** under the *same model*, it cannot imply a uniform ordering between separately trained \(M_{\rm Nom}\) and \(M_{\rm PESS}\). Nor does a model-global priority order specify physical OID distributions or guarantee loss values after PostgreSQL rounding/clamping. #103 remains a draft/unmerged research artifact as checked at the time this section was prepared; manuscript references should use its branch evidence until merged.
 
@@ -104,6 +128,8 @@ The complete design contains **156 physical configurations and 1,560,000 valid T
 | Census13 | 7.4813 | 6.2837 | −1.1976 | [−1.5793, −0.8160] |
 | DMV11 | 33.1024 | 26.8561 | −6.2463 | [−8.6379, −3.8546] |
 | Power7 | 9.9283 | 9.9576 | +0.0293 | [−0.1735, +0.2322] |
+
+**Cross-evidence interpretation.** #103's \(A(M)\) is the expectation over uniform *abstract global priority permutations* of **total Train-model absolute-log loss**. #107's \(\mu(M)\) is an estimated expectation over hypothetical physical relative-OID permutations of **per-order PostgreSQL Test P95 Q-error**. They differ in data split, loss definition, aggregation, estimator mechanism and (for #107's five-object sets) sampling rather than exact enumeration. Agreement or disagreement in the policy rankings is **not, by itself, evidence of calibration or generalization of the training model**. Neither uniform-order distribution is asserted as an observed production OID probability law.
 
 Negative differences favor the PESS-selected set for this **particular counterfactual estimand** on Census13 and DMV11; the positive Forest10 difference favors Nominal, while Power7's interval includes zero. Because the frozen physical outcomes refer to separately selected, not necessarily same-size sets, these comparisons describe the whole selection-and-deployment decision under a common budget cap—not an isolated causal effect of choosing a different objective while holding \(M\) fixed.
 
