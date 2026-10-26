@@ -89,7 +89,7 @@ These are model objective totals over the frozen Train task collection, not Post
 
 ## Frozen greedy selection context
 
-The six Issue #99 Census13 objective traces were replayed against the same frozen selected sets; every final objective fraction matches exactly. Both objectives share additions e02_03, e04_06, e01_05 through B3. For Nominal, the frozen order then adds e06_08 at B4 (recorded objective reduction 1,456.771552) and e04_08 at B5 (1,061.777090). For PESS, it instead adds e00_11 at B4 (702.540774) and e07_12 at B5 (444.659001). Each trace uses the full budget, records no_feasible_candidate at termination, and makes no outer global-optimum claim. The witness explains one task-level mechanism; it does not by itself explain the dataset-wide greedy choice.
+The six Issue #99 Census13 objective traces were replayed against the same frozen selected sets; every final objective fraction matches exactly. Both objectives share the accepted additions e02_03, e04_06, e01_05 through B3, with recorded objective reductions 12,637.905162, 10,437.211609, and 3,542.681147 respectively. For Nominal, the frozen order then adds e06_08 at B4 (reduction 1,456.771552) and e04_08 at B5 (1,061.777090). For PESS, it instead adds e00_11 at B4 (702.540774) and e07_12 at B5 (444.659001). Each trace uses its full budget (3/3, 4/4, or 5/5), records no_feasible_candidate at termination, and makes no outer global-optimum claim. The witness explains one task-level mechanism; it does not by itself explain the dataset-wide greedy choice.
 
 ## Suggested paper insert (not applied to paper/main.tex)
 
