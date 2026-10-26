@@ -42,7 +42,7 @@ The abstract interface does not require a multiplicative factorization, independ
 \]
 The task's weighted loss is \(L_i(\sigma)=w_i\ell_i(\sigma)\).
 
-An **application strategy** (or **policy**) is a rule that, when supplied with a fixed installed set and an estimation task, chooses one complete scheme. To represent a family of policies possibly coupled across tasks, write \(\Theta\) for a set of global policy parameters and \(\sigma_i(M;\theta)\) for the scheme induced for task \(i\) by \(\theta\in\Theta\). An admissibility-compatible policy satisfies
+An **application strategy** (or **policy**) is a rule that, when supplied with a fixed installed set and an estimation task, chooses one complete scheme. To represent a family of policies possibly coupled across tasks, let \(\Theta\) be a **nonempty finite** set of global policy parameters and write \(\sigma_i(M;\theta)\) for the scheme induced for task \(i\) by \(\theta\in\Theta\). An admissibility-compatible policy satisfies
 \[
 \sigma_i(M;\theta)\in\Gamma_i(M)
 \quad\text{for all relevant }i,M,\theta.
