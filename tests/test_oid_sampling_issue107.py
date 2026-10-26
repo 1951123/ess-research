@@ -4,6 +4,7 @@ import hashlib
 import json
 import math
 import statistics
+import copy
 import sys
 import tempfile
 import unittest
@@ -488,6 +489,49 @@ class OIDPermutationSamplingTests(unittest.TestCase):
         )
         self.assertEqual(oid_to_id, {16_301: selected[0], 16_302: selected[1], 16_303: selected[2]})
 
+    def test_continuation_scope_contains_only_unexecuted_frozen_census_arms(self):
+        schedule = build_issue107_schedule(FROZEN)
+        index = schedule_arm_index(schedule)
+        prior = {"attempted_explain_calls": 1_440_000, "datasets": {}}
+        for stratum in schedule["schedules"]:
+            dataset = stratum["dataset"]
+            prior["datasets"].setdefault(dataset, {"arms": []})
+            for row in stratum["permutations"]:
+                is_target = (
+                    dataset in {"forest10", "power7"}
+                    and stratum["policy"] == "pess"
+                    and row["selection"] == "enumerated"
+                )
+                prior["datasets"][dataset]["arms"].append({
+                    "dataset": dataset,
+                    "policy": stratum["policy"],
+                    "case_id": stratum["case_id"],
+                    "resource_ids": list(stratum["resource_ids"]),
+                    "permutation": row["permutation"],
+                    "selection": row["selection"],
+                    "draw_index": row["draw_index"],
+                    "inclusion_probability": row["inclusion_probability"],
+                    "status": "CONFIGURATION_INVALID" if is_target else "COMPLETE",
+                    "attempted_explain_calls": 0 if is_target else 10_000,
+                })
+        targets = run_issue107.continuation_targets(prior, schedule, index)
+        self.assertEqual(len(targets), 12)
+        self.assertTrue(all(ds in {"forest10", "power7"} and policy == "pess" for ds, policy, _ in targets))
+
+        extra_failure = copy.deepcopy(prior)
+        extra_failure["datasets"]["forest10"]["arms"][0]["status"] = "CONFIGURATION_INVALID"
+        with self.assertRaises(RuntimeError):
+            run_issue107.continuation_targets(extra_failure, schedule, index)
+
+        attempted = copy.deepcopy(prior)
+        first_target = next(iter(targets))
+        row = next(
+            arm for arm in attempted["datasets"][first_target[0]]["arms"]
+            if tuple(arm["permutation"]) == first_target[2]
+        )
+        row["attempted_explain_calls"] = 10_000
+        with self.assertRaises(RuntimeError):
+            run_issue107.continuation_targets(attempted, schedule, index)
 
 if __name__ == "__main__":
     unittest.main()

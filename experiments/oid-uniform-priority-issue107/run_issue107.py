@@ -740,6 +740,63 @@ def audit_and_analyze_saved_run(run_root: Path) -> dict[str, Any]:
     return result
 
 
+def continuation_targets(
+    prior_manifest: dict[str, Any],
+    schedule: dict[str, Any],
+    schedule_index: dict[tuple[str, str, tuple[str, ...]], dict[str, Any]],
+) -> set[tuple[str, str, tuple[str, ...]]]:
+    """Allow only the 12 predeclared three-object arms that never reached EXPLAIN."""
+    expected_targets = {
+        (stratum["dataset"], stratum["policy"], tuple(arm["permutation"]))
+        for stratum in schedule["schedules"]
+        if stratum["dataset"] in {"forest10", "power7"}
+        and stratum["policy"] == "pess"
+        for arm in stratum["permutations"]
+        if arm["selection"] == "enumerated"
+    }
+    observed: dict[tuple[str, str, tuple[str, ...]], dict[str, Any]] = {}
+    for dataset in issue101.DATASETS:
+        for arm in prior_manifest.get("datasets", {}).get(dataset, {}).get("arms", []):
+            key = (dataset, arm.get("policy"), tuple(arm.get("permutation", ())))
+            if key in observed:
+                raise RuntimeError(f"prior run repeats an arm before continuation: {key}")
+            scheduled = validate_scheduled_arm(
+                schedule_index,
+                dataset=dataset,
+                policy=arm.get("policy"),
+                case_id=arm.get("case_id"),
+                resource_ids=arm.get("resource_ids", ()),
+                permutation=arm.get("permutation", ()),
+                selection=arm.get("selection"),
+            )
+            if any(arm.get(name) != scheduled.get(name) for name in (
+                "draw_index", "inclusion_probability"
+            )):
+                raise RuntimeError(f"prior arm has inconsistent frozen selection metadata: {key}")
+            observed[key] = arm
+    if set(observed) != set(schedule_index):
+        raise RuntimeError("prior run does not record every frozen arm exactly once")
+    incomplete = {key for key, row in observed.items() if row.get("status") not in {"COMPLETE", "REUSED_COMPLETE"}}
+    if incomplete != expected_targets:
+        raise RuntimeError(
+            "continuation is authorized only for the exact 12 unexecuted PESS census arms; "
+            f"observed incomplete={len(incomplete)}, expected={len(expected_targets)}"
+        )
+    for key in expected_targets:
+        arm = observed[key]
+        if (arm.get("status") != "CONFIGURATION_INVALID"
+                or arm.get("raw_member") is not None
+                or arm.get("plan_batch") is not None
+                or arm.get("attempted_explain_calls") != 0
+                or arm.get("attempted_call_count_unknown", False)):
+            raise RuntimeError(f"continuation target was not an unexecuted pre-query failure: {key}")
+    if prior_manifest.get("attempted_explain_calls") != 1_440_000:
+        raise RuntimeError("prior run call count differs from the authorized continuation baseline")
+    if prior_manifest["attempted_explain_calls"] + len(expected_targets) * 10_000 != MAX_NEW_EXPLAINS:
+        raise RuntimeError("continuation would not land exactly within the 1.56M EXPLAIN cap")
+    return expected_targets
+
+
 def issue107_mean_from_set(value: PermutationValue, item: dict[str, Any]):
     """Rehydrate only the estimate and its already-computed design variance."""
     from ess_research.arecel.oid_sampling import MeanEstimate
@@ -889,12 +946,24 @@ def _collect_dataset(
     run_formal: Any,
     guard: Any,
     manifest: dict[str, Any],
+    *,
+    arm_filter: set[tuple[str, str, tuple[str, ...]]] | None = None,
+    baseline_ordinary_sha256: str | None = None,
+    baseline_mcv_sha256_by_candidate: dict[str, str] | None = None,
+    expected_parent_input_identity: dict[str, Any] | None = None,
+    expected_parent_sample_sha256: str | None = None,
 ) -> dict[str, Any]:
     input_root = root / "input" / dataset
     csv_path, queries, truths, identity = issue101.extract_test_inputs(dataset, input_root)
     if not _input_is_pinned(dataset, identity):
         raise RuntimeError(f"{dataset} extracted Test inputs differ from the pinned Issue #101 contract")
+    if (expected_parent_input_identity is not None
+            and not _test_input_matches_prior(dataset, identity, expected_parent_input_identity)):
+        raise RuntimeError(f"{dataset} Test input identity differs from the incomplete parent run")
     sample, sample_identity = issue101.load_frozen_sample(dataset, root, helpers, protocol101)
+    if (expected_parent_sample_sha256 is not None
+            and sample_identity.get("sha256") != expected_parent_sample_sha256):
+        raise RuntimeError(f"{dataset} fixed Issue #99 ANALYZE sample differs from the parent run")
     candidates = issue101.candidate_map(dataset)
     strata = [row for row in schedule["schedules"] if row["dataset"] == dataset]
     reuse_run_root = runtime_runs("ess-research", 105) / ISSUE105_RUN_ID
@@ -930,8 +999,8 @@ def _collect_dataset(
     manifest["datasets"][dataset] = dataset_result
     atomic_json(root / "run-manifest.json", manifest)
     baseline_prior = reuse_audit["eligible_arms"]
-    base_ordinary: str | None = None
-    base_mcv: dict[str, str] = {}
+    base_ordinary: str | None = baseline_ordinary_sha256
+    base_mcv: dict[str, str] = dict(baseline_mcv_sha256_by_candidate or {})
     for arm_key, source in baseline_prior.items():
         if source["dataset"] == dataset:
             if base_ordinary is None:
@@ -964,6 +1033,9 @@ def _collect_dataset(
         for stratum in strata:
             arm_results: list[dict[str, Any]] = []
             for sample_index, schedule_arm in enumerate(stratum["permutations"]):
+                scheduled_key = (dataset, stratum["policy"], tuple(schedule_arm["permutation"]))
+                if arm_filter is not None and scheduled_key not in arm_filter:
+                    continue
                 scheduled = validate_scheduled_arm(
                     schedule_index,
                     dataset=dataset,
@@ -1407,11 +1479,426 @@ def execute(run_id: str | None = None) -> Path:
     return root
 
 
+def _prior_dataset_baseline(dataset_result: dict[str, Any]) -> tuple[str, dict[str, str]]:
+    ordinary_hashes: set[str] = set()
+    mcv_hashes: dict[str, str] = {}
+    for arm in dataset_result.get("arms", []):
+        if arm.get("status") not in {"COMPLETE", "REUSED_COMPLETE"}:
+            continue
+        ordinary = arm.get("ordinary_column_stats", {}).get("sha256")
+        if ordinary:
+            ordinary_hashes.add(ordinary)
+        contents = arm.get("mcv_content_sha256_by_candidate")
+        if contents is None:
+            contents = arm.get("physical_audit_summary", {}).get("mcv_content_sha256_by_candidate", {})
+        for candidate_id, digest in contents.items():
+            previous = mcv_hashes.setdefault(candidate_id, digest)
+            if previous != digest:
+                raise RuntimeError(f"prior {dataset}/{candidate_id} MCV fingerprints disagree")
+    if len(ordinary_hashes) != 1:
+        raise RuntimeError(f"prior run does not provide one stable {dataset} ordinary-statistics fingerprint")
+    return next(iter(ordinary_hashes)), mcv_hashes
+
+
+def execute_continuation(parent_run_id: str, run_id: str) -> Path:
+    """Execute only the 12 frozen PESS census arms that previously failed pre-EXPLAIN."""
+    if platform.python_version() != "3.12.3" or np.__version__ != "2.3.4":
+        raise RuntimeError("Issue #107 continuation requires Python 3.12.3 / NumPy 2.3.4")
+    protocol101 = issue101.read_protocol()
+    if issue101.sha256_file(issue101.PROTOCOL_PATH) != ISSUE101_PROTOCOL_SHA256:
+        raise RuntimeError("Issue #101 protocol hash differs from the approved source pin")
+    if issue101.sha256_file(issue101.PROTOCOL_PATH.parent / "run_issue101.py") != ISSUE101_RUNNER_SHA256:
+        raise RuntimeError("Issue #101 runner hash differs from the approved source pin")
+    if issue105.sha256_file(issue105.HERE / "protocol-v1.md") != issue105.ISSUE105_PROTOCOL_SHA256:
+        raise RuntimeError("Issue #105 protocol changed from its frozen run reference")
+    if issue105.sha256_file(issue105.HERE / "protocol-amendment-v1.md") != issue105.ISSUE105_AMENDMENT_SHA256:
+        raise RuntimeError("Issue #105 amendment changed from its frozen run reference")
+    clean = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                           check=True, capture_output=True, text=True).stdout
+    if clean.strip():
+        raise RuntimeError("Issue #107 continuation requires a clean committed Worktree")
+    branch = subprocess.run(["git", "branch", "--show-current"], cwd=ROOT,
+                            check=True, capture_output=True, text=True).stdout.strip()
+    if branch != "research/issue107-uniform-oid-protocol":
+        raise RuntimeError(f"Issue #107 continuation is pinned to its task branch, not {branch!r}")
+    source_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                                   check=True, capture_output=True, text=True).stdout.strip()
+    subprocess.run(["git", "merge-base", "--is-ancestor", ISSUE107_APPROVED_HEAD, "HEAD"],
+                   cwd=ROOT, check=True, capture_output=True)
+
+    if parent_run_id != "20261026T055503Z-issue107-sampled-v1":
+        raise ValueError("continuation is authorized only from the recorded Issue #107 sampled run")
+    prior_root = runtime_runs("ess-research", 107) / parent_run_id
+    prior_verified = audit_and_analyze_saved_run(prior_root)
+    prior_manifest_path = prior_root / "run-manifest.json"
+    prior_manifest = json.loads(prior_manifest_path.read_text(encoding="utf-8"))
+    schedule, schedule_index = checked_frozen_schedule()
+    targets = continuation_targets(prior_manifest, schedule, schedule_index)
+    prior_manifest_sha = sha256_file(prior_manifest_path)
+    protocol101 = issue101.read_protocol()
+
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", run_id):
+        raise ValueError("continuation run ID must be one safe path component")
+    runs = runtime_runs("ess-research", 107)
+    runs.mkdir(parents=True, exist_ok=True)
+    root = runs / run_id
+    root.mkdir(exist_ok=False)
+    for directory in ("logs", "clusters", "input", "samples", "sql"):
+        (root / directory).mkdir()
+    manifest: dict[str, Any] = {
+        "format": "ess-issue107-sampled-continuation-v1",
+        "issue": 107,
+        "run_id": run_id,
+        "status": "INCOMPLETE",
+        "phase": "continuation_preflight_complete",
+        "authorization_comment_id": ISSUE107_AUTH_COMMENT,
+        "continuation_authorized_in_conversation": True,
+        "parent_run_id": parent_run_id,
+        "parent_run_manifest_sha256": prior_manifest_sha,
+        "parent_run_verified_analysis_source_commit": prior_verified["analysis_source_commit"],
+        "source_commit": source_commit,
+        "protocol_v2_sha256": sha256_file(HERE / "protocol-v2.md"),
+        "sample_sha256": ISSUE107_SAMPLE_SHA256,
+        "root_seed": ISSUE107_ROOT_SEED,
+        "rng_version": schedule["rng_version"],
+        "frozen_schedule": schedule,
+        "schedule_index_count": len(schedule_index),
+        "target_arm_keys": [
+            {"dataset": dataset, "policy": policy, "permutation": list(order)}
+            for dataset, policy, order in sorted(targets)
+        ],
+        "issue101_protocol_sha256": ISSUE101_PROTOCOL_SHA256,
+        "issue101_runner_sha256": ISSUE101_RUNNER_SHA256,
+        "issue105_runner_sha256": sha256_file(issue105.HERE / "run_issue105.py"),
+        "postgresql_source_commit": POSTGRESQL_COMMIT,
+        "planned_configurations": len(targets),
+        "planned_explain_calls": len(targets) * 10_000,
+        "prior_attempted_explain_calls": prior_manifest["attempted_explain_calls"],
+        "cumulative_attempted_explain_limit": MAX_NEW_EXPLAINS,
+        "attempted_explain_calls": 0,
+        "arms_completed": 0,
+        "attempts": [],
+        "parallel_clients_per_configuration": PARALLEL_CLIENTS,
+        "wall_early_stop_seconds": EARLY_STOP_SECONDS,
+        "wall_hard_limit_seconds": HARD_STOP_SECONDS,
+        "disk_early_stop_bytes": EARLY_STOP_BYTES,
+        "disk_hard_limit_bytes": HARD_STOP_BYTES,
+        "python_version": platform.python_version(),
+        "numpy_version": np.__version__,
+        "available_cpu_affinity_count": len(os.sched_getaffinity(0)),
+        "available_disk_bytes_at_start": shutil.disk_usage(root).free,
+        "started_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "datasets": {},
+        "failure": None,
+    }
+    atomic_json(root / "run-manifest.json", manifest)
+    guard = issue101.issue99.legacy.AggregateGuard(
+        root,
+        early_seconds=HARD_STOP_SECONDS,
+        hard_seconds=HARD_STOP_SECONDS,
+        early_bytes=HARD_STOP_BYTES,
+        hard_bytes=HARD_STOP_BYTES,
+    )
+    empty_reuse_audit = {"eligible_arms": {}, "arms": {}, "eligible_reuse_count": 0}
+    try:
+        with issue101.fixed_pgoptions(), guard:
+            manifest["phase"] = "pinned_postgresql_build"
+            atomic_json(root / "run-manifest.json", manifest)
+            prefix, pg_build = issue101.issue99.legacy.build_pg(root)
+            if pg_build.get("source_commit") != POSTGRESQL_COMMIT or pg_build.get("version") != "PostgreSQL 16.14":
+                raise RuntimeError("fresh PostgreSQL build differs from the frozen 16.14 source")
+            manifest["postgresql_build"] = pg_build
+            helpers, run_formal, helper_hashes = issue101.load_pinned_helpers(root)
+            manifest["issue99_helper_commit"] = ISSUE99_HELPER_COMMIT
+            manifest["helper_sha256"] = helper_hashes
+            atomic_json(root / "run-manifest.json", manifest)
+
+            for dataset in ("forest10", "power7"):
+                dataset_targets = {key for key in targets if key[0] == dataset}
+                baseline_ordinary, baseline_mcv = _prior_dataset_baseline(
+                    prior_manifest["datasets"][dataset]
+                )
+                manifest["phase"] = f"authorized_continuation_{dataset}"
+                manifest["current_dataset"] = dataset
+                atomic_json(root / "run-manifest.json", manifest)
+                result = _collect_dataset(
+                    dataset,
+                    schedule,
+                    schedule_index,
+                    protocol101,
+                    empty_reuse_audit,
+                    root,
+                    prefix,
+                    helpers,
+                    run_formal,
+                    guard,
+                    manifest,
+                    arm_filter=dataset_targets,
+                    baseline_ordinary_sha256=baseline_ordinary,
+                    baseline_mcv_sha256_by_candidate=baseline_mcv,
+                    expected_parent_input_identity=prior_manifest["datasets"][dataset]["source_input_identity"],
+                    expected_parent_sample_sha256=prior_manifest["datasets"][dataset]["sample_identity"]["sha256"],
+                )
+                manifest["datasets"][dataset] = result
+                completed_calls = sum(
+                    arm.get("plan_batch", {}).get("attempted_markers", 0)
+                    for dataset_result in manifest["datasets"].values()
+                    for arm in dataset_result.get("arms", [])
+                )
+                manifest["attempted_explain_calls"] = completed_calls
+                if prior_manifest["attempted_explain_calls"] + completed_calls > MAX_NEW_EXPLAINS:
+                    raise RuntimeError("continuation exceeded the 1.56M cumulative EXPLAIN cap")
+                atomic_json(root / "run-manifest.json", manifest)
+
+            continuation_arms = [
+                arm for result in manifest["datasets"].values()
+                for arm in result.get("arms", [])
+            ]
+            observed_targets = {
+                (arm["dataset"], arm["policy"], tuple(arm["permutation"]))
+                for arm in continuation_arms
+            }
+            manifest["analysis"] = analyze_results(schedule, continuation_arms)
+            complete = (
+                observed_targets == targets
+                and len(manifest["attempts"]) == len(targets)
+                and all(arm.get("status") == "COMPLETE" for arm in continuation_arms)
+                and manifest["attempted_explain_calls"] == len(targets) * 10_000
+            )
+            manifest["status"] = "COMPLETE" if complete else "INCOMPLETE"
+            manifest["phase"] = "continuation_complete" if complete else "continuation_incomplete"
+            manifest["evidence_label"] = "experimentally observed PostgreSQL measurements"
+            manifest["completed_at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    except StopBeforeNextArm as exc:
+        manifest["status"] = "STOPPED_AT_EARLY_LIMIT"
+        manifest["phase"] = "early_stop_before_next_arm"
+        manifest["failure"] = {"error_class": type(exc).__name__, "message": str(exc)}
+        pending = manifest.get("current_arm")
+        if pending:
+            manifest["attempts"].append({**pending, "status": "NOT_STARTED_EARLY_LIMIT",
+                                         "attempted_explain_calls": 0})
+            manifest["stopped_before_arm"] = pending
+    except BaseException as exc:
+        manifest["status"] = "INCOMPLETE"
+        manifest["failure"] = {
+            "error_class": type(exc).__name__,
+            "message": str(exc)[:1000],
+            "current_arm": manifest.get("current_arm"),
+            "guard_stop_reason": guard.stop_reason,
+        }
+        interrupted = manifest.get("current_arm")
+        if interrupted:
+            manifest["attempts"].append({
+                **interrupted,
+                "status": "INTERRUPTED_IN_FLIGHT",
+                "attempted_explain_calls": None,
+                "attempted_call_count_unknown": interrupted.get("status") == "EXPLAIN_RUNNING",
+            })
+            if interrupted.get("status") == "EXPLAIN_RUNNING":
+                manifest["attempted_explain_calls_is_lower_bound"] = True
+    finally:
+        manifest["current_arm"] = None
+        manifest["peak_allocated_disk_bytes"] = guard.peak
+        manifest["elapsed_wall_seconds"] = round(time.monotonic() - guard.started, 3)
+        manifest["raw_observations_path"] = str(root / "raw-observations.jsonl.gz")
+        raw_path = root / "raw-observations.jsonl.gz"
+        if raw_path.is_file():
+            manifest["raw_observations_bytes"] = raw_path.stat().st_size
+            manifest["raw_observations_sha256"] = sha256_file(raw_path)
+        if "analysis" not in manifest:
+            manifest["analysis"] = analyze_results(
+                schedule,
+                [arm for result in manifest["datasets"].values() for arm in result.get("arms", [])],
+            )
+        manifest["recovery_note"] = (
+            "This continuation is limited to the 12 frozen Forest10/Power7 PESS census arms. "
+            "The prior run and its invalid pre-EXPLAIN attempts remain preserved separately."
+        )
+        atomic_json(root / "run-manifest.json", manifest)
+        _write_findings(root / "findings.md", manifest)
+    return root
+
+
+def combine_continuation(prior_root: Path, continuation_root: Path) -> dict[str, Any]:
+    """Verify both evidence bundles and estimate the original 156-arm schedule."""
+    prior_root = prior_root.resolve()
+    continuation_root = continuation_root.resolve()
+    prior_verified = audit_and_analyze_saved_run(prior_root)
+    prior_manifest_path = prior_root / "run-manifest.json"
+    prior_manifest = json.loads(prior_manifest_path.read_text(encoding="utf-8"))
+    continuation_manifest_path = continuation_root / "run-manifest.json"
+    continuation_manifest = json.loads(continuation_manifest_path.read_text(encoding="utf-8"))
+    schedule, schedule_index = checked_frozen_schedule()
+    targets = continuation_targets(prior_manifest, schedule, schedule_index)
+    if continuation_manifest.get("parent_run_id") != prior_manifest.get("run_id"):
+        raise RuntimeError("continuation run points at a different parent run")
+    if continuation_manifest.get("parent_run_manifest_sha256") != sha256_file(prior_manifest_path):
+        raise RuntimeError("parent run manifest changed after continuation preflight")
+    if continuation_manifest.get("frozen_schedule") != schedule:
+        raise RuntimeError("continuation run changed the frozen schedule")
+
+    continuation_records: list[dict[str, Any]] = [
+        arm for result in continuation_manifest.get("datasets", {}).values()
+        for arm in result.get("arms", [])
+    ]
+    continuation_by_key: dict[tuple[str, str, tuple[str, ...]], dict[str, Any]] = {}
+    continuation_extents: list[tuple[int, int, str]] = []
+    continuation_raw = continuation_root / "raw-observations.jsonl.gz"
+    for arm in continuation_records:
+        key = (arm.get("dataset"), arm.get("policy"), tuple(arm.get("permutation", ())))
+        if key in continuation_by_key:
+            raise RuntimeError(f"continuation repeats an arm: {key}")
+        scheduled = validate_scheduled_arm(
+            schedule_index,
+            dataset=arm.get("dataset"),
+            policy=arm.get("policy"),
+            case_id=arm.get("case_id"),
+            resource_ids=arm.get("resource_ids", ()),
+            permutation=arm.get("permutation", ()),
+            selection=arm.get("selection"),
+        )
+        if key not in targets:
+            raise RuntimeError(f"continuation includes an unauthorized arm: {key}")
+        if any(arm.get(name) != scheduled.get(name) for name in (
+            "draw_index", "inclusion_probability"
+        )):
+            raise RuntimeError(f"continuation arm has altered sampling metadata: {key}")
+        if arm.get("permutation_sample_sha256") != next(
+            row["sample_sha256"] for row in schedule["schedules"]
+            if row["dataset"] == key[0] and row["policy"] == key[1]
+        ):
+            raise RuntimeError(f"continuation arm has a mismatched schedule hash: {key}")
+        if arm.get("status") != "COMPLETE" or arm.get("metrics", {}).get("statistical_status") != "COMPLETE":
+            raise RuntimeError(f"continuation arm is incomplete: {key}")
+        plan = arm.get("plan_batch", {})
+        metrics = arm.get("metrics", {})
+        if not (
+            plan.get("attempted_markers") == 10_000
+            and plan.get("valid_plan_rows") == 10_000
+            and plan.get("unresolved_or_unstarted") == 0
+            and metrics.get("query_count") == 10_000
+            and metrics.get("valid_count") == 10_000
+            and metrics.get("diagnostics_valid_count") == 10_000
+        ):
+            raise RuntimeError(f"continuation arm lacks complete 10,000-query evidence: {key}")
+        member = arm.get("raw_member", {})
+        offset, size = member.get("raw_member_offset"), member.get("raw_member_bytes")
+        if not isinstance(offset, int) or not isinstance(size, int) or offset < 0 or size <= 0:
+            raise RuntimeError(f"continuation arm has no raw observation extent: {key}")
+        data = _member_bytes(continuation_raw, offset, size)
+        if hashlib.sha256(data).hexdigest() != member.get("raw_member_sha256"):
+            raise RuntimeError(f"continuation arm raw member hash mismatch: {key}")
+        continuation_extents.append((offset, offset + size, str(key)))
+        continuation_by_key[key] = arm
+    if set(continuation_by_key) != targets:
+        raise RuntimeError("continuation did not complete exactly the 12 authorized arms")
+    continuation_extents.sort()
+    contiguous = bool(continuation_extents) and continuation_extents[0][0] == 0
+    for left, right in zip(continuation_extents, continuation_extents[1:]):
+        contiguous = contiguous and left[1] == right[0]
+    contiguous = contiguous and continuation_extents[-1][1] == continuation_raw.stat().st_size if continuation_extents else False
+    continuation_raw_sha = sha256_file(continuation_raw)
+    if not contiguous or continuation_raw_sha != continuation_manifest.get("raw_observations_sha256"):
+        raise RuntimeError("continuation raw archive integrity check failed")
+
+    prior_analysis = prior_verified["analysis"]
+    combined_arms: list[dict[str, Any]] = []
+    failure_history: list[dict[str, Any]] = []
+    for dataset in issue101.DATASETS:
+        for policy in ("nominal", "pess"):
+            prior_rows = prior_analysis[dataset]["policies"][policy]["arms"]
+            for prior_arm in prior_rows:
+                key = (dataset, policy, tuple(prior_arm["permutation"]))
+                replacement = continuation_by_key.get(key)
+                if replacement is None:
+                    combined_arms.append(prior_arm)
+                else:
+                    failure_history.append({
+                        "key": [key[0], key[1], list(key[2])],
+                        "prior_status": prior_arm.get("status"),
+                        "prior_error": prior_arm.get("error"),
+                        "continuation_run_id": continuation_manifest["run_id"],
+                        "continuation_status": replacement.get("status"),
+                    })
+                    combined_arms.append({
+                        **replacement,
+                        "previous_attempt": {
+                            "run_id": prior_manifest["run_id"],
+                            "status": prior_arm.get("status"),
+                            "error": prior_arm.get("error"),
+                        },
+                    })
+    combined_keys = {
+        (arm["dataset"], arm["policy"], tuple(arm["permutation"]))
+        for arm in combined_arms
+    }
+    if combined_keys != set(schedule_index) or len(combined_arms) != 156:
+        raise RuntimeError("combined result does not cover the 156 frozen arms exactly once")
+    cumulative_calls = (
+        prior_manifest["attempted_explain_calls"]
+        + continuation_manifest["attempted_explain_calls"]
+    )
+    if cumulative_calls != MAX_NEW_EXPLAINS:
+        raise RuntimeError("combined attempt count differs from the exact 1.56M authorized ceiling")
+    analysis = analyze_results(schedule, combined_arms)
+    complete = all(
+        result["policies"][policy]["expectation"].get("status") == "COMPLETE"
+        for result in analysis.values() for policy in ("nominal", "pess")
+    ) and all(result.get("contrast_pess_minus_nominal", {}).get("status") == "COMPLETE"
+              for result in analysis.values())
+    result = {
+        "format": "ess-issue107-combined-sampled-analysis-v1",
+        "status": "COMPLETE" if complete else "INCOMPLETE",
+        "run_id": continuation_manifest["run_id"],
+        "parent_run_id": prior_manifest["run_id"],
+        "parent_manifest_sha256": sha256_file(prior_manifest_path),
+        "parent_raw_sha256": prior_manifest["raw_observations_sha256"],
+        "parent_analysis_sha256": sha256_file(prior_root / "analysis-verified.json"),
+        "continuation_manifest_sha256": sha256_file(continuation_manifest_path),
+        "continuation_raw_sha256": continuation_raw_sha,
+        "permutation_sample_sha256": ISSUE107_SAMPLE_SHA256,
+        "schedule_arm_identity_count": len(combined_keys),
+        "parent_compressed_members_verified": prior_verified["raw_member_identity_and_contiguity_checks"],
+        "continuation_compressed_members_verified": len(continuation_extents),
+        "continuation_members_contiguous": contiguous,
+        "prior_arm_failures_preserved_in_history": failure_history,
+        "prior_explain_calls": prior_manifest["attempted_explain_calls"],
+        "continuation_explain_calls": continuation_manifest["attempted_explain_calls"],
+        "cumulative_explain_calls": cumulative_calls,
+        "prior_peak_allocated_disk_bytes": prior_manifest["peak_allocated_disk_bytes"],
+        "continuation_peak_allocated_disk_bytes": continuation_manifest["peak_allocated_disk_bytes"],
+        "prior_elapsed_wall_seconds": prior_manifest["elapsed_wall_seconds"],
+        "continuation_elapsed_wall_seconds": continuation_manifest["elapsed_wall_seconds"],
+        "raw_rows_were_decompressed_for_audit": False,
+        "query_level_qerror_was_read_for_sample_selection": False,
+        "analysis": analysis,
+    }
+    output = continuation_root / "combined-analysis.json"
+    atomic_json(output, result)
+    result["combined_analysis_path"] = str(output)
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id")
     parser.add_argument("--audit-existing-run", type=Path)
+    parser.add_argument("--continue-from-run-id")
+    parser.add_argument("--combine-existing-continuation", type=Path)
     args = parser.parse_args()
+    if args.combine_existing_continuation is not None:
+        continuation_root = args.combine_existing_continuation
+        continuation_manifest = json.loads((continuation_root / "run-manifest.json").read_text())
+        parent_root = runtime_runs("ess-research", 107) / continuation_manifest["parent_run_id"]
+        result = combine_continuation(parent_root, continuation_root)
+        print(json.dumps({
+            "combined_analysis_path": result["combined_analysis_path"],
+            "status": result["status"],
+            "schedule_arm_identity_count": result["schedule_arm_identity_count"],
+            "continuation_compressed_members_verified": result["continuation_compressed_members_verified"],
+            "cumulative_explain_calls": result["cumulative_explain_calls"],
+        }, sort_keys=True))
+        return 0 if result["status"] == "COMPLETE" else 2
     if args.audit_existing_run is not None:
         result = audit_and_analyze_saved_run(args.audit_existing_run)
         print(json.dumps({
@@ -1425,6 +1912,29 @@ def main() -> int:
             "peak_allocated_disk_bytes": result["peak_allocated_disk_bytes"],
         }, sort_keys=True))
         return 0
+    if args.continue_from_run_id is not None:
+        if args.run_id is None:
+            parser.error("--continue-from-run-id requires an explicit --run-id")
+        root = execute_continuation(args.continue_from_run_id, args.run_id)
+        manifest = json.loads((root / "run-manifest.json").read_text())
+        combined = None
+        if manifest["status"] == "COMPLETE":
+            combined = combine_continuation(
+                runtime_runs("ess-research", 107) / args.continue_from_run_id,
+                root,
+            )
+        print(json.dumps({
+            "run_root": str(root),
+            "run_status": manifest["status"],
+            "source_commit": manifest["source_commit"],
+            "arms_completed": manifest["arms_completed"],
+            "attempted_explain_calls": manifest["attempted_explain_calls"],
+            "peak_allocated_disk_bytes": manifest.get("peak_allocated_disk_bytes"),
+            "cumulative_explain_calls": combined.get("cumulative_explain_calls") if combined else None,
+            "combined_analysis_path": combined.get("combined_analysis_path") if combined else None,
+            "combined_status": combined.get("status") if combined else None,
+        }, sort_keys=True))
+        return 0 if combined and combined["status"] == "COMPLETE" else 2
     root = execute(args.run_id)
     manifest = json.loads((root / "run-manifest.json").read_text(encoding="utf-8"))
     print(json.dumps({
