@@ -16,17 +16,17 @@ The authoritative selected IDs and candidate maps remain in `experiments/add-onl
 
 The 64-bit root seed is **17770611677888985956**. It was drawn from the system CSPRNG and frozen before any new Test measurements. The versioned generator is `ess-splitmix64-fisher-yates-v1`: SplitMix64 with rejection-sampled `randbelow`, Fisher–Yates over a lexicographically enumerated residual population, taking the first $n$ entries. For each dataset/policy/set, the child seed is the first 8 bytes, big-endian, of SHA-256 over the UTF-8 NUL-delimited string `ess-issue107-seed-v1`, root seed, dataset, policy, and comma-joined sorted IDs. Independent child streams are used for the eight sets. The sample was generated with CPython 3.12.3; the custom RNG and canonical JSON serializer are versioned in the implementation [oid_sampling.py](../../src/ess_research/arecel/oid_sampling.py). Regenerate it from the frozen manifest with `PYTHONPATH=src python3 -m ess_research.arecel.oid_sampling`.
 
-| Dataset / policy | $k!$ population | Fixed canonical/reverse | SRSWOR from residual | Total selected | Child seed (hex) | Sample SHA-256 |
-|---|---:|---:|---:|---:|---|---|
-| Forest10 / Nominal | 120 | 2 | 22 of 118 | 24 | `778e5245a11cf82e` | `6894f7317f3bdd976e00aec96d09db1f23f70bf092f4269f25f617e86e9159c3` |
-| Census13 / Nominal | 120 | 2 | 22 of 118 | 24 | `70405be4a44cca31` | `0396a6ce4e14e102ac8ed49de37c8d96cdc4a00bf83347eb24b13378b32b9397` |
-| DMV11 / Nominal | 120 | 2 | 22 of 118 | 24 | `e097a4592f1257b7` | `5c39dcea7e690d29d91d43246c2f35fcefb470eb9a051dcd63e4c6be2f963623` |
-| Power7 / Nominal | 120 | 2 | 22 of 118 | 24 | `8bc8ec42f8356f12` | `1ebbce3843a4f71cb773ff47ee0ed2517e92930b4ba017a90c47dd7643a70371` |
-| Census13 / PESS | 120 | 0 | 24 of 120 | 24 | `8f3154dce8fcb778` | `7dd2fbf3a4e7ba110e5f2786004c3be6be000e7f32f86aca9a7444de629a0749` |
-| DMV11 / PESS | 120 | 0 | 24 of 120 | 24 | `826e8e81fbd78b58` | `2e7d25671473ef7dbc448d4ca81b4198ed7103dc20edf4e876fba6c9f9e8a904` |
-| Forest10 / PESS | 6 | 0 | census of all 6 | 6 | none | `2dc387a785fda6f5568f9b4dbfbe03aff7c505973006cf572f45f7df7d18cf70` |
-| Power7 / PESS | 6 | 0 | census of all 6 | 6 | none | `f261c0e9c8ee3f2e3464d3a55abbcc6f2a93db95433aa2236532e1e898fae0b4` |
-| **Total** |  | **8** | **142** | **156** |  |  |
+| Dataset / policy | $k!$ population | Fixed #105 orders | Random SRSWOR | Full census | Total selected | Child seed (hex) | Sample SHA-256 |
+|---|---:|---:|---:|---:|---:|---|---|
+| Forest10 / Nominal | 120 | 2 | 22 of 118 | 0 | 24 | `778e5245a11cf82e` | `6894f7317f3bdd976e00aec96d09db1f23f70bf092f4269f25f617e86e9159c3` |
+| Census13 / Nominal | 120 | 2 | 22 of 118 | 0 | 24 | `70405be4a44cca31` | `0396a6ce4e14e102ac8ed49de37c8d96cdc4a00bf83347eb24b13378b32b9397` |
+| DMV11 / Nominal | 120 | 2 | 22 of 118 | 0 | 24 | `e097a4592f1257b7` | `5c39dcea7e690d29d91d43246c2f35fcefb470eb9a051dcd63e4c6be2f963623` |
+| Power7 / Nominal | 120 | 2 | 22 of 118 | 0 | 24 | `8bc8ec42f8356f12` | `1ebbce3843a4f71cb773ff47ee0ed2517e92930b4ba017a90c47dd7643a70371` |
+| Census13 / PESS | 120 | 0 | 24 of 120 | 0 | 24 | `8f3154dce8fcb778` | `7dd2fbf3a4e7ba110e5f2786004c3be6be000e7f32f86aca9a7444de629a0749` |
+| DMV11 / PESS | 120 | 0 | 24 of 120 | 0 | 24 | `826e8e81fbd78b58` | `2e7d25671473ef7dbc448d4ca81b4198ed7103dc20edf4e876fba6c9f9e8a904` |
+| Forest10 / PESS | 6 | 0 | 0 | 6 | 6 | none | `2dc387a785fda6f5568f9b4dbfbe03aff7c505973006cf572f45f7df7d18cf70` |
+| Power7 / PESS | 6 | 0 | 0 | 6 | 6 | none | `f261c0e9c8ee3f2e3464d3a55abbcc6f2a93db95433aa2236532e1e898fae0b4` |
+| **Total** |  | **8** | **136** | **12** | **156** |  |  |
 
 For each Nominal set the two fixed certainty units are the sorted candidate-ID order and its exact reverse. The random sample is drawn only from the other 118 orders, so neither fixed order can appear twice. A random order has first-order inclusion probability $22/118=11/59$; each fixed order has inclusion probability 1. In a five-object PESS set each of the 120 orders has inclusion probability $24/120=1/5$. The three-object PESS schedules contain every order once. The lists in the JSON file are the complete, frozen sample; no runtime redraw is permitted.
 

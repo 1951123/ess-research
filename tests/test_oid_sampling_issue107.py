@@ -108,6 +108,15 @@ class OIDPermutationSamplingTests(unittest.TestCase):
             for item in expected["schedules"]
         }
         self.assertEqual(len(by_set), 8)
+        selection_counts = {
+            selection: sum(
+                row["selection"] == selection
+                for schedule in expected["schedules"]
+                for row in schedule["permutations"]
+            )
+            for selection in ("fixed", "srswor", "enumerated")
+        }
+        self.assertEqual(selection_counts, {"fixed": 8, "srswor": 136, "enumerated": 12})
         for dataset in ("forest10", "census13", "dmv11", "power7"):
             nominal = by_set[(dataset, "nominal")]
             self.assertEqual((nominal["fixed_count"], nominal["random_sample_size"], len(nominal["permutations"])), (2, 22, 24))
