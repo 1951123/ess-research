@@ -8,14 +8,13 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\newtheorem{proposition}{Proposition}
 
 \renewcommand\vldbdoi{XX.XX/XXX.XX}
 \renewcommand\vldbpages{XXX--XXX}
 \renewcommand\vldbavailabilityurl{}
 
 \newcommand{\E}{\mathcal E}
-\newcommand{\I}{\mathcal I}
+\newcommand{\Tasks}{\mathcal I}
 \newcommand{\MM}{\operatorname{MaximalMatchings}}
 \newcommand{\Maint}{\operatorname{Maint}}
 \newcommand{\PESS}{\operatorname{PESS}}
@@ -158,7 +157,7 @@ resource set.
 \label{sec:model}
 
 \subsection{Tasks, resources and maintenance}
-Let \(\I\) be a finite family of cardinality-estimation tasks.
+Let \(\Tasks\) be a finite family of cardinality-estimation tasks.
 A task identifies a relational cardinality target and its estimation
 context; it need not be an entire SQL query or a physical plan node.
 Its true cardinality is \(N_i\geq 0\), positive reference target is
@@ -274,12 +273,12 @@ For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
 policy family \(\Theta\), the following are distinct objectives:
 \begin{align}
 F_{\Nom}(M;\theta_0)
- &=\sum_{i\in\I}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
+ &=\sum_{i\in\Tasks}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
 F_{\mathrm{joint}}(M)
- &=\max_{\theta\in\Theta}\sum_{i\in\I}
+ &=\max_{\theta\in\Theta}\sum_{i\in\Tasks}
  L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
 F_{\PESS}(M)
- &=\sum_{i\in\I}\max_{\sigma\in\Gamma_i(M)}
+ &=\sum_{i\in\Tasks}\max_{\sigma\in\Gamma_i(M)}
  L_i(\sigma).\label{eq:pess}
 \end{align}
 The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
@@ -472,5 +471,370 @@ Neither intervention makes all maximal matchings physically
 attainable in every context, or equates the multiplicative
 model with PostgreSQL's entire cardinality calculation.
 
-% INTEGRATION_NEXT_SECTIONS
+\section{Experimental Protocol}
+\label{sec:protocol}
+\subsection{Evidence layers and frozen Train selection}
+Our evaluation separates resource decisions, exact model-internal priority
+analysis, and physical held-out observations. We use Forest10, Census13,
+DMV11, and Power7 from the original AreCEL workloads \cite{wang2021arecel}.
+Each has 100,000 original Train tasks used for model construction and
+selection and 10,000 official Test queries for subsequent PostgreSQL
+evaluation. Test labels and estimates never reselect statistics.
+
+The first stage (\#99) selects Nominal and PESS resources on Train with
+the same deterministic, strictly improving add-only greedy heuristic
+at \(B\in\{0,2,3,4,5\}\). Each candidate's budget cost is one
+\emph{proxy unit}, not measured maintenance CPU or storage. All 40
+labeled decisions completed, giving 25 unique dataset-specific
+physical configurations. The frozen resource manifest is stored at
+\href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the \#99 selection record}.
+The frozen Train-model coefficients use positive clamped-log-derived
+quantities and exact \texttt{Fraction} reference evaluation; they
+are not physical \texttt{Plan Rows} measurements.
+
+A read-only (\#116) Census13 Train study enumerates \(\Gamma_i(M)\)
+for five existing B3/B4/B5 selected sets. It deterministically
+takes the smallest stable Train task ID satisfying structural,
+positive-risk and compact-family conditions. Exact task losses
+were checked against a pinned advisor reference, and the
+100,000-task objective sums agreed with the existing \#103 model
+summary. This is artifact agreement, not independent recollection
+of raw Train data or a new resource-selection experiment.
+
+\subsection{Physical PostgreSQL evaluation}
+The \#101, \#105 and \#107 physical studies use version-pinned
+PostgreSQL 16.14 with full source relations, fixed \#99 ANALYZE
+sample replay and effective statistics target 300 for ordinary
+and selected extended statistics. The \#105/\#107 build is pinned
+to source SHA \texttt{f1bf37b5dd3d3a7087fc0af5de550ca31035854c}.
+Settings include \texttt{plan\_cache\_mode=force\_custom\_plan},
+\texttt{max\_parallel\_workers\_per\_gather=0} and
+\texttt{client\_min\_messages=warning}. For controlled order changes,
+the protocol verifies actual OID priority, full-table/sample identities,
+ordinary statistics and individual MCV-content fingerprints.
+Per-query extended-statistics diagnostics are used to verify applied
+object and MCV-estimate sequences; EXPLAIN alone is insufficient.
+
+For each original Test query, let \(t\geq0\) denote its truth
+and \(e\geq0\) its rounded top-level \texttt{Plan Rows} estimate.
+Using the frozen \(r=1\) rounding convention, the zero-aware
+AreCEL Q-error is
+\begin{equation}
+\label{eq:qerror}
+Q(t,e)=
+\begin{cases}
+1,&t=e=0,\\
+t,&t>0,\ e=0,\\
+e,&t=0,\ e>0,\\
+\max(e/t,t/e),&t>0,\ e>0.
+\end{cases}
+\end{equation}
+The percentile implementation follows the original NumPy convention,
+and differs from the selection model's absolute-log loss.
+The fixed-order \#101 evaluation completed 25 configurations and
+250,000 Test EXPLAINs. The paired canonical/reverse \#105 study
+completed eight configurations, 80,000 Test EXPLAINs and complete
+selected-object/estimate diagnostics. Both studies use frozen,
+previously selected resources.
+
+\subsection{Offline Train-model global order enumeration}
+The \#103 study evaluates every strict global priority permutation
+on the \emph{already selected} Train-model resource sets:
+906 permutations in total for 25 distinct fixed sets. A global
+order is shared across tasks and counted even when distinct
+orders induce the same matching outcomes. It computes
+\(N_{\pi_0}(M),A(M),G(M),P(M)\) using frozen
+Train coefficients and exact reference checks, with
+\emph{no} Test execution, refitting or reselection.
+This evidence is recorded in
+\href{https://github.com/1951123/ess-research/pull/104}
+{Draft PR \#104}; it should not be mislabeled as an
+already merged \texttt{main}-branch experiment artifact.
+
+\subsection{Counterfactual uniform global relative-OID order}
+For RQ3, define a \emph{hypothetical} uniform population of
+the \(k!\) strict relative-OID orders of each fixed selected set
+\(M\). One physical order is held unchanged for all
+10,000 official Test queries in that arm. The primary estimand is
+\begin{equation}
+\label{eq:estimand}
+Y_\pi(M)=\operatorname{P95}_{q\in\mathrm{Test}}Q(q,M,\pi),
+\qquad
+\mu(M)=\mathbb E_{\pi\sim U(\Pi(M))}[Y_\pi(M)].
+\end{equation}
+It is the \emph{expected per-order Test P95}, not the P95
+of order-averaged per-query Q-errors. Neither this assumption
+nor the abstract global order distribution implies PostgreSQL
+assigns OIDs randomly in production.
+
+The frozen \#107 study used \textbf{156 physical configurations},
+not a complete 732-arm census. For each of four five-object
+Nominal sets it included two canonical/reverse certainty orders
+plus 22 simple-random-without-replacement (SRSWOR) orders
+from the remaining 118. The two five-object PESS sets each
+contributed 24 SRSWOR orders of 120. Two three-object PESS
+sets contributed all six orders each. All 156 arms and
+\textbf{1,560,000 cumulative Test EXPLAINs} eventually completed.
+
+For Nominal let \(F\) be the mean of its two certainty outcomes,
+\(\overline Y_R\) the mean of 22 residual sampled outcomes,
+and \(s_R^2\) the usual sample variance. The design-weighted
+estimate and variance are
+\begin{equation}
+\label{eq:design}
+\widehat\mu_N=\frac{2}{120}F+\frac{118}{120}\overline Y_R,
+\quad
+\widehat{\operatorname{Var}}(\widehat\mu_N)=
+\left(\frac{118}{120}\right)^2
+\left(1-\frac{22}{118}\right)\frac{s_R^2}{22}.
+\end{equation}
+For five-object PESS, \(\widehat\mu_P=\overline Y_{24}\)
+and the design variance estimate is \((1-24/120)s_P^2/24\).
+The two three-object PESS means are exact six-order
+population means conditional on the fixed Test split.
+For the independently sampled PESS-minus-Nominal contrast,
+the component variance estimates add. The frozen approximate
+95\% intervals use \(t_{0.975,21}\) times the design standard
+error. They cover \emph{permutation sampling only}, not new
+workloads, datasets or ANALYZE samples. A degenerate interval
+from 24 sampled orders cannot certify all 120 orders identical.
+
+The \#107 design was specified after inspection of earlier
+\#101/\#105 results, although new sampled orders were fixed
+before new Test measurements. Eight original \#105 certainty
+arms were remeasured after a reuse-eligibility failure whose
+exact row-level cause was not preserved. Twelve three-object
+PESS arms stopped before EXPLAIN because a validator expected
+five objects; an authorized continuation completed those
+\emph{same} frozen orders without replacements or extra arms.
+
+\section{Experimental Results}
+\label{sec:results}
+We distinguish the complete-scheme mechanism under frozen
+Train-model loss from observed physical Test Q-error.
+
+\subsection{An actual Census13 Train scheme-space witness}
+The predeclared deterministic procedure selected
+\texttt{arecel:census13:train:000000}; the task's
+three relevant candidate MCV resources are
+\texttt{e04\_06} (marital\_status--relationship),
+\texttt{e04\_08} (marital\_status--sex),
+and \texttt{e06\_08} (relationship--sex).
+Their edge-labeled conflict graph is a triangle:
+all three pairs overlap, so the complete
+inclusion-maximal schemes under the B5 Nominal
+set are precisely the singleton choices
+\(\{\{\mathrm{e04\_06}\},\{\mathrm{e04\_08}\},
+\{\mathrm{e06\_08}\}\}\).
+These have modeled absolute-log losses
+\(0.077898\), \(0.651726\), and \(0.686091\),
+respectively. The nominal priority applies the first
+and task-wise PESS maximizes at the third,
+giving a loss gap of approximately \(0.608193\).
+
+\begin{table}[t]
+\caption{Complete scheme counts and losses for one
+Census13 \emph{Train} model task. The loss columns are
+absolute-log loss, not PostgreSQL Test Q-error.}
+\label{tab:witness}
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Frozen set & \(\lvert\Gamma_i\rvert\) &
+Nominal & PESS\\
+\midrule
+B3 shared  & 1 & .077898 & .077898\\
+B4 Nominal & 2 & .077898 & .686091\\
+B4 PESS    & 1 & .077898 & .077898\\
+B5 Nominal & 3 & .077898 & .686091\\
+B5 PESS    & 1 & .077898 & .077898\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The nested Nominal B3--B5 \emph{resource additions}
+yield one, two, then three complete schemes
+without removing an old scheme \emph{in this task}.
+The B5 Nominal/PESS contrast instead substitutes
+different frozen resource sets; the witness does
+not experimentally prove general nonnestedness.
+Of 100,000 Census13 Train tasks under B5 Nominal,
+\textbf{26,998} admit multiple modeled schemes,
+but only \textbf{10,764} have positive task-level
+Nominal-to-PESS model loss gaps; \textbf{16,234}
+are ambiguous with \emph{zero} risk gap.
+Ambiguity alone is not a measured error regression.
+
+\begin{table}[t]
+\caption{Census13 whole-Train model objective sums.
+The 100,000-task totals are modeled absolute-log
+losses, not physical Test Q-errors.}
+\label{tab:train}
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Set & Ambiguous & \(\sum N\) & \(\sum P\)\\
+\midrule
+B3 shared & 0 & 52865.905 & 52865.905\\
+B4 Nom. & 26998 & 51409.134 & 56485.624\\
+B4 PESS & 0 & 52163.364 & 52163.364\\
+B5 Nom. & 26998 & 50347.356 & 56821.283\\
+B5 PESS & 0 & 51718.705 & 51718.705\\
+\bottomrule
+\end{tabular}
+\end{table}
+The B5 Nominal set is better under \emph{its own nominal
+Train loss}, but the B5 PESS set has the smaller
+\emph{task-wise worst Train loss}.
+No whole-workload greedy choice is attributed to
+this single illustrative task.
+
+\subsection{Across-budget selection and fixed-set policy gap}
+All 40 training cases completed for
+\(B\in\{0,2,3,4,5\}\).
+Table~\ref{tab:budget} records the number of selected
+objects; \(=\) means \emph{identical resource IDs},
+not merely equal counts. B0 and B2 sets coincide
+between Nominal and PESS for every dataset.
+DMV11 first differs at B3, while the others
+first differ at B4. The three-object PESS
+choices on Forest10 and Power7 at B5
+also illustrate that \(B\) is a cap, not a
+forced set size.
+
+\begin{table*}[t]
+\caption{Nominal/PESS selected-object counts under
+proxy budgets; \(=\) denotes the identical resource-ID
+set, and \(\ne\) a different selected set.}
+\label{tab:budget}
+\centering
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Dataset & B0 & B2 & B3 & B4 & B5 & First difference\\
+\midrule
+Forest10 & \(0/0\,=\) & \(2/2\,=\) & \(3/3\,=\) & \(4/3\,\ne\) & \(5/3\,\ne\) & B4\\
+Census13 & \(0/0\,=\) & \(2/2\,=\) & \(3/3\,=\) & \(4/4\,\ne\) & \(5/5\,\ne\) & B4\\
+DMV11 & \(0/0\,=\) & \(2/2\,=\) & \(3/3\,\ne\) & \(4/4\,\ne\) & \(5/5\,\ne\) & B3\\
+Power7 & \(0/0\,=\) & \(2/2\,=\) & \(3/3\,=\) & \(4/3\,\ne\) & \(5/3\,\ne\) & B4\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The exact offline #103 Train-model evaluation spans
+906 global priority orders across 25 unique sets;
+nine selected sets have nonzero modeled aggregate
+order sensitivity. At B5, the modeled expected
+Train total loss contrasts \(A(M_P)-A(M_N)\)
+are +1335.154 (Forest10), -1956.368 (Census13),
+-5135.649 (DMV11) and +905.457 (Power7).
+These are not Q-errors and should not be normalized
+against unrelated dataset totals.
+
+More directly, Table~\ref{tab:gap} shows \(P-G\)
+\emph{within the same fixed B5 set}.
+For each Nominal-selected B5 set, independent
+task-wise pessimism strictly exceeds the largest
+loss attainable by \emph{one global priority}.
+The four PESS-selected B5 sets happen to have a
+zero gap in the frozen model; no general
+equality theorem or physical guarantee follows.
+
+\begin{table}[t]
+\caption{Fixed-set \(P(M)-G(M)\): total Train-model
+loss at B5. \(G\) is read-only, not a trained policy.}
+\label{tab:gap}
+\centering\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Dataset & Nominal set & PESS set\\
+\midrule
+Forest10 & 5123.701 & 0\\
+Census13 & 836.466 & 0\\
+DMV11 & 1772.145 & 0\\
+Power7 & 5385.310 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Canonical and reversed physical Test orders}
+The frozen #101 study collected 250,000 valid
+official Test EXPLAINs. At B5 under the canonical
+fixed configuration, Nominal yields lower Test P95
+than PESS on all four datasets.
+The separate #105 intervention reverses the creation
+order of each \emph{same unordered Nominal B5 set}.
+It changes both applied-MCV/estimate sequences and
+physical Q-error, as shown in
+Table~\ref{tab:physical}. The reverse order is
+not established as the globally worst permutation.
+Not every changed MCV sequence changes Q-error.
+
+\begin{table*}[t]
+\caption{Physical held-out P95 zero-aware Q-error
+under the fixed canonical configuration and the
+#105 reverse-order intervention on the \emph{Nominal}
+B5 set (not on PESS). Changed MCV sequences are
+per 10,000 paired Test queries.}
+\label{tab:physical}
+\centering
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Dataset & Canon.\ N & Canon.\ P & Reverse N &
+Relative reverse change & Changed sequences\\
+\midrule
+Forest10 & 13.5842 & 14.0000 & 14.0000 & \(+3.06\%\) & 4813\\
+Census13 & 6.2500 & 6.2837 & 8.0000 & \(+28.00\%\) & 4474\\
+DMV11 & 22.2260 & 26.8561 & 36.0044 & \(+61.99\%\) & 4596\\
+Power7 & 9.8449 & 9.9576 & 9.8069 & \(-0.39\%\) & 4898\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Expected physical P95 under a hypothetical order}
+The #107 outcome is the \emph{expected per-order
+physical Test P95} in~\eqref{eq:estimand}, estimated
+with the frozen sampling weights. Negative
+PESS-minus-Nominal differences favor PESS
+only for this \emph{counterfactual} estimand.
+Table~\ref{tab:expected} shows that Census13
+and DMV11 favor PESS, Forest10 favors Nominal,
+and Power7's approximate interval includes zero.
+
+\begin{table*}[t]
+\caption{B5 counterfactual uniform global relative-OID
+order: expected \emph{per-order physical Test P95}.
+Intervals reflect permutation-sampling uncertainty
+only, not new workloads or physical worst cases.}
+\label{tab:expected}
+\centering
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Dataset & Nominal \(\widehat\mu\) &
+PESS \(\widehat\mu\) & PESS--Nominal &
+Approximate 95\% interval\\
+\midrule
+Forest10 & 13.8901 & 14.0000 & +0.1099 & [ +0.0360,\ +0.1838 ]\\
+Census13 & 7.4813 & 6.2837 & -1.1976 & [ -1.5793,\ -0.8160 ]\\
+DMV11 & 33.1024 & 26.8561 & -6.2463 & [ -8.6379,\ -3.8546 ]\\
+Power7 & 9.9283 & 9.9576 & +0.0293 & [ -0.1735,\ +0.2322 ]\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The zero observed variability of Census13's
+five-object PESS sample does not demonstrate
+invariance of its 96 unsampled orders. Forest10
+and Power7 PESS use exact six-order censuses.
+The #103 \(A(M)\) is an exact expectation of
+\emph{total Train-model absolute-log loss} over
+abstract priority permutations; #107 estimates
+the mean of \emph{physical Test per-order P95
+Q-error} over sampled relative-OID permutations.
+They differ in split, loss, aggregation and
+estimation mechanism. Agreement or disagreement
+between rankings is not, by itself, evidence of
+model calibration or out-of-sample generalization.
+
+% INTEGRATION_REMAINING
 \end{document}
+
