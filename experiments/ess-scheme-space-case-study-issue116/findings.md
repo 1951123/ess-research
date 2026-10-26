@@ -1,7 +1,7 @@
 # Issue #116 — Census13 Train scheme-space case study
 
-**State:** complete offline analysis; proposed documentation and code remain on the Issue #116 Draft PR branch.  
-**Evidence class:** experimentally collected Train inputs plus exact/model-internal reconstruction.  
+**State:** complete offline analysis; proposed documentation and code remain on the Issue #116 Draft PR branch.
+**Evidence class:** experimentally collected Train inputs plus exact/model-internal reconstruction.
 **No PostgreSQL was started and no ANALYZE or EXPLAIN was executed. No Valid/Test split data was accessed.**
 
 ## Question and minimum sufficient analysis
