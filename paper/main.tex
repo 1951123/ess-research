@@ -5,15 +5,25 @@
 \usepackage{pvldb}
 %%% VLDB block end %%%
 
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newtheorem{proposition}{Proposition}
+
 \renewcommand\vldbdoi{XX.XX/XXX.XX}
 \renewcommand\vldbpages{XXX--XXX}
 \renewcommand\vldbavailabilityurl{}
 
-\newcommand{\E}{\mathcal{E}}
+\newcommand{\E}{\mathcal E}
+\newcommand{\I}{\mathcal I}
+\newcommand{\MM}{\operatorname{MaximalMatchings}}
+\newcommand{\Maint}{\operatorname{Maint}}
+\newcommand{\PESS}{\operatorname{PESS}}
+\newcommand{\Nom}{\operatorname{Nom}}
+\newcommand{\PG}{\operatorname{PG}}
 
 \begin{document}
-\title{Budgeted Pessimistic Extended-Statistics Selection under Maintenance Constraints}
-
+\title{Extended Statistics Selection under Estimator Strategy Uncertainty}
 \author{Anonymous Author(s)}
 \affiliation{%
   \institution{Anonymous Institution}
@@ -22,7 +32,34 @@
 }
 
 \begin{abstract}
-Placeholder abstract for the problem-formulation manuscript.
+Choosing which extended statistics to maintain is a resource-allocation
+problem, but an installed set need not determine which overlapping
+statistics a cardinality estimator applies. An advisor with incomplete
+knowledge of the estimator's downstream application strategy may therefore
+evaluate the same resource set under different complete estimation schemes.
+We formulate extended-statistics selection under estimator-strategy
+uncertainty, separating unordered resource decisions, task-specific
+admissible scheme families, loss and maintenance constraints. We distinguish
+fixed-priority Nominal from task-wise pessimistic (PESS) selection and from
+risk induced by one global priority shared across tasks. For a fixed
+resource set, expected global-priority loss is at most worst shared-global
+loss, which is at most task-wise pessimistic loss under common model and
+admissibility assumptions. A labeled maximal-matching instantiation has a
+restricted source-grounded correspondence to PostgreSQL 16.14 two-column
+MCV selection.
+
+On four frozen AreCEL workloads, we combine exact offline priority
+analysis, a real Train-task scheme-space witness and held-out PostgreSQL
+\texttt{Plan Rows} measurements. At budget five under the canonical physical
+configuration, Nominal has lower Test P95 Q-error on all four datasets.
+Under a separately specified, sampled \emph{counterfactual} uniform global
+relative-OID-order distribution, PESS has lower estimated expected
+per-order Test P95 on Census13 and DMV11, Nominal does on Forest10, and the
+Power7 contrast is inconclusive within the permutation-sampling interval.
+Uniform OID ordering is an evaluation assumption, not a production
+randomization claim. Our results establish consequential strategy assumptions
+in this model and a bounded PostgreSQL manifestation, not universal PESS
+superiority or a physical worst-case guarantee.
 \end{abstract}
 
 \maketitle
@@ -32,313 +69,408 @@ Placeholder abstract for the problem-formulation manuscript.
 \vldbtopmatter
 %%% VLDB block end %%%
 
+\section{Introduction}
+\label{sec:intro}
+
+Cardinality estimates shape the costs used by query optimizers and may
+influence their plan choices \cite{leis2015optimizers,han2022benchmark}.
+Single-column statistics are often insufficient for correlated attributes;
+multivariate or extended summaries can improve selectivity estimates
+\cite{pg16stats}. Such statistics also incur collection and refresh
+overheads. A workload-aware advisor must decide which candidate objects
+to maintain under a resource budget, a longstanding statistics-management
+problem \cite{chaudhuri2000stats,bruno2002sit,elhelw2009statadvisor}.
+
+Installing a statistic, however, is not equivalent to using it for every
+eligible cardinality estimate. Two objects may overlap in the predicates
+they cover; an estimator may consume one and thereby make the other
+inapplicable to that estimation step. A priority rule or tie resolution
+can determine which information is used. If the advisor knows the installed
+unordered set but not the downstream rule well enough, the set alone
+does not determine a unique estimate. This is \emph{estimator-strategy
+uncertainty}: uncertainty about selecting a complete application scheme
+from the statistics made available.
+
+Figure~\ref{fig:path} shows a deliberately restricted example. Three
+pairwise objects for \(AB\), \(BC\) and \(CD\) are installed, with
+overlapping endpoints representing conflicts. If a valid complete scheme
+is an inclusion-maximal matching of available edges, the same installed
+set admits \(\{s_{AB},s_{CD}\}\) or \(\{s_{BC}\}\). A greedy
+priority that considers \(BC\) first chooses the latter; a priority
+that considers \(AB\) first chooses the former. Assign hypothetical
+task losses \(0.1\) and \(2.0\), respectively. Installing \(BC\) in
+addition to \(AB,CD\) preserves the first choice but introduces the
+second, increasing the \emph{worst modeled} loss. This example is
+mathematical, not a measured PostgreSQL loss.
+
+\begin{figure}[t]
+\centering
+\fbox{\(\mathrm A\xrightarrow{s_{AB}}\mathrm B
+\xrightarrow{s_{BC}}\mathrm C\xrightarrow{s_{CD}}\mathrm D\)}
+\smallskip
+\par\small
+Complete matchings: \(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\).
+\caption{An overlapping three-edge path. Both inclusion-maximal
+matchings are complete admissible schemes in the restricted model.
+They are not necessarily equal-cardinality matchings.}
+\label{fig:path}
+\end{figure}
+
+Strategy uncertainty is distinct from uncertainty in sampled statistics
+or underlying data, and also from generalization from training to unseen
+queries. It can matter even for fixed data, sample, workload and installed
+resources. An implementation may be deterministic but unknown to the
+advisor; uncertainty here need not mean runtime randomization.
+
+We model the advisor's decision as an unordered installed set \(M\).
+For each cardinality-estimation task \(i\), the selected resources induce
+a prescribed family of \emph{complete} admissible schemes
+\(\Gamma_i(M)\). A policy determines which member is applied. When that
+policy is specified, a Nominal objective is natural. Without dependable
+shared-policy information, a task-wise pessimistic objective (PESS) can
+hedge against all admissible schemes, while possibly being overly
+conservative when a single global policy couples tasks. These are
+different decisions under different information assumptions, not merely
+competing heuristics for an identical objective.
+
+We pursue three research questions. \textbf{RQ1:} Do controlled changes
+in application priority alter applied overlapping statistics and actual
+PostgreSQL cardinality estimates? \textbf{RQ2:} How do Nominal and PESS
+change frozen resource choices and their model-level priority sensitivity?
+\textbf{RQ3:} How do these choices compare in physical held-out error under
+an explicitly \emph{counterfactual} uniform global relative-OID ordering?
+
+Our contributions are: (i) an estimator-agnostic interface separating
+installed resources, admissible complete schemes and policy information;
+(ii) fixed-set relationships among Nominal, shared-global and task-wise
+risk, with a pairwise maximal-matching instance; (iii) a conditional
+PostgreSQL 16.14 source-level and traced connection; and (iv) a frozen
+Train-model and physical held-out comparison including a real
+scheme-space witness. Related research already studies interacting
+statistics and alternative complete estimation paths
+\cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
+Our narrower focus is \emph{upstream resource selection when the advisor
+does not control or fully know the downstream scheme choice}. We claim
+neither a novel general robust optimizer nor a universally better PESS
+resource set.
+
 \section{Problem Formulation}
+\label{sec:model}
 
-\subsection{Cardinality-Estimation Tasks and Resources}
+\subsection{Tasks, resources and maintenance}
+Let \(\I\) be a finite family of cardinality-estimation tasks.
+A task identifies a relational cardinality target and its estimation
+context; it need not be an entire SQL query or a physical plan node.
+Its true cardinality is \(N_i\geq 0\), positive reference target is
+\(T_i=\max\{1,N_i\}\), and workload weight is \(w_i>0\).
+Let \(\E\) be a finite universe of estimation resources. The advisor
+chooses one \emph{unordered} global set \(M\subseteq\E\), not an
+application order or a separate scheme for each task.
 
-Let $\mathcal I$ be a finite collection of cardinality-estimation tasks.
-Task $i\in\mathcal I$ identifies a specified relational cardinality target
-and its estimation context.  It may describe a selection, a join result, a
-logical intermediate result, or another explicitly defined relational
-expression.  A task is not necessarily an entire SQL query or a physical
-execution-plan node.  Its true cardinality is $N_i\geq 0$, its positive
-reference target is
+Let \(\Maint:2^\E\to\mathbb R_{\geq0}\) be additional
+maintenance cost relative to the baseline, normalized by
+\(\Maint(\varnothing)=0\). It can depend on fixed external data state,
+refresh frequency, maintenance horizon and accounting conventions.
+The feasible sets at budget \(B\geq0\) are
+\begin{equation}
+\label{eq:feasible}
+\mathcal F_B=\{M\subseteq\E:\Maint(M)\leq B\}.
+\end{equation}
+The generic maintenance function need not be additive, monotone or
+submodular. Section~\ref{sec:protocol} introduces the much narrower
+per-object \emph{proxy} used for the reported selections.
+
+\subsection{Complete schemes and admissibility}
+Each task \(i\) has a finite universe \(\Omega_i\) of \emph{complete}
+estimation schemes. A scheme \(\sigma\) specifies enough context to
+produce an estimate, possibly including the used statistics, their
+predicate coverage and estimator-specific decisions. It need not be a
+resource subset, matching or execution plan. Define
+\(\operatorname{used}(\sigma)\subseteq\E\), and prescribe
+\begin{equation}
+\label{eq:gamma}
+\Gamma_i:2^\E\longrightarrow 2^{\Omega_i}\setminus\{\varnothing\},
+\qquad
+\sigma\in\Gamma_i(M)\Rightarrow
+\operatorname{used}(\sigma)\subseteq M.
+\end{equation}
+A baseline scheme is available when \(M=\varnothing\). We do not
+assume \(\Gamma_i(M_1)\subseteq\Gamma_i(M_2)\) whenever
+\(M_1\subseteq M_2\): installing a new object may invalidate
+a previously \emph{complete} scheme under the modeled rule.
+Nonnested families alone do not prove that every associated
+objective is nonmonotone; losses and policy choices also matter.
+
+Crucially, \(\Gamma_i(M)\) is a \emph{prescribed modeling family}.
+If \(\mathcal R_i(M)\) denotes schemes physically realizable by
+a deployed estimator, neither \(\mathcal R_i(M)=\Gamma_i(M)\)
+nor even \(\mathcal R_i(M)\subseteq\Gamma_i(M)\) follows from
+the definitions. Physical worst-case claims would need separate
+containment and metric alignment arguments.
+
+\subsection{Estimates, loss and application policies}
+For each task, let \(\operatorname{Est}_i:\Omega_i\to
+\mathbb R_{>0}\) be a positive pre-output-transform estimate and
+\(\ell_i:\Omega_i\to\mathbb R_{\geq0}\) a loss function.
+The illustrative absolute logarithmic loss is
+\begin{equation}
+\label{eq:loss}
+L_i(\sigma)=w_i\ell_i(\sigma)
+=w_i\left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
+\end{equation}
+This is not the same observable as rounded or clamped PostgreSQL
+\texttt{Plan Rows} Q-error.
+
+A nonempty finite family \(\Theta\) of application-policy parameters
+may induce a complete scheme \(\sigma_i(M;\theta)\) for each task,
+installed set and policy. When the model and policy family are
+compatible, \(\sigma_i(M;\theta)\in\Gamma_i(M)\) for all
+relevant \(i,M,\theta\). One \(\theta\) shared among tasks couples their
+scheme choices; it need not be probabilistic.
+
+\subsection{Pairwise MCV admissibility and loss}
+For the structured instance, each candidate \(e\in\E\) is a
+\emph{labeled} two-attribute MCV object, with endpoints
+\(A_e\), \(|A_e|=2\). For each task \(i\), statically
+eligible objects \(\E_i\subseteq\E\) form the edge-labeled
+multigraph \(H_i=(V_i,\E_i)\). The installed eligible graph
+\(H_i[M]\) contains the edges \(M\cap\E_i\). Distinct
+statistics with identical attribute pairs remain distinct edges.
+A matching consists of pairwise endpoint-disjoint edges.
+We prescribe
+\begin{equation}
+\label{eq:mm}
+\Gamma_i^{\mathrm{MM}}(M)=\MM(H_i[M]).
+\end{equation}
+\emph{Maximal} means no additional available edge can be appended;
+it does not mean maximum cardinality. Even an empty graph has
+the empty matching as its unique maximal matching.
+
+For a positive baseline pre-clamp estimate \(n_i^0>0\) and
+fixed task-specific correction factors \(r_{e,i}>0\), the controlled
+multiplicative approximation is
+\begin{equation}
+\label{eq:multiplicative}
+\widehat n_i(P)=n_i^0\prod_{e\in P}r_{e,i},
+\quad
+L_i(P)=w_i\Bigl|\alpha_i+\sum_{e\in P}b_{e,i}\Bigr|,
+\end{equation}
+where \(\alpha_i=\log(n_i^0/T_i)\) and
+\(b_{e,i}=\log r_{e,i}\).
+Positivity is necessary before taking logarithms.
+This separability is \emph{assumed for the model}, not a theorem
+about physical PostgreSQL MCV estimation or independence of
+underlying attributes. In the actual frozen study, the
+\texttt{census13-clamped-log-v2} and related dataset-specific
+coefficient constructions follow pinned normalization and
+quantization rules, with exact \texttt{Fraction} reference loss.
+The physical \texttt{Plan Rows} metric is evaluated separately.
+
+\section{Optimization Objectives and Relationships}
+\label{sec:objectives}
+
+\subsection{Strategy knowledge defines the problem}
+For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
+policy family \(\Theta\), the following are distinct objectives:
+\begin{align}
+F_{\Nom}(M;\theta_0)
+ &=\sum_{i\in\I}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
+F_{\mathrm{joint}}(M)
+ &=\max_{\theta\in\Theta}\sum_{i\in\I}
+ L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
+F_{\PESS}(M)
+ &=\sum_{i\in\I}\max_{\sigma\in\Gamma_i(M)}
+ L_i(\sigma).\label{eq:pess}
+\end{align}
+The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
+for its chosen information assumption. The advisor does not
+simultaneously choose the worst-case scheme or its application
+policy. For the \emph{same fixed} \(M\), compatibility and common
+loss imply
+\begin{equation}
+\label{eq:genericbound}
+F_{\Nom}(M;\theta_0)\leq
+F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
+\end{equation}
+The second inequality may be strict because separate taskwise
+worst schemes may not be jointly attainable.
+
+\subsection{One shared global priority}
+For the pairwise instance, let \(\Pi(M)\) contain all strict
+permutations of the \emph{labeled selected resources}, including
+irrelevant edges. The same order \(\pi\) applies to every task,
+restricted to that task's eligible installed edges. A greedy scan
+accepts an edge if both endpoints are unused and produces
+\(\gamma_i(M,\pi)\in\Gamma_i^{\mathrm{MM}}(M)\).
+Let \(Z(M,\pi)=\sum_iL_i(\gamma_i(M,\pi))\) and define
+\begin{align}
+N_{\pi_0}(M)&=Z(M,\pi_0),&
+A(M)&=\frac{\sum_{\pi\in\Pi(M)}Z(M,\pi)}{|\Pi(M)|},
+\label{eq:na}\\
+G(M)&=\max_{\pi\in\Pi(M)}Z(M,\pi),&
+P(M)&=\sum_i\max_{Q\in\Gamma_i^{\mathrm{MM}}(M)}L_i(Q).
+\label{eq:gp}
+\end{align}
+Here \(\pi_0\) is the restriction of one fixed total order on
+the candidate universe, implemented as candidate-ID order
+in the frozen study. \(A\) is \emph{uniform over global
+permutations}, not over distinct resulting matchings.
+\(G\) is the largest total loss under \emph{one common} order;
+\(P\) chooses each task's largest admissible loss independently.
+
+\begin{proposition}[Fixed-set global-order bounds]
+\label{prop:bounds}
+For every fixed \(M\) in the prescribed pairwise model and the same
+finite task losses,
 \[
-  T_i=\max\{1,N_i\},
+A(M)\leq G(M)\leq P(M),\qquad N_{\pi_0}(M)\leq G(M).
 \]
-and its workload weight is $w_i>0$.
+\end{proposition}
+\begin{proof}
+The mean and any particular member of the finite
+collection \(\{Z(M,\pi)\}\) do not exceed its maximum.
+For any \(\pi\) and task \(i\), greedy produces an admissible
+maximal matching, whose loss is at most that task's maximal
+admissible loss. Summing and maximizing over \(\pi\) proves
+\(G(M)\leq P(M)\).
+\end{proof}
+Neither \(A(M)\leq N_{\pi_0}(M)\) nor its reverse is
+unconditional. These \emph{within-set} relations do not rank
+distinct \(M_N,M_P\), and they do not bound actual PostgreSQL
+Q-error without additional physical assumptions.
 
-Let $\E$ be a finite universe of candidate estimation resources.  The
-advisor chooses one global, unordered resource set $M\subseteq\E$ shared by
-all tasks.  No restriction on resource arity, representation, or internal
-implementation is imposed at this level.  The only resource constraint is a
-maintenance budget.  Let
-\[
-  \operatorname{Maint}:2^{\E}\longrightarrow\mathbb R_{\geq 0}
-\]
-be the additional maintenance cost relative to the baseline database
-maintenance process, normalized by
-$\operatorname{Maint}(\varnothing)=0$.  More generally, it may depend on
-fixed external conditions $\xi$, written
-$\operatorname{Maint}(M;\xi)$, including the database state, data-modification
-workload, refresh policy, evaluation horizon, and accounting convention.  We
-abbreviate the fixed-instance function to $\operatorname{Maint}(M)$ and
-require
-\[
-  \operatorname{Maint}(M)\leq B,\qquad B\geq 0.
-\]
-The function is not assumed to be additive, monotone, submodular, or
-determined by per-resource coefficients.
+\begin{proposition}[Single-task order completeness]
+\label{prop:completion}
+For a fixed task graph \(H_i[M]\), every inclusion-maximal
+matching is produced by greedy under some freely chosen
+abstract total edge priority.
+\end{proposition}
+\begin{proof}
+Put the matching's edges first. Since those edges are disjoint,
+greedy accepts them all. By inclusion-maximality every remaining
+edge meets an accepted edge, so none is subsequently accepted.
+\end{proof}
+This proves neither cross-task simultaneous completeness nor
+physical realizability of every abstract ordering within
+a fixed PostgreSQL catalog.
 
-\subsection{Admissible Schemes and Estimation Models}
+\subsection{A strict coupling gap and nonmonotone example}
+On the path in Figure~\ref{fig:path}, four of the six global
+permutations select \(\{s_{AB},s_{CD}\}\), whereas two select
+\(\{s_{BC}\}\). Uniform orders therefore weight the two
+matchings \(2/3\) and \(1/3\), not \(1/2\) each.
+For two tasks with the \emph{same} path and losses
+\(L_1(Q_1)=1,L_1(Q_2)=0\) but
+\(L_2(Q_1)=0,L_2(Q_2)=1\), every shared priority yields
+total loss one; the independent taskwise maxima sum to two:
+\(A(M)=G(M)=1<P(M)=2\). This is an abstract witness to
+conservatism in \(P\), not a dataset measurement.
 
-For each task $i$, let $\Omega_i$ be a finite universe of complete
-estimation schemes.  A scheme $\sigma\in\Omega_i$ contains all information
-needed to determine how the target is estimated; depending on the underlying
-system, it may encode selected resources, application order, predicate
-coverage, estimator-specific choices, and context.  Define the resources it
-requires by
-\[
-  \operatorname{used}(\sigma)\subseteq\E.
-\]
-The abstract admissibility interface is
-\[
-  \Gamma_i:2^{\E}\longrightarrow
-  2^{\Omega_i}\setminus\{\varnothing\},
-\]
-with the consistency condition
-\[
-  \sigma\in\Gamma_i(M)
-  \;\Longrightarrow\;
-  \operatorname{used}(\sigma)\subseteq M.
-\]
-We require directly that
-\[
-  \forall i\in\mathcal I,\;\forall M\subseteq\E:
-  \qquad \Gamma_i(M)\neq\varnothing.
-\]
-A baseline scheme $\sigma_i^{\varnothing}\in\Gamma_i(\varnothing)$ is
-available at $M=\varnothing$, but it need not remain admissible for nonempty
-created sets.  No monotonicity is imposed: creating additional resources need not imply
-$\Gamma_i(M_1)\subseteq\Gamma_i(M_2)$ when
-$M_1\subseteq M_2$.  Thus, resources created by the advisor and resources
-actually used by an admissible scheme are distinct concepts.  Schemes are
-not required to be sets, matchings, sequences, or execution plans.
+Similarly, take the installed set \(\{s_{AB},s_{CD}\}\)
+with sole complete matching \(Q_1\) of loss \(0.1\).
+Adding the conflicting resource \(s_{BC}\) permits \(Q_2\)
+of loss \(2.0\), so this particular PESS objective increases
+from \(0.1\) to \(2.0\). Nonmonotonicity is thus possible,
+rather than a general law that new statistics harm estimates.
 
-Separately, let the black-box estimator be
-\[
-  \operatorname{Est}_i:\Omega_i\longrightarrow\mathbb R_{>0}.
-\]
-It returns the estimated cardinality of task $i$ under scheme $\sigma$.
-The generic formulation imposes no algebraic structure on this function:
-there is no assumption of multiplicative separability, statistical
-independence, additive resource effects, or database-specific output
-conversion.  Admissibility determines which schemes may occur, whereas
-$\operatorname{Est}_i$ determines the estimate produced by each scheme.
-Finally, let $\ell_i:\Omega_i\to\mathbb R_{\geq0}$ be a task-specific loss.
-The principal illustrative choice is absolute logarithmic error,
-\[
-  \ell_i(\sigma)=
-  \left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
-\]
+\subsection{Frozen resource-selection procedure}
+The empirical selection trains \emph{only} \(N_{\pi_0}\)
+and \(P\), using the same strictly improving, deterministic
+add-only greedy heuristic, separately for each Train workload
+and budget. Its feasibility is the experimental
+\(\sum_{e\in M}\bar m_e\leq B\), with nonnegative
+per-object \emph{proxy} costs. The heuristic adds the feasible
+single resource giving the greatest strictly positive loss
+decrease, breaking ties by candidate ID, and stops if no
+such improvement exists. It performs no swaps or deletions
+and does not certify global optimality. The read-only
+offline \(A,G\) analysis is \emph{not} a retraining or
+a different selection algorithm.
 
-\subsection{General Pessimistic Selection}
+\section{A Scoped PostgreSQL MCV Mechanism}
+\label{sec:pg}
 
-The estimator-agnostic budgeted pessimistic selection problem is
-\[
-\boxed{\begin{aligned}
-  \operatorname*{minimize}_{M\subseteq\E}\quad
-    &\sum_{i\in\mathcal I}w_i
-      \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma)\\
-  \text{subject to}\quad
-    &\operatorname{Maint}(M)\leq B.
-\end{aligned}}
-\]
-The decision is the created resource set $M$; the adversarial choice ranges
-only over admissible schemes, and the estimator and loss evaluate those
-schemes.  The individual task maxima are taken independently, so the model
-need not correspond to one globally consistent adversarial policy.  In
-particular, selecting more resources is not assumed to improve the objective
-monotonically.  The objective concerns cardinality-estimation accuracy, not
-physical plan selection or query execution time.
+\subsection{Version-pinned selector and its prerequisites}
+PostgreSQL 16.14's single-relation selectivity path can apply
+multivariate MCV objects to still-unestimated compatible
+clauses. Source inspection of
+\texttt{clauselist\_selectivity\_ext},
+\texttt{statext\_mcv\_clauselist\_selectivity},
+\texttt{choose\_best\_statistics} and
+\texttt{RelationGetStatExtList} identifies a repeated
+candidate-selection process and a source-level
+OID-sorted candidate list. Under the conditions below,
+all surviving eligible two-key objects tie in the ranking,
+so list/OID order resolves which object is used first
+\cite{pg16stats}. This is a deterministic mechanism
+for a fixed catalog, not a source of random orders.
+The version-pinned code locations and conditional argument
+are recorded in the accompanying project
+\href{https://github.com/1951123/ess-research/blob/main/notes/pg-mcv-maximal-matching-correspondence.md}
+{source-correspondence note}.
 
-For a nonempty family of actual policies $\Theta$ that produces schemes
-$\sigma_i(M;\theta)$ satisfying
-$\sigma_i(M;\theta)\in\Gamma_i(M)$ for every relevant $i$, $M$, and
-$\theta$, then, for the same loss model,
-\[
-  \max_{\theta\in\Theta}\sum_{i\in\mathcal I}w_i
-    \ell_i\bigl(\sigma_i(M;\theta)\bigr)
-  \leq
-  \sum_{i\in\mathcal I}w_i
-    \max_{\sigma\in\Gamma_i(M)}\ell_i(\sigma).
-\]
-This conditional inequality may be strict when policy choices are coupled
-across tasks; it is not an unconditional guarantee about any particular
-database system.  If each SQL query contributes exactly one task, then
-$\mathcal I$ is equivalent to a query-indexed workload.  A query may instead
-contribute several logical cardinality tasks.  Such a task specifies what is
-estimated, an estimation scheme specifies how resources and estimator
-decisions are used, and a physical plan specifies how execution proceeds;
-these are distinct objects.
+The correspondence assumes:
+\begin{enumerate}
+\item[\textbf{A1.}] Each relevant clause is a supported simple
+  non-pseudoconstant MCV predicate on exactly one distinct
+  base-table attribute; one relevant clause per attribute,
+  with no OR, expression or repeated-attribute predicates.
+\item[\textbf{A2.}] Eligible objects are \emph{built}
+  two-attribute, no-expression MCV statistics on the same
+  base relation, covering two currently unestimated
+  compatible attribute clauses.
+\item[\textbf{A3.}] Privilege, relation and inheritance checks
+  permit the objects, no other estimator preconsumes those
+  clauses, and the candidate list is exactly the
+  installed eligible set.
+\item[\textbf{A4.}] Every object whose two endpoints remain
+  free ties under the selector's key/coverage ranking;
+  the fixed list order breaks the tie.
+\end{enumerate}
 
-\subsection{Pairwise PostgreSQL MCV Instantiation}
+\begin{proposition}[Conditional source correspondence]
+\label{prop:pg}
+Under A1--A4, the selected labeled two-column MCV
+objects constitute an inclusion-maximal matching of \(H_i[M]\).
+If the abstract tie priority is freely varied over all strict
+total orders, its attainable \emph{single-task} outputs
+are exactly \(\Gamma_i^{\mathrm{MM}}(M)\).
+\end{proposition}
+\begin{proof}
+After selecting a two-attribute object, the corresponding
+clauses are marked estimated; subsequent selected objects
+cannot share either endpoint. If an unselected edge were
+disjoint from every selected edge at termination, its two
+clauses would remain eligible, contradicting the terminating
+failure to find a candidate. The output is maximal.
+Conversely, Proposition~\ref{prop:completion}
+orders any chosen maximal matching first.
+\end{proof}
+Physical priorities are fixed by a catalog state, and
+arbitrary global orders need not be achievable without other
+changes. This proposition does not cover all PostgreSQL SQL
+forms, statistic kinds, estimator stages or output formulas.
 
-We now specialize the abstract problem to the controlled single-table
-conjunctive cardinality-estimation tasks considered in this study.  This
-specialization is restricted to two-column PostgreSQL MCV statistics and
-does not define the generic problem.
+\subsection{Physical mechanism evidence}
+A controlled four-attribute trace with objects \(AB,BC,CD\)
+used an instrumented PostgreSQL development build. Creating
+objects in order \(AB,BC,CD\) produced the selected set
+\(\{AB,CD\}\), while \(BC,AB,CD\) produced
+\(\{BC\}\). Both terminated without an eligible candidate
+and involved built MCV data. This was a scoped fixture-level
+observation; recreating objects can otherwise affect sample
+contents.
 
-\paragraph{Pairwise admissibility.}
-Each candidate $e$ covers an attribute set $A_e$ with
-$|A_e|=2$.  For task $i$, let $\E_i\subseteq\E$ contain the candidates that
-are structurally eligible from their statistic kind, covered columns, and
-predicate operators.  These candidates form the edge-labeled multigraph
-\[
-  H_i=(V_i,\E_i),\qquad
-  V_i=\bigcup_{e\in\E_i}A_e.
-\]
-Every edge retains its candidate identity; distinct statistics with the same
-endpoints are parallel edges.  For a created set $M$, $H_i[M]$ contains the
-eligible edges in $M\cap\E_i$.
+In a later, content-controlled held-out order intervention,
+four frozen Nominal \(B=5\) sets were recreated in canonical
+or exact-reverse order. Checks fixed the data, replayed
+ANALYZE sample, settings and MCV-content fingerprints.
+All 80,000 Test EXPLAIN outcomes and MCV diagnostics
+completed. Section~\ref{sec:results} quantifies changed
+applied-object sequences and actual row-estimation effects.
+Neither intervention makes all maximal matchings physically
+attainable in every context, or equates the multiplicative
+model with PostgreSQL's entire cardinality calculation.
 
-The concrete scheme universe and resource-use mapping are
-\[
-  \Omega_i^{\mathrm{MM}}=\operatorname{Matchings}(H_i),
-  \qquad \operatorname{used}(P)=P,
-\]
-where the matching universe includes the empty matching.  For a created set
-$M$, the concrete admissibility rule is
-\[
-  \boxed{\Gamma_i^{\mathrm{MM}}(M)=
-    \operatorname{MaximalMatchings}(H_i[M]).}
-\]
-Every maximal matching of $H_i[M]$ is a matching of the full graph, so
-$\Gamma_i^{\mathrm{MM}}(M)\subseteq\Omega_i^{\mathrm{MM}}$; moreover,
-$P\in\Gamma_i^{\mathrm{MM}}(M)$ implies
-$\operatorname{used}(P)=P\subseteq M$.  Finite graphs always have a maximal
-matching, including the unique empty matching of an edgeless graph, so this
-rule satisfies the generic nonemptiness requirement.
-
-A matching is a set of edges with no shared endpoint.  It is maximal if no
-additional available edge can be added while preserving that property;
-maximal does not mean maximum cardinality.  This rule is a deliberate
-abstraction of a restricted
-PostgreSQL estimator behavior motivated by compatible clause coverage.  It
-is not a universal characterization of PostgreSQL, arbitrary predicates,
-join or intermediate-result estimation, or statistics with more than two
-attributes.
-
-\paragraph{Pre-clamp multiplicative estimator.}
-Let $n_i^0>0$ be the baseline pre-clamp cardinality estimate and let
-$r_{e,i}>0$ be a fixed correction factor for each eligible candidate.  For a
-matching $P\in\Gamma_i^{\mathrm{MM}}(M)$, define
-\[
-  \boxed{\operatorname{Est}_i^{\mathrm{mult}}(P)=
-    n_i^0\prod_{e\in P}r_{e,i}.}
-\]
-The factors are calibrated from full-precision, pre-clamp estimation
-quantities rather than rounded displayed \texttt{Plan Rows}.  This is the
-explicit assumption of multiplicative separability: a factor is fixed for a
-task and does not depend on which other compatible resources are used.  It
-does not assert independence of the underlying attributes; a multivariate
-statistic may encode dependence within its own attribute group.  Define
-\[
-  \alpha_i=\log\frac{n_i^0}{T_i},\qquad
-  b_{e,i}=\log r_{e,i}.
-\]
-The resulting raw loss is
-\[
-  \ell_i^{\mathrm{raw}}(P)=
-  \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|.
-\]
-
-For comparison with finalized PostgreSQL row estimates, the concrete
-instantiation may apply the implementation-scoped transformation
-\[
-  C_{\mathrm{PG}}(x)=
-  \begin{cases}
-    1,&0<x\leq 1,\\
-    \operatorname{rint}(x),&1<x\leq x_{\max},
-  \end{cases}
-\]
-for finite positive $x$ in the ordinary regime.  Here $x_{\max}$ denotes
-the implementation's finite cap and $\operatorname{rint}$ follows its
-floating-point rounding mode; nonfinite inputs and other very-large-value
-paths are outside this instantiation.  The corresponding secondary plan
-loss is
-\[
-  \ell_i^{\mathrm{plan}}(P)=
-  \left|\log C_{\mathrm{PG}}
-    \bigl(\operatorname{Est}_i^{\mathrm{mult}}(P)\bigr)-\log T_i\right|.
-\]
-Raw and plan loss are distinct objectives and need not have the same
-optimizer.  In the remainder, raw loss is the primary theoretical
-convention.
-
-\paragraph{PostgreSQL maintenance cost.}
-For the controlled PostgreSQL instance, assume PostgreSQL 16.14 and
-two-column MCV objects.  All analyzed ordinary single-column statistics and
-all candidate MCV objects use the same fixed, positive effective statistics
-target $\tau$, with candidate-object targets explicitly specified.  The
-advisor selects only the object set $M$, not statistics targets; this is a
-restriction of the PostgreSQL instantiation, not of the general problem.
-With all other sampling requirements fixed, including when $M=\varnothing$,
-this common target keeps the source-derived requested sampling requirement
-unchanged across resource selections.  Equal targets alone do not ensure
-identical realized samples; the fixed-reference-sample assumption below is
-separate and stronger.
-
-For each relevant table $t$, let $S_t$ denote one
-fixed realized sample of table tuples, and let $\widehat R_t$ be its
-associated estimated total row count supplied to the statistics-building
-procedure.  Across compared resource selections, the actual tuple contents
-of $S_t$, including relevant attribute values, $\widehat R_t$, candidate
-definitions, effective statistics targets, relation schema, data types,
-collations, and other relevant build and estimator settings are fixed.  The
-reference sample must be adequate for the statistics-target requirements of
-all considered candidates.  Candidate selection does not change the shared
-sample-acquisition workload.  Thus, the complete sample-derived MCV build
-input, rather than only its tuple count, is controlled in the fixed
-evaluation environment.
-
-This is an experimental and mathematical control assumption, not a claim
-that standard PostgreSQL reuses identical random samples across repeated
-\texttt{ANALYZE} executions; no sample-fixing capability is presumed to be
-implemented here.  Fixing $S_t$ and its associated metadata makes candidate
-statistics comparable, but does not establish multiplicative separability.
-That separability remains the explicit estimator assumption above.  Likewise,
-fixed sampling and sequential per-object construction do not imply additive physical
-CPU time.
-
-Let $p_e(S_{t(e)})\geq0$ denote the modeled additional CPU work, in
-CPU-seconds, attributable to refreshing candidate MCV $e$ once, conditioned
-on the fixed reference sample and controlled PostgreSQL environment.  Its
-intended full-refresh scope includes candidate-specific build-data
-preparation, MCV construction, MCV serialization, and attributable CPU work
-of persisting the statistics result.  Shared sample acquisition and baseline
-single-column statistics maintenance are excluded.  CPU-seconds measure
-computing work, not wall-clock response time; memory peaks and I/O bytes are
-not additional terms in this scalar budget without a separate conversion
-model.  The coefficient is a defined, presently uncalibrated model
-parameter: a catalog-free offline profiler can directly measure
-construction-related work, but catalog-update overhead requires separate
-estimation or calibration if complete refresh overhead is intended.
-
-Let $\nu_t\geq0$ be the externally specified expected number of refreshes for
-table $t$ during the fixed evaluation horizon.  Define
-\[
-  \bar m_e=\nu_{t(e)}p_e(S_{t(e)}),
-  \qquad
-  \boxed{\widehat{\operatorname{Maint}}^{\mathrm{PG}}(M)=
-    \sum_{e\in M}\bar m_e.}
-\]
-This is a reference-sample-based period-level proxy.  Using one per-refresh
-coefficient over multiple refreshes assumes that it is sufficiently
-representative of that period; it does not claim that future \texttt{ANALYZE}
-executions reuse the same tuples.  Changes in table contents, value widths,
-data distributions, or maintenance workload may change realized costs.
-The refresh counts and horizon are fixed external inputs, not advisor
-decisions, and neither the coefficients nor the representative-sample
-assumption has yet been experimentally validated.
-
-\paragraph{Concrete optimization problem.}
-Substituting the pairwise admissibility rule, raw loss, and PostgreSQL
-maintenance proxy into the general problem gives
-\[
-\boxed{\begin{aligned}
-  \operatorname*{minimize}_{M\subseteq\E}\quad
-    &\sum_{i\in\mathcal I}w_i
-      \max_{P\in\operatorname{MaximalMatchings}(H_i[M])}
-      \left|\alpha_i+\sum_{e\in P}b_{e,i}\right|\\
-  \text{subject to}\quad
-    &\sum_{e\in M}\bar m_e\leq B.
-\end{aligned}}
-\]
-Here $B$ is measured in CPU-seconds over the fixed evaluation horizon.
-This is a concrete maintenance-cost specialization; it does not impose
-additivity on the abstract function $\operatorname{Maint}$.  The numerical
-cost coefficients and the resulting optimization are not claimed to have
-been empirically validated here.
-
+% INTEGRATION_NEXT_SECTIONS
 \end{document}
