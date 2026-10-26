@@ -404,7 +404,7 @@ def _new_arm_record_base(dataset: str, stratum: dict[str, Any], arm: dict[str, A
         "selection": arm["selection"],
         "draw_index": arm.get("draw_index"),
         "inclusion_probability": arm["inclusion_probability"],
-        "sample_sha256": stratum["sample_sha256"],
+        "permutation_sample_sha256": stratum["sample_sha256"],
         "candidate_map_sha256": stratum["candidate_map_sha256"],
     }
 
@@ -460,8 +460,8 @@ def _estimate_set(stratum: dict[str, Any], arms: list[dict[str, Any]]) -> dict[s
     for order, observed in by_order.items():
         frozen = selection_lookup[order]
         if (any(observed.get(key) != frozen.get(key) for key in (
-                "selection", "draw_index", "inclusion_probability"
-            )) or observed.get("sample_sha256") != stratum["sample_sha256"]):
+            "selection", "draw_index", "inclusion_probability"
+        )) or observed.get("permutation_sample_sha256") != stratum["sample_sha256"]):
             return {
                 "status": "INCOMPLETE",
                 "expected_arm_count": len(selection_lookup),
@@ -570,6 +570,176 @@ def analyze_results(schedule: dict[str, Any], arm_records: list[dict[str, Any]])
     return results
 
 
+def audit_and_analyze_saved_run(run_root: Path) -> dict[str, Any]:
+    """Recheck frozen arm identity and derive estimates without reading raw rows."""
+    run_root = run_root.resolve()
+    manifest_path = run_root / "run-manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    protocol101 = issue101.read_protocol()
+    schedule, schedule_index = checked_frozen_schedule()
+    if manifest.get("sample_sha256") != ISSUE107_SAMPLE_SHA256:
+        raise RuntimeError("saved run's permutation sample SHA-256 differs from the frozen design")
+    if manifest.get("frozen_schedule") != schedule:
+        raise RuntimeError("saved run's frozen schedule differs from the checked-in sample")
+    if manifest.get("schedule_index_count") != len(schedule_index) or len(schedule_index) != 156:
+        raise RuntimeError("saved run has an unexpected schedule index size")
+
+    normalized_arms: list[dict[str, Any]] = []
+    observed_keys: set[tuple[str, str, tuple[str, ...]]] = set()
+    arm_status_counts: dict[str, int] = {}
+    member_extents: list[tuple[int, int, str]] = []
+    raw_path = run_root / "raw-observations.jsonl.gz"
+    dataset_summaries: dict[str, Any] = {}
+    for dataset in issue101.DATASETS:
+        dataset_result = manifest.get("datasets", {}).get(dataset, {})
+        arms = dataset_result.get("arms", [])
+        dataset_summaries[dataset] = {
+            "status": dataset_result.get("status"),
+            "arm_count": len(arms),
+            "configuration_status_counts": {},
+        }
+        for arm in arms:
+            key = (dataset, arm.get("policy"), tuple(arm.get("permutation", ())))
+            if key in observed_keys:
+                raise RuntimeError(f"saved run repeats a scheduled arm: {key}")
+            observed_keys.add(key)
+            frozen = validate_scheduled_arm(
+                schedule_index,
+                dataset=dataset,
+                policy=arm.get("policy"),
+                case_id=arm.get("case_id"),
+                resource_ids=arm.get("resource_ids", ()),
+                permutation=arm.get("permutation", ()),
+                selection=arm.get("selection"),
+            )
+            for field in ("draw_index", "inclusion_probability"):
+                if arm.get(field) != frozen.get(field):
+                    raise RuntimeError(f"saved arm {key} has the wrong {field}")
+            expected_stratum = next(
+                row for row in schedule["schedules"]
+                if row["dataset"] == dataset and row["policy"] == arm["policy"]
+            )
+            if arm.get("candidate_map_sha256") != expected_stratum["candidate_map_sha256"]:
+                raise RuntimeError(f"saved arm {key} has the wrong candidate-map hash")
+            recorded_schedule_hash = arm.get("permutation_sample_sha256")
+            if recorded_schedule_hash not in (None, expected_stratum["sample_sha256"]):
+                raise RuntimeError(f"saved arm {key} has the wrong permutation-sample hash")
+            # Older v1 runner records used `sample_sha256` for the fixed PG
+            # ANALYZE sample. Derive the schedule hash only after exact order,
+            # set, policy, case and stratum identity have passed above.
+            arm["permutation_sample_sha256"] = expected_stratum["sample_sha256"]
+            status = arm.get("status", "MISSING_STATUS")
+            physical_sample_hash = arm.get(
+                "fixed_analyze_sample_sha256", arm.get("sample_sha256")
+            )
+            if status == "REUSED_COMPLETE":
+                physical_sample_hash = arm.get("physical_audit_summary", {}).get(
+                    "fixed_analyze_sample_sha256"
+                )
+            if (status in {"COMPLETE", "REUSED_COMPLETE"}
+                    and physical_sample_hash != protocol101["datasets"][dataset]["sample"]["sha256"]):
+                raise RuntimeError(f"saved arm {key} has the wrong fixed ANALYZE sample hash")
+
+            arm_status_counts[status] = arm_status_counts.get(status, 0) + 1
+            dataset_summaries[dataset]["configuration_status_counts"][status] = (
+                dataset_summaries[dataset]["configuration_status_counts"].get(status, 0) + 1
+            )
+            metrics = arm.get("metrics", {})
+            if status == "COMPLETE":
+                plan = arm.get("plan_batch", {})
+                if not (
+                    metrics.get("statistical_status") == "COMPLETE"
+                    and metrics.get("query_count") == 10_000
+                    and metrics.get("valid_count") == 10_000
+                    and metrics.get("diagnostics_valid_count") == 10_000
+                    and plan.get("attempted_markers") == 10_000
+                    and plan.get("valid_plan_rows") == 10_000
+                    and plan.get("unresolved_or_unstarted") == 0
+                ):
+                    raise RuntimeError(f"saved COMPLETE arm has incomplete query evidence: {key}")
+                member = arm.get("raw_member", {})
+                offset, size = member.get("raw_member_offset"), member.get("raw_member_bytes")
+                if not isinstance(offset, int) or not isinstance(size, int) or offset < 0 or size <= 0:
+                    raise RuntimeError(f"saved COMPLETE arm has no valid raw member extent: {key}")
+                member_bytes = _member_bytes(raw_path, offset, size)
+                if hashlib.sha256(member_bytes).hexdigest() != member.get("raw_member_sha256"):
+                    raise RuntimeError(f"saved COMPLETE arm raw member hash mismatch: {key}")
+                member_extents.append((offset, offset + size, str(key)))
+            elif arm.get("raw_member"):
+                member = arm["raw_member"]
+                offset, size = member.get("raw_member_offset"), member.get("raw_member_bytes")
+                if not isinstance(offset, int) or not isinstance(size, int) or offset < 0 or size <= 0:
+                    raise RuntimeError(f"saved non-COMPLETE arm has an invalid raw extent: {key}")
+                member_bytes = _member_bytes(raw_path, offset, size)
+                if hashlib.sha256(member_bytes).hexdigest() != member.get("raw_member_sha256"):
+                    raise RuntimeError(f"saved non-COMPLETE arm raw member hash mismatch: {key}")
+                member_extents.append((offset, offset + size, str(key)))
+            normalized_arms.append(arm)
+
+    if observed_keys != set(schedule_index):
+        raise RuntimeError(
+            f"saved run does not cover the frozen schedule: missing={len(set(schedule_index) - observed_keys)}, "
+            f"unexpected={len(observed_keys - set(schedule_index))}"
+        )
+    member_extents.sort()
+    contiguous = bool(member_extents) and member_extents[0][0] == 0
+    for left, right in zip(member_extents, member_extents[1:]):
+        contiguous = contiguous and left[1] == right[0]
+    contiguous = contiguous and member_extents[-1][1] == raw_path.stat().st_size if member_extents else False
+    raw_sha = sha256_file(raw_path)
+    if not contiguous or raw_sha != manifest.get("raw_observations_sha256"):
+        raise RuntimeError("saved raw archive extent/hash integrity check failed")
+    issue105_runner_source = subprocess.run(
+        ["git", "-C", str(ROOT), "show",
+         f"{manifest['source_commit']}:experiments/oid-order-stress-test-issue105/run_issue105.py"],
+        check=True, capture_output=True,
+    ).stdout
+    analysis_source_commit = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip()
+    counted_calls = sum(
+        arm.get("plan_batch", {}).get("attempted_markers", 0)
+        for arm in normalized_arms
+    )
+    if counted_calls != manifest.get("attempted_explain_calls") or counted_calls > MAX_NEW_EXPLAINS:
+        raise RuntimeError("saved attempted EXPLAIN total is inconsistent or exceeds the authorized cap")
+
+    analysis = analyze_results(schedule, normalized_arms)
+    result = {
+        "format": "ess-issue107-postrun-analysis-v1",
+        "run_id": manifest["run_id"],
+        "run_status": manifest["status"],
+        "source_commit": manifest["source_commit"],
+        "analysis_source_commit": analysis_source_commit,
+        "analysis_runner_sha256": sha256_file(HERE / "run_issue107.py"),
+        "analysis_helper_sha256": sha256_file(ROOT / "src/ess_research/arecel/oid_sampling.py"),
+        "issue105_runner_sha256_at_run": hashlib.sha256(issue105_runner_source).hexdigest(),
+        "run_manifest_sha256": sha256_file(manifest_path),
+        "sample_sha256": ISSUE107_SAMPLE_SHA256,
+        "raw_observations_sha256": raw_sha,
+        "raw_observations_bytes": raw_path.stat().st_size,
+        "raw_rows_were_decompressed": False,
+        "query_level_qerror_was_read": False,
+        "exact_schedule_arm_identity_checks": len(observed_keys),
+        "raw_member_identity_and_contiguity_checks": len(member_extents),
+        "raw_member_extents_contiguous": contiguous,
+        "arm_status_counts": arm_status_counts,
+        "dataset_summaries": dataset_summaries,
+        "attempted_explain_calls": counted_calls,
+        "reuse_eligible_after_preflight_and_row_validation": manifest.get(
+            "eligible_reuse_count_after_row_and_input_validation"
+        ),
+        "peak_allocated_disk_bytes": manifest.get("peak_allocated_disk_bytes"),
+        "elapsed_wall_seconds": manifest.get("elapsed_wall_seconds"),
+        "analysis": analysis,
+    }
+    output = run_root / "analysis-verified.json"
+    atomic_json(output, result)
+    result["analysis_output"] = str(output)
+    return result
+
+
 def issue107_mean_from_set(value: PermutationValue, item: dict[str, Any]):
     """Rehydrate only the estimate and its already-computed design variance."""
     from ess_research.arecel.oid_sampling import MeanEstimate
@@ -593,6 +763,12 @@ def _write_findings(path: Path, manifest: dict[str, Any]) -> None:
         f"- Raw new-arm observations SHA-256: `{manifest.get('raw_observations_sha256', 'not available')}`.",
         "- Estimand: uniform-permutation expectation of the per-order Test P95; intervals cover only order sampling.",
         "- One global OID order applied to all 10,000 Test queries per arm; six planner clients; serial configurations.",
+        "- Primary statistic is `Y_pi = P95_{q in Test} Q(q,M,pi)` and target is `E_pi[Y_pi]`, not the P95 across queries of `E_pi[Q]`.",
+        "- Nominal uses `(2/120) F + (118/120) S`, with design variance `(118/120)^2 (1-22/118) s_s^2/22`; PESS five-object sets use the SRSWOR mean with `(1-24/120) s_s^2/24`; PESS three-object sets require all six arms.",
+        "- Contrast is PESS − Nominal, with independent-design variances added; intervals use the predeclared approximate `t(0.975,21)` multiplier and cover permutation sampling only.",
+        f"- Frozen sample SHA-256: `{manifest.get('sample_sha256')}`; root seed `{manifest.get('root_seed')}`; RNG `{manifest.get('rng_version')}`.",
+        f"- Environment: Python `{manifest.get('python_version')}`, NumPy `{manifest.get('numpy_version')}`, PostgreSQL `{manifest.get('postgresql_build', {}).get('version')}` at `{manifest.get('postgresql_build', {}).get('source_commit')}`.",
+        f"- Command: `PYTHONPATH=src:experiments/arecel-test-generalization-issue101:experiments/oid-order-stress-test-issue105:experiments/oid-uniform-priority-issue107 .venv/bin/python experiments/oid-uniform-priority-issue107/run_issue107.py --run-id {manifest['run_id']}`.",
         "",
     ]
     if manifest.get("failure"):
@@ -609,17 +785,29 @@ def _write_findings(path: Path, manifest: dict[str, Any]) -> None:
             expectation = policy_result.get("expectation", {})
             if expectation.get("status") != "COMPLETE":
                 lines.append(f"| {policy} | {policy_result.get('selected_object_count', '—')} | INCOMPLETE | — | — | — | — |")
+                failures = sorted({
+                    arm.get("error", {}).get("message")
+                    for arm in policy_result.get("arms", [])
+                    if arm.get("error", {}).get("message")
+                })
+                if failures:
+                    lines.append("")
+                    lines.append(f"{policy} configuration failure: `{failures[0]}`.")
                 continue
             estimates = expectation["estimates"]
             values = [estimates[name]["estimate"] for name in ("mean", "p50", "p95", "p99")]
             lines.append(f"| {policy} | {policy_result['selected_object_count']} | {len(policy_result['arms'])} | "
                          + " | ".join(f"{value:.7g}" for value in values) + " |")
             p95 = estimates["p95"]
+            degeneracy_note = (
+                " **DEGENERATE SAMPLE VARIANCE:** the 95% interval is not evidence of zero permutation uncertainty."
+                if p95.get("degenerate_zero_sample_variance") else ""
+            )
             lines.append("")
             lines.append(f"{policy} expected P95: `{p95['estimate']:.9g}`; design SE `{p95['design_standard_error']:.6g}`; "
                          f"approximate 95% interval `[{p95['approximate_95_ci'][0]:.9g}, {p95['approximate_95_ci'][1]:.9g}]`; "
                          f"permutation SD estimate `{p95['permutation_population_sd_estimate']:.7g}`; "
-                         f"observed sample P95 range `[{p95['observed_sample_min_p95']:.7g}, {p95['observed_sample_max_p95']:.7g}]`.")
+                         f"observed sample P95 range `[{p95['observed_sample_min_p95']:.7g}, {p95['observed_sample_max_p95']:.7g}]`.{degeneracy_note}")
         contrast = result.get("contrast_pess_minus_nominal", {})
         if contrast.get("status") == "COMPLETE":
             p95 = contrast["estimates"]["p95"]
@@ -633,6 +821,23 @@ def _write_findings(path: Path, manifest: dict[str, Any]) -> None:
         "The confidence intervals use the frozen finite-population SRSWOR variance estimates and an approximate df=21 t critical value. They do not cover query/workload uncertainty, and are not exact coverage guarantees for skewed or heavy-tailed order outcomes. The sampled schedule is not full-permutation enumeration; sample extrema are not global extrema except for a complete census.",
         "",
         "A configuration with missing Plan Rows or any diagnostics status other than `complete`/`empty` is invalid. No order was dropped, replaced, or added in response to its outcome. A set or contrast with any incomplete arm is reported incomplete.",
+        "",
+    ]
+    reuse = manifest.get("issue105_reuse_audit", {})
+    dataset_values = list(manifest.get("datasets", {}).values())
+    invalid_count = sum(
+        arm.get("status") == "CONFIGURATION_INVALID"
+        for row in dataset_values for arm in row.get("arms", [])
+    )
+    reused_count = sum(row.get("reused_configuration_count", 0) for row in dataset_values)
+    lines += [
+        "## Execution disposition", "",
+        f"- Frozen arms recorded: `{manifest.get('arms_completed', 0)}/156`; completed query arms: `{manifest.get('attempted_explain_calls', 0) // 10000}`; invalid before/within execution: `{invalid_count}`; reused #105 arms: `{reused_count}`.",
+        f"- #105 archive/provenance preflight: **{reuse.get('global_integrity_status', 'not recorded')}**. Row-level reuse eligibility after current-input and raw-row validation: `{manifest.get('eligible_reuse_count_after_row_and_input_validation', reuse.get('eligible_reuse_count', 'not recorded'))}`; rejected fixed arms were remeasured at the same frozen orders.",
+        f"- Elapsed wall time: `{manifest.get('elapsed_wall_seconds', 'not recorded')} s`; peak allocated run storage: `{manifest.get('peak_allocated_disk_bytes', 'not recorded')} bytes`.",
+        f"- Authorized limits: early stop before next arm at 2 h or 4 GiB; hard limit 3 h or 5 GiB; maximum six planner clients per configuration. This run remained below both early-stop thresholds.",
+        "- The row-level #105 reuse fallback exception text was not persisted in this run manifest; the generic validation failure is retained. The eight fixed arms were physically measured at their unchanged orders.",
+        "- Post-run analysis revalidated schedule identity, aggregate row counts/statuses, and compressed-member hashes; it did not decompress raw rows or read query-level Q-error.",
         "",
     ]
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -806,6 +1011,9 @@ def _collect_dataset(
                         attempt["reuse_fallback_reason"] = f"{type(exc).__name__}: {str(exc)[:400]}"
                         reuse_audit["arms"][reuse_key]["eligible"] = False
                         reuse_audit["arms"][reuse_key]["reasons"].append("raw observation identity/recomputation failed")
+                        reuse_audit["arms"][reuse_key]["row_validation_failure"] = attempt[
+                            "reuse_fallback_reason"
+                        ]
                         reuse_audit["eligible_arms"].pop(reuse_key, None)
                         _refresh_reuse_plan(manifest, reuse_audit)
                     else:
@@ -826,6 +1034,7 @@ def _collect_dataset(
                             "physical_audit_summary": {
                                 "create_order": old_arm["create_statement_candidate_ids"],
                                 "oid_order": old_arm["catalog_oid_order_candidate_ids"],
+                                "fixed_analyze_sample_sha256": old_arm["sample_sha256"],
                                 "ordinary_stats_sha256": old_arm["ordinary_column_stats"]["sha256"],
                                 "mcv_content_sha256_by_candidate": old_arm["mcv_content_sha256_by_candidate"],
                                 "table_identity": old_arm["table_identity"],
@@ -907,9 +1116,15 @@ def _collect_dataset(
                     raw_member = issue105.append_raw_member(raw_path, rows)
                     metrics = _record_metrics(rows)
                     physical_status = metrics["statistical_status"]
+                    physical_record = {
+                        key: value for key, value in physical.items()
+                        if key != "oid_to_candidate_id"
+                    }
+                    if "sample_sha256" in physical_record:
+                        physical_record["fixed_analyze_sample_sha256"] = physical_record.pop("sample_sha256")
                     record = {
                         **base_record,
-                        **{key: value for key, value in physical.items() if key != "oid_to_candidate_id"},
+                        **physical_record,
                         "status": physical_status,
                         "metrics": metrics,
                         "plan_batch": plan_diagnostics,
@@ -945,11 +1160,14 @@ def _collect_dataset(
                     dataset_result["new_configuration_count"] += 1
                     dataset_result["physical_configuration_count"] += 1
                 arm_results.append(record)
+                if attempt.get("reuse_fallback_reason"):
+                    record["reuse_fallback_reason"] = attempt["reuse_fallback_reason"]
                 dataset_result["arms"].append(record)
                 manifest["arms_completed"] += 1
                 manifest["attempts"].append({**base_record, "status": record["status"],
                                              "attempted_explain_calls": record.get("attempted_explain_calls", attempted_calls),
-                                             "attempted_call_count_unknown": record.get("attempted_call_count_unknown", False)})
+                                             "attempted_call_count_unknown": record.get("attempted_call_count_unknown", False),
+                                             "reuse_fallback_reason": attempt.get("reuse_fallback_reason")})
                 manifest["current_arm"] = None
                 manifest["attempted_explain_calls_total"] = manifest["attempted_explain_calls"]
                 manifest["datasets"][dataset] = dataset_result
@@ -1047,6 +1265,7 @@ def execute(run_id: str | None = None) -> Path:
         "schedule_index_count": len(schedule_index),
         "issue101_protocol_sha256": ISSUE101_PROTOCOL_SHA256,
         "issue101_runner_sha256": ISSUE101_RUNNER_SHA256,
+        "issue105_runner_sha256": sha256_file(issue105.HERE / "run_issue105.py"),
         "issue105_run_id": ISSUE105_RUN_ID,
         "issue105_archive_sha256": ISSUE105_RAW_SHA256,
         "issue105_reuse_audit": reuse_audit,
@@ -1191,7 +1410,21 @@ def execute(run_id: str | None = None) -> Path:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id")
+    parser.add_argument("--audit-existing-run", type=Path)
     args = parser.parse_args()
+    if args.audit_existing_run is not None:
+        result = audit_and_analyze_saved_run(args.audit_existing_run)
+        print(json.dumps({
+            "analysis_output": result["analysis_output"],
+            "run_id": result["run_id"],
+            "run_status": result["run_status"],
+            "exact_schedule_arm_identity_checks": result["exact_schedule_arm_identity_checks"],
+            "raw_member_identity_and_contiguity_checks": result["raw_member_identity_and_contiguity_checks"],
+            "arm_status_counts": result["arm_status_counts"],
+            "attempted_explain_calls": result["attempted_explain_calls"],
+            "peak_allocated_disk_bytes": result["peak_allocated_disk_bytes"],
+        }, sort_keys=True))
+        return 0
     root = execute(args.run_id)
     manifest = json.loads((root / "run-manifest.json").read_text(encoding="utf-8"))
     print(json.dumps({

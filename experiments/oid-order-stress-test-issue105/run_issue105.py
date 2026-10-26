@@ -118,8 +118,10 @@ def validate_catalog_rows(dataset: str, order: str, selected: list[str],
         raise RuntimeError(f"{dataset}/{order} catalog OID order differs from requested CREATE order")
     if helper_names != expected_names:
         raise RuntimeError(f"{dataset}/{order} helper ledger order differs from catalog order")
-    if len(rows) != 5 or len(set(actual_names)) != 5:
-        raise RuntimeError(f"{dataset}/{order} relation does not have exactly the five selected statistics")
+    if len(rows) != len(selected) or len(set(actual_names)) != len(selected):
+        raise RuntimeError(
+            f"{dataset}/{order} relation does not have exactly the {len(selected)} selected statistics"
+        )
 
     name_to_id = {candidate["statistic_name"]: candidate_id
                   for candidate_id, candidate in candidates.items()}

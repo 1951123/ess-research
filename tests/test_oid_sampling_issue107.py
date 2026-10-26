@@ -34,6 +34,7 @@ SAMPLE_FILE = (
 sys.path.insert(0, str(REPO / "experiments/arecel-test-generalization-issue101"))
 sys.path.insert(0, str(REPO / "experiments/oid-order-stress-test-issue105"))
 sys.path.insert(0, str(REPO / "experiments/oid-uniform-priority-issue107"))
+import run_issue107
 from run_issue107 import _reused_rows, analyze_results
 
 
@@ -326,7 +327,7 @@ class OIDPermutationSamplingTests(unittest.TestCase):
                         "selection": row["selection"],
                         "draw_index": row["draw_index"],
                         "inclusion_probability": row["inclusion_probability"],
-                        "sample_sha256": stratum["sample_sha256"],
+                        "permutation_sample_sha256": stratum["sample_sha256"],
                         "metrics": {
                             "statistical_status": "COMPLETE",
                             "qerror": {
@@ -449,6 +450,43 @@ class OIDPermutationSamplingTests(unittest.TestCase):
                     queries=queries,
                     truths=truths,
                 )
+
+    def test_issue105_catalog_audit_accepts_frozen_three_object_set(self):
+        selected = ["e01_02", "e02_03", "e03_04"]
+        candidates = {
+            candidate_id: {
+                "statistic_name": f"stat_{candidate_id}",
+                "catalog_columns": [f"c{index}", f"c{index + 1}"],
+            }
+            for index, candidate_id in enumerate(selected, start=1)
+        }
+        rows = []
+        helper_ledger = []
+        for index, candidate_id in enumerate(selected, start=1):
+            row = {
+                "statistic_name": candidates[candidate_id]["statistic_name"],
+                "oid": 16_300 + index,
+                "attnames": candidates[candidate_id]["catalog_columns"],
+                "kinds": ["m"],
+                "statistics_target": 300,
+                "mcv_payload_present": True,
+                "mcv_item_count": 4,
+                "stxkind": "{m}",
+                "mcv_content_sha256": f"sha-{candidate_id}",
+                "stxkeys": str(index),
+            }
+            rows.append(row)
+            helper_ledger.append({
+                key: row[key]
+                for key in (
+                    "statistic_name", "oid", "statistics_target",
+                    "mcv_payload_present", "mcv_item_count", "stxkeys",
+                )
+            })
+        oid_to_id = run_issue107.issue105.validate_catalog_rows(
+            "forest10", "pess-three-object", selected, candidates, rows, helper_ledger
+        )
+        self.assertEqual(oid_to_id, {16_301: selected[0], 16_302: selected[1], 16_303: selected[2]})
 
 
 if __name__ == "__main__":
