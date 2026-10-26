@@ -1,0 +1,888 @@
+{
+  "analysis_script_sha256": "1262e13c3516a2c23fe7b0bbffe0cc6cf3be677d7452204d909bd49f143e3a0e",
+  "analysis_source_commit": "41429b39e375e2095d1b3ad4553e13ed94a02bd2",
+  "fixed_selection_sets": {
+    "M3_shared": [
+      "e01_05",
+      "e02_03",
+      "e04_06"
+    ],
+    "M4_nominal": [
+      "e01_05",
+      "e02_03",
+      "e04_06",
+      "e06_08"
+    ],
+    "M4_pess": [
+      "e00_11",
+      "e01_05",
+      "e02_03",
+      "e04_06"
+    ],
+    "M5_nominal": [
+      "e01_05",
+      "e02_03",
+      "e04_06",
+      "e04_08",
+      "e06_08"
+    ],
+    "M5_pess": [
+      "e00_11",
+      "e01_05",
+      "e02_03",
+      "e04_06",
+      "e07_12"
+    ]
+  },
+  "format": "ess-issue116-train-scheme-space-case-study-v1",
+  "frozen_greedy_objective_checks": {
+    "census13-nominal-b3": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05"
+      ],
+      "budget_unused": "0",
+      "budget_used": "3",
+      "exact_match": true,
+      "frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+      "objective": "nominal",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "52865905115708248181773/1000000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    },
+    "census13-nominal-b4": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05",
+        "e06_08"
+      ],
+      "budget_unused": "0",
+      "budget_used": "4",
+      "exact_match": true,
+      "frozen_objective_fraction": "10281826712732357203331/200000000000000000",
+      "objective": "nominal",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        },
+        {
+          "candidate_id": "e06_08",
+          "improvement_fraction": "728385776023231082559/500000000000000000",
+          "objective_after_fraction": "10281826712732357203331/200000000000000000",
+          "objective_before_fraction": "52865905115708248181773/1000000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "10281826712732357203331/200000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    },
+    "census13-nominal-b5": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05",
+        "e06_08",
+        "e04_08"
+      ],
+      "budget_unused": "0",
+      "budget_used": "5",
+      "exact_match": true,
+      "frozen_objective_fraction": "25173678236707037627047/500000000000000000",
+      "objective": "nominal",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        },
+        {
+          "candidate_id": "e06_08",
+          "improvement_fraction": "728385776023231082559/500000000000000000",
+          "objective_after_fraction": "10281826712732357203331/200000000000000000",
+          "objective_before_fraction": "52865905115708248181773/1000000000000000000"
+        },
+        {
+          "candidate_id": "e04_08",
+          "improvement_fraction": "1061777090247710762561/1000000000000000000",
+          "objective_after_fraction": "25173678236707037627047/500000000000000000",
+          "objective_before_fraction": "10281826712732357203331/200000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "25173678236707037627047/500000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    },
+    "census13-pess-b3": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05"
+      ],
+      "budget_unused": "0",
+      "budget_used": "3",
+      "exact_match": true,
+      "frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+      "objective": "pess",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "52865905115708248181773/1000000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    },
+    "census13-pess-b4": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05",
+        "e00_11"
+      ],
+      "budget_unused": "0",
+      "budget_used": "4",
+      "exact_match": true,
+      "frozen_objective_fraction": "10432672868376068427801/200000000000000000",
+      "objective": "pess",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        },
+        {
+          "candidate_id": "e00_11",
+          "improvement_fraction": "43908798364244127673/62500000000000000",
+          "objective_after_fraction": "10432672868376068427801/200000000000000000",
+          "objective_before_fraction": "52865905115708248181773/1000000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "10432672868376068427801/200000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    },
+    "census13-pess-b5": {
+      "addition_order": [
+        "e02_03",
+        "e04_06",
+        "e01_05",
+        "e00_11",
+        "e07_12"
+      ],
+      "budget_unused": "0",
+      "budget_used": "5",
+      "exact_match": true,
+      "frozen_objective_fraction": "25859352670637024704059/500000000000000000",
+      "objective": "pess",
+      "objective_trace": [
+        {
+          "candidate_id": "e02_03",
+          "improvement_fraction": "12637905161822328469247/1000000000000000000",
+          "objective_after_fraction": "534766382969917405781/8000000000000000",
+          "objective_before_fraction": "620966429945796907749/7812500000000000"
+        },
+        {
+          "candidate_id": "e04_06",
+          "improvement_fraction": "5218605804416383702207/500000000000000000",
+          "objective_after_fraction": "56408586262406908318211/1000000000000000000",
+          "objective_before_fraction": "534766382969917405781/8000000000000000"
+        },
+        {
+          "candidate_id": "e01_05",
+          "improvement_fraction": "1771340573349330068219/500000000000000000",
+          "objective_after_fraction": "52865905115708248181773/1000000000000000000",
+          "objective_before_fraction": "56408586262406908318211/1000000000000000000"
+        },
+        {
+          "candidate_id": "e00_11",
+          "improvement_fraction": "43908798364244127673/62500000000000000",
+          "objective_after_fraction": "10432672868376068427801/200000000000000000",
+          "objective_before_fraction": "52865905115708248181773/1000000000000000000"
+        },
+        {
+          "candidate_id": "e07_12",
+          "improvement_fraction": "444659000606292730887/1000000000000000000",
+          "objective_after_fraction": "25859352670637024704059/500000000000000000",
+          "objective_before_fraction": "10432672868376068427801/200000000000000000"
+        }
+      ],
+      "outer_global_optimum_claim": false,
+      "recomputed_fraction": "25859352670637024704059/500000000000000000",
+      "termination_reason": "no_feasible_candidate"
+    }
+  },
+  "interpretation_limits": [
+    "This is an exact/model-internal Train illustration, not physical PostgreSQL or held-out evidence.",
+    "The task witness explains a mechanism; it does not cause or explain the global greedy decision by itself.",
+    "Frozen selections are add-only greedy heuristics, not globally optimal sets.",
+    "The earlier Issue #95 Valid-only witness and its loss transform were not reused."
+  ],
+  "issue": 116,
+  "issue103_reuse_audit": {
+    "aggregate_crosschecks": {
+      "M3_shared": {
+        "issue103_nominal_fraction": "52865905115708248181773/1000000000000000000",
+        "issue103_pess_fraction": "52865905115708248181773/1000000000000000000",
+        "nominal_fraction_matches": true,
+        "pess_fraction_matches": true
+      },
+      "M4_nominal": {
+        "issue103_nominal_fraction": "10281826712732357203331/200000000000000000",
+        "issue103_pess_fraction": "28242812204541504459613/500000000000000000",
+        "nominal_fraction_matches": true,
+        "pess_fraction_matches": true
+      },
+      "M4_pess": {
+        "issue103_nominal_fraction": "10432672868376068427801/200000000000000000",
+        "issue103_pess_fraction": "10432672868376068427801/200000000000000000",
+        "nominal_fraction_matches": true,
+        "pess_fraction_matches": true
+      },
+      "M5_nominal": {
+        "issue103_nominal_fraction": "25173678236707037627047/500000000000000000",
+        "issue103_pess_fraction": "56821282666848170057439/1000000000000000000",
+        "nominal_fraction_matches": true,
+        "pess_fraction_matches": true
+      },
+      "M5_pess": {
+        "issue103_nominal_fraction": "25859352670637024704059/500000000000000000",
+        "issue103_pess_fraction": "25859352670637024704059/500000000000000000",
+        "nominal_fraction_matches": true,
+        "pess_fraction_matches": true
+      }
+    },
+    "analysis_source_commit": "7665174249ba9ef6b0b832eac8667938c7dc61a4",
+    "per_task_exact_reference_checks_were_recorded_by_issue103": true,
+    "pr_url": "https://github.com/1951123/ess-research/pull/104",
+    "script_sha256": "dbe1a9b455ef7853dd98687ed58834bd8e74709a18436851728bdc9306514aaf",
+    "state": "open-draft-unmerged-at-analysis",
+    "summary_run_id": "20261025T115957Z-issue103-offline-exact",
+    "summary_sha256": "83b7a4d0b870d3bfd611314d71e34c06f3b41cd009c57ec96008ac173f2f3f4d"
+  },
+  "predeclared_witness_rule": {
+    "criterion_counts": {
+      "B5_set_scheme_or_loss_change": 62266,
+      "all_primary_conditions": 10764,
+      "ambiguous_gamma": 26998,
+      "both": 10764,
+      "positive_nominal_set_risk": 10764
+    },
+    "lowest_ambiguous_positive_risk_task_id": "arecel:census13:train:000000",
+    "lowest_conflict_bearing_zero_risk_task_id": "arecel:census13:train:000010",
+    "lowest_scheme_change_task_id": "arecel:census13:train:000000",
+    "max_gamma_for_compact_display": 8,
+    "primary_task_id": "arecel:census13:train:000000",
+    "scheme_space_transition": {
+      "B5_policy_sets_are_nonnested": true,
+      "M5_nominal_only_ids": [
+        "e04_08",
+        "e06_08"
+      ],
+      "M5_pess_only_ids": [
+        "e00_11",
+        "e07_12"
+      ],
+      "M5_shared_resource_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06"
+      ],
+      "nested_transition": "Census13 Nominal B3 -> B4 adds e06_08",
+      "newly_admissible_matchings": [
+        [
+          "e06_08"
+        ]
+      ],
+      "no_longer_admissible_matchings": []
+    },
+    "selected_witness": {
+      "displayed_tasks": [
+        {
+          "pinned_advisor_reference_checks": "all five displayed set evaluations matched",
+          "sets": {
+            "M3_shared": {
+              "conflict_pairs": [],
+              "gamma": [
+                {
+                  "is_nominal": true,
+                  "is_pess_maximizer": true,
+                  "loss_fraction": "77897984350382657/1000000000000000000",
+                  "matching_endpoints": {
+                    "e04_06": [
+                      "marital_status",
+                      "relationship"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_06"
+                  ]
+                }
+              ],
+              "gamma_definition": "all labeled inclusion-wise maximal matchings of M intersect E_i",
+              "gamma_size": 1,
+              "nominal_loss_fraction": "77897984350382657/1000000000000000000",
+              "nominal_matching_ids": [
+                "e04_06"
+              ],
+              "pess_loss_fraction": "77897984350382657/1000000000000000000",
+              "pess_maximizer_matching_ids": [
+                [
+                  "e04_06"
+                ]
+              ],
+              "risk_fraction": "0",
+              "selected_ids": [
+                "e01_05",
+                "e02_03",
+                "e04_06"
+              ],
+              "task_applicable_edges": [
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "relationship"
+                  ],
+                  "id": "e04_06"
+                }
+              ]
+            },
+            "M4_nominal": {
+              "conflict_pairs": [
+                [
+                  "e04_06",
+                  "e06_08"
+                ]
+              ],
+              "gamma": [
+                {
+                  "is_nominal": true,
+                  "is_pess_maximizer": false,
+                  "loss_fraction": "77897984350382657/1000000000000000000",
+                  "matching_endpoints": {
+                    "e04_06": [
+                      "marital_status",
+                      "relationship"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_06"
+                  ]
+                },
+                {
+                  "is_nominal": false,
+                  "is_pess_maximizer": true,
+                  "loss_fraction": "85761374057020037/125000000000000000",
+                  "matching_endpoints": {
+                    "e06_08": [
+                      "relationship",
+                      "sex"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e06_08"
+                  ]
+                }
+              ],
+              "gamma_definition": "all labeled inclusion-wise maximal matchings of M intersect E_i",
+              "gamma_size": 2,
+              "nominal_loss_fraction": "77897984350382657/1000000000000000000",
+              "nominal_matching_ids": [
+                "e04_06"
+              ],
+              "pess_loss_fraction": "85761374057020037/125000000000000000",
+              "pess_maximizer_matching_ids": [
+                [
+                  "e06_08"
+                ]
+              ],
+              "risk_fraction": "608193008105777639/1000000000000000000",
+              "selected_ids": [
+                "e01_05",
+                "e02_03",
+                "e04_06",
+                "e06_08"
+              ],
+              "task_applicable_edges": [
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "relationship"
+                  ],
+                  "id": "e04_06"
+                },
+                {
+                  "endpoints": [
+                    "relationship",
+                    "sex"
+                  ],
+                  "id": "e06_08"
+                }
+              ]
+            },
+            "M4_pess": {
+              "conflict_pairs": [],
+              "gamma": [
+                {
+                  "is_nominal": true,
+                  "is_pess_maximizer": true,
+                  "loss_fraction": "77897984350382657/1000000000000000000",
+                  "matching_endpoints": {
+                    "e04_06": [
+                      "marital_status",
+                      "relationship"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_06"
+                  ]
+                }
+              ],
+              "gamma_definition": "all labeled inclusion-wise maximal matchings of M intersect E_i",
+              "gamma_size": 1,
+              "nominal_loss_fraction": "77897984350382657/1000000000000000000",
+              "nominal_matching_ids": [
+                "e04_06"
+              ],
+              "pess_loss_fraction": "77897984350382657/1000000000000000000",
+              "pess_maximizer_matching_ids": [
+                [
+                  "e04_06"
+                ]
+              ],
+              "risk_fraction": "0",
+              "selected_ids": [
+                "e00_11",
+                "e01_05",
+                "e02_03",
+                "e04_06"
+              ],
+              "task_applicable_edges": [
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "relationship"
+                  ],
+                  "id": "e04_06"
+                }
+              ]
+            },
+            "M5_nominal": {
+              "conflict_pairs": [
+                [
+                  "e04_06",
+                  "e04_08"
+                ],
+                [
+                  "e04_06",
+                  "e06_08"
+                ],
+                [
+                  "e04_08",
+                  "e06_08"
+                ]
+              ],
+              "gamma": [
+                {
+                  "is_nominal": true,
+                  "is_pess_maximizer": false,
+                  "loss_fraction": "77897984350382657/1000000000000000000",
+                  "matching_endpoints": {
+                    "e04_06": [
+                      "marital_status",
+                      "relationship"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_06"
+                  ]
+                },
+                {
+                  "is_nominal": false,
+                  "is_pess_maximizer": false,
+                  "loss_fraction": "325863003673152381/500000000000000000",
+                  "matching_endpoints": {
+                    "e04_08": [
+                      "marital_status",
+                      "sex"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_08"
+                  ]
+                },
+                {
+                  "is_nominal": false,
+                  "is_pess_maximizer": true,
+                  "loss_fraction": "85761374057020037/125000000000000000",
+                  "matching_endpoints": {
+                    "e06_08": [
+                      "relationship",
+                      "sex"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e06_08"
+                  ]
+                }
+              ],
+              "gamma_definition": "all labeled inclusion-wise maximal matchings of M intersect E_i",
+              "gamma_size": 3,
+              "nominal_loss_fraction": "77897984350382657/1000000000000000000",
+              "nominal_matching_ids": [
+                "e04_06"
+              ],
+              "pess_loss_fraction": "85761374057020037/125000000000000000",
+              "pess_maximizer_matching_ids": [
+                [
+                  "e06_08"
+                ]
+              ],
+              "risk_fraction": "608193008105777639/1000000000000000000",
+              "selected_ids": [
+                "e01_05",
+                "e02_03",
+                "e04_06",
+                "e04_08",
+                "e06_08"
+              ],
+              "task_applicable_edges": [
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "relationship"
+                  ],
+                  "id": "e04_06"
+                },
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "sex"
+                  ],
+                  "id": "e04_08"
+                },
+                {
+                  "endpoints": [
+                    "relationship",
+                    "sex"
+                  ],
+                  "id": "e06_08"
+                }
+              ]
+            },
+            "M5_pess": {
+              "conflict_pairs": [],
+              "gamma": [
+                {
+                  "is_nominal": true,
+                  "is_pess_maximizer": true,
+                  "loss_fraction": "77897984350382657/1000000000000000000",
+                  "matching_endpoints": {
+                    "e04_06": [
+                      "marital_status",
+                      "relationship"
+                    ]
+                  },
+                  "matching_ids": [
+                    "e04_06"
+                  ]
+                }
+              ],
+              "gamma_definition": "all labeled inclusion-wise maximal matchings of M intersect E_i",
+              "gamma_size": 1,
+              "nominal_loss_fraction": "77897984350382657/1000000000000000000",
+              "nominal_matching_ids": [
+                "e04_06"
+              ],
+              "pess_loss_fraction": "77897984350382657/1000000000000000000",
+              "pess_maximizer_matching_ids": [
+                [
+                  "e04_06"
+                ]
+              ],
+              "risk_fraction": "0",
+              "selected_ids": [
+                "e00_11",
+                "e01_05",
+                "e02_03",
+                "e04_06",
+                "e07_12"
+              ],
+              "task_applicable_edges": [
+                {
+                  "endpoints": [
+                    "marital_status",
+                    "relationship"
+                  ],
+                  "id": "e04_06"
+                }
+              ]
+            }
+          },
+          "task_id": "arecel:census13:train:000000"
+        }
+      ],
+      "primary_task_id": "arecel:census13:train:000000",
+      "selection_mode": "single_predeclared_witness",
+      "selection_rule_counts": {
+        "B5_set_scheme_or_loss_change": 62266,
+        "all_primary_conditions": 10764,
+        "ambiguous_gamma": 26998,
+        "both": 10764,
+        "positive_nominal_set_risk": 10764
+      }
+    }
+  },
+  "provenance": {
+    "advisor_source_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+    "advisor_source_sha256": {
+      "src/pess_ess/model.py": "4bf07c229cbeaf003a3ebbe55c4018091288240069298fbd95c4ef6691865781",
+      "src/pess_ess/reference.py": "c301d3b7d8314728326ddc7f12ab44805226546e95038f862730487f0ab35ac0"
+    },
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_source_csv_sha256_recorded": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+    "candidate_map_sha256": "c661e07db8be24050417014bb5e280dd6cc1d856b26700075638a175e0dc8c64",
+    "candidate_order_sha256": "131d526d4fa7540dede14923c2e6a08b2b4238c11ba9399f7c061e587ca65e97",
+    "coefficient_count": 2801893,
+    "coefficient_digest_matches_issue99": true,
+    "coefficient_digest_sha256": "d9c285b0189883327e00655670e467632a9e2f8ac7f511e28be664c5d589561e",
+    "collection_manifest_sha256": "844fcb7e3e171c97d0aab6593e2e10d15a154ea9e0a2d8f2d242d33ba14ea497",
+    "collection_run_id": "20261025T055959Z-issue99-census13-591c9d",
+    "fixed_sample_sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+    "frozen_selection_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "issue99_protocol_sha256": "2f40b265bacc96d965b59bcdccc25c9bb73e3a4d99481a82107db0542343a9e6",
+    "model_transform": "census max(1,x) clamped-log-v2",
+    "model_version": "census13-clamped-log-v2",
+    "observation_aggregate_sha256": "36974e5b3af86bc1e46e402b63e972a1e67b6eed473c45c7fce6477d59535b84",
+    "selection_manifest_sha256": "2a5f2f18cdf158cff05381b6f3aa93cbb6f63eb97ee922eb850af59b96959ff7",
+    "selection_run_id": "20261025T110124Z-issue99-census13-selection-assembled-issue96-prep",
+    "train_label_pickle_sha256_recorded": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451",
+    "train_support_map_sha256": "4e7184f90918ab403b1559916b6dbfbdbcd05de4004fad0ceae208ebcdbade8c",
+    "train_truth_sha256": "b4f725def8ab5390f359dff9c2f0528a75fc7c59933ac108ebef5f82eb0439c4",
+    "train_truth_values_sha256": "ae314b80cee9ad03157c2b43f1e4d867024ab5bbf32fe12861d5ef5b2d6ede9d",
+    "train_workload_pickle_sha256_recorded": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba"
+  },
+  "python_version": "3.12.3",
+  "scope": {
+    "dataset": "census13",
+    "fixed_sets_only": true,
+    "no_resource_reselection_or_refit": true,
+    "no_valid_test_or_postgresql_access": true,
+    "split": "train",
+    "task_count": 100000,
+    "workload_and_label_pickles_opened": false
+  },
+  "status": "COMPLETE",
+  "whole_train_aggregates": {
+    "M3_shared": {
+      "active_edge_incidence_count": 107804,
+      "ambiguous_gamma_task_count": 0,
+      "conflict_bearing_task_count": 0,
+      "conflict_bearing_zero_risk_task_count": 0,
+      "gamma_size_counts": {
+        "1": 100000
+      },
+      "max_gamma_size": 1,
+      "nominal_loss_sum_fraction": "52865905115708248181773/1000000000000000000",
+      "nonconflicting_zero_risk_task_count": 100000,
+      "pess_loss_sum_fraction": "52865905115708248181773/1000000000000000000",
+      "positive_risk_only_on_conflict_bearing_tasks": true,
+      "positive_risk_task_count": 0,
+      "positive_risk_without_conflict_task_count": 0,
+      "selected_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06"
+      ],
+      "task_count": 100000,
+      "tasks_with_any_selected_edge": 58489,
+      "weighted_task_risk_sum_fraction": "0",
+      "whole_train_nominal_plus_risk_equals_pess": true
+    },
+    "M4_nominal": {
+      "active_edge_incidence_count": 143759,
+      "ambiguous_gamma_task_count": 26998,
+      "conflict_bearing_task_count": 26998,
+      "conflict_bearing_zero_risk_task_count": 16736,
+      "gamma_size_counts": {
+        "1": 73002,
+        "2": 26998
+      },
+      "max_gamma_size": 2,
+      "nominal_loss_sum_fraction": "10281826712732357203331/200000000000000000",
+      "nonconflicting_zero_risk_task_count": 73002,
+      "pess_loss_sum_fraction": "28242812204541504459613/500000000000000000",
+      "positive_risk_only_on_conflict_bearing_tasks": true,
+      "positive_risk_task_count": 10262,
+      "positive_risk_without_conflict_task_count": 0,
+      "selected_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e06_08"
+      ],
+      "task_count": 100000,
+      "tasks_with_any_selected_edge": 62176,
+      "weighted_task_risk_sum_fraction": "5076490845421222902571/1000000000000000000",
+      "whole_train_nominal_plus_risk_equals_pess": true
+    },
+    "M4_pess": {
+      "active_edge_incidence_count": 143735,
+      "ambiguous_gamma_task_count": 0,
+      "conflict_bearing_task_count": 0,
+      "conflict_bearing_zero_risk_task_count": 0,
+      "gamma_size_counts": {
+        "1": 100000
+      },
+      "max_gamma_size": 1,
+      "nominal_loss_sum_fraction": "10432672868376068427801/200000000000000000",
+      "nonconflicting_zero_risk_task_count": 100000,
+      "pess_loss_sum_fraction": "10432672868376068427801/200000000000000000",
+      "positive_risk_only_on_conflict_bearing_tasks": true,
+      "positive_risk_task_count": 0,
+      "positive_risk_without_conflict_task_count": 0,
+      "selected_ids": [
+        "e00_11",
+        "e01_05",
+        "e02_03",
+        "e04_06"
+      ],
+      "task_count": 100000,
+      "tasks_with_any_selected_edge": 64044,
+      "weighted_task_risk_sum_fraction": "0",
+      "whole_train_nominal_plus_risk_equals_pess": true
+    },
+    "M5_nominal": {
+      "active_edge_incidence_count": 179908,
+      "ambiguous_gamma_task_count": 26998,
+      "conflict_bearing_task_count": 26998,
+      "conflict_bearing_zero_risk_task_count": 16234,
+      "gamma_size_counts": {
+        "1": 73002,
+        "3": 26998
+      },
+      "max_gamma_size": 3,
+      "nominal_loss_sum_fraction": "25173678236707037627047/500000000000000000",
+      "nonconflicting_zero_risk_task_count": 73002,
+      "pess_loss_sum_fraction": "56821282666848170057439/1000000000000000000",
+      "positive_risk_only_on_conflict_bearing_tasks": true,
+      "positive_risk_task_count": 10764,
+      "positive_risk_without_conflict_task_count": 0,
+      "selected_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e04_08",
+        "e06_08"
+      ],
+      "task_count": 100000,
+      "tasks_with_any_selected_edge": 65983,
+      "weighted_task_risk_sum_fraction": "1294785238686818960669/200000000000000000",
+      "whole_train_nominal_plus_risk_equals_pess": true
+    },
+    "M5_pess": {
+      "active_edge_incidence_count": 179703,
+      "ambiguous_gamma_task_count": 0,
+      "conflict_bearing_task_count": 0,
+      "conflict_bearing_zero_risk_task_count": 0,
+      "gamma_size_counts": {
+        "1": 100000
+      },
+      "max_gamma_size": 1,
+      "nominal_loss_sum_fraction": "25859352670637024704059/500000000000000000",
+      "nonconflicting_zero_risk_task_count": 100000,
+      "pess_loss_sum_fraction": "25859352670637024704059/500000000000000000",
+      "positive_risk_only_on_conflict_bearing_tasks": true,
+      "positive_risk_task_count": 0,
+      "positive_risk_without_conflict_task_count": 0,
+      "selected_ids": [
+        "e00_11",
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e07_12"
+      ],
+      "task_count": 100000,
+      "tasks_with_any_selected_edge": 68000,
+      "weighted_task_risk_sum_fraction": "0",
+      "whole_train_nominal_plus_risk_equals_pess": true
+    }
+  }
+}
