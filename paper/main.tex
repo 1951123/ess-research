@@ -7,7 +7,6 @@
 
 \usepackage{booktabs}
 \usepackage{amsmath}
-\usepackage{amssymb}
 
 \renewcommand\vldbdoi{XX.XX/XXX.XX}
 \renewcommand\vldbpages{XXX--XXX}
@@ -31,7 +30,7 @@
 }
 
 \begin{abstract}
-Choosing which extended statistics to maintain is a resource-allocation
+Choosing which extended statistics to maintain is a resource allocation
 problem, but an installed set need not determine which overlapping
 statistics a cardinality estimator applies. An advisor with incomplete
 knowledge of the estimator's downstream application strategy may therefore
@@ -112,6 +111,8 @@ Complete matchings: \(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\).
 \caption{An overlapping three-edge path. Both inclusion-maximal
 matchings are complete admissible schemes in the restricted model.
 They are not necessarily equal-cardinality matchings.}
+\Description{A four-vertex path A--B--C--D with candidate edges AB,
+BC and CD. The two inclusion-maximal matchings are AB with CD, and BC.}
 \label{fig:path}
 \end{figure}
 
@@ -392,12 +393,13 @@ a different selection algorithm.
 \subsection{Version-pinned selector and its prerequisites}
 PostgreSQL 16.14's single-relation selectivity path can apply
 multivariate MCV objects to still-unestimated compatible
-clauses. Source inspection of
-\texttt{clauselist\_selectivity\_ext},
-\texttt{statext\_mcv\_clauselist\_selectivity},
-\texttt{choose\_best\_statistics} and
-\texttt{RelationGetStatExtList} identifies a repeated
-candidate-selection process and a source-level
+clauses. Source inspection covers four selector functions:\\
+{\raggedright
+\texttt{clauselist\_selectivity\_ext},\\
+\texttt{statext\_mcv\_clauselist\_selectivity},\\
+\texttt{choose\_best\_statistics}, and\\
+\texttt{RelationGetStatExtList}.\par}
+The selector repeats candidate selection over a source-level
 OID-sorted candidate list. Under the conditions below,
 all surviving eligible two-key objects tie in the ranking,
 so list/OID order resolves which object is used first
@@ -410,10 +412,10 @@ are recorded in the accompanying project
 
 The correspondence assumes:
 \begin{enumerate}
-\item[\textbf{A1.}] Each relevant clause is a supported simple
-  non-pseudoconstant MCV predicate on exactly one distinct
-  base-table attribute; one relevant clause per attribute,
-  with no OR, expression or repeated-attribute predicates.
+\item[\textbf{A1.}] Each relevant clause is a supported simple MCV
+  predicate on exactly one distinct base-table attribute. It is
+  non-pseudoconstant, with one relevant clause per attribute and no OR,
+  expression or repeated-attribute predicates.
 \item[\textbf{A2.}] Eligible objects are \emph{built}
   two-attribute, no-expression MCV statistics on the same
   base relation, covering two currently unestimated
@@ -507,9 +509,12 @@ PostgreSQL 16.14 with full source relations, fixed \#99 ANALYZE
 sample replay and effective statistics target 300 for ordinary
 and selected extended statistics. The \#105/\#107 build is pinned
 to source SHA \texttt{f1bf37b5dd3d3a7087fc0af5de550ca31035854c}.
-Settings include \texttt{plan\_cache\_mode=force\_custom\_plan},
-\texttt{max\_parallel\_workers\_per\_gather=0} and
-\texttt{client\_min\_messages=warning}. For controlled order changes,
+Settings include these pinned values:\\
+{\raggedright
+\texttt{plan\_cache\_mode=force\_custom\_plan};\\
+\texttt{max\_parallel\_workers\_per\_gather=0};\\
+\texttt{client\_min\_messages=warning}.\par}
+For controlled order changes,
 the protocol verifies actual OID priority, full-table/sample identities,
 ordinary statistics and individual MCV-content fingerprints.
 Per-query extended-statistics diagnostics are used to verify applied
@@ -600,7 +605,7 @@ workloads, datasets or ANALYZE samples. A degenerate interval
 from 24 sampled orders cannot certify all 120 orders identical.
 
 The \#107 design was specified after inspection of earlier
-\#101/\#105 results, although new sampled orders were fixed
+\#101/\allowbreak\#105 results, although new sampled orders were fixed
 before new Test measurements. Eight original \#105 certainty
 arms were remeasured after a reuse-eligibility failure whose
 exact row-level cause was not preserved. Twelve three-object
@@ -615,17 +620,17 @@ Train-model loss from observed physical Test Q-error.
 
 \subsection{An actual Census13 Train scheme-space witness}
 The predeclared deterministic procedure selected
-\texttt{arecel:census13:train:000000}; the task's
+\linebreak[4] \texttt{arecel:census13:train:000000}; the task's
 three relevant candidate MCV resources are
-\texttt{e04\_06} (marital\_status--relationship),
-\texttt{e04\_08} (marital\_status--sex),
+\texttt{e04\_06} (marital\_\allowbreak{}status--relationship),
+\texttt{e04\_08} (marital\_\allowbreak{}status--sex),
 and \texttt{e06\_08} (relationship--sex).
 Their edge-labeled conflict graph is a triangle:
 all three pairs overlap, so the complete
 inclusion-maximal schemes under the B5 Nominal
 set are precisely the singleton choices
-\(\{\{\mathrm{e04\_06}\},\{\mathrm{e04\_08}\},
-\{\mathrm{e06\_08}\}\}\).
+\(\{\mathrm{e04\_06}\}\), \(\{\mathrm{e04\_08}\}\), and
+\(\{\mathrm{e06\_08}\}\).
 These have modeled absolute-log losses
 \(0.077898\), \(0.651726\), and \(0.686091\),
 respectively. The nominal priority applies the first
@@ -720,7 +725,7 @@ Power7 & \(0/0\,=\) & \(2/2\,=\) & \(3/3\,=\) & \(4/3\,\ne\) & \(5/3\,\ne\) & B4
 \end{tabular}
 \end{table*}
 
-The exact offline #103 Train-model evaluation spans
+The exact offline \#103 Train-model evaluation spans
 906 global priority orders across 25 unique sets;
 nine selected sets have nonzero modeled aggregate
 order sensitivity. At B5, the modeled expected
@@ -757,11 +762,11 @@ Power7 & 5385.310 & 0\\
 \end{table}
 
 \subsection{Canonical and reversed physical Test orders}
-The frozen #101 study collected 250,000 valid
+The frozen \#101 study collected 250,000 valid
 official Test EXPLAINs. At B5 under the canonical
 fixed configuration, Nominal yields lower Test P95
 than PESS on all four datasets.
-The separate #105 intervention reverses the creation
+The separate \#105 intervention reverses the creation
 order of each \emph{same unordered Nominal B5 set}.
 It changes both applied-MCV/estimate sequences and
 physical Q-error, as shown in
@@ -772,7 +777,7 @@ Not every changed MCV sequence changes Q-error.
 \begin{table*}[t]
 \caption{Physical held-out P95 zero-aware Q-error
 under the fixed canonical configuration and the
-#105 reverse-order intervention on the \emph{Nominal}
+\#105 reverse-order intervention on the \emph{Nominal}
 B5 set (not on PESS). Changed MCV sequences are
 per 10,000 paired Test queries.}
 \label{tab:physical}
@@ -791,7 +796,7 @@ Power7 & 9.8449 & 9.9576 & 9.8069 & \(-0.39\%\) & 4898\\
 \end{table*}
 
 \subsection{Expected physical P95 under a hypothetical order}
-The #107 outcome is the \emph{expected per-order
+The \#107 outcome is the \emph{expected per-order
 physical Test P95} in~\eqref{eq:estimand}, estimated
 with the frozen sampling weights. Negative
 PESS-minus-Nominal differences favor PESS
@@ -825,9 +830,9 @@ The zero observed variability of Census13's
 five-object PESS sample does not demonstrate
 invariance of its 96 unsampled orders. Forest10
 and Power7 PESS use exact six-order censuses.
-The #103 \(A(M)\) is an exact expectation of
+The \#103 \(A(M)\) is an exact expectation of
 \emph{total Train-model absolute-log loss} over
-abstract priority permutations; #107 estimates
+abstract priority permutations; \#107 estimates
 the mean of \emph{physical Test per-order P95
 Q-error} over sampled relative-OID permutations.
 They differ in split, loss, aggregation and
@@ -835,6 +840,7 @@ estimation mechanism. Agreement or disagreement
 between rankings is not, by itself, evidence of
 model calibration or out-of-sample generalization.
 
+\clearpage
 \section{Threats to Validity}
 \label{sec:validity}
 \paragraph{Prescribed model and physical coverage.}
