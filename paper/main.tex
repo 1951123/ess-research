@@ -835,6 +835,292 @@ estimation mechanism. Agreement or disagreement
 between rankings is not, by itself, evidence of
 model calibration or out-of-sample generalization.
 
-% INTEGRATION_REMAINING
+\section{Threats to Validity}
+\label{sec:validity}
+\paragraph{Prescribed model and physical coverage.}
+The family \(\Gamma_i(M)\) is not known generally to
+contain all physically realizable \(\mathcal R_i(M)\).
+Even if it did, a physical-error upper bound would
+also require agreement of the estimator and loss
+definitions. The maximal-matching source
+correspondence requires A1--A4; other predicate
+forms, joins, competing statistic kinds and
+estimation stages can invalidate it.
+Adding an edge can make an old maximal matching
+non-maximal, but \emph{nonnested schemes alone}
+do not establish nonmonotonicity of arbitrary
+fixed-policy or expected-loss objectives.
+The Census13 witness was deterministically
+chosen to exhibit a mechanism, not sampled to
+represent all tasks, and does not demonstrate
+general family nonnestedness.
+
+\paragraph{Resource and metric proxies.}
+The training selections use add-only greedy,
+not a globally optimal outer solver.
+Their per-statistic maintenance budget is a
+proxy, not measured refresh CPU, I/O,
+update overhead or execution time. The modeled
+absolute-log task losses are not actual
+PostgreSQL Plan Rows Q-error, nor are lower
+Q-errors equivalent to improved plan latency.
+A stronger claim would need direct physical
+maintenance and end-to-end plan measurements.
+
+\paragraph{Order assumptions and inference.}
+A real catalog has a fixed OID order; unknown
+strategy does not imply stochastic behavior.
+Uniform abstract priorities and uniform
+relative-OID physical test orders are
+\emph{counterfactual}, not learned production
+distributions. The sampled 156-arm physical
+experiment does not enumerate every five-object
+order. Its approximate intervals quantify
+permutation-sampling uncertainty conditional
+on the fixed Test split. Degenerate sample
+variance among 24 of 120 orders is not
+population certainty. Order sampling was
+designed after seeing earlier results;
+execution exceptions and the unknown
+row-level cause of one reuse check are
+retained in the study record.
+
+\paragraph{Generalization and reproducibility.}
+The four original AreCEL splits, two-column
+single-relation MCV instance and pinned
+instrumented PostgreSQL 16.14 build do not
+cover arbitrary workloads, DBMS versions,
+estimators or statistics kinds. The study
+uses a target of 300 and does not reproduce
+the full published AreCEL learned-estimator
+environment \cite{wang2021arecel}.
+Frozen protocols, findings, code and hashes
+are versioned in the repository, while
+irreplaceable query-level raw physical
+observations and manifests remain in
+documented external runtime archives.
+The evidence cannot establish universal
+PESS superiority, a real-world OID
+distribution or unconditional physical
+worst-case bounds.
+
+\section{Related Work}
+\label{sec:related}
+\paragraph{Statistics management and advisors.}
+Selecting essential optimizer statistics,
+including order-sensitive shrinking and
+multicolumn resources, has long been studied
+\cite{chaudhuri2000stats}. Workload-aware
+statistics on intermediate query expressions
+(SITs) and their Min/Max hypothetical
+distributions and cost sensitivities also
+provide an explicit uncertainty-aware
+statistics-advisor precedent \cite{bruno2002sit}.
+StatAdvisor handles dependencies among
+statistical views and joint-group benefits
+\cite{elhelw2009statadvisor}.
+CORDS discovers correlated column pairs
+\cite{ilyas2004cords}, while query-feedback
+approaches rank dependencies under catalog
+space limits \cite{haas2007dependencies}.
+Broader physical-design relaxations optimize
+indexes and materialized views
+\cite{bruno2005relaxation}. We do not claim
+novelty for choosing statistics, accounting
+for interdependent benefits or considering
+uncertain selectivity.
+
+\paragraph{Alternative complete estimation paths.}
+Bruno and Chaudhuri's conditional selectivity
+approach already considers conflicting SITs
+and alternative estimator-side decompositions
+\cite{bruno2004conditional}. Cardinality
+Estimation Graphs explicitly represent
+alternative complete summary-based paths
+and analyze fixed or undefined path-selection
+rules \cite{chen2022ceg}. These are close
+antecedents for multiple applicable schemes
+and ambiguous estimator-side choices.
+Our narrower distinction is \emph{upstream
+budgeted statistics installation} \(M\)
+whose \emph{resource-dependent} complete
+admissible family \(\Gamma_i(M)\) is evaluated
+by an advisor that lacks a dependable
+downstream scheme-selection policy.
+Neither CEG paths nor SIT decompositions
+are claimed to be PostgreSQL matchings.
+
+\paragraph{Estimation quality and robust decisions.}
+PostgreSQL supports several extended
+statistics kinds, including MCV lists
+\cite{pg16stats}. LpBound uses pessimistic
+cardinality \emph{upper bounds} from degree
+statistics \cite{zhang2025lpbound};
+our PESS criterion instead maximizes
+\emph{modeled loss across application schemes},
+not cardinality itself. PARQO and robust
+plan coresets make robust \emph{plan-choice}
+decisions under uncertain estimates
+\cite{xiu2024parqo,raychaudhury2026coresets},
+rather than install statistics under
+uncertain downstream application policies.
+Cardinality-estimation benchmarks caution
+that Q-error and final plan quality are
+distinct \cite{leis2015optimizers,han2022benchmark}.
+The original AreCEL work supplies the workload
+family \cite{wang2021arecel}, not the
+estimator we execute.
+
+These precedents establish interactive
+statistics, alternative complete estimation
+methods and robust database decisions as
+existing topics. Our claimed contribution
+is the specific \emph{advisor--estimator
+interface}, not first recognition of
+scheme alternatives or a general theorem
+of robust optimization. The comparison
+is focused rather than an exhaustive
+negative literature search.
+
+\section{Conclusion}
+\label{sec:conclusion}
+An advisor chooses \emph{which statistics
+are installed}; the estimator determines
+\emph{which applicable statistics are used}.
+We formalized this information gap through
+unordered resource sets, task-specific
+complete admissible schemes and risk
+objectives indexed by knowledge of the
+application strategy. Fixed Nominal,
+shared-global and task-wise pessimistic
+risks are distinct; for one fixed set and
+aligned model loss, \(A(M)\leq G(M)\leq P(M)\).
+These are not universal cross-selection or
+physical Q-error guarantees.
+
+A Census13 Train witness exhibits differing
+modeled losses over an actual task's complete
+schemes, but many ambiguous tasks have
+zero risk gap. Restricted source-level
+reasoning and controlled PostgreSQL 16.14
+traces show that object application can
+depend on catalog priority. Under the
+canonical Test configuration, B5 Nominal
+has lower observed P95 in each workload;
+under a separate counterfactual uniform
+global-order evaluation, expected per-order
+Test P95 favors PESS on Census13 and
+DMV11, Nominal on Forest10, and is
+inconclusive on Power7 within the reported
+sampling interval. Those outcomes answer
+\emph{different} policy questions and do
+not imply a universally superior
+resource-selection strategy.
+
+The decision-level contribution is the
+resource-dependent complete scheme space
+\emph{combined with} incomplete advisor
+knowledge of downstream scheme choice.
+Future work can learn grounded policy
+families, expand beyond pairwise MCV
+statistics, develop stronger selection
+algorithms and measure actual maintenance
+and plan-latency outcomes. Within our
+limited evidence, strategy uncertainty is
+a meaningful part of the statistics
+selection problem.
+
+\begin{thebibliography}{99}
+\bibitem{chaudhuri2000stats}
+S. Chaudhuri and V. Narasayya.
+Automating Statistics Management for Query Optimizers.
+In \emph{Proc. IEEE ICDE}, 2000.
+\url{https://www.microsoft.com/en-us/research/publication/automating-statistics-management-for-query-optimizers/}.
+
+\bibitem{bruno2002sit}
+N. Bruno and S. Chaudhuri.
+Exploiting Statistics on Query Expressions for Optimization.
+In \emph{Proc. ACM SIGMOD}, pp. 263--274, 2002.
+doi:10.1145/564691.564722.
+
+\bibitem{bruno2004conditional}
+N. Bruno and S. Chaudhuri.
+Conditional Selectivity for Statistics on Query Expressions.
+In \emph{Proc. ACM SIGMOD}, pp. 311--322, 2004.
+doi:10.1145/1007568.1007604.
+
+\bibitem{elhelw2009statadvisor}
+A. El-Helw, I. F. Ilyas, and C. Zuzarte.
+StatAdvisor: Recommending Statistical Views.
+\emph{Proc. VLDB Endow.}, 2(2):1306--1317, 2009.
+
+\bibitem{ilyas2004cords}
+I. F. Ilyas, V. Markl, P. J. Haas, P. Brown, and A. Aboulnaga.
+CORDS: Automatic Discovery of Correlations and Soft Functional Dependencies.
+In \emph{Proc. ACM SIGMOD}, pp. 647--658, 2004.
+doi:10.1145/1007568.1007641.
+
+\bibitem{haas2007dependencies}
+P. J. Haas, F. Hueske, and V. Markl.
+Detecting Attribute Dependencies from Query Feedback.
+In \emph{Proc. VLDB}, pp. 830--841, 2007.
+
+\bibitem{bruno2005relaxation}
+N. Bruno and S. Chaudhuri.
+Automatic Physical Database Tuning: A Relaxation-based Approach.
+In \emph{Proc. ACM SIGMOD}, pp. 227--238, 2005.
+doi:10.1145/1066157.1066184.
+
+\bibitem{chen2022ceg}
+J. Chen, Y. Huang, M. Wang, S. Salihoglu, and K. Salem.
+Accurate Summary-based Cardinality Estimation Through the Lens
+of Cardinality Estimation Graphs.
+\emph{Proc. VLDB Endow.}, 15(8):1533--1545, 2022.
+doi:10.14778/3529337.3529339.
+
+\bibitem{zhang2025lpbound}
+H. Zhang, C. Mayer, M. Abo Khamis, D. Olteanu, and D. Suciu.
+LpBound: Pessimistic Cardinality Estimation Using
+\(\ell_p\)-Norms of Degree Sequences.
+\emph{Proc. ACM Manag. Data}, 3(3), 2025.
+doi:10.1145/3725321.
+
+\bibitem{xiu2024parqo}
+H. Xiu, P. K. Agarwal, and J. Yang.
+PARQO: Penalty-Aware Robust Plan Selection in Query Optimization.
+\emph{Proc. VLDB Endow.}, 17(13):4627--4640, 2024.
+doi:10.14778/3704965.3704971.
+
+\bibitem{raychaudhury2026coresets}
+R. Raychaudhury, H. Xiu, P. K. Agarwal, S. Sintos, and J. Yang.
+Coresets for Robust Query Optimization.
+\emph{Proc. ACM Manag. Data}, 4(2), Article 100, 2026.
+doi:10.1145/3801896.
+
+\bibitem{leis2015optimizers}
+V. Leis, A. Gubichev, A. Mirchev, P. Boncz, A. Kemper, and T. Neumann.
+How Good Are Query Optimizers, Really?
+\emph{Proc. VLDB Endow.}, 9(3):204--215, 2015.
+doi:10.14778/2850583.2850594.
+
+\bibitem{han2022benchmark}
+Y. Han et al.
+Cardinality Estimation in DBMS: A Comprehensive Benchmark Evaluation.
+\emph{Proc. VLDB Endow.}, 15(4):752--765, 2021/2022.
+doi:10.14778/3503585.3503586.
+
+\bibitem{wang2021arecel}
+X. Wang, C. Qu, W. Wu, J. Wang, and Q. Zhou.
+Are We Ready for Learned Cardinality Estimation?
+\emph{Proc. VLDB Endow.}, 14(9):1640--1654, 2021.
+doi:10.14778/3461535.3461552.
+
+\bibitem{pg16stats}
+PostgreSQL Global Development Group.
+\emph{PostgreSQL 16 Documentation: Statistics Used by the Planner},
+Sec. 14.2.2.
+\url{https://www.postgresql.org/docs/16/planner-stats.html}.
+\end{thebibliography}
 \end{document}
+
 
