@@ -301,6 +301,59 @@ def build_issue107_schedule(
     }
 
 
+def schedule_arm_index(schedule: dict[str, Any]) -> dict[tuple[str, str, tuple[str, ...]], dict[str, Any]]:
+    """Index every frozen arm by dataset, policy, and exact OID order."""
+    index: dict[tuple[str, str, tuple[str, ...]], dict[str, Any]] = {}
+    for stratum in schedule.get("schedules", []):
+        dataset = stratum["dataset"]
+        policy = stratum["policy"]
+        resource_ids = tuple(sorted(stratum["resource_ids"]))
+        if len(set(resource_ids)) != len(resource_ids):
+            raise IncompletePermutationSample("frozen set contains duplicate resource IDs")
+        for arm in stratum["permutations"]:
+            order = tuple(arm["permutation"])
+            if len(order) != len(resource_ids) or set(order) != set(resource_ids):
+                raise IncompletePermutationSample(
+                    f"frozen order is outside its resource set: {dataset}/{policy}/{order}"
+                )
+            key = (dataset, policy, order)
+            if key in index:
+                raise IncompletePermutationSample(
+                    f"frozen schedule repeats an order: {dataset}/{policy}/{order}"
+                )
+            index[key] = {**arm, "case_id": stratum["case_id"],
+                          "resource_ids": list(resource_ids)}
+    return index
+
+
+def validate_scheduled_arm(
+    index: dict[tuple[str, str, tuple[str, ...]], dict[str, Any]],
+    *,
+    dataset: str,
+    policy: str,
+    case_id: str,
+    resource_ids: Sequence[str],
+    permutation: Sequence[str],
+    selection: str,
+) -> dict[str, Any]:
+    """Fail closed unless exact set, order, and sampling stratum were frozen."""
+    order = tuple(permutation)
+    if set(resource_ids) != set(order) or len(resource_ids) != len(order):
+        raise IncompletePermutationSample("arm order does not contain exactly its selected set")
+    record = index.get((dataset, policy, order))
+    if record is None:
+        raise IncompletePermutationSample(
+            f"arm order is not in the frozen sample: {dataset}/{policy}/{order}"
+        )
+    if (record["case_id"] != case_id
+            or tuple(record["resource_ids"]) != tuple(sorted(resource_ids))
+            or record["selection"] != selection):
+        raise IncompletePermutationSample(
+            f"arm set or selection stratum differs from frozen sample: {dataset}/{policy}/{order}"
+        )
+    return record
+
+
 def _checked_values(
     arms: Sequence[PermutationValue], expected_count: int, label: str
 ) -> tuple[float, ...]:
@@ -312,7 +365,8 @@ def _checked_values(
         raise IncompletePermutationSample(f"{label}: duplicate permutation arm")
     values: list[float] = []
     for arm in arms:
-        if arm.plan_status != "COMPLETE" or arm.diagnostics_status != "complete":
+        if (arm.plan_status != "COMPLETE"
+                or arm.diagnostics_status not in {"complete", "empty"}):
             raise IncompletePermutationSample(
                 f"{label}: incomplete arm {arm.permutation}: "
                 f"plan={arm.plan_status}, diagnostics={arm.diagnostics_status}"

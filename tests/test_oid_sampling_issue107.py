@@ -1,7 +1,11 @@
 import itertools
+import gzip
+import hashlib
 import json
 import math
 import statistics
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -14,6 +18,8 @@ from ess_research.arecel.oid_sampling import (
     estimate_population_variance,
     estimate_stratified_mean,
     sample_permutations,
+    schedule_arm_index,
+    validate_scheduled_arm,
 )
 
 
@@ -25,6 +31,10 @@ FROZEN = (
 SAMPLE_FILE = (
     REPO / "experiments/oid-uniform-priority-issue107/permutation-sample-v1.json"
 )
+sys.path.insert(0, str(REPO / "experiments/arecel-test-generalization-issue101"))
+sys.path.insert(0, str(REPO / "experiments/oid-order-stress-test-issue105"))
+sys.path.insert(0, str(REPO / "experiments/oid-uniform-priority-issue107"))
+from run_issue107 import _reused_rows, analyze_results
 
 
 def arm(index, value, *, plan_status="COMPLETE", diagnostics_status="complete"):
@@ -117,10 +127,34 @@ class OIDPermutationSamplingTests(unittest.TestCase):
             for selection in ("fixed", "srswor", "enumerated")
         }
         self.assertEqual(selection_counts, {"fixed": 8, "srswor": 136, "enumerated": 12})
+        index = schedule_arm_index(expected)
         for dataset in ("forest10", "census13", "dmv11", "power7"):
             nominal = by_set[(dataset, "nominal")]
             self.assertEqual((nominal["fixed_count"], nominal["random_sample_size"], len(nominal["permutations"])), (2, 22, 24))
             self.assertEqual(nominal["permutation_population_size"], 120)
+            fixed_order = nominal["permutations"][0]["permutation"]
+            self.assertEqual(
+                validate_scheduled_arm(
+                    index,
+                    dataset=dataset,
+                    policy="nominal",
+                    case_id=nominal["case_id"],
+                    resource_ids=nominal["resource_ids"],
+                    permutation=fixed_order,
+                    selection="fixed",
+                )["selection"],
+                "fixed",
+            )
+            with self.assertRaises(IncompletePermutationSample):
+                validate_scheduled_arm(
+                    index,
+                    dataset=dataset,
+                    policy="nominal",
+                    case_id=nominal["case_id"],
+                    resource_ids=nominal["resource_ids"],
+                    permutation=fixed_order,
+                    selection="srswor",
+                )
         for dataset in ("census13", "dmv11"):
             pess5 = by_set[(dataset, "pess")]
             self.assertEqual((pess5["fixed_count"], pess5["random_sample_size"], len(pess5["permutations"])), (0, 24, 24))
@@ -263,6 +297,158 @@ class OIDPermutationSamplingTests(unittest.TestCase):
                 expected_sample_size=22,
                 residual_population_size=118,
             )
+
+    def test_empty_diagnostics_are_valid_complete_query_outcomes(self):
+        estimate = estimate_stratified_mean(
+            [],
+            [arm(i, float(i + 1), diagnostics_status="empty") for i in range(24)],
+            expected_fixed_count=0,
+            expected_sample_size=24,
+            residual_population_size=120,
+        )
+        self.assertTrue(math.isfinite(estimate.estimate))
+
+    def test_runner_aggregates_frozen_sample_and_exact_contrast(self):
+        schedule = build_issue107_schedule(FROZEN)
+        arms = []
+        for stratum in schedule["schedules"]:
+            for index, row in enumerate(stratum["permutations"]):
+                if stratum["policy"] == "nominal" and row["selection"] == "fixed":
+                    value = 100.0 + 100.0 * index
+                else:
+                    value = 1.0 + index
+                arms.append(
+                    {
+                        "dataset": stratum["dataset"],
+                        "policy": stratum["policy"],
+                        "case_id": stratum["case_id"],
+                        "permutation": row["permutation"],
+                        "selection": row["selection"],
+                        "draw_index": row["draw_index"],
+                        "inclusion_probability": row["inclusion_probability"],
+                        "sample_sha256": stratum["sample_sha256"],
+                        "metrics": {
+                            "statistical_status": "COMPLETE",
+                            "qerror": {
+                                "mean": value * 0.7,
+                                "p50": value * 0.5,
+                                "p95": value,
+                                "p99": value * 1.2,
+                            },
+                        },
+                    }
+                )
+        result = analyze_results(schedule, arms)
+        self.assertEqual(set(result), {"forest10", "census13", "dmv11", "power7"})
+        for dataset, record in result.items():
+            nominal = record["policies"]["nominal"]["expectation"]
+            pess = record["policies"]["pess"]["expectation"]
+            self.assertEqual(nominal["status"], "COMPLETE")
+            self.assertEqual(pess["status"], "COMPLETE")
+            self.assertEqual(record["contrast_pess_minus_nominal"]["status"], "COMPLETE")
+            delta = record["contrast_pess_minus_nominal"]["estimates"]["p95"]
+            self.assertAlmostEqual(
+                delta["estimate"],
+                pess["estimates"]["p95"]["estimate"] - nominal["estimates"]["p95"]["estimate"],
+            )
+            self.assertAlmostEqual(
+                delta["design_variance_estimate"],
+                pess["estimates"]["p95"]["design_variance_estimate"]
+                + nominal["estimates"]["p95"]["design_variance_estimate"],
+            )
+        for dataset in ("forest10", "power7"):
+            pess3 = result[dataset]["policies"]["pess"]["expectation"]
+            self.assertEqual(pess3["estimates"]["p95"]["design_standard_error"], 0.0)
+            self.assertTrue(pess3["estimates"]["p95"]["sample_extrema_are_global"])
+
+        missing = analyze_results(schedule, arms[:-1])
+        self.assertEqual(missing["power7"]["policies"]["pess"]["expectation"]["status"], "INCOMPLETE")
+        self.assertEqual(missing["power7"]["contrast_pess_minus_nominal"]["status"], "INCOMPLETE")
+        duplicate = analyze_results(schedule, [*arms, arms[-1]])
+        self.assertEqual(duplicate["power7"]["policies"]["pess"]["expectation"]["status"], "INCOMPLETE")
+        wrong_stratum = [dict(row) for row in arms]
+        fixed_index = next(i for i, row in enumerate(wrong_stratum) if row["selection"] == "fixed")
+        wrong_stratum[fixed_index]["selection"] = "srswor"
+        rejected = analyze_results(schedule, wrong_stratum)
+        self.assertEqual(rejected["forest10"]["policies"]["nominal"]["expectation"]["status"], "INCOMPLETE")
+
+    def test_reused_member_recomputes_only_complete_matching_test_rows(self):
+        rows = []
+        queries = []
+        truths = []
+        selected = ["a", "b"]
+        for index in range(10_000):
+            truth = index % 4
+            plan_rows = (index // 4) % 5
+            qerror, rounded = __import__(
+                "run_issue101"
+            ).qerror_for_plan_rows(plan_rows, truth)
+            query_id = f"arecel:toy:test:{index:06d}"
+            queries.append({"query_id": query_id})
+            truths.append(truth)
+            rows.append(
+                {
+                    "dataset": "toy",
+                    "order": "canonical",
+                    "configuration_id": "toy-canonical",
+                    "selected_ids": selected,
+                    "query_id": query_id,
+                    "source_index": index,
+                    "true_cardinality": truth,
+                    "estimate_plan_rows": plan_rows,
+                    "estimate_rounded_r1": rounded,
+                    "qerror": qerror,
+                    "status": "VALID",
+                    "diagnostics_status": "empty" if index % 2 else "complete",
+                    "diagnostics_event_count": 0,
+                    "mcv_events": [],
+                    "mcv_selection_ids": [],
+                    "mcv_estimate_ids": [],
+                }
+            )
+        body = b"".join(
+            (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+            for row in rows
+        )
+        member = gzip.compress(body, mtime=0)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "raw.gz"
+            path.write_bytes(member)
+            old_arm = {
+                "raw_member_offset": 0,
+                "raw_member_bytes": len(member),
+                "raw_member_sha256": hashlib.sha256(member).hexdigest(),
+            }
+            reused, metrics = _reused_rows(
+                path,
+                old_arm,
+                dataset="toy",
+                old_order="canonical",
+                permutation=selected,
+                queries=queries,
+                truths=truths,
+            )
+            self.assertEqual(len(reused), 10_000)
+            self.assertEqual(metrics["valid_count"], 10_000)
+            self.assertEqual(metrics["status"], "COMPLETE")
+            rows[-1]["diagnostics_status"] = "missing"
+            broken = gzip.compress(
+                b"".join((json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+                         for row in rows),
+                mtime=0,
+            )
+            path.write_bytes(broken)
+            old_arm.update(raw_member_bytes=len(broken), raw_member_sha256=hashlib.sha256(broken).hexdigest())
+            with self.assertRaises(ValueError):
+                _reused_rows(
+                    path,
+                    old_arm,
+                    dataset="toy",
+                    old_order="canonical",
+                    permutation=selected,
+                    queries=queries,
+                    truths=truths,
+                )
 
 
 if __name__ == "__main__":
