@@ -1,5 +1,7 @@
 # Issue #107 — uniform relative-OID Test protocol v1
 
+> **Superseded, not executed.** This exact full-permutation proposal is retained as protocol history. [Protocol v2](protocol-v2.md) replaces its exact-enumeration design with the prespecified finite-population random-permutation sample; the frozen datasets, selections, PG treatment and Q-error definition are unchanged.
+
 **Status: protocol proposal only.** This issue authorizes configuration accounting, source/protocol inspection, synthetic checks, and resource estimation. It does not authorize new official AreCEL Test EXPLAIN/ANALYZE calls or a physical permutation sweep. A separate researcher decision is required before execution.
 
 ## Minimum experiment and claim boundary
