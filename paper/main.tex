@@ -93,7 +93,7 @@ an inclusion-maximal matching, the installed set admits
 \(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\).
 Considering \(BC\) first selects the latter; considering
 \(AB\) first selects the former. Suppose their modeled
-task losses are \(2.0\) and \(0.1\), respectively.
+task losses are \(0.1\) and \(2.0\), respectively.
 Adding \(BC\) to an installed set containing \(AB,CD\)
 thus introduces a higher-loss complete scheme without
 removing the lower-loss option. This is a mathematical
@@ -252,14 +252,15 @@ We prescribe
 it does not mean maximum cardinality. Even an empty graph has
 the empty matching as its unique maximal matching.
 
-For a positive baseline pre-clamp estimate \(n_i^0>0\) and
-fixed task-specific correction factors \(r_{e,i}>0\), the controlled
-multiplicative approximation is
+For a matching \(S\), positive baseline pre-clamp
+estimate \(n_i^0>0\), and fixed task-specific correction
+factors \(r_{e,i}>0\), the controlled multiplicative
+approximation is
 \begin{equation}
 \label{eq:multiplicative}
-\widehat n_i(P)=n_i^0\prod_{e\in P}r_{e,i},
+\widehat n_i(S)=n_i^0\prod_{e\in S}r_{e,i},
 \quad
-L_i(P)=w_i\Bigl|\alpha_i+\sum_{e\in P}b_{e,i}\Bigr|,
+L_i(S)=w_i\Bigl|\alpha_i+\sum_{e\in S}b_{e,i}\Bigr|,
 \end{equation}
 where \(\alpha_i=\log(n_i^0/T_i)\) and
 \(b_{e,i}=\log r_{e,i}\).
@@ -335,18 +336,22 @@ before summing, so its maximizing schemes may be incompatible
 under any shared priority.
 
 \begin{table*}[t]
-\caption{Pairwise fixed-set evaluations for the same unordered
-decision \(M\) under different downstream strategy assumptions.}
+\caption{Four policy assumptions for the same unordered
+resource decision \(M\) in the pairwise model.}
 \label{tab:policy}
 \centering\small
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.78in}p{0.72in}p{1.48in}p{1.45in}p{1.85in}}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.92in}p{1.70in}p{1.13in}p{2.40in}}
 \toprule
-Evaluation & Decision & Strategy information & Objective & Interpretation\\
+Evaluation & Policy knowledge & Objective & What it measures\\
 \midrule
-Nominal & Unordered \(M\) & Known fixed priority \(\pi_0\) & \(N_{\pi_0}(M)\) & Loss under the stated fixed policy.\\
-Mean \(A\) & Unordered \(M\) & Assumed uniform distribution on global orders & \(A(M)\) & Hypothetical stochastic evaluation; this distribution is not a claim of production randomness.\\
-Global \(G\) & Unordered \(M\) & Unknown deterministic order shared by tasks & \(\max_{\pi}Z(M,\pi)\) & Worst aggregate loss over common policies.\\
-PESS \(P\) & Unordered \(M\) & Independent taskwise worst schemes & \(P(M)\) & Conservative envelope; maximizing choices need not be jointly realizable.\\
+Nominal & Known fixed priority \(\pi_0\) &
+\(N_{\pi_0}(M)\) & Loss under that specified policy.\\
+Mean \(A\) & Assumed uniform global-order distribution &
+\(A(M)\) & Mean loss under an explicit counterfactual distribution, not production randomization.\\
+Global \(G\) & Unknown deterministic order shared across tasks &
+\(G(M)\) & Maximum aggregate loss under one common priority.\\
+PESS \(P\) & Taskwise worst schemes without a shared-order constraint &
+\(P(M)\) & Conservative envelope; the separate maxima need not be jointly realizable.\\
 \bottomrule
 \end{tabular*}
 \end{table*}
@@ -806,26 +811,20 @@ B5 PESS    & 1 & .077898 & .077898\\
 \end{tabular}
 \end{table}
 
-The nested Nominal B3--B5 \emph{resource additions}
-yield one, two, then three complete schemes
-without removing an old scheme \emph{in this task}.
-The B5 Nominal/PESS contrast instead substitutes
-different frozen resource sets; the witness does
-not experimentally prove general nonnestedness.
-Of 100,000 Census13 Train tasks under B5 Nominal,
-\textbf{26,998} admit multiple modeled schemes,
-but only \textbf{10,764} have positive task-level
-Nominal-to-PESS model loss gaps; \textbf{16,234}
-are ambiguous with \emph{zero} risk gap.
-Ambiguity alone is not a measured error regression.
-Here, \emph{ambiguous} means that \(|\Gamma_i(M)|>1\), whereas
-\emph{positive risk} means that the largest admissible model loss
-is strictly greater than the nominal loss for that task. The
-16,234 zero-gap tasks need not have identical losses for every
-scheme; they simply incur no increase from replacing the nominal
-loss by the taskwise maximum. This deterministic witness and
-population count describe Train-model structure, not a random
-sample of tasks and not PostgreSQL's physical Test behavior.
+The nested Nominal B3--B5 resource additions yield
+one, two, and three complete schemes \emph{for this task},
+without deleting the earlier choices; the B5 PESS row
+instead evaluates a different frozen resource set.
+This witness does not prove general family nonnestedness.
+Across all 100,000 Census13 Train tasks under B5 Nominal,
+\textbf{26,998} have more than one admissible scheme,
+but only \textbf{10,764} have a strictly positive
+Nominal-to-PESS model loss gap. The remaining
+\textbf{16,234} ambiguous tasks have no such gap,
+even though their schemes need not all have equal loss.
+Thus ambiguity is not synonymous with additional
+modeled risk, let alone a physical Test error regression.
+These are exact Train-model counts, not sampled Test outcomes.
 
 \begin{table}[t]
 \caption{Census13 whole-Train model objective sums.
@@ -852,25 +851,18 @@ No whole-workload greedy choice is attributed to
 this single illustrative task.
 
 \subsection{Across-budget selection and fixed-set policy gap}
-All 40 training cases completed for
-\(B\in\{0,2,3,4,5\}\).
-Table~\ref{tab:budget} records the number of selected
-objects; \(=\) means \emph{identical resource IDs},
-not merely equal counts. B0 and B2 sets coincide
-between Nominal and PESS for every dataset.
-DMV11 first differs at B3, while the others
-first differ at B4. The three-object PESS
-choices on Forest10 and Power7 at B5
-also illustrate that \(B\) is a cap, not a
-forced set size.
-The distinction is not only about cardinality: Census13 has
-different Nominal and PESS resource IDs at B4 despite both sets
-containing four objects, while Forest10 and Power7 have smaller
-PESS sets than Nominal sets at B4 and B5. Thus the frozen paths
-show both substitutions at equal size and different stopping
-sizes. These four workloads do not establish a structural rule
-for how the first divergence or set size must behave on other
-workloads or budgets.
+All 40 Train selections completed for
+\(B\in\{0,2,3,4,5\}\). In Table~\ref{tab:budget},
+\(=\) denotes identical resource IDs, not just equal
+set sizes. Nominal and PESS coincide at B0 and B2.
+DMV11 first diverges at B3; the other datasets do
+so at B4. Census13 shows that \emph{which} resources
+are chosen matters even at equal size (B4: 4/4),
+while Forest10 and Power7 PESS stop at three
+resources under B5. The proxy budget is therefore a
+cap, not a requirement to install B objects.
+These frozen selections do not establish
+general divergence thresholds or set-size trends.
 
 \begin{table}[!tbp]
 \caption{Nominal/PESS selected-object counts under
@@ -907,22 +899,16 @@ taskwise-worst criterion. These are Train-model absolute-log
 loss sums, not Q-errors or physical Test comparisons, and
 should not be normalized against unrelated dataset totals.
 
-More directly, Table~\ref{tab:gap} shows \(P-G\)
-\emph{within the same fixed B5 set}.
-For each Nominal-selected B5 set, independent
-task-wise pessimism strictly exceeds the largest
-loss attainable by \emph{one global priority}.
-The four PESS-selected B5 sets happen to have a
-zero gap in the frozen model; no general
-equality theorem or physical guarantee follows.
-The positive Nominal-set gaps quantify the additional
-Train-model loss from allowing each task its own worst
-scheme, beyond the largest total loss attainable under
-one common priority. They are evidence of taskwise
-conservatism for these four fixed sets, not bounds on
-physical Test Q-error. The zero gaps on the PESS-selected
-sets are also specific frozen observations; selecting by
-PESS does not generally eliminate a shared-policy gap.
+Table~\ref{tab:gap} isolates the coupling effect:
+it measures \(P(M)-G(M)\) \emph{within each fixed B5 set}.
+All four Nominal-selected sets have positive gaps,
+meaning that independently maximizing task losses
+exceeds what one common priority can jointly induce.
+The four PESS-selected sets have zero gaps in this
+frozen model. Neither pattern is a general theorem
+about sets selected by the respective objectives,
+and these Train-model gaps do not bound physical
+Test Q-error.
 
 \begin{table}[t]
 \caption{Fixed-set \(P(M)-G(M)\): total Train-model
@@ -942,17 +928,16 @@ Power7 & 5385.310 & 0\\
 \end{table}
 
 \subsection{Canonical and reversed physical Test orders}
-The frozen \#101 study collected 250,000 valid
-official Test EXPLAINs. At B5 under the canonical
-fixed configuration, Nominal yields lower Test P95
-than PESS on all four datasets.
-The separate \#105 intervention reverses the creation
-order of each \emph{same unordered Nominal B5 set}.
-It changes both applied-MCV/estimate sequences and
-physical Q-error, as shown in
-Table~\ref{tab:physical}. The reverse order is
-not established as the globally worst permutation.
-Not every changed MCV sequence changes Q-error.
+The \#101 evaluation produced 250,000 valid
+official Test EXPLAINs. Under the B5 canonical
+configuration, Nominal has lower physical Test P95
+than PESS on all four datasets. To isolate an
+\emph{order intervention}, \#105 then recreates
+each \emph{same Nominal B5 set} in exact reverse
+order while controlling sample and MCV contents.
+Table~\ref{tab:physical} reports the resulting
+diagnostic and P95 differences. Reverse is not
+asserted to be the worst possible order.
 
 \begin{table}[!tbp]
 \caption{B5 physical Test P95 Q-error. Can.\ N/P
@@ -975,23 +960,26 @@ Power7 & 9.8449 / 9.9576 & 9.8069 & \(-0.39\%\) & 4898\\
 \end{tabular}
 \end{table}
 
-The canonical N/P entries compare different frozen
-selections; reversal intervenes only on the \emph{same
-Nominal set}. It raises P95 on three datasets and slightly
-lowers it on Power7. The changed application sequences
-demonstrate physical order sensitivity, not that every
-query's error changed or that reverse is a worst or
-probabilistic deployment order.
+The two contrasts answer distinct questions: canonical
+N/P compares \emph{different installed sets}, whereas
+canonical/reverse compares \emph{one fixed Nominal set}.
+Reversal raises P95 on three datasets (by 61.99\% on
+DMV11), but slightly lowers it on Power7.
+Thousands of MCV application sequences change;
+this does not mean every affected query changes
+Q-error or that reverse represents a deployment
+distribution.
 
 \subsection{Expected physical P95 under a hypothetical order}
-The \#107 outcome is the \emph{expected per-order
-physical Test P95} in~\eqref{eq:estimand}, estimated
-with the frozen sampling weights. Negative
-PESS-minus-Nominal differences favor PESS
-only for this \emph{counterfactual} estimand.
-Table~\ref{tab:expected} shows that Census13
-and DMV11 favor PESS, Forest10 favors Nominal,
-and Power7's approximate interval includes zero.
+The \#107 estimand in~\eqref{eq:estimand} is
+the \emph{mean of per-order physical Test P95},
+estimated with the frozen finite-population
+sampling weights. In Table~\ref{tab:expected},
+negative PESS-minus-Nominal differences favor PESS:
+Census13 and DMV11 do so, Forest10 favors
+Nominal, and Power7's interval spans zero.
+These are order-population comparisons under
+a declared counterfactual assumption.
 
 \begin{table}[!tbp]
 \caption{B5 counterfactual uniform global relative-OID
@@ -1014,40 +1002,53 @@ Power7 & 9.9283 & 9.9576 & +0.0293; [ -0.1735,\ +0.2322 ]\\
 \end{tabular}
 \end{table}
 
-The \#101 canonical comparison evaluates each selected
-set under one order, while \#107 averages \emph{per-order}
-Test P95 under a hypothetical order population. Their rankings
-need not agree: the latter uses a different estimand, not
-production OID randomization or a physical worst case.
-The intervals cover only the frozen order-sampling design.
+The ranking reversal on Census13 and DMV11 is
+not a contradiction: \#101 evaluates each set under
+one canonical order, whereas \#107 averages
+\emph{per-order} P95 across a hypothetical order
+population. Different resource sets can rank
+differently under different evaluation policies.
+For an advisor with reliable knowledge of a
+fixed deployment priority, the canonical evaluation
+is more directly relevant; absent such knowledge,
+the uniform-order comparison serves as a \emph{sensitivity
+analysis}, not as a learned deployment distribution.
+Neither physical comparison computes the abstract
+worst shared-order loss \(G\) or validates
+PESS as a universal physical envelope.
+The reported intervals cover only frozen
+permutation sampling.
 
 \paragraph{Query-level diagnostics under frozen orders.}
-A read-only analysis (\#125) validated the \#107 paired
-Test-query records and reproduced official aggregate results.
-In checked Nominal order pairs, each observed Q-error change
-coincided with an MCV candidate-ID sequence change, but not
-vice versa. Relative to the declared anchors, Census13 and
-DMV11 Nominal had 17,731 and 37,843 query--order pairs with
-both changes. Their PESS counterparts had 87,921 and 89,890
-sequence changes with \emph{unchanged} Q-error; aligned numeric
-MCV estimates also remained unchanged. These repeated paired
-counts are descriptive, neither independent observations nor
-population estimates or causal tests. The \#105 fixed-order
-pairs were not recounted as new \#125 comparisons.
+Read-only analysis \#125 validated the \#107
+per-query records and reproduced the official aggregates.
+Across checked Nominal order pairs, every observed
+Q-error change coincided with an MCV candidate-ID
+sequence change, but the converse failed.
+Relative to declared anchor orders, Census13 and DMV11
+Nominal have 17,731 and 37,843 query--order pairs
+with both changes. The corresponding PESS comparisons
+have 87,921 and 89,890 changed ID sequences with
+\emph{unchanged} Q-error and candidate-aligned numeric
+MCV estimates. These are repeated, descriptive
+query--order comparisons, not independent observations,
+population estimates, or causal mediation tests;
+\#105 canonical/reverse pairs are excluded.
+A changed diagnostic sequence alone is therefore
+an insufficient proxy for physical error sensitivity.
 
-The zero observed variability of Census13's
-five-object PESS sample does not demonstrate
-invariance of its 96 unsampled orders. Forest10
-and Power7 PESS use exact six-order censuses.
-The \#103 \(A(M)\) is an exact expectation of
-\emph{total Train-model absolute-log loss} over
-abstract priority permutations; \#107 estimates
-the mean of \emph{physical Test per-order P95
-Q-error} over sampled relative-OID permutations.
-They differ in split, loss, aggregation and
-estimation mechanism. Agreement or disagreement
-between rankings is not, by itself, evidence of
-model calibration or out-of-sample generalization.
+The constant P95 observed for Census13's
+24 sampled PESS orders does not establish
+invariance across its 96 unsampled orders;
+Forest10 and Power7 PESS instead have exact
+six-order censuses. Finally, the exact \#103
+\(A(M)\) averages \emph{Train-model total
+absolute-log loss} over abstract priorities,
+while \#107 averages \emph{physical Test
+per-order P95 Q-error}. These different
+metrics, splits, and mechanisms preclude
+interpreting agreement of rankings as
+model calibration.
 
 \section{Threats to Validity}
 \label{sec:validity}
