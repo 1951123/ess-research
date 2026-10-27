@@ -1,0 +1,1010 @@
+{
+  "calibration_task_ids": [
+    "arecel:forest10:valid:000005",
+    "arecel:forest10:valid:000003",
+    "arecel:forest10:valid:000009",
+    "arecel:forest10:valid:000001",
+    "arecel:forest10:valid:000010",
+    "arecel:forest10:valid:000011"
+  ],
+  "dataset": "forest10",
+  "evidence_label": "experimentally_observed_validation_calibration_plus_exact_fraction_reference",
+  "format": "ess-issue48-stage2b-validation-model-v1",
+  "limitations": [
+    "validation-derived model inputs are separate from held-out PostgreSQL measurements",
+    "Fraction exactness applies only after recorded rationalization",
+    "no solver or universal optimality claim"
+  ],
+  "models": [
+    {
+      "alpha": "2477549824197911/1000000000000000000",
+      "available_edges": [
+        "e01",
+        "e12",
+        "e23",
+        "e34",
+        "e45"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "999999999999999879/1000000000000000000",
+        "e23": "224378567282232069/250000000000000000",
+        "e34": "1961238857373237623/1000000000000000000",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "0.0074326494725937319",
+      "query_id": "arecel:forest10:valid:000005",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 5,
+      "target_T": 3,
+      "true_cardinality": 3,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "796769221178803/10000000000000000",
+      "available_edges": [
+        "e12"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "1",
+        "e23": "1",
+        "e34": "1",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "0.0796769221178803",
+      "query_id": "arecel:forest10:valid:000003",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 3,
+      "target_T": 1,
+      "true_cardinality": 0,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "973759138008113187/1000000000000000000",
+      "available_edges": [
+        "e23",
+        "e34"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "1",
+        "e23": "984157613430185371/1000000000000000000",
+        "e34": "318781924436508817/250000000000000000",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "116485.93688422054",
+      "query_id": "arecel:forest10:valid:000009",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 9,
+      "target_T": 119625,
+      "true_cardinality": 119625,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "277317044351573603/1000000000000000000",
+      "available_edges": [
+        "e34"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "1",
+        "e23": "1",
+        "e34": "40740890041398617/20000000000000000",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "95.119746212589746",
+      "query_id": "arecel:forest10:valid:000001",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 1,
+      "target_T": 343,
+      "true_cardinality": 343,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "534131147081970897/1000000000000000000",
+      "available_edges": [
+        "e45",
+        "e56"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "1",
+        "e23": "1",
+        "e34": "1",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "6898.8378957107361",
+      "query_id": "arecel:forest10:valid:000010",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 10,
+      "target_T": 12916,
+      "true_cardinality": 12916,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "10553069212842603/500000000000000000",
+      "available_edges": [
+        "e45",
+        "e56"
+      ],
+      "b": {
+        "e01": "1",
+        "e12": "1",
+        "e23": "1",
+        "e34": "1",
+        "e45": "1",
+        "e56": "1"
+      },
+      "n0_preclamp": "0.16884910740548165",
+      "query_id": "arecel:forest10:valid:000011",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 11,
+      "target_T": 8,
+      "true_cardinality": 8,
+      "weight": "1.0"
+    }
+  ],
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "sample": {
+    "bytes": 10620460,
+    "header": {
+      "alignof": 8,
+      "blcksz": 8192,
+      "file_bytes": 10620460,
+      "format_version": 1,
+      "item_pointer_size": 6,
+      "natts": 10,
+      "relation_filenode": 16384,
+      "relation_identity": "6:public8:forest10",
+      "relation_oid": 16384,
+      "relation_pages": 7792,
+      "sample_target": 90000,
+      "server_version": "16.14",
+      "server_version_num": 160014,
+      "tuple_count": 90000,
+      "tuple_header_size": 24,
+      "tuple_size": 24
+    },
+    "rows": 581012,
+    "sha256": "5edd94c7a71cf829c9b3d5ba56efc990cc6a1b59ecaab3a5ea7e144b339db5dc",
+    "table": "public.forest10"
+  },
+  "selected_by_method_and_budget": {
+    "Empty": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ]
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 22
+      },
+      "3": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ]
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 42
+      },
+      "5": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ],
+          [
+            "e01",
+            "e12",
+            "e23",
+            "e34",
+            "e45",
+            "e56"
+          ]
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 63
+      }
+    },
+    "Nominal": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 16
+      },
+      "3": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 26
+      },
+      "5": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 32
+      }
+    },
+    "PESS": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 16
+      },
+      "3": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 26
+      },
+      "5": {
+        "all_optimal_sets": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "118029246238088819/62500000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 32
+      }
+    }
+  },
+  "selected_sets": {
+    "set-empty": {
+      "aliases": [
+        {
+          "budget": 0,
+          "method": "Empty",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "Empty",
+          "tie_count": 22
+        },
+        {
+          "budget": 3,
+          "method": "Empty",
+          "tie_count": 42
+        },
+        {
+          "budget": 5,
+          "method": "Empty",
+          "tie_count": 63
+        },
+        {
+          "budget": 0,
+          "method": "Nominal",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "Nominal",
+          "tie_count": 16
+        },
+        {
+          "budget": 3,
+          "method": "Nominal",
+          "tie_count": 26
+        },
+        {
+          "budget": 5,
+          "method": "Nominal",
+          "tie_count": 32
+        },
+        {
+          "budget": 0,
+          "method": "PESS",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "PESS",
+          "tie_count": 16
+        },
+        {
+          "budget": 3,
+          "method": "PESS",
+          "tie_count": 26
+        },
+        {
+          "budget": 5,
+          "method": "PESS",
+          "tie_count": 32
+        }
+      ],
+      "selected": []
+    }
+  }
+}

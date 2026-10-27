@@ -1,0 +1,486 @@
+{
+  "datasets": [
+    {
+      "claimed_clause_status": {
+        "NOT_APPLICABLE": 120
+      },
+      "cohort_query_ids": 60,
+      "dataset": "forest10",
+      "empty_summary": {
+        "absolute_log_error": {
+          "count": 120,
+          "max": "5.189928547135720025713354961",
+          "mean": "0.28740906138032777223240402040903883333333333333333333333333333333333333333333333",
+          "median": "0.03610635368922594998822114991",
+          "p90": "0.4457851881571978628972310747"
+        },
+        "budgets_methods": [
+          {
+            "budget": 0,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 0,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Nominal",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "Nominal",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "Nominal",
+            "tie_count": 32
+          },
+          {
+            "budget": 0,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "PESS",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "PESS",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "PESS",
+            "tie_count": 32
+          }
+        ],
+        "payload_present_resource_ids": [],
+        "repetition_error_spread": {
+          "count": 60,
+          "max": "0E-29",
+          "mean": "0E-32",
+          "median": "0E-31",
+          "p90": "0E-28"
+        },
+        "requested_resource_ids": [],
+        "resource_set_id": "set-empty",
+        "rows": 120,
+        "selected": [],
+        "tail_query_ids": [
+          "arecel:forest10:test:008677",
+          "arecel:forest10:test:006434",
+          "arecel:forest10:test:004019",
+          "arecel:forest10:test:006611",
+          "arecel:forest10:test:001190",
+          "arecel:forest10:test:000985"
+        ],
+        "tail_top_decile": {
+          "count": 12,
+          "max": "0.05512762383752828261265998912",
+          "mean": "0.0121774363008686520711702875604",
+          "median": "0.003233282685817364998542762004",
+          "p90": "0.05512762383752828261265998912"
+        },
+        "trace_selected_resource_counts": {},
+        "zero_truth": {
+          "count": 0
+        }
+      },
+      "external_raw_heldout_sha256": "f2dab2c93e1811e7982324e04df5218f61eb1f1a450e0b3b06fb42c1007c9ea2",
+      "heldout_rows": 120,
+      "model_objectives": {
+        "Empty": {
+          "0": "387500863688484301/200000000000000000",
+          "2": "387500863688484301/200000000000000000",
+          "3": "387500863688484301/200000000000000000",
+          "5": "387500863688484301/200000000000000000"
+        },
+        "Nominal": {
+          "0": "387500863688484301/200000000000000000",
+          "2": "387500863688484301/200000000000000000",
+          "3": "387500863688484301/200000000000000000",
+          "5": "387500863688484301/200000000000000000"
+        },
+        "PESS": {
+          "0": "387500863688484301/200000000000000000",
+          "2": "387500863688484301/200000000000000000",
+          "3": "387500863688484301/200000000000000000",
+          "5": "387500863688484301/200000000000000000"
+        }
+      },
+      "model_selected_sets": {
+        "Empty": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        },
+        "Nominal": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        },
+        "PESS": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        }
+      },
+      "positive_preclamp_rows": 120,
+      "repetitions": 2,
+      "sample": {
+        "bytes": 10620460,
+        "header": {
+          "alignof": 8,
+          "blcksz": 8192,
+          "file_bytes": 10620460,
+          "format_version": 1,
+          "item_pointer_size": 6,
+          "natts": 10,
+          "relation_filenode": 16384,
+          "relation_identity": "6:public8:forest10",
+          "relation_oid": 16384,
+          "relation_pages": 7792,
+          "sample_target": 90000,
+          "server_version": "16.14",
+          "server_version_num": 160014,
+          "tuple_count": 90000,
+          "tuple_header_size": 24,
+          "tuple_size": 24
+        },
+        "rows": 581012,
+        "sha256": "2dccc8d00bd318a9ab980979b536aa15878404186bfd1f626cff76810d86a2fd",
+        "table": "public.forest10"
+      },
+      "trace_selected_rows": 0,
+      "truth_direction": {
+        "overestimate": 62,
+        "underestimate": 58
+      },
+      "validation_payload_by_singleton": {
+        "calibration-e01": [
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "resource_id": "e01",
+            "statistic_name": "ess2b_forest10_e01"
+          }
+        ],
+        "calibration-e12": [
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "resource_id": "e12",
+            "statistic_name": "ess2b_forest10_e12"
+          }
+        ],
+        "calibration-e23": [
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "resource_id": "e23",
+            "statistic_name": "ess2b_forest10_e23"
+          }
+        ],
+        "calibration-e34": [
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "resource_id": "e34",
+            "statistic_name": "ess2b_forest10_e34"
+          }
+        ],
+        "calibration-e45": [
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "resource_id": "e45",
+            "statistic_name": "ess2b_forest10_e45"
+          }
+        ],
+        "calibration-e56": [
+          {
+            "mcv_item_count": 0,
+            "mcv_payload_present": false,
+            "resource_id": "e56",
+            "statistic_name": "ess2b_forest10_e56"
+          }
+        ],
+        "calibration-empty": []
+      },
+      "zero_truth_rows": 0
+    },
+    {
+      "claimed_clause_status": {
+        "NOT_APPLICABLE": 104
+      },
+      "cohort_query_ids": 52,
+      "dataset": "census13",
+      "empty_summary": {
+        "absolute_log_error": {
+          "count": 104,
+          "max": "1.806028887813390317641442183",
+          "mean": "0.235547413397544984827483086513",
+          "median": "0.08122478566318774911074504701",
+          "p90": "0.5810081562401626952534234193"
+        },
+        "budgets_methods": [
+          {
+            "budget": 0,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 0,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Nominal",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "Nominal",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "Nominal",
+            "tie_count": 32
+          },
+          {
+            "budget": 0,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "PESS",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "PESS",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "PESS",
+            "tie_count": 32
+          }
+        ],
+        "payload_present_resource_ids": [],
+        "repetition_error_spread": {
+          "count": 52,
+          "max": "0E-28",
+          "mean": "0E-30",
+          "median": "0E-28",
+          "p90": "0E-28"
+        },
+        "requested_resource_ids": [],
+        "resource_set_id": "set-empty",
+        "rows": 104,
+        "selected": [],
+        "tail_query_ids": [
+          "arecel:census13:test:002615",
+          "arecel:census13:test:001444",
+          "arecel:census13:test:002026",
+          "arecel:census13:test:007590",
+          "arecel:census13:test:005260",
+          "arecel:census13:test:000019"
+        ],
+        "tail_top_decile": {
+          "count": 12,
+          "max": "1.129593809506560595925377299",
+          "mean": "0.40075119944967806123753371163666666666666666666666666666666666666666666666666667",
+          "median": "0.321911273827144341163697188495",
+          "p90": "1.129593809506560595925377299"
+        },
+        "trace_selected_resource_counts": {},
+        "zero_truth": {
+          "count": 0
+        }
+      },
+      "external_raw_heldout_sha256": "ea97876ed4b7cca16a840bf730ce05cc697196740116387ba3b3d8262be45928",
+      "heldout_rows": 104,
+      "model_objectives": {
+        "Empty": {
+          "0": "146099177756434329/1000000000000000000",
+          "2": "146099177756434329/1000000000000000000",
+          "3": "146099177756434329/1000000000000000000",
+          "5": "146099177756434329/1000000000000000000"
+        },
+        "Nominal": {
+          "0": "146099177756434329/1000000000000000000",
+          "2": "146099177756434329/1000000000000000000",
+          "3": "146099177756434329/1000000000000000000",
+          "5": "146099177756434329/1000000000000000000"
+        },
+        "PESS": {
+          "0": "146099177756434329/1000000000000000000",
+          "2": "146099177756434329/1000000000000000000",
+          "3": "146099177756434329/1000000000000000000",
+          "5": "146099177756434329/1000000000000000000"
+        }
+      },
+      "model_selected_sets": {
+        "Empty": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        },
+        "Nominal": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        },
+        "PESS": {
+          "0": [],
+          "2": [],
+          "3": [],
+          "5": []
+        }
+      },
+      "positive_preclamp_rows": 104,
+      "repetitions": 2,
+      "sample": {
+        "bytes": 8144782,
+        "header": {
+          "alignof": 8,
+          "blcksz": 8192,
+          "file_bytes": 8144782,
+          "format_version": 1,
+          "item_pointer_size": 6,
+          "natts": 13,
+          "relation_filenode": 16384,
+          "relation_identity": "6:public8:census13",
+          "relation_oid": 16384,
+          "relation_pages": 1008,
+          "sample_target": 90000,
+          "server_version": "16.14",
+          "server_version_num": 160014,
+          "tuple_count": 48842,
+          "tuple_header_size": 24,
+          "tuple_size": 24
+        },
+        "rows": 48842,
+        "sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+        "table": "public.census13"
+      },
+      "trace_selected_rows": 0,
+      "truth_direction": {
+        "overestimate": 46,
+        "underestimate": 58
+      },
+      "validation_payload_by_singleton": {
+        "calibration-c01": [
+          {
+            "mcv_item_count": 300,
+            "mcv_payload_present": true,
+            "resource_id": "c01",
+            "statistic_name": "ess2b_census13_c01"
+          }
+        ],
+        "calibration-c12": [
+          {
+            "mcv_item_count": 119,
+            "mcv_payload_present": true,
+            "resource_id": "c12",
+            "statistic_name": "ess2b_census13_c12"
+          }
+        ],
+        "calibration-c23": [
+          {
+            "mcv_item_count": 16,
+            "mcv_payload_present": true,
+            "resource_id": "c23",
+            "statistic_name": "ess2b_census13_c23"
+          }
+        ],
+        "calibration-c34": [
+          {
+            "mcv_item_count": 104,
+            "mcv_payload_present": true,
+            "resource_id": "c34",
+            "statistic_name": "ess2b_census13_c34"
+          }
+        ],
+        "calibration-c45": [
+          {
+            "mcv_item_count": 98,
+            "mcv_payload_present": true,
+            "resource_id": "c45",
+            "statistic_name": "ess2b_census13_c45"
+          }
+        ],
+        "calibration-c56": [
+          {
+            "mcv_item_count": 88,
+            "mcv_payload_present": true,
+            "resource_id": "c56",
+            "statistic_name": "ess2b_census13_c56"
+          }
+        ],
+        "calibration-empty": []
+      },
+      "zero_truth_rows": 0
+    }
+  ],
+  "decision": "NO-GO",
+  "decision_scope": "tested nontrivial PESS-versus-Nominal physical contrast under protocol-v4 validation-only selection",
+  "evidence_label": "experimentally_observed_bounded_protocol_decision",
+  "format": "ess-issue48-stage2b-formal-decision-v1",
+  "limitations": [
+    "not universal PESS ranking",
+    "not a PostgreSQL containment guarantee",
+    "not a latency or maintenance-cost result",
+    "not population-level or group-independent inference"
+  ],
+  "nontrivial_method_contrast": false,
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "run_summary_sha256": "67b294bc52b6c4cc5debfba27f02078d895a3963be5b52815dbed86e2ccbe5cb",
+  "valid_dataset_count": 2
+}
