@@ -487,9 +487,8 @@ and zero; the exact integer threshold problem is
 stated after normalization by \(\ln 2\).
 The restricted construction does not establish the
 complexity of deciding \(P(M)=G(M)\) in general.
-Proof details, encodings, and synthetic verification
-are retained in the independently reviewed Issue~\#123
-theory note.
+Detailed proof encodings and synthetic checks are
+available in the accompanying reproducibility materials.
 
 \subsection{Frozen resource-selection procedure}
 The empirical selection trains \emph{only} \(N_{\pi_0}\)
@@ -631,44 +630,46 @@ for model construction and selection and 10,000 official
 Test queries for PostgreSQL evaluation. Neither Test
 labels nor physical Test estimates reselect resources.
 
-The frozen evidence has five roles: (i) \#99 selects
-sets on Train under Nominal and PESS; (ii) \#103
-enumerates priorities on those \emph{fixed} sets in
-the Train model; (iii) \#116 inspects one Census13
-Train task's complete schemes; (iv) \#101/\#105
-measure canonical and controlled reverse physical
-orders; and (v) \#107 samples physical relative-OID
-orders for a separately specified population estimand.
-The read-only \#125 analysis further describes paired
-Test diagnostics from \#107. Only \#107 averages
-physical Test P95 over orders; its uncertainty concerns
-the sampled orders, not new queries or workloads.
+The evidence has five complementary roles: (i) select
+Nominal and PESS resource sets using Train data;
+(ii) enumerate abstract priorities on these \emph{fixed}
+sets; (iii) inspect one Census13 Train task's complete
+scheme family; (iv) measure physical Test outcomes at
+canonical and controlled reverse catalog orders; and
+(v) sample relative-OID orders to estimate a
+counterfactual order-population expectation. A subsequent
+read-only paired-query analysis characterizes diagnostic
+changes in the sampled physical observations.
+Only the fifth stage averages physical Test P95 over
+orders; its uncertainty concerns sampled orders,
+not new queries or workloads.
 
-The first stage (\#99) selects Nominal and PESS resources on Train with
+The frozen Train selection chooses Nominal and PESS resources with
 the same deterministic, strictly improving add-only greedy heuristic
 at \(B\in\{0,2,3,4,5\}\). Each candidate's budget cost is one
 \emph{proxy unit}, not measured maintenance CPU or storage. All 40
 labeled decisions completed, giving 25 unique dataset-specific
 physical configurations. The frozen resource manifest is stored at
-\href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the \#99 selection record}.
+\href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the frozen resource-selection manifest}.
 The frozen Train-model coefficients use positive clamped-log-derived
 quantities and exact \texttt{Fraction} reference evaluation; they
 are not physical \texttt{Plan Rows} measurements.
 
-A read-only (\#116) Census13 Train study enumerates \(\Gamma_i(M)\)
+A read-only Census13 Train case study enumerates \(\Gamma_i(M)\)
 for five existing B3/B4/B5 selected sets. It deterministically
 takes the smallest stable Train task ID satisfying structural,
 positive-risk and compact-family conditions. Exact task losses
 were checked against a pinned advisor reference, and the
-100,000-task objective sums agreed with the existing \#103 model
-summary. This is artifact agreement, not independent recollection
+100,000-task objective sums agreed with the independent
+frozen offline model summary. This is artifact agreement, not independent recollection
 of raw Train data or a new resource-selection experiment.
 
 \subsection{Physical PostgreSQL evaluation}
-The \#101, \#105 and \#107 physical studies use version-pinned
-PostgreSQL 16.14 with full source relations, fixed \#99 ANALYZE
-sample replay and effective statistics target 300 for ordinary
-and selected extended statistics. The \#105/\#107 build is pinned
+The fixed-order, reversal, and sampled-order physical
+experiments use version-pinned PostgreSQL 16.14 with full
+source relations, frozen ANALYZE sample replay, and effective
+statistics target 300 for ordinary and selected extended
+statistics. The order-intervention build is pinned
 to source SHA \texttt{f1bf37b5dd3d3a7087fc0af5de550ca31035854c}.
 Settings include these pinned values:\\
 {\raggedright
@@ -697,25 +698,23 @@ e,&t=0,\ e>0,\\
 \end{equation}
 The percentile implementation follows the original NumPy convention,
 and differs from the selection model's absolute-log loss.
-The fixed-order \#101 evaluation completed 25 configurations and
-250,000 Test EXPLAINs. The paired canonical/reverse \#105 study
-completed eight configurations, 80,000 Test EXPLAINs and complete
+The canonical fixed-order evaluation completed 25 configurations
+and 250,000 Test EXPLAINs. The controlled canonical/reverse
+comparison completed eight configurations, 80,000 Test EXPLAINs and complete
 selected-object/estimate diagnostics. Both studies use frozen,
 previously selected resources.
 
 \subsection{Offline Train-model global order enumeration}
-The \#103 study evaluates every strict global priority permutation
-on the \emph{already selected} Train-model resource sets:
+The offline analysis enumerates strict global
+priorities on the \emph{already selected} Train sets:
 906 permutations in total for 25 distinct fixed sets. A global
 order is shared across tasks and counted even when distinct
 orders induce the same matching outcomes. It computes
 \(N_{\pi_0}(M),A(M),G(M),P(M)\) using frozen
 Train coefficients and exact reference checks, with
 \emph{no} Test execution, refitting or reselection.
-This evidence is recorded in
-\href{https://github.com/1951123/ess-research/pull/104}
-{Draft PR \#104}; it should not be mislabeled as an
-already merged \texttt{main}-branch experiment artifact.
+The enumeration code, frozen coefficients, exact summaries,
+and verification tests accompany the reproducibility artifacts.
 
 \subsection{Counterfactual uniform global relative-OID order}
 For RQ3, define a \emph{hypothetical} uniform population of
@@ -733,7 +732,7 @@ of order-averaged per-query Q-errors. Neither this assumption
 nor the abstract global order distribution implies PostgreSQL
 assigns OIDs randomly in production.
 
-The frozen \#107 study used \textbf{156 physical configurations},
+The sampled physical order study used \textbf{156 configurations},
 not a complete 732-arm census. For each of four five-object
 Nominal sets it included two canonical/reverse certainty orders
 plus 22 simple-random-without-replacement (SRSWOR) orders
@@ -765,9 +764,9 @@ error. They cover \emph{permutation sampling only}, not new
 workloads, datasets or ANALYZE samples. A degenerate interval
 from 24 sampled orders cannot certify all 120 orders identical.
 
-The \#107 design was specified after inspection of earlier
-\#101/\allowbreak\#105 results, although new sampled orders were fixed
-before new Test measurements. Eight original \#105 certainty
+The sampled-order design was specified after inspection of
+canonical and reversal outcomes, although new sampled orders
+were fixed before their Test measurements. Eight earlier certainty
 arms were remeasured after a reuse-eligibility failure whose
 exact row-level cause was not preserved. Twelve three-object
 PESS arms stopped before EXPLAIN because a validator expected
@@ -894,7 +893,7 @@ Power7 & \(0/0=\) & \(2/2=\) & \(3/3=\) & \(4/3\ne\) & \(5/3\ne\)\\
 \end{tabular}
 \end{table}
 
-The exact offline \#103 Train-model evaluation spans
+The exact offline Train-model enumeration spans
 906 global priority orders across 25 unique sets;
 nine selected sets have nonzero modeled aggregate
 order sensitivity. At B5, the modeled expected
@@ -939,11 +938,11 @@ Power7 & 5385.310 & 0\\
 \end{table}
 
 \subsection{Canonical and reversed physical Test orders}
-The \#101 evaluation produced 250,000 valid
+The canonical fixed-order evaluation produced 250,000 valid
 official Test EXPLAINs. Under the B5 canonical
 configuration, Nominal has lower physical Test P95
 than PESS on all four datasets. To isolate an
-\emph{order intervention}, \#105 then recreates
+\emph{order intervention}, the reversal experiment recreates
 each \emph{same Nominal B5 set} in exact reverse
 order while controlling sample and MCV contents.
 Table~\ref{tab:physical} reports the resulting
@@ -982,7 +981,7 @@ Q-error or that reverse represents a deployment
 distribution.
 
 \subsection{Expected physical P95 under a hypothetical order}
-The \#107 estimand in~\eqref{eq:estimand} is
+The order-population estimand in~\eqref{eq:estimand} is
 the \emph{mean of per-order physical Test P95},
 estimated with the frozen finite-population
 sampling weights. In Table~\ref{tab:expected},
@@ -1014,8 +1013,9 @@ Power7 & 9.9283 & 9.9576 & +0.0293; [ -0.1735,\ +0.2322 ]\\
 \end{table}
 
 The ranking reversal on Census13 and DMV11 is
-not a contradiction: \#101 evaluates each set under
-one canonical order, whereas \#107 averages
+not a contradiction: the fixed-order comparison evaluates
+each set under one canonical order, whereas the sampled-order
+study averages
 \emph{per-order} P95 across a hypothetical order
 population. Different resource sets can rank
 differently under different evaluation policies.
@@ -1032,8 +1032,9 @@ The reported intervals cover only frozen
 permutation sampling.
 
 \paragraph{Query-level diagnostics under frozen orders.}
-Read-only analysis \#125 validated the \#107
-per-query records and reproduced the official aggregates.
+A read-only analysis of the sampled-order physical records
+validated per-query observations and reproduced the
+reported aggregate estimates.
 Across checked Nominal order pairs, every observed
 Q-error change coincided with an MCV candidate-ID
 sequence change, but the converse failed.
@@ -1045,7 +1046,7 @@ have 87,921 and 89,890 changed ID sequences with
 MCV estimates. These are repeated, descriptive
 query--order comparisons, not independent observations,
 population estimates, or causal mediation tests;
-\#105 canonical/reverse pairs are excluded.
+the separate canonical/reverse pairs are excluded.
 The physical observations thus separate \emph{application-order
 sensitivity} from \emph{error sensitivity}. Diagnostics
 locate differences among frozen configurations, but do not
@@ -1055,10 +1056,10 @@ The constant P95 observed for Census13's
 24 sampled PESS orders does not establish
 invariance across its 96 unsampled orders;
 Forest10 and Power7 PESS instead have exact
-six-order censuses. Finally, the exact \#103
+six-order censuses. Finally, the exact offline Train
 \(A(M)\) averages \emph{Train-model total
 absolute-log loss} over abstract priorities,
-while \#107 averages \emph{physical Test
+while the sampled physical study averages \emph{Test
 per-order P95 Q-error}. These different
 metrics, splits, and mechanisms preclude
 interpreting agreement of rankings as
@@ -1110,7 +1111,7 @@ the frozen Test split. A constant outcome among
 earlier experiments, and the record retains both
 pre-EXPLAIN configuration failures and an
 unresolved historical reuse-rejection cause.
-The \#125 paired diagnostic counts do not
+The paired-query diagnostic counts do not
 identify causal mediation.
 
 \paragraph{Generalization and reproducibility.}
