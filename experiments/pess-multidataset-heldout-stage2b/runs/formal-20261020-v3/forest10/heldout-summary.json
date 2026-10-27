@@ -1,0 +1,153 @@
+{
+  "dataset": "forest10",
+  "evidence_label": "experimentally_observed_postgresql_measurement",
+  "format": "ess-issue48-stage2b-heldout-summary-v1",
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "raw_external": {
+    "calibration": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-mftr2amr/results/formal-calibration.jsonl",
+    "calibration_sha256": "6fd1becbb08437f36b51141dc44b72a51fb43bc1c9e1281f04e8a27eecf8e79d",
+    "heldout": "/home/wqts/ess-runtime/ess-research/issue48/runs/arecel-mftr2amr/results/formal-heldout.jsonl",
+    "heldout_sha256": "f2dab2c93e1811e7982324e04df5218f61eb1f1a450e0b3b06fb42c1007c9ea2"
+  },
+  "sample": {
+    "bytes": 10620460,
+    "header": {
+      "alignof": 8,
+      "blcksz": 8192,
+      "file_bytes": 10620460,
+      "format_version": 1,
+      "item_pointer_size": 6,
+      "natts": 10,
+      "relation_filenode": 16384,
+      "relation_identity": "6:public8:forest10",
+      "relation_oid": 16384,
+      "relation_pages": 7792,
+      "sample_target": 90000,
+      "server_version": "16.14",
+      "server_version_num": 160014,
+      "tuple_count": 90000,
+      "tuple_header_size": 24,
+      "tuple_size": 24
+    },
+    "rows": 581012,
+    "sha256": "2dccc8d00bd318a9ab980979b536aa15878404186bfd1f626cff76810d86a2fd",
+    "table": "public.forest10"
+  },
+  "scientific_boundary": [
+    "positive pre-clamp numeric trace is the primary estimate",
+    "Plan Rows and latency are not used",
+    "requested/payload/trace-selected resources are separate",
+    "no universal PESS dominance or PostgreSQL containment claim"
+  ],
+  "summary": {
+    "model_and_pg_domains_separate": true,
+    "paired": [],
+    "query_ids": 60,
+    "repetitions": 2,
+    "resource_sets": [
+      {
+        "absolute_log_error": {
+          "count": 120,
+          "max": "5.189928547135720025713354961",
+          "mean": "0.28740906138032777223240402040903883333333333333333333333333333333333333333333333",
+          "median": "0.03610635368922594998822114991",
+          "p90": "0.4457851881571978628972310747"
+        },
+        "budgets_methods": [
+          {
+            "budget": 0,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 3,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 5,
+            "method": "Empty",
+            "tie_count": 1
+          },
+          {
+            "budget": 0,
+            "method": "Nominal",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "Nominal",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "Nominal",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "Nominal",
+            "tie_count": 32
+          },
+          {
+            "budget": 0,
+            "method": "PESS",
+            "tie_count": 1
+          },
+          {
+            "budget": 2,
+            "method": "PESS",
+            "tie_count": 16
+          },
+          {
+            "budget": 3,
+            "method": "PESS",
+            "tie_count": 26
+          },
+          {
+            "budget": 5,
+            "method": "PESS",
+            "tie_count": 32
+          }
+        ],
+        "payload_present_resource_ids": [],
+        "repetition_error_spread": {
+          "count": 60,
+          "max": "0E-29",
+          "mean": "0E-32",
+          "median": "0E-31",
+          "p90": "0E-28"
+        },
+        "requested_resource_ids": [],
+        "resource_set_id": "set-empty",
+        "rows": 120,
+        "selected": [],
+        "tail_query_ids": [
+          "arecel:forest10:test:008677",
+          "arecel:forest10:test:006434",
+          "arecel:forest10:test:004019",
+          "arecel:forest10:test:006611",
+          "arecel:forest10:test:001190",
+          "arecel:forest10:test:000985"
+        ],
+        "tail_top_decile": {
+          "count": 12,
+          "max": "0.05512762383752828261265998912",
+          "mean": "0.0121774363008686520711702875604",
+          "median": "0.003233282685817364998542762004",
+          "p90": "0.05512762383752828261265998912"
+        },
+        "trace_selected_resource_counts": {},
+        "zero_truth": {
+          "count": 0
+        }
+      }
+    ],
+    "rows": 120
+  }
+}
