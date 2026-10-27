@@ -146,7 +146,7 @@ installed resources, admissible complete schemes and policy information;
 risk, with a pairwise maximal-matching instance; (iii) a conditional
 PostgreSQL 16.14 source-level and traced connection; and (iv) a frozen
 Train-model and physical held-out comparison including a real
-scheme-space witness. Related research already studies interacting
+scheme-space witness and descriptive query-level diagnostic attribution. Related research already studies interacting
 statistics and alternative complete estimation paths
 \cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
 Our narrower focus is \emph{upstream resource selection when the advisor
@@ -1076,6 +1076,30 @@ an explicit counterfactual evaluation assumption, not production
 OID randomization; the approximate intervals quantify only the
 frozen permutation sampling design described in Section~\ref{sec:protocol}.
 
+\paragraph{Query-level diagnostic attribution (frozen orders).}
+A separate read-only analysis of the same \#107 raw Test
+records (\#125) checked query identity, stored Q-error,
+MCV diagnostics and per-arm integrity, and reproduced the
+official aggregate results. Across the checked Nominal
+order pairs, every observed query-level Q-error change
+coincided with a change in the MCV candidate-ID sequence;
+the converse did not hold. For the checked PESS order
+pairs, candidate-ID sequences sometimes changed while
+Q-error and candidate-aligned numeric MCV estimates
+remained unchanged. For example, against the declared
+anchor orders, Census13 and DMV11 Nominal respectively
+had 17,731 and 37,843 query--order pairs with both an
+ID-sequence and Q-error change, whereas the corresponding
+PESS comparisons showed 87,921 and 89,890 ID-sequence
+changes with Q-error ties. These are \emph{paired descriptive
+counts}, not independent replicates, population estimates
+or causal mediation tests. The \#105 canonical/reverse
+pairs were analyzed separately rather than counted as
+new \#125 comparisons. This observation helps distinguish
+diagnostic reordering from changes in physical estimation
+error, but does not establish a causal path from OID order
+through a particular MCV event to Q-error.
+
 The zero observed variability of Census13's
 five-object PESS sample does not demonstrate
 invariance of its 96 unsampled orders. Forest10
@@ -1357,7 +1381,9 @@ global-order evaluation, expected per-order
 Test P95 favors PESS on Census13 and
 DMV11, Nominal on Forest10, and is
 inconclusive on Power7 within the reported
-sampling interval. Those outcomes answer
+sampling interval. A separate read-only query-level analysis shows that MCV diagnostic
+reordering need not change physical Q-error, even when all compared
+configurations retain the same installed resources. Those outcomes answer
 \emph{different} policy questions and do
 not imply a universally superior
 resource-selection strategy. The supported
