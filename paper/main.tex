@@ -30,37 +30,33 @@
 }
 
 \begin{abstract}
-Choosing which extended statistics to maintain is a resource allocation
-problem, but an installed set need not determine which overlapping
-statistics a cardinality estimator applies. An advisor with incomplete
-knowledge of the estimator's downstream application strategy may therefore
-evaluate the same resource set under different complete estimation schemes.
-We formulate extended-statistics selection under estimator-strategy
-uncertainty, separating unordered resource decisions, task-specific
-admissible scheme families, loss and maintenance constraints. We distinguish
-fixed-priority Nominal from task-wise pessimistic (PESS) selection and from
-risk induced by one global priority shared across tasks. For a fixed
-resource set, expected global-priority loss is at most worst shared-global
-loss, which is at most task-wise pessimistic loss under common model and
-admissibility assumptions. For a labeled maximal-matching instance, we characterize
-joint realization under a shared priority, derive a tight
-task-count bound on PESS conservatism, and embed classical
-Maximum Acyclic Subgraph hardness. A restricted source-level
-correspondence connects this instance to PostgreSQL 16.14
-two-column MCV selection.
+An advisor chooses which extended statistics to maintain, but the
+installed set need not determine which overlapping statistics the
+cardinality estimator eventually applies. We study resource selection
+under \emph{estimator-strategy uncertainty}: the advisor chooses an
+unordered set while a downstream policy selects a complete admissible
+estimation scheme for each task. We distinguish fixed-priority Nominal,
+worst shared-global, and task-wise pessimistic (PESS) objectives.
+For a fixed set and aligned modeled losses, expected global-priority
+loss is at most worst shared-global loss, which is at most PESS loss.
+In a labeled maximal-matching instance, we characterize joint
+realizability under one priority, establish a tight task-count bound
+on PESS conservatism, and connect worst shared-order optimization to
+classical Maximum Acyclic Subgraph hardness. We give a conditional
+source-level correspondence with PostgreSQL 16.14 two-column MCV selection.
 
-On four frozen AreCEL workloads, we combine exact offline priority
-analysis, a real Train-task scheme-space witness and held-out PostgreSQL
-\texttt{Plan Rows} measurements. At budget five under the canonical physical
-configuration, Nominal has lower Test P95 Q-error on all four datasets.
-Under a separately specified, sampled \emph{counterfactual} uniform global
-relative-OID-order distribution, PESS has lower estimated expected
-per-order Test P95 on Census13 and DMV11, Nominal does on Forest10, and the
-Power7 contrast is inconclusive within the permutation-sampling interval.
-Uniform OID ordering is an evaluation assumption, not a production
-randomization claim. Our results establish consequential strategy assumptions
-in this model and a bounded PostgreSQL manifestation, not universal PESS
-superiority or a physical worst-case guarantee.
+On four frozen AreCEL workloads, we combine exact Train-model order
+analysis, a concrete Train-task scheme-space witness, and held-out
+PostgreSQL \texttt{Plan Rows} measurements. At budget five, Nominal
+has lower physical Test P95 Q-error under the canonical configuration
+on all four datasets. Under a separately defined, sampled
+\emph{counterfactual} uniform global relative-OID-order population,
+PESS has lower estimated expected per-order Test P95 on Census13 and
+DMV11; Nominal does on Forest10, while Power7 is inconclusive within
+the permutation-sampling interval. Query-level diagnostics show that
+an MCV application-sequence change need not change Q-error.
+The uniform-order population is an evaluation assumption, not a claim
+of production randomization or physical worst-case protection.
 \end{abstract}
 
 \maketitle
@@ -82,27 +78,26 @@ overheads. A workload-aware advisor must decide which candidate objects
 to maintain under a resource budget, a longstanding statistics-management
 problem \cite{chaudhuri2000stats,bruno2002sit,elhelw2009statadvisor}.
 
-Installing a statistic, however, is not equivalent to using it for every
-eligible cardinality estimate. Two objects may overlap in the predicates
-they cover; an estimator may consume one and thereby make the other
-inapplicable to that estimation step. A priority rule or tie resolution
-can determine which information is used. If the advisor knows the installed
-unordered set but not the downstream rule well enough, the set alone
-does not determine a unique estimate. This is \emph{estimator-strategy
-uncertainty}: uncertainty about selecting a complete application scheme
-from the statistics made available.
+Installing a statistic, however, does not guarantee its use in every
+eligible estimate. Overlapping objects may compete for the same
+predicates: applying one can make another inapplicable in that
+estimation step. A priority or tie-breaking rule then affects the
+information actually used. An advisor that knows the installed set
+but not the downstream selection rule cannot necessarily predict a
+unique estimate. We call this gap \emph{estimator-strategy uncertainty}.
 
-Figure~\ref{fig:path} shows a deliberately restricted example. Three
-pairwise objects for \(AB\), \(BC\) and \(CD\) are installed, with
-overlapping endpoints representing conflicts. If a valid complete scheme
-is an inclusion-maximal matching of available edges, the same installed
-set admits \(\{s_{AB},s_{CD}\}\) or \(\{s_{BC}\}\). A greedy
-priority that considers \(BC\) first chooses the latter; a priority
-that considers \(AB\) first chooses the former. Assign hypothetical
-task losses \(0.1\) and \(2.0\), respectively. Installing \(BC\) in
-addition to \(AB,CD\) preserves the first choice but introduces the
-second, increasing the \emph{worst modeled} loss. This example is
-mathematical, not a measured PostgreSQL loss.
+Consider the restricted example in Figure~\ref{fig:path}.
+Three pairwise objects cover \(AB\), \(BC\), and \(CD\);
+shared endpoints represent conflicts. If a complete scheme is
+an inclusion-maximal matching, the installed set admits
+\(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\).
+Considering \(BC\) first selects the latter; considering
+\(AB\) first selects the former. Suppose their modeled
+task losses are \(2.0\) and \(0.1\), respectively.
+Adding \(BC\) to an installed set containing \(AB,CD\)
+thus introduces a higher-loss complete scheme without
+removing the lower-loss option. This is a mathematical
+example, not a PostgreSQL measurement.
 
 \begin{figure}[t]
 \centering
@@ -119,43 +114,44 @@ BC and CD. The two inclusion-maximal matchings are AB with CD, and BC.}
 \label{fig:path}
 \end{figure}
 
-Strategy uncertainty is distinct from uncertainty in sampled statistics
-or underlying data, and also from generalization from training to unseen
-queries. It can matter even for fixed data, sample, workload and installed
-resources. An implementation may be deterministic but unknown to the
-advisor; uncertainty here need not mean runtime randomization.
+This uncertainty differs from sampling error, data uncertainty,
+and Train-to-Test generalization: it may persist with fixed data,
+statistics samples, workload, and resources. A deterministic
+implementation can be uncertain \emph{to the advisor};
+runtime randomization is not required.
 
-We model the advisor's decision as an unordered installed set \(M\).
-For each cardinality-estimation task \(i\), the selected resources induce
-a prescribed family of \emph{complete} admissible schemes
-\(\Gamma_i(M)\). A policy determines which member is applied. When that
-policy is specified, a Nominal objective is natural. Without dependable
-shared-policy information, a task-wise pessimistic objective (PESS) can
-hedge against all admissible schemes, while possibly being overly
-conservative when a single global policy couples tasks. These are
-different decisions under different information assumptions, not merely
-competing heuristics for an identical objective.
+The advisor chooses an unordered installed set \(M\); for each task
+\(i\), that set induces a prescribed family of \emph{complete}
+admissible schemes \(\Gamma_i(M)\). A downstream policy chooses
+the applied member. Nominal evaluation uses a specified policy,
+whereas PESS evaluates each task's worst admissible scheme.
+If one policy must serve all tasks, those separate worst schemes
+may be mutually incompatible. Thus policy knowledge changes
+the resource-selection objective, not merely the search heuristic.
 
-We pursue three research questions. \textbf{RQ1:} Do controlled changes
-in application priority alter applied overlapping statistics and actual
-PostgreSQL cardinality estimates? \textbf{RQ2:} How do Nominal and PESS
-change frozen resource choices and their model-level priority sensitivity?
-\textbf{RQ3:} How do these choices compare in physical held-out error under
-an explicitly \emph{counterfactual} uniform global relative-OID ordering?
+We ask three questions. \textbf{RQ1:} Can a controlled priority
+change alter which overlapping statistics PostgreSQL applies and
+its resulting estimates? \textbf{RQ2:} How do strategy assumptions
+change budgeted resource selections and their modeled order risks?
+\textbf{RQ3:} How do the resulting sets compare on held-out
+physical error under a separately specified \emph{counterfactual}
+global-order distribution?
 
-Our contributions are: (i) an estimator-agnostic interface separating
-installed resources, complete admissible schemes and policy knowledge;
-(ii) shared-priority realizability, tight conservatism bounds, and a
-restricted complexity connection within the pairwise matching model;
-(iii) a conditional PostgreSQL 16.14 source-level and traced connection;
-and (iv) frozen Train-model and physical Test comparisons, including a
-real scheme-space witness and query-level diagnostic attribution. Related research already studies interacting
-statistics and alternative complete estimation paths
+Our contributions are: (i) a formal advisor--estimator interface
+separating installed resources, resource-dependent complete schemes,
+and policy knowledge; (ii) constructive shared-priority realizability,
+a tight conservatism bound, and restricted ordering hardness for a
+labeled matching instance; (iii) a conditional PostgreSQL 16.14
+source-level correspondence with controlled physical traces; and
+(iv) frozen Train-model and held-out Test comparisons, including a
+real scheme-space witness and query-level diagnostic attribution.
+Interacting statistics and alternative complete estimation paths
+have established precedents
 \cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
-Our narrower focus is \emph{upstream resource selection when the advisor
-does not control or fully know the downstream scheme choice}. We claim
-neither a novel general robust optimizer nor a universally better PESS
-resource set.
+Our focus is narrower: \emph{upstream resource selection when the
+advisor cannot reliably predict the downstream scheme choice}.
+We do not claim a general robust optimizer or universally better
+PESS selections.
 
 \section{Problem Formulation}
 \label{sec:model}
@@ -197,54 +193,39 @@ resource subset, matching or execution plan. Define
 \sigma\in\Gamma_i(M)\Rightarrow
 \operatorname{used}(\sigma)\subseteq M.
 \end{equation}
-A baseline scheme is available when \(M=\varnothing\). We do not
-assume \(\Gamma_i(M_1)\subseteq\Gamma_i(M_2)\) whenever
-\(M_1\subseteq M_2\): installing a new object may invalidate
-a previously \emph{complete} scheme under the modeled rule.
-Nonnested families alone do not prove that every associated
-objective is nonmonotone; losses and policy choices also matter.
+A baseline scheme is available when \(M=\varnothing\).
+The family \(\Gamma_i(M)\) describes the estimator's modeled
+options, \emph{not} a second decision independently controlled
+by the advisor. It may be nonnested as \(M\) grows:
+installing a new resource can make a previously complete
+scheme incomplete. For example, in the matching instance,
+\(M=\{s_{AB}\}\) admits only \(\{s_{AB}\}\), but adding
+the disjoint edge \(s_{CD}\) makes only
+\(\{s_{AB},s_{CD}\}\) maximal. The old resource remains
+installed, yet its formerly complete scheme is no longer
+admissible. Nonnested scheme families do \emph{not} by
+themselves imply nonmonotone losses; the losses assigned to
+the resulting schemes and the policy rule also matter.
 
-The distinction between \(M\) and \(\Gamma_i(M)\) separates
-the advisor's control from the estimator's modeled options.
-The advisor installs one shared resource set, while a member
-of \(\Gamma_i(M)\) describes a complete way to produce the
-estimate for task \(i\) from resources in that set. Thus the
-family records competing complete applications; it is neither
-a second decision variable chosen independently by the advisor
-nor a claim that every resource in \(M\) is used. Its dependence
-on \(M\) matters: changing the installed resources can change
-which applications count as complete, even when the old resources
-remain installed. For example, in the matching instance the
-single edge \(s_{AB}\) has maximal family
-\(\{\{s_{AB}\}\}\), while adding a disjoint edge \(s_{CD}\)
-leaves only the complete matching \(\{s_{AB},s_{CD}\}\).
-The old matching is no longer maximal. This is nonnestedness
-of feasible scheme families; whether a scalar loss objective
-rises or falls is a separate question determined by the losses
-on the available schemes. If both schemes have equal loss,
-the taskwise maximum can remain unchanged despite this
-nonnestedness; a larger loss on a newly admissible scheme can
-instead make a particular objective increase.
-
-Crucially, \(\Gamma_i(M)\) is a \emph{prescribed modeling family}.
-If \(\mathcal R_i(M)\) denotes schemes physically realizable by
-a deployed estimator, neither \(\mathcal R_i(M)=\Gamma_i(M)\)
-nor even \(\mathcal R_i(M)\subseteq\Gamma_i(M)\) follows from
-the definitions. Physical worst-case claims would need separate
-containment and metric alignment arguments.
+Crucially, \(\Gamma_i(M)\) is \emph{prescribed}, not
+identified with the physically realizable family
+\(\mathcal R_i(M)\). Neither equality nor containment of
+\(\mathcal R_i(M)\) in \(\Gamma_i(M)\) follows by definition;
+physical worst-case guarantees require separate evidence
+for scheme coverage and loss alignment.
 
 \subsection{Estimates, loss and application policies}
 For each task, let \(\operatorname{Est}_i:\Omega_i\to
 \mathbb R_{>0}\) be a positive pre-output-transform estimate and
 \(\ell_i:\Omega_i\to\mathbb R_{\geq0}\) a loss function.
-The illustrative absolute logarithmic loss is
+The instantiated model uses absolute logarithmic loss:
 \begin{equation}
 \label{eq:loss}
 L_i(\sigma)=w_i\ell_i(\sigma)
 =w_i\left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
 \end{equation}
-This is not the same observable as rounded or clamped PostgreSQL
-\texttt{Plan Rows} Q-error.
+The resulting model loss is distinct from the rounded physical
+\texttt{Plan Rows} Q-error used on Test.
 
 A nonempty finite family \(\Theta\) of application-policy parameters
 may induce a complete scheme \(\sigma_i(M;\theta)\) for each task,
@@ -320,19 +301,14 @@ F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
 The second inequality may be strict because separate taskwise
 worst schemes may not be jointly attainable.
 
-These objectives encode information available to the advisor,
-not three implementation choices for one known system. If a
-downstream deterministic policy is known, Nominal evaluates
-its selected scheme. If the policy is deterministic but unknown,
-there is no probability distribution to average: \(G\) asks for
-the worst aggregate loss over the modeled shared policies.
-The mean \(A\) answers a different, explicitly hypothetical
-stochastic question; its uniform distribution over global orders
-is an assumption on the evaluation, not an assertion that the
-system randomizes. PESS removes the common-policy constraint
-altogether and lets each task attain its own admissible maximum.
-For a fixed \(M\), these information assumptions can therefore
-give different evaluations without changing the installed set.
+These objectives express \emph{different information
+assumptions}, not alternative implementations of a known
+policy. A specified deterministic rule supports Nominal
+evaluation; an unknown but shared rule motivates worst-joint
+risk. PESS discards that shared-rule constraint. A stochastic
+average requires a separately justified policy distribution:
+an unknown deterministic rule alone supplies none.
+The global-order instance below makes these distinctions concrete.
 
 \subsection{One shared global priority}
 For the pairwise instance, let \(\Pi(M)\) contain all strict
@@ -350,18 +326,13 @@ G(M)&=\max_{\pi\in\Pi(M)}Z(M,\pi),&
 P(M)&=\sum_i\max_{Q\in\Gamma_i^{\mathrm{MM}}(M)}L_i(Q).
 \label{eq:gp}
 \end{align}
-Here \(\pi_0\) is the restriction of one fixed total order on
-the candidate universe, implemented as candidate-ID order
-in the frozen study. \(A\) is \emph{uniform over global
-permutations}, not over distinct resulting matchings.
-\(G\) is the largest total loss under \emph{one common} order;
-\(P\) chooses each task's largest admissible loss independently.
-The same order in \(G\) couples task outcomes even when their
-eligible graphs differ: improving one task's matching can
-preclude a different matching preferred by another task.
-By contrast, the summation in \(P\) takes a separate maximum
-before adding losses, so its maximizing tuple need not be the
-output of any common order.
+The fixed \(\pi_0\) is the restriction of the candidate-ID
+order used in the frozen study. Uniform \(A\) weights
+\emph{orders}, not their potentially repeated matching outcomes.
+The same order in \(G\) couples tasks even when their eligible
+graphs differ; \(P\) instead takes an independent maximum
+before summing, so its maximizing schemes may be incompatible
+under any shared priority.
 
 \begin{table*}[t]
 \caption{Pairwise fixed-set evaluations for the same unordered
@@ -507,9 +478,9 @@ and zero; the exact integer threshold problem is
 stated after normalization by \(\ln 2\).
 The restricted construction does not establish the
 complexity of deciding \(P(M)=G(M)\) in general.
-Full proofs, encoding details, and synthetic
-verification are archived in the independently
-reviewed Issue~\#123 theory note.
+Proof details, encodings, and synthetic verification
+are retained in the independently reviewed Issue~\#123
+theory note.
 
 \subsection{Frozen resource-selection procedure}
 The empirical selection trains \emph{only} \(N_{\pi_0}\)
@@ -603,18 +574,14 @@ failure to find a candidate. The output is maximal.
 Conversely, Proposition~\ref{prop:completion}
 orders any chosen maximal matching first.
 \end{proof}
-Physical priorities are fixed by a catalog state, and
-arbitrary global orders need not be achievable without other
-changes. This proposition does not cover all PostgreSQL SQL
-forms, statistic kinds, estimator stages or output formulas.
-In particular, the source argument is restricted to the
-single-relation MCV path and clause pattern in A1--A4; joins,
-expressions, OR predicates, other extended-statistics kinds,
-additional clause consumers and non-tied rankings may follow
-different control flow. The correspondence is a useful
-structural instance for the abstract model, not a claim that
-PostgreSQL implements ESS or that every abstract matching is
-realizable in an unchanged physical catalog.
+The proposition characterizes the restricted selector
+under A1--A4, \emph{not} arbitrary SQL, joins,
+other statistics kinds, competing clause consumers, or
+non-tied rankings. In a fixed physical catalog the OID
+order is not freely variable. Thus the correspondence
+supplies a concrete structural instance of the ESS model,
+not an assertion that PostgreSQL implements ESS or
+realizes every abstract priority without catalog changes.
 
 \subsection{Physical mechanism evidence}
 A controlled four-attribute trace with objects \(AB,BC,CD\)
@@ -640,28 +607,26 @@ model with PostgreSQL's entire cardinality calculation.
 \section{Experimental Protocol}
 \label{sec:protocol}
 \subsection{Evidence layers and frozen Train selection}
-Our evaluation separates resource decisions, exact model-internal priority
-analysis, and physical held-out observations. We use Forest10, Census13,
-DMV11, and Power7 from the original AreCEL workloads \cite{wang2021arecel}.
-Each has 100,000 original Train tasks used for model construction and
-selection and 10,000 official Test queries for subsequent PostgreSQL
-evaluation. Test labels and estimates never reselect statistics.
+We separate \emph{Train-model resource decisions} from
+\emph{physical held-out evaluation}. The original AreCEL
+Forest10, Census13, DMV11, and Power7 workloads
+\cite{wang2021arecel} each provide 100,000 Train tasks
+for model construction and selection and 10,000 official
+Test queries for PostgreSQL evaluation. Neither Test
+labels nor physical Test estimates reselect resources.
 
-These frozen results form five evidence layers, each answering a
-different question. First, Train-only \#99 chooses resource sets
-using the modeled loss and a per-resource maintenance-cost proxy.
-Second, offline \#103 enumerates global priorities exactly on those
-already chosen sets to compare model objectives; it executes no
-PostgreSQL Test queries. Third, \#116 opens the complete scheme
-family for one deterministically chosen Census13 Train task and
-counts ambiguous and positive-risk tasks in that frozen model.
-Fourth, physical \#101 and \#105 ask what happens under a fixed
-canonical catalog order and a controlled canonical/reverse-order
-intervention. Fifth, \#107 estimates an expectation over a
-hypothetical distribution of global relative-OID orders by sampling
-physical Test configurations. Only the last layer averages across
-orders, and its uncertainty concerns that permutation sample rather
-than new queries, workloads or statistics samples.
+The frozen evidence has five roles: (i) \#99 selects
+sets on Train under Nominal and PESS; (ii) \#103
+enumerates priorities on those \emph{fixed} sets in
+the Train model; (iii) \#116 inspects one Census13
+Train task's complete schemes; (iv) \#101/\#105
+measure canonical and controlled reverse physical
+orders; and (v) \#107 samples physical relative-OID
+orders for a separately specified population estimand.
+The read-only \#125 analysis further describes paired
+Test diagnostics from \#107. Only \#107 averages
+physical Test P95 over orders; its uncertainty concerns
+the sampled orders, not new queries or workloads.
 
 The first stage (\#99) selects Nominal and PESS resources on Train with
 the same deterministic, strictly improving add-only greedy heuristic
@@ -795,13 +760,12 @@ five objects; an authorized continuation completed those
 
 \section{Experimental Results}
 \label{sec:results}
-We distinguish the complete-scheme mechanism under frozen
-Train-model loss from observed physical Test Q-error.
-The former evaluates prescribed schemes and losses on the
-original Train tasks; the latter measures rounded PostgreSQL
-\texttt{Plan Rows} on the held-out Test queries. Their units
-and policy assumptions differ, so results below are interpreted
-within their evidence layer before being compared.
+We first ask whether modeled scheme choices change
+resource decisions and fixed-set losses (RQ2), then
+whether PostgreSQL exhibits priority sensitivity (RQ1)
+and how the selected sets compare under a separate
+physical order distribution (RQ3). Train-model loss
+and physical Test Q-error remain distinct endpoints.
 
 \subsection{An actual Census13 Train scheme-space witness}
 The predeclared deterministic procedure selected
