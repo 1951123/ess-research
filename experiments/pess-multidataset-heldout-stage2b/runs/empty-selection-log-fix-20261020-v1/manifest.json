@@ -1,0 +1,20 @@
+{
+  "code_commit": "245b2b131f9acb361b3f613d654e23e61d10d79a",
+  "evidence_label": "EXPLORATORY VALIDATION-ONLY / NOT HELD-OUT EVIDENCE",
+  "format": "ess-issue48-stage2b-log-coefficient-fix-sha256-manifest-v1",
+  "heldout_data_read": false,
+  "input_sha256": {
+    "census13_validation_calibration_ledger": "eb7859b884ac47ce34a3b67eb0f202005508a14157c324c9d9f230e92d3d431b",
+    "census13_validation_model": "f6ce20059f62fb6dcc19e34a985009108082c3417568e2817a7e5422bea894f5",
+    "forest10_validation_calibration_ledger": "2bba7c614e981c52b5ea60d678086efa131263229755189de8d389251d5df16b",
+    "forest10_validation_model": "704f43a303e036718aeb0b67e8c2af7a47b999a1f3a954edc379ce53f5c78daf",
+    "formal_runner_source": "61300085320e97c057d26d1b354ad219253e34a3cb39f5ff783a9c8d446b4322",
+    "protocol_v4": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+    "validation_script_source": "6c16eb8c9c2c823948080f41d2b7a7b3f87d218e2acdf11a1567e76db844ef54"
+  },
+  "output_sha256": {
+    "diagnostic.json": "3cfd2f77180ce5d5cedbab1c93b8d8a2e1fcfd2fec9c6b2c45d2759bb5c938d9",
+    "exploratory-validation-only-log-fix.md": "680752751ffd2c57ccc7239e1b21912a39de820c5565aba3186f3e409e3c7152"
+  },
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad"
+}
