@@ -441,6 +441,81 @@ of loss \(2.0\), so this particular PESS objective increases
 from \(0.1\) to \(2.0\). Nonmonotonicity is thus possible,
 rather than a general law that new statistics harm estimates.
 
+\subsection{Shared-priority realizability and complexity}
+\label{sec:shared-theory}
+The coupling in \(G\) admits a constructive characterization.
+Fix \(M\) and one inclusion-maximal matching \(S_i\) in each
+task graph \(H_i[M]\). A common strict edge order realizes
+all these prescribed matchings if and only if, for every
+eligible \(e\notin S_i\), at least one target edge
+\(f\in S_i\) that shares an endpoint with \(e\) precedes
+\(e\). Necessity follows because a rejected edge must
+have an earlier accepted blocker; sufficiency follows
+by considering the first departure from any target matching.
+
+This condition yields a polynomial-time feasibility test
+\emph{when the targets are supplied}. Starting from an empty
+order, append any remaining edge that, in every task,
+is either ineligible, a target edge, or already blocked
+by an appended target edge. If no such edge exists,
+the targets are incompatible. To see why arbitrary safe
+choices work, move a safe edge to the front of any
+feasible remaining suffix: a target cannot block another
+target, and a non-target is already blocked where eligible.
+The existence of a feasible completion is preserved.
+This does not solve the search over unspecified taskwise
+worst matchings or the computation of \(G(M)\).
+
+\begin{proposition}[Tight task-count conservatism]
+\label{prop:taskfactor}
+For a fixed installed set \(M\), \(t\geq1\) tasks,
+nonnegative modeled losses, and freely ordered
+labeled maximal-matchings,
+\[
+G(M)\leq P(M)\leq tG(M).
+\]
+The factor \(t\) is tight.
+\end{proposition}
+\begin{proof}
+Write \(p_i=\max_{Q\in\Gamma_i^{\mathrm{MM}}(M)}L_i(Q)\).
+Every inclusion-maximal matching can be realized
+for its task by putting its edges first in a global
+order. Nonnegativity of other task losses implies
+\(G(M)\geq\max_i p_i\), and hence
+\(P(M)=\sum_i p_i\leq tG(M)\).
+For tightness, let all \(t\) tasks share a \(t\)-edge
+star, with task \(i\) having unit loss only when
+edge \(i\) is selected. Each task can attain loss
+one separately, but a common order selects the
+same first star edge for all tasks, so \(P=t\)
+and \(G=1\).
+\end{proof}
+
+Shared ordering can also be computationally difficult
+despite trivial task-level choices. Given a loopless
+directed graph \(D=(V,A_D)\), install one labeled star
+edge \(e_v\) per vertex. For every arc \(u\to v\),
+make a task eligible for only the conflicting
+edges \(e_u,e_v\), with normalized modeled loss
+one if \(e_u\) is chosen and zero if \(e_v\) is chosen.
+The loss summed over tasks under a common order is
+exactly the number of arcs oriented forward by that
+order. Consequently, computing \(G(M)\) is NP-hard
+even with two eligible edges per task, by the classical
+Maximum Acyclic Subgraph / Feedback Arc Set problem
+\cite{karp1972reducibility}. This is a result for the
+\emph{fixed-set abstract model}, not a hardness claim
+about outer resource selection or PostgreSQL itself.
+For the original natural-log loss, positive rational
+corrections \(2\) and \(1\) give scores \(\ln 2\)
+and zero; the exact integer threshold problem is
+stated after normalization by \(\ln 2\).
+The restricted construction does not establish the
+complexity of deciding \(P(M)=G(M)\) in general.
+Full proofs, encoding details, and synthetic
+verification are archived in the independently
+reviewed Issue~\#123 theory note.
+
 \subsection{Frozen resource-selection procedure}
 The empirical selection trains \emph{only} \(N_{\pi_0}\)
 and \(P\), using the same strictly improving, deterministic
@@ -1193,6 +1268,25 @@ downstream scheme-selection policy.
 Neither CEG paths nor SIT decompositions
 are claimed to be PostgreSQL matchings.
 
+\paragraph{Ordering and complexity precedents.}
+The NP-hardness ingredient in Section~\ref{sec:shared-theory}
+is the classical Feedback Arc Set problem
+\cite{karp1972reducibility}, not a new hardness result
+for ordering. Minimum maximal matching is also
+classically hard \cite{yannakakis1980edge}, and work
+on weighted greedy matching studies different
+priority constraints \cite{deligkas2017weighted}.
+Our limited contribution is to identify how a
+\emph{single shared resource-edge order} couples
+multiple simple estimator tasks in the prescribed
+ESS model. General decision-dependent uncertainty
+is established robust-optimization territory
+\cite{nohadani2018decision}; neither that idea
+nor generic precedence feasibility is claimed
+as novel. A complete originality claim for the
+particular common-edge-order feasibility test
+would require further prior-art verification.
+
 \paragraph{Estimation quality and robust decisions.}
 PostgreSQL supports several extended
 statistics kinds, including MCV lists
@@ -1389,6 +1483,31 @@ X. Wang, C. Qu, W. Wu, J. Wang, and Q. Zhou.
 Are We Ready for Learned Cardinality Estimation?
 \emph{Proc. VLDB Endow.}, 14(9):1640--1654, 2021.
 doi:10.14778/3461535.3461552.
+
+\bibitem{karp1972reducibility}
+R. M. Karp.
+Reducibility Among Combinatorial Problems.
+In \emph{Complexity of Computer Computations},
+pp. 85--103, 1972.
+doi:10.1007/978-1-4684-2001-2\_9.
+
+\bibitem{yannakakis1980edge}
+M. Yannakakis and F. Gavril.
+Edge Dominating Sets in Graphs.
+\emph{SIAM J. Appl. Math.}, 38(3):364--372, 1980.
+doi:10.1137/0138030.
+
+\bibitem{deligkas2017weighted}
+A. Deligkas, G. B. Mertzios, and P. G. Spirakis.
+The Computational Complexity of Weighted Greedy Matching.
+In \emph{Proc. AAAI}, 2017.
+doi:10.1609/aaai.v31i1.10561.
+
+\bibitem{nohadani2018decision}
+O. Nohadani and K. Sharma.
+Optimization under Decision-Dependent Uncertainty.
+\emph{SIAM J. Optim.}, 28(2):1773--1795, 2018.
+doi:10.1137/17M1110560.
 
 \bibitem{pg16stats}
 PostgreSQL Global Development Group.
