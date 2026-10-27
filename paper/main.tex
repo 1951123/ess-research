@@ -82,9 +82,10 @@ Installing a statistic, however, does not guarantee its use in every
 eligible estimate. Overlapping objects may compete for the same
 predicates: applying one can make another inapplicable in that
 estimation step. A priority or tie-breaking rule then affects the
-information actually used. An advisor that knows the installed set
-but not the downstream selection rule cannot necessarily predict a
-unique estimate. We call this gap \emph{estimator-strategy uncertainty}.
+information actually used. Even with fixed data and installed statistics, an advisor that
+does not know the downstream selection rule may therefore evaluate
+the same set against different complete estimates. We call this
+information gap \emph{estimator-strategy uncertainty}.
 
 Consider the restricted example in Figure~\ref{fig:path}.
 Three pairwise objects cover \(AB\), \(BC\), and \(CD\);
@@ -114,11 +115,10 @@ BC and CD. The two inclusion-maximal matchings are AB with CD, and BC.}
 \label{fig:path}
 \end{figure}
 
-This uncertainty differs from sampling error, data uncertainty,
-and Train-to-Test generalization: it may persist with fixed data,
-statistics samples, workload, and resources. A deterministic
-implementation can be uncertain \emph{to the advisor};
-runtime randomization is not required.
+Unlike sampling error or Train-to-Test generalization,
+strategy uncertainty can persist with fixed data, sample,
+workload, and resources. It describes what the advisor does
+not know, not necessarily randomness in the estimator.
 
 The advisor chooses an unordered installed set \(M\); for each task
 \(i\), that set induces a prescribed family of \emph{complete}
@@ -129,22 +129,24 @@ If one policy must serve all tasks, those separate worst schemes
 may be mutually incompatible. Thus policy knowledge changes
 the resource-selection objective, not merely the search heuristic.
 
-We ask three questions. \textbf{RQ1:} Can a controlled priority
-change alter which overlapping statistics PostgreSQL applies and
-its resulting estimates? \textbf{RQ2:} How do strategy assumptions
-change budgeted resource selections and their modeled order risks?
-\textbf{RQ3:} How do the resulting sets compare on held-out
-physical error under a separately specified \emph{counterfactual}
-global-order distribution?
+We address three questions. \textbf{RQ1:} Does a controlled
+priority intervention change the MCV objects PostgreSQL applies
+and the resulting physical estimates? \textbf{RQ2:} How do
+Nominal and PESS select resources under the same budget, and
+how do shared-priority constraints change modeled risk?
+\textbf{RQ3:} How do the frozen selections compare under a
+declared \emph{counterfactual} distribution of physical
+global relative-OID orders?
 
-Our contributions are: (i) a formal advisor--estimator interface
-separating installed resources, the complete schemes
-admitted by each set, and policy knowledge; (ii) constructive shared-priority realizability,
-a tight conservatism bound, and restricted ordering hardness for a
+Our contributions are fourfold: (i) an advisor--estimator
+interface distinguishing installed resources, complete
+admissible schemes, and knowledge of the application policy;
+(ii) constructive shared-priority feasibility, a tight
+conservatism bound, and restricted ordering hardness in a
 labeled matching instance; (iii) a conditional PostgreSQL 16.14
-source-level correspondence with controlled physical traces; and
-(iv) frozen Train-model and held-out Test comparisons, including a
-real scheme-space witness and query-level diagnostic attribution.
+source-level correspondence supported by controlled traces;
+and (iv) frozen Train-model and physical Test evidence,
+including an actual scheme-space witness and query-level diagnostics.
 Interacting statistics and alternative complete estimation paths
 have established precedents
 \cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
@@ -309,7 +311,9 @@ evaluation; an unknown but shared rule motivates worst-joint
 risk. PESS discards that shared-rule constraint. A stochastic
 average requires a separately justified policy distribution:
 an unknown deterministic rule alone supplies none.
-The global-order instance below makes these distinctions concrete.
+The global-order instance below makes these distinctions
+concrete. It separates a \emph{shared rule across tasks}
+from taskwise choices that no single rule can realize.
 
 \subsection{One shared global priority}
 For the pairwise instance, let \(\Pi(M)\) contain all strict
@@ -503,6 +507,10 @@ a different selection algorithm.
 
 \section{A Scoped PostgreSQL MCV Mechanism}
 \label{sec:pg}
+The preceding results concern freely ordered abstract
+resource edges. We now identify a restricted estimator
+path with the same conflict structure; this does not
+transfer abstract worst-case bounds to physical Q-error.
 
 \subsection{Version-pinned selector and its prerequisites}
 PostgreSQL 16.14's single-relation selectivity path can apply
@@ -611,6 +619,9 @@ model with PostgreSQL's entire cardinality calculation.
 
 \section{Experimental Protocol}
 \label{sec:protocol}
+We distinguish effects on \emph{modeled resource decisions}
+from changes in \emph{measured physical estimates}. Their
+losses and provenance remain separate throughout.
 \subsection{Evidence layers and frozen Train selection}
 We separate \emph{Train-model resource decisions} from
 \emph{physical held-out evaluation}. The original AreCEL
@@ -1035,8 +1046,10 @@ MCV estimates. These are repeated, descriptive
 query--order comparisons, not independent observations,
 population estimates, or causal mediation tests;
 \#105 canonical/reverse pairs are excluded.
-A changed diagnostic sequence alone is therefore
-an insufficient proxy for physical error sensitivity.
+The physical observations thus separate \emph{application-order
+sensitivity} from \emph{error sensitivity}. Diagnostics
+locate differences among frozen configurations, but do not
+identify causal effects of individual MCV applications.
 
 The constant P95 observed for Census13's
 24 sampled PESS orders does not establish
@@ -1053,6 +1066,10 @@ model calibration.
 
 \section{Threats to Validity}
 \label{sec:validity}
+The main inferential boundary separates the prescribed
+complete-scheme model from a version-pinned physical
+implementation. The limitations below qualify distinct
+claims rather than a single common outcome.
 \paragraph{Prescribed model and physical coverage.}
 The prescribed \(\Gamma_i(M)\) is not known to
 contain all physically realizable schemes
@@ -1251,10 +1268,11 @@ neither establishes universal PESS superiority or
 causal mediation by an individual MCV event.
 
 For practice, a resource recommendation should
-report its \emph{policy assumption}: a known
-priority, a specified distribution over shared
-priorities, a worst shared priority, or separate
-taskwise worst schemes. PESS is a modeled
+state its \emph{policy information assumption}:
+a known priority, a specified distribution over shared
+priorities, a worst shared priority, or independent
+taskwise worst schemes. A better score under one assumption
+does not establish superiority under another. PESS is a modeled
 conservative envelope, but taskwise maxima need
 not correspond to one jointly executable strategy.
 Grounding the policy family in deployed behavior,
