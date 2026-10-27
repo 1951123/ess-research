@@ -471,18 +471,19 @@ G(M)\leq P(M)\leq tG(M).
 The factor \(t\) is tight.
 \end{proposition}
 \begin{proof}
-Let \(p_i\) be task \(i\)'s maximum admissible loss.
-Every inclusion-maximal matching can be realized
-for its task by putting its edges first in a global
-order. Nonnegativity of other task losses implies
-\(G(M)\geq\max_i p_i\), and hence
-\(P(M)=\sum_i p_i\leq tG(M)\).
-For tightness, let all \(t\) tasks share a \(t\)-edge
-star, with task \(i\) having unit loss only when
-edge \(i\) is selected. Each task can attain loss
-one separately, but a common order selects the
-same first star edge for all tasks, so \(P=t\)
-and \(G=1\).
+For task \(i\), let \(p_i\) be its largest
+admissible loss. A priority that begins with
+a maximal matching attaining \(p_i\) realizes
+that loss. Since other task losses are
+nonnegative, \(G(M)\geq p_i\) for every \(i\).
+Thus \(P(M)=\sum_i p_i\leq tG(M)\).
+
+For tightness, let all \(t\) tasks share a
+\(t\)-edge star. Task \(i\) has loss one only
+when \(e_i\) is selected. Each task has
+worst loss one, but a common order selects
+the same first star edge in every task,
+so \(P=t\) and \(G=1\).
 \end{proof}
 
 Shared ordering can also be computationally difficult
