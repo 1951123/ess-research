@@ -47,6 +47,8 @@ jobs:
             experiments/solver-integration-issue74/test_stage2_b23_protocol.py \
             experiments/solver-integration-issue74/test_stage2_b23_runner.py \
             experiments/solver-integration-issue74/test_stage2_b2_recovery_runner.py
+      - name: Verify Issue 123 shared-priority theory oracle
+        run: python3 -m unittest discover -s tests -p 'test_shared_priority_theory_issue123.py' -v
       - name: Lint archive-first infrastructure
         run: |
           ruff check src/ess_research/task_paths.py src/ess_research/arecel/archive.py src/ess_research/arecel/__main__.py src/ess_research/arecel/__init__.py tests/test_arecel_prepare.py tests/arecel_consumer.py experiments/add-only-greedy-issue87/adapter.py experiments/add-only-greedy-issue87/test_stage0_preflight.py experiments/add-only-greedy-issue87/run_issue87.py experiments/add-only-greedy-issue87/test_runner.py experiments/add-only-greedy-issue87/analyze_issue95.py experiments/add-only-greedy-issue87/test_issue95_attribution.py
