@@ -1,0 +1,2519 @@
+{
+  "advisor_reference_commit": "5d61f75fede37d34027b437c646000a3d78d00c6",
+  "advisor_reference_file_sha256": {
+    "src/pess_ess/model.py": "4bf07c229cbeaf003a3ebbe55c4018091288240069298fbd95c4ef6691865781",
+    "src/pess_ess/reference.py": "c301d3b7d8314728326ddc7f12ab44805226546e95038f862730487f0ab35ac0"
+  },
+  "analysis_script_sha256": "dbe1a9b455ef7853dd98687ed58834bd8e74709a18436851728bdc9306514aaf",
+  "analysis_source_commit": "7665174249ba9ef6b0b832eac8667938c7dc61a4",
+  "budgets": [
+    0,
+    2,
+    3,
+    4,
+    5
+  ],
+  "datasets": [
+    {
+      "budgets": [
+        {
+          "budget": 0,
+          "nominal_frozen_objective_fraction": "118532364796947327721067/500000000000000000",
+          "nominal_selected_ids": [],
+          "nominal_set_id": "M:empty",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "118532364796947327721067/500000000000000000",
+            "mean_fraction": "118532364796947327721067/500000000000000000",
+            "minimum_fraction": "118532364796947327721067/500000000000000000",
+            "nominal_fraction": "118532364796947327721067/500000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "118532364796947327721067/500000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "118532364796947327721067/500000000000000000",
+          "pess_selected_ids": [],
+          "pess_set_id": "M:empty",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "118532364796947327721067/500000000000000000",
+            "mean_fraction": "118532364796947327721067/500000000000000000",
+            "minimum_fraction": "118532364796947327721067/500000000000000000",
+            "nominal_fraction": "118532364796947327721067/500000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "118532364796947327721067/500000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 2,
+          "nominal_frozen_objective_fraction": "222467056367728010623151/1000000000000000000",
+          "nominal_selected_ids": [
+            "e01_06",
+            "e02_07"
+          ],
+          "nominal_set_id": "M:e01_06,e02_07",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "222467056367728010623151/1000000000000000000",
+            "mean_fraction": "222467056367728010623151/1000000000000000000",
+            "minimum_fraction": "222467056367728010623151/1000000000000000000",
+            "nominal_fraction": "222467056367728010623151/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "222467056367728010623151/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e01_06",
+              "e02_07"
+            ],
+            "set_id": "M:e01_06,e02_07",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "222467056367728010623151/1000000000000000000",
+          "pess_selected_ids": [
+            "e01_06",
+            "e02_07"
+          ],
+          "pess_set_id": "M:e01_06,e02_07",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "222467056367728010623151/1000000000000000000",
+            "mean_fraction": "222467056367728010623151/1000000000000000000",
+            "minimum_fraction": "222467056367728010623151/1000000000000000000",
+            "nominal_fraction": "222467056367728010623151/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "222467056367728010623151/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e01_06",
+              "e02_07"
+            ],
+            "set_id": "M:e01_06,e02_07",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 3,
+          "nominal_frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "nominal_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "nominal_set_id": "M:e01_06,e02_07,e03_04",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "27399138448094719543201/125000000000000000",
+            "mean_fraction": "27399138448094719543201/125000000000000000",
+            "minimum_fraction": "27399138448094719543201/125000000000000000",
+            "nominal_fraction": "27399138448094719543201/125000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "27399138448094719543201/125000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ],
+            "set_id": "M:e01_06,e02_07,e03_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "pess_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_set_id": "M:e01_06,e02_07,e03_04",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "27399138448094719543201/125000000000000000",
+            "mean_fraction": "27399138448094719543201/125000000000000000",
+            "minimum_fraction": "27399138448094719543201/125000000000000000",
+            "nominal_fraction": "27399138448094719543201/125000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "27399138448094719543201/125000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ],
+            "set_id": "M:e01_06,e02_07,e03_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 4,
+          "nominal_frozen_objective_fraction": "217839124249360817648389/1000000000000000000",
+          "nominal_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ],
+          "nominal_set_id": "M:e01_06,e02_07,e02_08,e03_04",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "943022000218333660037/2000000000000000000",
+            "maximum_fraction": "109391073124789575654213/500000000000000000",
+            "mean_fraction": "87324254099787993791363/400000000000000000",
+            "minimum_fraction": "217839124249360817648389/1000000000000000000",
+            "nominal_fraction": "217839124249360817648389/1000000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "110426688791972883377431/500000000000000000",
+            "pess_minus_max_fraction": "517807833591653861609/250000000000000000",
+            "range_fraction": "943022000218333660037/1000000000000000000",
+            "selected_count": 4,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e02_08",
+              "e03_04"
+            ],
+            "set_id": "M:e01_06,e02_07,e02_08,e03_04",
+            "standard_deviation_decimal": "471.51100011",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 2,
+            "variance_fraction": "889290492895786889558493215105152290841369/4000000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "205480667589302518591/500000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "1764944670575543734401/2000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-830134999594005204627/500000000000000000"
+          },
+          "pess_frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "pess_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_set_id": "M:e01_06,e02_07,e03_04",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "27399138448094719543201/125000000000000000",
+            "mean_fraction": "27399138448094719543201/125000000000000000",
+            "minimum_fraction": "27399138448094719543201/125000000000000000",
+            "nominal_fraction": "27399138448094719543201/125000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "27399138448094719543201/125000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ],
+            "set_id": "M:e01_06,e02_07,e03_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 5,
+          "nominal_frozen_objective_fraction": "43406372784445770977181/200000000000000000",
+          "nominal_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ],
+          "nominal_set_id": "M:e01_06,e02_07,e02_08,e03_04,e06_08",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "4525908102348792163463/8000000000000000000",
+            "maximum_fraction": "43684738344800416537031/200000000000000000",
+            "mean_fraction": "1742863625689667869317777/8000000000000000000",
+            "minimum_fraction": "43406372784445770977181/200000000000000000",
+            "nominal_fraction": "43406372784445770977181/200000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "27943424060772690555807/125000000000000000",
+            "pess_minus_max_fraction": "5123700762179441761301/1000000000000000000",
+            "range_fraction": "5567311207092911197/4000000000000000",
+            "selected_count": 5,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e02_08",
+              "e03_04",
+              "e06_08"
+            ],
+            "set_id": "M:e01_06,e02_07,e02_08,e03_04,e06_08",
+            "standard_deviation_decimal": "530.86507974",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 8,
+            "variance_fraction": "18036334904883107229558089147169924748067431/64000000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "769415860755673660453/1000000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "10681234988394181447087/8000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-272142806338985506303/62500000000000000"
+          },
+          "pess_frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "pess_selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "pess_set_id": "M:e01_06,e02_07,e03_04",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "27399138448094719543201/125000000000000000",
+            "mean_fraction": "27399138448094719543201/125000000000000000",
+            "minimum_fraction": "27399138448094719543201/125000000000000000",
+            "nominal_fraction": "27399138448094719543201/125000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "27399138448094719543201/125000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_06",
+              "e02_07",
+              "e03_04"
+            ],
+            "set_id": "M:e01_06,e02_07,e03_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        }
+      ],
+      "candidate_count": 45,
+      "dataset": "forest10",
+      "frozen_cases": [
+        {
+          "budget": 0,
+          "case_id": "forest10-nominal-b0",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "118532364796947327721067/500000000000000000",
+          "objective": "nominal",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 0,
+          "case_id": "forest10-pess-b0",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "118532364796947327721067/500000000000000000",
+          "objective": "pess",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 2,
+          "case_id": "forest10-nominal-b2",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "222467056367728010623151/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ],
+          "set_id": "M:e01_06,e02_07"
+        },
+        {
+          "budget": 2,
+          "case_id": "forest10-pess-b2",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "222467056367728010623151/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ],
+          "set_id": "M:e01_06,e02_07"
+        },
+        {
+          "budget": 3,
+          "case_id": "forest10-nominal-b3",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e03_04"
+        },
+        {
+          "budget": 3,
+          "case_id": "forest10-pess-b3",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e03_04"
+        },
+        {
+          "budget": 4,
+          "case_id": "forest10-nominal-b4",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "217839124249360817648389/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e02_08,e03_04"
+        },
+        {
+          "budget": 4,
+          "case_id": "forest10-pess-b4",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e03_04"
+        },
+        {
+          "budget": 5,
+          "case_id": "forest10-nominal-b5",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "43406372784445770977181/200000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ],
+          "set_id": "M:e01_06,e02_07,e02_08,e03_04,e06_08"
+        },
+        {
+          "budget": 5,
+          "case_id": "forest10-pess-b5",
+          "dataset": "forest10",
+          "frozen_objective_fraction": "27399138448094719543201/125000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e03_04"
+        }
+      ],
+      "input_provenance": {
+        "candidate_map_sha256": "8fd28b72e4b071dc2ca491502bb61b4652fe9b68269f1db2eef1f6f1f7ffc76b",
+        "collection_manifest_sha256": "876a692bd3e067f48d70c870e612a900c5e876257ece6ac4e114af51cb45271f",
+        "collection_run_id": "20261025T050116Z-issue99-forest10-fee458",
+        "label_pickle_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+        "observation_aggregate_sha256": "e0ed1a1e6aa3409809fe8e69f4f4dd263a4f6ad481d1e6eefa8c6e7ea2d87033",
+        "reconstructed_coefficient_digest_sha256": "0f2f4154b7bb278c59485af11865ecf138468020b1ff0d9c9c3d6fcdd389ff9a",
+        "selection_manifest_sha256": "7fb10e4b219e0fac25bdd6ff3a3845240277cf4d8b88ac919f645b54b0900b62",
+        "selection_run_id": "20261025T053515Z-issue99-forest10-selection-c3e5b2",
+        "task_applicability_source": "complete train singleton observation IDs, in frozen candidate-map order",
+        "train_support_map_sha256": "03f27d4abdf0ca04f3a4ba8e0573c1ace3e377831847b795cfbbea7430dcb99c",
+        "train_truth_gzip_sha256": "1edc132ad05212ce47f22e28f3fbf8f2820ec00c82c5689a5c015d0263e605b1",
+        "train_truth_values_sha256": "4b9f32978df0e87c25189c96d6d743e1d5cb1b1f60407b00a8c84db27cd1b8e1",
+        "workload_pickle_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea"
+      },
+      "model_fit_checks": {
+        "coefficient_count": 1641931,
+        "coefficient_digest_matches_frozen": true,
+        "quantization": "Decimal precision 80, 1e-18 quantization, ROUND_HALF_EVEN, then Fraction",
+        "task_count": 100000,
+        "transform": "positive pre-clamp log with T=max(1,N)"
+      },
+      "sets": [
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "118532364796947327721067/500000000000000000",
+          "mean_fraction": "118532364796947327721067/500000000000000000",
+          "minimum_fraction": "118532364796947327721067/500000000000000000",
+          "nominal_fraction": "118532364796947327721067/500000000000000000",
+          "permutation_count": 1,
+          "pess_fraction": "118532364796947327721067/500000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 0,
+          "selected_ids": [],
+          "set_id": "M:empty",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "222467056367728010623151/1000000000000000000",
+          "mean_fraction": "222467056367728010623151/1000000000000000000",
+          "minimum_fraction": "222467056367728010623151/1000000000000000000",
+          "nominal_fraction": "222467056367728010623151/1000000000000000000",
+          "permutation_count": 2,
+          "pess_fraction": "222467056367728010623151/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 2,
+          "selected_ids": [
+            "e01_06",
+            "e02_07"
+          ],
+          "set_id": "M:e01_06,e02_07",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "27399138448094719543201/125000000000000000",
+          "mean_fraction": "27399138448094719543201/125000000000000000",
+          "minimum_fraction": "27399138448094719543201/125000000000000000",
+          "nominal_fraction": "27399138448094719543201/125000000000000000",
+          "permutation_count": 6,
+          "pess_fraction": "27399138448094719543201/125000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 3,
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e03_04",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "943022000218333660037/2000000000000000000",
+          "maximum_fraction": "109391073124789575654213/500000000000000000",
+          "mean_fraction": "87324254099787993791363/400000000000000000",
+          "minimum_fraction": "217839124249360817648389/1000000000000000000",
+          "nominal_fraction": "217839124249360817648389/1000000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "110426688791972883377431/500000000000000000",
+          "pess_minus_max_fraction": "517807833591653861609/250000000000000000",
+          "range_fraction": "943022000218333660037/1000000000000000000",
+          "selected_count": 4,
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ],
+          "set_id": "M:e01_06,e02_07,e02_08,e03_04",
+          "standard_deviation_decimal": "471.51100011",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 2,
+          "variance_fraction": "889290492895786889558493215105152290841369/4000000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "4525908102348792163463/8000000000000000000",
+          "maximum_fraction": "43684738344800416537031/200000000000000000",
+          "mean_fraction": "1742863625689667869317777/8000000000000000000",
+          "minimum_fraction": "43406372784445770977181/200000000000000000",
+          "nominal_fraction": "43406372784445770977181/200000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "27943424060772690555807/125000000000000000",
+          "pess_minus_max_fraction": "5123700762179441761301/1000000000000000000",
+          "range_fraction": "5567311207092911197/4000000000000000",
+          "selected_count": 5,
+          "selected_ids": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ],
+          "set_id": "M:e01_06,e02_07,e02_08,e03_04,e06_08",
+          "standard_deviation_decimal": "530.86507974",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 8,
+          "variance_fraction": "18036334904883107229558089147169924748067431/64000000000000000000000000000000000000"
+        }
+      ],
+      "train_task_count": 100000,
+      "unique_selected_set_count": 5
+    },
+    {
+      "budgets": [
+        {
+          "budget": 0,
+          "nominal_frozen_objective_fraction": "620966429945796907749/7812500000000000",
+          "nominal_selected_ids": [],
+          "nominal_set_id": "M:empty",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "620966429945796907749/7812500000000000",
+            "mean_fraction": "620966429945796907749/7812500000000000",
+            "minimum_fraction": "620966429945796907749/7812500000000000",
+            "nominal_fraction": "620966429945796907749/7812500000000000",
+            "permutation_count": 1,
+            "pess_fraction": "620966429945796907749/7812500000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "620966429945796907749/7812500000000000",
+          "pess_selected_ids": [],
+          "pess_set_id": "M:empty",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "620966429945796907749/7812500000000000",
+            "mean_fraction": "620966429945796907749/7812500000000000",
+            "minimum_fraction": "620966429945796907749/7812500000000000",
+            "nominal_fraction": "620966429945796907749/7812500000000000",
+            "permutation_count": 1,
+            "pess_fraction": "620966429945796907749/7812500000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 2,
+          "nominal_frozen_objective_fraction": "56408586262406908318211/1000000000000000000",
+          "nominal_selected_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "nominal_set_id": "M:e02_03,e04_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "56408586262406908318211/1000000000000000000",
+            "mean_fraction": "56408586262406908318211/1000000000000000000",
+            "minimum_fraction": "56408586262406908318211/1000000000000000000",
+            "nominal_fraction": "56408586262406908318211/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "56408586262406908318211/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e02_03",
+              "e04_06"
+            ],
+            "set_id": "M:e02_03,e04_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "56408586262406908318211/1000000000000000000",
+          "pess_selected_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_set_id": "M:e02_03,e04_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "56408586262406908318211/1000000000000000000",
+            "mean_fraction": "56408586262406908318211/1000000000000000000",
+            "minimum_fraction": "56408586262406908318211/1000000000000000000",
+            "nominal_fraction": "56408586262406908318211/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "56408586262406908318211/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e02_03",
+              "e04_06"
+            ],
+            "set_id": "M:e02_03,e04_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 3,
+          "nominal_frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+          "nominal_selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "nominal_set_id": "M:e01_05,e02_03,e04_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "52865905115708248181773/1000000000000000000",
+            "mean_fraction": "52865905115708248181773/1000000000000000000",
+            "minimum_fraction": "52865905115708248181773/1000000000000000000",
+            "nominal_fraction": "52865905115708248181773/1000000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "52865905115708248181773/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_05",
+              "e02_03",
+              "e04_06"
+            ],
+            "set_id": "M:e01_05,e02_03,e04_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+          "pess_selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_set_id": "M:e01_05,e02_03,e04_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "52865905115708248181773/1000000000000000000",
+            "mean_fraction": "52865905115708248181773/1000000000000000000",
+            "minimum_fraction": "52865905115708248181773/1000000000000000000",
+            "nominal_fraction": "52865905115708248181773/1000000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "52865905115708248181773/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e01_05",
+              "e02_03",
+              "e04_06"
+            ],
+            "set_id": "M:e01_05,e02_03,e04_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 4,
+          "nominal_frozen_objective_fraction": "10281826712732357203331/200000000000000000",
+          "nominal_selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e06_08"
+          ],
+          "nominal_set_id": "M:e01_05,e02_03,e04_06,e06_08",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "2172845810503993670961/1000000000000000000",
+            "maximum_fraction": "55754825184669773358577/1000000000000000000",
+            "mean_fraction": "837218427721340307619/15625000000000000",
+            "minimum_fraction": "10281826712732357203331/200000000000000000",
+            "nominal_fraction": "10281826712732357203331/200000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "28242812204541504459613/500000000000000000",
+            "pess_minus_max_fraction": "730799224413235560649/1000000000000000000",
+            "range_fraction": "2172845810503993670961/500000000000000000",
+            "selected_count": 4,
+            "selected_ids": [
+              "e01_05",
+              "e02_03",
+              "e04_06",
+              "e06_08"
+            ],
+            "set_id": "M:e01_05,e02_03,e04_06,e06_08",
+            "standard_deviation_decimal": "2172.84581050",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 2,
+            "variance_fraction": "4721258916224757172682264667188744734663521/1000000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "-897865210697357804893/250000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "-1418615032285437548611/1000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-4322260067202666780221/1000000000000000000"
+          },
+          "pess_frozen_objective_fraction": "10432672868376068427801/200000000000000000",
+          "pess_selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "pess_set_id": "M:e00_11,e01_05,e02_03,e04_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "10432672868376068427801/200000000000000000",
+            "mean_fraction": "10432672868376068427801/200000000000000000",
+            "minimum_fraction": "10432672868376068427801/200000000000000000",
+            "nominal_fraction": "10432672868376068427801/200000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "10432672868376068427801/200000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 4,
+            "selected_ids": [
+              "e00_11",
+              "e01_05",
+              "e02_03",
+              "e04_06"
+            ],
+            "set_id": "M:e00_11,e01_05,e02_03,e04_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 5,
+          "nominal_frozen_objective_fraction": "25173678236707037627047/500000000000000000",
+          "nominal_selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ],
+          "nominal_set_id": "M:e01_05,e02_03,e04_06,e04_08,e06_08",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "3464614486186156059091/1500000000000000000",
+            "maximum_fraction": "27992408385052112492073/500000000000000000",
+            "mean_fraction": "10064076333621272677141/187500000000000000",
+            "minimum_fraction": "25173678236707037627047/500000000000000000",
+            "nominal_fraction": "25173678236707037627047/500000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "56821282666848170057439/1000000000000000000",
+            "pess_minus_max_fraction": "836465896743945073293/1000000000000000000",
+            "range_fraction": "1409365074172537432513/250000000000000000",
+            "selected_count": 5,
+            "selected_ids": [
+              "e01_05",
+              "e02_03",
+              "e04_06",
+              "e04_08",
+              "e06_08"
+            ],
+            "set_id": "M:e01_05,e02_03,e04_06,e04_08,e06_08",
+            "standard_deviation_decimal": "2411.42329049",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 3,
+            "variance_fraction": "6541832571641308418012037316088631521934211/1125000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "-1066527857207543894007/250000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "-2934552657059107304951/1500000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-5102577325574120649321/1000000000000000000"
+          },
+          "pess_frozen_objective_fraction": "25859352670637024704059/500000000000000000",
+          "pess_selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e07_12"
+          ],
+          "pess_set_id": "M:e00_11,e01_05,e02_03,e04_06,e07_12",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "25859352670637024704059/500000000000000000",
+            "mean_fraction": "25859352670637024704059/500000000000000000",
+            "minimum_fraction": "25859352670637024704059/500000000000000000",
+            "nominal_fraction": "25859352670637024704059/500000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "25859352670637024704059/500000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 5,
+            "selected_ids": [
+              "e00_11",
+              "e01_05",
+              "e02_03",
+              "e04_06",
+              "e07_12"
+            ],
+            "set_id": "M:e00_11,e01_05,e02_03,e04_06,e07_12",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        }
+      ],
+      "candidate_count": 78,
+      "dataset": "census13",
+      "frozen_cases": [
+        {
+          "budget": 0,
+          "case_id": "census13-nominal-b0",
+          "dataset": "census13",
+          "frozen_objective_fraction": "620966429945796907749/7812500000000000",
+          "objective": "nominal",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 0,
+          "case_id": "census13-pess-b0",
+          "dataset": "census13",
+          "frozen_objective_fraction": "620966429945796907749/7812500000000000",
+          "objective": "pess",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 2,
+          "case_id": "census13-nominal-b2",
+          "dataset": "census13",
+          "frozen_objective_fraction": "56408586262406908318211/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e02_03,e04_06"
+        },
+        {
+          "budget": 2,
+          "case_id": "census13-pess-b2",
+          "dataset": "census13",
+          "frozen_objective_fraction": "56408586262406908318211/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e02_03,e04_06"
+        },
+        {
+          "budget": 3,
+          "case_id": "census13-nominal-b3",
+          "dataset": "census13",
+          "frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06"
+        },
+        {
+          "budget": 3,
+          "case_id": "census13-pess-b3",
+          "dataset": "census13",
+          "frozen_objective_fraction": "52865905115708248181773/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06"
+        },
+        {
+          "budget": 4,
+          "case_id": "census13-nominal-b4",
+          "dataset": "census13",
+          "frozen_objective_fraction": "10281826712732357203331/200000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e06_08"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06,e06_08"
+        },
+        {
+          "budget": 4,
+          "case_id": "census13-pess-b4",
+          "dataset": "census13",
+          "frozen_objective_fraction": "10432672868376068427801/200000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e00_11,e01_05,e02_03,e04_06"
+        },
+        {
+          "budget": 5,
+          "case_id": "census13-nominal-b5",
+          "dataset": "census13",
+          "frozen_objective_fraction": "25173678236707037627047/500000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06,e04_08,e06_08"
+        },
+        {
+          "budget": 5,
+          "case_id": "census13-pess-b5",
+          "dataset": "census13",
+          "frozen_objective_fraction": "25859352670637024704059/500000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e07_12"
+          ],
+          "set_id": "M:e00_11,e01_05,e02_03,e04_06,e07_12"
+        }
+      ],
+      "input_provenance": {
+        "candidate_map_sha256": "c661e07db8be24050417014bb5e280dd6cc1d856b26700075638a175e0dc8c64",
+        "collection_manifest_sha256": "844fcb7e3e171c97d0aab6593e2e10d15a154ea9e0a2d8f2d242d33ba14ea497",
+        "collection_run_id": "20261025T055959Z-issue99-census13-591c9d",
+        "label_pickle_sha256": "5fd6d187830681b16b3c561f7d0a2a014a7fdbabfa1579db655de8131b0ba451",
+        "observation_aggregate_sha256": "36974e5b3af86bc1e46e402b63e972a1e67b6eed473c45c7fce6477d59535b84",
+        "reconstructed_coefficient_digest_sha256": "d9c285b0189883327e00655670e467632a9e2f8ac7f511e28be664c5d589561e",
+        "selection_manifest_sha256": "2a5f2f18cdf158cff05381b6f3aa93cbb6f63eb97ee922eb850af59b96959ff7",
+        "selection_run_id": "20261025T110124Z-issue99-census13-selection-assembled-issue96-prep",
+        "task_applicability_source": "complete train singleton observation IDs, in frozen candidate-map order",
+        "train_support_map_sha256": "4e7184f90918ab403b1559916b6dbfbdbcd05de4004fad0ceae208ebcdbade8c",
+        "train_truth_gzip_sha256": "b4f725def8ab5390f359dff9c2f0528a75fc7c59933ac108ebef5f82eb0439c4",
+        "train_truth_values_sha256": "ae314b80cee9ad03157c2b43f1e4d867024ab5bbf32fe12861d5ef5b2d6ede9d",
+        "workload_pickle_sha256": "492faa529ecc6b212733602fd140a42182439a89d22bcf9c8e8b82db1a5154ba"
+      },
+      "model_fit_checks": {
+        "coefficient_count": 2801893,
+        "coefficient_digest_matches_frozen": true,
+        "quantization": "Decimal precision 80, 1e-18 quantization, ROUND_HALF_EVEN, then Fraction",
+        "task_count": 100000,
+        "transform": "census max(1,x) clamped-log-v2"
+      },
+      "sets": [
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "620966429945796907749/7812500000000000",
+          "mean_fraction": "620966429945796907749/7812500000000000",
+          "minimum_fraction": "620966429945796907749/7812500000000000",
+          "nominal_fraction": "620966429945796907749/7812500000000000",
+          "permutation_count": 1,
+          "pess_fraction": "620966429945796907749/7812500000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 0,
+          "selected_ids": [],
+          "set_id": "M:empty",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "56408586262406908318211/1000000000000000000",
+          "mean_fraction": "56408586262406908318211/1000000000000000000",
+          "minimum_fraction": "56408586262406908318211/1000000000000000000",
+          "nominal_fraction": "56408586262406908318211/1000000000000000000",
+          "permutation_count": 2,
+          "pess_fraction": "56408586262406908318211/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 2,
+          "selected_ids": [
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e02_03,e04_06",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "52865905115708248181773/1000000000000000000",
+          "mean_fraction": "52865905115708248181773/1000000000000000000",
+          "minimum_fraction": "52865905115708248181773/1000000000000000000",
+          "nominal_fraction": "52865905115708248181773/1000000000000000000",
+          "permutation_count": 6,
+          "pess_fraction": "52865905115708248181773/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 3,
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "10432672868376068427801/200000000000000000",
+          "mean_fraction": "10432672868376068427801/200000000000000000",
+          "minimum_fraction": "10432672868376068427801/200000000000000000",
+          "nominal_fraction": "10432672868376068427801/200000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "10432672868376068427801/200000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 4,
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06"
+          ],
+          "set_id": "M:e00_11,e01_05,e02_03,e04_06",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "2172845810503993670961/1000000000000000000",
+          "maximum_fraction": "55754825184669773358577/1000000000000000000",
+          "mean_fraction": "837218427721340307619/15625000000000000",
+          "minimum_fraction": "10281826712732357203331/200000000000000000",
+          "nominal_fraction": "10281826712732357203331/200000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "28242812204541504459613/500000000000000000",
+          "pess_minus_max_fraction": "730799224413235560649/1000000000000000000",
+          "range_fraction": "2172845810503993670961/500000000000000000",
+          "selected_count": 4,
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e06_08"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06,e06_08",
+          "standard_deviation_decimal": "2172.84581050",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 2,
+          "variance_fraction": "4721258916224757172682264667188744734663521/1000000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "25859352670637024704059/500000000000000000",
+          "mean_fraction": "25859352670637024704059/500000000000000000",
+          "minimum_fraction": "25859352670637024704059/500000000000000000",
+          "nominal_fraction": "25859352670637024704059/500000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "25859352670637024704059/500000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 5,
+          "selected_ids": [
+            "e00_11",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e07_12"
+          ],
+          "set_id": "M:e00_11,e01_05,e02_03,e04_06,e07_12",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "3464614486186156059091/1500000000000000000",
+          "maximum_fraction": "27992408385052112492073/500000000000000000",
+          "mean_fraction": "10064076333621272677141/187500000000000000",
+          "minimum_fraction": "25173678236707037627047/500000000000000000",
+          "nominal_fraction": "25173678236707037627047/500000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "56821282666848170057439/1000000000000000000",
+          "pess_minus_max_fraction": "836465896743945073293/1000000000000000000",
+          "range_fraction": "1409365074172537432513/250000000000000000",
+          "selected_count": 5,
+          "selected_ids": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ],
+          "set_id": "M:e01_05,e02_03,e04_06,e04_08,e06_08",
+          "standard_deviation_decimal": "2411.42329049",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 3,
+          "variance_fraction": "6541832571641308418012037316088631521934211/1125000000000000000000000000000000000"
+        }
+      ],
+      "train_task_count": 100000,
+      "unique_selected_set_count": 7
+    },
+    {
+      "budgets": [
+        {
+          "budget": 0,
+          "nominal_frozen_objective_fraction": "268850366119708661800283/1000000000000000000",
+          "nominal_selected_ids": [],
+          "nominal_set_id": "M:empty",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "268850366119708661800283/1000000000000000000",
+            "mean_fraction": "268850366119708661800283/1000000000000000000",
+            "minimum_fraction": "268850366119708661800283/1000000000000000000",
+            "nominal_fraction": "268850366119708661800283/1000000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "268850366119708661800283/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "268850366119708661800283/1000000000000000000",
+          "pess_selected_ids": [],
+          "pess_set_id": "M:empty",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "268850366119708661800283/1000000000000000000",
+            "mean_fraction": "268850366119708661800283/1000000000000000000",
+            "minimum_fraction": "268850366119708661800283/1000000000000000000",
+            "nominal_fraction": "268850366119708661800283/1000000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "268850366119708661800283/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 2,
+          "nominal_frozen_objective_fraction": "235810292430513488425177/1000000000000000000",
+          "nominal_selected_ids": [
+            "e00_05",
+            "e01_04"
+          ],
+          "nominal_set_id": "M:e00_05,e01_04",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "235810292430513488425177/1000000000000000000",
+            "mean_fraction": "235810292430513488425177/1000000000000000000",
+            "minimum_fraction": "235810292430513488425177/1000000000000000000",
+            "nominal_fraction": "235810292430513488425177/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "235810292430513488425177/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e00_05",
+              "e01_04"
+            ],
+            "set_id": "M:e00_05,e01_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "235810292430513488425177/1000000000000000000",
+          "pess_selected_ids": [
+            "e00_05",
+            "e01_04"
+          ],
+          "pess_set_id": "M:e00_05,e01_04",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "235810292430513488425177/1000000000000000000",
+            "mean_fraction": "235810292430513488425177/1000000000000000000",
+            "minimum_fraction": "235810292430513488425177/1000000000000000000",
+            "nominal_fraction": "235810292430513488425177/1000000000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "235810292430513488425177/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e00_05",
+              "e01_04"
+            ],
+            "set_id": "M:e00_05,e01_04",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 3,
+          "nominal_frozen_objective_fraction": "11405457377104713453/48828125000000",
+          "nominal_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ],
+          "nominal_set_id": "M:e00_05,e01_04,e04_07",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "13742177807187759078627/2000000000000000000",
+            "maximum_fraction": "247325944890292290596067/1000000000000000000",
+            "mean_fraction": "480909711973396822113507/2000000000000000000",
+            "minimum_fraction": "11405457377104713453/48828125000000",
+            "nominal_fraction": "11405457377104713453/48828125000000",
+            "permutation_count": 6,
+            "pess_fraction": "248195444894876606356833/1000000000000000000",
+            "pess_minus_max_fraction": "434750002292157880383/500000000000000000",
+            "range_fraction": "13742177807187759078627/1000000000000000000",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e04_07"
+            ],
+            "set_id": "M:e00_05,e01_04,e04_07",
+            "standard_deviation_decimal": "6871.08890359",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 2,
+            "variance_fraction": "188847450884363766535776708333584859968205129/4000000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "-13488377141876010663331/1000000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "-2646915295312852449607/400000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-14357877146460326424097/1000000000000000000"
+          },
+          "pess_frozen_objective_fraction": "3653711996069004373949/15625000000000000",
+          "pess_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ],
+          "pess_set_id": "M:e00_05,e01_04,e02_03",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "3653711996069004373949/15625000000000000",
+            "mean_fraction": "3653711996069004373949/15625000000000000",
+            "minimum_fraction": "3653711996069004373949/15625000000000000",
+            "nominal_fraction": "3653711996069004373949/15625000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "3653711996069004373949/15625000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e02_03"
+            ],
+            "set_id": "M:e00_05,e01_04,e02_03",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 4,
+          "nominal_frozen_objective_fraction": "231416582375850472899909/1000000000000000000",
+          "nominal_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ],
+          "nominal_set_id": "M:e00_05,e01_04,e01_07,e04_07",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "7866819235123770807/1600000000000000",
+            "maximum_fraction": "49132562862474577514157/200000000000000000",
+            "mean_fraction": "24074605229042053081641/100000000000000000",
+            "minimum_fraction": "231416582375850472899909/1000000000000000000",
+            "nominal_fraction": "231416582375850472899909/1000000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "247418829808308935484507/1000000000000000000",
+            "pess_minus_max_fraction": "878007747968023956861/500000000000000000",
+            "range_fraction": "3561557984130603667719/250000000000000000",
+            "selected_count": 4,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e01_07",
+              "e04_07"
+            ],
+            "set_id": "M:e00_05,e01_04,e01_07,e04_07",
+            "standard_deviation_decimal": "6600.14011500",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 3,
+            "variance_fraction": "21780924768825237415301717670637159351093917/500000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "-6030514394878665771727/500000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "-7144266767804974789079/1000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-1727130535711672432147/125000000000000000"
+          },
+          "pess_frozen_objective_fraction": "233601785522615556027331/1000000000000000000",
+          "pess_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07"
+          ],
+          "pess_set_id": "M:e00_05,e01_04,e02_03,e06_07",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "233601785522615556027331/1000000000000000000",
+            "mean_fraction": "233601785522615556027331/1000000000000000000",
+            "minimum_fraction": "233601785522615556027331/1000000000000000000",
+            "nominal_fraction": "233601785522615556027331/1000000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "233601785522615556027331/1000000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 4,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e02_03",
+              "e06_07"
+            ],
+            "set_id": "M:e00_05,e01_04,e02_03,e06_07",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 5,
+          "nominal_frozen_objective_fraction": "917800882034346339657/4000000000000000",
+          "nominal_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ],
+          "nominal_set_id": "M:e00_05,e01_04,e01_07,e02_03,e04_07",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "14686452769754823091771/3000000000000000000",
+            "maximum_fraction": "121816451936730729324253/500000000000000000",
+            "mean_fraction": "716212258850629552853747/3000000000000000000",
+            "minimum_fraction": "917800882034346339657/4000000000000000",
+            "nominal_fraction": "917800882034346339657/4000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "245405048463386643855077/1000000000000000000",
+            "pess_minus_max_fraction": "1772144589925185206571/1000000000000000000",
+            "range_fraction": "886417710304679608391/62500000000000000",
+            "selected_count": 5,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e01_07",
+              "e02_03",
+              "e04_07"
+            ],
+            "set_id": "M:e00_05,e01_04,e01_07,e02_03,e04_07",
+            "standard_deviation_decimal": "6570.26109888",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 3,
+            "variance_fraction": "194257489083267796362735277134920783348314921/4500000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "-100311333732432583477/10000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "-15406947349974951951329/3000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-11803277963168443554271/1000000000000000000"
+          },
+          "pess_frozen_objective_fraction": "116800885250109100150403/500000000000000000",
+          "pess_selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ],
+          "pess_set_id": "M:e00_05,e01_04,e02_03,e06_07,e08_10",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "116800885250109100150403/500000000000000000",
+            "mean_fraction": "116800885250109100150403/500000000000000000",
+            "minimum_fraction": "116800885250109100150403/500000000000000000",
+            "nominal_fraction": "116800885250109100150403/500000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "116800885250109100150403/500000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 5,
+            "selected_ids": [
+              "e00_05",
+              "e01_04",
+              "e02_03",
+              "e06_07",
+              "e08_10"
+            ],
+            "set_id": "M:e00_05,e01_04,e02_03,e06_07,e08_10",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        }
+      ],
+      "candidate_count": 55,
+      "dataset": "dmv11",
+      "frozen_cases": [
+        {
+          "budget": 0,
+          "case_id": "dmv11-nominal-b0",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "268850366119708661800283/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 0,
+          "case_id": "dmv11-pess-b0",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "268850366119708661800283/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 2,
+          "case_id": "dmv11-nominal-b2",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "235810292430513488425177/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ],
+          "set_id": "M:e00_05,e01_04"
+        },
+        {
+          "budget": 2,
+          "case_id": "dmv11-pess-b2",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "235810292430513488425177/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ],
+          "set_id": "M:e00_05,e01_04"
+        },
+        {
+          "budget": 3,
+          "case_id": "dmv11-nominal-b3",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "11405457377104713453/48828125000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e04_07"
+        },
+        {
+          "budget": 3,
+          "case_id": "dmv11-pess-b3",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "3653711996069004373949/15625000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03"
+        },
+        {
+          "budget": 4,
+          "case_id": "dmv11-nominal-b4",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "231416582375850472899909/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e01_07,e04_07"
+        },
+        {
+          "budget": 4,
+          "case_id": "dmv11-pess-b4",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "233601785522615556027331/1000000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03,e06_07"
+        },
+        {
+          "budget": 5,
+          "case_id": "dmv11-nominal-b5",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "917800882034346339657/4000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e01_07,e02_03,e04_07"
+        },
+        {
+          "budget": 5,
+          "case_id": "dmv11-pess-b5",
+          "dataset": "dmv11",
+          "frozen_objective_fraction": "116800885250109100150403/500000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03,e06_07,e08_10"
+        }
+      ],
+      "input_provenance": {
+        "candidate_map_sha256": "8feab245abc557251d7446ff25d25ead1f43bdf0f39fbc591b19228a8e9d0f5d",
+        "collection_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3",
+        "collection_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+        "label_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+        "observation_aggregate_sha256": "d0cf8d65796ddd497a672c906e6d472db390089770d5c0c92a3afed82fbd02bb",
+        "reconstructed_coefficient_digest_sha256": "86de8e25aa50a8374bc98fd022db4078672af3c72a228b879fc658a63e036c2d",
+        "selection_manifest_sha256": "9efcab45b2ef2164bc38c7948d6fd75e33a4d93612f7d015d0c1d7635730de79",
+        "selection_run_id": "20261025T092424Z-issue99-dmv11-selection-79f148",
+        "task_applicability_source": "complete train singleton observation IDs, in frozen candidate-map order",
+        "train_support_map_sha256": "cd3fe0bcda0d226a523919269662237ebaf108e89095777e53e8fa54f499c5e0",
+        "train_truth_gzip_sha256": "9d54eac3fdd2b4c72fd8d86c44c5d8f89e6b1117dd039244dd7c9f220d25d12c",
+        "train_truth_values_sha256": "afb0667993b2cf3e0b7a15e0618308a3e0fdb16836fd7c25197074bd1ed08771",
+        "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc"
+      },
+      "model_fit_checks": {
+        "coefficient_count": 1994044,
+        "coefficient_digest_matches_frozen": true,
+        "quantization": "Decimal precision 80, 1e-18 quantization, ROUND_HALF_EVEN, then Fraction",
+        "task_count": 100000,
+        "transform": "positive pre-clamp log with T=max(1,N)"
+      },
+      "sets": [
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "268850366119708661800283/1000000000000000000",
+          "mean_fraction": "268850366119708661800283/1000000000000000000",
+          "minimum_fraction": "268850366119708661800283/1000000000000000000",
+          "nominal_fraction": "268850366119708661800283/1000000000000000000",
+          "permutation_count": 1,
+          "pess_fraction": "268850366119708661800283/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 0,
+          "selected_ids": [],
+          "set_id": "M:empty",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "235810292430513488425177/1000000000000000000",
+          "mean_fraction": "235810292430513488425177/1000000000000000000",
+          "minimum_fraction": "235810292430513488425177/1000000000000000000",
+          "nominal_fraction": "235810292430513488425177/1000000000000000000",
+          "permutation_count": 2,
+          "pess_fraction": "235810292430513488425177/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 2,
+          "selected_ids": [
+            "e00_05",
+            "e01_04"
+          ],
+          "set_id": "M:e00_05,e01_04",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "3653711996069004373949/15625000000000000",
+          "mean_fraction": "3653711996069004373949/15625000000000000",
+          "minimum_fraction": "3653711996069004373949/15625000000000000",
+          "nominal_fraction": "3653711996069004373949/15625000000000000",
+          "permutation_count": 6,
+          "pess_fraction": "3653711996069004373949/15625000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 3,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "13742177807187759078627/2000000000000000000",
+          "maximum_fraction": "247325944890292290596067/1000000000000000000",
+          "mean_fraction": "480909711973396822113507/2000000000000000000",
+          "minimum_fraction": "11405457377104713453/48828125000000",
+          "nominal_fraction": "11405457377104713453/48828125000000",
+          "permutation_count": 6,
+          "pess_fraction": "248195444894876606356833/1000000000000000000",
+          "pess_minus_max_fraction": "434750002292157880383/500000000000000000",
+          "range_fraction": "13742177807187759078627/1000000000000000000",
+          "selected_count": 3,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e04_07",
+          "standard_deviation_decimal": "6871.08890359",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 2,
+          "variance_fraction": "188847450884363766535776708333584859968205129/4000000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "7866819235123770807/1600000000000000",
+          "maximum_fraction": "49132562862474577514157/200000000000000000",
+          "mean_fraction": "24074605229042053081641/100000000000000000",
+          "minimum_fraction": "231416582375850472899909/1000000000000000000",
+          "nominal_fraction": "231416582375850472899909/1000000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "247418829808308935484507/1000000000000000000",
+          "pess_minus_max_fraction": "878007747968023956861/500000000000000000",
+          "range_fraction": "3561557984130603667719/250000000000000000",
+          "selected_count": 4,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e01_07,e04_07",
+          "standard_deviation_decimal": "6600.14011500",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 3,
+          "variance_fraction": "21780924768825237415301717670637159351093917/500000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "233601785522615556027331/1000000000000000000",
+          "mean_fraction": "233601785522615556027331/1000000000000000000",
+          "minimum_fraction": "233601785522615556027331/1000000000000000000",
+          "nominal_fraction": "233601785522615556027331/1000000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "233601785522615556027331/1000000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 4,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03,e06_07",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "14686452769754823091771/3000000000000000000",
+          "maximum_fraction": "121816451936730729324253/500000000000000000",
+          "mean_fraction": "716212258850629552853747/3000000000000000000",
+          "minimum_fraction": "917800882034346339657/4000000000000000",
+          "nominal_fraction": "917800882034346339657/4000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "245405048463386643855077/1000000000000000000",
+          "pess_minus_max_fraction": "1772144589925185206571/1000000000000000000",
+          "range_fraction": "886417710304679608391/62500000000000000",
+          "selected_count": 5,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ],
+          "set_id": "M:e00_05,e01_04,e01_07,e02_03,e04_07",
+          "standard_deviation_decimal": "6570.26109888",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 3,
+          "variance_fraction": "194257489083267796362735277134920783348314921/4500000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "116800885250109100150403/500000000000000000",
+          "mean_fraction": "116800885250109100150403/500000000000000000",
+          "minimum_fraction": "116800885250109100150403/500000000000000000",
+          "nominal_fraction": "116800885250109100150403/500000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "116800885250109100150403/500000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 5,
+          "selected_ids": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ],
+          "set_id": "M:e00_05,e01_04,e02_03,e06_07,e08_10",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        }
+      ],
+      "train_task_count": 100000,
+      "unique_selected_set_count": 8
+    },
+    {
+      "budgets": [
+        {
+          "budget": 0,
+          "nominal_frozen_objective_fraction": "4231930425069933727407/40000000000000000",
+          "nominal_selected_ids": [],
+          "nominal_set_id": "M:empty",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "4231930425069933727407/40000000000000000",
+            "mean_fraction": "4231930425069933727407/40000000000000000",
+            "minimum_fraction": "4231930425069933727407/40000000000000000",
+            "nominal_fraction": "4231930425069933727407/40000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "4231930425069933727407/40000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "4231930425069933727407/40000000000000000",
+          "pess_selected_ids": [],
+          "pess_set_id": "M:empty",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "4231930425069933727407/40000000000000000",
+            "mean_fraction": "4231930425069933727407/40000000000000000",
+            "minimum_fraction": "4231930425069933727407/40000000000000000",
+            "nominal_fraction": "4231930425069933727407/40000000000000000",
+            "permutation_count": 1,
+            "pess_fraction": "4231930425069933727407/40000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 0,
+            "selected_ids": [],
+            "set_id": "M:empty",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 2,
+          "nominal_frozen_objective_fraction": "1469372994705213322863/15625000000000000",
+          "nominal_selected_ids": [
+            "e00_01",
+            "e03_06"
+          ],
+          "nominal_set_id": "M:e00_01,e03_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "1469372994705213322863/15625000000000000",
+            "mean_fraction": "1469372994705213322863/15625000000000000",
+            "minimum_fraction": "1469372994705213322863/15625000000000000",
+            "nominal_fraction": "1469372994705213322863/15625000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "1469372994705213322863/15625000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e00_01",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "1469372994705213322863/15625000000000000",
+          "pess_selected_ids": [
+            "e00_01",
+            "e03_06"
+          ],
+          "pess_set_id": "M:e00_01,e03_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "1469372994705213322863/15625000000000000",
+            "mean_fraction": "1469372994705213322863/15625000000000000",
+            "minimum_fraction": "1469372994705213322863/15625000000000000",
+            "nominal_fraction": "1469372994705213322863/15625000000000000",
+            "permutation_count": 2,
+            "pess_fraction": "1469372994705213322863/15625000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 2,
+            "selected_ids": [
+              "e00_01",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 3,
+          "nominal_frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "nominal_selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "nominal_set_id": "M:e00_01,e02_04,e03_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "18674474971827759778671/200000000000000000",
+            "mean_fraction": "18674474971827759778671/200000000000000000",
+            "minimum_fraction": "18674474971827759778671/200000000000000000",
+            "nominal_fraction": "18674474971827759778671/200000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "18674474971827759778671/200000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_01",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e02_04,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "0",
+            "mean_pess_selected_minus_nominal_selected_fraction": "0",
+            "selected_sets_equal": true,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "0"
+          },
+          "pess_frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "pess_selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "pess_set_id": "M:e00_01,e02_04,e03_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "18674474971827759778671/200000000000000000",
+            "mean_fraction": "18674474971827759778671/200000000000000000",
+            "minimum_fraction": "18674474971827759778671/200000000000000000",
+            "nominal_fraction": "18674474971827759778671/200000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "18674474971827759778671/200000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_01",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e02_04,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 4,
+          "nominal_frozen_objective_fraction": "92908128136999678674949/1000000000000000000",
+          "nominal_selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06"
+          ],
+          "nominal_set_id": "M:e00_01,e00_03,e02_04,e03_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "23162477100852609991/120000000000000000",
+            "maximum_fraction": "23272295000868658721009/250000000000000000",
+            "mean_fraction": "278688478082902589402333/3000000000000000000",
+            "minimum_fraction": "92402795130184067041929/1000000000000000000",
+            "nominal_fraction": "92908128136999678674949/1000000000000000000",
+            "permutation_count": 24,
+            "pess_fraction": "3048581376545595136993/31250000000000000",
+            "pess_minus_max_fraction": "223271202299220474987/50000000000000000",
+            "range_fraction": "686384873290567842107/1000000000000000000",
+            "selected_count": 4,
+            "selected_ids": [
+              "e00_01",
+              "e00_03",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e00_03,e02_04,e03_06",
+            "standard_deviation_decimal": "231.88059482",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 4,
+            "variance_fraction": "241958746145327370145576416543452774567977/4500000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "283194855664164009319/1000000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "357161623628451819433/750000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-4182229190320245490421/1000000000000000000"
+          },
+          "pess_frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "pess_selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "pess_set_id": "M:e00_01,e02_04,e03_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "18674474971827759778671/200000000000000000",
+            "mean_fraction": "18674474971827759778671/200000000000000000",
+            "minimum_fraction": "18674474971827759778671/200000000000000000",
+            "nominal_fraction": "18674474971827759778671/200000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "18674474971827759778671/200000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_01",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e02_04,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        },
+        {
+          "budget": 5,
+          "nominal_frozen_objective_fraction": "92489133554346522548927/1000000000000000000",
+          "nominal_selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ],
+          "nominal_set_id": "M:e00_01,e00_03,e01_02,e02_04,e03_06",
+          "nominal_set_metrics": {
+            "max_minus_mean_fraction": "8781103802791871597783/30000000000000000000",
+            "maximum_fraction": "46379810700244305166969/500000000000000000",
+            "mean_fraction": "2774007538211866438420357/30000000000000000000",
+            "minimum_fraction": "91859527005927715384431/1000000000000000000",
+            "nominal_fraction": "92489133554346522548927/1000000000000000000",
+            "permutation_count": 120,
+            "pess_fraction": "98144931773540140289557/1000000000000000000",
+            "pess_minus_max_fraction": "5385310373051529955619/1000000000000000000",
+            "range_fraction": "900094394560894949507/1000000000000000000",
+            "selected_count": 5,
+            "selected_ids": [
+              "e00_01",
+              "e00_03",
+              "e01_02",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e00_03,e01_02,e02_04,e03_06",
+            "standard_deviation_decimal": "265.66953692",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 16,
+            "variance_fraction": "63522272561565291384828038351819701875297491/900000000000000000000000000000000000000"
+          },
+          "paired_contrast": {
+            "global_max_pess_selected_minus_nominal_selected_fraction": "612753458650188559417/1000000000000000000",
+            "mean_pess_selected_minus_nominal_selected_fraction": "27163707562297528380293/30000000000000000000",
+            "selected_sets_equal": false,
+            "taskwise_pess_bound_pess_selected_minus_nominal_selected_fraction": "-2386278457200670698101/500000000000000000"
+          },
+          "pess_frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "pess_selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "pess_set_id": "M:e00_01,e02_04,e03_06",
+          "pess_set_metrics": {
+            "max_minus_mean_fraction": "0",
+            "maximum_fraction": "18674474971827759778671/200000000000000000",
+            "mean_fraction": "18674474971827759778671/200000000000000000",
+            "minimum_fraction": "18674474971827759778671/200000000000000000",
+            "nominal_fraction": "18674474971827759778671/200000000000000000",
+            "permutation_count": 6,
+            "pess_fraction": "18674474971827759778671/200000000000000000",
+            "pess_minus_max_fraction": "0",
+            "range_fraction": "0",
+            "selected_count": 3,
+            "selected_ids": [
+              "e00_01",
+              "e02_04",
+              "e03_06"
+            ],
+            "set_id": "M:e00_01,e02_04,e03_06",
+            "standard_deviation_decimal": "0.00000000",
+            "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+            "unique_global_loss_count": 1,
+            "variance_fraction": "0"
+          }
+        }
+      ],
+      "candidate_count": 21,
+      "dataset": "power7",
+      "frozen_cases": [
+        {
+          "budget": 0,
+          "case_id": "power7-nominal-b0",
+          "dataset": "power7",
+          "frozen_objective_fraction": "4231930425069933727407/40000000000000000",
+          "objective": "nominal",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 0,
+          "case_id": "power7-pess-b0",
+          "dataset": "power7",
+          "frozen_objective_fraction": "4231930425069933727407/40000000000000000",
+          "objective": "pess",
+          "selected_ids": [],
+          "set_id": "M:empty"
+        },
+        {
+          "budget": 2,
+          "case_id": "power7-nominal-b2",
+          "dataset": "power7",
+          "frozen_objective_fraction": "1469372994705213322863/15625000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e03_06"
+        },
+        {
+          "budget": 2,
+          "case_id": "power7-pess-b2",
+          "dataset": "power7",
+          "frozen_objective_fraction": "1469372994705213322863/15625000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e03_06"
+        },
+        {
+          "budget": 3,
+          "case_id": "power7-nominal-b3",
+          "dataset": "power7",
+          "frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e02_04,e03_06"
+        },
+        {
+          "budget": 3,
+          "case_id": "power7-pess-b3",
+          "dataset": "power7",
+          "frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e02_04,e03_06"
+        },
+        {
+          "budget": 4,
+          "case_id": "power7-nominal-b4",
+          "dataset": "power7",
+          "frozen_objective_fraction": "92908128136999678674949/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e00_03,e02_04,e03_06"
+        },
+        {
+          "budget": 4,
+          "case_id": "power7-pess-b4",
+          "dataset": "power7",
+          "frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e02_04,e03_06"
+        },
+        {
+          "budget": 5,
+          "case_id": "power7-nominal-b5",
+          "dataset": "power7",
+          "frozen_objective_fraction": "92489133554346522548927/1000000000000000000",
+          "objective": "nominal",
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e00_03,e01_02,e02_04,e03_06"
+        },
+        {
+          "budget": 5,
+          "case_id": "power7-pess-b5",
+          "dataset": "power7",
+          "frozen_objective_fraction": "18674474971827759778671/200000000000000000",
+          "objective": "pess",
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e02_04,e03_06"
+        }
+      ],
+      "input_provenance": {
+        "candidate_map_sha256": "0c17d1bced2f1ed9b48cb6867982b0938d180c996b3617cb36383d1851c8dfb4",
+        "collection_manifest_sha256": "ca3e9b3440fa0b7daca91ecf0004a7dc0d45b783341cb041f5653bbe7eb41665",
+        "collection_run_id": "20261025T100019Z-issue99-power7-5e2aad",
+        "label_pickle_sha256": "d7369b34d2ddc866dbb16c3b2f5147cb10a86832dba54c905ef400bc3514cdf5",
+        "observation_aggregate_sha256": "f8566aec2367443c64fa2be9930944b230a681049800348ea8e463a87dd78a9f",
+        "reconstructed_coefficient_digest_sha256": "fe724c0987be3fb1e85a6f8d9fe20e868b808382d7a4f95bd4d31586a011b1f2",
+        "selection_manifest_sha256": "c3579e76526542a99cbb505cbdc49c09b854df27c44f7070050459e857d1c78a",
+        "selection_run_id": "20261025T101855Z-issue99-power7-selection-ac09df",
+        "task_applicability_source": "complete train singleton observation IDs, in frozen candidate-map order",
+        "train_support_map_sha256": "ae21cbd8b7a152d91f3e8c80c85cc5d9611bb68cf7cc17ad21a16667e298421f",
+        "train_truth_gzip_sha256": "e46638b73d57bb2048ecb9858cf07118aedbd3961af4edcdd2af88c1ab8aef68",
+        "train_truth_values_sha256": "ad0e7e5837c28c745bb66a9761efaf4179df34c19bb6840a830d3b2bd6875784",
+        "workload_pickle_sha256": "1f270912f529e362545b6da519492a5aff63bdc65ecc10f71674e5779a7247a5"
+      },
+      "model_fit_checks": {
+        "coefficient_count": 802535,
+        "coefficient_digest_matches_frozen": true,
+        "quantization": "Decimal precision 80, 1e-18 quantization, ROUND_HALF_EVEN, then Fraction",
+        "task_count": 100000,
+        "transform": "positive pre-clamp log with T=max(1,N)"
+      },
+      "sets": [
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "4231930425069933727407/40000000000000000",
+          "mean_fraction": "4231930425069933727407/40000000000000000",
+          "minimum_fraction": "4231930425069933727407/40000000000000000",
+          "nominal_fraction": "4231930425069933727407/40000000000000000",
+          "permutation_count": 1,
+          "pess_fraction": "4231930425069933727407/40000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 0,
+          "selected_ids": [],
+          "set_id": "M:empty",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "1469372994705213322863/15625000000000000",
+          "mean_fraction": "1469372994705213322863/15625000000000000",
+          "minimum_fraction": "1469372994705213322863/15625000000000000",
+          "nominal_fraction": "1469372994705213322863/15625000000000000",
+          "permutation_count": 2,
+          "pess_fraction": "1469372994705213322863/15625000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 2,
+          "selected_ids": [
+            "e00_01",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e03_06",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "0",
+          "maximum_fraction": "18674474971827759778671/200000000000000000",
+          "mean_fraction": "18674474971827759778671/200000000000000000",
+          "minimum_fraction": "18674474971827759778671/200000000000000000",
+          "nominal_fraction": "18674474971827759778671/200000000000000000",
+          "permutation_count": 6,
+          "pess_fraction": "18674474971827759778671/200000000000000000",
+          "pess_minus_max_fraction": "0",
+          "range_fraction": "0",
+          "selected_count": 3,
+          "selected_ids": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e02_04,e03_06",
+          "standard_deviation_decimal": "0.00000000",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 1,
+          "variance_fraction": "0"
+        },
+        {
+          "max_minus_mean_fraction": "23162477100852609991/120000000000000000",
+          "maximum_fraction": "23272295000868658721009/250000000000000000",
+          "mean_fraction": "278688478082902589402333/3000000000000000000",
+          "minimum_fraction": "92402795130184067041929/1000000000000000000",
+          "nominal_fraction": "92908128136999678674949/1000000000000000000",
+          "permutation_count": 24,
+          "pess_fraction": "3048581376545595136993/31250000000000000",
+          "pess_minus_max_fraction": "223271202299220474987/50000000000000000",
+          "range_fraction": "686384873290567842107/1000000000000000000",
+          "selected_count": 4,
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e00_03,e02_04,e03_06",
+          "standard_deviation_decimal": "231.88059482",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 4,
+          "variance_fraction": "241958746145327370145576416543452774567977/4500000000000000000000000000000000000"
+        },
+        {
+          "max_minus_mean_fraction": "8781103802791871597783/30000000000000000000",
+          "maximum_fraction": "46379810700244305166969/500000000000000000",
+          "mean_fraction": "2774007538211866438420357/30000000000000000000",
+          "minimum_fraction": "91859527005927715384431/1000000000000000000",
+          "nominal_fraction": "92489133554346522548927/1000000000000000000",
+          "permutation_count": 120,
+          "pess_fraction": "98144931773540140289557/1000000000000000000",
+          "pess_minus_max_fraction": "5385310373051529955619/1000000000000000000",
+          "range_fraction": "900094394560894949507/1000000000000000000",
+          "selected_count": 5,
+          "selected_ids": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ],
+          "set_id": "M:e00_01,e00_03,e01_02,e02_04,e03_06",
+          "standard_deviation_decimal": "265.66953692",
+          "task_matching_multiplicity_note": "All |M|! permutations contribute individually, including repeated induced matchings.",
+          "unique_global_loss_count": 16,
+          "variance_fraction": "63522272561565291384828038351819701875297491/900000000000000000000000000000000000000"
+        }
+      ],
+      "train_task_count": 100000,
+      "unique_selected_set_count": 5
+    }
+  ],
+  "datasets_analyzed": [
+    "forest10",
+    "census13",
+    "dmv11",
+    "power7"
+  ],
+  "format": "ess-issue103-oid-priority-permutation-summary-v1",
+  "frozen_selection_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+  "heldout_labels_or_issue101_outcomes_read": false,
+  "issue": 103,
+  "issue101_artifacts_read": false,
+  "issue99_builder_sha256": "10aca5e7134418b05c0ed54433e4d1d77dd7049a8d51887932c91303addbcf6c",
+  "issue99_protocol_sha256": "2f40b265bacc96d965b59bcdccc25c9bb73e3a4d99481a82107db0542343a9e6",
+  "label_pickle_opened": false,
+  "permutation_multiplicity_retained": true,
+  "postgresql_commands_run": false,
+  "python_version": "3.12.3",
+  "run_id": "20261025T115957Z-issue103-offline-exact",
+  "status": "COMPLETE",
+  "train_queries_per_dataset": 100000,
+  "uniform_global_permutation_model": true,
+  "unique_selected_sets": 25,
+  "workload_pickle_opened": false
+}
