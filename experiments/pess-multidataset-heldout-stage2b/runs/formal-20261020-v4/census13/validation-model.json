@@ -1,0 +1,385 @@
+{
+  "calibration_task_ids": [
+    "arecel:census13:valid:000000",
+    "arecel:census13:valid:000001",
+    "arecel:census13:valid:000002",
+    "arecel:census13:valid:000009",
+    "arecel:census13:valid:000012",
+    "arecel:census13:valid:000006"
+  ],
+  "dataset": "census13",
+  "evidence_label": "experimentally_observed_validation_calibration_plus_exact_fraction_reference",
+  "format": "ess-issue48-stage2b-validation-model-v1",
+  "limitations": [
+    "validation-derived model inputs are separate from held-out PostgreSQL measurements",
+    "Fraction exactness applies only after recorded rationalization",
+    "no solver or universal optimality claim"
+  ],
+  "models": [
+    {
+      "alpha": "4634004071446507/1000000000000000000",
+      "available_edges": [
+        "c01",
+        "c56"
+      ],
+      "b": {
+        "c01": "583656229481394727/500000000000000000",
+        "c12": "1",
+        "c23": "1",
+        "c34": "1",
+        "c45": "1",
+        "c56": "764779630379055403/1000000000000000000"
+      },
+      "n0_preclamp": "0.0046340040714465073",
+      "query_id": "arecel:census13:valid:000000",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 0,
+      "target_T": 1,
+      "true_cardinality": 0,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "2202131486727589/62500000000000000",
+      "available_edges": [
+        "c12",
+        "c23",
+        "c34",
+        "c45"
+      ],
+      "b": {
+        "c01": "1",
+        "c12": "1024789434917145249/1000000000000000000",
+        "c23": "893919972245139407/500000000000000000",
+        "c34": "525358929339946863/500000000000000000",
+        "c45": "27584347348142739/31250000000000000",
+        "c56": "1"
+      },
+      "n0_preclamp": "0.17617051893820712",
+      "query_id": "arecel:census13:valid:000001",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 1,
+      "target_T": 5,
+      "true_cardinality": 5,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "1051402557551219/1000000000000000000",
+      "available_edges": [
+        "c12",
+        "c23",
+        "c34",
+        "c45",
+        "c56"
+      ],
+      "b": {
+        "c01": "1",
+        "c12": "15945062354399033/25000000000000000",
+        "c23": "34203083515538201033/1000000000000000000",
+        "c34": "763413894883072239/500000000000000000",
+        "c45": "562596525249472967/500000000000000000",
+        "c56": "5404494715299079/5000000000000000"
+      },
+      "n0_preclamp": "0.0042056102302048762",
+      "query_id": "arecel:census13:valid:000002",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 2,
+      "target_T": 4,
+      "true_cardinality": 4,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "323677212574097/31250000000000000",
+      "available_edges": [
+        "c01",
+        "c12",
+        "c23",
+        "c34",
+        "c45",
+        "c56"
+      ],
+      "b": {
+        "c01": "341246857260549813/500000000000000000",
+        "c12": "1049299035828827929/1000000000000000000",
+        "c23": "527542535754216867/500000000000000000",
+        "c34": "993040689147381693/1000000000000000000",
+        "c45": "636438260472803439/500000000000000000",
+        "c56": "174781064854492861/125000000000000000"
+      },
+      "n0_preclamp": "0.020715341604742209",
+      "query_id": "arecel:census13:valid:000009",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 9,
+      "target_T": 2,
+      "true_cardinality": 2,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "10865144005738947/200000000000000000",
+      "available_edges": [
+        "c01",
+        "c12",
+        "c23",
+        "c34",
+        "c45",
+        "c56"
+      ],
+      "b": {
+        "c01": "46606099015843591/50000000000000000",
+        "c12": "997817469484400817/1000000000000000000",
+        "c23": "112249497402441089/25000000000000000",
+        "c34": "1055988023952972413/1000000000000000000",
+        "c45": "948472354705699089/1000000000000000000",
+        "c56": "1199946089850454351/1000000000000000000"
+      },
+      "n0_preclamp": "0.054325720028694735",
+      "query_id": "arecel:census13:valid:000012",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 12,
+      "target_T": 1,
+      "true_cardinality": 1,
+      "weight": "1.0"
+    },
+    {
+      "alpha": "2024813825436467/50000000000000000",
+      "available_edges": [
+        "c12",
+        "c56"
+      ],
+      "b": {
+        "c01": "1",
+        "c12": "82489322223145243/100000000000000000",
+        "c23": "1",
+        "c34": "1",
+        "c45": "1",
+        "c56": "657581594382102159/500000000000000000"
+      },
+      "n0_preclamp": "0.2024813825436467",
+      "query_id": "arecel:census13:valid:000006",
+      "rationalization": "Decimal natural log quantized to 18 places, then Fraction strings",
+      "source_index": 6,
+      "target_T": 5,
+      "true_cardinality": 5,
+      "weight": "1.0"
+    }
+  ],
+  "protocol_sha256": "54867e0bf3ca116b044d77da14efe1b12d06851af522cfbeb49af14ae33733ad",
+  "sample": {
+    "bytes": 8144782,
+    "header": {
+      "alignof": 8,
+      "blcksz": 8192,
+      "file_bytes": 8144782,
+      "format_version": 1,
+      "item_pointer_size": 6,
+      "natts": 13,
+      "relation_filenode": 16384,
+      "relation_identity": "6:public8:census13",
+      "relation_oid": 16384,
+      "relation_pages": 1008,
+      "sample_target": 90000,
+      "server_version": "16.14",
+      "server_version_num": 160014,
+      "tuple_count": 48842,
+      "tuple_header_size": 24,
+      "tuple_size": 24
+    },
+    "rows": 48842,
+    "sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+    "table": "public.census13"
+  },
+  "selected_by_method_and_budget": {
+    "Empty": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "3": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "5": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      }
+    },
+    "Nominal": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "3": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "5": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      }
+    },
+    "PESS": {
+      "0": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "2": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "3": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      },
+      "5": {
+        "all_optimal_sets": [
+          []
+        ],
+        "exact_fraction_reference": true,
+        "objective": "146099177756434329/1000000000000000000",
+        "selected": [],
+        "task_count": 6,
+        "tie_count": 1
+      }
+    }
+  },
+  "selected_sets": {
+    "set-empty": {
+      "aliases": [
+        {
+          "budget": 0,
+          "method": "Empty",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "Empty",
+          "tie_count": 1
+        },
+        {
+          "budget": 3,
+          "method": "Empty",
+          "tie_count": 1
+        },
+        {
+          "budget": 5,
+          "method": "Empty",
+          "tie_count": 1
+        },
+        {
+          "budget": 0,
+          "method": "Nominal",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "Nominal",
+          "tie_count": 1
+        },
+        {
+          "budget": 3,
+          "method": "Nominal",
+          "tie_count": 1
+        },
+        {
+          "budget": 5,
+          "method": "Nominal",
+          "tie_count": 1
+        },
+        {
+          "budget": 0,
+          "method": "PESS",
+          "tie_count": 1
+        },
+        {
+          "budget": 2,
+          "method": "PESS",
+          "tie_count": 1
+        },
+        {
+          "budget": 3,
+          "method": "PESS",
+          "tie_count": 1
+        },
+        {
+          "budget": 5,
+          "method": "PESS",
+          "tie_count": 1
+        }
+      ],
+      "selected": []
+    }
+  }
+}
