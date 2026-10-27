@@ -70,7 +70,7 @@ class TheoryAudit(unittest.TestCase):
         for m in range(0, 8):
             for _ in range(120):
                 # Equal endpoint pairs are allowed: labeled parallel edges.
-                edges = {i: (rng.randrange(4), rng.randrange(4)) for i in range(m)}
+                edges = {i: tuple(rng.sample(range(4), 2)) for i in range(m)}
                 tasks = []
                 for _ in range(rng.randrange(5)):
                     eligible = frozenset(i for i in edges if rng.randrange(2))
@@ -134,7 +134,7 @@ class TheoryAudit(unittest.TestCase):
         rng = random.Random(SEED + 1)
         for m in range(1, 7):
             for _ in range(80):
-                edges = {i: (rng.randrange(5), rng.randrange(5)) for i in range(m)}
+                edges = {i: tuple(rng.sample(range(5), 2)) for i in range(m)}
                 eligible = frozenset(edges)
                 matchings = {greedy(edges, eligible, p)
                              for p in itertools.permutations(edges)}
