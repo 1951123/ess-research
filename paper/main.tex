@@ -1212,6 +1212,20 @@ They do not quantify uncertainty from new workloads,
 datasets, ANALYZE samples, or the model-to-physical gap.
 A degenerate interval
 from 24 sampled orders cannot certify all 120 orders identical.
+An independent read-only audit regenerated the frozen
+156-arm schedule byte-for-byte and recomputed each order's
+Test P95 and the reported design-weighted contrasts from
+the retained physical archives. As a \emph{post hoc}
+four-contrast multiplicity sensitivity check, applying
+$t_{1-0.05/(2\cdot4),21}$ instead gives approximate
+Bonferroni intervals for PESS-minus-Nominal of
+$[+0.0128,+0.2070]$ (Forest10),
+$[-1.6989,-0.6964]$ (Census13),
+$[-9.3878,-3.1048]$ (DMV11), and
+$[-0.2371,+0.2958]$ (Power7).
+These intervals retain the underlying marginal
+Student-$t$ approximation and do not establish exact
+finite-population or workload-level coverage.
 
 The sampled-order design was specified after inspection of
 canonical and reversal outcomes, although new sampled orders
@@ -1502,7 +1516,12 @@ Neither physical comparison computes the abstract
 worst shared-order loss \(G\) or validates
 PESS as a universal physical envelope.
 The reported intervals cover only frozen
-permutation sampling.
+permutation sampling; a four-dataset Bonferroni
+sensitivity check leaves the first three contrast
+intervals on their respective sides of zero, while
+Power7 remains inconclusive. That comparison was
+conducted after the experiment and inherits the
+approximate marginal-interval limitations.
 
 \paragraph{Query-level diagnostics under frozen orders.}
 A read-only analysis of the sampled-order physical records
