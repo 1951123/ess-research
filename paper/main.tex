@@ -371,6 +371,41 @@ This only compares \emph{fixed-set modeled risk}. A strict
 risk gap need not change the globally optimal resource set;
 different greedy selections do not certify distinct optima.
 
+\begin{proposition}[Task-wise envelope for monotone aggregation]
+\label{prop:general-envelope}
+For a fixed feasible $M$, put
+$p_i(M)=\max_{\sigma\in\Gamma_i(M)}L_i(\sigma)$.
+If $\mathcal A_n$ is coordinatewise nondecreasing, then
+\begin{equation}
+\label{eq:general-envelope}
+\max_{\boldsymbol\sigma\in\mathcal U_n(M)}
+ \mathcal A_n((L_i(\sigma_i))_i)
+\ \leq\ \mathcal A_n((p_i(M))_i).
+\end{equation}
+Equality holds when $\mathcal U_n(M)$ is the full
+Cartesian product $\prod_i\Gamma_i(M)$.
+\end{proposition}
+\begin{proof}
+For every jointly admissible tuple and every $i$,
+$L_i(\sigma_i)\leq p_i(M)$; coordinatewise monotonicity
+gives the inequality. Since each $\Gamma_i(M)$ is
+finite and nonempty, a maximizer of $L_i$ exists for
+every task. Their joint tuple belongs to the full
+Cartesian product and attains the right-hand side.
+\end{proof}
+Thus task-wise pessimism is an \emph{envelope} for
+every such aggregator, not just the sum. In particular,
+the aggregate may be a sample percentile, yet
+(\ref{eq:general-envelope}) remains a \emph{modeled}
+upper bound only; it says nothing about an unknown
+physical scheme family. If the aggregator is not
+coordinatewise monotone, the bound need not hold.
+For additive aggregation, the right-hand side reduces
+to $\sum_i p_i(M)$, recovering (\ref{eq:pess}).
+For a percentile, it is the percentile of the
+\emph{task-wise worst losses}, not necessarily the
+worst physical percentile under one shared policy.
+
 \subsection{Concrete policy-information assumptions}
 For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
 policy family \(\Theta\), the following are distinct objectives:
