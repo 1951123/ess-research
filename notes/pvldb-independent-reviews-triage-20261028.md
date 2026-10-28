@@ -158,3 +158,20 @@ Fetched and parsed the authoritative in-Git `experiments/oid-uniform-priority-is
 **T09 partially resolved:** these checks establish correct frozen *schedule structure and inclusion probabilities*; they do not independently regenerate the sample using the versioned RNG, establish random sampling quality, access off-Git physical observation bytes, or calibrate approximate interval coverage. Next no-new-measurement task: independent deterministic RNG replay from `src/ess_research/arecel/oid_sampling.py` (or a separately written equivalent) against the exact frozen JSON SHA, and review of simultaneous inference from existing order-level data if accessible. Keep T09 OPEN for those separate checks.
 
 No physical database execution, data resampling, or manuscript edits are part of this check.
+
+## T18 aggregate-only four-way multiplicity sensitivity (2026-10-28)
+
+The manuscript reports four separate approximate two-sided 95% per-dataset intervals using t_(.975,21)=2.0796138447. Without reading or resampling off-Git order-level outcomes, one can obtain a **rounded-summary sensitivity calculation** for family-wise 95% Bonferroni intervals across these same four fixed hypotheses: replace the per-dataset critical value with t_(1-0.05/(2*4),21)=2.7316324824. Infer each approximate SE as (reported upper minus reported lower)/(2*2.0796138447); since original intervals were rounded to 4 digits, the derived intervals below are *approximate*, not exact recomputations.
+
+| Dataset | Reported difference | Approx. Bonferroni simultaneous 95% interval | Interpretation at this approximation |
+|---|---:|---:|---|
+| Forest10 | +0.1099 | [+0.0128,+0.2070] | Positive interval; estimated Nominal advantage under declared uniform-order estimand |
+| Census13 | -1.1976 | [-1.6989,-0.6963] | Negative interval; estimated PESS advantage |
+| DMV11 | -6.2463 | [-9.3878,-3.1048] | Negative interval; estimated PESS advantage |
+| Power7 | +0.0293 | [-0.2371,+0.2957] | Inconclusive |
+
+These results **do not** remove the manuscript's underlying approximate t-distribution/finite-sample coverage caveat, repeated-workload uncertainty, or the fact that the sampling design followed inspection of earlier outcomes. Bonferroni gives simultaneous control *only if* each constituent interval achieves its nominal marginal coverage and the fixed family is well-defined; no coverage guarantee is established here. Exact manuscript changes, if desired, should use full-precision frozen order-level standard errors and a predeclared four-contrast family. **T18: AGGREGATE-ONLY CHECK COMPLETED; exact artifact replay OPEN.**
+
+## T09 deterministic RNG replay readiness (2026-10-28)
+
+Directly read `src/ess_research/arecel/oid_sampling.py`; it defines `ROOT_SEED=17_770_611_677_888_985_956`, `SplitMix64` with rejection-based `randbelow`, SHA-256-derived per-stratum seeds, lexicographically enumerated residual orders, Fisher–Yates, and canonical JSON serialization with terminal LF. The 3-object PESS census records are correctly labeled `enumerated` in code (not `census`). The 8-stratum schedule was already structurally cross-checked against its JSON. **A byte-for-byte independent sample regeneration was NOT performed here**; that requires executing the Python code or writing an independent implementation with SHA-256 and checking against the pinned hash. The code is sufficient to prepare a local read-only replay without any PostgreSQL run.
