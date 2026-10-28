@@ -878,13 +878,11 @@ If every edge is placed, the resulting order realizes
 all $S_i$. If no safe edge remains, no common order
 realizes the targets.
 
-To prove the test, first observe that every target
-edge is always safe, so the process cannot reject a
-target edge on account of another task in which it is
-non-target and not yet blocked: that edge is safe only
-when \emph{all} its eligible tasks permit it. Suppose
-there exists a feasible extension of the current
-prefix. Take a safe unplaced edge $e$ and move it to
+The safety condition must be checked against
+\emph{every} task containing an edge: an edge may be
+a target in one task and a non-target in another.
+Suppose there exists a feasible extension of the
+current prefix. Take a safe unplaced edge $e$ and move it to
 the beginning of that extension. Whenever $e$ is a
 target, it is disjoint from all other targets for
 that task; whenever it is not a target, its required
