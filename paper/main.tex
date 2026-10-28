@@ -954,38 +954,58 @@ that loss. Since other task losses are
 nonnegative, \(G(M)\geq p_i\) for every \(i\).
 Thus \(P(M)=\sum_i p_i\leq tG(M)\).
 
-For tightness, let all \(t\) tasks share a
-\(t\)-edge star. Task \(i\) has loss one only
-when \(e_i\) is selected. Each task has
-worst loss one, but a common order selects
-the same first star edge in every task,
-so \(P=t\) and \(G=1\).
+For tightness, let all $t$ tasks share a
+$t$-edge star, with every edge eligible for every task.
+Each maximal matching is a singleton. For task $i$,
+set $\alpha_i=0$, $w_i=1$, and
+$b_{e_i,i}=\ln 2$, $b_{e_j,i}=0$ for $j\ne i$.
+Equation~(\ref{eq:multiplicative}) then gives loss
+$\ln 2$ exactly when $e_i$ is selected and zero
+otherwise. Thus $P=t\ln 2$, while any common
+global order chooses the same first edge in every
+task, giving $G=\ln 2$. This achieves the factor
+within the stipulated positive multiplicative-loss
+model, not just an arbitrary task-loss table.
 \end{proof}
 
-Shared ordering can also be computationally difficult
-despite trivial task-level choices. Given a loopless
-directed graph \(D=(V,A_D)\), install one labeled star
-edge \(e_v\) per vertex. For every arc \(u\to v\),
-make a task eligible for only the conflicting
-edges \(e_u,e_v\), with normalized modeled loss
-one if \(e_u\) is chosen and zero if \(e_v\) is chosen.
-The loss summed over tasks under a common order is
-exactly the number of arcs oriented forward by that
-order. Consequently, computing \(G(M)\) is NP-hard
-even with two eligible edges per task, by the classical
-Maximum Acyclic Subgraph / Feedback Arc Set problem
-\cite{karp1972reducibility}. This is a result for the
-\emph{fixed-set abstract model}, not a hardness claim
-about outer resource selection or PostgreSQL itself.
-For the original natural-log loss, positive rational
-corrections \(2\) and \(1\) give scores \(\ln 2\)
-and zero; the exact integer threshold problem is
-stated after normalization by \(\ln 2\).
-The restricted construction does not establish the
-complexity of deciding \(P(M)=G(M)\) in general.
-Detailed proof encodings and synthetic checks are
-available in the accompanying reproducibility materials.
-
+\begin{proposition}[Fixed-set shared-order hardness]
+\label{prop:shared-hardness}
+Computing $G(M)$ in the freely ordered labeled
+matching model with loss (\ref{eq:multiplicative})
+is NP-hard, even when each task has two eligible
+conflicting edges and all correction factors are
+in $\{1,2\}$.
+\end{proposition}
+\begin{proof}
+Reduce Maximum Acyclic Subgraph for a loopless
+directed graph $D=(V,A_D)$
+\cite{karp1972reducibility}. For each vertex $v$,
+install one labeled edge $e_v$ in a common star.
+For each arc $(u,v)\in A_D$, make a task eligible
+for exactly $e_u,e_v$, with baseline estimate equal
+to its positive target, unit workload weight, and
+correction factors $r_{e_u,i}=2$ and $r_{e_v,i}=1$.
+Its only maximal matchings select $e_u$ or $e_v$,
+giving modeled losses $\ln 2$ and zero. Under a
+shared strict priority $\pi$, greedy selects $e_u$
+exactly when $u$ precedes $v$. Therefore
+\[
+\frac{G(M)}{\ln 2}=
+\max_{\pi}|\{(u,v)\in A_D:
+u\text{ precedes }v\text{ under }\pi\}|.
+\]
+The right side is the maximum number of forward
+arcs, equal to the optimum of Maximum Acyclic
+Subgraph. The construction has polynomial size,
+and testing whether $G(M)/\ln 2\geq K$ gives
+the exact integer-threshold source decision problem.
+\end{proof}
+The hardness pertains to fixed-set evaluation
+under freely variable \emph{abstract} priorities,
+not outer resource-selection optimization or
+physical PostgreSQL order control. It also does
+not determine the complexity of testing
+$P(M)=G(M)$ in general.
 
 \section{Experimental Protocol}
 \label{sec:protocol}
