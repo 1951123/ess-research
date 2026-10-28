@@ -21,7 +21,7 @@
 \newcommand{\PG}{\operatorname{PG}}
 
 \begin{document}
-\title{Extended Statistics Selection under Estimator Strategy Uncertainty}
+\title{Extended Statistics Selection under Estimation Scheme Uncertainty}
 \author{Anonymous Author(s)}
 \affiliation{%
   \institution{Anonymous Institution}
@@ -33,7 +33,7 @@
 An advisor chooses which extended statistics to maintain, but the
 installed set need not determine which overlapping statistics the
 cardinality estimator eventually applies. We study resource selection
-under \emph{estimator-strategy uncertainty}: the advisor chooses an
+under \emph{estimation-scheme uncertainty}: the advisor chooses an
 unordered set while a downstream policy selects a complete admissible
 estimation scheme for each task. We distinguish fixed-priority Nominal,
 worst shared-global, and task-wise pessimistic (PESS) objectives.
@@ -84,8 +84,12 @@ predicates: applying one can make another inapplicable in that
 estimation step. A priority or tie-breaking rule then affects the
 information actually used. Even with fixed data and installed statistics, an advisor that
 does not know the downstream selection rule may therefore evaluate
-the same set against different complete estimates. We call this
-information gap \emph{estimator-strategy uncertainty}.
+the same set against different complete estimates. We call the advisor's inability to determine the resulting
+complete scheme \emph{estimation-scheme uncertainty}. It may arise
+from an unknown deterministic application policy or intrinsic
+randomization; the existence of several admissible schemes alone
+does not establish uncertainty for an advisor that predicts the
+selection exactly.
 
 Consider the restricted example in Figure~\ref{fig:path}.
 Three pairwise objects cover \(AB\), \(BC\), and \(CD\);
@@ -115,10 +119,11 @@ BC and CD. The two inclusion-maximal matchings are AB with CD, and BC.}
 \label{fig:path}
 \end{figure}
 
-Unlike sampling error or Train-to-Test generalization,
-strategy uncertainty can persist with fixed data, sample,
-workload, and resources. It describes what the advisor does
-not know, not necessarily randomness in the estimator.
+Unlike sampling error or Train-to-Test workload generalization,
+scheme uncertainty can persist with fixed data, sample,
+workload, and resources. It can reflect incomplete policy
+knowledge or an intrinsically stochastic selector; neither
+randomness nor a difference in losses across schemes is required.
 
 The advisor chooses an unordered installed set \(M\); for each task
 \(i\), that set induces a prescribed family of \emph{complete}
@@ -236,6 +241,161 @@ compatible, \(\sigma_i(M;\theta)\in\Gamma_i(M)\) for all
 relevant \(i,M,\theta\). One \(\theta\) shared among tasks couples their
 scheme choices; it need not be probabilistic.
 
+\subsection{Joint scheme uncertainty and risk}
+\label{sec:joint-framework}
+For a finite task sample indexed by $[n]$, a \emph{joint scheme
+uncertainty model} prescribes a nonempty family
+\begin{equation}
+\label{eq:joint-family}
+\mathcal U_n(M)\subseteq\prod_{i=1}^{n}\Gamma_i(M)
+\quad (M\in\mathcal F_B).
+\end{equation}
+It specifies which complete schemes may occur \emph{together},
+without assuming independent choices across tasks. Its induced
+set of modeled loss vectors is
+\[
+\mathcal L_n(M)=\{(L_i(\sigma_i))_{i=1}^n:
+  \boldsymbol\sigma\in\mathcal U_n(M)\}.
+\]
+A workload aggregator $\mathcal A_n:\mathbb R_{\geq0}^n
+\to\mathbb R_{\geq0}$ evaluates a given joint realization;
+it is coordinatewise nondecreasing. Examples are a weighted
+sum, sample mean, and empirical quantile. The set of attainable
+aggregate values is
+\[
+\mathcal V_n(M)=
+\{\mathcal A_n(\boldsymbol\ell):
+\boldsymbol\ell\in\mathcal L_n(M)\}.
+\]
+A separate \emph{scheme-risk evaluation} $\rho$ assigns a finite
+nonnegative score to this uncertainty model:
+\begin{equation}
+\label{eq:unified-ess}
+\min_{M\in\mathcal F_B} F_n(M),\qquad
+F_n(M)=\rho(\mathcal V_n(M);\mathsf Q_M).
+\end{equation}
+Here $\mathsf Q_M$ denotes \emph{optional, explicitly prescribed}
+probabilistic information over joint outcomes. For a set-based
+worst-case objective, $\mathsf Q_M$ is absent and
+$\rho(\mathcal V_n)=\max\mathcal V_n$. For an expectation,
+$\mathsf Q_M$ must supply a probability law, and $\rho$ takes
+the expectation of the aggregate loss under its push-forward.
+The bare set $\mathcal V_n$ cannot recover outcome probabilities
+or multiplicities. We require each objective to be well defined
+and finite; no universal ordering of arbitrary sets of possible
+losses, or monotonicity under expanding resource sets, is assumed.
+
+For additive $\mathcal A_n(\boldsymbol\ell)=\sum_i\ell_i$,
+a fixed reference application behavior gives a singleton
+$\mathcal U_n(M)$ (\emph{Nominal}); a fixed policy space
+$\Theta$ and compatible mappings $\sigma_i(M;\theta)$ give
+\[
+\mathcal U_n^{\rm shared}(M)=
+\{(\sigma_i(M;\theta))_{i=1}^n:\theta\in\Theta\};
+\]
+and task-wise pessimism permits
+$\mathcal U_n^{\rm PESS}(M)=\prod_i\Gamma_i(M)$.
+The same $\theta$ governs every task, although its output
+can depend on $M$. The policy image need only be a subset
+of admissible schemes, not cover them. Nominal requires a
+repeatable \emph{reference behavior}, possibly measured as
+a black box, not knowledge of its internal rule.
+
+\begin{proposition}[Worst-case uncertainty relaxation]
+\label{prop:general-relaxation}
+Fix $M$ and common task losses and workload aggregator.
+For nonempty joint families
+$\mathcal U_n^{(1)}(M)\subseteq\mathcal U_n^{(2)}(M)$,
+their worst-case aggregate losses satisfy
+$F_n^{(1)}(M)\leq F_n^{(2)}(M)$.
+\end{proposition}
+\begin{proof}
+The first family's aggregated loss image is a subset of the
+second's. A maximum over a subset cannot exceed the maximum
+over the full set.
+\end{proof}
+This only compares \emph{fixed-set modeled risk}. A strict
+risk gap need not change the globally optimal resource set;
+different greedy selections do not certify distinct optima.
+
+\subsection{Population objectives and empirical optimization}
+\label{sec:population}
+For a population interpretation, let future tasks $X$ follow
+an unknown fixed distribution $\mathcal D$, and let the
+training tasks $X_1,\dots,X_n$ be IID draws. The population
+risk and its empirical counterpart must use the \emph{same}
+uncertainty assumptions, scheme-level loss, and workload-risk
+definition for an empirical-to-population generalization claim.
+For additive average loss, two distinct examples are
+\begin{align}
+\mathcal R_{\rm shared}(M)
+ &=\max_{\theta\in\Theta}
+ \mathbb E_{X\sim\mathcal D}
+ [L_X(\sigma_X(M;\theta))],\label{eq:pop-shared}\\
+\mathcal R_{\rm PESS}(M)
+ &=\mathbb E_{X\sim\mathcal D}
+ [\max_{\sigma\in\Gamma_X(M)}L_X(\sigma)].
+ \label{eq:pop-pess}
+\end{align}
+Their sample counterparts replace each expectation by
+the average over $X_1,\dots,X_n$, \emph{without moving}
+the maximization across the expectation. We assume these
+population risks are finite on $\mathcal F_B$. General
+non-additive aggregators require a separately specified
+population functional; e.g., a population quantile is not
+simply the expected empirical quantile.
+
+The separation between statistical and computational error
+is exact. Let $\widehat{\mathcal R}_n$ estimate a specified
+$\mathcal R$ on the same finite feasible family, and let
+$\widetilde M_n\in\mathcal F_B$ be any algorithm output.
+Then
+\begin{align}
+\label{eq:excess-decomposition}
+&\mathcal R(\widetilde M_n)-\min_{M\in\mathcal F_B}
+\mathcal R(M)\nonumber\\
+&\ \leq
+2\sup_{M\in\mathcal F_B}
+|\widehat{\mathcal R}_n(M)-\mathcal R(M)|
++\widehat{\mathcal R}_n(\widetilde M_n)
+-\min_{M\in\mathcal F_B}\widehat{\mathcal R}_n(M).
+\end{align}
+The first term measures same-objective statistical discrepancy;
+the second is empirical optimization error, which need not
+vanish for an add-only greedy algorithm.
+
+\begin{proposition}[Consistency under finite shared policies]
+\label{prop:finite-policy-consistency}
+Suppose $\mathcal F_B$ and $\Theta$ are nonempty and finite,
+the mappings $\sigma_X(M;\theta)$ are measurable, and
+$\mathbb E L_X(\sigma_X(M;\theta))<\infty$ for every
+$M\in\mathcal F_B$ and $\theta\in\Theta$.
+For the shared-policy objective in
+(\ref{eq:pop-shared}), its empirical counterpart converges
+uniformly over $\mathcal F_B$ almost surely.
+Any exact empirical minimizer consequently has population
+excess risk converging to zero almost surely.
+\end{proposition}
+\begin{proof}
+The strong law of large numbers applies to each fixed
+$(M,\theta)$. There are finitely many such pairs, so their
+maximum absolute empirical-to-population deviation tends
+to zero almost surely. The inequality
+$|\max_\theta a_\theta-\max_\theta b_\theta|
+\leq\max_\theta|a_\theta-b_\theta|$
+gives uniform convergence of shared-policy risk over
+$\mathcal F_B$. Equation~(\ref{eq:excess-decomposition})
+with zero empirical optimization error proves the result.
+\end{proof}
+This proposition does \emph{not} establish a general
+finite-sample rate, consistency for infinite policy classes,
+or generalization of the physical PostgreSQL Test P95.
+In our experiments, modeled training loss and physical
+\texttt{Plan Rows} Q-error also differ: evaluation under
+a counterfactual OID-order distribution is a distinct
+cross-model assessment, not the empirical counterpart of
+(\ref{eq:pop-shared}) or (\ref{eq:pop-pess}).
+
 \subsection{Pairwise MCV admissibility and loss}
 For the structured instance, each candidate \(e\in\E\) is a
 \emph{labeled} two-attribute MCV object, with endpoints
@@ -348,7 +508,7 @@ resource decision \(M\) in the pairwise model.}
 \toprule
 Evaluation & Policy knowledge & Objective & What it measures\\
 \midrule
-Nominal & Known fixed priority \(\pi_0\) &
+Nominal & Fixed reference behavior (possibly black-box observed) &
 \(N_{\pi_0}(M)\) & Loss under that specified policy.\\
 Mean \(A\) & Assumed uniform global-order distribution &
 \(A(M)\) & Mean loss under an explicit counterfactual distribution, not production randomization.\\
