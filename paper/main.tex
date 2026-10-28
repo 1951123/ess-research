@@ -41,8 +41,8 @@ their joint cross-task uncertainty, workload aggregation, and risk
 evaluation are modeled separately. Fixed-reference Nominal,
 worst shared-policy, and task-wise pessimistic (PESS) objectives
 are instances of this formulation. We distinguish finite-sample
-optimization from population risk and establish a conditional
-consistency result for finite shared-policy classes.
+optimization from population risk and establish conditional workload-risk consistency results
+for finite shared-policy classes and task-wise pessimism.
 
 We instantiate ESS with restricted PostgreSQL 16.14 two-column
 MCV selection. Under explicit conditions, source-level selection
@@ -442,6 +442,34 @@ an unknown deterministic rule alone supplies none.
 The restricted global-order instance makes these distinctions
 concrete. It separates a \emph{shared rule across tasks}
 from taskwise choices that no single rule can realize.
+
+\paragraph{Risk envelopes do not rank resource decisions.}
+The inequality in (\ref{eq:genericbound}) holds at the
+\emph{same} resource set. It does not imply that the
+resource set minimizing PESS also minimizes Nominal, that
+the two argmin sets are disjoint, or that their physical
+losses have any particular ordering. Consider a two-task
+abstract instance with feasible choices $M_a,M_b$ and
+loss tuples under two shared policies as follows:
+under $M_a$, the policy outcomes have losses $(0,0)$
+and $(2,2)$; under $M_b$, both policies give $(1,1)$.
+Take the first policy as the Nominal reference and let
+each task's admissible family be precisely its outcomes
+under the two policies. Then
+\[
+F_{\Nom}(M_a)=0,\quad F_{\PESS}(M_a)=4,\qquad
+F_{\Nom}(M_b)=F_{\PESS}(M_b)=2.
+\]
+The unique Nominal minimizer is $M_a$, whereas the
+unique PESS minimizer is $M_b$. Yet if both policy
+outcomes at $M_a$ instead have loss $(0,0)$, the
+objectives share a minimizer. Thus \emph{decision
+sensitivity} is possible but not necessary. This
+example is an abstract feasible decision table, not
+a claim that those outcomes arise from the restricted
+PostgreSQL mechanism. In contrast, the matching
+instance in Section~\ref{sec:pg} supplies the concrete
+scheme-application structure studied in this paper.
 
 \subsection{Population objectives and empirical optimization}
 \label{sec:population}
