@@ -190,3 +190,18 @@ External publication pages/abstracts checked (not a complete full-text prior-art
 **Reviewer D's substantive critique remains OPEN:** no comparison establishes that a measurable real-world advisor information constraint forces the proposed uncertainty class, and no shared-policy-aware outer selection algorithm has yet been demonstrated. Editing Related Work prose alone cannot close that issue.
 
 **T15 status: DIRECT PRIMARY PUBLICATION SUMMARIES CHECKED / NOVELTY PRIORITY NOT CERTIFIED / COMPARATIVE CLAIMS DELIMITED.** No paper-body edits made.
+
+## Independent local Codex audit now preserved in Draft PR #132 (2026-10-28)
+
+An independently authored, **separate unmerged Draft PR** now preserves the source and runtime audit: [PR #132](https://github.com/1951123/ess-research/pull/132), branch `audit/pvldb-evidence-20261028`, head `cfa5239879baab9b0f5db3213b1ba7dcbf168f0c` (base `main`). Its five added files are the evidence report, `recompute_order_level.py`, `order-level-recomputation.json` (156 full-precision order-level per-order Test P95 records), `verification-summary.json` and a sanitized replay log. This cross-reference does **not merge** PR #132 into the paper branch.
+
+**Connector-side readback of the actual committed PR #132 files** confirmed its PR metadata and changed-file list; reviewed the report and script header/operations and parsed full-precision output. The external archives themselves were checked by local Codex, not through this GitHub session. Their validation is supported by the archived reproducibility code/log and hashes, not a second independent execution here.
+
+- T01: **VERIFIED WITH SCOPE LIMITATIONS** — pinned PG source supports A1–A4 conditional matching only; other eligibility gates exist.
+- T02: **NOT VERIFIABLE** — no task-level complete A1–A4 prevalence census.
+- T03: **VERIFIED WITH SCOPE LIMITATIONS** — stored physical OID-order/control checks for frozen arms, not every possible catalog or order.
+- T04: **PARTIALLY VERIFIED** — frozen Train-prediction to same-task/scheme physical-estimate calibration still lacks independent matched evidence. Valid-fitted model inputs must not masquerade as frozen Train fit.
+- T09: **VERIFIED WITH SCOPE LIMITATIONS** — deterministic frozen schedule replay byte-equal, reported physical archives/156 complete arms/1,560,000 EXPLAIN calls independently recomputed in local audit; historical Event A rejection predicate remains unknown, Event B pre-EXPLAIN three-object validator fault is confirmed and resolved by exact-identity continuation.
+- T18: exact retained `order-level-recomputation.json` provides **post hoc**, four-contrast Bonferroni sensitivity from full-precision standard errors. Values: Forest10 [+0.01277444,+0.20697483], Census13 [-1.69892594,-0.69636501], DMV11 [-9.38778222,-3.10477231], Power7 [-0.23709657,+0.29577940]. This remains conditional on the validity of the *approximate marginal* Student-t intervals; does not prove simultaneous finite-population coverage.
+
+**Manuscript integration gate:** may now strengthen and cite *provenance, design and conditional mechanism* claims, and optionally label a four-way multiplicity result as a post hoc sensitivity analysis. Do not claim actual workload A1–A4 coverage or model/physical calibration, and do not claim arbitrary OID orders have been observed in deployed PostgreSQL systems. Preserve source-level separation between a counterfactual uniform-relative-OID intervention and empirical production frequencies. Do not merge either PR as a consequence of this cross-reference.
