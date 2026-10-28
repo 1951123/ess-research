@@ -471,6 +471,27 @@ PostgreSQL mechanism. In contrast, the matching
 instance in Section~\ref{sec:pg} supplies the concrete
 scheme-application structure studied in this paper.
 
+\paragraph{Aggregation before policy averaging.}
+The order of operations matters. For a declared distribution
+over shared policies, averaging the workload aggregate
+need not agree with aggregating per-task expected losses:
+\[
+\mathbb E_\theta[\mathcal A_n((L_i(\sigma_i(M;\theta)))_i)]
+\ne
+\mathcal A_n((\mathbb E_\theta L_i(\sigma_i(M;\theta)))_i)
+\]
+in general. For example, let two equally likely policies
+produce the two-task loss vectors $(10,0)$ and $(0,10)$.
+With $\mathcal A_2$ equal to the maximum, the left side
+is $10$, whereas the right side is $5$. Thus an expected
+per-policy maximum is not the maximum of expected
+per-task losses. The same lack of interchangeability
+can arise with empirical quantiles. In Section~\ref{sec:protocol},
+the counterfactual physical experiment estimates the
+expectation over orders of \emph{per-order Test P95};
+it does not pool query--order observations before
+computing a percentile.
+
 \subsection{Population objectives and empirical optimization}
 \label{sec:population}
 For a population interpretation, let future tasks $X$ follow
