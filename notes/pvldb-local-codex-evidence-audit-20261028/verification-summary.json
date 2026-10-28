@@ -1,0 +1,78 @@
+{
+  "artifact_sha256": {
+    "full_precision_result": "ef93b140483e58f4bffa89ad9cda735e9d9a0ec17c439cba793d2bf4b45b29eb",
+    "report": "79a1d5174e88fbcd56130558a4e23da7a4fb3235e446e73a74f3b1287695c463",
+    "reproduction_script": "48e36743db0a887e3a52b4d03421bcc6088e844462946405089fa7f49795db61",
+    "sanitized_run_log": "0ba49362428dd2a07e2c3055e802bbce3c16bcd9f0d793715ef06cd8da638b30"
+  },
+  "base_commit": "e1a24929bebcca14e972c75be0c7252e733fb477",
+  "deterministic_schedule_replay": {
+    "byte_for_byte_match": true,
+    "resource_manifest_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "root_seed": 17770611677888985956,
+    "sample_sha256": "0b6b247445ab81589c5c5ea7991215fd25e5c60cddf990bf07e3867cda9baa73"
+  },
+  "environment": {
+    "python": "3.12.3"
+  },
+  "format": "ess-pvldb-local-audit-verification-summary-v1",
+  "lightweight_checks": {
+    "156_order_level_values": true,
+    "aggregate_match_recorded": true,
+    "all_files_below_10mb": true,
+    "audit_report_present": true,
+    "connection_or_secret_patterns_absent": true,
+    "eight_strata": true,
+    "exact_expected_evidence_labels": true,
+    "finite_order_values": true,
+    "four_contrasts": true,
+    "frozen_schedule_byte_for_byte_match": true,
+    "full_precision_result_present": true,
+    "light_run_log_present": true,
+    "log_output_hash_matches_result": true,
+    "no_query_level_rows_in_result": true,
+    "private_absolute_paths_absent": true,
+    "resource_manifest_sha_match": true,
+    "result_complete": true,
+    "sample_and_replay_sha_match": true,
+    "script_does_not_import_db_or_process_clients": true,
+    "script_present": true,
+    "script_syntax_valid": true
+  },
+  "previous_full_archive_recalculation": {
+    "cumulative_explain_calls_recorded": 1560000,
+    "final_arm_count": 156,
+    "official_aggregate_recomputed_from_raw_and_matched": true,
+    "raw_rows_validated": {
+      "issue105": 80000,
+      "issue107_continuation": 120000,
+      "issue107_parent": 1440000
+    },
+    "recalculation_rerun_during_pr_packaging": false,
+    "status": "COMPLETE"
+  },
+  "review_item_status": {
+    "CONTRADICTED": 0,
+    "T01": "VERIFIED WITH SCOPE LIMITATIONS",
+    "T02": "NOT VERIFIABLE FROM RETAINED EVIDENCE",
+    "T03": "VERIFIED WITH SCOPE LIMITATIONS",
+    "T04": "PARTIALLY VERIFIED",
+    "T09": "VERIFIED WITH SCOPE LIMITATIONS"
+  },
+  "script_scope": {
+    "archive_contents_committed": false,
+    "reads_frozen_runtime_archives": true,
+    "requires_external_archive_sets": [
+      "Issue #105 official v2",
+      "Issue #107 sampled parent",
+      "Issue #107 three-object continuation"
+    ],
+    "retraining_resource_reselection_or_new_random_sampling": false,
+    "reviewed_call_path": "audit.run_analysis -> saved archive/member validation -> issue107.analyze_results; no run_issue107.main or database execution entrypoint is called",
+    "reviewed_call_path_starts_database_or_executes_sql": false,
+    "transitively_imported_runner_modules_define_but_do_not_invoke_pg_execution_functions": true,
+    "wrapper_has_no_direct_database_or_process_client_imports": true,
+    "writes_only_adjacent_derived_json": true
+  },
+  "status": "PASS"
+}
