@@ -219,3 +219,7 @@ Aligned the manuscript with its approved general finite-set assumptions: set cos
 ## 23. Fourth compiled PDF and fixed-set risk-gap decomposition (2026-10-28)
 
 User-supplied `main(4).pdf` has 12 *total* pages; Conclusion extends onto page 12 and References begins on page 12. Hence the manuscript does not yet occupy 12 pages of main text. Added a Section 6 interpretation of `P(M)-N_pi0(M) = [P(M)-G(M)] + [G(M)-N_pi0(M)]`, separating cross-task relaxation from worst shared-priority uncertainty, at the **same M** under the same Train loss. The identity introduces no measurements or physical predictor. This new commit postdates the inspected PDF, so it remains uncompiled. Static label/reference/brace verification passed.
+
+## 24. Explicit RQ1-RQ3 answer synthesis (2026-10-28)
+
+Added a concluding paragraph group to Section 6, immediately before threats to validity, linking the actual evidence to each stated RQ. RQ1: scope of controlled physical order sensitivity and lack of individual-event causal attribution. RQ2: conditional greedy decision differences and fixed-set modeled relaxation gap, without claiming distinct global optimizers. RQ3: canonical fixed-order ranking versus expected per-order P95 under the counterfactual finite OID-order population, including Power7 uncertainty and the non-deployment interpretation. No experimental figures changed. Static refs/labels/braces passed; compile needed. Previous main(4).pdf has 12 total pages but less than 12 pages of main text.
