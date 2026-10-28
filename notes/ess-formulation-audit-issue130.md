@@ -128,3 +128,11 @@ Target **12 pages of main text**, adding chiefly mathematical clarity and theory
 - Mechanical sanity check of updated TeX: new labels occur exactly once, braces balanced, old sections still present. **No successful LaTeX compilation or PDF/page-count verification yet.**
 - **Outstanding primary structural edit**: move pairwise-MCV definition from the general Section 2 into the restricted instance; order source-level A1–A4 before the full instance-specific theory; eliminate duplication and repair cross-references. Current document intentionally has both general and old objective subsections during transition.
 - **Additional editorial issue**: updated abstract still describes the old fixed-priority taxonomy and should be revised once Section 2–4 restructuring is complete. Do not claim 12-page compliance until a compiled PDF is checked.
+
+## 10. Section architecture implementation (2026-10-28)
+
+- Reorganized `paper/main.tex` on the draft branch into: Introduction; Problem Formulation (now incorporating general objectives and population risk); A Scoped PostgreSQL MCV Mechanism (including pairwise MCV family and modeled loss); Structural Properties of the Restricted Instance; Experimental Protocol (including frozen greedy procedure); Experimental Results; Threats; Related Work; Conclusion.
+- Updated the abstract and main contribution wording to lead with **Estimation Scheme Uncertainty**, preserve the scope of the source-grounded matching result and its deliberately approximate numerical loss, and correctly state held-out physical comparisons.
+- Mechanical checks at section-move commit: 9 sections preserved; no duplicated TeX label strings; no experiments modified.
+- The original figure of the three-edge path is still introduced in the Introduction, with its technical justification deferred to the instance section. The source-level correspondence proposition still refers forward to the individual matching-completeness proposition, which is acceptable for LaTeX cross-references but should be considered for reader flow.
+- **Not yet verified by compilation:** valid TeX/pvldb class output, hyperlink/label resolution, theorem page breaks, and main-text page count. Treat this as a draft patch; further proof and editorial checks remain before review-ready status.
