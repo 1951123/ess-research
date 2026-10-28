@@ -178,3 +178,12 @@ The author uploaded `main(2).pdf` after the risk-distribution correction and add
 - Recommended next work: prioritize substantive formulation/theory explanation and proof validation over page padding; explicitly budget approximately 2+ additional main-text pages. Recompile after substantive edits.
 
 This is a record of the supplied PDF and does not assert the PDF is committed to this repository.
+
+## 15. General ESS modeling interpretation expanded (2026-10-28)
+
+- Added three source-based substantive paragraphs to Section 2.4 of `paper/main.tex` on this draft branch.
+- Formal distinction between **marginal admissible families** `Γ_i(M)` and a prescribed **joint family** `U_n(M)`. Same marginals need not entail identical cross-task possibilities; stable shared-policy semantics and per-task vs simultaneous realizability are explicitly separated.
+- Formal distinction between **scheme ambiguity**, **advisor-facing uncertainty**, modeled **loss sensitivity**, and **decision sensitivity**. None of the latter two is a definitional necessity.
+- Clarified three non-equivalent monotonicities: coordinatewise workload loss, worst-case scenario-set expansion, and resource-set monotonicity; probability means cannot be ordered from supports alone.
+- No experiment or new algorithm has been added. This is substantive exposition of previously author-approved research claims, not a newly asserted main theorem.
+- Latest author-compiled PDF (`main(2).pdf`) predates this commit and has 11 total pages with main text ending on page 10. Recompilation will be needed before page-count assertions.
