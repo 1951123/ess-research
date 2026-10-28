@@ -30,33 +30,40 @@
 }
 
 \begin{abstract}
-An advisor chooses which extended statistics to maintain, but the
-installed set need not determine which overlapping statistics the
-cardinality estimator eventually applies. We study resource selection
-under \emph{estimation-scheme uncertainty}: the advisor chooses an
-unordered set while a downstream policy selects a complete admissible
-estimation scheme for each task. We distinguish fixed-priority Nominal,
-worst shared-global, and task-wise pessimistic (PESS) objectives.
-For a fixed set and aligned modeled losses, expected global-priority
-loss is at most worst shared-global loss, which is at most PESS loss.
-In a labeled maximal-matching instance, we characterize joint
-realizability under one priority, establish a tight task-count bound
-on PESS conservatism, and connect worst shared-order optimization to
-classical Maximum Acyclic Subgraph hardness. We give a conditional
-source-level correspondence with PostgreSQL 16.14 two-column MCV selection.
+An advisor chooses which extended statistics to maintain, but
+the installed set need not determine which \emph{complete estimation
+scheme} a cardinality estimator eventually applies. We formulate
+Extended Statistics Selection (ESS) under \emph{estimation-scheme
+uncertainty}, encompassing incomplete knowledge of deterministic
+application policies and intrinsic selection randomness. The
+advisor controls an unordered resource set; admissible schemes,
+their joint cross-task uncertainty, workload aggregation, and risk
+evaluation are modeled separately. Fixed-reference Nominal,
+worst shared-policy, and task-wise pessimistic (PESS) objectives
+are instances of this formulation. We distinguish finite-sample
+optimization from population risk and establish a conditional
+consistency result for finite shared-policy classes.
 
-On four frozen AreCEL workloads, we combine exact Train-model order
-analysis, a concrete Train-task scheme-space witness, and held-out
-PostgreSQL \texttt{Plan Rows} measurements. At budget five, Nominal
-has lower physical Test P95 Q-error under the canonical configuration
-on all four datasets. Under a separately defined, sampled
-\emph{counterfactual} uniform global relative-OID-order population,
-PESS has lower estimated expected per-order Test P95 on Census13 and
-DMV11; Nominal does on Forest10, while Power7 is inconclusive within
-the permutation-sampling interval. Query-level diagnostics show that
-an MCV application-sequence change need not change Q-error.
-The uniform-order population is an evaluation assumption, not a claim
-of production randomization or physical worst-case protection.
+We instantiate ESS with restricted PostgreSQL 16.14 two-column
+MCV selection. Under explicit conditions, source-level selection
+corresponds to maximal matching. For this structured instance,
+we characterize joint realizability under one priority, prove a
+tight task-count bound on PESS conservatism, and relate fixed-set
+shared-order optimization to Maximum Acyclic Subgraph hardness.
+Its multiplicative scheme-loss model is an approximation, not
+a reproduction of physical PostgreSQL estimation.
+
+On four frozen AreCEL workloads, we compare modeled Train
+selection with held-out PostgreSQL \texttt{Plan Rows} evidence.
+At budget five, Nominal has lower canonical-order Test P95
+Q-error on all four datasets. Under a separately specified,
+sampled \emph{counterfactual} uniform relative-OID-order
+distribution, PESS has lower estimated expected per-order Test
+P95 on Census13 and DMV11; Nominal does on Forest10, while
+Power7 remains inconclusive within the sampling interval.
+These results show meaningful strategy sensitivity without
+claiming that PESS universally outperforms Nominal or that
+modeled bounds transfer to physical Q-error.
 \end{abstract}
 
 \maketitle
@@ -143,9 +150,9 @@ how do shared-priority constraints change modeled risk?
 declared \emph{counterfactual} distribution of physical
 global relative-OID orders?
 
-Our contributions are fourfold: (i) an advisor--estimator
-interface distinguishing installed resources, complete
-admissible schemes, and knowledge of the application policy;
+Our contributions are fourfold: (i) a general ESS formulation separating resource decisions,
+complete admissible schemes, joint scheme uncertainty,
+workload aggregation, and risk evaluation;
 (ii) constructive shared-priority feasibility, a tight
 conservatism bound, and restricted ordering hardness in a
 labeled matching instance; (iii) a conditional PostgreSQL 16.14
