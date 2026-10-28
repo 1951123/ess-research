@@ -1342,6 +1342,30 @@ taskwise-worst criterion. These are Train-model absolute-log
 loss sums, not Q-errors or physical Test comparisons, and
 should not be normalized against unrelated dataset totals.
 
+\paragraph{Decomposing the modeled risk gap.}
+For any fixed resource set, the full difference between
+task-wise pessimism and the nominal reference separates
+algebraically into two nonnegative components:
+\begin{equation}
+\label{eq:gap-decomposition}
+P(M)-N_{\pi_0}(M)
+=\underbrace{P(M)-G(M)}_{\text{cross-task relaxation}}
++\underbrace{G(M)-N_{\pi_0}(M)}_{\text{priority uncertainty}}.
+\end{equation}
+The first component is the price, in modeled loss,
+of permitting each task to choose its worst matching
+independently rather than enforcing a single common
+global order. The second is the gap between that
+common-order worst case and the one nominal priority.
+Both use the \emph{same} installed set and the
+\emph{same} Train loss model. This decomposition
+does not imply that either component predicts
+physical Test Q-error or that separately trained
+Nominal and PESS resource sets can be compared by
+subtracting their components. It also does not
+attribute an observed physical change to an
+individual statistic.
+
 Table~\ref{tab:gap} isolates the coupling effect:
 it measures \(P(M)-G(M)\) \emph{within each fixed B5 set}.
 All four Nominal-selected sets have positive gaps,
