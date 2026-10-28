@@ -599,6 +599,30 @@ a counterfactual OID-order distribution is a distinct
 cross-model assessment, not the empirical counterpart of
 (\ref{eq:pop-shared}) or (\ref{eq:pop-pess}).
 
+\paragraph{From general ESS to the structured instance.}
+The abstract formulation does not require schemes to be
+matchings or policies to be orders. Sections~\ref{sec:pg}
+and~\ref{sec:objectives} instantiate these objects in two
+steps. First, under A1--A4, a task's prescribed family
+$\Gamma_i(M)$ becomes the set of inclusion-maximal
+matchings of the installed eligible two-column MCV
+graph $H_i[M]$. Each matching is a complete modeled
+scheme; its multiplicative estimate and loss are
+separate numerical assumptions. Second, a strict
+global edge order $\pi$ induces one matching per task.
+Holding that order common across tasks specifies a
+coupled joint family, whereas taking the full product
+of task-wise maximal matchings specifies PESS.
+Consequently, the general fixed-set uncertainty
+relaxation and task-wise envelope apply to this
+instance, but they do not by themselves characterize
+which tuples a shared order can realize. That question
+requires the matching arguments in
+Section~\ref{sec:objectives}. The source correspondence
+does not make abstract priorities controllable in a
+fixed physical PostgreSQL catalog or identify modeled
+losses with Test Q-error.
+
 \section{A Scoped PostgreSQL MCV Mechanism}
 \label{sec:pg}
 We first identify the restricted source-level selector and its
@@ -755,6 +779,21 @@ model with PostgreSQL's entire cardinality calculation.
 
 \section{Structural Properties of the Restricted Instance}
 \label{sec:objectives}
+
+Section~\ref{sec:model} defines arbitrary joint scheme
+uncertainty and loss aggregation; Section~\ref{sec:pg}
+supplies one conditional matching-based scheme family.
+Here we analyze the \emph{additional coupling} imposed
+when all tasks obey a common strict priority. The
+resulting $G(M)$ is a special case of general
+shared-policy worst risk, while $P(M)$ is the additive
+task-wise envelope. In particular, the general bound
+$G(M)\leq P(M)$ requires only admissibility and
+nonnegative additive losses; the realizability test,
+tight factor $t$, and fixed-set hardness below use
+the labeled matching and free-order structure.
+All comparisons remain at fixed $M$ unless explicitly
+stated otherwise.
 
 \subsection{One shared global priority}
 For the pairwise instance, let \(\Pi(M)\) contain all strict
