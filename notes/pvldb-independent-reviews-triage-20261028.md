@@ -117,3 +117,21 @@ The following files were **fetched and read directly from the PR branch**, not i
 1. Read the source correspondence note's exact file/line references and identify any gap between A4 scoring-tie argument and source logic.
 2. Inspect #107 protocol and sample schedule artifacts within Git for per-arm requested priority lists and validation columns, without needing the external runtime archives.
 3. Locate any already archived model/physical matched records; if none are present, write a scoped new-analysis requirement rather than claiming calibration can be computed from aggregated P95 alone.
+
+## Gate 2 targeted T01/T04 evidence audit, pass 2 (2026-10-28)
+
+**T01 source reference inventory:** The source correspondence note specifies these five PG 16.14 code segments:
+- `clausesel.c#L119-L188` — `clauselist_selectivity_ext` single-relation entry / estimated clause bookkeeping;
+- `extended_stats.c#L1225-L1321` — `choose_best_statistics` candidate scoring and tie resolution;
+- `extended_stats.c#L1696-L1879` — `statext_mcv_clauselist_selectivity` greedy repetitions and consumed clauses;
+- `relcache.c#L4857-L4934` — `RelationGetStatExtList` statistics-object OID sorting;
+- `plancat.c#L1439-L1535` — `get_relation_statistics` built-stat metadata.
+These are *locations furnished by the research note*, not a newly completed independent line-by-line inspection of PostgreSQL source. The recorded fixture includes chosen OIDs and consumed clause indices for both path orders; dynamic A1–A4 prevalence across all physical Test queries remains unmeasured in the materials inspected.
+
+**T04 previously overlooked bounded calibration evidence:** `experiments/forest10-decision/real-stage-report.md` records a six-query **valid split** Forest10 study with 6 adjacent two-column MCV candidates, 720 *abstract* orders, 84 task/candidate/repetition calibration records, and separate measured pre-clamp estimates versus an exact arithmetic model. Its documented composition check for one disjoint `e12+e34` instance reports relative discrepancy `-1.84e-16` from the product of single-statistic ratios, whereas overlapping combinations `e12+e23` and `e23+e34` report relative discrepancies `0.1590` and `-0.4904`. This is **valuable negative/positive bounded evidence about the approximation**, not general multiplicative validity or Test Q-error calibration. The 84-record calibration JSON is stated to be in external local storage with SHA `636d363792d36f27d5b2ff6ea5f9311437ea4f8d04dd9646d7a6be12a8cffd3e`; its bytes have not been retrieved via this connector.
+
+Another artifact, `experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-json-calibration-smoke-v1.md`, describes a 20-valid-query structured `nrows_preclamp` smoke (212 EXPLAIN calls, 46 configurations) with **no truth labels loaded**. Its 212 compact observations are retained *in Git* at `experiments/pess-multidataset-heldout-stage2b/generalization-issue64/forest10-json-calibration-smoke-v1.jsonl` (reported SHA `44b6af801f501d2f078c92ee41d9e5c1a645f492e668d5f06258d862db981210`). That material alone cannot compute physical Q-error, because truth was purposely excluded. Avoid conflating it with the six-query valid study or official Test.
+
+**T04 refined status:** EXISTING BOUNDED MODEL/PG COMPOSITION CHECK FOUND; PRIMARY OFF-GIT RAW CALIBRATION UNINSPECTED; NO BROAD TASK/SCHEME MATCHED MODEL-versus-Test-QERROR CALIBRATION ESTABLISHED. The documented overlapping-edge discrepancies underline why a universal separable-correction claim must not be made.
+
+**Next evidence tasks:** independently verify the exact upstream PostgreSQL code locations (not merely their presence in the note); inspect the in-Git 212-row JSONL schema and whether other paired valid records exist; assess feasibility of constructing an *additional* matched validation analysis from archived train/valid data without Test re-selection. No new experiments, measurements, source changes, or manuscript edits were made in this pass.
