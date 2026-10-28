@@ -88,3 +88,11 @@
 ### Scope of this memo
 
 This verification records an argument review, not machine-checked formal proof, PostgreSQL source audit, or new physical measurements. No experimental result is changed.
+
+## Gate 1 executed checks and paper patch (2026-10-28)
+
+Ran an independent local Python exhaustive-order cross-check (not a committed reproducibility test): 3,210 explicit target tuples from 570 seeded small synthetic graph/task instances, with 1–6 labeled edges (including possible parallel edge endpoints) and three task-eligible subsets. Each target came from an actual greedy total order. The safe-edge predicate agreed in **all 3,210** cases with exhaustive existence over every total order; no counterexample observed. This does not amount to a mathematical proof or a test of invalid-target rejection.
+
+A separate 240 seeded small directed-graph checks (2–7 vertices) confirmed the MAS forward-arc count interpretation of the reduction. No PostgreSQL runtime was used.
+
+Manuscript commit `3a5e569` now specifies explicit edge and task-incidence encoding, target maximal-matching validation, a conservative O(m^2 N) input-size bound, discrete integer-threshold MAS language with factors {1,2}, and fixes the printed forward-arc formula. **T11/T12 manuscript fixes complete at source level; LaTeX recompilation and independently retained test artifact remain outstanding.**
