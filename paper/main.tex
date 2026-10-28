@@ -274,39 +274,40 @@ aggregate values is
 \{\mathcal A_n(\boldsymbol\ell):
 \boldsymbol\ell\in\mathcal L_n(M)\}.
 \]
-A separate \emph{scheme-risk evaluation} $\rho$ assigns a finite
-nonnegative score to this uncertainty model:
+A \emph{scheme-risk rule} $\rho$ evaluates the possible
+aggregate losses, optionally with a specified probability law:
 \begin{equation}
 \label{eq:unified-ess}
 \min_{M\in\mathcal F_B} F_n(M),\qquad
-F_n(M)=\rho(\mathcal V_n(M);\mathsf Q_M).
+F_n(M)=\rho(\mathcal V_n(M),\nu_M).
 \end{equation}
-Here $\mathsf Q_M$ denotes \emph{optional, explicitly prescribed}
-probabilistic information over joint outcomes. For a set-based
-worst-case objective, $\mathsf Q_M$ is absent and
-$\rho(\mathcal V_n)=\max\mathcal V_n$. For an expectation,
-$\mathsf Q_M$ must supply a probability law, and $\rho$ takes
-the expectation of the aggregate loss under its push-forward.
-The bare set $\mathcal V_n$ cannot recover outcome probabilities
-or multiplicities. We require each objective to be well defined
-and finite; no universal ordering of arbitrary sets of possible
-losses, or monotonicity under expanding resource sets, is assumed.
+For set-based worst-case risk, $\nu_M$ is omitted and
+$\rho(\mathcal V_n)=\max\mathcal V_n$.
+A probabilistic objective instead specifies a probability
+measure $Q_M$ on the \emph{joint schemes}
+$\mathcal U_n(M)$. Its push-forward $\nu_M$ is the law of
+$\mathcal A_n((L_i(\sigma_i))_i)$ when
+$\boldsymbol\sigma\sim Q_M$, and expectation risk is
+$\rho(\mathcal V_n,\nu_M)=\int v\,d\nu_M(v)$.
+Thus two policies with the same support but different
+probabilities can have different risks. In particular,
+uniform orders need not give uniform probabilities to
+distinct scheme outcomes. Probability is \emph{additional
+model data}; an admissibility set by itself implies no
+distribution. Risk is assumed finite and well defined.
+We require coordinatewise loss monotonicity of
+$\mathcal A_n$, but do not impose a universal set-inclusion
+monotonicity axiom on $\rho$: comparison of different
+probability laws needs an explicitly chosen order or coupling.
 
-For additive $\mathcal A_n(\boldsymbol\ell)=\sum_i\ell_i$,
-a fixed reference application behavior gives a singleton
-$\mathcal U_n(M)$ (\emph{Nominal}); a fixed policy space
-$\Theta$ and compatible mappings $\sigma_i(M;\theta)$ give
-\[
-\mathcal U_n^{\rm shared}(M)=
-\{(\sigma_i(M;\theta))_{i=1}^n:\theta\in\Theta\};
-\]
-and task-wise pessimism permits
-$\mathcal U_n^{\rm PESS}(M)=\prod_i\Gamma_i(M)$.
-The same $\theta$ governs every task, although its output
-can depend on $M$. The policy image need only be a subset
-of admissible schemes, not cover them. Nominal requires a
-repeatable \emph{reference behavior}, possibly measured as
-a black box, not knowledge of its internal rule.
+For additive aggregation, the next subsection spells out
+three objectives. A stable reference selection produces a
+singleton joint family, a shared policy $\theta\in\Theta$
+produces the image of its joint response map, and task-wise
+PESS permits the full Cartesian product of admissible
+schemes. These models need not coincide: individual
+scheme realizability does not imply joint realizability
+by one common policy.
 
 \begin{proposition}[Worst-case uncertainty relaxation]
 \label{prop:general-relaxation}
@@ -325,7 +326,7 @@ This only compares \emph{fixed-set modeled risk}. A strict
 risk gap need not change the globally optimal resource set;
 different greedy selections do not certify distinct optima.
 
-\subsection{Strategy knowledge defines the problem}
+\subsection{Concrete policy-information assumptions}
 For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
 policy family \(\Theta\), the following are distinct objectives:
 \begin{align}
@@ -353,9 +354,9 @@ worst schemes may not be jointly attainable.
 
 These objectives express \emph{different information
 assumptions}, not alternative implementations of a known
-policy. A specified deterministic rule supports Nominal
-evaluation; an unknown but shared rule motivates worst-joint
-risk. PESS discards that shared-rule constraint. A stochastic
+policy. A stable, evaluable reference behavior supports Nominal
+evaluation, without requiring the advisor to know its internals;
+an unknown but shared rule motivates worst-joint risk. PESS discards that shared-rule constraint. A stochastic
 average requires a separately justified policy distribution:
 an unknown deterministic rule alone supplies none.
 The restricted global-order instance makes these distinctions
