@@ -432,6 +432,35 @@ gives uniform convergence of shared-policy risk over
 $\mathcal F_B$. Equation~(\ref{eq:excess-decomposition})
 with zero empirical optimization error proves the result.
 \end{proof}
+\begin{proposition}[Task-wise pessimistic consistency]
+\label{prop:pess-consistency}
+Suppose $\mathcal F_B$ is finite and nonempty, each
+$X\mapsto \max_{\sigma\in\Gamma_X(M)}L_X(\sigma)$
+is measurable and integrable for every feasible $M$,
+and $X_1,\dots,X_n$ are IID from $\mathcal D$.
+The empirical version of (\ref{eq:pop-pess})
+converges uniformly over $\mathcal F_B$ almost surely.
+Consequently, an exact empirical PESS minimizer has
+vanishing population excess PESS risk almost surely.
+\end{proposition}
+\begin{proof}
+For each fixed $M$, apply the strong law to the scalar
+random variable
+$h_M(X)=\max_{\sigma\in\Gamma_X(M)}L_X(\sigma)$.
+Because $\mathcal F_B$ is finite, the maximum of the
+absolute empirical-to-population deviations over its
+members tends to zero almost surely. Applying
+(\ref{eq:excess-decomposition}) to an exact empirical
+minimizer completes the proof.
+\end{proof}
+These are consistency statements for \emph{matched}
+modeled population and empirical targets, not claims
+about a general rate or an optimization guarantee for
+the greedy solver. Shared-policy consistency with an
+infinite $\Theta$ needs additional uniform convergence
+assumptions; the sample-wise PESS maximization in this
+proposition instead produces one integrable task loss.
+
 This proposition does \emph{not} establish a general
 finite-sample rate, consistency for infinite policy classes,
 or generalization of the physical PostgreSQL Test P95.
