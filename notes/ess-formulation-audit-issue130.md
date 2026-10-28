@@ -118,3 +118,13 @@ Target **12 pages of main text**, adding chiefly mathematical clarity and theory
 - [ ] Draft the actual LaTeX revision, compile, and check paper-level references/page count separately.
 
 *This audit note is a staged research artifact; it has not modified `paper/main.tex` and is not a claim that 12 pages or the final theory have been completed.*
+
+## 9. First LaTeX implementation pass (2026-10-28)
+
+- Updated `paper/main.tex` on this draft branch: new scheme-uncertainty title and terminology; refined Nominal description; added `sec:joint-framework` and `sec:population` with labeled formulas.
+- **Proved conditional finite-policy consistency**: for finite feasible `F_B` and finite nonempty `Θ`, measurable integrable task losses imply pointwise SLLN for every resource-policy pair, hence uniform convergence of shared-policy empirical risk across the finite set, and consistency of exact empirical minimizers. This is a narrow, valid candidate proposition, not an infinite-policy or quantile theorem.
+- **Proved deterministic optimization/statistics decomposition**: population excess risk is bounded by twice the uniform empirical-to-population discrepancy plus empirical suboptimality. It supplies no greedy guarantee absent a bound on the latter.
+- **Basic joint-family relaxation result**: nested model families imply ordered fixed-set worst-case objectives; this is elementary and not advertised as headline novelty.
+- Mechanical sanity check of updated TeX: new labels occur exactly once, braces balanced, old sections still present. **No successful LaTeX compilation or PDF/page-count verification yet.**
+- **Outstanding primary structural edit**: move pairwise-MCV definition from the general Section 2 into the restricted instance; order source-level A1–A4 before the full instance-specific theory; eliminate duplication and repair cross-references. Current document intentionally has both general and old objective subsections during transition.
+- **Additional editorial issue**: updated abstract still describes the old fixed-priority taxonomy and should be revised once Section 2–4 restructuring is complete. Do not claim 12-page compliance until a compiled PDF is checked.
