@@ -915,6 +915,12 @@ eligible \(e\notin S_i\), at least one target edge
 have an earlier accepted blocker; sufficiency follows
 by considering the first departure from any target matching.
 
+The decision input explicitly lists a common set of $m$
+labeled edges with endpoints, each task's eligible
+edge IDs, and its prescribed target edge IDs $S_i$.
+Invalid targets are rejected after checking that each
+$S_i$ is an inclusion-maximal matching in its task
+graph. Let $N$ be the length of this explicit input.
 The condition gives a constructive polynomial-time test
 \emph{for supplied targets}. Maintain a prefix $R$ of
 labeled edges. An unplaced edge $e$ is \emph{safe} if,
@@ -938,10 +944,11 @@ exchange preserves all desired greedy outcomes.
 Induction shows that safe choices preserve feasibility.
 Conversely, the first edge of any feasible remaining
 suffix must be safe, so a dead end certifies
-infeasibility. Scanning at most $|M|$ edges after
-each extension, and checking all relevant task
-incidences, is polynomial in the supplied graph
-description. This test does not compute $G(M)$ or
+infeasibility. A naive implementation performs at most $m$ rounds,
+scans at most $m$ edges per round, and checks
+safety against the explicit input in $O(N)$ time,
+giving an $O(m^2N)$ upper bound. This does not
+cover succinctly encoded task families. This test does not compute $G(M)$ or
 search for unspecified task-wise worst matchings.
 
 \begin{proposition}[Tight task-count conservatism]
@@ -999,14 +1006,23 @@ shared strict priority $\pi$, greedy selects $e_u$
 exactly when $u$ precedes $v$. Therefore
 \[
 \frac{G(M)}{\ln 2}=
-\max_{\pi}|\{(u,v)\in A_D:
-u\text{ precedes }v\text{ under }\pi\}|.
+\max_{\pi}|\{(u,v)\in A_D:u\text{ precedes }v\text{ under }\pi\}|.
 \]
 The right side is the maximum number of forward
 arcs, equal to the optimum of Maximum Acyclic
 Subgraph. The construction has polynomial size,
-and testing whether $G(M)/\ln 2\geq K$ gives
-the exact integer-threshold source decision problem.
+and the restricted decision language has an
+integer threshold $K$, explicit task-edge incidence,
+and rational factors from $\{1,2\}$. It asks
+whether some shared order makes at least $K$
+tasks incur $\ln 2$, i.e., $G(M)\geq K\ln 2$.
+A proposed order is checked by counting forward
+arcs using integer arithmetic, without general
+transcendental-value comparisons. Thus this
+restricted threshold problem is NP-complete;
+computing the unrestricted fixed-set $G(M)$
+is NP-hard. No claim of NP membership is
+made for arbitrary real input representations.
 \end{proof}
 The hardness pertains to fixed-set evaluation
 under freely variable \emph{abstract} priorities,
