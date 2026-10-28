@@ -1,0 +1,1 @@
+{"bonferroni_t_critical": 2.7316324823876363, "contrasts": 4, "official_aggregate_recomputed_from_raw_and_matched": true, "order_level_values": 156, "output": "notes/pvldb-local-codex-evidence-audit-20261028/order-level-recomputation.json", "output_sha256": "ef93b140483e58f4bffa89ad9cda735e9d9a0ec17c439cba793d2bf4b45b29eb", "status": "COMPLETE", "strata": 8}

@@ -1,0 +1,2697 @@
+{
+  "contrasts": [
+    {
+      "dataset": "forest10",
+      "design_standard_error": 0.0355465816960854,
+      "design_variance_estimate": 0.0012635594702764734,
+      "estimand": "PESS minus Nominal; contrast of the two expected per-order Test P95 estimates",
+      "estimate": 0.10987463605570902,
+      "estimate_float64_hex": "0x1.c20be8084e880p-4",
+      "original_approximate_95_ci_t_df_21": [
+        0.03595147262778692,
+        0.18379779948363112
+      ],
+      "post_hoc_bonferroni_simultaneous_sensitivity_ci": [
+        0.012774438856836351,
+        0.20697483325458169
+      ]
+    },
+    {
+      "dataset": "census13",
+      "design_standard_error": 0.18350948304556242,
+      "design_variance_estimate": 0.033675730367649565,
+      "estimand": "PESS minus Nominal; contrast of the two expected per-order Test P95 estimates",
+      "estimate": -1.197645475723836,
+      "estimate_float64_hex": "-0x1.3298e4d66fad4p+0",
+      "original_approximate_95_ci_t_df_21": [
+        -1.5792743373042037,
+        -0.8160166141434682
+      ],
+      "post_hoc_bonferroni_simultaneous_sensitivity_ci": [
+        -1.6989259404372574,
+        -0.6963650110104144
+      ]
+    },
+    {
+      "dataset": "dmv11",
+      "design_standard_error": 1.150046712553566,
+      "design_variance_estimate": 1.3226074410552646,
+      "estimand": "PESS minus Nominal; contrast of the two expected per-order Test P95 estimates",
+      "estimate": -6.246277266760547,
+      "estimate_float64_hex": "-0x1.8fc301b99f074p+2",
+      "original_approximate_95_ci_t_df_21": [
+        -8.637930332270477,
+        -3.854624201250617
+      ],
+      "post_hoc_bonferroni_simultaneous_sensitivity_ci": [
+        -9.387782223034986,
+        -3.104772310486109
+      ]
+    },
+    {
+      "dataset": "power7",
+      "design_standard_error": 0.09753800612769023,
+      "design_variance_estimate": 0.009513662639365336,
+      "estimand": "PESS minus Nominal; contrast of the two expected per-order Test P95 estimates",
+      "estimate": 0.029341415254631187,
+      "estimate_float64_hex": "0x1.e0bad0bbf7c00p-6",
+      "original_approximate_95_ci_t_df_21": [
+        -0.17349997267564496,
+        0.23218280318490733
+      ],
+      "post_hoc_bonferroni_simultaneous_sensitivity_ci": [
+        -0.23709657055109173,
+        0.2957794010603541
+      ]
+    }
+  ],
+  "estimand": "For each frozen order, first compute NumPy P95 of the 10,000 Test Q-errors; then take the schedule-weighted mean over orders.",
+  "format": "ess-pvldb-local-codex-order-recomputation-v1",
+  "post_hoc_sensitivity": {
+    "critical_quantile": 0.99375,
+    "family": "four dataset-specific PESS-minus-Nominal contrasts",
+    "family_size": 4,
+    "interpretation": "Post hoc sensitivity analysis using the same frozen order samples and estimands. Bonferroni does not establish the marginal t-interval coverage assumptions or prove coverage.",
+    "nominal_familywise_alpha": 0.05,
+    "original_two_sided_95_percent_t_critical": 2.079613844727662,
+    "per_tail_probability": 0.00625,
+    "t_critical": 2.7316324823876363,
+    "t_degrees_of_freedom": 21
+  },
+  "provenance": {
+    "archive_sha256": {
+      "issue105": "ca2ada0f057f7b439eaee98900f0ae57883adebc84f98d184ec437c1defea9c2",
+      "issue107_continuation": "27e0a437f5eda7a87be712fe9850bfa939b07df03eed84169b27868a34707ea5",
+      "issue107_parent": "d90b4600754fe2dedeb1e7dfc1ccfe75c2de325d630bca565150d1c8218cd767"
+    },
+    "cumulative_explain_calls_recorded": 1560000,
+    "deterministic_schedule_replay_byte_for_byte_match": true,
+    "final_arm_count": 156,
+    "frozen_resource_manifest_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "issue107_runner_sha256": "84b29fea0cd6e0837f01d1e22d2febed56070cd0b5c021af433018de93466278",
+    "issue125_analyzer_sha256": "c60934c335587412375c820991cd7c2ae76e5aa03e1a04ed4496b2b8f603bd66",
+    "manifest_sha256": {
+      "issue105": "920e9ae8cb7d10531075b00b86d261545d30291678b822f18628694258acb38b",
+      "issue107_continuation": "639b6c30e2a168d13077a2d3866d598da8612f780285c34b3c6f142748e3d549",
+      "issue107_parent": "360af848afa93d54a958348981c5764dc643a9fccf0ff4e1b30eaf925eec44e3"
+    },
+    "numpy": "2.3.4",
+    "official_finite_population_aggregate_exact_match": true,
+    "oid_sampling_sha256": "91295ce1abc971165b48324da3bed0dfc377289b4e23f5a5a1b178c98ab49e62",
+    "permutation_sample_sha256": "0b6b247445ab81589c5c5ea7991215fd25e5c60cddf990bf07e3867cda9baa73",
+    "python": "3.12.3",
+    "raw_qerror_recomputation_and_manifest_metric_check": true,
+    "raw_row_validation_counts": {
+      "issue105": 80000,
+      "issue107_continuation": 120000,
+      "issue107_parent": 1440000
+    },
+    "replayed_schedule_sha256": "0b6b247445ab81589c5c5ea7991215fd25e5c60cddf990bf07e3867cda9baa73",
+    "root_seed": 17770611677888985956,
+    "scipy": "1.18.1"
+  },
+  "quantile_implementation": "numpy.percentile(values, 95) default linear interpolation (NumPy 2.3.4), via the pinned Issue #101 metric implementation",
+  "status": "COMPLETE",
+  "strata": [
+    {
+      "approximate_95_ci_t_df_21": [
+        13.816202200516368,
+        13.964048527372213
+      ],
+      "case_id": "forest10-nominal-b5",
+      "dataset": "forest10",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "finite_population_correction": 0.8135593220338984,
+        "finite_population_correction_fraction": "96/118",
+        "fixed_count": 2,
+        "fixed_weight_fraction": "2/120",
+        "residual_population_size": 118,
+        "residual_weight_fraction": "118/120",
+        "srswor_sample_size": 22
+      },
+      "design_standard_error": 0.0355465816960854,
+      "design_variance_estimate": 0.0012635594702764734,
+      "mu_hat": 13.890125363944291,
+      "mu_hat_float64_hex": "0x1.bc7be82fef62fp+3",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.b2b17e4b17e45p+3",
+          "Y_pi_test_p95_qerror": 13.584166666666656,
+          "configuration_id": "forest10-nominal-000-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e03_04",
+            "e06_08"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-001-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e06_08",
+            "e03_04",
+            "e02_08",
+            "e02_07",
+            "e01_06"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-002-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_04",
+            "e02_08",
+            "e01_06",
+            "e02_07",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-003-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e01_06",
+            "e02_07",
+            "e03_04",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-004-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e03_04",
+            "e01_06",
+            "e06_08",
+            "e02_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-005-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e01_06",
+            "e06_08",
+            "e03_04",
+            "e02_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-006-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_04",
+            "e01_06",
+            "e02_08",
+            "e02_07",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b8f41ae49702ap+3",
+          "Y_pi_test_p95_qerror": 13.779797979797952,
+          "configuration_id": "forest10-nominal-007-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_06",
+            "e03_04",
+            "e06_08",
+            "e02_08",
+            "e02_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b022222222200p+3",
+          "Y_pi_test_p95_qerror": 13.504166666666606,
+          "configuration_id": "forest10-nominal-008-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_07",
+            "e03_04",
+            "e02_08",
+            "e06_08",
+            "e01_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-009-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e06_08",
+            "e03_04",
+            "e01_06",
+            "e02_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-010-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e01_06",
+            "e02_07",
+            "e06_08",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b022222222200p+3",
+          "Y_pi_test_p95_qerror": 13.504166666666606,
+          "configuration_id": "forest10-nominal-011-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_07",
+            "e02_08",
+            "e06_08",
+            "e01_06",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-012-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e02_08",
+            "e02_07",
+            "e01_06",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-013-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e02_07",
+            "e01_06",
+            "e02_08",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b5361426a832ep+3",
+          "Y_pi_test_p95_qerror": 13.662851405622487,
+          "configuration_id": "forest10-nominal-014-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_06",
+            "e06_08",
+            "e02_07",
+            "e02_08",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-015-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_08",
+            "e02_07",
+            "e03_04",
+            "e06_08",
+            "e01_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-016-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_06",
+            "e02_08",
+            "e03_04",
+            "e06_08",
+            "e02_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-017-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e02_08",
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-018-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_07",
+            "e06_08",
+            "e03_04",
+            "e01_06",
+            "e02_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-019-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_06",
+            "e02_08",
+            "e02_07",
+            "e03_04",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b2b17e4b17e45p+3",
+          "Y_pi_test_p95_qerror": 13.584166666666656,
+          "configuration_id": "forest10-nominal-020-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_07",
+            "e03_04",
+            "e01_06",
+            "e02_08",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-021-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e01_06",
+            "e02_08",
+            "e02_07",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-nominal-022-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e02_08",
+            "e03_04",
+            "e02_07",
+            "e01_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.b2b17e4b17e45p+3",
+          "Y_pi_test_p95_qerror": 13.584166666666656,
+          "configuration_id": "forest10-nominal-023-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_06",
+            "e02_07",
+            "e02_08",
+            "e06_08",
+            "e03_04"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "nominal",
+      "resource_ids": [
+        "e01_06",
+        "e02_07",
+        "e02_08",
+        "e03_04",
+        "e06_08"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "6894f7317f3bdd976e00aec96d09db1f23f70bf092f4269f25f617e86e9159c3"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        14.0,
+        14.0
+      ],
+      "case_id": "forest10-pess-b5",
+      "dataset": "forest10",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "enumerated_order_count": 6,
+        "finite_population_correction": 0.0,
+        "finite_population_correction_fraction": "0/6",
+        "finite_population_size": 6
+      },
+      "design_standard_error": 0.0,
+      "design_variance_estimate": 0.0,
+      "mu_hat": 14.0,
+      "mu_hat_float64_hex": "0x1.c000000000000p+3",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-000-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e01_06",
+            "e02_07",
+            "e03_04"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-001-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e01_06",
+            "e03_04",
+            "e02_07"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-002-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e02_07",
+            "e01_06",
+            "e03_04"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-003-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e02_07",
+            "e03_04",
+            "e01_06"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-004-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e03_04",
+            "e01_06",
+            "e02_07"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.c000000000000p+3",
+          "Y_pi_test_p95_qerror": 14.0,
+          "configuration_id": "forest10-pess-005-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e03_04",
+            "e02_07",
+            "e01_06"
+          ],
+          "selection": "enumerated"
+        }
+      ],
+      "permutation_population_size": 6,
+      "policy": "pess",
+      "resource_ids": [
+        "e01_06",
+        "e02_07",
+        "e03_04"
+      ],
+      "sample_extrema_are_global": true,
+      "sample_sha256": "2dc387a785fda6f5568f9b4dbfbe03aff7c505973006cf572f45f7df7d18cf70"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        7.099705313503807,
+        7.862963036664543
+      ],
+      "case_id": "census13-nominal-b5",
+      "dataset": "census13",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "finite_population_correction": 0.8135593220338984,
+        "finite_population_correction_fraction": "96/118",
+        "fixed_count": 2,
+        "fixed_weight_fraction": "2/120",
+        "residual_population_size": 118,
+        "residual_weight_fraction": "118/120",
+        "srswor_sample_size": 22
+      },
+      "design_standard_error": 0.18350948304556242,
+      "design_variance_estimate": 0.033675730367649565,
+      "mu_hat": 7.481334175084175,
+      "mu_hat_float64_hex": "0x1.dece2ddb1bc14p+2",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-000-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e06_08"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-001-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e06_08",
+            "e04_08",
+            "e04_06",
+            "e02_03",
+            "e01_05"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-002-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e04_06",
+            "e02_03",
+            "e01_05",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-003-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_05",
+            "e04_06",
+            "e06_08",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-004-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e06_08",
+            "e04_06",
+            "e01_05",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-005-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e01_05",
+            "e02_03",
+            "e06_08",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-006-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e06_08",
+            "e02_03",
+            "e04_06",
+            "e04_08",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-007-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e02_03",
+            "e04_08",
+            "e06_08",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-008-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e06_08",
+            "e01_05",
+            "e04_06",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-009-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_05",
+            "e06_08",
+            "e02_03",
+            "e04_06",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-010-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_05",
+            "e04_06",
+            "e04_08",
+            "e02_03",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-011-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_05",
+            "e06_08",
+            "e04_06",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-012-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_08",
+            "e04_06",
+            "e02_03",
+            "e06_08",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-013-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e06_08",
+            "e01_05",
+            "e04_08",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-014-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e04_08",
+            "e06_08",
+            "e01_05",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0000000000000p+3",
+          "Y_pi_test_p95_qerror": 8.0,
+          "configuration_id": "census13-nominal-015-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e06_08",
+            "e04_08",
+            "e04_06",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-016-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_05",
+            "e04_08",
+            "e04_06",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-017-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e01_05",
+            "e06_08",
+            "e02_03",
+            "e04_08"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-018-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_08",
+            "e01_05",
+            "e02_03",
+            "e06_08",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-019-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_08",
+            "e06_08",
+            "e02_03",
+            "e04_06",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-020-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_08",
+            "e04_06",
+            "e06_08",
+            "e01_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-021-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e06_08",
+            "e04_08",
+            "e01_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9000000000000p+2",
+          "Y_pi_test_p95_qerror": 6.25,
+          "configuration_id": "census13-nominal-022-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_06",
+            "e06_08",
+            "e02_03",
+            "e04_08",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.0c71c71c71c72p+3",
+          "Y_pi_test_p95_qerror": 8.38888888888889,
+          "configuration_id": "census13-nominal-023-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_05",
+            "e02_03",
+            "e04_08",
+            "e04_06",
+            "e06_08"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "nominal",
+      "resource_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e04_08",
+        "e06_08"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "0396a6ce4e14e102ac8ed49de37c8d96cdc4a00bf83347eb24b13378b32b9397"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        6.283688699360339,
+        6.283688699360339
+      ],
+      "case_id": "census13-pess-b5",
+      "dataset": "census13",
+      "degenerate_zero_sample_variance": true,
+      "design": {
+        "finite_population_correction": 0.8,
+        "finite_population_correction_fraction": "96/120",
+        "finite_population_size": 120,
+        "srswor_sample_size": 24
+      },
+      "design_standard_error": 0.0,
+      "design_variance_estimate": 0.0,
+      "mu_hat": 6.283688699360339,
+      "mu_hat_float64_hex": "0x1.9227f4a57fd5fp+2",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-000-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_11",
+            "e07_12",
+            "e02_03",
+            "e01_05",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-001-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e02_03",
+            "e00_11",
+            "e07_12",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-002-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e04_06",
+            "e00_11",
+            "e02_03",
+            "e07_12"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-003-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e04_06",
+            "e07_12",
+            "e01_05",
+            "e02_03",
+            "e00_11"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-004-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e04_06",
+            "e02_03",
+            "e01_05",
+            "e07_12",
+            "e00_11"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-005-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_11",
+            "e04_06",
+            "e02_03",
+            "e07_12",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-006-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e04_06",
+            "e07_12",
+            "e00_11",
+            "e01_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-007-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e07_12",
+            "e01_05",
+            "e00_11",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-008-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e07_12",
+            "e01_05",
+            "e00_11",
+            "e02_03",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-009-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e07_12",
+            "e02_03",
+            "e04_06",
+            "e00_11"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-010-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e00_11",
+            "e07_12",
+            "e01_05",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-011-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e04_06",
+            "e00_11",
+            "e02_03",
+            "e07_12",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-012-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e07_12",
+            "e00_11",
+            "e02_03",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-013-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e07_12",
+            "e02_03",
+            "e00_11",
+            "e04_06",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-014-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e07_12",
+            "e01_05",
+            "e02_03",
+            "e04_06",
+            "e00_11"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-015-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_11",
+            "e01_05",
+            "e07_12",
+            "e04_06",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-016-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e07_12",
+            "e04_06",
+            "e02_03",
+            "e00_11",
+            "e01_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-017-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e04_06",
+            "e00_11",
+            "e01_05",
+            "e07_12"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-018-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_11",
+            "e04_06",
+            "e07_12",
+            "e01_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-019-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e02_03",
+            "e07_12",
+            "e00_11",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-020-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_05",
+            "e00_11",
+            "e04_06",
+            "e07_12",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-021-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_11",
+            "e04_06",
+            "e02_03",
+            "e01_05",
+            "e07_12"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-022-srswor",
+          "draw_index": 22,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e04_06",
+            "e02_03",
+            "e01_05",
+            "e00_11",
+            "e07_12"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.9227f4a57fd5fp+2",
+          "Y_pi_test_p95_qerror": 6.283688699360339,
+          "configuration_id": "census13-pess-023-srswor",
+          "draw_index": 23,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e07_12",
+            "e00_11",
+            "e01_05",
+            "e04_06"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "pess",
+      "resource_ids": [
+        "e00_11",
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e07_12"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "7dd2fbf3a4e7ba110e5f2786004c3be6be000e7f32f86aca9a7444de629a0749"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        30.710751652230957,
+        35.49405778325082
+      ],
+      "case_id": "dmv11-nominal-b5",
+      "dataset": "dmv11",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "finite_population_correction": 0.8135593220338984,
+        "finite_population_correction_fraction": "96/118",
+        "fixed_count": 2,
+        "fixed_weight_fraction": "2/120",
+        "residual_population_size": 118,
+        "residual_weight_fraction": "118/120",
+        "srswor_sample_size": 22
+      },
+      "design_standard_error": 1.150046712553566,
+      "design_variance_estimate": 1.3226074410552646,
+      "mu_hat": 33.10240471774089,
+      "mu_hat_float64_hex": "0x1.08d1b9908d39dp+5",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-000-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e04_07"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-001-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e04_07",
+            "e02_03",
+            "e01_07",
+            "e01_04",
+            "e00_05"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-002-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e00_05",
+            "e04_07",
+            "e01_04",
+            "e01_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-003-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_04",
+            "e01_07",
+            "e00_05",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-004-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-005-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_07",
+            "e00_05",
+            "e01_04",
+            "e01_07",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-006-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_04",
+            "e00_05",
+            "e01_07",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-007-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-008-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_07",
+            "e01_07",
+            "e01_04",
+            "e02_03",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-009-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_07",
+            "e02_03",
+            "e01_04",
+            "e00_05",
+            "e01_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-010-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_04",
+            "e02_03",
+            "e00_05",
+            "e04_07",
+            "e01_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-011-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_07",
+            "e01_07",
+            "e02_03",
+            "e00_05",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-012-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e02_03",
+            "e01_04",
+            "e04_07",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-013-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e00_05",
+            "e04_07",
+            "e01_07",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-014-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e04_07",
+            "e00_05",
+            "e02_03",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.20091a2b3c4cdp+5",
+          "Y_pi_test_p95_qerror": 36.00444444444438,
+          "configuration_id": "dmv11-nominal-015-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e04_07",
+            "e01_04",
+            "e01_07",
+            "e02_03",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-016-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_05",
+            "e01_07",
+            "e04_07",
+            "e01_04",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-017-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_05",
+            "e02_03",
+            "e01_07",
+            "e01_04",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-018-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e04_07",
+            "e01_04",
+            "e02_03",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-019-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_07",
+            "e01_04",
+            "e04_07",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-020-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_03",
+            "e01_07",
+            "e01_04",
+            "e00_05",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.639d857ef54d2p+4",
+          "Y_pi_test_p95_qerror": 22.225957389765263,
+          "configuration_id": "dmv11-nominal-021-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_04",
+            "e02_03",
+            "e01_07",
+            "e00_05",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-022-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e02_03",
+            "e00_05",
+            "e01_04",
+            "e04_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.25435479dd2a8p+5",
+          "Y_pi_test_p95_qerror": 36.65787596899219,
+          "configuration_id": "dmv11-nominal-023-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_07",
+            "e01_04",
+            "e04_07",
+            "e00_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "nominal",
+      "resource_ids": [
+        "e00_05",
+        "e01_04",
+        "e01_07",
+        "e02_03",
+        "e04_07"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "5c39dcea7e690d29d91d43246c2f35fcefb470eb9a051dcd63e4c6be2f963623"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        26.856127450980342,
+        26.856127450980342
+      ],
+      "case_id": "dmv11-pess-b5",
+      "dataset": "dmv11",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "finite_population_correction": 0.8,
+        "finite_population_correction_fraction": "96/120",
+        "finite_population_size": 120,
+        "srswor_sample_size": 24
+      },
+      "design_standard_error": 6.625845175565202e-16,
+      "design_variance_estimate": 4.390182429056066e-31,
+      "mu_hat": 26.856127450980342,
+      "mu_hat_float64_hex": "0x1.adb2b2b2b2b1dp+4",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-000-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_04",
+            "e00_05",
+            "e02_03",
+            "e08_10",
+            "e06_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-001-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e01_04",
+            "e00_05",
+            "e02_03",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-002-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e01_04",
+            "e08_10",
+            "e02_03",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-003-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e08_10",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-004-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e06_07",
+            "e08_10",
+            "e01_04",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-005-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_05",
+            "e01_04",
+            "e02_03",
+            "e06_07",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-006-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_04",
+            "e06_07",
+            "e02_03",
+            "e08_10",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-007-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e08_10",
+            "e02_03",
+            "e01_04",
+            "e06_07",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-008-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e00_05",
+            "e01_04",
+            "e08_10",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-009-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_04",
+            "e08_10",
+            "e02_03",
+            "e00_05",
+            "e06_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-010-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e02_03",
+            "e00_05",
+            "e01_04",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-011-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_04",
+            "e06_07",
+            "e00_05",
+            "e02_03",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-012-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e01_04",
+            "e00_05",
+            "e08_10",
+            "e06_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-013-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e01_04",
+            "e06_07",
+            "e08_10",
+            "e00_05"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-014-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_05",
+            "e06_07",
+            "e08_10",
+            "e02_03",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-015-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e02_03",
+            "e00_05",
+            "e08_10",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-016-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e00_05",
+            "e01_04",
+            "e06_07",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-017-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e08_10",
+            "e06_07",
+            "e00_05",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-018-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e00_05",
+            "e02_03",
+            "e01_04",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-019-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e06_07",
+            "e01_04",
+            "e08_10",
+            "e00_05",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-020-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e02_03",
+            "e08_10",
+            "e00_05",
+            "e01_04",
+            "e06_07"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-021-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e08_10",
+            "e06_07",
+            "e00_05",
+            "e01_04",
+            "e02_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-022-srswor",
+          "draw_index": 22,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e01_04",
+            "e00_05",
+            "e06_07",
+            "e02_03",
+            "e08_10"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.adb2b2b2b2b1ep+4",
+          "Y_pi_test_p95_qerror": 26.856127450980345,
+          "configuration_id": "dmv11-pess-023-srswor",
+          "draw_index": 23,
+          "inclusion_probability": "1/5",
+          "order": [
+            "e00_05",
+            "e02_03",
+            "e06_07",
+            "e08_10",
+            "e01_04"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "pess",
+      "resource_ids": [
+        "e00_05",
+        "e01_04",
+        "e02_03",
+        "e06_07",
+        "e08_10"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "2e7d25671473ef7dbc448d4ca81b4198ed7103dc20edf4e876fba6c9f9e8a904"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        9.725449019201756,
+        10.131131795062307
+      ],
+      "case_id": "power7-nominal-b5",
+      "dataset": "power7",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "finite_population_correction": 0.8135593220338984,
+        "finite_population_correction_fraction": "96/118",
+        "fixed_count": 2,
+        "fixed_weight_fraction": "2/120",
+        "residual_population_size": 118,
+        "residual_weight_fraction": "118/120",
+        "srswor_sample_size": 22
+      },
+      "design_standard_error": 0.09753800612769023,
+      "design_variance_estimate": 0.009513662639365336,
+      "mu_hat": 9.928290407132032,
+      "mu_hat_float64_hex": "0x1.3db48e157a52cp+3",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.3b09cef75e860p+3",
+          "Y_pi_test_p95_qerror": 9.84494732202819,
+          "configuration_id": "power7-nominal-000-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e02_04",
+            "e03_06"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.39d1ba690bc55p+3",
+          "Y_pi_test_p95_qerror": 9.80685158268731,
+          "configuration_id": "power7-nominal-001-fixed",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e03_06",
+            "e02_04",
+            "e01_02",
+            "e00_03",
+            "e00_01"
+          ],
+          "selection": "fixed"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.2cdceab14b1f8p+3",
+          "Y_pi_test_p95_qerror": 9.401967378879803,
+          "configuration_id": "power7-nominal-002-srswor",
+          "draw_index": 0,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_06",
+            "e01_02",
+            "e02_04",
+            "e00_03",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.4425835029faap+3",
+          "Y_pi_test_p95_qerror": 10.129579216547274,
+          "configuration_id": "power7-nominal-003-srswor",
+          "draw_index": 1,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_03",
+            "e01_02",
+            "e03_06",
+            "e00_01",
+            "e02_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.2721b9854b466p+3",
+          "Y_pi_test_p95_qerror": 9.22286678346627,
+          "configuration_id": "power7-nominal-004-srswor",
+          "draw_index": 2,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_02",
+            "e03_06",
+            "e00_01",
+            "e00_03",
+            "e02_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-nominal-005-srswor",
+          "draw_index": 3,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_01",
+            "e02_04",
+            "e00_03",
+            "e01_02",
+            "e03_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.39d1ba690bc55p+3",
+          "Y_pi_test_p95_qerror": 9.80685158268731,
+          "configuration_id": "power7-nominal-006-srswor",
+          "draw_index": 4,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e01_02",
+            "e03_06",
+            "e00_03",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.39d1ba690bc55p+3",
+          "Y_pi_test_p95_qerror": 9.80685158268731,
+          "configuration_id": "power7-nominal-007-srswor",
+          "draw_index": 5,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_06",
+            "e00_03",
+            "e02_04",
+            "e01_02",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.4425835029faap+3",
+          "Y_pi_test_p95_qerror": 10.129579216547274,
+          "configuration_id": "power7-nominal-008-srswor",
+          "draw_index": 6,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_02",
+            "e00_03",
+            "e02_04",
+            "e00_01",
+            "e03_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3587a43d439aap+3",
+          "Y_pi_test_p95_qerror": 9.672807807594683,
+          "configuration_id": "power7-nominal-009-srswor",
+          "draw_index": 7,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e01_02",
+            "e03_06",
+            "e00_01",
+            "e00_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3b09cef75e860p+3",
+          "Y_pi_test_p95_qerror": 9.84494732202819,
+          "configuration_id": "power7-nominal-010-srswor",
+          "draw_index": 8,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_06",
+            "e00_03",
+            "e02_04",
+            "e00_01",
+            "e01_02"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.32d83e659e6ffp+3",
+          "Y_pi_test_p95_qerror": 9.588896940683751,
+          "configuration_id": "power7-nominal-011-srswor",
+          "draw_index": 9,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_02",
+            "e00_01",
+            "e00_03",
+            "e03_06",
+            "e02_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.39d1ba690bc55p+3",
+          "Y_pi_test_p95_qerror": 9.80685158268731,
+          "configuration_id": "power7-nominal-012-srswor",
+          "draw_index": 10,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e03_06",
+            "e01_02",
+            "e00_03",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.600381ec9c793p+3",
+          "Y_pi_test_p95_qerror": 11.000428163653657,
+          "configuration_id": "power7-nominal-013-srswor",
+          "draw_index": 11,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e00_03",
+            "e03_06",
+            "e00_01",
+            "e01_02"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-nominal-014-srswor",
+          "draw_index": 12,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e00_01",
+            "e00_03",
+            "e01_02",
+            "e03_06"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3b09cef75e860p+3",
+          "Y_pi_test_p95_qerror": 9.84494732202819,
+          "configuration_id": "power7-nominal-015-srswor",
+          "draw_index": 13,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e00_01",
+            "e03_06",
+            "e01_02",
+            "e00_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-nominal-016-srswor",
+          "draw_index": 14,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_01",
+            "e00_03",
+            "e02_04",
+            "e03_06",
+            "e01_02"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3587a43d439aap+3",
+          "Y_pi_test_p95_qerror": 9.672807807594683,
+          "configuration_id": "power7-nominal-017-srswor",
+          "draw_index": 15,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_01",
+            "e03_06",
+            "e01_02",
+            "e02_04",
+            "e00_03"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.2721b9854b466p+3",
+          "Y_pi_test_p95_qerror": 9.22286678346627,
+          "configuration_id": "power7-nominal-018-srswor",
+          "draw_index": 16,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_06",
+            "e01_02",
+            "e00_01",
+            "e00_03",
+            "e02_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.600381ec9c793p+3",
+          "Y_pi_test_p95_qerror": 11.000428163653657,
+          "configuration_id": "power7-nominal-019-srswor",
+          "draw_index": 17,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_03",
+            "e02_04",
+            "e03_06",
+            "e00_01",
+            "e01_02"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.5e7ebb9079a89p+3",
+          "Y_pi_test_p95_qerror": 10.952970297029667,
+          "configuration_id": "power7-nominal-020-srswor",
+          "draw_index": 18,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e02_04",
+            "e00_03",
+            "e01_02",
+            "e03_06",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.4425835029faap+3",
+          "Y_pi_test_p95_qerror": 10.129579216547274,
+          "configuration_id": "power7-nominal-021-srswor",
+          "draw_index": 19,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e00_03",
+            "e01_02",
+            "e00_01",
+            "e03_06",
+            "e02_04"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.4425835029faap+3",
+          "Y_pi_test_p95_qerror": 10.129579216547274,
+          "configuration_id": "power7-nominal-022-srswor",
+          "draw_index": 20,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e01_02",
+            "e00_03",
+            "e03_06",
+            "e02_04",
+            "e00_01"
+          ],
+          "selection": "srswor"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.2721b9854b466p+3",
+          "Y_pi_test_p95_qerror": 9.22286678346627,
+          "configuration_id": "power7-nominal-023-srswor",
+          "draw_index": 21,
+          "inclusion_probability": "11/59",
+          "order": [
+            "e03_06",
+            "e01_02",
+            "e02_04",
+            "e00_01",
+            "e00_03"
+          ],
+          "selection": "srswor"
+        }
+      ],
+      "permutation_population_size": 120,
+      "policy": "nominal",
+      "resource_ids": [
+        "e00_01",
+        "e00_03",
+        "e01_02",
+        "e02_04",
+        "e03_06"
+      ],
+      "sample_extrema_are_global": false,
+      "sample_sha256": "1ebbce3843a4f71cb773ff47ee0ed2517e92930b4ba017a90c47dd7643a70371"
+    },
+    {
+      "approximate_95_ci_t_df_21": [
+        9.957631822386663,
+        9.957631822386663
+      ],
+      "case_id": "power7-pess-b5",
+      "dataset": "power7",
+      "degenerate_zero_sample_variance": false,
+      "design": {
+        "enumerated_order_count": 6,
+        "finite_population_correction": 0.0,
+        "finite_population_correction_fraction": "0/6",
+        "finite_population_size": 6
+      },
+      "design_standard_error": 0.0,
+      "design_variance_estimate": 0.0,
+      "mu_hat": 9.957631822386663,
+      "mu_hat_float64_hex": "0x1.3ea4eb7dd84eap+3",
+      "order_level_Y_pi": [
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-000-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e00_01",
+            "e02_04",
+            "e03_06"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-001-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e00_01",
+            "e03_06",
+            "e02_04"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-002-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e02_04",
+            "e00_01",
+            "e03_06"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-003-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e02_04",
+            "e03_06",
+            "e00_01"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-004-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e03_06",
+            "e00_01",
+            "e02_04"
+          ],
+          "selection": "enumerated"
+        },
+        {
+          "Y_pi_float64_hex": "0x1.3ea4eb7dd84eap+3",
+          "Y_pi_test_p95_qerror": 9.957631822386663,
+          "configuration_id": "power7-pess-005-enumerated",
+          "draw_index": null,
+          "inclusion_probability": "1",
+          "order": [
+            "e03_06",
+            "e02_04",
+            "e00_01"
+          ],
+          "selection": "enumerated"
+        }
+      ],
+      "permutation_population_size": 6,
+      "policy": "pess",
+      "resource_ids": [
+        "e00_01",
+        "e02_04",
+        "e03_06"
+      ],
+      "sample_extrema_are_global": true,
+      "sample_sha256": "f261c0e9c8ee3f2e3464d3a55abbcc6f2a93db95433aa2236532e1e898fae0b4"
+    }
+  ]
+}
