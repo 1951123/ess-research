@@ -318,6 +318,43 @@ This only compares \emph{fixed-set modeled risk}. A strict
 risk gap need not change the globally optimal resource set;
 different greedy selections do not certify distinct optima.
 
+\subsection{Strategy knowledge defines the problem}
+For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
+policy family \(\Theta\), the following are distinct objectives:
+\begin{align}
+F_{\Nom}(M;\theta_0)
+ &=\sum_{i\in\Tasks}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
+F_{\mathrm{joint}}(M)
+ &=\max_{\theta\in\Theta}\sum_{i\in\Tasks}
+ L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
+F_{\PESS}(M)
+ &=\sum_{i\in\Tasks}\max_{\sigma\in\Gamma_i(M)}
+ L_i(\sigma).\label{eq:pess}
+\end{align}
+The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
+for its chosen information assumption. The advisor does not
+simultaneously choose the worst-case scheme or its application
+policy. For the \emph{same fixed} \(M\), compatibility and common
+loss imply
+\begin{equation}
+\label{eq:genericbound}
+F_{\Nom}(M;\theta_0)\leq
+F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
+\end{equation}
+The second inequality may be strict because separate taskwise
+worst schemes may not be jointly attainable.
+
+These objectives express \emph{different information
+assumptions}, not alternative implementations of a known
+policy. A specified deterministic rule supports Nominal
+evaluation; an unknown but shared rule motivates worst-joint
+risk. PESS discards that shared-rule constraint. A stochastic
+average requires a separately justified policy distribution:
+an unknown deterministic rule alone supplies none.
+The restricted global-order instance makes these distinctions
+concrete. It separates a \emph{shared rule across tasks}
+from taskwise choices that no single rule can realize.
+
 \subsection{Population objectives and empirical optimization}
 \label{sec:population}
 For a population interpretation, let future tasks $X$ follow
@@ -396,6 +433,13 @@ a counterfactual OID-order distribution is a distinct
 cross-model assessment, not the empirical counterpart of
 (\ref{eq:pop-shared}) or (\ref{eq:pop-pess}).
 
+\section{A Scoped PostgreSQL MCV Mechanism}
+\label{sec:pg}
+We first establish a narrowly scoped source-level selector
+correspondence, then study the resulting abstract priority
+model. None of these structural results identifies its
+multiplicative numerical loss with physical PostgreSQL Q-error.
+
 \subsection{Pairwise MCV admissibility and loss}
 For the structured instance, each candidate \(e\in\E\) is a
 \emph{labeled} two-attribute MCV object, with endpoints
@@ -435,45 +479,114 @@ coefficient constructions follow pinned normalization and
 quantization rules, with exact \texttt{Fraction} reference loss.
 The physical \texttt{Plan Rows} metric is evaluated separately.
 
-\section{Optimization Objectives and Relationships}
+
+\subsection{Version-pinned selector and its prerequisites}
+PostgreSQL 16.14's single-relation selectivity path can apply
+multivariate MCV objects to still-unestimated compatible
+clauses. Source inspection covers four selector functions:\\
+{\raggedright
+\texttt{clauselist\_selectivity\_ext},\\
+\texttt{statext\_mcv\_clauselist\_selectivity},\\
+\texttt{choose\_best\_statistics}, and\\
+\texttt{RelationGetStatExtList}.\par}
+The selector repeats candidate selection over a source-level
+OID-sorted candidate list. Under the conditions below,
+all surviving eligible two-key objects tie in the ranking,
+so list/OID order resolves which object is used first
+\cite{pg16stats}. This is a deterministic mechanism
+for a fixed catalog, not a source of random orders.
+The version-pinned code locations and conditional argument
+are recorded in the accompanying project
+\href{https://github.com/1951123/ess-research/blob/main/notes/pg-mcv-maximal-matching-correspondence.md}
+{source-correspondence note}.
+
+The correspondence assumes:
+\begin{enumerate}
+\item[\textbf{A1.}] Each relevant clause is a supported simple MCV
+  predicate on exactly one distinct base-table attribute. It is
+  non-pseudoconstant, with one relevant clause per attribute and no OR,
+  expression or repeated-attribute predicates.
+\item[\textbf{A2.}] Eligible objects are \emph{built}
+  two-attribute, no-expression MCV statistics on the same
+  base relation, covering two currently unestimated
+  compatible attribute clauses.
+\item[\textbf{A3.}] Privilege, relation and inheritance checks
+  permit the objects, no other estimator preconsumes those
+  clauses, and the candidate list is exactly the
+  installed eligible set.
+\item[\textbf{A4.}] Every object whose two endpoints remain
+  free ties under the selector's key/coverage ranking;
+  the fixed list order breaks the tie.
+\end{enumerate}
+
+An edge is labeled by the particular built MCV object, not
+just its attribute pair: distinct objects on the same pair
+can have different contents. Under A1--A3, applying an edge
+uses the compatible clauses for both endpoint attributes.
+Those clauses are then marked estimated, so an edge sharing
+either endpoint cannot also be applied to the remaining
+clauses in that estimation step. This is the graph conflict
+represented by a shared endpoint. A1--A4 make the available
+unconsumed edges exactly the candidates inspected by the
+repeated selector, with tied candidates resolved by its fixed
+list order. At termination, an unselected edge disjoint from
+all selected edges would still cover two free clauses and
+would remain eligible, contradicting termination. Hence the
+selected objects form an inclusion-wise maximal matching.
+For the path in Figure~\ref{fig:path}, one such matching has
+two edges and another has one: maximality means no edge can
+be appended, not that the matching has maximum cardinality.
+
+\begin{proposition}[Conditional source correspondence]
+\label{prop:pg}
+Under A1--A4, the selected labeled two-column MCV
+objects constitute an inclusion-maximal matching of \(H_i[M]\).
+If the abstract tie priority is freely varied over all strict
+total orders, its attainable \emph{single-task} outputs
+are exactly \(\Gamma_i^{\mathrm{MM}}(M)\).
+\end{proposition}
+\begin{proof}
+After selecting a two-attribute object, the corresponding
+clauses are marked estimated; subsequent selected objects
+cannot share either endpoint. If an unselected edge were
+disjoint from every selected edge at termination, its two
+clauses would remain eligible, contradicting the terminating
+failure to find a candidate. The output is maximal.
+Conversely, Proposition~\ref{prop:completion}
+orders any chosen maximal matching first.
+\end{proof}
+The proposition characterizes the restricted selector
+under A1--A4, \emph{not} arbitrary SQL, joins,
+other statistics kinds, competing clause consumers, or
+non-tied rankings. In a fixed physical catalog the OID
+order is not freely variable. Thus the correspondence
+supplies a concrete structural instance of the ESS model,
+not an assertion that PostgreSQL implements ESS or
+realizes every abstract priority without catalog changes.
+
+\subsection{Physical mechanism evidence}
+A controlled four-attribute trace with objects \(AB,BC,CD\)
+used an instrumented PostgreSQL development build. Creating
+objects in order \(AB,BC,CD\) produced the selected set
+\(\{AB,CD\}\), while \(BC,AB,CD\) produced
+\(\{BC\}\). Both terminated without an eligible candidate
+and involved built MCV data. This was a scoped fixture-level
+observation; recreating objects can otherwise affect sample
+contents.
+
+In a later, content-controlled held-out order intervention,
+four frozen Nominal \(B=5\) sets were recreated in canonical
+or exact-reverse order. Checks fixed the data, replayed
+ANALYZE sample, settings and MCV-content fingerprints.
+All 80,000 Test EXPLAIN outcomes and MCV diagnostics
+completed. Section~\ref{sec:results} quantifies changed
+applied-object sequences and actual row-estimation effects.
+Neither intervention makes all maximal matchings physically
+attainable in every context, or equates the multiplicative
+model with PostgreSQL's entire cardinality calculation.
+
+\section{Structural Properties of the Restricted Instance}
 \label{sec:objectives}
-
-\subsection{Strategy knowledge defines the problem}
-For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
-policy family \(\Theta\), the following are distinct objectives:
-\begin{align}
-F_{\Nom}(M;\theta_0)
- &=\sum_{i\in\Tasks}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
-F_{\mathrm{joint}}(M)
- &=\max_{\theta\in\Theta}\sum_{i\in\Tasks}
- L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
-F_{\PESS}(M)
- &=\sum_{i\in\Tasks}\max_{\sigma\in\Gamma_i(M)}
- L_i(\sigma).\label{eq:pess}
-\end{align}
-The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
-for its chosen information assumption. The advisor does not
-simultaneously choose the worst-case scheme or its application
-policy. For the \emph{same fixed} \(M\), compatibility and common
-loss imply
-\begin{equation}
-\label{eq:genericbound}
-F_{\Nom}(M;\theta_0)\leq
-F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
-\end{equation}
-The second inequality may be strict because separate taskwise
-worst schemes may not be jointly attainable.
-
-These objectives express \emph{different information
-assumptions}, not alternative implementations of a known
-policy. A specified deterministic rule supports Nominal
-evaluation; an unknown but shared rule motivates worst-joint
-risk. PESS discards that shared-rule constraint. A stochastic
-average requires a separately justified policy distribution:
-an unknown deterministic rule alone supplies none.
-The global-order instance below makes these distinctions
-concrete. It separates a \emph{shared rule across tasks}
-from taskwise choices that no single rule can realize.
 
 \subsection{One shared global priority}
 For the pairwise instance, let \(\Pi(M)\) contain all strict
@@ -650,6 +763,9 @@ complexity of deciding \(P(M)=G(M)\) in general.
 Detailed proof encodings and synthetic checks are
 available in the accompanying reproducibility materials.
 
+
+\section{Experimental Protocol}
+\label{sec:protocol}
 \subsection{Frozen resource-selection procedure}
 The empirical selection trains \emph{only} \(N_{\pi_0}\)
 and \(P\), using the same strictly improving, deterministic
@@ -664,120 +780,7 @@ and does not certify global optimality. The read-only
 offline \(A,G\) analysis is \emph{not} a retraining or
 a different selection algorithm.
 
-\section{A Scoped PostgreSQL MCV Mechanism}
-\label{sec:pg}
-The preceding results concern freely ordered abstract
-resource edges. We now identify a restricted estimator
-path with the same conflict structure; this does not
-transfer abstract worst-case bounds to physical Q-error.
 
-\subsection{Version-pinned selector and its prerequisites}
-PostgreSQL 16.14's single-relation selectivity path can apply
-multivariate MCV objects to still-unestimated compatible
-clauses. Source inspection covers four selector functions:\\
-{\raggedright
-\texttt{clauselist\_selectivity\_ext},\\
-\texttt{statext\_mcv\_clauselist\_selectivity},\\
-\texttt{choose\_best\_statistics}, and\\
-\texttt{RelationGetStatExtList}.\par}
-The selector repeats candidate selection over a source-level
-OID-sorted candidate list. Under the conditions below,
-all surviving eligible two-key objects tie in the ranking,
-so list/OID order resolves which object is used first
-\cite{pg16stats}. This is a deterministic mechanism
-for a fixed catalog, not a source of random orders.
-The version-pinned code locations and conditional argument
-are recorded in the accompanying project
-\href{https://github.com/1951123/ess-research/blob/main/notes/pg-mcv-maximal-matching-correspondence.md}
-{source-correspondence note}.
-
-The correspondence assumes:
-\begin{enumerate}
-\item[\textbf{A1.}] Each relevant clause is a supported simple MCV
-  predicate on exactly one distinct base-table attribute. It is
-  non-pseudoconstant, with one relevant clause per attribute and no OR,
-  expression or repeated-attribute predicates.
-\item[\textbf{A2.}] Eligible objects are \emph{built}
-  two-attribute, no-expression MCV statistics on the same
-  base relation, covering two currently unestimated
-  compatible attribute clauses.
-\item[\textbf{A3.}] Privilege, relation and inheritance checks
-  permit the objects, no other estimator preconsumes those
-  clauses, and the candidate list is exactly the
-  installed eligible set.
-\item[\textbf{A4.}] Every object whose two endpoints remain
-  free ties under the selector's key/coverage ranking;
-  the fixed list order breaks the tie.
-\end{enumerate}
-
-An edge is labeled by the particular built MCV object, not
-just its attribute pair: distinct objects on the same pair
-can have different contents. Under A1--A3, applying an edge
-uses the compatible clauses for both endpoint attributes.
-Those clauses are then marked estimated, so an edge sharing
-either endpoint cannot also be applied to the remaining
-clauses in that estimation step. This is the graph conflict
-represented by a shared endpoint. A1--A4 make the available
-unconsumed edges exactly the candidates inspected by the
-repeated selector, with tied candidates resolved by its fixed
-list order. At termination, an unselected edge disjoint from
-all selected edges would still cover two free clauses and
-would remain eligible, contradicting termination. Hence the
-selected objects form an inclusion-wise maximal matching.
-For the path in Figure~\ref{fig:path}, one such matching has
-two edges and another has one: maximality means no edge can
-be appended, not that the matching has maximum cardinality.
-
-\begin{proposition}[Conditional source correspondence]
-\label{prop:pg}
-Under A1--A4, the selected labeled two-column MCV
-objects constitute an inclusion-maximal matching of \(H_i[M]\).
-If the abstract tie priority is freely varied over all strict
-total orders, its attainable \emph{single-task} outputs
-are exactly \(\Gamma_i^{\mathrm{MM}}(M)\).
-\end{proposition}
-\begin{proof}
-After selecting a two-attribute object, the corresponding
-clauses are marked estimated; subsequent selected objects
-cannot share either endpoint. If an unselected edge were
-disjoint from every selected edge at termination, its two
-clauses would remain eligible, contradicting the terminating
-failure to find a candidate. The output is maximal.
-Conversely, Proposition~\ref{prop:completion}
-orders any chosen maximal matching first.
-\end{proof}
-The proposition characterizes the restricted selector
-under A1--A4, \emph{not} arbitrary SQL, joins,
-other statistics kinds, competing clause consumers, or
-non-tied rankings. In a fixed physical catalog the OID
-order is not freely variable. Thus the correspondence
-supplies a concrete structural instance of the ESS model,
-not an assertion that PostgreSQL implements ESS or
-realizes every abstract priority without catalog changes.
-
-\subsection{Physical mechanism evidence}
-A controlled four-attribute trace with objects \(AB,BC,CD\)
-used an instrumented PostgreSQL development build. Creating
-objects in order \(AB,BC,CD\) produced the selected set
-\(\{AB,CD\}\), while \(BC,AB,CD\) produced
-\(\{BC\}\). Both terminated without an eligible candidate
-and involved built MCV data. This was a scoped fixture-level
-observation; recreating objects can otherwise affect sample
-contents.
-
-In a later, content-controlled held-out order intervention,
-four frozen Nominal \(B=5\) sets were recreated in canonical
-or exact-reverse order. Checks fixed the data, replayed
-ANALYZE sample, settings and MCV-content fingerprints.
-All 80,000 Test EXPLAIN outcomes and MCV diagnostics
-completed. Section~\ref{sec:results} quantifies changed
-applied-object sequences and actual row-estimation effects.
-Neither intervention makes all maximal matchings physically
-attainable in every context, or equates the multiplicative
-model with PostgreSQL's entire cardinality calculation.
-
-\section{Experimental Protocol}
-\label{sec:protocol}
 We distinguish effects on \emph{modeled resource decisions}
 from changes in \emph{measured physical estimates}. Their
 losses and provenance remain separate throughout.
