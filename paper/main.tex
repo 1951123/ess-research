@@ -1522,6 +1522,45 @@ metrics, splits, and mechanisms preclude
 interpreting agreement of rankings as
 model calibration.
 
+\paragraph{Answers to the research questions.}
+\emph{RQ1 (physical application sensitivity):}
+Under the controlled canonical/reverse intervention on
+the same frozen B5 Nominal sets, selected-MCV sequences
+changed in thousands of paired Test queries. Physical
+P95 changed as well, but its direction varied by
+dataset; a changed applied sequence did not invariably
+change query-level Q-error. This establishes order
+sensitivity within the pinned experimental setting,
+not universal physical sensitivity to every priority
+or an isolated causal effect of one statistic.
+
+\emph{RQ2 (decisions and modeled coupling):}
+With identical proxy budgets and the same add-only
+solver, Nominal and PESS selected different resource
+IDs at some budgets, while they coincided at others.
+For each \emph{fixed} selected set, the enumerated
+$P(M)-G(M)$ measures the relaxation from one shared
+priority to independently chosen task-wise worst
+schemes; the gap decomposition in
+(\ref{eq:gap-decomposition}) further distinguishes
+shared-priority uncertainty from the Nominal
+reference. Different greedy outputs do not prove
+different globally optimal resource sets. These are
+statements about frozen modeled Train losses rather
+than physical Test risk.
+
+\emph{RQ3 (conditional physical comparison):}
+The canonical-order comparison favors Nominal at B5
+on all four datasets. For the \emph{different} estimand
+that averages per-order Test P95 across a specified
+uniform relative-OID-order population, the estimated
+contrast favors PESS on Census13 and DMV11, Nominal
+on Forest10, and is unresolved on Power7 by the
+reported approximate sampling interval. Neither
+estimand is a measured production distribution.
+Thus the two rankings answer distinct deployment
+policy questions and are not contradictory.
+
 \section{Threats to Validity}
 \label{sec:validity}
 The main inferential boundary separates the prescribed
