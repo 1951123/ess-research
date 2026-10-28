@@ -60,3 +60,31 @@
 3. Do not infer a physical upper bound from abstract PESS absent coverage plus metric alignment.
 4. Distinguish counterfactual relative-OID distributions from observed deployment uncertainty.
 5. Keep review-specific IDs and evidence links stable; update this tracker as facts are checked, without silently rewriting review conclusions.
+
+## Gate 1 verification memo — T11/T12 (2026-10-28)
+
+### T11: MAS fixed-set hardness, checked in current manuscript
+
+**Confirmed source-level typo:** the displayed normalized reduction formula currently contains `\nu\text{ precedes }v` rather than the intended vertex variable `u\text{ precedes }v`. This renders the mathematical equation incorrect as written even though the adjacent prose explains the intended reduction. Correct in a subsequent paper patch.
+
+**Proof assessment:** the *combinatorial* mapping is valid under the freely ordered abstract model. Build a common star with one edge per vertex; one two-edge eligible task per oriented arc; choose factors 2 (tail) and 1 (head), with alpha zero and weight one. For any shared total order the task contributes exactly ln(2) iff the arc is forward. Thus normalized objective G/ln(2) equals maximum forward-arc count. This is a reduction of a *fixed-set evaluation* decision, not outer resource optimization and not physical PostgreSQL.
+
+**Formal decision language to state:** input a finite edge-labeled star, explicitly listed two-edge task incidences, rational correction factors confined to {1,2}, alpha=0, unit task weights, and nonnegative integer K (all in binary or finite lists). Ask whether **there exists** a strict global edge order under which at least K task losses equal ln(2), equivalently whether G(M) >= K ln(2). The predicate is checked via integer counts; no oracle for evaluating arbitrary transcendental inputs is required. The star restricted language is in NP (order certificate + forward-arc count); the reduction establishes NP-hardness, in fact NP-completeness **of this restricted normalized threshold decision problem**. Do not transfer NP membership to general real-parameter optimization without an encoding model.
+
+**Status:** COMBINATORIAL ARGUMENT VERIFIED AGAINST WRITTEN REDUCTION; TYPO CONFIRMED; ENCODING PATCH REQUIRED. Not externally verified against the original MAS source citation.
+
+### T12: shared-priority prescribed-target feasibility
+
+**Explicit input contract:** one finite global set M of m labeled edges, each with encoded endpoint pair; t explicitly listed task-eligible subsets E_i cap M, and one explicitly listed target edge-ID set S_i for each task. Require each S_i to be a subset of the relevant E_i and an inclusion-maximal matching; this validity condition is testable in polynomial time, and malformed inputs should be rejected. Edge IDs must denote one shared global edge across all tasks. Let N be total length of these explicit incidence and endpoint lists.
+
+**Safe-edge algorithm:** start with empty prefix R and repeatedly append any remaining e satisfying, for every i with e in E_i, either e in S_i or an already appended target f in S_i conflicts with e. If no safe e exists before m edges are appended, reject; else return constructed order. Tasks in which e is ineligible impose no condition.
+
+**Correctness invariant:** if a feasible full order extending the current prefix exists, moving any safe e to the start of a feasible suffix preserves each task's accepted target set (target case: disjoint from all other targets; non-target case: already rejected by a prefix target blocker). Hence arbitrary safe selection preserves extensibility; the first edge of every feasible suffix is safe. A completed safe order yields targets; a dead end implies no compatible total order.
+
+**Complexity:** a deliberately loose bound O(m^2 N) time for m rounds, scanning up to m remaining edges each round and checking their explicit task incidences/target blockers in O(N) per candidate, with O(N+m) representation storage. Validating maximal matchings and the common edge labels is polynomial and absorbed into this bound for m>=1. Empty M returns the empty global order after validating empty task targets. No claim is made about succinctly encoded task families or unspecified targets.
+
+**Status:** ARGUMENT CHECKED / EXPLICIT-INPUT FORMALIZATION READY; manuscript lacks detailed input contract and bound. Independent exhaustive small-instance implementation test not yet performed.
+
+### Scope of this memo
+
+This verification records an argument review, not machine-checked formal proof, PostgreSQL source audit, or new physical measurements. No experimental result is changed.
