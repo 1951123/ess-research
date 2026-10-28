@@ -187,3 +187,7 @@ This is a record of the supplied PDF and does not assert the PDF is committed to
 - Clarified three non-equivalent monotonicities: coordinatewise workload loss, worst-case scenario-set expansion, and resource-set monotonicity; probability means cannot be ordered from supports alone.
 - No experiment or new algorithm has been added. This is substantive exposition of previously author-approved research claims, not a newly asserted main theorem.
 - Latest author-compiled PDF (`main(2).pdf`) predates this commit and has 11 total pages with main text ending on page 10. Recompilation will be needed before page-count assertions.
+
+## 16. General envelope theorem (2026-10-28)
+
+Added Proposition `prop:general-envelope`, a substantive general ESS result: for finite nonempty per-task admissible scheme families and coordinatewise monotone workload aggregator `A_n`, any jointly feasible worst-case risk is bounded above by `A_n` of the coordinatewise maximum losses. The full Cartesian-product PESS model achieves equality. Proof is elementary but applies beyond the original additive sum, including empirical quantile aggregators; **it does not imply physical Q-error bounds or any resource-choice ordering**. Requires recompile and page-count validation. Static audit after insertion: 48 labels, no duplicate label or unresolved internal reference, balanced braces.
