@@ -145,3 +145,16 @@ The independently fetched `experiments/forest10-decision/real-input-manifest.jso
 **Analysis feasibility conditions:** (1) fetch authorized valid-split query truth records and verify dataset, query IDs and hashes; (2) locate exact frozen model coefficients or predicted per-scheme values for the *same* query IDs and config edge sets; (3) align preclamp/rounded observation semantics rather than equating them; (4) compare paired task/config predictions on validity-only data and report disagreement rates with a clear sample-selection caveat. If the available 212 rows were a fixed first-20-query smoke, infer nothing about random-query or full-workload calibration. The 84-record off-Git calibration run is a separate, noninterchangeable provenance layer.
 
 **T04 status:** KEYED NUMERIC PG OBSERVATIONS CONFIRMED IN GIT; TRUTH/MODEL JOIN INCOMPLETE; NO NEW CALIBRATION ESTIMATE COMPUTED.
+
+## Gate 2 T09 direct frozen-schedule structural validation (2026-10-28)
+
+Fetched and parsed the authoritative in-Git `experiments/oid-uniform-priority-issue107/permutation-sample-v1.json` (24,793 UTF-8 characters). Verified **8 schedules / 156 arms**, with **no repeated permutations within any schedule**, all arms using their schedule's same set of resource IDs, and strictly sequential draw indices for all recorded SRSWOR units.
+
+- Four Nominal five-object schedules: each 24 unique orders, exactly 2 fixed canonical/reverse orders (the pair is exact reverse), 22 SRSWOR orders, inclusion probabilities `1` and `11/59` respectively.
+- Two five-object PESS schedules (Census13, DMV11): each 24 unique SRSWOR orders with inclusion probability `1/5`.
+- Two three-object PESS schedules (Forest10, Power7): each 6 unique orders, probability `1`, matching 3!=6; the sample JSON uses a non-`census` selection label for these, so interpretation here depends on **six distinct permutations and size**, not a literal `census` label.
+- Root seed is the exact decimal string `17770611677888985956`, read directly from the JSON text to avoid loss of precision in ordinary JavaScript numeric parsing. The declared RNG is `ess-splitmix64-fisher-yates-v1`.
+
+**T09 partially resolved:** these checks establish correct frozen *schedule structure and inclusion probabilities*; they do not independently regenerate the sample using the versioned RNG, establish random sampling quality, access off-Git physical observation bytes, or calibrate approximate interval coverage. Next no-new-measurement task: independent deterministic RNG replay from `src/ess_research/arecel/oid_sampling.py` (or a separately written equivalent) against the exact frozen JSON SHA, and review of simultaneous inference from existing order-level data if accessible. Keep T09 OPEN for those separate checks.
+
+No physical database execution, data resampling, or manuscript edits are part of this check.
