@@ -1059,7 +1059,18 @@ physical configurations. The frozen resource manifest is stored at
 \href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the frozen resource-selection manifest}.
 The frozen Train-model coefficients use positive clamped-log-derived
 quantities and exact \texttt{Fraction} reference evaluation; they
-are not physical \texttt{Plan Rows} measurements.
+are not physical \texttt{Plan Rows} measurements. Here
+\emph{exact} refers to arithmetic checks of the frozen
+\emph{modeled} losses and their workload sums against a pinned
+reference, not to fidelity of the multiplicative approximation to
+PostgreSQL, global optimality of the selected set, or a proof that
+every intermediate operation of the selection implementation uses
+rational arithmetic. For each fixed Train sample, the reported
+additive model objectives are \emph{sums} of task losses;
+dividing by its positive sample size converts them to empirical
+averages as in Section~\ref{sec:population}, without changing
+their minimizers or the order of strictly improving greedy
+single-addition choices at that fixed sample size.
 
 A read-only Census13 Train case study enumerates \(\Gamma_i(M)\)
 for five existing B3/B4/B5 selected sets. It deterministically
@@ -1166,8 +1177,16 @@ population means conditional on the fixed Test split.
 For the independently sampled PESS-minus-Nominal contrast,
 the component variance estimates add. The frozen approximate
 95\% intervals use \(t_{0.975,21}\) times the design standard
-error. They cover \emph{permutation sampling only}, not new
-workloads, datasets or ANALYZE samples. A degenerate interval
+error. These are approximate \emph{design-based} intervals for
+sampling orders from the stated finite order populations,
+conditional on the frozen selected sets, Test queries, database
+state, and ANALYZE replay. The use of a common
+$t_{0.975,21}$ multiplier is a declared approximation for
+the contrast, not an exact finite-population coverage theorem
+for two components with different sampling designs.
+They do not quantify uncertainty from new workloads,
+datasets, ANALYZE samples, or the model-to-physical gap.
+A degenerate interval
 from 24 sampled orders cannot certify all 120 orders identical.
 
 The sampled-order design was specified after inspection of
