@@ -1,0 +1,127 @@
+{
+  "format": "ess-issue133-minimal-forest10-oid-order-v1",
+  "status": "FROZEN_BEFORE_TEST_EXECUTION",
+  "question": "For the fixed set of all 45 frozen Forest10 two-column MCV statistics, do two already-frozen global CREATE/OID orders change PostgreSQL 16.14 Plan Rows and official-Test Q-error when all measured physical state is equal?",
+  "scope": {
+    "dataset": "forest10",
+    "candidate_count": 45,
+    "candidate_kind": ["mcv"],
+    "ordinary_two_column_statistics_only": true,
+    "expressions": false,
+    "statistics_target": 300,
+    "configurations": ["forest10-all-random-01", "forest10-all-random-02"],
+    "create_statistics_statements": 90,
+    "statistics_target_statements": 90,
+    "analyze_runs": 2,
+    "official_test_queries_per_configuration": 10000,
+    "maximum_explain_calls": 20000,
+    "selected_or_empty_controls": false,
+    "other_datasets": false,
+    "resource_reselection_or_test_tuning": false
+  },
+  "order_source": {
+    "repository_path": "experiments/all-pairwise-oid-issue133/all-order-sample-v1.json",
+    "file_sha256": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c",
+    "generator_path": "experiments/all-pairwise-oid-issue133/sample_all_orders.py",
+    "generator_sha256": "6b08bc0a6e60408921f90d3409e800892a3be98568753511afa32913d192df61",
+    "rng_version": "ess-splitmix64-fisher-yates-direct-v1",
+    "root_seed": 4017865097189414557,
+    "python_version_at_generation": "3.12.3",
+    "random_design": "Issue #134 M0 frozen random-01 and random-02; never regenerated, replaced, or selected using Test outcomes",
+    "orders": {
+      "forest10-all-random-01": {
+        "order_id": "random-01",
+        "permutation_sha256": "3bdaea2042c5415d2a6f45fa7521c54e1c7dd089e566c1ebf7c5a15fd7a56db5",
+        "child_seed_hex": "617e2a8dfeaac771"
+      },
+      "forest10-all-random-02": {
+        "order_id": "random-02",
+        "permutation_sha256": "1ad1fd03dd77b5268783de0e86799c14f5fad8082688c1070dec57b7ad373364",
+        "child_seed_hex": "49a09eb782395c49"
+      }
+    },
+    "order_hash_encoding": "SHA-256 of M0 canonical_bytes(list(order)): UTF-8 json.dumps(..., ensure_ascii=True, sort_keys=True, separators=(',', ':')) followed by one newline"
+  },
+  "input_pins": {
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "forest10_full_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+    "forest10_full_table_rows": 581012,
+    "forest10_workload_pickle_sha256": "501a3dcfe82ec5742fce4c3dc3b298eabcf78b82dab3a8ff8ad2914a61f4eaea",
+    "forest10_test_labels_container_sha256": "34d830e6a30b48228ae41e6ae5643fb199e9794b3f36c915fb742af58fdfb974",
+    "forest10_test_truth_canonical_sha256": "7c3cdb46422bb6238c35704dc4a7c52fd0528a5900a7cb607d414046a56d2bf7",
+    "test_query_count": 10000,
+    "explicitly_dereferenced_split": "test",
+    "trusted_pickle_container_materializes_non_test_objects": true,
+    "non_test_label_values_indexed_serialized_or_used": false,
+    "frozen_train_resource_manifest_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "candidate_universe_manifest_path": "experiments/all-pairwise-oid-issue133/candidate-universe-manifest.json",
+    "candidate_universe_manifest_sha256": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104",
+    "forest10_candidate_map_sha256_compact_json": "8fd28b72e4b071dc2ca491502bb61b4652fe9b68269f1db2eef1f6f1f7ffc76b",
+    "forest10_runtime_candidate_map_sha256": "042f1d58daec461a127782f2c9658f5fee502ffb478000a08b9261f03d7eb627",
+    "forest10_candidate_collection_run_id": "20261025T050116Z-issue99-forest10-fee458",
+    "forest10_collection_manifest_sha256": "876a692bd3e067f48d70c870e612a900c5e876257ece6ac4e114af51cb45271f",
+    "forest10_fixed_analyze_sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+    "forest10_fixed_analyze_sample_bytes": 10620460,
+    "forest10_fixed_analyze_sample_target": 90000,
+    "forest10_fixed_analyze_sample_rows": 90000,
+    "forest10_fixed_analyze_sample_relation_identity": "6:public8:forest10"
+  },
+  "pinned_code": {
+    "issue101_protocol_sha256": "7bd11b3743c5ca0467b4268cf47e8328f2bbe500fd53cea45a8efe3eab415787",
+    "issue101_runner_sha256": "894b8276f58d36d7d513138e574a9832aa03b8e8a21f3dd84494dbc0367b9244",
+    "issue105_protocol_sha256": "3afe7853a891f177ed836993bef2cd77a232f35e5398843d0019b12b384653d6",
+    "issue105_amendment_sha256": "58b2a15b6fee0f86212c27482aa646c25a9d0b1024ddd79a17520db6ab870e8b",
+    "issue105_runner_sha256": "84c821dd3188750737b6156bbe675c82f22c3fbe30dfa7af75068b6ff5fb5627",
+    "issue99_helper_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4"
+  },
+  "postgresql": {
+    "version": "16.14",
+    "source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "build_flags": ["--without-readline", "--without-zlib", "make -j2"],
+    "binary_source_run_id": "20261025T-issue101-full-test-v1",
+    "binary_sha256": {
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f"
+    },
+    "session_plan_options": "-c client_min_messages=warning -c plan_cache_mode=force_custom_plan -c max_parallel_workers_per_gather=0",
+    "explain": "EXPLAIN (FORMAT JSON, SUMMARY OFF, ESS_DIAGNOSTICS true)",
+    "diagnostic_source": "Issue #105 parser and ESS_DIAGNOSTICS output; candidate IDs are reconstructed from the current arm OID map"
+  },
+  "pretest_state_validation": {
+    "prepare_both_arms_before_any_test_explain": true,
+    "compare_by_candidate_id_not_cross_arm_oid": true,
+    "compare_all_45_payload_states_and_content_fingerprints": true,
+    "payload_states": ["NULL", "PRESENT_EMPTY", "POPULATED"],
+    "also_compare": ["ordinary_column_statistics_fingerprint", "fixed_sample_hash_and_header", "source_csv_hash_and_row_count", "table_schema", "statistics_target", "kind", "catalog_oid_order"],
+    "if_any_pretest_comparison_fails": "STOP_BEFORE_TEST_EXPLAIN; retain both audit states and mark INCONCLUSIVE"
+  },
+  "metrics": {
+    "primary": "per-arm P95 over the same 10000 query Q-errors",
+    "secondary": ["P50", "P99", "arithmetic_mean", "Plan Rows changed count", "Q-error changed count", "MCV selection sequence changed count", "MCV estimate sequence changed count"],
+    "qerror_implementation": "Issue #101 qerror_for_plan_rows, including NumPy round and zero cases",
+    "quantile_implementation": "Issue #105 metrics_for_rows using Issue #101 NumPy 2.3.4 percentile/median behavior",
+    "paired_analysis": "match by immutable query_id; compare Plan Rows, Q-error, selected candidate ID sequence, and estimate candidate ID sequence per query",
+    "inferential_claims": "Two fixed preselected orders only; no estimate of all 45! orders, best/worst order, or random-order expectation; no significance test"
+  },
+  "resource_envelope": {
+    "early_stop_wall_seconds": 21600,
+    "hard_wall_seconds": 28800,
+    "early_stop_allocated_bytes": 8589934592,
+    "hard_allocated_bytes": 10737418240,
+    "max_parallel_explain_clients": 6,
+    "active_database_configurations_at_once": 1,
+    "monitoring_scope": "allocated bytes beneath the unique experiment run directory plus global free-space health; existing PG install and immutable source inputs remain read-only and outside this run allocation"
+  },
+  "failure_policy": {
+    "orders_or_candidates": "never replace or redraw",
+    "oid_order_mismatch": "stop before EXPLAIN for that arm; retain catalog audit",
+    "sample_or_mcv_content_mismatch": "stop before any Test EXPLAIN because order-only attribution is invalid",
+    "incomplete_query_or_diagnostic": "persist every observed/status row; stop before the next arm; mark the experiment INCOMPLETE",
+    "failed_ddl_or_analyze": "retain phase, SQL/setup logs and catalog state; do not run Test for that arm",
+    "retry": "no automatic retries; only restart an identical frozen arm after an engineering failure if the run identity, order, data, sample, and caps stay unchanged, and preserve both attempts"
+  }
+}
