@@ -136,3 +136,10 @@ Target **12 pages of main text**, adding chiefly mathematical clarity and theory
 - Mechanical checks at section-move commit: 9 sections preserved; no duplicated TeX label strings; no experiments modified.
 - The original figure of the three-edge path is still introduced in the Introduction, with its technical justification deferred to the instance section. The source-level correspondence proposition still refers forward to the individual matching-completeness proposition, which is acceptable for LaTeX cross-references but should be considered for reader flow.
 - **Not yet verified by compilation:** valid TeX/pvldb class output, hyperlink/label resolution, theorem page breaks, and main-text page count. Treat this as a draft patch; further proof and editorial checks remain before review-ready status.
+
+## 11. Structural and build feasibility check (2026-10-28)
+
+- Reordered restricted mechanism section: source-level selector and A1–A4 now precede the graph/matching abstraction and numerical proxy, making physical assumptions visible before interpreting abstract maximal matchings.
+- Connector-based static audit of `paper/main.tex`: **45 labels, no duplicate labels, zero unresolved \\ref/\\eqref/\\autoref targets within this file, balanced literal curly braces**. These checks do not replace an actual TeX engine run.
+- Local build environment has `pdflatex` and `latexmk`; however the current GitHub branch's source and its dependencies could not be downloaded into that runtime due disabled outbound DNS. The mounted `/mnt/data/main.pdf` is an **older 9-page PDF titled 'Estimator Strategy Uncertainty'**, not the updated manuscript, so its page count is not evidence for this draft.
+- **Blocked verification gates:** compile current branch, resolve build warnings and citation dependencies, inspect resulting typography/figures, and confirm 12 pages of main text. Do not mark these complete until using the actual updated source.
