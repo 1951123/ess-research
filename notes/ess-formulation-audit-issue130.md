@@ -199,3 +199,7 @@ Added a two-resource-choice, two-task abstract counterexample in Section 2: Nomi
 ## 18. Shared-priority feasibility proof expansion (2026-10-28)
 
 Expanded Section 4.3's supplied-target feasibility algorithm. The safe-edge predicate now explicitly checks **every eligible task** for the edge (a target in one task may be a blocked non-target in another); the proof explains why moving a safe edge to the start of a feasible suffix maintains all target greedy outputs, why a dead end proves incompatibility, and why the decision test is polynomial in its supplied input. This is a stronger presentation of the existing result, not a newly established complexity claim. No experiments or physical PG claims changed. New draft still needs author recompilation and full mathematical review.
+
+## 19. General ESS to matching-theory bridge (2026-10-28)
+
+Added an explicit bridge at the end of Section 2 mapping generic `Γ_i(M)` to restricted maximal matchings, shared-policy joint tuples to common global edge orders, and task-wise PESS to the full Cartesian product. The bridge distinguishes source-grounded selection structure from assumed multiplicative numerical loss and fixed-catalog physical OID constraints. Added a Section 4 opening explaining which bounds instantiate general theory and which results specifically require matching/free-order structure; no new experiment or theorem is claimed. Cross-reference and brace static checks passed; compiled pagination awaits a new author PDF.
