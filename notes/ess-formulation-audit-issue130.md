@@ -203,3 +203,7 @@ Expanded Section 4.3's supplied-target feasibility algorithm. The safe-edge pred
 ## 19. General ESS to matching-theory bridge (2026-10-28)
 
 Added an explicit bridge at the end of Section 2 mapping generic `Γ_i(M)` to restricted maximal matchings, shared-policy joint tuples to common global edge orders, and task-wise PESS to the full Cartesian product. The bridge distinguishes source-grounded selection structure from assumed multiplicative numerical loss and fixed-catalog physical OID constraints. Added a Section 4 opening explaining which bounds instantiate general theory and which results specifically require matching/free-order structure; no new experiment or theorem is claimed. Cross-reference and brace static checks passed; compiled pagination awaits a new author PDF.
+
+## 20. Structural theorem assumptions and reductions (2026-10-28)
+
+Audited Section 4.3 against Section 3.2 multiplicative loss. Tight `P≤tG` example now explicitly realizes its losses with positive correction factors `{1,2}`, `alpha=0`, unit weights, giving `P=t ln 2` and `G=ln 2`. Converted the fixed-set shared-order NP-hardness argument into a formally labeled proposition with a polynomial Maximum Acyclic Subgraph reduction: one star edge per vertex, one two-edge task per directed arc, factors 2/1, and exact normalized threshold `G/ln 2 ≥ K`. These are *abstract freely chosen orders* and not physical PostgreSQL complexity claims. Static LaTeX label/reference/brace check passed; recompile remains necessary.
