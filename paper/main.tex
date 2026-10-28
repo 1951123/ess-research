@@ -868,18 +868,36 @@ eligible \(e\notin S_i\), at least one target edge
 have an earlier accepted blocker; sufficiency follows
 by considering the first departure from any target matching.
 
-This condition yields a polynomial-time feasibility test
-\emph{when the targets are supplied}. Starting from an empty
-order, append any remaining edge that, in every task,
-is either ineligible, a target edge, or already blocked
-by an appended target edge. If no such edge exists,
-the targets are incompatible. To see why arbitrary safe
-choices work, move a safe edge to the front of any
-feasible remaining suffix: a target cannot block another
-target, and a non-target is already blocked where eligible.
-The existence of a feasible completion is preserved.
-This does not solve the search over unspecified taskwise
-worst matchings or the computation of \(G(M)\).
+The condition gives a constructive polynomial-time test
+\emph{for supplied targets}. Maintain a prefix $R$ of
+labeled edges. An unplaced edge $e$ is \emph{safe} if,
+for every task containing $e$, either $e\in S_i$ or
+some $f\in S_i$ sharing an endpoint with $e$ is
+already in $R$. Repeatedly append any safe edge.
+If every edge is placed, the resulting order realizes
+all $S_i$. If no safe edge remains, no common order
+realizes the targets.
+
+To prove the test, first observe that every target
+edge is always safe, so the process cannot reject a
+target edge on account of another task in which it is
+non-target and not yet blocked: that edge is safe only
+when \emph{all} its eligible tasks permit it. Suppose
+there exists a feasible extension of the current
+prefix. Take a safe unplaced edge $e$ and move it to
+the beginning of that extension. Whenever $e$ is a
+target, it is disjoint from all other targets for
+that task; whenever it is not a target, its required
+target blocker is already in the prefix. Thus this
+exchange preserves all desired greedy outcomes.
+Induction shows that safe choices preserve feasibility.
+Conversely, the first edge of any feasible remaining
+suffix must be safe, so a dead end certifies
+infeasibility. Scanning at most $|M|$ edges after
+each extension, and checking all relevant task
+incidences, is polynomial in the supplied graph
+description. This test does not compute $G(M)$ or
+search for unspecified task-wise worst matchings.
 
 \begin{proposition}[Tight task-count conservatism]
 \label{prop:taskfactor}
