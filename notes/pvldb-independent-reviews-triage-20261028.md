@@ -96,3 +96,24 @@ Ran an independent local Python exhaustive-order cross-check (not a committed re
 A separate 240 seeded small directed-graph checks (2–7 vertices) confirmed the MAS forward-arc count interpretation of the reduction. No PostgreSQL runtime was used.
 
 Manuscript commit `3a5e569` now specifies explicit edge and task-incidence encoding, target maximal-matching validation, a conservative O(m^2 N) input-size bound, discrete integer-threshold MAS language with factors {1,2}, and fixes the printed forward-arc formula. **T11/T12 manuscript fixes complete at source level; LaTeX recompilation and independently retained test artifact remain outstanding.**
+
+## Gate 2 primary-artifact inventory, pass 1 (2026-10-28)
+
+The following files were **fetched and read directly from the PR branch**, not inferred from paper statements alone:
+
+| Track | Primary repository evidence | What it concretely shows | What it still cannot show |
+|---|---|---|---|
+| T01 | [Conditional PG source correspondence](pg-mcv-maximal-matching-correspondence.md); [2026-10-17 fixture report](../experiments/pg-tracing/runs/20261017/report.md) | Explicit A1–A4; a four-attribute path with creation orders `ab,bc,cd` and `bc,ab,cd`; traced chosen OIDs and consumed clause indices; outcomes `{ab,cd}` and `{bc}` match maximal-matching predictions. The report pins PG 16.14 instrumentation to `e17bfdf0c871bec02bea8c979b29d7603772b14d` against upstream `REL_16_14`. | No per-round *independent source re-audit* yet; no all-workload A1–A4 prevalence audit; no generic physical completeness theorem. **T01 remains OPEN/partial.** |
+| T03 | [#105 physical order findings](../experiments/oid-order-stress-test-issue105/findings-v2.md); [#107 findings](../experiments/oid-uniform-priority-issue107/findings-v2.md) | #105 reports requested CREATE order matching actual OID-sorted candidate IDs in each of eight paired configurations; full-catalog/content/sample fingerprint controls and 80,000 valid diagnostics. #107 records 156 eventual complete arms at the same frozen schedule, but includes an initial 12-arm validator failure and 8 separately remeasured certainty arms. | Full per-arm independent replay of #107 identity/OID checks and physical realizability of arbitrary future orders; underlying raw data lives outside Git. **T03 remains OPEN/partial.** |
+| T09 | [#107 findings v2](../experiments/oid-uniform-priority-issue107/findings-v2.md); [#125 read-only frozen-data revalidation](../experiments/oid-order-attribution-issue125/findings.md) | Reports sample hash `0b6b247445ab81589c5c5ea7991215fd25e5c60cddf990bf07e3867cda9baa73`, seed `17770611677888985956`, RNG `ess-splitmix64-fisher-yates-v1`; 156 final arm identities and 1,560,000 cumulative Test observations; #125 claims archive/member/row-level checks and independent recomputation of #107 estimands. | The Git-connected environment has not accessed the three external raw archives, so those claimed integrity checks cannot be independently rerun here. The eight historical #105 reuse-rejection reasons are not recoverable beyond generic catch labeling. **T09 has substantial documented evidence; raw independent replay remains OPEN.** |
+| T04 | [#125 order attribution](../experiments/oid-order-attribution-issue125/findings.md); [#105 findings](../experiments/oid-order-stress-test-issue105/findings-v2.md) | Physical candidate-ID-aligned event sequences and Q-errors are described, with frozen raw records archived externally. | No matched task-level *model-prediction versus physical-Q-error* calibration dataset has yet been confirmed. Diagnostic attribution is not model calibration. **T04 OPEN.** |
+
+**Important refinement versus the initial tracker:** r3/C's concern about missing sample provenance is partly answerable by the already recorded seed, RNG, sample hash, exact schedule and read-only revalidation report. The remaining problem is independent access/replay of archived source observations and validity of inferential intervals, not an absence of all sampling metadata.
+
+**Do not claim closure:** a detailed findings report or a hash in Git is a *lead to verify*; it is not equivalent to the bytes of the externally archived JSONL and manifests being available through the current GitHub connector.
+
+### Immediate follow-ups
+
+1. Read the source correspondence note's exact file/line references and identify any gap between A4 scoring-tie argument and source logic.
+2. Inspect #107 protocol and sample schedule artifacts within Git for per-arm requested priority lists and validation columns, without needing the external runtime archives.
+3. Locate any already archived model/physical matched records; if none are present, write a scoped new-analysis requirement rather than claiming calibration can be computed from aggregated P95 alone.
