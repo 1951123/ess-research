@@ -442,50 +442,10 @@ cross-model assessment, not the empirical counterpart of
 
 \section{A Scoped PostgreSQL MCV Mechanism}
 \label{sec:pg}
-We first establish a narrowly scoped source-level selector
-correspondence, then study the resulting abstract priority
-model. None of these structural results identifies its
+We first identify the restricted source-level selector and its
+prerequisites, define the corresponding maximal-matching model,
+then study the resulting abstract priority choices. None of these structural results identifies its
 multiplicative numerical loss with physical PostgreSQL Q-error.
-
-\subsection{Pairwise MCV admissibility and loss}
-For the structured instance, each candidate \(e\in\E\) is a
-\emph{labeled} two-attribute MCV object, with endpoints
-\(A_e\), \(|A_e|=2\). For each task \(i\), statically
-eligible objects \(\E_i\subseteq\E\) form the edge-labeled
-multigraph \(H_i=(V_i,\E_i)\). The installed eligible graph
-\(H_i[M]\) contains the edges \(M\cap\E_i\). Distinct
-statistics with identical attribute pairs remain distinct edges.
-A matching consists of pairwise endpoint-disjoint edges.
-We prescribe
-\begin{equation}
-\label{eq:mm}
-\Gamma_i^{\mathrm{MM}}(M)=\MM(H_i[M]).
-\end{equation}
-\emph{Maximal} means no additional available edge can be appended;
-it does not mean maximum cardinality. Even an empty graph has
-the empty matching as its unique maximal matching.
-
-For a matching \(S\), positive baseline pre-clamp
-estimate \(n_i^0>0\), and fixed task-specific correction
-factors \(r_{e,i}>0\), the controlled multiplicative
-approximation is
-\begin{equation}
-\label{eq:multiplicative}
-\widehat n_i(S)=n_i^0\prod_{e\in S}r_{e,i},
-\quad
-L_i(S)=w_i\Bigl|\alpha_i+\sum_{e\in S}b_{e,i}\Bigr|,
-\end{equation}
-where \(\alpha_i=\log(n_i^0/T_i)\) and
-\(b_{e,i}=\log r_{e,i}\).
-Positivity is necessary before taking logarithms.
-This separability is \emph{assumed for the model}, not a theorem
-about physical PostgreSQL MCV estimation or independence of
-underlying attributes. In the actual frozen study, the
-\texttt{census13-clamped-log-v2} and related dataset-specific
-coefficient constructions follow pinned normalization and
-quantization rules, with exact \texttt{Fraction} reference loss.
-The physical \texttt{Plan Rows} metric is evaluated separately.
-
 
 \subsection{Version-pinned selector and its prerequisites}
 PostgreSQL 16.14's single-relation selectivity path can apply
@@ -525,6 +485,48 @@ The correspondence assumes:
   free ties under the selector's key/coverage ranking;
   the fixed list order breaks the tie.
 \end{enumerate}
+
+\subsection{Restricted matching model and scheme loss}
+For the structured instance, each candidate \(e\in\E\) is a
+\emph{labeled} two-attribute MCV object, with endpoints
+\(A_e\), \(|A_e|=2\). For each task \(i\), statically
+eligible objects \(\E_i\subseteq\E\) form the edge-labeled
+multigraph \(H_i=(V_i,\E_i)\). The installed eligible graph
+\(H_i[M]\) contains the edges \(M\cap\E_i\). Distinct
+statistics with identical attribute pairs remain distinct edges.
+A matching consists of pairwise endpoint-disjoint edges.
+We prescribe
+\begin{equation}
+\label{eq:mm}
+\Gamma_i^{\mathrm{MM}}(M)=\MM(H_i[M]).
+\end{equation}
+\emph{Maximal} means no additional available edge can be appended;
+it does not mean maximum cardinality. Even an empty graph has
+the empty matching as its unique maximal matching.
+
+For a matching \(S\), positive baseline pre-clamp
+estimate \(n_i^0>0\), and fixed task-specific correction
+factors \(r_{e,i}>0\), the controlled multiplicative
+approximation is
+\begin{equation}
+\label{eq:multiplicative}
+\widehat n_i(S)=n_i^0\prod_{e\in S}r_{e,i},
+\quad
+L_i(S)=w_i\Bigl|\alpha_i+\sum_{e\in S}b_{e,i}\Bigr|,
+\end{equation}
+where \(\alpha_i=\log(n_i^0/T_i)\) and
+\(b_{e,i}=\log r_{e,i}\).
+Positivity is necessary before taking logarithms.
+This separability is \emph{assumed for the model}, not a theorem
+about physical PostgreSQL MCV estimation or independence of
+underlying attributes. In the actual frozen study, the
+\texttt{census13-clamped-log-v2} and related dataset-specific
+coefficient constructions follow pinned normalization and
+quantization rules, with exact \texttt{Fraction} reference loss.
+The physical \texttt{Plan Rows} metric is evaluated separately.
+
+
+
 
 An edge is labeled by the particular built MCV object, not
 just its attribute pair: distinct objects on the same pair
