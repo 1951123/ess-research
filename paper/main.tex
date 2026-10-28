@@ -309,6 +309,51 @@ schemes. These models need not coincide: individual
 scheme realizability does not imply joint realizability
 by one common policy.
 
+\paragraph{What the uncertainty model asserts.}
+The joint family is a \emph{prescription} about possible
+cross-task applications, not a conclusion drawn from the
+marginal admissible families alone. In particular, two
+models can agree on every $\Gamma_i(M)$ but disagree on
+$\mathcal U_n(M)$: one may allow independently chosen
+schemes, while another restricts the tuple to the image
+of a shared policy. A shared-policy model with stable
+semantics has a common parameter space $\Theta$ and
+responses $\sigma_i(M;\theta)$ for each $M$. It must
+satisfy $\sigma_i(M;\theta)\in\Gamma_i(M)$, but the
+policy image need not cover every admissible scheme.
+Even if each scheme is individually realized by
+some $\theta$, independently requested task schemes
+may not be jointly realizable by any \emph{one} $\theta$.
+These are properties of the specified uncertainty model,
+not assumptions about every DBMS.
+
+\paragraph{Ambiguity, uncertainty, and sensitivity.}
+The condition $|\Gamma_i(M)|>1$ expresses
+\emph{scheme ambiguity}, not automatically
+uncertainty for an advisor that can predict the
+selection perfectly. Scheme uncertainty may instead
+arise from incomplete policy information, stochastic
+selection, or both. It need not cause different
+modeled losses: schemes can have equal estimates or
+equal losses. Likewise, a positive fixed-set risk gap
+need not change the optimal resource decision. Hence
+we do not require observed loss or decision sensitivity
+as part of the ESS definition; their presence is an
+instance-specific question.
+
+\paragraph{Scope of monotonicity.}
+A coordinatewise loss increase cannot improve a
+nondecreasing workload aggregator. This statement is
+different from asserting that adding an admissible
+scenario raises every kind of scheme risk, or that
+installing more statistics improves the objective.
+The worst-case rule does satisfy the former
+\emph{scenario-set} inclusion property; a probabilistic
+mean cannot be ordered from its support alone.
+Neither rule gives a universal resource-set
+monotonicity guarantee because $\Gamma_i(M)$ and
+$\mathcal U_n(M)$ can change nonnestedly.
+
 \begin{proposition}[Worst-case uncertainty relaxation]
 \label{prop:general-relaxation}
 Fix $M$ and common task losses and workload aggregator.
