@@ -180,17 +180,22 @@ Let \(\E\) be a finite universe of estimation resources. The advisor
 chooses one \emph{unordered} global set \(M\subseteq\E\), not an
 application order or a separate scheme for each task.
 
-Let \(\Maint:2^\E\to\mathbb R_{\geq0}\) be additional
-maintenance cost relative to the baseline, normalized by
-\(\Maint(\varnothing)=0\). It can depend on fixed external data state,
-refresh frequency, maintenance horizon and accounting conventions.
-The feasible sets at budget \(B\geq0\) are
+Let \(\Maint:2^\E\to\mathbb R_{\geq0}\) be a
+modeled set cost, which may account for maintenance,
+storage, collection, or an application-specific resource
+constraint. Its accounting convention can depend on fixed
+external data state and refresh horizon. At budget
+\(B\geq0\), the feasible family is
 \begin{equation}
 \label{eq:feasible}
 \mathcal F_B=\{M\subseteq\E:\Maint(M)\leq B\}.
 \end{equation}
-The generic maintenance function need not be additive, monotone or
-submodular. Section~\ref{sec:protocol} introduces the much narrower
+We assume \(\mathcal F_B\ne\varnothing\).
+The generic cost need not be additive, monotone,
+submodular, or normalized to zero at the empty set.
+The empty resource set still admits a baseline estimation
+scheme, but need not be budget-feasible under every
+accounting convention. Section~\ref{sec:protocol} introduces the much narrower
 per-object \emph{proxy} used for the reported selections.
 
 \subsection{Complete schemes and admissibility}
@@ -229,17 +234,20 @@ physical worst-case guarantees require separate evidence
 for scheme coverage and loss alignment.
 
 \subsection{Estimates, loss and application policies}
-For each task, let \(\operatorname{Est}_i:\Omega_i\to
-\mathbb R_{>0}\) be a positive pre-output-transform estimate and
-\(\ell_i:\Omega_i\to\mathbb R_{\geq0}\) a loss function.
-The instantiated model uses absolute logarithmic loss:
+In general ESS, each complete scheme has a prescribed
+nonnegative task loss \(L_i:\Omega_i\to\mathbb R_{\geq0}\).
+The framework does not require a particular estimator
+output range or loss formula. For our modeled instance,
+a positive pre-output-transform estimate
+\(\operatorname{Est}_i:\Omega_i\to\mathbb R_{>0}\)
+yields weighted absolute logarithmic loss:
 \begin{equation}
 \label{eq:loss}
 L_i(\sigma)=w_i\ell_i(\sigma)
 =w_i\left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
 \end{equation}
-The resulting model loss is distinct from the rounded physical
-\texttt{Plan Rows} Q-error used on Test.
+This instantiated model loss is distinct from the
+rounded physical \texttt{Plan Rows} Q-error on Test.
 
 A nonempty finite family \(\Theta\) of application-policy parameters
 may induce a complete scheme \(\sigma_i(M;\theta)\) for each task,
