@@ -1,0 +1,50 @@
+Issue #133 paper integration audit — command/evidence log
+Date: 2026-10-29 (Asia/Shanghai)
+Scope: read-only. No PostgreSQL was started and no DDL, ANALYZE or EXPLAIN was issued.
+
+Environment initialization (run in each shell that used project paths):
+  source ~/.bashrc
+  : "${ESS_DATA_ROOT:?ESS_DATA_ROOT must be set}"
+  : "${ESS_RUNTIME_PARENT:?ESS_RUNTIME_PARENT must be set}"
+  : "${ESS_WORKTREE_PARENT:?ESS_WORKTREE_PARENT must be set}"
+
+Repository and source identity:
+  main base observed locally and remotely: b9977bcad8b7e053a5c0a798f2f5ad6dc2e07d86
+  requested paper commit: 9f9773d09c9b4d9224345c362723c320c5e71b46
+  PR #131 head observed at audit start: 9f9773d09c9b4d9224345c362723c320c5e71b46
+  target paper/main.tex SHA-256: 16b60239ba12f48205b6860176edebed9ca112e3ae59c79ae78eb762be085746
+  audit branch: audit/issue133-paper-integration-20261029
+
+Paper build, from the exact target snapshot's paper/ directory:
+  latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error -outdir="$build" main.tex
+  exit: 0
+  output PDF SHA-256: e50d395ac85375b9624ff765e2f1c37300220059bf253e6ca5d07e8a796ea43f
+  pdfinfo: 13 pages; Letter 612x792 pt; 583350 bytes; PDF 1.5
+  aux/log checks: tab:all-b5 -> Table 6, page 10; sec:all-versus-selected -> subsection 6.3, page 10; no undefined citation/reference.
+  visual render: all pages rendered externally; detailed inspection of pages 1, 2, 10, 11, 12, 13.
+  warnings: minor overfull/underfull boxes; 1.26894pt overfull at lines 1503-1517; no visible clipping in inspected pages.
+
+Raw archive recomputation command (Python from the retained #135 runtime venv):
+  python "$audit/recompute_issue133.py" \
+    --runtime-parent "$ESS_RUNTIME_PARENT" \
+    --frozen-orders "$ESS_WORKTREE_PARENT/ess-research-issue133/experiments/all-pairwise-oid-issue133/all-order-sample-v1.json" \
+    --frozen-resources "$ESS_WORKTREE_PARENT/ess-research-issue133-minimal-forest10/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json" \
+    --source-repo /home/wqts/projects/ess-research \
+    --output-dir "$audit"
+  result: archive hashes/member boundaries/counts verified; 60,000 rows independently recomputed; expected P95 and paired counts reproduced.
+
+Synthetic/boundary tests:
+  python -m unittest -v test_recompute_issue133.py
+  result: 7 tests passed.
+  covered: concatenated gzip member boundaries/hashes; incomplete configurations rejected; Issue #101 zero-aware Q-error cases; JSON string OID keys mapped to numeric event OIDs; NumPy percentile semantics; truncated gzip rejected; unknown OID preserved as a mapping issue.
+
+Audit outputs:
+  raw-archive-verification.json
+  independent-recomputation.json
+  audit-summary.md
+  latex-build-audit.md
+  claim-evidence-matrix.md
+  recompute_issue133.py
+  test_recompute_issue133.py
+
+No source archives, paper source, frozen experiment artifacts, or existing result summaries were modified. Original Test rows remained in ESS_RUNTIME_PARENT.
