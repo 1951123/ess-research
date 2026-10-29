@@ -5,7 +5,7 @@
 - Paper branch: `paper/ess-formulation-audit-130`.
 - Baseline commit: `72409f296dec95c0b49d6d242efbc9c82467e5e9`.
 - Baseline `paper/main.tex` SHA-256: `cc8c04334c77f1f7679525bf1296bdfb150daf394ca54aef44a3a9a12d180db4`.
-- Edited `paper/main.tex` SHA-256: `0895078a4a3a5f8682766c2b499e16b24cefb3890f766ec099709b1c6bbbfea8`.
+- First page-limit revision (`e725363`) `paper/main.tex` SHA-256: `0895078a4a3a5f8682766c2b499e16b24cefb3890f766ec099709b1c6bbbfea8`.
 - Compiler: pdfTeX 1.40.25 (TeX Live 2023/Debian); latexmk 4.83.
 - PVLDB package: `paper/pvldb.sty`, v1.0 dated 2026-07-06, SHA-256 `52ad3948f3231b31d2ac90f470c1759e7f96add7b577ec4e267dfbdc87fc4eb2`.
 - ACM class SHA-256: `2f949e6e3f2a79f2cdc218b9dcdbaa7dd451adb4ee0be1af6dc7ebe00b318ea7`.
@@ -25,7 +25,7 @@
 | Baseline `72409f2` | 13 | 13 | 13 | Fail: page 13 still contains body text |
 | Edited source | 12 | 12 | 12 | Pass: body ends on page 12; references follow it |
 
-Both PDFs are US Letter. The baseline PDF SHA-256 is `35113530cd0001f83ef5eeaee7409868af7178647491a39bc04169a1a5683875`; the edited PDF SHA-256 is `13b98f82b60286849a3dcc4fd0f4e562b7382e2c0ca5c7e7642d834541addf2a`.
+Both PDFs are US Letter. The baseline PDF SHA-256 is `35113530cd0001f83ef5eeaee7409868af7178647491a39bc04169a1a5683875`; the first page-limit revision PDF SHA-256 is `13b98f82b60286849a3dcc4fd0f4e562b7382e2c0ca5c7e7642d834541addf2a`.
 
 As an approximate length comparison, `pdftotext -raw` output was truncated at the References heading and whitespace-separated tokens counted. This gives 11,188 baseline and 9,753 edited body tokens, a reduction of about 12.8%. This PDF-extraction count includes running/page-number text and extracted math tokens; it is not a source-word count.
 
@@ -42,3 +42,11 @@ As an approximate length comparison, `pdftotext -raw` output was truncated at th
 ## Outcome
 
 **PVLDB 12-page body limit: PASS.** The PDF is 12 pages total, and body text ends on page 12 before the references. The build and layout result does not establish compliance with any other submission requirement.
+
+## Review 5693284366 follow-up
+
+- Added a blank line before the Experimental Protocol subsection and whitespace after the Related Work citation period; checked for the same fused-command and citation-spacing patterns elsewhere.
+- Narrowed the Introduction contribution wording to formulation-specific labeled-matching results. Related Work now states that the realizability test is used as a feasibility characterization, makes no novelty claim for it as an algorithm, and leaves its relation to prior recognition problems open.
+- The researcher confirmed **Regular Research** as the intended category. The [official VLDB 2027 submission guidelines](https://www.vldb.org/2027/submission-guidelines.html) require a category suffix for EA&B, SDS, and Vision papers, but not Regular Research; the title therefore remains unchanged.
+- A fresh build from the review-updated source used the same `latexmk` options, with output directed to `$ESS_RUNTIME_PARENT/ess-research/pr131-review-5693284366/20261029T053514Z/`. The build succeeded; the PDF has 12 pages, body ends on page 12, and References begins on page 12 after the final body lines. The final source SHA-256 is `e6cb4f217ec9626677b0fa9204c3faa84ad7358a7d6a636927025da3faaca57c`; the rebuilt PDF SHA-256 is `7fe0ec967b71793be63f0c4a72116fa71b458b1f3320ab7245606ab9953aae8d`. The extracted body has about 9,779 whitespace tokens, 12.6% below the baseline using the same counting method.
+- Proposition, proof, equation, align, table, tabular, and figure blocks remain byte-identical to the pre-review compressed source. No undefined citation/reference was reported. Pages 7 and 10–12 were re-rendered and inspected; no clipping or overlap was observed. The small overfull-box warnings noted above remain, without visible layout damage.

@@ -44,7 +44,7 @@ and population risk.
 
 For a restricted PostgreSQL 16.14 two-column MCV selector, source-level
 selection corresponds to maximal matching under explicit conditions.
-We characterize joint realizability under one priority, prove a tight
+We analyze joint realizability under one priority, prove a tight
 task-count bound on PESS conservatism, and relate fixed-set shared-order
 optimization to Maximum Acyclic Subgraph hardness. The multiplicative
 scheme-loss model approximates, but does not reproduce, physical
@@ -142,11 +142,12 @@ and shared-priority constraints affect modeled risk; and
 
 Our contributions are (i) an ESS formulation separating resource
 choice, complete schemes, joint uncertainty, workload aggregation,
-and risk; (ii) constructive shared-priority feasibility, a tight
-conservatism bound, and restricted ordering hardness for labeled
-matchings; (iii) a conditional PostgreSQL 16.14 source correspondence
-with controlled traces; and (iv) frozen Train and physical Test
-evidence, including a scheme-space witness and query diagnostics.
+and risk; (ii) formulation-specific results for the labeled-matching
+instance on shared-priority feasibility, PESS conservatism, and
+restricted ordering hardness; (iii) a conditional PostgreSQL 16.14
+source correspondence with controlled traces; and (iv) frozen Train
+and physical Test evidence, including a scheme-space witness and
+query diagnostics.
 Prior work studies interacting statistics and alternative complete
 estimation paths \cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
 ESS focuses on upstream resource choice when the advisor cannot
@@ -1027,7 +1028,9 @@ nonnegative per-object proxy costs. Each step adds the feasible
 single resource with greatest positive loss decrease (ties by
 candidate ID); the procedure stops when none remains, uses no swaps
 or deletions, and gives no global-optimality certificate. Read-only
-\(A,G\) analyses neither retrain nor change selection.\subsection{Evidence layers and frozen Train selection}
+\(A,G\) analyses neither retrain nor change selection.
+
+\subsection{Evidence layers and frozen Train selection}
 The four original AreCEL workloads \cite{wang2021arecel} each
 supply 100,000 Train tasks and 10,000 official Test queries; Test
 labels and estimates never select resources. We use Train for
@@ -1586,7 +1589,7 @@ physical worst-case claim follows.
 \section{Related Work}
 \label{sec:related}
 Statistics selection already considers optimizer criteria and
-multicolumn interactions \cite{chaudhuri2000stats}.SIT work studies
+multicolumn interactions \cite{chaudhuri2000stats}. SIT work studies
 selectivity uncertainty and candidate contributions
 \cite{bruno2002sit}; StatAdvisor models grouped benefits
 \cite{elhelw2009statadvisor}, while CORDS and query feedback discover
@@ -1607,9 +1610,12 @@ Our restricted hardness uses classical Feedback Arc Set / Maximum
 Acyclic Subgraph hardness \cite{karp1972reducibility}; minimum
 maximal and weighted greedy matching have prior complexity results
 \cite{yannakakis1980edge,deligkas2017weighted}. Decision-dependent
-uncertainty also predates ESS \cite{nohadani2018decision}. The
-specific coupling is one global resource-edge order across tasks;
-novelty of the particular realizability test remains open.
+uncertainty also predates ESS \cite{nohadani2018decision}. Our fixed-set
+results concern one resource-edge order shared across tasks. The
+realizability test supplies a formulation-specific feasibility
+characterization used in those results, but we make no novelty claim
+for it as an algorithm; its relation to prior recognition problems
+remains open.
 PostgreSQL's extended statistics include MCVs \cite{pg16stats};
 LpBound studies pessimistic cardinality upper bounds
 \cite{zhang2025lpbound}, while PARQO and robust coresets address plan
