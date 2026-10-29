@@ -1,0 +1,183 @@
+{
+  "actual_explain_calls": 30000,
+  "analysis_note": "The physical protocol and raw archive are unchanged. The post-run analyzer includes offline validation fixes made after the first unsuccessful summary-generation attempts; no EXPLAIN was re-run.",
+  "configuration_count": 3,
+  "ddl_target_analyze_counts": {
+    "dmv11-all-random-01": {
+      "analyze_runs": 1,
+      "create_statistics": 55,
+      "statistics_target_settings": 55
+    },
+    "dmv11-all-random-02": {
+      "analyze_runs": 1,
+      "create_statistics": 55,
+      "statistics_target_settings": 55
+    },
+    "dmv11-b5-nominal-matched": {
+      "analyze_runs": 1,
+      "create_statistics": 5,
+      "statistics_target_settings": 5
+    }
+  },
+  "expected_explain_calls": 30000,
+  "parallel_clients_per_arm": 6,
+  "physical_state_comparisons": [
+    {
+      "candidate_count_compared": 55,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-all-random-02 vs dmv11-all-random-01",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    },
+    {
+      "candidate_count_compared": 5,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-b5-nominal-matched vs dmv11-all-random-01",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    },
+    {
+      "candidate_count_compared": 5,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-b5-nominal-matched vs dmv11-all-random-02",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    }
+  ],
+  "postgresql_build": {
+    "binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "binary_version_output": {
+      "initdb": "initdb (PostgreSQL) 16.14",
+      "pg_config": "PostgreSQL 16.14",
+      "pg_ctl": "pg_ctl (PostgreSQL) 16.14",
+      "postgres": "postgres (PostgreSQL) 16.14",
+      "psql": "psql (PostgreSQL) 16.14"
+    },
+    "build_flags": [
+      "--without-readline",
+      "--without-zlib",
+      "make -j2"
+    ],
+    "issue101_build_manifest_sha256": "a50b3f71a34ed880fa6fbab8ea98ccc32915326a967fcfacecfefbe8e9f29385",
+    "prefix_runtime_relative": "ess-research/issue101/runs/20261025T-issue101-full-test-v1/postgresql/install",
+    "source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "source_run_id": "20261025T-issue101-full-test-v1",
+    "status": "VERIFIED",
+    "version": "16.14"
+  },
+  "postrun_analysis_code_sha256": "7bec95e294fef1b4fe39c658f9a5606a5b4988068db4528e181a4840c5e58016",
+  "protocol_sha256": "643588b20be23687b8be6395cda8e549ed2aaccb1be0c9343ad92389e49440a8",
+  "raw_archive": {
+    "bytes": 6502206,
+    "members": [
+      {
+        "bytes": 2606934,
+        "offset": 0,
+        "rows": 10000,
+        "sha256": "9e3ab04fb73553b7d7fc1d2509bb3d979a1458c7838206030540f518b18b375d"
+      },
+      {
+        "bytes": 2581144,
+        "offset": 2606934,
+        "rows": 10000,
+        "sha256": "9a1603c987780bfe812e0e70b0b79a144005db22099a140a6a4622fe7f8cb92b"
+      },
+      {
+        "bytes": 1314128,
+        "offset": 5188078,
+        "rows": 10000,
+        "sha256": "77255ff11516b856f6105f9141a2823963488d10b97f0c6a29e35bc41aadc5ce"
+      }
+    ],
+    "path_under_ess_runtime_parent": "ess-research/issue133/runs/20261029T0300Z-issue133-dmv11-three-arm/raw-observations.jsonl.gz",
+    "sha256": "69a2202d815c1db991ffdfbfc431d2fa447ddeffc31de898d4ae87d3f5101dbe"
+  },
+  "resource_usage": {
+    "cpu_note": "runner process CPU/RSS only; PostgreSQL server/backend CPU is not separately attributed",
+    "early_or_hard_stop_reason": null,
+    "elapsed_wall_seconds": 32.443,
+    "final_run_directory_allocated_bytes": 1972846592,
+    "minimum_global_filesystem_free_bytes": 50190438400,
+    "peak_run_directory_allocated_bytes": 2612547584,
+    "runner_peak_rss_kib": 473808,
+    "runner_process_cpu_seconds": 14.02
+  },
+  "run_id": "20261029T0300Z-issue133-dmv11-three-arm",
+  "source_commit": "45f55a02244294a8cb6c1b25ba8b3c01b9676c02",
+  "source_input_identity": {
+    "candidate_universe_sha256": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104",
+    "catalog_columns": [
+      "record_type",
+      "registration_class",
+      "state",
+      "county",
+      "body_type",
+      "fuel_type",
+      "reg_valid_date",
+      "color",
+      "scofflaw_indicator",
+      "suspension_indicator",
+      "revocation_indicator"
+    ],
+    "container_deserialization_materializes_all_split_objects": true,
+    "csv_rows": 11591877,
+    "csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+    "dataset": "dmv11",
+    "explicitly_dereferenced_label_split": "test",
+    "labels_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+    "non_test_label_values_indexed_serialized_or_used": false,
+    "order_sample_sha256": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c",
+    "query_count": 10000,
+    "query_ids_sha256": "48f3a9cc476145580a02da8f371ed2110bb2d8f12bb270a602aa24d4968c64db",
+    "rendered_test_sql_sha256": "491a665cdb080c5d5ae11456abcf308918eb7eb85c4f70c5f73999d4094becae",
+    "sample_identity": {
+      "bytes": 8820422,
+      "header": {
+        "alignof": 8,
+        "blcksz": 8192,
+        "file_bytes": 8820422,
+        "format_version": 1,
+        "item_pointer_size": 6,
+        "natts": 11,
+        "relation_filenode": 16384,
+        "relation_identity": "6:public5:dmv11",
+        "relation_oid": 16384,
+        "relation_pages": 131744,
+        "sample_target": 90000,
+        "server_version": "16.14",
+        "server_version_num": 160014,
+        "tuple_count": 90000,
+        "tuple_header_size": 24,
+        "tuple_size": 24
+      },
+      "sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "source_issue99_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+      "source_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3"
+    },
+    "schema_columns": [
+      "Record_Type",
+      "Registration_Class",
+      "State",
+      "County",
+      "Body_Type",
+      "Fuel_Type",
+      "Reg_Valid_Date",
+      "Color",
+      "Scofflaw_Indicator",
+      "Suspension_Indicator",
+      "Revocation_Indicator"
+    ],
+    "split": "test",
+    "test_truth_canonical_sha256": "0d24d1236fe58daa090950d6133d3f8f4e67ad59370b28622c86fda03757a73c",
+    "truth_count": 10000,
+    "truth_sequence_sha256": "0d24d1236fe58daa090950d6133d3f8f4e67ad59370b28622c86fda03757a73c",
+    "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc"
+  },
+  "status": "COMPLETE"
+}
