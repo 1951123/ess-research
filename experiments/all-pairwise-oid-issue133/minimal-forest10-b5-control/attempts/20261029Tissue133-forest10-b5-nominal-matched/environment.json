@@ -1,0 +1,49 @@
+{
+  "concurrent_explain_clients": 6,
+  "cpu_affinity_count": 12,
+  "filesystem": {
+    "free": 53311787008,
+    "total": 105355948032,
+    "used": 47195844608
+  },
+  "logical_cpu_count": 12,
+  "memory_bytes_at_preflight": 13777375232,
+  "numpy_module_path": "/home/wqts/ess-runtime/ess-research/issue133/runs/20261028T1408Z-issue133-forest10-random01-02/.venv/lib/python3.12/site-packages/numpy/__init__.py",
+  "numpy_version": "2.3.4",
+  "only_this_experiment_cluster_started": true,
+  "plan_options": "-c client_min_messages=warning -c plan_cache_mode=force_custom_plan -c max_parallel_workers_per_gather=0",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "postgresql_build": {
+    "binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "binary_version_output": {
+      "initdb": "initdb (PostgreSQL) 16.14",
+      "pg_config": "PostgreSQL 16.14",
+      "pg_ctl": "pg_ctl (PostgreSQL) 16.14",
+      "postgres": "postgres (PostgreSQL) 16.14",
+      "psql": "psql (PostgreSQL) 16.14"
+    },
+    "build_flags": [
+      "--without-readline",
+      "--without-zlib",
+      "make -j2"
+    ],
+    "issue101_build_manifest_sha256": "a50b3f71a34ed880fa6fbab8ea98ccc32915326a967fcfacecfefbe8e9f29385",
+    "prefix_runtime_relative": "ess-research/issue101/runs/20261025T-issue101-full-test-v1/postgresql/install",
+    "source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "source_run_id": "20261025T-issue101-full-test-v1",
+    "status": "VERIFIED",
+    "version": "16.14"
+  },
+  "preexisting_postgres_processes_at_start": [],
+  "python_executable": "/home/wqts/ess-runtime/ess-research/issue133/runs/20261028T1408Z-issue133-forest10-random01-02/.venv/bin/python",
+  "python_prefix": "/home/wqts/ess-runtime/ess-research/issue133/runs/20261028T1408Z-issue133-forest10-random01-02/.venv",
+  "python_version": "3.12.3",
+  "runtime_filesystem_free_bytes_at_preflight": 53311787008,
+  "timestamp_utc": "2026-10-29T02:25:25Z"
+}
