@@ -1512,8 +1512,11 @@ diagnostics-completeness status. We do not treat those
 events as a complete blocker trace. DMV11's three arms
 passed the recorded diagnostics and attribution checks.
 The raw runtime archives are retained separately from
-these lightweight experimental summaries; an additional
-independent reread of those original bytes is pending.
+these lightweight summaries. An independent offline audit
+verified their byte identities and recomputed all six arms'
+Test Q-error metrics and paired-query counts from the
+60,000 query-level observations; execution-time catalog
+controls were cross-checked from saved audit records.
 
 Neither contrast identifies which added MCV statistic,
 if any, blocked a more useful candidate: chooser ranking,
