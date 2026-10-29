@@ -1,0 +1,168 @@
+{
+  "format": "ess-issue133-m0-cost-estimate-v1",
+  "evidence_label": "exact scheduled call/build counts; historical runtime/disk are measured on narrower sets; all-candidate total runtime and peak disk are unmeasured",
+  "protocol_artifacts": {
+    "candidate_universe_sha256": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104",
+    "order_sample_sha256": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c",
+    "random_root_seed": 4017865097189414557,
+    "rng_version": "ess-splitmix64-fisher-yates-direct-v1",
+    "generator_sha256": "6b08bc0a6e60408921f90d3409e800892a3be98568753511afa32913d192df61",
+    "python_version_at_generation": "3.12.3"
+  },
+  "planned_core": {
+    "dataset_count": 4,
+    "test_queries_per_configuration": 10000,
+    "all_orders_per_dataset": {
+      "canonical": 1,
+      "reverse": 1,
+      "uniform_random_without_replacement": 4,
+      "total": 6
+    },
+    "selected_controls": "one exact Issue #99 Nominal B=5 set in canonical candidate-ID order per dataset",
+    "configurations": {
+      "all_order_arms": 24,
+      "selected_control_arms": 4,
+      "total": 28
+    },
+    "explain_calls": {
+      "random_all_arms": 160000,
+      "canonical_and_reverse_all_arms": 80000,
+      "selected_control_arms": 40000,
+      "total": 280000
+    },
+    "parallelism": {
+      "query_clients_per_configuration": 6,
+      "concurrent_configurations": 1,
+      "concurrent_dataset_clusters": 1,
+      "configuration_order": "serial; one full source table and one active statistics configuration at a time"
+    }
+  },
+  "ddl_and_analyze_work": {
+    "create_statistics_statements": 1214,
+    "alter_statistics_target_300_statements": 1214,
+    "analyze_commands": 28,
+    "drop_statistics_batches": 28,
+    "candidate_builds_over_all_arms": 1214,
+    "per_dataset": {
+      "forest10": {
+        "candidate_count": 45,
+        "all_order_arms": 6,
+        "selected_control_arms": 1,
+        "total_arms": 7,
+        "create_statistics": 275,
+        "analyze_commands": 7,
+        "fixed_sample_tuple_count_per_analyze": 90000,
+        "candidate_sample_row_inputs": 24750000,
+        "maximum_mcv_items_per_all_configuration_at_target_300": 13500,
+        "fixed_sample_bytes": 10620460
+      },
+      "census13": {
+        "candidate_count": 78,
+        "all_order_arms": 6,
+        "selected_control_arms": 1,
+        "total_arms": 7,
+        "create_statistics": 473,
+        "analyze_commands": 7,
+        "fixed_sample_tuple_count_per_analyze": 48842,
+        "candidate_sample_row_inputs": 23102266,
+        "maximum_mcv_items_per_all_configuration_at_target_300": 23400,
+        "fixed_sample_bytes": 8144782
+      },
+      "dmv11": {
+        "candidate_count": 55,
+        "all_order_arms": 6,
+        "selected_control_arms": 1,
+        "total_arms": 7,
+        "create_statistics": 335,
+        "analyze_commands": 7,
+        "fixed_sample_tuple_count_per_analyze": 90000,
+        "candidate_sample_row_inputs": 30150000,
+        "maximum_mcv_items_per_all_configuration_at_target_300": 16500,
+        "fixed_sample_bytes": 8820422
+      },
+      "power7": {
+        "candidate_count": 21,
+        "all_order_arms": 6,
+        "selected_control_arms": 1,
+        "total_arms": 7,
+        "create_statistics": 131,
+        "analyze_commands": 7,
+        "fixed_sample_tuple_count_per_analyze": 90000,
+        "candidate_sample_row_inputs": 11790000,
+        "maximum_mcv_items_per_all_configuration_at_target_300": 6300,
+        "fixed_sample_bytes": 8460325
+      }
+    },
+    "total_candidate_sample_row_inputs": 89792266,
+    "interpretation": "candidate_sample_row_inputs is the exact sum of statistics objects built times the frozen ANALYZE sample rows. It is a work-count proxy, not CPU time. The pinned PG source uses 300*max(statistics_target), not a sum across objects, so target 300 does not scale the fixed sample with candidate count."
+  },
+  "historical_calibration": {
+    "issue105": {
+      "run_id": "20261025T130222Z-issue105-official-v2",
+      "explain_calls": 80000,
+      "elapsed_wall_seconds_from_manifest_timestamps": 135.0,
+      "peak_allocated_disk_bytes": 2931474432,
+      "clients": 6,
+      "catalog_size": 5,
+      "raw_archive_bytes": 6516233
+    },
+    "issue107_parent": {
+      "run_id": "20261026T055503Z-issue107-sampled-v1",
+      "explain_calls": 1440000,
+      "elapsed_wall_seconds": 474.496,
+      "peak_allocated_disk_bytes": 3969179648,
+      "disk_early_stop_bytes": 4294967296,
+      "disk_hard_limit_bytes": 5368709120,
+      "clients": 6,
+      "catalog_size": "three or five selected statistics",
+      "raw_archive_bytes": 121645647
+    },
+    "issue107_continuation": {
+      "run_id": "20261026T062137Z-issue107-pess3-cont-v1",
+      "explain_calls": 120000,
+      "elapsed_wall_seconds": 120.132,
+      "peak_allocated_disk_bytes": 814166016,
+      "clients": 6,
+      "catalog_size": 3
+    },
+    "query_batch_only_extrapolation_for_280000_calls_seconds": {
+      "issue107_parent_rate": 92.263,
+      "issue107_continuation_rate": 280.308,
+      "issue105_timestamp_rate": 472.5
+    },
+    "limits": "The 92–473 second scaled range is only an arithmetic extrapolation of old three/five-object runs. It excludes setup/ANALYZE and does not model the larger catalog scan. It is not a total runtime forecast."
+  },
+  "disk_and_wall_budget_proposal": {
+    "total_peak_disk_bytes_status": "UNKNOWN before full-universe physical setup and trace sizing",
+    "historical_comparison": "Issue #107 peaked at 3,969,179,648 bytes with selected sets; Issue #99 DMV's six-worker collection peaked at 14,428,110,848 bytes, but that used six concurrent PostgreSQL clusters and is not directly comparable to the proposed serial single-cluster schedule.",
+    "mcv_payload_scale": "At target 300, one full ALL state has at most 300 list items per candidate (e.g. 23,400 for Census13). The raw two-column value bytes for two VARCHAR(64) columns would be at most about 11.98 MB at 4-byte UTF-8 per character, before per-item/catalog overhead; actual item counts, TOAST size, and full trace storage remain unmeasured.",
+    "raw_observation_storage_extrapolation_bytes": 23653320,
+    "raw_observation_storage_basis": "1,440,000-call Issue #107 archive at 121,645,647 bytes scaled linearly to 280,000 calls; expanded blocker traces are excluded and could increase this substantially.",
+    "proposed_early_disk_stop_bytes": 8589934592,
+    "proposed_hard_disk_cap_bytes": 10737418240,
+    "disk_cap_reason": "8/10 GiB leaves about 6 GiB over the highest Issue #105/#107 single-run peak for the larger active catalog, trace and filesystem overhead. It is a safety cap, not a measured maximum.",
+    "proposed_early_wall_stop_seconds": 21600,
+    "proposed_hard_wall_limit_seconds": 28800,
+    "wall_limit_reason": "For a rough stress bound, the slowest historical 280k query-batch extrapolation is 7.9 minutes; the largest catalog is 78 versus five selected objects, a 15.6x list-size ratio per chooser scan, or about 2.1 hours if wall time scaled linearly. Add up to roughly six hours of unmeasured repeated ANALYZE/build, trace and setup margin. This intentionally conservative envelope is not a runtime prediction; stop at six hours and request review if the hard limit is approached.",
+    "retry_policy": "No outcome-based retry or replacement. A failed same frozen arm may be retried only after a diagnosed engineering/infrastructure fix, within the same caps, preserving all attempts; a change to scope or hard cap requires fresh approval."
+  },
+  "optional_scope_increments_not_in_core": {
+    "one_PESS_B5_order_per_dataset": {
+      "additional_configurations": 4,
+      "additional_explain_calls": 40000
+    },
+    "one_EMPTY_order_per_dataset": {
+      "additional_configurations": 4,
+      "additional_explain_calls": 40000
+    },
+    "one_same_order_full_repeat_per_dataset": {
+      "additional_configurations": 4,
+      "additional_explain_calls": 40000
+    },
+    "four_more_random_ALL_orders_per_dataset": {
+      "additional_configurations": 16,
+      "additional_explain_calls": 160000
+    },
+    "status": "Not included, not authorized, and not to be added after observing Test outcomes."
+  }
+}

@@ -1,0 +1,4767 @@
+{
+  "candidate_generation": {
+    "ddl_template": "CREATE STATISTICS public.\"{statistic_name}\" (mcv) ON \"{catalog_column_i}\", \"{catalog_column_j}\" FROM public.{table}; ALTER STATISTICS public.\"{statistic_name}\" SET STATISTICS 300;",
+    "object_kind": "MCV only; plain table columns; no expressions",
+    "source": "Issue #99 frozen Train candidate-map.json per completed collection run",
+    "target": 300,
+    "universe": "all unordered pairs of distinct columns in frozen schema_columns, mapped to zero-based candidate IDs e{left:02d}_{right:02d}"
+  },
+  "candidate_map_hash_semantics": "Issue #99 candidate_map_sha256 is SHA-256 of compact JSON bytes from candidate rows with ensure_ascii=True, separators=(\",\", \":\"); raw runtime file-byte SHA-256 is recorded separately.",
+  "datasets": {
+    "census13": {
+      "candidate_count": 78,
+      "candidate_map_file_bytes": 4358,
+      "candidate_map_file_bytes_sha256": "39c3b9a6ebc3e9d6f8ed5a1946634ec9e8e4e099a12a9c0ebc40e2fb8b09886f",
+      "candidate_map_runtime_relative_path": "ess-research/issue99/runs/20261025T055959Z-issue99-census13-591c9d/train/candidate-map.json",
+      "candidate_map_sha256_compact_json": "c661e07db8be24050417014bb5e280dd6cc1d856b26700075638a175e0dc8c64",
+      "candidate_map_verification": {
+        "all_schema_pairs_present": true,
+        "id_ordinal_and_endpoint_mapping_matches": true,
+        "ids_unique": true,
+        "pair_count_equals_n_choose_2": true,
+        "physical_create_or_mcv_payload_success_claimed": false,
+        "static_ddl_name_and_identifier_checks_pass": true,
+        "unordered_pairs_unique": true
+      },
+      "candidate_order_sha256": "131d526d4fa7540dede14923c2e6a08b2b4238c11ba9399f7c061e587ca65e97",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "age",
+            "workclass"
+          ],
+          "column_indices_zero_based": [
+            0,
+            1
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_01\" (mcv) ON \"age\", \"workclass\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_01\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_01",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "workclass"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_01",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "education"
+          ],
+          "column_indices_zero_based": [
+            0,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_02\" (mcv) ON \"age\", \"education\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "education"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "education_num"
+          ],
+          "column_indices_zero_based": [
+            0,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_03\" (mcv) ON \"age\", \"education_num\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "education_num"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "marital_status"
+          ],
+          "column_indices_zero_based": [
+            0,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_04\" (mcv) ON \"age\", \"marital_status\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "marital_status"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "occupation"
+          ],
+          "column_indices_zero_based": [
+            0,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_05\" (mcv) ON \"age\", \"occupation\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "occupation"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            0,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_06\" (mcv) ON \"age\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            0,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_07\" (mcv) ON \"age\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            0,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_08\" (mcv) ON \"age\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            0,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_09\" (mcv) ON \"age\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            0,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_10\" (mcv) ON \"age\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            0,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_11\" (mcv) ON \"age\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "age",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            0,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e00_12\" (mcv) ON \"age\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e00_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "age",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e00_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "education"
+          ],
+          "column_indices_zero_based": [
+            1,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_02\" (mcv) ON \"workclass\", \"education\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "education"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "education_num"
+          ],
+          "column_indices_zero_based": [
+            1,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_03\" (mcv) ON \"workclass\", \"education_num\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "education_num"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "marital_status"
+          ],
+          "column_indices_zero_based": [
+            1,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_04\" (mcv) ON \"workclass\", \"marital_status\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "marital_status"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "occupation"
+          ],
+          "column_indices_zero_based": [
+            1,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_05\" (mcv) ON \"workclass\", \"occupation\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "occupation"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            1,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_06\" (mcv) ON \"workclass\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            1,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_07\" (mcv) ON \"workclass\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            1,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_08\" (mcv) ON \"workclass\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            1,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_09\" (mcv) ON \"workclass\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            1,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_10\" (mcv) ON \"workclass\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            1,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_11\" (mcv) ON \"workclass\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "workclass",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            1,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e01_12\" (mcv) ON \"workclass\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e01_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "workclass",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e01_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "education_num"
+          ],
+          "column_indices_zero_based": [
+            2,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_03\" (mcv) ON \"education\", \"education_num\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "education_num"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "marital_status"
+          ],
+          "column_indices_zero_based": [
+            2,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_04\" (mcv) ON \"education\", \"marital_status\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "marital_status"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "occupation"
+          ],
+          "column_indices_zero_based": [
+            2,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_05\" (mcv) ON \"education\", \"occupation\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "occupation"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            2,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_06\" (mcv) ON \"education\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            2,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_07\" (mcv) ON \"education\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            2,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_08\" (mcv) ON \"education\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            2,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_09\" (mcv) ON \"education\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            2,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_10\" (mcv) ON \"education\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            2,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_11\" (mcv) ON \"education\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            2,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e02_12\" (mcv) ON \"education\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e02_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e02_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "marital_status"
+          ],
+          "column_indices_zero_based": [
+            3,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_04\" (mcv) ON \"education_num\", \"marital_status\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "marital_status"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "occupation"
+          ],
+          "column_indices_zero_based": [
+            3,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_05\" (mcv) ON \"education_num\", \"occupation\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "occupation"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            3,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_06\" (mcv) ON \"education_num\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            3,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_07\" (mcv) ON \"education_num\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            3,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_08\" (mcv) ON \"education_num\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            3,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_09\" (mcv) ON \"education_num\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            3,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_10\" (mcv) ON \"education_num\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            3,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_11\" (mcv) ON \"education_num\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "education_num",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            3,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e03_12\" (mcv) ON \"education_num\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e03_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "education_num",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e03_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "occupation"
+          ],
+          "column_indices_zero_based": [
+            4,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_05\" (mcv) ON \"marital_status\", \"occupation\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "occupation"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            4,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_06\" (mcv) ON \"marital_status\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            4,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_07\" (mcv) ON \"marital_status\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            4,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_08\" (mcv) ON \"marital_status\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            4,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_09\" (mcv) ON \"marital_status\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            4,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_10\" (mcv) ON \"marital_status\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            4,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_11\" (mcv) ON \"marital_status\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "marital_status",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            4,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e04_12\" (mcv) ON \"marital_status\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e04_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "marital_status",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e04_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "relationship"
+          ],
+          "column_indices_zero_based": [
+            5,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_06\" (mcv) ON \"occupation\", \"relationship\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "relationship"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            5,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_07\" (mcv) ON \"occupation\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            5,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_08\" (mcv) ON \"occupation\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            5,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_09\" (mcv) ON \"occupation\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            5,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_10\" (mcv) ON \"occupation\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            5,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_11\" (mcv) ON \"occupation\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "occupation",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            5,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e05_12\" (mcv) ON \"occupation\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e05_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "occupation",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e05_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "race"
+          ],
+          "column_indices_zero_based": [
+            6,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_07\" (mcv) ON \"relationship\", \"race\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "race"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            6,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_08\" (mcv) ON \"relationship\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            6,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_09\" (mcv) ON \"relationship\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            6,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_10\" (mcv) ON \"relationship\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            6,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_11\" (mcv) ON \"relationship\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "relationship",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            6,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e06_12\" (mcv) ON \"relationship\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e06_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "relationship",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e06_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "race",
+            "sex"
+          ],
+          "column_indices_zero_based": [
+            7,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e07_08\" (mcv) ON \"race\", \"sex\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e07_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "race",
+            "sex"
+          ],
+          "statistic_name": "ess_issue99_census13_e07_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "race",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            7,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e07_09\" (mcv) ON \"race\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e07_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "race",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e07_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "race",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            7,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e07_10\" (mcv) ON \"race\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e07_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "race",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e07_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "race",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            7,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e07_11\" (mcv) ON \"race\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e07_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "race",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e07_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "race",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            7,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e07_12\" (mcv) ON \"race\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e07_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "race",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e07_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sex",
+            "capital_gain"
+          ],
+          "column_indices_zero_based": [
+            8,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e08_09\" (mcv) ON \"sex\", \"capital_gain\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e08_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "sex",
+            "capital_gain"
+          ],
+          "statistic_name": "ess_issue99_census13_e08_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sex",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            8,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e08_10\" (mcv) ON \"sex\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e08_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "sex",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e08_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sex",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            8,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e08_11\" (mcv) ON \"sex\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e08_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "sex",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e08_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sex",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            8,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e08_12\" (mcv) ON \"sex\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e08_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "sex",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e08_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "capital_gain",
+            "capital_loss"
+          ],
+          "column_indices_zero_based": [
+            9,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e09_10\" (mcv) ON \"capital_gain\", \"capital_loss\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e09_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e09_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "capital_gain",
+            "capital_loss"
+          ],
+          "statistic_name": "ess_issue99_census13_e09_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "capital_gain",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            9,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e09_11\" (mcv) ON \"capital_gain\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e09_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e09_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "capital_gain",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e09_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "capital_gain",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            9,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e09_12\" (mcv) ON \"capital_gain\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e09_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e09_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "capital_gain",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e09_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "capital_loss",
+            "hours_per_week"
+          ],
+          "column_indices_zero_based": [
+            10,
+            11
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e10_11\" (mcv) ON \"capital_loss\", \"hours_per_week\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e10_11\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e10_11",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "capital_loss",
+            "hours_per_week"
+          ],
+          "statistic_name": "ess_issue99_census13_e10_11",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "capital_loss",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            10,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e10_12\" (mcv) ON \"capital_loss\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e10_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e10_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "capital_loss",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e10_12",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hours_per_week",
+            "native_country"
+          ],
+          "column_indices_zero_based": [
+            11,
+            12
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_census13_e11_12\" (mcv) ON \"hours_per_week\", \"native_country\" FROM public.census13; ALTER STATISTICS public.\"ess_issue99_census13_e11_12\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e11_12",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "hours_per_week",
+            "native_country"
+          ],
+          "statistic_name": "ess_issue99_census13_e11_12",
+          "target": 300
+        }
+      ],
+      "collection_manifest_runtime_relative_path": "ess-research/issue99/runs/20261025T055959Z-issue99-census13-591c9d/collection-manifest.json",
+      "collection_manifest_sha256": "844fcb7e3e171c97d0aab6593e2e10d15a154ea9e0a2d8f2d242d33ba14ea497",
+      "collection_run_id": "20261025T055959Z-issue99-census13-591c9d",
+      "fixed_analyze_sample_bytes": 8144782,
+      "fixed_analyze_sample_relation_identity": "6:public8:census13",
+      "fixed_analyze_sample_rows": 48842,
+      "fixed_analyze_sample_sha256": "0ff61bcce532a8af07f9319365c28d6fb07e373fc4b8049bae7c72c349baba26",
+      "fixed_analyze_sample_target": 90000,
+      "full_source_rows": 48842,
+      "nominal_b5_selected_ids": [
+        "e01_05",
+        "e02_03",
+        "e04_06",
+        "e04_08",
+        "e06_08"
+      ],
+      "postgresql_columns_and_types": [
+        {
+          "name": "age",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "workclass",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "education",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "education_num",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "marital_status",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "occupation",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "relationship",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "race",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "sex",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "capital_gain",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "capital_loss",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "hours_per_week",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "native_country",
+          "type": "VARCHAR(64)"
+        }
+      ],
+      "schema_columns": [
+        "age",
+        "workclass",
+        "education",
+        "education_num",
+        "marital_status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capital_gain",
+        "capital_loss",
+        "hours_per_week",
+        "native_country"
+      ],
+      "source_csv_sha256": "f751fc7ecd5bd5e62acd9868a0bbe36413528b6eb2de9c2fc8fcf71d9ef2c13a",
+      "table": "public.census13"
+    },
+    "dmv11": {
+      "candidate_count": 55,
+      "candidate_map_file_bytes": 3332,
+      "candidate_map_file_bytes_sha256": "ada69993ab2e91acbe0fceaa79c8b95f61d73c3088794df609d485f6a300c0ed",
+      "candidate_map_runtime_relative_path": "ess-research/issue99/runs/20261025T083515Z-issue99-dmv11-16fd8a/train/candidate-map.json",
+      "candidate_map_sha256_compact_json": "8feab245abc557251d7446ff25d25ead1f43bdf0f39fbc591b19228a8e9d0f5d",
+      "candidate_map_verification": {
+        "all_schema_pairs_present": true,
+        "id_ordinal_and_endpoint_mapping_matches": true,
+        "ids_unique": true,
+        "pair_count_equals_n_choose_2": true,
+        "physical_create_or_mcv_payload_success_claimed": false,
+        "static_ddl_name_and_identifier_checks_pass": true,
+        "unordered_pairs_unique": true
+      },
+      "candidate_order_sha256": "88d96d9a64de771133d0a3383db2aaec28803f5341596b63f3893ad68e3e0f25",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "record_type",
+            "registration_class"
+          ],
+          "column_indices_zero_based": [
+            0,
+            1
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_01\" (mcv) ON \"record_type\", \"registration_class\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_01\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_01",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Registration_Class"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_01",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "state"
+          ],
+          "column_indices_zero_based": [
+            0,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_02\" (mcv) ON \"record_type\", \"state\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "State"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "county"
+          ],
+          "column_indices_zero_based": [
+            0,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_03\" (mcv) ON \"record_type\", \"county\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "County"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "body_type"
+          ],
+          "column_indices_zero_based": [
+            0,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_04\" (mcv) ON \"record_type\", \"body_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Body_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "fuel_type"
+          ],
+          "column_indices_zero_based": [
+            0,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_05\" (mcv) ON \"record_type\", \"fuel_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Fuel_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            0,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_06\" (mcv) ON \"record_type\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            0,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_07\" (mcv) ON \"record_type\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            0,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_08\" (mcv) ON \"record_type\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            0,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_09\" (mcv) ON \"record_type\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "record_type",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            0,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e00_10\" (mcv) ON \"record_type\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e00_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Record_Type",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e00_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "state"
+          ],
+          "column_indices_zero_based": [
+            1,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_02\" (mcv) ON \"registration_class\", \"state\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "State"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "county"
+          ],
+          "column_indices_zero_based": [
+            1,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_03\" (mcv) ON \"registration_class\", \"county\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "County"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "body_type"
+          ],
+          "column_indices_zero_based": [
+            1,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_04\" (mcv) ON \"registration_class\", \"body_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Body_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "fuel_type"
+          ],
+          "column_indices_zero_based": [
+            1,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_05\" (mcv) ON \"registration_class\", \"fuel_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Fuel_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            1,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_06\" (mcv) ON \"registration_class\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            1,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_07\" (mcv) ON \"registration_class\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            1,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_08\" (mcv) ON \"registration_class\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            1,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_09\" (mcv) ON \"registration_class\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "registration_class",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            1,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e01_10\" (mcv) ON \"registration_class\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e01_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Registration_Class",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e01_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "county"
+          ],
+          "column_indices_zero_based": [
+            2,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_03\" (mcv) ON \"state\", \"county\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "County"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "body_type"
+          ],
+          "column_indices_zero_based": [
+            2,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_04\" (mcv) ON \"state\", \"body_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Body_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "fuel_type"
+          ],
+          "column_indices_zero_based": [
+            2,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_05\" (mcv) ON \"state\", \"fuel_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Fuel_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            2,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_06\" (mcv) ON \"state\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            2,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_07\" (mcv) ON \"state\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            2,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_08\" (mcv) ON \"state\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            2,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_09\" (mcv) ON \"state\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "state",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            2,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e02_10\" (mcv) ON \"state\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e02_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "State",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e02_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "body_type"
+          ],
+          "column_indices_zero_based": [
+            3,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_04\" (mcv) ON \"county\", \"body_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Body_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "fuel_type"
+          ],
+          "column_indices_zero_based": [
+            3,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_05\" (mcv) ON \"county\", \"fuel_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Fuel_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            3,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_06\" (mcv) ON \"county\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            3,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_07\" (mcv) ON \"county\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            3,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_08\" (mcv) ON \"county\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            3,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_09\" (mcv) ON \"county\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "county",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            3,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e03_10\" (mcv) ON \"county\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e03_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "County",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e03_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "fuel_type"
+          ],
+          "column_indices_zero_based": [
+            4,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_05\" (mcv) ON \"body_type\", \"fuel_type\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Fuel_Type"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            4,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_06\" (mcv) ON \"body_type\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            4,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_07\" (mcv) ON \"body_type\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            4,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_08\" (mcv) ON \"body_type\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            4,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_09\" (mcv) ON \"body_type\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "body_type",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            4,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e04_10\" (mcv) ON \"body_type\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e04_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Body_Type",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e04_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "fuel_type",
+            "reg_valid_date"
+          ],
+          "column_indices_zero_based": [
+            5,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e05_06\" (mcv) ON \"fuel_type\", \"reg_valid_date\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e05_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Fuel_Type",
+            "Reg_Valid_Date"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e05_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "fuel_type",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            5,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e05_07\" (mcv) ON \"fuel_type\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e05_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Fuel_Type",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e05_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "fuel_type",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            5,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e05_08\" (mcv) ON \"fuel_type\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e05_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Fuel_Type",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e05_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "fuel_type",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            5,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e05_09\" (mcv) ON \"fuel_type\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e05_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Fuel_Type",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e05_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "fuel_type",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            5,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e05_10\" (mcv) ON \"fuel_type\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e05_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Fuel_Type",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e05_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "reg_valid_date",
+            "color"
+          ],
+          "column_indices_zero_based": [
+            6,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e06_07\" (mcv) ON \"reg_valid_date\", \"color\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e06_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Reg_Valid_Date",
+            "Color"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e06_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "reg_valid_date",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            6,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e06_08\" (mcv) ON \"reg_valid_date\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e06_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Reg_Valid_Date",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e06_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "reg_valid_date",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            6,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e06_09\" (mcv) ON \"reg_valid_date\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e06_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Reg_Valid_Date",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e06_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "reg_valid_date",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            6,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e06_10\" (mcv) ON \"reg_valid_date\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e06_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Reg_Valid_Date",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e06_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "color",
+            "scofflaw_indicator"
+          ],
+          "column_indices_zero_based": [
+            7,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e07_08\" (mcv) ON \"color\", \"scofflaw_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e07_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Color",
+            "Scofflaw_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e07_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "color",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            7,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e07_09\" (mcv) ON \"color\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e07_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Color",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e07_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "color",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            7,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e07_10\" (mcv) ON \"color\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e07_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Color",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e07_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "scofflaw_indicator",
+            "suspension_indicator"
+          ],
+          "column_indices_zero_based": [
+            8,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e08_09\" (mcv) ON \"scofflaw_indicator\", \"suspension_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e08_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Scofflaw_Indicator",
+            "Suspension_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e08_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "scofflaw_indicator",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            8,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e08_10\" (mcv) ON \"scofflaw_indicator\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e08_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Scofflaw_Indicator",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e08_10",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "suspension_indicator",
+            "revocation_indicator"
+          ],
+          "column_indices_zero_based": [
+            9,
+            10
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_dmv11_e09_10\" (mcv) ON \"suspension_indicator\", \"revocation_indicator\" FROM public.dmv11; ALTER STATISTICS public.\"ess_issue99_dmv11_e09_10\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e09_10",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Suspension_Indicator",
+            "Revocation_Indicator"
+          ],
+          "statistic_name": "ess_issue99_dmv11_e09_10",
+          "target": 300
+        }
+      ],
+      "collection_manifest_runtime_relative_path": "ess-research/issue99/runs/20261025T083515Z-issue99-dmv11-16fd8a/collection-manifest.json",
+      "collection_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3",
+      "collection_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+      "fixed_analyze_sample_bytes": 8820422,
+      "fixed_analyze_sample_relation_identity": "6:public5:dmv11",
+      "fixed_analyze_sample_rows": 90000,
+      "fixed_analyze_sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "fixed_analyze_sample_target": 90000,
+      "full_source_rows": 11591877,
+      "nominal_b5_selected_ids": [
+        "e00_05",
+        "e01_04",
+        "e01_07",
+        "e02_03",
+        "e04_07"
+      ],
+      "postgresql_columns_and_types": [
+        {
+          "name": "record_type",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "registration_class",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "state",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "body_type",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "fuel_type",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "reg_valid_date",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "color",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "scofflaw_indicator",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "suspension_indicator",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "revocation_indicator",
+          "type": "VARCHAR(64)"
+        }
+      ],
+      "schema_columns": [
+        "Record_Type",
+        "Registration_Class",
+        "State",
+        "County",
+        "Body_Type",
+        "Fuel_Type",
+        "Reg_Valid_Date",
+        "Color",
+        "Scofflaw_Indicator",
+        "Suspension_Indicator",
+        "Revocation_Indicator"
+      ],
+      "source_csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+      "table": "public.dmv11"
+    },
+    "forest10": {
+      "candidate_count": 45,
+      "candidate_map_file_bytes": 3305,
+      "candidate_map_file_bytes_sha256": "042f1d58daec461a127782f2c9658f5fee502ffb478000a08b9261f03d7eb627",
+      "candidate_map_runtime_relative_path": "ess-research/issue99/runs/20261025T050116Z-issue99-forest10-fee458/train/candidate-map.json",
+      "candidate_map_sha256_compact_json": "8fd28b72e4b071dc2ca491502bb61b4652fe9b68269f1db2eef1f6f1f7ffc76b",
+      "candidate_map_verification": {
+        "all_schema_pairs_present": true,
+        "id_ordinal_and_endpoint_mapping_matches": true,
+        "ids_unique": true,
+        "pair_count_equals_n_choose_2": true,
+        "physical_create_or_mcv_payload_success_claimed": false,
+        "static_ddl_name_and_identifier_checks_pass": true,
+        "unordered_pairs_unique": true
+      },
+      "candidate_order_sha256": "d8efee32db760af2f70ecb494f5dae26c7e99faa9914fd7c60781774bc7482cb",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "elevation",
+            "aspect"
+          ],
+          "column_indices_zero_based": [
+            0,
+            1
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_01\" (mcv) ON \"elevation\", \"aspect\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_01\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_01",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Aspect"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_01",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "slope"
+          ],
+          "column_indices_zero_based": [
+            0,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_02\" (mcv) ON \"elevation\", \"slope\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Slope"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "horizontal_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            0,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_03\" (mcv) ON \"elevation\", \"horizontal_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Horizontal_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "vertical_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            0,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_04\" (mcv) ON \"elevation\", \"vertical_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "horizontal_distance_to_roadways"
+          ],
+          "column_indices_zero_based": [
+            0,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_05\" (mcv) ON \"elevation\", \"horizontal_distance_to_roadways\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            0,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_06\" (mcv) ON \"elevation\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            0,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_07\" (mcv) ON \"elevation\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            0,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_08\" (mcv) ON \"elevation\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "elevation",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            0,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e00_09\" (mcv) ON \"elevation\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e00_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Elevation",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e00_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "slope"
+          ],
+          "column_indices_zero_based": [
+            1,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_02\" (mcv) ON \"aspect\", \"slope\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Slope"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "horizontal_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            1,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_03\" (mcv) ON \"aspect\", \"horizontal_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Horizontal_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "vertical_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            1,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_04\" (mcv) ON \"aspect\", \"vertical_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "horizontal_distance_to_roadways"
+          ],
+          "column_indices_zero_based": [
+            1,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_05\" (mcv) ON \"aspect\", \"horizontal_distance_to_roadways\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            1,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_06\" (mcv) ON \"aspect\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            1,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_07\" (mcv) ON \"aspect\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            1,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_08\" (mcv) ON \"aspect\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "aspect",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            1,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e01_09\" (mcv) ON \"aspect\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e01_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Aspect",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e01_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "horizontal_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            2,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_03\" (mcv) ON \"slope\", \"horizontal_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Horizontal_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "vertical_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            2,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_04\" (mcv) ON \"slope\", \"vertical_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "horizontal_distance_to_roadways"
+          ],
+          "column_indices_zero_based": [
+            2,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_05\" (mcv) ON \"slope\", \"horizontal_distance_to_roadways\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            2,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_06\" (mcv) ON \"slope\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            2,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_07\" (mcv) ON \"slope\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            2,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_08\" (mcv) ON \"slope\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "slope",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            2,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e02_09\" (mcv) ON \"slope\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e02_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Slope",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e02_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "vertical_distance_to_hydrology"
+          ],
+          "column_indices_zero_based": [
+            3,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_04\" (mcv) ON \"horizontal_distance_to_hydrology\", \"vertical_distance_to_hydrology\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Vertical_Distance_To_Hydrology"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "column_indices_zero_based": [
+            3,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_05\" (mcv) ON \"horizontal_distance_to_hydrology\", \"horizontal_distance_to_roadways\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            3,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_06\" (mcv) ON \"horizontal_distance_to_hydrology\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            3,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_07\" (mcv) ON \"horizontal_distance_to_hydrology\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            3,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_08\" (mcv) ON \"horizontal_distance_to_hydrology\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            3,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e03_09\" (mcv) ON \"horizontal_distance_to_hydrology\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e03_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e03_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "column_indices_zero_based": [
+            4,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e04_05\" (mcv) ON \"vertical_distance_to_hydrology\", \"horizontal_distance_to_roadways\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e04_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Roadways"
+          ],
+          "statistic_name": "ess_issue99_forest10_e04_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            4,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e04_06\" (mcv) ON \"vertical_distance_to_hydrology\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e04_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e04_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            4,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e04_07\" (mcv) ON \"vertical_distance_to_hydrology\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e04_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e04_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            4,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e04_08\" (mcv) ON \"vertical_distance_to_hydrology\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e04_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e04_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            4,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e04_09\" (mcv) ON \"vertical_distance_to_hydrology\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e04_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Vertical_Distance_To_Hydrology",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e04_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_roadways",
+            "hillshade_9am"
+          ],
+          "column_indices_zero_based": [
+            5,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e05_06\" (mcv) ON \"horizontal_distance_to_roadways\", \"hillshade_9am\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e05_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_9am"
+          ],
+          "statistic_name": "ess_issue99_forest10_e05_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_roadways",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            5,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e05_07\" (mcv) ON \"horizontal_distance_to_roadways\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e05_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e05_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_roadways",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            5,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e05_08\" (mcv) ON \"horizontal_distance_to_roadways\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e05_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e05_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "horizontal_distance_to_roadways",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            5,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e05_09\" (mcv) ON \"horizontal_distance_to_roadways\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e05_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Horizontal_Distance_To_Roadways",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e05_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_9am",
+            "hillshade_noon"
+          ],
+          "column_indices_zero_based": [
+            6,
+            7
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e06_07\" (mcv) ON \"hillshade_9am\", \"hillshade_noon\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e06_07\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_07",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_9am",
+            "Hillshade_Noon"
+          ],
+          "statistic_name": "ess_issue99_forest10_e06_07",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_9am",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            6,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e06_08\" (mcv) ON \"hillshade_9am\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e06_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_9am",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e06_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_9am",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            6,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e06_09\" (mcv) ON \"hillshade_9am\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e06_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e06_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_9am",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e06_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_noon",
+            "hillshade_3pm"
+          ],
+          "column_indices_zero_based": [
+            7,
+            8
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e07_08\" (mcv) ON \"hillshade_noon\", \"hillshade_3pm\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e07_08\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_08",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_Noon",
+            "Hillshade_3pm"
+          ],
+          "statistic_name": "ess_issue99_forest10_e07_08",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_noon",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            7,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e07_09\" (mcv) ON \"hillshade_noon\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e07_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e07_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_Noon",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e07_09",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "hillshade_3pm",
+            "horizontal_distance_to_fire_points"
+          ],
+          "column_indices_zero_based": [
+            8,
+            9
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_forest10_e08_09\" (mcv) ON \"hillshade_3pm\", \"horizontal_distance_to_fire_points\" FROM public.forest10; ALTER STATISTICS public.\"ess_issue99_forest10_e08_09\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e08_09",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Hillshade_3pm",
+            "Horizontal_Distance_To_Fire_Points"
+          ],
+          "statistic_name": "ess_issue99_forest10_e08_09",
+          "target": 300
+        }
+      ],
+      "collection_manifest_runtime_relative_path": "ess-research/issue99/runs/20261025T050116Z-issue99-forest10-fee458/collection-manifest.json",
+      "collection_manifest_sha256": "876a692bd3e067f48d70c870e612a900c5e876257ece6ac4e114af51cb45271f",
+      "collection_run_id": "20261025T050116Z-issue99-forest10-fee458",
+      "fixed_analyze_sample_bytes": 10620460,
+      "fixed_analyze_sample_relation_identity": "6:public8:forest10",
+      "fixed_analyze_sample_rows": 90000,
+      "fixed_analyze_sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+      "fixed_analyze_sample_target": 90000,
+      "full_source_rows": 581012,
+      "nominal_b5_selected_ids": [
+        "e01_06",
+        "e02_07",
+        "e02_08",
+        "e03_04",
+        "e06_08"
+      ],
+      "postgresql_columns_and_types": [
+        {
+          "name": "elevation",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "aspect",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "slope",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "horizontal_distance_to_hydrology",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "vertical_distance_to_hydrology",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "horizontal_distance_to_roadways",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "hillshade_9am",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "hillshade_noon",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "hillshade_3pm",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "horizontal_distance_to_fire_points",
+          "type": "DOUBLE PRECISION"
+        }
+      ],
+      "schema_columns": [
+        "Elevation",
+        "Aspect",
+        "Slope",
+        "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology",
+        "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am",
+        "Hillshade_Noon",
+        "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points"
+      ],
+      "source_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "table": "public.forest10"
+    },
+    "power7": {
+      "candidate_count": 21,
+      "candidate_map_file_bytes": 1388,
+      "candidate_map_file_bytes_sha256": "aa3a80c9a8850bd2d609b5456b67bab1100ea3c2be0f71d8ac624d75a31bf88f",
+      "candidate_map_runtime_relative_path": "ess-research/issue99/runs/20261025T100019Z-issue99-power7-5e2aad/train/candidate-map.json",
+      "candidate_map_sha256_compact_json": "0c17d1bced2f1ed9b48cb6867982b0938d180c996b3617cb36383d1851c8dfb4",
+      "candidate_map_verification": {
+        "all_schema_pairs_present": true,
+        "id_ordinal_and_endpoint_mapping_matches": true,
+        "ids_unique": true,
+        "pair_count_equals_n_choose_2": true,
+        "physical_create_or_mcv_payload_success_claimed": false,
+        "static_ddl_name_and_identifier_checks_pass": true,
+        "unordered_pairs_unique": true
+      },
+      "candidate_order_sha256": "11ef38578064f385e28821788344b8e729a35d7f4c01f507df10f1c1618a4bcb",
+      "candidates": [
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "global_reactive_power"
+          ],
+          "column_indices_zero_based": [
+            0,
+            1
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_01\" (mcv) ON \"global_active_power\", \"global_reactive_power\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_01\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_01",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Global_reactive_power"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_01",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "voltage"
+          ],
+          "column_indices_zero_based": [
+            0,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_02\" (mcv) ON \"global_active_power\", \"voltage\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Voltage"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "global_intensity"
+          ],
+          "column_indices_zero_based": [
+            0,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_03\" (mcv) ON \"global_active_power\", \"global_intensity\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Global_intensity"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "sub_metering_1"
+          ],
+          "column_indices_zero_based": [
+            0,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_04\" (mcv) ON \"global_active_power\", \"sub_metering_1\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Sub_metering_1"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "sub_metering_2"
+          ],
+          "column_indices_zero_based": [
+            0,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_05\" (mcv) ON \"global_active_power\", \"sub_metering_2\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Sub_metering_2"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_active_power",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            0,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e00_06\" (mcv) ON \"global_active_power\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e00_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e00_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_active_power",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e00_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_reactive_power",
+            "voltage"
+          ],
+          "column_indices_zero_based": [
+            1,
+            2
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e01_02\" (mcv) ON \"global_reactive_power\", \"voltage\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e01_02\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_02",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_reactive_power",
+            "Voltage"
+          ],
+          "statistic_name": "ess_issue99_power7_e01_02",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_reactive_power",
+            "global_intensity"
+          ],
+          "column_indices_zero_based": [
+            1,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e01_03\" (mcv) ON \"global_reactive_power\", \"global_intensity\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e01_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_reactive_power",
+            "Global_intensity"
+          ],
+          "statistic_name": "ess_issue99_power7_e01_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_reactive_power",
+            "sub_metering_1"
+          ],
+          "column_indices_zero_based": [
+            1,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e01_04\" (mcv) ON \"global_reactive_power\", \"sub_metering_1\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e01_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_reactive_power",
+            "Sub_metering_1"
+          ],
+          "statistic_name": "ess_issue99_power7_e01_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_reactive_power",
+            "sub_metering_2"
+          ],
+          "column_indices_zero_based": [
+            1,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e01_05\" (mcv) ON \"global_reactive_power\", \"sub_metering_2\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e01_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_reactive_power",
+            "Sub_metering_2"
+          ],
+          "statistic_name": "ess_issue99_power7_e01_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_reactive_power",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            1,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e01_06\" (mcv) ON \"global_reactive_power\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e01_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e01_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_reactive_power",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e01_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "voltage",
+            "global_intensity"
+          ],
+          "column_indices_zero_based": [
+            2,
+            3
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e02_03\" (mcv) ON \"voltage\", \"global_intensity\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e02_03\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_03",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Voltage",
+            "Global_intensity"
+          ],
+          "statistic_name": "ess_issue99_power7_e02_03",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "voltage",
+            "sub_metering_1"
+          ],
+          "column_indices_zero_based": [
+            2,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e02_04\" (mcv) ON \"voltage\", \"sub_metering_1\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e02_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Voltage",
+            "Sub_metering_1"
+          ],
+          "statistic_name": "ess_issue99_power7_e02_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "voltage",
+            "sub_metering_2"
+          ],
+          "column_indices_zero_based": [
+            2,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e02_05\" (mcv) ON \"voltage\", \"sub_metering_2\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e02_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Voltage",
+            "Sub_metering_2"
+          ],
+          "statistic_name": "ess_issue99_power7_e02_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "voltage",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            2,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e02_06\" (mcv) ON \"voltage\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e02_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e02_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Voltage",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e02_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_intensity",
+            "sub_metering_1"
+          ],
+          "column_indices_zero_based": [
+            3,
+            4
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e03_04\" (mcv) ON \"global_intensity\", \"sub_metering_1\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e03_04\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_04",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_intensity",
+            "Sub_metering_1"
+          ],
+          "statistic_name": "ess_issue99_power7_e03_04",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_intensity",
+            "sub_metering_2"
+          ],
+          "column_indices_zero_based": [
+            3,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e03_05\" (mcv) ON \"global_intensity\", \"sub_metering_2\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e03_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_intensity",
+            "Sub_metering_2"
+          ],
+          "statistic_name": "ess_issue99_power7_e03_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "global_intensity",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            3,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e03_06\" (mcv) ON \"global_intensity\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e03_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e03_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Global_intensity",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e03_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sub_metering_1",
+            "sub_metering_2"
+          ],
+          "column_indices_zero_based": [
+            4,
+            5
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e04_05\" (mcv) ON \"sub_metering_1\", \"sub_metering_2\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e04_05\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_05",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Sub_metering_1",
+            "Sub_metering_2"
+          ],
+          "statistic_name": "ess_issue99_power7_e04_05",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sub_metering_1",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            4,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e04_06\" (mcv) ON \"sub_metering_1\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e04_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e04_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Sub_metering_1",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e04_06",
+          "target": 300
+        },
+        {
+          "catalog_columns": [
+            "sub_metering_2",
+            "sub_metering_3"
+          ],
+          "column_indices_zero_based": [
+            5,
+            6
+          ],
+          "create_and_target_sql": "CREATE STATISTICS public.\"ess_issue99_power7_e05_06\" (mcv) ON \"sub_metering_2\", \"sub_metering_3\" FROM public.power7; ALTER STATISTICS public.\"ess_issue99_power7_e05_06\" SET STATISTICS 300;",
+          "expressions": false,
+          "id": "e05_06",
+          "kind": [
+            "mcv"
+          ],
+          "source_columns": [
+            "Sub_metering_2",
+            "Sub_metering_3"
+          ],
+          "statistic_name": "ess_issue99_power7_e05_06",
+          "target": 300
+        }
+      ],
+      "collection_manifest_runtime_relative_path": "ess-research/issue99/runs/20261025T100019Z-issue99-power7-5e2aad/collection-manifest.json",
+      "collection_manifest_sha256": "ca3e9b3440fa0b7daca91ecf0004a7dc0d45b783341cb041f5653bbe7eb41665",
+      "collection_run_id": "20261025T100019Z-issue99-power7-5e2aad",
+      "fixed_analyze_sample_bytes": 8460325,
+      "fixed_analyze_sample_relation_identity": "6:public6:power7",
+      "fixed_analyze_sample_rows": 90000,
+      "fixed_analyze_sample_sha256": "a9cea3b48a2eddd7c8285256eabe26373f39c58ff45095d3940042a7bbb9eba7",
+      "fixed_analyze_sample_target": 90000,
+      "full_source_rows": 2075259,
+      "nominal_b5_selected_ids": [
+        "e00_01",
+        "e00_03",
+        "e01_02",
+        "e02_04",
+        "e03_06"
+      ],
+      "postgresql_columns_and_types": [
+        {
+          "name": "global_active_power",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "global_reactive_power",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "voltage",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "global_intensity",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "sub_metering_1",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "sub_metering_2",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "sub_metering_3",
+          "type": "DOUBLE PRECISION"
+        }
+      ],
+      "schema_columns": [
+        "Global_active_power",
+        "Global_reactive_power",
+        "Voltage",
+        "Global_intensity",
+        "Sub_metering_1",
+        "Sub_metering_2",
+        "Sub_metering_3"
+      ],
+      "source_csv_sha256": "a58a43b0e9f26e92744c2130053dd343fb6b3bb9f73b05fd39f6a44d355ddba9",
+      "table": "public.power7"
+    }
+  },
+  "evidence_label": "source-derived static inventory; no PostgreSQL DDL or ANALYZE performed",
+  "format": "ess-issue133-candidate-universe-manifest-v1",
+  "source_resource_manifest": {
+    "issue": 99,
+    "repository_path": "experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json",
+    "sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "split": "train"
+  }
+}
