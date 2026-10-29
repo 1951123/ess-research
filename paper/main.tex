@@ -21,7 +21,7 @@
 \newcommand{\PG}{\operatorname{PG}}
 
 \begin{document}
-\title{Extended Statistics Selection under Estimator Strategy Uncertainty}
+\title{Extended Statistics Selection under Estimation Scheme Uncertainty}
 \author{Anonymous Author(s)}
 \affiliation{%
   \institution{Anonymous Institution}
@@ -30,33 +30,39 @@
 }
 
 \begin{abstract}
-An advisor chooses which extended statistics to maintain, but the
-installed set need not determine which overlapping statistics the
-cardinality estimator eventually applies. We study resource selection
-under \emph{estimator-strategy uncertainty}: the advisor chooses an
-unordered set while a downstream policy selects a complete admissible
-estimation scheme for each task. We distinguish fixed-priority Nominal,
-worst shared-global, and task-wise pessimistic (PESS) objectives.
-For a fixed set and aligned modeled losses, expected global-priority
-loss is at most worst shared-global loss, which is at most PESS loss.
-In a labeled maximal-matching instance, we characterize joint
-realizability under one priority, establish a tight task-count bound
-on PESS conservatism, and connect worst shared-order optimization to
-classical Maximum Acyclic Subgraph hardness. We give a conditional
-source-level correspondence with PostgreSQL 16.14 two-column MCV selection.
+An installed extended-statistics set need not determine the
+\emph{complete estimation scheme} a cardinality estimator applies.
+We formulate Extended Statistics Selection (ESS) for this
+uncertainty, including unknown deterministic policies and intrinsic
+randomization. ESS separates unordered resource choice, complete
+admissible schemes, joint cross-task uncertainty, workload
+aggregation, and risk. Fixed-reference Nominal, worst shared-policy,
+and task-wise pessimistic (PESS) objectives are instances. For finite
+shared-policy classes and task-wise PESS, we prove conditional
+workload-risk consistency, distinct from finite-sample optimization
+and population risk.
 
-On four frozen AreCEL workloads, we combine exact Train-model order
-analysis, a concrete Train-task scheme-space witness, and held-out
-PostgreSQL \texttt{Plan Rows} measurements. At budget five, Nominal
-has lower physical Test P95 Q-error under the canonical configuration
-on all four datasets. Under a separately defined, sampled
-\emph{counterfactual} uniform global relative-OID-order population,
-PESS has lower estimated expected per-order Test P95 on Census13 and
-DMV11; Nominal does on Forest10, while Power7 is inconclusive within
-the permutation-sampling interval. Query-level diagnostics show that
-an MCV application-sequence change need not change Q-error.
-The uniform-order population is an evaluation assumption, not a claim
-of production randomization or physical worst-case protection.
+For a restricted PostgreSQL 16.14 two-column MCV selector, source-level
+selection corresponds to maximal matching under explicit conditions.
+We analyze joint realizability under one priority, prove a tight
+task-count bound on PESS conservatism, and relate fixed-set shared-order
+optimization to Maximum Acyclic Subgraph hardness. The multiplicative
+scheme-loss model approximates, but does not reproduce, physical
+PostgreSQL estimation.
+
+In controlled Test interventions, DMV11's 55-object ALL P95 was
+57.61 versus 36.00 for a five-object Nominal subset matched on shared
+priority; changing only ALL's OID order changed P95 from 57.61 to
+67.53. Forest10's corresponding P95s were 15.0 and 14.0. These are
+fixed configurations, not an all-order expectation or proof of a
+blocker mechanism.
+
+At \(B=5\), canonical-order Test P95 favors Nominal on all four
+workloads. Under a sampled, \emph{counterfactual} uniform relative-OID
+population, estimated mean per-order P95 favors PESS on Census13 and
+DMV11, Nominal on Forest10, and is inconclusive on Power7. These show
+strategy sensitivity, not universal PESS superiority or transfer of
+model bounds to physical Q-error.
 \end{abstract}
 
 \maketitle
@@ -69,36 +75,38 @@ of production randomization or physical worst-case protection.
 \section{Introduction}
 \label{sec:intro}
 
-Cardinality estimates shape the costs used by query optimizers and may
-influence their plan choices \cite{leis2015optimizers,han2022benchmark}.
-Single-column statistics are often insufficient for correlated attributes;
-multivariate or extended summaries can improve selectivity estimates
-\cite{pg16stats}. Such statistics also incur collection and refresh
-overheads. A workload-aware advisor must decide which candidate objects
-to maintain under a resource budget, a longstanding statistics-management
-problem \cite{chaudhuri2000stats,bruno2002sit,elhelw2009statadvisor}.
+Cardinality estimates shape optimizer costs and plans
+\cite{leis2015optimizers,han2022benchmark}. Since single-column
+statistics can miss attribute correlations, multivariate summaries
+can improve estimates \cite{pg16stats} but incur collection and
+refresh costs. Advisors therefore select statistics under a budget,
+a longstanding problem \cite{chaudhuri2000stats,bruno2002sit,elhelw2009statadvisor}.
 
-Installing a statistic, however, does not guarantee its use in every
-eligible estimate. Overlapping objects may compete for the same
-predicates: applying one can make another inapplicable in that
-estimation step. A priority or tie-breaking rule then affects the
-information actually used. Even with fixed data and installed statistics, an advisor that
-does not know the downstream selection rule may therefore evaluate
-the same set against different complete estimates. We call this
-information gap \emph{estimator-strategy uncertainty}.
+A controlled follow-up to an exploratory observation motivates the
+question. On held-out Forest10, ALL 45 definitions had P95 15.0 versus
+14.0 for matched Nominal B5; on DMV11, all 55 populated objects had
+57.61 versus 36.00. The five shared objects kept their relative OID
+priority, and sample and shared MCV contents were checked. These
+specific configurations do not show that adding statistics is
+generally harmful; Section~\ref{sec:all-versus-selected} gives the
+controls and limits. They motivate asking how installation changes
+the information applied by the estimator.
+
+Installation does not ensure use in every estimate. Overlapping
+objects may compete for predicates: applying one can make another
+inapplicable, so priority or tie-breaking changes the information
+used. An advisor unable to determine the resulting complete scheme
+faces \emph{estimation-scheme uncertainty}, from an unknown
+deterministic policy or intrinsic randomization. Multiple admissible
+schemes alone do not imply uncertainty if the advisor predicts the
+selection exactly.
 
 Consider the restricted example in Figure~\ref{fig:path}.
-Three pairwise objects cover \(AB\), \(BC\), and \(CD\);
-shared endpoints represent conflicts. If a complete scheme is
-an inclusion-maximal matching, the installed set admits
-\(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\).
-Considering \(BC\) first selects the latter; considering
-\(AB\) first selects the former. Suppose their modeled
-task losses are \(0.1\) and \(2.0\), respectively.
-Adding \(BC\) to an installed set containing \(AB,CD\)
-thus introduces a higher-loss complete scheme without
-removing the lower-loss option. This is a mathematical
-example, not a PostgreSQL measurement.
+The path has edges \(AB,BC,CD\) and maximal matchings
+\(\{s_{AB},s_{CD}\}\) and \(\{s_{BC}\}\). Priorities can select
+either; if their modeled losses are \(0.1\) and \(2.0\), adding
+\(BC\) introduces the higher-loss scheme without removing the
+lower-loss one. This is a mathematical example, not a PG measurement.
 
 \begin{figure}[t]
 \centering
@@ -115,45 +123,36 @@ BC and CD. The two inclusion-maximal matchings are AB with CD, and BC.}
 \label{fig:path}
 \end{figure}
 
-Unlike sampling error or Train-to-Test generalization,
-strategy uncertainty can persist with fixed data, sample,
-workload, and resources. It describes what the advisor does
-not know, not necessarily randomness in the estimator.
+Unlike sampling error or Train/Test shift, scheme uncertainty can
+persist with fixed inputs when policy knowledge is incomplete; it
+does not require randomness or unequal scheme losses.
 
-The advisor chooses an unordered installed set \(M\); for each task
-\(i\), that set induces a prescribed family of \emph{complete}
-admissible schemes \(\Gamma_i(M)\). A downstream policy chooses
-the applied member. Nominal evaluation uses a specified policy,
-whereas PESS evaluates each task's worst admissible scheme.
-If one policy must serve all tasks, those separate worst schemes
-may be mutually incompatible. Thus policy knowledge changes
-the resource-selection objective, not merely the search heuristic.
+The advisor chooses an unordered set \(M\), inducing for each task
+\(i\) a prescribed family of \emph{complete} admissible schemes
+\(\Gamma_i(M)\). Nominal uses a specified policy; PESS takes each
+task's worst admissible scheme. Those maxima may be incompatible
+with one policy shared across tasks. Policy knowledge therefore
+changes the resource objective, not just the search heuristic.
 
-We address three questions. \textbf{RQ1:} Does a controlled
-priority intervention change the MCV objects PostgreSQL applies
-and the resulting physical estimates? \textbf{RQ2:} How do
-Nominal and PESS select resources under the same budget, and
-how do shared-priority constraints change modeled risk?
-\textbf{RQ3:} How do the frozen selections compare under a
-declared \emph{counterfactual} distribution of physical
-global relative-OID orders?
+We ask: \textbf{RQ1}, whether priority changes PostgreSQL's applied
+MCVs and physical estimates; \textbf{RQ2}, how Nominal/PESS decisions
+and shared-priority constraints affect modeled risk; and
+\textbf{RQ3}, how frozen selections compare under a declared
+\emph{counterfactual} distribution of physical global OID orders.
 
-Our contributions are fourfold: (i) an advisor--estimator
-interface distinguishing installed resources, complete
-admissible schemes, and knowledge of the application policy;
-(ii) constructive shared-priority feasibility, a tight
-conservatism bound, and restricted ordering hardness in a
-labeled matching instance; (iii) a conditional PostgreSQL 16.14
-source-level correspondence supported by controlled traces;
-and (iv) frozen Train-model and physical Test evidence,
-including an actual scheme-space witness and query-level diagnostics.
-Interacting statistics and alternative complete estimation paths
-have established precedents
-\cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
-Our focus is narrower: \emph{upstream resource selection when the
-advisor cannot reliably predict the downstream scheme choice}.
-We do not claim a general robust optimizer or universally better
-PESS selections.
+Our contributions are (i) an ESS formulation separating resource
+choice, complete schemes, joint uncertainty, workload aggregation,
+and risk; (ii) formulation-specific results for the labeled-matching
+instance on shared-priority feasibility, PESS conservatism, and
+restricted ordering hardness; (iii) a conditional PostgreSQL 16.14
+source correspondence with controlled traces; and (iv) frozen Train
+and physical Test evidence, including a scheme-space witness and
+query diagnostics.
+Prior work studies interacting statistics and alternative complete
+estimation paths \cite{bruno2004conditional,chen2022ceg,elhelw2009statadvisor}.
+ESS focuses on upstream resource choice when the advisor cannot
+reliably predict the downstream scheme; it claims neither a general
+robust optimizer nor universally better PESS sets.
 
 \section{Problem Formulation}
 \label{sec:model}
@@ -168,17 +167,22 @@ Let \(\E\) be a finite universe of estimation resources. The advisor
 chooses one \emph{unordered} global set \(M\subseteq\E\), not an
 application order or a separate scheme for each task.
 
-Let \(\Maint:2^\E\to\mathbb R_{\geq0}\) be additional
-maintenance cost relative to the baseline, normalized by
-\(\Maint(\varnothing)=0\). It can depend on fixed external data state,
-refresh frequency, maintenance horizon and accounting conventions.
-The feasible sets at budget \(B\geq0\) are
+Let \(\Maint:2^\E\to\mathbb R_{\geq0}\) be a
+modeled set cost, which may account for maintenance,
+storage, collection, or an application-specific resource
+constraint. Its accounting convention can depend on fixed
+external data state and refresh horizon. At budget
+\(B\geq0\), the feasible family is
 \begin{equation}
 \label{eq:feasible}
 \mathcal F_B=\{M\subseteq\E:\Maint(M)\leq B\}.
 \end{equation}
-The generic maintenance function need not be additive, monotone or
-submodular. Section~\ref{sec:protocol} introduces the much narrower
+We assume \(\mathcal F_B\ne\varnothing\).
+The generic cost need not be additive, monotone,
+submodular, or normalized to zero at the empty set.
+The empty resource set still admits a baseline estimation
+scheme, but need not be budget-feasible under every
+accounting convention. Section~\ref{sec:protocol} introduces the much narrower
 per-object \emph{proxy} used for the reported selections.
 
 \subsection{Complete schemes and admissibility}
@@ -217,17 +221,20 @@ physical worst-case guarantees require separate evidence
 for scheme coverage and loss alignment.
 
 \subsection{Estimates, loss and application policies}
-For each task, let \(\operatorname{Est}_i:\Omega_i\to
-\mathbb R_{>0}\) be a positive pre-output-transform estimate and
-\(\ell_i:\Omega_i\to\mathbb R_{\geq0}\) a loss function.
-The instantiated model uses absolute logarithmic loss:
+In general ESS, each complete scheme has a prescribed
+nonnegative task loss \(L_i:\Omega_i\to\mathbb R_{\geq0}\).
+The framework does not require a particular estimator
+output range or loss formula. For our modeled instance,
+a positive pre-output-transform estimate
+\(\operatorname{Est}_i:\Omega_i\to\mathbb R_{>0}\)
+yields weighted absolute logarithmic loss:
 \begin{equation}
 \label{eq:loss}
 L_i(\sigma)=w_i\ell_i(\sigma)
 =w_i\left|\log\frac{\operatorname{Est}_i(\sigma)}{T_i}\right|.
 \end{equation}
-The resulting model loss is distinct from the rounded physical
-\texttt{Plan Rows} Q-error used on Test.
+This instantiated model loss is distinct from the
+rounded physical \texttt{Plan Rows} Q-error on Test.
 
 A nonempty finite family \(\Theta\) of application-policy parameters
 may induce a complete scheme \(\sigma_i(M;\theta)\) for each task,
@@ -236,7 +243,428 @@ compatible, \(\sigma_i(M;\theta)\in\Gamma_i(M)\) for all
 relevant \(i,M,\theta\). One \(\theta\) shared among tasks couples their
 scheme choices; it need not be probabilistic.
 
-\subsection{Pairwise MCV admissibility and loss}
+\subsection{Joint scheme uncertainty and risk}
+\label{sec:joint-framework}
+For a finite task sample indexed by $[n]$, a \emph{joint scheme
+uncertainty model} prescribes a nonempty family
+\begin{equation}
+\label{eq:joint-family}
+\mathcal U_n(M)\subseteq\prod_{i=1}^{n}\Gamma_i(M)
+\quad (M\in\mathcal F_B).
+\end{equation}
+It specifies which complete schemes may occur \emph{together},
+without assuming independent choices across tasks. Its induced
+set of modeled loss vectors is
+\[
+\mathcal L_n(M)=\{(L_i(\sigma_i))_{i=1}^n:
+  \boldsymbol\sigma\in\mathcal U_n(M)\}.
+\]
+A workload aggregator $\mathcal A_n:\mathbb R_{\geq0}^n
+\to\mathbb R_{\geq0}$ evaluates a given joint realization;
+it is coordinatewise nondecreasing. Examples are a weighted
+sum, sample mean, and empirical quantile. The set of attainable
+aggregate values is
+\[
+\mathcal V_n(M)=
+\{\mathcal A_n(\boldsymbol\ell):
+\boldsymbol\ell\in\mathcal L_n(M)\}.
+\]
+A \emph{scheme-risk rule} $\rho$ evaluates the possible
+aggregate losses, optionally with a specified probability law:
+\begin{equation}
+\label{eq:unified-ess}
+\min_{M\in\mathcal F_B} F_n(M),\qquad
+F_n(M)=\rho(\mathcal V_n(M),\nu_M).
+\end{equation}
+For set-based worst-case risk, $\nu_M$ is omitted and
+$\rho(\mathcal V_n)=\max\mathcal V_n$.
+A probabilistic objective instead specifies a probability
+measure $Q_M$ on the \emph{joint schemes}
+$\mathcal U_n(M)$. Its push-forward $\nu_M$ is the law of
+$\mathcal A_n((L_i(\sigma_i))_i)$ when
+$\boldsymbol\sigma\sim Q_M$, and expectation risk is
+$\rho(\mathcal V_n,\nu_M)=\int v\,d\nu_M(v)$.
+Thus two policies with the same support but different
+probabilities can have different risks. In particular,
+uniform orders need not give uniform probabilities to
+distinct scheme outcomes. Probability is \emph{additional
+model data}; an admissibility set by itself implies no
+distribution. Risk is assumed finite and well defined.
+We require coordinatewise loss monotonicity of
+$\mathcal A_n$, but do not impose a universal set-inclusion
+monotonicity axiom on $\rho$: comparison of different
+probability laws needs an explicitly chosen order or coupling.
+
+For additive aggregation, the next subsection spells out
+three objectives. A stable reference selection produces a
+singleton joint family, a shared policy $\theta\in\Theta$
+produces the image of its joint response map, and task-wise
+PESS permits the full Cartesian product of admissible
+schemes. These models need not coincide: individual
+scheme realizability does not imply joint realizability
+by one common policy.
+
+\paragraph{What the uncertainty model asserts.}
+The joint family is a \emph{prescription} about possible
+cross-task applications, not a conclusion drawn from the
+marginal admissible families alone. In particular, two
+models can agree on every $\Gamma_i(M)$ but disagree on
+$\mathcal U_n(M)$: one may allow independently chosen
+schemes, while another restricts the tuple to the image
+of a shared policy. A shared-policy model with stable
+semantics has a common parameter space $\Theta$ and
+responses $\sigma_i(M;\theta)$ for each $M$. It must
+satisfy $\sigma_i(M;\theta)\in\Gamma_i(M)$, but the
+policy image need not cover every admissible scheme.
+Even if each scheme is individually realized by
+some $\theta$, independently requested task schemes
+may not be jointly realizable by any \emph{one} $\theta$.
+These are properties of the specified uncertainty model,
+not assumptions about every DBMS.
+
+\paragraph{Ambiguity, uncertainty, and sensitivity.}
+The condition $|\Gamma_i(M)|>1$ expresses
+\emph{scheme ambiguity}, not automatically
+uncertainty for an advisor that can predict the
+selection perfectly. Scheme uncertainty may instead
+arise from incomplete policy information, stochastic
+selection, or both. It need not cause different
+modeled losses: schemes can have equal estimates or
+equal losses. Likewise, a positive fixed-set risk gap
+need not change the optimal resource decision. Hence
+we do not require observed loss or decision sensitivity
+as part of the ESS definition; their presence is an
+instance-specific question.
+
+\paragraph{Scope of monotonicity.}
+A coordinatewise loss increase cannot improve a
+nondecreasing workload aggregator. This statement is
+different from asserting that adding an admissible
+scenario raises every kind of scheme risk, or that
+installing more statistics improves the objective.
+The worst-case rule does satisfy the former
+\emph{scenario-set} inclusion property; a probabilistic
+mean cannot be ordered from its support alone.
+Neither rule gives a universal resource-set
+monotonicity guarantee because $\Gamma_i(M)$ and
+$\mathcal U_n(M)$ can change nonnestedly.
+
+\begin{proposition}[Worst-case uncertainty relaxation]
+\label{prop:general-relaxation}
+Fix $M$ and common task losses and workload aggregator.
+For nonempty joint families
+$\mathcal U_n^{(1)}(M)\subseteq\mathcal U_n^{(2)}(M)$,
+their worst-case aggregate losses satisfy
+$F_n^{(1)}(M)\leq F_n^{(2)}(M)$.
+\end{proposition}
+\begin{proof}
+The first family's aggregated loss image is a subset of the
+second's. A maximum over a subset cannot exceed the maximum
+over the full set.
+\end{proof}
+This only compares \emph{fixed-set modeled risk}. A strict
+risk gap need not change the globally optimal resource set;
+different greedy selections do not certify distinct optima.
+
+\begin{proposition}[Task-wise envelope for monotone aggregation]
+\label{prop:general-envelope}
+For a fixed feasible $M$, put
+$p_i(M)=\max_{\sigma\in\Gamma_i(M)}L_i(\sigma)$.
+If $\mathcal A_n$ is coordinatewise nondecreasing, then
+\begin{equation}
+\label{eq:general-envelope}
+\max_{\boldsymbol\sigma\in\mathcal U_n(M)}
+ \mathcal A_n((L_i(\sigma_i))_i)
+\ \leq\ \mathcal A_n((p_i(M))_i).
+\end{equation}
+Equality holds when $\mathcal U_n(M)$ is the full
+Cartesian product $\prod_i\Gamma_i(M)$.
+\end{proposition}
+\begin{proof}
+For every jointly admissible tuple and every $i$,
+$L_i(\sigma_i)\leq p_i(M)$; coordinatewise monotonicity
+gives the inequality. Since each $\Gamma_i(M)$ is
+finite and nonempty, a maximizer of $L_i$ exists for
+every task. Their joint tuple belongs to the full
+Cartesian product and attains the right-hand side.
+\end{proof}
+Thus task-wise pessimism is an \emph{envelope} for
+every such aggregator, not just the sum. In particular,
+the aggregate may be a sample percentile, yet
+(\ref{eq:general-envelope}) remains a \emph{modeled}
+upper bound only; it says nothing about an unknown
+physical scheme family. If the aggregator is not
+coordinatewise monotone, the bound need not hold.
+For additive aggregation, the right-hand side reduces
+to $\sum_i p_i(M)$, recovering (\ref{eq:pess}).
+For a percentile, it is the percentile of the
+\emph{task-wise worst losses}, not necessarily the
+worst physical percentile under one shared policy.
+
+\subsection{Concrete policy-information assumptions}
+For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
+policy family \(\Theta\), the following are distinct objectives:
+\begin{align}
+F_{\Nom}(M;\theta_0)
+ &=\sum_{i\in\Tasks}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
+F_{\mathrm{joint}}(M)
+ &=\max_{\theta\in\Theta}\sum_{i\in\Tasks}
+ L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
+F_{\PESS}(M)
+ &=\sum_{i\in\Tasks}\max_{\sigma\in\Gamma_i(M)}
+ L_i(\sigma).\label{eq:pess}
+\end{align}
+The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
+for its chosen information assumption. The advisor does not
+simultaneously choose the worst-case scheme or its application
+policy. For the \emph{same fixed} \(M\), compatibility and common
+loss imply
+\begin{equation}
+\label{eq:genericbound}
+F_{\Nom}(M;\theta_0)\leq
+F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
+\end{equation}
+The second inequality may be strict because separate taskwise
+worst schemes may not be jointly attainable.
+
+These objectives express \emph{different information
+assumptions}, not alternative implementations of a known
+policy. A stable, evaluable reference behavior supports Nominal
+evaluation, without requiring the advisor to know its internals;
+an unknown but shared rule motivates worst-joint risk. PESS discards that shared-rule constraint. A stochastic
+average requires a separately justified policy distribution:
+an unknown deterministic rule alone supplies none.
+The restricted global-order instance makes these distinctions
+concrete. It separates a \emph{shared rule across tasks}
+from taskwise choices that no single rule can realize.
+
+\paragraph{Risk envelopes do not rank resource decisions.}
+The inequality in (\ref{eq:genericbound}) holds at the
+\emph{same} resource set. It does not imply that the
+resource set minimizing PESS also minimizes Nominal, that
+the two argmin sets are disjoint, or that their physical
+losses have any particular ordering. Consider a two-task
+abstract instance with feasible choices $M_a,M_b$ and
+loss tuples under two shared policies as follows:
+under $M_a$, the policy outcomes have losses $(0,0)$
+and $(2,2)$; under $M_b$, both policies give $(1,1)$.
+Take the first policy as the Nominal reference and let
+each task's admissible family be precisely its outcomes
+under the two policies. Then
+\[
+F_{\Nom}(M_a)=0,\quad F_{\PESS}(M_a)=4,\qquad
+F_{\Nom}(M_b)=F_{\PESS}(M_b)=2.
+\]
+The unique Nominal minimizer is $M_a$, whereas the
+unique PESS minimizer is $M_b$. Yet if both policy
+outcomes at $M_a$ instead have loss $(0,0)$, the
+objectives share a minimizer. Thus \emph{decision
+sensitivity} is possible but not necessary. This
+example is an abstract feasible decision table, not
+a claim that those outcomes arise from the restricted
+PostgreSQL mechanism. In contrast, the matching
+instance in Section~\ref{sec:pg} supplies the concrete
+scheme-application structure studied in this paper.
+
+\paragraph{Aggregation before policy averaging.}
+The order of operations matters. For a declared distribution
+over shared policies, averaging the workload aggregate
+need not agree with aggregating per-task expected losses:
+\[
+\mathbb E_\theta[\mathcal A_n((L_i(\sigma_i(M;\theta)))_i)]
+\ne
+\mathcal A_n((\mathbb E_\theta L_i(\sigma_i(M;\theta)))_i)
+\]
+in general. For example, let two equally likely policies
+produce the two-task loss vectors $(10,0)$ and $(0,10)$.
+With $\mathcal A_2$ equal to the maximum, the left side
+is $10$, whereas the right side is $5$. Thus an expected
+per-policy maximum is not the maximum of expected
+per-task losses. The same lack of interchangeability
+can arise with empirical quantiles. In Section~\ref{sec:protocol},
+the counterfactual physical experiment estimates the
+expectation over orders of \emph{per-order Test P95};
+it does not pool query--order observations before
+computing a percentile.
+
+\subsection{Population objectives and empirical optimization}
+\label{sec:population}
+For a population interpretation, let future tasks $X$ follow
+an unknown fixed distribution $\mathcal D$, and let the
+training tasks $X_1,\dots,X_n$ be IID draws. The population
+risk and its empirical counterpart must use the \emph{same}
+uncertainty assumptions, scheme-level loss, and workload-risk
+definition for an empirical-to-population generalization claim.
+For additive average loss, two distinct examples are
+\begin{align}
+\mathcal R_{\rm shared}(M)
+ &=\max_{\theta\in\Theta}
+ \mathbb E_{X\sim\mathcal D}
+ [L_X(\sigma_X(M;\theta))],\label{eq:pop-shared}\\
+\mathcal R_{\rm PESS}(M)
+ &=\mathbb E_{X\sim\mathcal D}
+ [\max_{\sigma\in\Gamma_X(M)}L_X(\sigma)].
+ \label{eq:pop-pess}
+\end{align}
+Their sample counterparts replace each expectation by
+the average over $X_1,\dots,X_n$, \emph{without moving}
+the maximization across the expectation. We assume these
+population risks are finite on $\mathcal F_B$. General
+non-additive aggregators require a separately specified
+population functional; e.g., a population quantile is not
+simply the expected empirical quantile.
+
+The separation between statistical and computational error
+is exact. Let $\widehat{\mathcal R}_n$ estimate a specified
+$\mathcal R$ on the same finite feasible family, and let
+$\widetilde M_n\in\mathcal F_B$ be any algorithm output.
+Then
+\begin{align}
+\label{eq:excess-decomposition}
+&\mathcal R(\widetilde M_n)-\min_{M\in\mathcal F_B}
+\mathcal R(M)\nonumber\\
+&\ \leq
+2\sup_{M\in\mathcal F_B}
+|\widehat{\mathcal R}_n(M)-\mathcal R(M)|
++\widehat{\mathcal R}_n(\widetilde M_n)
+-\min_{M\in\mathcal F_B}\widehat{\mathcal R}_n(M).
+\end{align}
+The first term measures same-objective statistical discrepancy;
+the second is empirical optimization error, which need not
+vanish for an add-only greedy algorithm.
+
+\begin{proposition}[Consistency under finite shared policies]
+\label{prop:finite-policy-consistency}
+Suppose $\mathcal F_B$ and $\Theta$ are nonempty and finite,
+the mappings $\sigma_X(M;\theta)$ are measurable, and
+$\mathbb E L_X(\sigma_X(M;\theta))<\infty$ for every
+$M\in\mathcal F_B$ and $\theta\in\Theta$.
+For the shared-policy objective in
+(\ref{eq:pop-shared}), its empirical counterpart converges
+uniformly over $\mathcal F_B$ almost surely.
+Any exact empirical minimizer consequently has population
+excess risk converging to zero almost surely.
+\end{proposition}
+\begin{proof}
+The strong law of large numbers applies to each fixed
+$(M,\theta)$. There are finitely many such pairs, so their
+maximum absolute empirical-to-population deviation tends
+to zero almost surely. The inequality
+$|\max_\theta a_\theta-\max_\theta b_\theta|
+\leq\max_\theta|a_\theta-b_\theta|$
+gives uniform convergence of shared-policy risk over
+$\mathcal F_B$. Equation~(\ref{eq:excess-decomposition})
+with zero empirical optimization error proves the result.
+\end{proof}
+\begin{proposition}[Task-wise pessimistic consistency]
+\label{prop:pess-consistency}
+Suppose $\mathcal F_B$ is finite and nonempty, each
+$X\mapsto \max_{\sigma\in\Gamma_X(M)}L_X(\sigma)$
+is measurable and integrable for every feasible $M$,
+and $X_1,\dots,X_n$ are IID from $\mathcal D$.
+The empirical version of (\ref{eq:pop-pess})
+converges uniformly over $\mathcal F_B$ almost surely.
+Consequently, an exact empirical PESS minimizer has
+vanishing population excess PESS risk almost surely.
+\end{proposition}
+\begin{proof}
+For each fixed $M$, apply the strong law to the scalar
+random variable
+$h_M(X)=\max_{\sigma\in\Gamma_X(M)}L_X(\sigma)$.
+Because $\mathcal F_B$ is finite, the maximum of the
+absolute empirical-to-population deviations over its
+members tends to zero almost surely. Applying
+(\ref{eq:excess-decomposition}) to an exact empirical
+minimizer completes the proof.
+\end{proof}
+These are consistency statements for \emph{matched}
+modeled population and empirical targets, not claims
+about a general rate or an optimization guarantee for
+the greedy solver. Shared-policy consistency with an
+infinite $\Theta$ needs additional uniform convergence
+assumptions; the sample-wise PESS maximization in this
+proposition instead produces one integrable task loss.
+
+Neither consistency result establishes a general finite-sample
+rate, consistency for unrestricted policy classes, nor
+generalization of the physical PostgreSQL Test P95.
+In our experiments, modeled training loss and physical
+\texttt{Plan Rows} Q-error also differ: evaluation under
+a counterfactual OID-order distribution is a distinct
+cross-model assessment, not the empirical counterpart of
+(\ref{eq:pop-shared}) or (\ref{eq:pop-pess}).
+
+\paragraph{From general ESS to the structured instance.}
+The abstract formulation does not require schemes to be
+matchings or policies to be orders. Sections~\ref{sec:pg}
+and~\ref{sec:objectives} instantiate these objects in two
+steps. First, under A1--A4, a task's prescribed family
+$\Gamma_i(M)$ becomes the set of inclusion-maximal
+matchings of the installed eligible two-column MCV
+graph $H_i[M]$. Each matching is a complete modeled
+scheme; its multiplicative estimate and loss are
+separate numerical assumptions. Second, a strict
+global edge order $\pi$ induces one matching per task.
+Holding that order common across tasks specifies a
+coupled joint family, whereas taking the full product
+of task-wise maximal matchings specifies PESS.
+Consequently, the general fixed-set uncertainty
+relaxation and task-wise envelope apply to this
+instance, but they do not by themselves characterize
+which tuples a shared order can realize. That question
+requires the matching arguments in
+Section~\ref{sec:objectives}. The source correspondence
+does not make abstract priorities controllable in a
+fixed physical PostgreSQL catalog or identify modeled
+losses with Test Q-error.
+
+\section{A Scoped PostgreSQL MCV Mechanism}
+\label{sec:pg}
+We first identify the restricted source-level selector and its
+prerequisites, define the corresponding maximal-matching model,
+then study the resulting abstract priority choices. None of these structural results identifies its
+multiplicative numerical loss with physical PostgreSQL Q-error.
+
+\subsection{Version-pinned selector and its prerequisites}
+PostgreSQL 16.14's single-relation selectivity path can apply
+multivariate MCV objects to still-unestimated compatible
+clauses. Source inspection covers four selector functions:\\
+{\raggedright
+\texttt{clauselist\_selectivity\_ext},\\
+\texttt{statext\_mcv\_clauselist\_selectivity},\\
+\texttt{choose\_best\_statistics}, and\\
+\texttt{RelationGetStatExtList}.\par}
+The selector repeats candidate selection over a source-level
+OID-sorted candidate list. Under the conditions below,
+all surviving eligible two-key objects tie in the ranking,
+so list/OID order resolves which object is used first
+\cite{pg16stats}. This is a deterministic mechanism
+for a fixed catalog, not a source of random orders.
+The version-pinned code locations and conditional argument
+are recorded in the accompanying project
+\href{https://github.com/1951123/ess-research/blob/main/notes/pg-mcv-maximal-matching-correspondence.md}
+{source-correspondence note}.
+
+The correspondence assumes:
+\begin{enumerate}
+\item[\textbf{A1.}] Each relevant clause is a supported simple MCV
+  predicate on exactly one distinct base-table attribute. It is
+  non-pseudoconstant, with one relevant clause per attribute and no OR,
+  expression or repeated-attribute predicates.
+\item[\textbf{A2.}] Eligible objects are \emph{built}
+  two-attribute, no-expression MCV statistics on the same
+  base relation, covering two currently unestimated
+  compatible attribute clauses.
+\item[\textbf{A3.}] Privilege, relation and inheritance checks
+  permit the objects, no other estimator preconsumes those
+  clauses, and the candidate list is exactly the
+  installed eligible set.
+\item[\textbf{A4.}] Every object whose two endpoints remain
+  free ties under the selector's key/coverage ranking;
+  the fixed list order breaks the tie.
+\end{enumerate}
+
+\subsection{Restricted matching model and scheme loss}
 For the structured instance, each candidate \(e\in\E\) is a
 \emph{labeled} two-attribute MCV object, with endpoints
 \(A_e\), \(|A_e|=2\). For each task \(i\), statically
@@ -275,45 +703,92 @@ coefficient constructions follow pinned normalization and
 quantization rules, with exact \texttt{Fraction} reference loss.
 The physical \texttt{Plan Rows} metric is evaluated separately.
 
-\section{Optimization Objectives and Relationships}
+
+
+
+An edge is labeled by the particular built MCV object, not
+just its attribute pair: distinct objects on the same pair
+can have different contents. Under A1--A3, applying an edge
+uses the compatible clauses for both endpoint attributes.
+Those clauses are then marked estimated, so an edge sharing
+either endpoint cannot also be applied to the remaining
+clauses in that estimation step. This is the graph conflict
+represented by a shared endpoint. A1--A4 make the available
+unconsumed edges exactly the candidates inspected by the
+repeated selector, with tied candidates resolved by its fixed
+list order. At termination, an unselected edge disjoint from
+all selected edges would still cover two free clauses and
+would remain eligible, contradicting termination. Hence the
+selected objects form an inclusion-wise maximal matching.
+For the path in Figure~\ref{fig:path}, one such matching has
+two edges and another has one: maximality means no edge can
+be appended, not that the matching has maximum cardinality.
+
+\begin{proposition}[Conditional source correspondence]
+\label{prop:pg}
+Under A1--A4, the selected labeled two-column MCV
+objects constitute an inclusion-maximal matching of \(H_i[M]\).
+If the abstract tie priority is freely varied over all strict
+total orders, its attainable \emph{single-task} outputs
+are exactly \(\Gamma_i^{\mathrm{MM}}(M)\).
+\end{proposition}
+\begin{proof}
+After selecting a two-attribute object, the corresponding
+clauses are marked estimated; subsequent selected objects
+cannot share either endpoint. If an unselected edge were
+disjoint from every selected edge at termination, its two
+clauses would remain eligible, contradicting the terminating
+failure to find a candidate. The output is maximal.
+Conversely, Proposition~\ref{prop:completion}
+orders any chosen maximal matching first.
+\end{proof}
+The proposition characterizes the restricted selector
+under A1--A4, \emph{not} arbitrary SQL, joins,
+other statistics kinds, competing clause consumers, or
+non-tied rankings. In a fixed physical catalog the OID
+order is not freely variable. Thus the correspondence
+supplies a concrete structural instance of the ESS model,
+not an assertion that PostgreSQL implements ESS or
+realizes every abstract priority without catalog changes.
+
+\subsection{Physical mechanism evidence}
+A controlled four-attribute trace with objects \(AB,BC,CD\)
+used an instrumented PostgreSQL development build. Creating
+objects in order \(AB,BC,CD\) produced the selected set
+\(\{AB,CD\}\), while \(BC,AB,CD\) produced
+\(\{BC\}\). Both terminated without an eligible candidate
+and involved built MCV data. This was a scoped fixture-level
+observation; recreating objects can otherwise affect sample
+contents.
+
+In a later, content-controlled held-out order intervention,
+four frozen Nominal \(B=5\) sets were recreated in canonical
+or exact-reverse order. Checks fixed the data, replayed
+ANALYZE sample, settings and MCV-content fingerprints.
+All 80,000 Test EXPLAIN outcomes and MCV diagnostics
+completed. Section~\ref{sec:results} quantifies changed
+applied-object sequences and actual row-estimation effects.
+Neither intervention makes all maximal matchings physically
+attainable in every context, or equates the multiplicative
+model with PostgreSQL's entire cardinality calculation.
+
+\section{Structural Properties of the Restricted Instance}
 \label{sec:objectives}
 
-\subsection{Strategy knowledge defines the problem}
-For a fixed \(M\in\mathcal F_B\) and compatible nonempty finite
-policy family \(\Theta\), the following are distinct objectives:
-\begin{align}
-F_{\Nom}(M;\theta_0)
- &=\sum_{i\in\Tasks}L_i(\sigma_i(M;\theta_0)),\label{eq:nom}\\
-F_{\mathrm{joint}}(M)
- &=\max_{\theta\in\Theta}\sum_{i\in\Tasks}
- L_i(\sigma_i(M;\theta)),\label{eq:joint}\\
-F_{\PESS}(M)
- &=\sum_{i\in\Tasks}\max_{\sigma\in\Gamma_i(M)}
- L_i(\sigma).\label{eq:pess}
-\end{align}
-The advisor's optimization is \(\min_{M\in\mathcal F_B}F(M)\)
-for its chosen information assumption. The advisor does not
-simultaneously choose the worst-case scheme or its application
-policy. For the \emph{same fixed} \(M\), compatibility and common
-loss imply
-\begin{equation}
-\label{eq:genericbound}
-F_{\Nom}(M;\theta_0)\leq
-F_{\mathrm{joint}}(M)\leq F_{\PESS}(M).
-\end{equation}
-The second inequality may be strict because separate taskwise
-worst schemes may not be jointly attainable.
-
-These objectives express \emph{different information
-assumptions}, not alternative implementations of a known
-policy. A specified deterministic rule supports Nominal
-evaluation; an unknown but shared rule motivates worst-joint
-risk. PESS discards that shared-rule constraint. A stochastic
-average requires a separately justified policy distribution:
-an unknown deterministic rule alone supplies none.
-The global-order instance below makes these distinctions
-concrete. It separates a \emph{shared rule across tasks}
-from taskwise choices that no single rule can realize.
+Section~\ref{sec:model} defines arbitrary joint scheme
+uncertainty and loss aggregation; Section~\ref{sec:pg}
+supplies one conditional matching-based scheme family.
+Here we analyze the \emph{additional coupling} imposed
+when all tasks obey a common strict priority. The
+resulting $G(M)$ is a special case of general
+shared-policy worst risk, while $P(M)$ is the additive
+task-wise envelope. In particular, the general bound
+$G(M)\leq P(M)$ requires only admissibility and
+nonnegative additive losses; the realizability test,
+tight factor $t$, and fixed-set hardness below use
+the labeled matching and free-order structure.
+All comparisons remain at fixed $M$ unless explicitly
+stated otherwise.
 
 \subsection{One shared global priority}
 For the pairwise instance, let \(\Pi(M)\) contain all strict
@@ -348,7 +823,7 @@ resource decision \(M\) in the pairwise model.}
 \toprule
 Evaluation & Policy knowledge & Objective & What it measures\\
 \midrule
-Nominal & Known fixed priority \(\pi_0\) &
+Nominal & Fixed reference behavior (possibly black-box observed) &
 \(N_{\pi_0}(M)\) & Loss under that specified policy.\\
 Mean \(A\) & Assumed uniform global-order distribution &
 \(A(M)\) & Mean loss under an explicit counterfactual distribution, not production randomization.\\
@@ -427,18 +902,41 @@ eligible \(e\notin S_i\), at least one target edge
 have an earlier accepted blocker; sufficiency follows
 by considering the first departure from any target matching.
 
-This condition yields a polynomial-time feasibility test
-\emph{when the targets are supplied}. Starting from an empty
-order, append any remaining edge that, in every task,
-is either ineligible, a target edge, or already blocked
-by an appended target edge. If no such edge exists,
-the targets are incompatible. To see why arbitrary safe
-choices work, move a safe edge to the front of any
-feasible remaining suffix: a target cannot block another
-target, and a non-target is already blocked where eligible.
-The existence of a feasible completion is preserved.
-This does not solve the search over unspecified taskwise
-worst matchings or the computation of \(G(M)\).
+The decision input explicitly lists a common set of $m$
+labeled edges with endpoints, each task's eligible
+edge IDs, and its prescribed target edge IDs $S_i$.
+Invalid targets are rejected after checking that each
+$S_i$ is an inclusion-maximal matching in its task
+graph. Let $N$ be the length of this explicit input.
+The condition gives a constructive polynomial-time test
+\emph{for supplied targets}. Maintain a prefix $R$ of
+labeled edges. An unplaced edge $e$ is \emph{safe} if,
+for every task containing $e$, either $e\in S_i$ or
+some $f\in S_i$ sharing an endpoint with $e$ is
+already in $R$. Repeatedly append any safe edge.
+If every edge is placed, the resulting order realizes
+all $S_i$. If no safe edge remains, no common order
+realizes the targets.
+
+The safety condition must be checked against
+\emph{every} task containing an edge: an edge may be
+a target in one task and a non-target in another.
+Suppose there exists a feasible extension of the
+current prefix. Take a safe unplaced edge $e$ and move it to
+the beginning of that extension. Whenever $e$ is a
+target, it is disjoint from all other targets for
+that task; whenever it is not a target, its required
+target blocker is already in the prefix. Thus this
+exchange preserves all desired greedy outcomes.
+Induction shows that safe choices preserve feasibility.
+Conversely, the first edge of any feasible remaining
+suffix must be safe, so a dead end certifies
+infeasibility. A naive implementation performs at most $m$ rounds,
+scans at most $m$ edges per round, and checks
+safety against the explicit input in $O(N)$ time,
+giving an $O(m^2N)$ upper bound. This does not
+cover succinctly encoded task families. This test does not compute $G(M)$ or
+search for unspecified task-wise worst matchings.
 
 \begin{proposition}[Tight task-count conservatism]
 \label{prop:taskfactor}
@@ -458,234 +956,127 @@ that loss. Since other task losses are
 nonnegative, \(G(M)\geq p_i\) for every \(i\).
 Thus \(P(M)=\sum_i p_i\leq tG(M)\).
 
-For tightness, let all \(t\) tasks share a
-\(t\)-edge star. Task \(i\) has loss one only
-when \(e_i\) is selected. Each task has
-worst loss one, but a common order selects
-the same first star edge in every task,
-so \(P=t\) and \(G=1\).
+For tightness, let all $t$ tasks share a
+$t$-edge star, with every edge eligible for every task.
+Each maximal matching is a singleton. For task $i$,
+set $\alpha_i=0$, $w_i=1$, and
+$b_{e_i,i}=\ln 2$, $b_{e_j,i}=0$ for $j\ne i$.
+Equation~(\ref{eq:multiplicative}) then gives loss
+$\ln 2$ exactly when $e_i$ is selected and zero
+otherwise. Thus $P=t\ln 2$, while any common
+global order chooses the same first edge in every
+task, giving $G=\ln 2$. This achieves the factor
+within the stipulated positive multiplicative-loss
+model, not just an arbitrary task-loss table.
 \end{proof}
 
-Shared ordering can also be computationally difficult
-despite trivial task-level choices. Given a loopless
-directed graph \(D=(V,A_D)\), install one labeled star
-edge \(e_v\) per vertex. For every arc \(u\to v\),
-make a task eligible for only the conflicting
-edges \(e_u,e_v\), with normalized modeled loss
-one if \(e_u\) is chosen and zero if \(e_v\) is chosen.
-The loss summed over tasks under a common order is
-exactly the number of arcs oriented forward by that
-order. Consequently, computing \(G(M)\) is NP-hard
-even with two eligible edges per task, by the classical
-Maximum Acyclic Subgraph / Feedback Arc Set problem
-\cite{karp1972reducibility}. This is a result for the
-\emph{fixed-set abstract model}, not a hardness claim
-about outer resource selection or PostgreSQL itself.
-For the original natural-log loss, positive rational
-corrections \(2\) and \(1\) give scores \(\ln 2\)
-and zero; the exact integer threshold problem is
-stated after normalization by \(\ln 2\).
-The restricted construction does not establish the
-complexity of deciding \(P(M)=G(M)\) in general.
-Detailed proof encodings and synthetic checks are
-available in the accompanying reproducibility materials.
-
-\subsection{Frozen resource-selection procedure}
-The empirical selection trains \emph{only} \(N_{\pi_0}\)
-and \(P\), using the same strictly improving, deterministic
-add-only greedy heuristic, separately for each Train workload
-and budget. Its feasibility is the experimental
-\(\sum_{e\in M}\bar m_e\leq B\), with nonnegative
-per-object \emph{proxy} costs. The heuristic adds the feasible
-single resource giving the greatest strictly positive loss
-decrease, breaking ties by candidate ID, and stops if no
-such improvement exists. It performs no swaps or deletions
-and does not certify global optimality. The read-only
-offline \(A,G\) analysis is \emph{not} a retraining or
-a different selection algorithm.
-
-\section{A Scoped PostgreSQL MCV Mechanism}
-\label{sec:pg}
-The preceding results concern freely ordered abstract
-resource edges. We now identify a restricted estimator
-path with the same conflict structure; this does not
-transfer abstract worst-case bounds to physical Q-error.
-
-\subsection{Version-pinned selector and its prerequisites}
-PostgreSQL 16.14's single-relation selectivity path can apply
-multivariate MCV objects to still-unestimated compatible
-clauses. Source inspection covers four selector functions:\\
-{\raggedright
-\texttt{clauselist\_selectivity\_ext},\\
-\texttt{statext\_mcv\_clauselist\_selectivity},\\
-\texttt{choose\_best\_statistics}, and\\
-\texttt{RelationGetStatExtList}.\par}
-The selector repeats candidate selection over a source-level
-OID-sorted candidate list. Under the conditions below,
-all surviving eligible two-key objects tie in the ranking,
-so list/OID order resolves which object is used first
-\cite{pg16stats}. This is a deterministic mechanism
-for a fixed catalog, not a source of random orders.
-The version-pinned code locations and conditional argument
-are recorded in the accompanying project
-\href{https://github.com/1951123/ess-research/blob/main/notes/pg-mcv-maximal-matching-correspondence.md}
-{source-correspondence note}.
-
-The correspondence assumes:
-\begin{enumerate}
-\item[\textbf{A1.}] Each relevant clause is a supported simple MCV
-  predicate on exactly one distinct base-table attribute. It is
-  non-pseudoconstant, with one relevant clause per attribute and no OR,
-  expression or repeated-attribute predicates.
-\item[\textbf{A2.}] Eligible objects are \emph{built}
-  two-attribute, no-expression MCV statistics on the same
-  base relation, covering two currently unestimated
-  compatible attribute clauses.
-\item[\textbf{A3.}] Privilege, relation and inheritance checks
-  permit the objects, no other estimator preconsumes those
-  clauses, and the candidate list is exactly the
-  installed eligible set.
-\item[\textbf{A4.}] Every object whose two endpoints remain
-  free ties under the selector's key/coverage ranking;
-  the fixed list order breaks the tie.
-\end{enumerate}
-
-An edge is labeled by the particular built MCV object, not
-just its attribute pair: distinct objects on the same pair
-can have different contents. Under A1--A3, applying an edge
-uses the compatible clauses for both endpoint attributes.
-Those clauses are then marked estimated, so an edge sharing
-either endpoint cannot also be applied to the remaining
-clauses in that estimation step. This is the graph conflict
-represented by a shared endpoint. A1--A4 make the available
-unconsumed edges exactly the candidates inspected by the
-repeated selector, with tied candidates resolved by its fixed
-list order. At termination, an unselected edge disjoint from
-all selected edges would still cover two free clauses and
-would remain eligible, contradicting termination. Hence the
-selected objects form an inclusion-wise maximal matching.
-For the path in Figure~\ref{fig:path}, one such matching has
-two edges and another has one: maximality means no edge can
-be appended, not that the matching has maximum cardinality.
-
-\begin{proposition}[Conditional source correspondence]
-\label{prop:pg}
-Under A1--A4, the selected labeled two-column MCV
-objects constitute an inclusion-maximal matching of \(H_i[M]\).
-If the abstract tie priority is freely varied over all strict
-total orders, its attainable \emph{single-task} outputs
-are exactly \(\Gamma_i^{\mathrm{MM}}(M)\).
+\begin{proposition}[Fixed-set shared-order hardness]
+\label{prop:shared-hardness}
+Computing $G(M)$ in the freely ordered labeled
+matching model with loss (\ref{eq:multiplicative})
+is NP-hard, even when each task has two eligible
+conflicting edges and all correction factors are
+in $\{1,2\}$.
 \end{proposition}
 \begin{proof}
-After selecting a two-attribute object, the corresponding
-clauses are marked estimated; subsequent selected objects
-cannot share either endpoint. If an unselected edge were
-disjoint from every selected edge at termination, its two
-clauses would remain eligible, contradicting the terminating
-failure to find a candidate. The output is maximal.
-Conversely, Proposition~\ref{prop:completion}
-orders any chosen maximal matching first.
+Reduce Maximum Acyclic Subgraph for a loopless
+directed graph $D=(V,A_D)$
+\cite{karp1972reducibility}. For each vertex $v$,
+install one labeled edge $e_v$ in a common star.
+For each arc $(u,v)\in A_D$, make a task eligible
+for exactly $e_u,e_v$, with baseline estimate equal
+to its positive target, unit workload weight, and
+correction factors $r_{e_u,i}=2$ and $r_{e_v,i}=1$.
+Its only maximal matchings select $e_u$ or $e_v$,
+giving modeled losses $\ln 2$ and zero. Under a
+shared strict priority $\pi$, greedy selects $e_u$
+exactly when $u$ precedes $v$. Therefore
+\[
+\frac{G(M)}{\ln 2}=
+\max_{\pi}|\{(u,v)\in A_D:u\text{ precedes }v\text{ under }\pi\}|.
+\]
+The right side is the maximum number of forward
+arcs, equal to the optimum of Maximum Acyclic
+Subgraph. The construction has polynomial size,
+and the restricted decision language has an
+integer threshold $K$, explicit task-edge incidence,
+and rational factors from $\{1,2\}$. It asks
+whether some shared order makes at least $K$
+tasks incur $\ln 2$, i.e., $G(M)\geq K\ln 2$.
+A proposed order is checked by counting forward
+arcs using integer arithmetic, without general
+transcendental-value comparisons. Thus this
+restricted threshold problem is NP-complete;
+computing the unrestricted fixed-set $G(M)$
+is NP-hard. No claim of NP membership is
+made for arbitrary real input representations.
 \end{proof}
-The proposition characterizes the restricted selector
-under A1--A4, \emph{not} arbitrary SQL, joins,
-other statistics kinds, competing clause consumers, or
-non-tied rankings. In a fixed physical catalog the OID
-order is not freely variable. Thus the correspondence
-supplies a concrete structural instance of the ESS model,
-not an assertion that PostgreSQL implements ESS or
-realizes every abstract priority without catalog changes.
-
-\subsection{Physical mechanism evidence}
-A controlled four-attribute trace with objects \(AB,BC,CD\)
-used an instrumented PostgreSQL development build. Creating
-objects in order \(AB,BC,CD\) produced the selected set
-\(\{AB,CD\}\), while \(BC,AB,CD\) produced
-\(\{BC\}\). Both terminated without an eligible candidate
-and involved built MCV data. This was a scoped fixture-level
-observation; recreating objects can otherwise affect sample
-contents.
-
-In a later, content-controlled held-out order intervention,
-four frozen Nominal \(B=5\) sets were recreated in canonical
-or exact-reverse order. Checks fixed the data, replayed
-ANALYZE sample, settings and MCV-content fingerprints.
-All 80,000 Test EXPLAIN outcomes and MCV diagnostics
-completed. Section~\ref{sec:results} quantifies changed
-applied-object sequences and actual row-estimation effects.
-Neither intervention makes all maximal matchings physically
-attainable in every context, or equates the multiplicative
-model with PostgreSQL's entire cardinality calculation.
+The hardness pertains to fixed-set evaluation
+under freely variable \emph{abstract} priorities,
+not outer resource-selection optimization or
+physical PostgreSQL order control. It also does
+not determine the complexity of testing
+$P(M)=G(M)$ in general.
 
 \section{Experimental Protocol}
 \label{sec:protocol}
-We distinguish effects on \emph{modeled resource decisions}
-from changes in \emph{measured physical estimates}. Their
-losses and provenance remain separate throughout.
+\subsection{Frozen resource-selection procedure}
+Only \(N_{\pi_0}\) and \(P\) are trained, using the same deterministic
+strict-improvement add-only greedy heuristic for each Train workload
+and budget. Feasibility is \(\sum_{e\in M}\bar m_e\leq B\), with
+nonnegative per-object proxy costs. Each step adds the feasible
+single resource with greatest positive loss decrease (ties by
+candidate ID); the procedure stops when none remains, uses no swaps
+or deletions, and gives no global-optimality certificate. Read-only
+\(A,G\) analyses neither retrain nor change selection.
+
 \subsection{Evidence layers and frozen Train selection}
-We separate \emph{Train-model resource decisions} from
-\emph{physical held-out evaluation}. The original AreCEL
-Forest10, Census13, DMV11, and Power7 workloads
-\cite{wang2021arecel} each provide 100,000 Train tasks
-for model construction and selection and 10,000 official
-Test queries for PostgreSQL evaluation. Neither Test
-labels nor physical Test estimates reselect resources.
+The four original AreCEL workloads \cite{wang2021arecel} each
+supply 100,000 Train tasks and 10,000 official Test queries; Test
+labels and estimates never select resources. We use Train for
+Nominal/PESS selection and abstract-priority analysis, one
+Census13 Train scheme-space case study, canonical/reverse physical
+Test orders, and sampled counterfactual OID orders. Paired-query
+diagnostics describe the saved physical observations; only the last
+study estimates mean per-order Test P95 across orders, with
+order-sampling uncertainty.
 
-The evidence has five complementary roles: (i) select
-Nominal and PESS resource sets using Train data;
-(ii) enumerate abstract priorities on these \emph{fixed}
-sets; (iii) inspect one Census13 Train task's complete
-scheme family; (iv) measure physical Test outcomes at
-canonical and controlled reverse catalog orders; and
-(v) sample relative-OID orders to estimate a
-counterfactual order-population expectation. A subsequent
-read-only paired-query analysis characterizes diagnostic
-changes in the sampled physical observations.
-Only the fifth stage averages physical Test P95 over
-orders; its uncertainty concerns sampled orders,
-not new queries or workloads.
+The frozen greedy selections cover \(B\in\{0,2,3,4,5\}\): 40 labeled
+decisions across 25 distinct physical configurations. Each candidate
+cost is one proxy unit, not measured maintenance CPU or storage.
+Selected resources and the manifest are frozen in
+\href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the resource manifest}.
+Coefficients use positive clamped-log-derived quantities with exact
+\texttt{Fraction} reference checks. “Exact” describes arithmetic
+agreement for the modeled losses and workload sums, not physical
+fidelity, global selection optimality, or rational arithmetic at every
+implementation step. Objective values are Train-loss sums; dividing
+by positive sample size gives empirical averages without changing
+their minimizers or strictly improving single-addition choices.
 
-The frozen Train selection chooses Nominal and PESS resources with
-the same deterministic, strictly improving add-only greedy heuristic
-at \(B\in\{0,2,3,4,5\}\). Each candidate's budget cost is one
-\emph{proxy unit}, not measured maintenance CPU or storage. All 40
-labeled decisions completed, giving 25 unique dataset-specific
-physical configurations. The frozen resource manifest is stored at
-\href{https://github.com/1951123/ess-research/blob/main/experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json}{the frozen resource-selection manifest}.
-The frozen Train-model coefficients use positive clamped-log-derived
-quantities and exact \texttt{Fraction} reference evaluation; they
-are not physical \texttt{Plan Rows} measurements.
-
-A read-only Census13 Train case study enumerates \(\Gamma_i(M)\)
-for five existing B3/B4/B5 selected sets. It deterministically
-takes the smallest stable Train task ID satisfying structural,
-positive-risk and compact-family conditions. Exact task losses
-were checked against a pinned advisor reference, and the
-100,000-task objective sums agreed with the independent
-frozen offline model summary. This is artifact agreement, not independent recollection
-of raw Train data or a new resource-selection experiment.
+For five existing Census13 B3/B4/B5 selected sets, a deterministic
+rule chose the smallest qualifying stable Train ID and enumerated
+\(\Gamma_i(M)\). Task losses matched a pinned advisor reference and
+100,000-task sums matched the frozen offline summary. This verifies
+artifact agreement, not independent recovery of raw Train data or a
+new selection run.
 
 \subsection{Physical PostgreSQL evaluation}
-The fixed-order, reversal, and sampled-order physical
-experiments use version-pinned PostgreSQL 16.14 with full
-source relations, frozen ANALYZE sample replay, and effective
-statistics target 300 for ordinary and selected extended
-statistics. The order-intervention build is pinned
-to source SHA \texttt{f1bf37b5dd3d3a7087fc0af5de550ca31035854c}.
-Settings include these pinned values:\\
+Fixed, reverse, and sampled-order tests use PostgreSQL 16.14 with
+full source tables, frozen ANALYZE replay, and target 300 for ordinary
+and extended statistics. The order-intervention source is
+\texttt{f1bf37b5dd3d3a7087fc\allowbreak 0af5de550ca31035854c}.
+Settings are:
 {\raggedright
 \texttt{plan\_cache\_mode=force\_custom\_plan};\\
 \texttt{max\_parallel\_workers\_per\_gather=0};\\
 \texttt{client\_min\_messages=warning}.\par}
-For controlled order changes,
-the protocol verifies actual OID priority, full-table/sample identities,
-ordinary statistics and individual MCV-content fingerprints.
-Per-query extended-statistics diagnostics are used to verify applied
-object and MCV-estimate sequences; EXPLAIN alone is insufficient.
+Order experiments verify actual OID priority, table/sample and
+ordinary-statistics identities, and per-object MCV fingerprints.
+Per-query diagnostics record applied objects and MCV estimates.
 
-For each original Test query, let \(t\geq0\) denote its truth
-and \(e\geq0\) its rounded top-level \texttt{Plan Rows} estimate.
-Using the frozen \(r=1\) rounding convention, the zero-aware
-AreCEL Q-error is
+For truth \(t\geq0\) and rounded top-level \texttt{Plan Rows}
+\(e\geq0\), the frozen \(r=1\) zero-aware Q-error is
 \begin{equation}
 \label{eq:qerror}
 Q(t,e)=
@@ -696,25 +1087,19 @@ e,&t=0,\ e>0,\\
 \max(e/t,t/e),&t>0,\ e>0.
 \end{cases}
 \end{equation}
-The percentile implementation follows the original NumPy convention,
-and differs from the selection model's absolute-log loss.
-The canonical fixed-order evaluation completed 25 configurations
-and 250,000 Test EXPLAINs. The controlled canonical/reverse
-comparison completed eight configurations, 80,000 Test EXPLAINs and complete
-selected-object/estimate diagnostics. Both studies use frozen,
-previously selected resources.
+Percentiles use the original NumPy convention. This physical metric
+differs from the Train model's absolute-log loss. The canonical study
+completed 25 configurations/250,000 Test EXPLAINs; canonical/reverse
+completed eight/80,000 with selected-object and estimate diagnostics.
+Both reused frozen resource choices.
 
 \subsection{Offline Train-model global order enumeration}
-The offline analysis enumerates strict global
-priorities on the \emph{already selected} Train sets:
-906 permutations in total for 25 distinct fixed sets. A global
-order is shared across tasks and counted even when distinct
-orders induce the same matching outcomes. It computes
-\(N_{\pi_0}(M),A(M),G(M),P(M)\) using frozen
-Train coefficients and exact reference checks, with
-\emph{no} Test execution, refitting or reselection.
-The enumeration code, frozen coefficients, exact summaries,
-and verification tests accompany the reproducibility artifacts.
+For the 25 selected sets, offline analysis enumerates 906 strict
+global priorities shared across tasks, including orders with identical
+outcomes. It evaluates \(N_{\pi_0}(M)\), \(A(M)\), \(G(M)\), and
+\(P(M)\) from frozen Train coefficients with exact reference checks;
+there is no Test execution, refitting, or reselection. Code,
+coefficients, summaries, and checks are versioned.
 
 \subsection{Counterfactual uniform global relative-OID order}
 For RQ3, define a \emph{hypothetical} uniform population of
@@ -760,9 +1145,31 @@ population means conditional on the fixed Test split.
 For the independently sampled PESS-minus-Nominal contrast,
 the component variance estimates add. The frozen approximate
 95\% intervals use \(t_{0.975,21}\) times the design standard
-error. They cover \emph{permutation sampling only}, not new
-workloads, datasets or ANALYZE samples. A degenerate interval
+error. These are approximate \emph{design-based} intervals for
+sampling orders from the stated finite order populations,
+conditional on the frozen selected sets, Test queries, database
+state, and ANALYZE replay. The use of a common
+$t_{0.975,21}$ multiplier is a declared approximation for
+the contrast, not an exact finite-population coverage theorem
+for two components with different sampling designs.
+They do not quantify uncertainty from new workloads,
+datasets, ANALYZE samples, or the model-to-physical gap.
+A degenerate interval
 from 24 sampled orders cannot certify all 120 orders identical.
+An independent read-only audit regenerated the frozen
+156-arm schedule byte-for-byte and recomputed each order's
+Test P95 and the reported design-weighted contrasts from
+the retained physical archives. As a \emph{post hoc}
+four-contrast multiplicity sensitivity check, applying
+$t_{1-0.05/(2\cdot4),21}$ instead gives approximate
+Bonferroni intervals for PESS-minus-Nominal of
+$[+0.0128,+0.2070]$ (Forest10),
+$[-1.6989,-0.6964]$ (Census13),
+$[-9.3878,-3.1048]$ (DMV11), and
+$[-0.2371,+0.2958]$ (Power7).
+These intervals retain the underlying marginal
+Student-$t$ approximation and do not establish exact
+finite-population or workload-level coverage.
 
 The sampled-order design was specified after inspection of
 canonical and reversal outcomes, although new sampled orders
@@ -909,6 +1316,30 @@ taskwise-worst criterion. These are Train-model absolute-log
 loss sums, not Q-errors or physical Test comparisons, and
 should not be normalized against unrelated dataset totals.
 
+\paragraph{Decomposing the modeled risk gap.}
+For any fixed resource set, the full difference between
+task-wise pessimism and the nominal reference separates
+algebraically into two nonnegative components:
+\begin{equation}
+\label{eq:gap-decomposition}
+P(M)-N_{\pi_0}(M)
+=\underbrace{P(M)-G(M)}_{\text{cross-task relaxation}}
++\underbrace{G(M)-N_{\pi_0}(M)}_{\text{priority uncertainty}}.
+\end{equation}
+The first component is the price, in modeled loss,
+of permitting each task to choose its worst matching
+independently rather than enforcing a single common
+global order. The second is the gap between that
+common-order worst case and the one nominal priority.
+Both use the \emph{same} installed set and the
+\emph{same} Train loss model. This decomposition
+does not imply that either component predicts
+physical Test Q-error or that separately trained
+Nominal and PESS resource sets can be compared by
+subtracting their components. It also does not
+attribute an observed physical change to an
+individual statistic.
+
 Table~\ref{tab:gap} isolates the coupling effect:
 it measures \(P(M)-G(M)\) \emph{within each fixed B5 set}.
 All four Nominal-selected sets have positive gaps,
@@ -937,17 +1368,86 @@ Power7 & 5385.310 & 0\\
 \end{tabular}
 \end{table}
 
+\subsection{Full-candidate installation versus a selected subset}
+\label{sec:all-versus-selected}
+To investigate the motivating observation independently of the
+earlier B5 physical results, we installed every frozen Train
+candidate two-column MCV statistic definition on Forest10
+(45 objects) and DMV11 (55 objects). For each dataset, two
+distinct global relative-OID orders were fixed before Test;
+a separate Nominal B5 control used the five selected objects
+in the relative order projected from ALL order 01.
+Thus the ALL--B5 comparison holds the priority \emph{among
+shared objects} fixed; additional ALL objects may precede or
+compete with them. Each arm evaluated the same 10,000 held-out
+queries with the frozen sample, statistics target 300 and
+PostgreSQL 16.14 source and Q-error procedure.
+Catalog OID orders, ordinary-column statistics and shared
+candidate MCV payload fingerprints were checked across arms.
+
+\begin{table}[t]
+\caption{Additional fixed-configuration physical Test Q-error
+on two workloads. ALL01 and ALL02 install the same complete
+candidate set in two precommitted relative-OID orders;
+B5 matches the five shared objects' relative order in ALL01.
+Each cell reports a per-arm P95/mean over 10,000 Test queries,
+not a pooled percentile or an expectation over permutations.}
+\label{tab:all-b5}
+\centering\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Dataset & Arm & P95 & Mean \\
+\midrule
+Forest10 & ALL01 (45) & 15.00 & 6.69 \\
+         & ALL02 (45) & 15.00 & 6.71 \\
+         & matched B5 & 14.00 & 6.49 \\
+DMV11    & ALL01 (55) & 57.61 & 107.11 \\
+         & ALL02 (55) & 67.53 & 187.16 \\
+         & matched B5 & 36.00 & 32.76 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:all-b5} shows that DMV11 ALL01's Test P95 is
+21.60 higher than matched B5 (57.61 versus 36.00); ALL02 is
+9.92 higher than ALL01 with the set fixed.
+The two OID orders change Plan Rows and query-level Q-error
+on 6,246 of 10,000 DMV11 queries. In the matched
+ALL01--B5 comparison, ALL worsens 5,074 individual
+Q-errors, improves 2,384 and leaves 2,542 unchanged.
+Forest10 provides a smaller all-versus-subset P95
+contrast (+1.0); its two ALL orders share P95 15.0
+despite 3,329 query-level Plan Rows/Q-error changes.
+The outcomes are therefore neither monotone per query
+nor uniformly sensitive at the P95 aggregate.
+
+All 55 DMV11 ALL objects had populated MCV payloads; Forest10 had
+23 populated and 22 successfully created NULL-payload definitions.
+Forest10 B5 has valid Plan Rows/Q-error for all queries, but its
+original diagnostic status was overwritten for 6,648; offline
+same-catalog remapping recovers observed candidate IDs, not
+diagnostic completeness. DMV11 diagnostics passed. An independent
+offline audit verified archive identities and recomputed all six arms'
+metrics and paired counts; execution-time catalog controls were
+cross-checked against saved audits. Raw observations remain in the
+external runtime archive.
+
+Neither contrast identifies which added MCV statistic,
+if any, blocked a more useful candidate: chooser ranking,
+predicate consumption and loss-of-eligibility transitions
+were not recorded. The two ALL orders do not estimate
+performance over all 45! or 55! relative priorities,
+and ALL02 is not priority-matched to B5. This evidence
+demonstrates specific physical outcomes under controlled
+interventions, not that PESS or a reduced set must
+outperform ALL in general.
+
 \subsection{Canonical and reversed physical Test orders}
-The canonical fixed-order evaluation produced 250,000 valid
-official Test EXPLAINs. Under the B5 canonical
-configuration, Nominal has lower physical Test P95
-than PESS on all four datasets. To isolate an
-\emph{order intervention}, the reversal experiment recreates
-each \emph{same Nominal B5 set} in exact reverse
-order while controlling sample and MCV contents.
-Table~\ref{tab:physical} reports the resulting
-diagnostic and P95 differences. Reverse is not
-asserted to be the worst possible order.
+The canonical study completed 250,000 Test EXPLAINs. At B5,
+Nominal's physical P95 is lower than PESS on all four datasets.
+Reversing the same Nominal set controls resource identity, sample,
+and MCV contents; Table~\ref{tab:physical} reports this order
+intervention. Reverse is not asserted to be a worst order.
 
 \begin{table}[!tbp]
 \caption{B5 physical Test P95 Q-error. Can.\ N/P
@@ -970,26 +1470,18 @@ Power7 & 9.8449 / 9.9576 & 9.8069 & \(-0.39\%\) & 4898\\
 \end{tabular}
 \end{table}
 
-The two contrasts answer distinct questions: canonical
-N/P compares \emph{different installed sets}, whereas
-canonical/reverse compares \emph{one fixed Nominal set}.
-Reversal raises P95 on three datasets (by 61.99\% on
-DMV11), but slightly lowers it on Power7.
-Thousands of MCV application sequences change;
-this does not mean every affected query changes
-Q-error or that reverse represents a deployment
+Canonical N/P compares different installed sets; reversal compares
+one fixed Nominal set. Reversal raises P95 on three datasets but
+slightly lowers it on Power7. Changed MCV sequences do not imply
+changed Q-error for every query, nor make reverse a deployment
 distribution.
 
 \subsection{Expected physical P95 under a hypothetical order}
-The order-population estimand in~\eqref{eq:estimand} is
-the \emph{mean of per-order physical Test P95},
-estimated with the frozen finite-population
-sampling weights. In Table~\ref{tab:expected},
-negative PESS-minus-Nominal differences favor PESS:
-Census13 and DMV11 do so, Forest10 favors
-Nominal, and Power7's interval spans zero.
-These are order-population comparisons under
-a declared counterfactual assumption.
+The estimand in~\eqref{eq:estimand} is the finite-population mean
+of per-order Test P95. In Table~\ref{tab:expected}, negative
+PESS-minus-Nominal favors PESS: Census13 and DMV11 do so, Forest10
+favors Nominal, and Power7 is inconclusive. This is a counterfactual
+order-population comparison.
 
 \begin{table}[!tbp]
 \caption{B5 counterfactual uniform global relative-OID
@@ -1012,275 +1504,147 @@ Power7 & 9.9283 & 9.9576 & +0.0293; [ -0.1735,\ +0.2322 ]\\
 \end{tabular}
 \end{table}
 
-The ranking reversal on Census13 and DMV11 is
-not a contradiction: the fixed-order comparison evaluates
-each set under one canonical order, whereas the sampled-order
-study averages
-\emph{per-order} P95 across a hypothetical order
-population. Different resource sets can rank
-differently under different evaluation policies.
-For an advisor with reliable knowledge of a
-fixed deployment priority, evaluation \emph{at that
-priority} is more directly relevant (canonical
-only if it matches). Otherwise, the uniform-order
-comparison is a \emph{sensitivity analysis},
-not a learned deployment distribution.
-Neither physical comparison computes the abstract
-worst shared-order loss \(G\) or validates
-PESS as a universal physical envelope.
-The reported intervals cover only frozen
-permutation sampling.
+Canonical evaluation uses one order per selected set; the sampled
+study averages per-order P95 under a specified counterfactual uniform
+OID population. Their different rankings are therefore not
+contradictory. For a known deployment policy, evaluate that priority;
+otherwise uniform order is a sensitivity analysis, not a learned
+deployment distribution. Neither comparison computes \(G\) or
+validates PESS as a physical envelope. Intervals cover permutation
+sampling only; the post hoc Bonferroni check keeps the first three
+contrasts on their original sides of zero, while Power7 remains
+inconclusive, under the same approximate marginal-\(t\) assumptions.
 
 \paragraph{Query-level diagnostics under frozen orders.}
-A read-only analysis of the sampled-order physical records
-validated per-query observations and reproduced the
-reported aggregate estimates.
-Across checked Nominal order pairs, every observed
-Q-error change coincided with an MCV candidate-ID
-sequence change, but the converse failed.
-Relative to declared anchor orders, Census13 and DMV11
-Nominal have 17,731 and 37,843 query--order pairs
-with both changes. The corresponding PESS comparisons
-have 87,921 and 89,890 changed ID sequences with
-\emph{unchanged} Q-error and candidate-aligned numeric
-MCV estimates. These are repeated, descriptive
-query--order comparisons, not independent observations,
-population estimates, or causal mediation tests;
-the separate canonical/reverse pairs are excluded.
-The physical observations thus separate \emph{application-order
-sensitivity} from \emph{error sensitivity}. Diagnostics
-locate differences among frozen configurations, but do not
-identify causal effects of individual MCV applications.
+A read-only audit validated the sampled-order records and reproduced
+the aggregates. In checked Nominal pairs, every Q-error change
+coincided with a changed candidate-ID sequence, but not vice versa.
+Relative to anchors, Census13/DMV11 Nominal had 17,731/37,843
+query--order pairs with both changes; PESS had 87,921/89,890
+changed sequences with unchanged Q-error and candidate-aligned
+estimates. These repeated descriptive pairs (excluding
+canonical/reverse) are not independent samples or causal evidence:
+application and error sensitivity differ, and individual MCV effects
+are not identified.
 
-The constant P95 observed for Census13's
-24 sampled PESS orders does not establish
-invariance across its 96 unsampled orders;
-Forest10 and Power7 PESS instead have exact
-six-order censuses. Finally, the exact offline Train
-\(A(M)\) averages \emph{Train-model total
-absolute-log loss} over abstract priorities,
-while the sampled physical study averages \emph{Test
-per-order P95 Q-error}. These different
-metrics, splits, and mechanisms preclude
-interpreting agreement of rankings as
-model calibration.
+Census13's constant P95 across 24 sampled PESS orders does not
+certify its 96 unsampled orders; Forest10 and Power7 PESS are
+six-order censuses. Offline \(A(M)\) averages Train-model total
+absolute-log loss over abstract orders, unlike physical Test's
+per-order P95 Q-error. Their rankings do not establish model
+calibration.
+\paragraph{Answers to the research questions.}
+\emph{RQ1:} On frozen B5 Nominal sets, reversing priority changed
+MCV sequences and physical P95, with direction varying by dataset;
+sequence changes do not always change Q-error. This is scoped order
+sensitivity, not universal behavior or an individual-statistic
+causal effect.
 
+\emph{RQ2:} Nominal and PESS sometimes select different resources.
+For each fixed set, \(P(M)-G(M)\) and
+(\ref{eq:gap-decomposition}) describe the modeled relaxation from a
+shared priority to task-wise worst schemes and from Nominal to the
+shared-order worst case. Different greedy outputs do not prove
+different global optima; these are frozen Train-model results.
+
+\emph{RQ3:} Canonical B5 favors Nominal on all four datasets.
+For counterfactual uniform relative-OID orders, estimated mean
+per-order P95 favors PESS on Census13/DMV11, Nominal on Forest10,
+and is inconclusive on Power7. Neither is a production order
+distribution; they answer different policy questions.
 \section{Threats to Validity}
 \label{sec:validity}
-The main inferential boundary separates the prescribed
-complete-scheme model from a version-pinned physical
-implementation. The limitations below qualify distinct
-claims rather than a single common outcome.
-\paragraph{Prescribed model and physical coverage.}
-The prescribed \(\Gamma_i(M)\) is not known to
-contain all physically realizable schemes
-\(\mathcal R_i(M)\); even containment would not
-suffice for a physical-error bound without loss
-alignment. The matching correspondence assumes A1--A4
-and may fail for joins, other predicate patterns,
-statistics kinds, or estimation stages. Scheme-family
-nonnestedness alone does not imply nonmonotonicity
-of every objective. The deterministically selected
-Census13 Train witness demonstrates a possible
-loss gap, not task-population representativeness
-or general family nonnestedness.
+The central boundary is between prescribed complete schemes and
+physical PostgreSQL behavior.
 
-\paragraph{Resource and metric proxies.}
-The selected resource sets come from a strictly
-improving add-only greedy heuristic, not a globally
-optimal outer solver. Budget units proxy maintenance
-rather than measured collection, refresh, storage,
-or update overhead. Train-model absolute-log loss
-differs from PostgreSQL Test Q-error; lower Q-error
-does not itself establish better plan latency.
-Neither maintenance savings nor runtime gains
-are demonstrated here.
+\paragraph{Model and metric.}
+We do not know that \(\Gamma_i(M)\) contains all real schemes
+\(\mathcal R_i(M)\); containment alone would not bound physical error
+without aligned losses. The matching correspondence requires
+A1--A4 and may fail for joins, other predicates, statistics kinds,
+or estimation stages. Nonnestedness does not make every objective
+nonmonotone, and the Census13 Train witness is not population
+evidence. Resource choices are greedy, not globally optimal;
+budget units proxy maintenance, and Train absolute-log loss differs
+from Test Q-error and plan latency. No maintenance savings or
+runtime gains are established.
 
-\paragraph{Order assumptions and inference.}
-A fixed catalog has a deterministic OID order;
-strategy uncertainty does not imply randomization.
-The uniform abstract and physical relative-OID
-order populations are \emph{counterfactual},
-not learned deployment distributions.
-The 156-arm study does not enumerate all
-five-object orders; its approximate intervals
-cover permutation sampling conditional on
-the frozen Test split. A constant outcome among
-24 sampled orders cannot certify the remaining
-96. The order design followed inspection of
-earlier experiments, and the record retains both
-pre-EXPLAIN configuration failures and an
-unresolved historical reuse-rejection cause.
-The paired-query diagnostic counts do not
-identify causal mediation.
+\paragraph{Orders and generalization.}
+A fixed catalog has deterministic OIDs; the uniform order population
+is counterfactual. The 156-arm sample and approximate intervals are
+conditional on frozen sets and Test queries, not a census or workload
+uncertainty bound; 24 equal outcomes cannot certify 96 unsampled
+orders. Order design followed earlier inspection; eight reuse
+failures and twelve pre-EXPLAIN configuration failures are retained
+in the record, including the unresolved reuse cause. Paired
+diagnostics do not identify causal mediation.
 
-\paragraph{Generalization and reproducibility.}
-Results are limited to four original AreCEL
-splits, two-column single-relation MCV resources,
-statistics target 300, and the pinned
-PostgreSQL 16.14 build; we do not reproduce
-AreCEL's learned estimator \cite{wang2021arecel}.
-Protocols, analysis code, findings, and hashes
-are versioned, but query-level physical raw
-observations and manifests are retained in
-documented external runtime archives.
-No cross-DBMS generalization, universal
-PESS superiority, or unconditional physical
-worst-case claim follows.
+Results cover four AreCEL splits, single-relation two-column MCVs,
+target 300, and the pinned PG 16.14 build; AreCEL's learned estimator
+is not reproduced \cite{wang2021arecel}. Protocols and analyses are
+versioned, while raw query observations remain in documented
+external archives. No cross-DBMS, universal PESS, or unconditional
+physical worst-case claim follows.
 
 \section{Related Work}
 \label{sec:related}
-\paragraph{Statistics management and advisors.}
-Budgeted statistics selection is established
-research. Chaudhuri and Narasayya identify
-essential statistics sets for a specified
-optimizer plan/cost criterion, including
-multicolumn objects, multiple valid sets,
-and order-dependent shrinking outcomes
-\cite{chaudhuri2000stats}. Their work already
-demonstrates interactions in statistics
-selection; ESS instead evaluates a resource
-set against a family of downstream complete
-applications when the selecting policy is
-not dependably known.
+Statistics selection already considers optimizer criteria and
+multicolumn interactions \cite{chaudhuri2000stats}. SIT work studies
+selectivity uncertainty and candidate contributions
+\cite{bruno2002sit}; StatAdvisor models grouped benefits
+\cite{elhelw2009statadvisor}, while CORDS and query feedback discover
+correlations \cite{ilyas2004cords,haas2007dependencies}. Physical
+design also models interdependent choices
+\cite{bruno2005relaxation}. ESS claims no novelty for these problems;
+it evaluates an installed set against resource-dependent complete
+applications when downstream policy knowledge is uncertain.
 
-Bruno and Chaudhuri's statistics for
-intermediate query expressions (SITs)
-already address uncertainty and sensitivity:
-Min/Max hypothetical distributions yield
-extreme selectivity and cardinality estimates,
-used to assess plan-cost spread and candidate
-SIT contributions \cite{bruno2002sit}.
-Their uncertainty concerns distributions and
-optimizer responses; ours concerns which
-complete application the estimator selects
-from installed resources. SITs concern
-intermediate expressions, whereas our physical
-instance uses single-table two-column MCVs.
+Conditional selectivity and Cardinality Estimation Graphs represent
+conflicting SITs and alternative complete estimation paths
+\cite{bruno2004conditional,chen2022ceg}. They are precedents for
+competing estimator-side applications, not asserted PostgreSQL MCV
+matchings. Our question is upstream budgeted installation when the
+advisor cannot reliably predict the later choice.
 
-StatAdvisor models dependencies and grouped
-benefits among statistical views
-\cite{elhelw2009statadvisor}; CORDS and
-query-feedback approaches identify attribute
-correlations for statistics recommendations
-\cite{ilyas2004cords,haas2007dependencies}.
-Physical-design relaxations also handle
-interdependent choices across structures
-\cite{bruno2005relaxation}. We claim no novelty
-for budgeted selection, correlations, or
-resource interactions in isolation.
-The additional decision input in ESS is the
-resource-dependent \emph{family of complete
-applications} and the advisor's knowledge
-of the policy choosing among them.
-
-\paragraph{Alternative complete estimation paths.}
-Conditional selectivity already treats
-conflicting SITs and alternative estimator
-decompositions \cite{bruno2004conditional}.
-Cardinality Estimation Graphs represent
-alternative complete summary-based paths
-and study fixed or undefined path-selection
-rules \cite{chen2022ceg}. Both are direct
-precedents for competing estimator-side
-applications, so ESS does not claim their
-existence as a new phenomenon. These works
-primarily construct or choose an estimator
-path. ESS asks an \emph{upstream budgeted
-installation} question: which resources
-should be made available when doing so
-induces \(\Gamma_i(M)\), but the advisor
-cannot reliably predict the later choice?
-Neither SIT decompositions nor CEG paths
-are asserted to be PostgreSQL MCV matchings.
-
-\paragraph{Ordering and complexity precedents.}
-Our restricted hardness construction imports
-the classical Feedback Arc Set / Maximum
-Acyclic Subgraph problem
-\cite{karp1972reducibility}; it does not
-invent ordering hardness. Minimum maximal
-matching and weighted greedy matching already
-have established complexity and priority
-results \cite{yannakakis1980edge,deligkas2017weighted}.
-General decision-dependent uncertainty also
-precedes ESS \cite{nohadani2018decision}.
-Our contribution is the specific coupling
-of estimator tasks by one global resource-edge
-order. We do not claim generic precedence
-feasibility as novel; full prior-art novelty
-for the particular realizability test remains
-to be established.
-
-\paragraph{Estimation quality and robust decisions.}
-PostgreSQL supports several extended
-statistics kinds, including MCVs \cite{pg16stats}.
-LpBound derives pessimistic \emph{cardinality
-upper bounds} from degree statistics
-\cite{zhang2025lpbound}; PESS instead
-maximizes \emph{modeled loss} over complete
-application schemes. PARQO and robust plan
-coresets address plan choice under uncertain
-estimates \cite{xiu2024parqo,raychaudhury2026coresets},
-not installation under unknown estimator
-application policies. Q-error is not a
-surrogate for end-to-end plan quality
-\cite{leis2015optimizers,han2022benchmark}.
-AreCEL provides our workload family
-\cite{wang2021arecel}, not the physical
-estimator used in our experiments.
-
-Taken together, these precedents locate
-the novelty claim at the \emph{advisor--estimator
-interface}, not at the discovery of
-alternative estimates or robust optimization
-in general. The comparison is targeted,
-not an exhaustive prior-art survey.
+Our restricted hardness uses classical Feedback Arc Set / Maximum
+Acyclic Subgraph hardness \cite{karp1972reducibility}; minimum
+maximal and weighted greedy matching have prior complexity results
+\cite{yannakakis1980edge,deligkas2017weighted}. Decision-dependent
+uncertainty also predates ESS \cite{nohadani2018decision}. Our fixed-set
+results concern one resource-edge order shared across tasks. The
+realizability test supplies a formulation-specific feasibility
+characterization used in those results, but we make no novelty claim
+for it as an algorithm; its relation to prior recognition problems
+remains open.
+PostgreSQL's extended statistics include MCVs \cite{pg16stats};
+LpBound studies pessimistic cardinality upper bounds
+\cite{zhang2025lpbound}, while PARQO and robust coresets address plan
+choice under uncertain estimates \cite{xiu2024parqo,raychaudhury2026coresets}.
+Q-error is not end-to-end plan quality
+\cite{leis2015optimizers,han2022benchmark}, and AreCEL supplies our
+workloads, not our physical estimator \cite{wang2021arecel}. Thus the
+targeted contribution is the advisor--estimator interface, not
+alternative estimates or robust optimization in general.
 
 \section{Conclusion}
 \label{sec:conclusion}
-An advisor controls \emph{which statistics to install};
-the estimator controls \emph{which available statistics
-are applied}. ESS makes this information gap explicit
-through resource-dependent complete scheme families and
-objectives corresponding to different policy knowledge.
-For one fixed resource set and aligned modeled loss,
-\(A(M)\leq G(M)\leq P(M)\), and the taskwise PESS envelope
-can be a tight factor of the task count above shared-order
-risk. Shared-order feasibility is constructive when
-target matchings are specified, while optimizing a common
-order inherits classical hardness in a restricted model.
-These are abstract, fixed-set results, not physical
-Q-error guarantees.
+ESS models budgeted resource choice when installed resources induce
+complete schemes selected by a downstream policy. For fixed sets and
+aligned modeled loss, \(A(M)\leq G(M)\leq P(M)\); task-wise PESS can
+be a tight task-count factor above shared-order risk. Shared-order
+feasibility is constructive for specified matchings, while its
+restricted optimization is hard. These model results do not bound
+physical Q-error.
 
-The frozen Census13 Train witness shows that complete
-schemes for the same task can have different modeled
-losses. Conditional PostgreSQL 16.14 source reasoning and
-controlled Test interventions exhibit physical order
-sensitivity. At canonical order, B5 Nominal has lower
-Test P95 in all four workloads; for the separate
-counterfactual mean \emph{per-order} P95, PESS is favored
-on Census13 and DMV11, Nominal on Forest10, and Power7
-is inconclusive within its sampling interval.
-Query-level diagnostics further show that changed MCV
-application sequences need not change Q-error.
-The two evaluations answer different policy questions;
-neither establishes universal PESS superiority or
-causal mediation by an individual MCV event.
-
-For practice, a resource recommendation should
-state its \emph{policy information assumption}:
-a known priority, a specified distribution over shared
-priorities, a worst shared priority, or independent
-taskwise worst schemes. A better score under one assumption
-does not establish superiority under another. PESS is a modeled
-conservative envelope, but taskwise maxima need
-not correspond to one jointly executable strategy.
-Grounding the policy family in deployed behavior,
-measuring maintenance and plan costs, and
-improving outer selection are future work.
-The present fixed-workload MCV evidence does not
-supply those guarantees.
+The Census13 Train witness shows unequal losses among complete
+schemes; conditional PostgreSQL 16.14 reasoning and controlled tests
+show order sensitivity. Canonical B5 favors Nominal on all four
+workloads; counterfactual mean per-order P95 favors PESS on
+Census13/DMV11, Nominal on Forest10, and is inconclusive on Power7.
+These ALL-vs-B5 and order findings are fixed configurations, not
+universal claims or blocker proof. State policy assumptions; validate
+deployed coverage, measure maintenance/plan costs, and improve outer
+selection.
 
 \begin{thebibliography}{99}
 \bibitem{chaudhuri2000stats}
