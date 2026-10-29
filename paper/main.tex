@@ -53,6 +53,14 @@ shared-order optimization to Maximum Acyclic Subgraph hardness.
 Its multiplicative scheme-loss model is an approximation, not
 a reproduction of physical PostgreSQL estimation.
 
+Controlled additional Test interventions show that, on DMV11,
+installing all 55 two-column MCV candidates yielded P95 Q-error
+57.61 versus 36.00 for a matched-priority five-object Nominal subset;
+changing only the full set's OID order changed P95 from 57.61 to
+67.53. On Forest10, the corresponding all-versus-subset P95 was
+15.0 versus 14.0. These are fixed-configuration observations,
+not an all-order expectation or a demonstrated blocker mechanism.
+
 On four frozen AreCEL workloads, we compare modeled Train
 selection with held-out PostgreSQL \texttt{Plan Rows} evidence.
 At budget five, Nominal has lower canonical-order Test P95
@@ -84,6 +92,21 @@ multivariate or extended summaries can improve selectivity estimates
 overheads. A workload-aware advisor must decide which candidate objects
 to maintain under a resource budget, a longstanding statistics-management
 problem \cite{chaudhuri2000stats,bruno2002sit,elhelw2009statadvisor}.
+
+A controlled follow-up to an exploratory all-statistics observation
+provides a concrete motivation. On the held-out Forest10 workload,
+installing all 45 candidate two-column MCV statistic definitions
+produced Test P95 Q-error 15.0, versus 14.0 for a frozen five-object
+Nominal subset. The corresponding DMV11 comparison, with all 55
+candidate MCV objects populated, was 57.61 versus 36.00.
+In each comparison, the five shared objects retained their relative
+OID priority, and the fixed ANALYZE sample and shared MCV contents
+were checked. These are particular physical configurations, not a
+claim that installing more statistics is always harmful.
+Section~\ref{sec:all-versus-selected} reports the full controls and
+limitations. The question is why a larger installed collection can
+lead the estimator to apply different information, sometimes to the
+detriment of held-out estimates.
 
 Installing a statistic, however, does not guarantee its use in every
 eligible estimate. Overlapping objects may compete for the same
@@ -1423,6 +1446,84 @@ Power7 & 5385.310 & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Full-candidate installation versus a selected subset}
+\label{sec:all-versus-selected}
+To investigate the motivating observation independently of the
+earlier B5 physical results, we installed every frozen Train
+candidate two-column MCV statistic definition on Forest10
+(45 objects) and DMV11 (55 objects). For each dataset, two
+distinct global relative-OID orders were fixed before Test;
+a separate Nominal B5 control used the five selected objects
+in the relative order projected from ALL order 01.
+Thus the ALL--B5 comparison holds the priority \emph{among
+shared objects} fixed; additional ALL objects may precede or
+compete with them. Each arm evaluated the same 10,000 held-out
+queries with the frozen sample, statistics target 300 and
+PostgreSQL 16.14 source and Q-error procedure.
+Catalog OID orders, ordinary-column statistics and shared
+candidate MCV payload fingerprints were checked across arms.
+
+\begin{table}[t]
+\caption{Additional fixed-configuration physical Test Q-error
+on two workloads. ALL01 and ALL02 install the same complete
+candidate set in two precommitted relative-OID orders;
+B5 matches the five shared objects' relative order in ALL01.
+Each cell reports a per-arm P95/mean over 10,000 Test queries,
+not a pooled percentile or an expectation over permutations.}
+\label{tab:all-b5}
+\centering\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Dataset & Arm & P95 & Mean \\
+\midrule
+Forest10 & ALL01 (45) & 15.00 & 6.69 \\
+         & ALL02 (45) & 15.00 & 6.71 \\
+         & matched B5 & 14.00 & 6.49 \\
+DMV11    & ALL01 (55) & 57.61 & 107.11 \\
+         & ALL02 (55) & 67.53 & 187.16 \\
+         & matched B5 & 36.00 & 32.76 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In DMV11, ALL01 has a 21.60 higher Test P95 than its
+matched B5 control (57.61 versus 36.00); ALL02 has a
+9.92 higher P95 than ALL01 with the installed set fixed.
+The two OID orders change Plan Rows and query-level Q-error
+on 6,246 of 10,000 DMV11 queries. In the matched
+ALL01--B5 comparison, ALL worsens 5,074 individual
+Q-errors, improves 2,384 and leaves 2,542 unchanged.
+Forest10 provides a smaller all-versus-subset P95
+contrast (+1.0); its two ALL orders share P95 15.0
+despite 3,329 query-level Plan Rows/Q-error changes.
+The outcomes are therefore neither monotone per query
+nor uniformly sensitive at the P95 aggregate.
+
+All 55 DMV11 ALL objects had populated MCV payloads,
+whereas only 23 of 45 Forest10 ALL objects did; the
+other 22 were successfully created definitions with
+NULL MCV payloads. Forest10 B5 produced complete
+\texttt{Plan Rows} and Q-error observations, but a
+parser OID-type mismatch overwrote the original diagnostics
+status for 6,648 queries; a post-hoc catalog remapping
+recovers observed candidate-ID events but not the original
+diagnostics-completeness status. We do not treat those
+events as a complete blocker trace. DMV11's three arms
+passed the recorded diagnostics and attribution checks.
+The raw runtime archives are retained separately from
+these lightweight experimental summaries; an additional
+independent reread of those original bytes is pending.
+
+Neither contrast identifies which added MCV statistic,
+if any, blocked a more useful candidate: chooser ranking,
+predicate consumption and loss-of-eligibility transitions
+were not recorded. The two ALL orders do not estimate
+performance over all 45! or 55! relative priorities,
+and ALL02 is not priority-matched to B5. This evidence
+demonstrates specific physical outcomes under controlled
+interventions, not that PESS or a reduced set must
+outperform ALL in general.
 
 \subsection{Canonical and reversed physical Test orders}
 The canonical fixed-order evaluation produced 250,000 valid
