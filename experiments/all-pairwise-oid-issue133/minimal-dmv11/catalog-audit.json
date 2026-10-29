@@ -1,0 +1,3393 @@
+{
+  "arms": [
+    {
+      "candidate_id_attribution": {
+        "complete": 10000,
+        "expected": 10000,
+        "status": "PASS",
+        "status_counts": {
+          "PASS": 9098,
+          "PASS_EMPTY": 902
+        },
+        "unknown_stat_oid_event_count": 0
+      },
+      "catalog": [
+        {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "candidate_id": "e04_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "mcv_payload_present": true,
+          "oid": 16389,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300,
+          "stxkeys": "5 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e00_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d5577dc5fde2df531af93c52baf9692df596bdd8aa3055439d104490d06e92fe",
+          "mcv_item_count": 5,
+          "mcv_payload_present": true,
+          "oid": 16390,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_09",
+          "statistics_target": 300,
+          "stxkeys": "1 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "county"
+          ],
+          "candidate_id": "e00_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "3be7057d72419ffa0a1a2e1cc94f1538aa49ebbd8a92aa1c8c551a5baa9d6318",
+          "mcv_item_count": 153,
+          "mcv_payload_present": true,
+          "oid": 16391,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_03",
+          "statistics_target": 300,
+          "stxkeys": "1 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "color"
+          ],
+          "candidate_id": "e03_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bf47df0b76ae70c615229c3254a2e7829371cbd74711a5ebf9fd34203abbbd62",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16392,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_07",
+          "statistics_target": 300,
+          "stxkeys": "4 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "candidate_id": "e00_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "mcv_payload_present": true,
+          "oid": 16393,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300,
+          "stxkeys": "1 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e01_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "75949acc11cd61cfe70509a5648c7fa10b8b5058082edad5a8ab362ccf4db212",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16394,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_06",
+          "statistics_target": 300,
+          "stxkeys": "2 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e06_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b3463ae1aa1b861f3b5df575dbd7c9c76739811f161000dc631ad1c5c49b493",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16395,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_08",
+          "statistics_target": 300,
+          "stxkeys": "7 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "fuel_type"
+          ],
+          "candidate_id": "e03_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b4a15824040564dca7a5a26c5700893c9f67ad1e5a87ab50a7e6d53c62857739",
+          "mcv_item_count": 155,
+          "mcv_payload_present": true,
+          "oid": 16396,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_05",
+          "statistics_target": 300,
+          "stxkeys": "4 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e04_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7e7576c7d440dc31407000992dd7208a9be42cf927dcede9cc6b499dd5123b26",
+          "mcv_item_count": 32,
+          "mcv_payload_present": true,
+          "oid": 16397,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_10",
+          "statistics_target": 300,
+          "stxkeys": "5 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e05_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "226e9b3773e9a5aa69836f8053dbda11ff53a73edfa78de66b1a223911c8f949",
+          "mcv_item_count": 7,
+          "mcv_payload_present": true,
+          "oid": 16398,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_08",
+          "statistics_target": 300,
+          "stxkeys": "6 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "county"
+          ],
+          "candidate_id": "e01_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8e735ac2bee28d11bf4d893df03a004846c514022093ad9e105dbd3b0f9d0aa5",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16399,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_03",
+          "statistics_target": 300,
+          "stxkeys": "2 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e07_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d0eee2e73237077802f46e294e1efc6caab1c7a938d346668c494a2be746b857",
+          "mcv_item_count": 36,
+          "mcv_payload_present": true,
+          "oid": 16400,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_10",
+          "statistics_target": 300,
+          "stxkeys": "8 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "candidate_id": "e01_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "mcv_payload_present": true,
+          "oid": 16401,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300,
+          "stxkeys": "2 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "state"
+          ],
+          "candidate_id": "e01_02",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "9a558e9622582f8ddb34130a30bc2b8af84bec9c85a6851ebb0426e56161be8e",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16402,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_02",
+          "statistics_target": 300,
+          "stxkeys": "2 3",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "candidate_id": "e02_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "mcv_payload_present": true,
+          "oid": 16403,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300,
+          "stxkeys": "3 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "scofflaw_indicator",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e08_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2c2a2d629ebd0dce5eee869bcb0591e75f1724a060e4a4c749255a7eadf921b",
+          "mcv_item_count": 2,
+          "mcv_payload_present": true,
+          "oid": 16404,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_09",
+          "statistics_target": 300,
+          "stxkeys": "9 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e00_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b3e6cf00fcd26d027c9f8d1ec93213ce38d1514c65f8738eff7791f57c82c114",
+          "mcv_item_count": 5,
+          "mcv_payload_present": true,
+          "oid": 16405,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_10",
+          "statistics_target": 300,
+          "stxkeys": "1 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e00_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "2f894662249549bee3be206fe4ce78d4a42517d94b059044be518a86a1b317fa",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16406,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_06",
+          "statistics_target": 300,
+          "stxkeys": "1 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e03_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5d18f5e4adccae76492174a828cb482b76b64b696edb6e2f92b39a48f212b6be",
+          "mcv_item_count": 74,
+          "mcv_payload_present": true,
+          "oid": 16407,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_09",
+          "statistics_target": 300,
+          "stxkeys": "4 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "body_type"
+          ],
+          "candidate_id": "e02_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "265e51cf9037d31d70189c51d0f299d8493394c89727904484a51bd60f26d05a",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16408,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_04",
+          "statistics_target": 300,
+          "stxkeys": "3 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "body_type"
+          ],
+          "candidate_id": "e00_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8b0c6c15fadbcceb21e2427a15480c2e575b824517b4756e49e12821ca3be304",
+          "mcv_item_count": 35,
+          "mcv_payload_present": true,
+          "oid": 16409,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_04",
+          "statistics_target": 300,
+          "stxkeys": "1 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "color"
+          ],
+          "candidate_id": "e00_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a611b094c4e0bb0465776e1164ffcbf95be9d91a2cb721f06360077a284edee",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16410,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_07",
+          "statistics_target": 300,
+          "stxkeys": "1 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "body_type"
+          ],
+          "candidate_id": "e03_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8433dbbed0c72231fded2200f4f4c0b91eafba70f9380877cd6e170a1f8d23ce",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16411,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_04",
+          "statistics_target": 300,
+          "stxkeys": "4 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "color"
+          ],
+          "candidate_id": "e05_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bbe814b685466922ca7b847563538c158c550de70fae60142fae565e701725d0",
+          "mcv_item_count": 59,
+          "mcv_payload_present": true,
+          "oid": 16412,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_07",
+          "statistics_target": 300,
+          "stxkeys": "6 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e04_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "a08d1b9d622b19d7d61c129e8dc1369151a9dbfc51eed7bb4db6ff26c2c65aad",
+          "mcv_item_count": 30,
+          "mcv_payload_present": true,
+          "oid": 16413,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_08",
+          "statistics_target": 300,
+          "stxkeys": "5 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e01_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d01002dd1325e615e37d1bcf8541d9d3b4000ae4f8e293176fec24c0f855f072",
+          "mcv_item_count": 34,
+          "mcv_payload_present": true,
+          "oid": 16414,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_08",
+          "statistics_target": 300,
+          "stxkeys": "2 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e01_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d7c86c8a14d0a397c3bc675bdb90dd1b23d06c4e9b31fa62e602698814641475",
+          "mcv_item_count": 36,
+          "mcv_payload_present": true,
+          "oid": 16415,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_09",
+          "statistics_target": 300,
+          "stxkeys": "2 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e02_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b07b429250d1cb45552d5c2b2785a01d195ce115fc5bc85988038df18331def9",
+          "mcv_item_count": 14,
+          "mcv_payload_present": true,
+          "oid": 16416,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_10",
+          "statistics_target": 300,
+          "stxkeys": "3 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e02_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5e8ca644bbe9bc01288d302caafea65c9101665d29f1e9c3a4e5af4b9a453de4",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16417,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_06",
+          "statistics_target": 300,
+          "stxkeys": "3 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e00_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96ae9c4007a080b22d531889cea2e1744b710e3ad93216d8934f0ad9e702df73",
+          "mcv_item_count": 4,
+          "mcv_payload_present": true,
+          "oid": 16418,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_08",
+          "statistics_target": 300,
+          "stxkeys": "1 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "state"
+          ],
+          "candidate_id": "e00_02",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "00f8ca1ffa26eff1c603d4c2174a28907689c84702826476b26aa5106dd6be04",
+          "mcv_item_count": 17,
+          "mcv_payload_present": true,
+          "oid": 16419,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_02",
+          "statistics_target": 300,
+          "stxkeys": "1 3",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e03_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b31e2c8a6502fd9279db1dd32511892c8ef8b23d51987d1f48041ae9aaf2738d",
+          "mcv_item_count": 67,
+          "mcv_payload_present": true,
+          "oid": 16420,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_10",
+          "statistics_target": 300,
+          "stxkeys": "4 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e03_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "71e9afe5def610e757d239f1e6870c33a33293500cf6310e76d96dfa05a34e9b",
+          "mcv_item_count": 121,
+          "mcv_payload_present": true,
+          "oid": 16421,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_06",
+          "statistics_target": 300,
+          "stxkeys": "4 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "candidate_id": "e01_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "mcv_payload_present": true,
+          "oid": 16422,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300,
+          "stxkeys": "2 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "scofflaw_indicator",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e08_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1aa6503a302bc4b2d164d06620f5e482f7a7b24fe4fc81386c42e8db17580fef",
+          "mcv_item_count": 2,
+          "mcv_payload_present": true,
+          "oid": 16423,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_10",
+          "statistics_target": 300,
+          "stxkeys": "9 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e07_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "073bfc25910245d217f57b25266ad1f2e022b41df7149da8d578b992fa91202e",
+          "mcv_item_count": 33,
+          "mcv_payload_present": true,
+          "oid": 16424,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_08",
+          "statistics_target": 300,
+          "stxkeys": "8 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "fuel_type"
+          ],
+          "candidate_id": "e01_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b2202249c18cd704f8a6447f6bfe21c2016c020c9e66e545abd45ab9d023d78",
+          "mcv_item_count": 44,
+          "mcv_payload_present": true,
+          "oid": 16425,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_05",
+          "statistics_target": 300,
+          "stxkeys": "2 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e05_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ddfe57a859dc1a8f84e4d13589783294ec61e002231e9ed9b92a512a94cdae22",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16426,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_06",
+          "statistics_target": 300,
+          "stxkeys": "6 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "color"
+          ],
+          "candidate_id": "e06_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2446b1153fd9af93453ce7ec62cd5afd475e9f85098845776202f1d7b62f4d9",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16427,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_07",
+          "statistics_target": 300,
+          "stxkeys": "7 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e04_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4cd5f61154fe58a4350edf9e4b20299e3a98046589d9a91b7324bde6fac5063c",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16428,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_06",
+          "statistics_target": 300,
+          "stxkeys": "5 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e03_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4463a6f65af4774907ec414926ef605a567f1bb40d9e625fa52938592aa5e806",
+          "mcv_item_count": 63,
+          "mcv_payload_present": true,
+          "oid": 16429,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_08",
+          "statistics_target": 300,
+          "stxkeys": "4 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e05_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6efd02212dbb1c5609fc1599f620847fbd28db6cfffba9da60d1bcccf74c456c",
+          "mcv_item_count": 8,
+          "mcv_payload_present": true,
+          "oid": 16430,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_09",
+          "statistics_target": 300,
+          "stxkeys": "6 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "suspension_indicator",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e09_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ff67e01f00e4e432a11d048bb530bfdfe48da18eface5cc3771f799dad78cff9",
+          "mcv_item_count": 3,
+          "mcv_payload_present": true,
+          "oid": 16431,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e09_10",
+          "statistics_target": 300,
+          "stxkeys": "10 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e05_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6059d7ca1709cfc9f282967bc60391a6b01b1b3447002b0c92d612c31c6d5fd4",
+          "mcv_item_count": 8,
+          "mcv_payload_present": true,
+          "oid": 16432,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_10",
+          "statistics_target": 300,
+          "stxkeys": "6 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e02_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8ba8c12a0c1cc37a5915e186461f6a78f980a0adcf35f0b600a44ee5b4d57abe",
+          "mcv_item_count": 14,
+          "mcv_payload_present": true,
+          "oid": 16433,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_09",
+          "statistics_target": 300,
+          "stxkeys": "3 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e01_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "eebe3916b1c8a4fc9487660d4a76f6caea9368469bacc995bdfbd6b1f81fa72e",
+          "mcv_item_count": 35,
+          "mcv_payload_present": true,
+          "oid": 16434,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_10",
+          "statistics_target": 300,
+          "stxkeys": "2 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e07_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc2857ba9f54cabebe0c2e10870a01cc79b71352cfcafc535c1adaef0d38e7b3",
+          "mcv_item_count": 39,
+          "mcv_payload_present": true,
+          "oid": 16435,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_09",
+          "statistics_target": 300,
+          "stxkeys": "8 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e06_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ab0b6d5ed660d8099c1fa4d7e44796f41cbcd5099d1468fa5d9f7d819fdffc2d",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16436,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_10",
+          "statistics_target": 300,
+          "stxkeys": "7 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "fuel_type"
+          ],
+          "candidate_id": "e04_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f4c635e7b5a540a040dea74b84df1122a930360d219830259d66fac5e4a031cd",
+          "mcv_item_count": 47,
+          "mcv_payload_present": true,
+          "oid": 16437,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_05",
+          "statistics_target": 300,
+          "stxkeys": "5 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e06_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "63ee338f263c2b910c59ba829e98eaa5dd5d2c9ef0adcdc9844ade7d0df5d4c6",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16438,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_09",
+          "statistics_target": 300,
+          "stxkeys": "7 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e02_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6953e4366de4b5e976b191372641362dcd28bcf43532c6aafa0b9b452b9ff43c",
+          "mcv_item_count": 13,
+          "mcv_payload_present": true,
+          "oid": 16439,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_08",
+          "statistics_target": 300,
+          "stxkeys": "3 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "fuel_type"
+          ],
+          "candidate_id": "e02_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "80250ae3561ebe72b50a4c8362f770e91bd1666bd7be3323663ad9ad70cd5f02",
+          "mcv_item_count": 20,
+          "mcv_payload_present": true,
+          "oid": 16440,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_05",
+          "statistics_target": 300,
+          "stxkeys": "3 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e04_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d08472734674f47e4269ee232b836fe6d9ba0f9338ba0326994f3b9fcf83245",
+          "mcv_item_count": 33,
+          "mcv_payload_present": true,
+          "oid": 16441,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_09",
+          "statistics_target": 300,
+          "stxkeys": "5 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "registration_class"
+          ],
+          "candidate_id": "e00_01",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc0b9a2287736b02099ef597caddf4acc026290544afa396336a543391be9e19",
+          "mcv_item_count": 34,
+          "mcv_payload_present": true,
+          "oid": 16442,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_01",
+          "statistics_target": 300,
+          "stxkeys": "1 2",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "color"
+          ],
+          "candidate_id": "e02_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7ea058392002cfbfd608e6955ddf1572df7ddea87d13012aa5d50e0c5a477132",
+          "mcv_item_count": 49,
+          "mcv_payload_present": true,
+          "oid": 16443,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_07",
+          "statistics_target": 300,
+          "stxkeys": "3 8",
+          "stxkind": "{m}"
+        }
+      ],
+      "catalog_oid_order": [
+        {
+          "candidate_id": "e04_07",
+          "oid": 16389,
+          "statistic_name": "ess_issue99_dmv11_e04_07"
+        },
+        {
+          "candidate_id": "e00_09",
+          "oid": 16390,
+          "statistic_name": "ess_issue99_dmv11_e00_09"
+        },
+        {
+          "candidate_id": "e00_03",
+          "oid": 16391,
+          "statistic_name": "ess_issue99_dmv11_e00_03"
+        },
+        {
+          "candidate_id": "e03_07",
+          "oid": 16392,
+          "statistic_name": "ess_issue99_dmv11_e03_07"
+        },
+        {
+          "candidate_id": "e00_05",
+          "oid": 16393,
+          "statistic_name": "ess_issue99_dmv11_e00_05"
+        },
+        {
+          "candidate_id": "e01_06",
+          "oid": 16394,
+          "statistic_name": "ess_issue99_dmv11_e01_06"
+        },
+        {
+          "candidate_id": "e06_08",
+          "oid": 16395,
+          "statistic_name": "ess_issue99_dmv11_e06_08"
+        },
+        {
+          "candidate_id": "e03_05",
+          "oid": 16396,
+          "statistic_name": "ess_issue99_dmv11_e03_05"
+        },
+        {
+          "candidate_id": "e04_10",
+          "oid": 16397,
+          "statistic_name": "ess_issue99_dmv11_e04_10"
+        },
+        {
+          "candidate_id": "e05_08",
+          "oid": 16398,
+          "statistic_name": "ess_issue99_dmv11_e05_08"
+        },
+        {
+          "candidate_id": "e01_03",
+          "oid": 16399,
+          "statistic_name": "ess_issue99_dmv11_e01_03"
+        },
+        {
+          "candidate_id": "e07_10",
+          "oid": 16400,
+          "statistic_name": "ess_issue99_dmv11_e07_10"
+        },
+        {
+          "candidate_id": "e01_07",
+          "oid": 16401,
+          "statistic_name": "ess_issue99_dmv11_e01_07"
+        },
+        {
+          "candidate_id": "e01_02",
+          "oid": 16402,
+          "statistic_name": "ess_issue99_dmv11_e01_02"
+        },
+        {
+          "candidate_id": "e02_03",
+          "oid": 16403,
+          "statistic_name": "ess_issue99_dmv11_e02_03"
+        },
+        {
+          "candidate_id": "e08_09",
+          "oid": 16404,
+          "statistic_name": "ess_issue99_dmv11_e08_09"
+        },
+        {
+          "candidate_id": "e00_10",
+          "oid": 16405,
+          "statistic_name": "ess_issue99_dmv11_e00_10"
+        },
+        {
+          "candidate_id": "e00_06",
+          "oid": 16406,
+          "statistic_name": "ess_issue99_dmv11_e00_06"
+        },
+        {
+          "candidate_id": "e03_09",
+          "oid": 16407,
+          "statistic_name": "ess_issue99_dmv11_e03_09"
+        },
+        {
+          "candidate_id": "e02_04",
+          "oid": 16408,
+          "statistic_name": "ess_issue99_dmv11_e02_04"
+        },
+        {
+          "candidate_id": "e00_04",
+          "oid": 16409,
+          "statistic_name": "ess_issue99_dmv11_e00_04"
+        },
+        {
+          "candidate_id": "e00_07",
+          "oid": 16410,
+          "statistic_name": "ess_issue99_dmv11_e00_07"
+        },
+        {
+          "candidate_id": "e03_04",
+          "oid": 16411,
+          "statistic_name": "ess_issue99_dmv11_e03_04"
+        },
+        {
+          "candidate_id": "e05_07",
+          "oid": 16412,
+          "statistic_name": "ess_issue99_dmv11_e05_07"
+        },
+        {
+          "candidate_id": "e04_08",
+          "oid": 16413,
+          "statistic_name": "ess_issue99_dmv11_e04_08"
+        },
+        {
+          "candidate_id": "e01_08",
+          "oid": 16414,
+          "statistic_name": "ess_issue99_dmv11_e01_08"
+        },
+        {
+          "candidate_id": "e01_09",
+          "oid": 16415,
+          "statistic_name": "ess_issue99_dmv11_e01_09"
+        },
+        {
+          "candidate_id": "e02_10",
+          "oid": 16416,
+          "statistic_name": "ess_issue99_dmv11_e02_10"
+        },
+        {
+          "candidate_id": "e02_06",
+          "oid": 16417,
+          "statistic_name": "ess_issue99_dmv11_e02_06"
+        },
+        {
+          "candidate_id": "e00_08",
+          "oid": 16418,
+          "statistic_name": "ess_issue99_dmv11_e00_08"
+        },
+        {
+          "candidate_id": "e00_02",
+          "oid": 16419,
+          "statistic_name": "ess_issue99_dmv11_e00_02"
+        },
+        {
+          "candidate_id": "e03_10",
+          "oid": 16420,
+          "statistic_name": "ess_issue99_dmv11_e03_10"
+        },
+        {
+          "candidate_id": "e03_06",
+          "oid": 16421,
+          "statistic_name": "ess_issue99_dmv11_e03_06"
+        },
+        {
+          "candidate_id": "e01_04",
+          "oid": 16422,
+          "statistic_name": "ess_issue99_dmv11_e01_04"
+        },
+        {
+          "candidate_id": "e08_10",
+          "oid": 16423,
+          "statistic_name": "ess_issue99_dmv11_e08_10"
+        },
+        {
+          "candidate_id": "e07_08",
+          "oid": 16424,
+          "statistic_name": "ess_issue99_dmv11_e07_08"
+        },
+        {
+          "candidate_id": "e01_05",
+          "oid": 16425,
+          "statistic_name": "ess_issue99_dmv11_e01_05"
+        },
+        {
+          "candidate_id": "e05_06",
+          "oid": 16426,
+          "statistic_name": "ess_issue99_dmv11_e05_06"
+        },
+        {
+          "candidate_id": "e06_07",
+          "oid": 16427,
+          "statistic_name": "ess_issue99_dmv11_e06_07"
+        },
+        {
+          "candidate_id": "e04_06",
+          "oid": 16428,
+          "statistic_name": "ess_issue99_dmv11_e04_06"
+        },
+        {
+          "candidate_id": "e03_08",
+          "oid": 16429,
+          "statistic_name": "ess_issue99_dmv11_e03_08"
+        },
+        {
+          "candidate_id": "e05_09",
+          "oid": 16430,
+          "statistic_name": "ess_issue99_dmv11_e05_09"
+        },
+        {
+          "candidate_id": "e09_10",
+          "oid": 16431,
+          "statistic_name": "ess_issue99_dmv11_e09_10"
+        },
+        {
+          "candidate_id": "e05_10",
+          "oid": 16432,
+          "statistic_name": "ess_issue99_dmv11_e05_10"
+        },
+        {
+          "candidate_id": "e02_09",
+          "oid": 16433,
+          "statistic_name": "ess_issue99_dmv11_e02_09"
+        },
+        {
+          "candidate_id": "e01_10",
+          "oid": 16434,
+          "statistic_name": "ess_issue99_dmv11_e01_10"
+        },
+        {
+          "candidate_id": "e07_09",
+          "oid": 16435,
+          "statistic_name": "ess_issue99_dmv11_e07_09"
+        },
+        {
+          "candidate_id": "e06_10",
+          "oid": 16436,
+          "statistic_name": "ess_issue99_dmv11_e06_10"
+        },
+        {
+          "candidate_id": "e04_05",
+          "oid": 16437,
+          "statistic_name": "ess_issue99_dmv11_e04_05"
+        },
+        {
+          "candidate_id": "e06_09",
+          "oid": 16438,
+          "statistic_name": "ess_issue99_dmv11_e06_09"
+        },
+        {
+          "candidate_id": "e02_08",
+          "oid": 16439,
+          "statistic_name": "ess_issue99_dmv11_e02_08"
+        },
+        {
+          "candidate_id": "e02_05",
+          "oid": 16440,
+          "statistic_name": "ess_issue99_dmv11_e02_05"
+        },
+        {
+          "candidate_id": "e04_09",
+          "oid": 16441,
+          "statistic_name": "ess_issue99_dmv11_e04_09"
+        },
+        {
+          "candidate_id": "e00_01",
+          "oid": 16442,
+          "statistic_name": "ess_issue99_dmv11_e00_01"
+        },
+        {
+          "candidate_id": "e02_07",
+          "oid": 16443,
+          "statistic_name": "ess_issue99_dmv11_e02_07"
+        }
+      ],
+      "catalog_oid_order_candidate_ids": [
+        "e04_07",
+        "e00_09",
+        "e00_03",
+        "e03_07",
+        "e00_05",
+        "e01_06",
+        "e06_08",
+        "e03_05",
+        "e04_10",
+        "e05_08",
+        "e01_03",
+        "e07_10",
+        "e01_07",
+        "e01_02",
+        "e02_03",
+        "e08_09",
+        "e00_10",
+        "e00_06",
+        "e03_09",
+        "e02_04",
+        "e00_04",
+        "e00_07",
+        "e03_04",
+        "e05_07",
+        "e04_08",
+        "e01_08",
+        "e01_09",
+        "e02_10",
+        "e02_06",
+        "e00_08",
+        "e00_02",
+        "e03_10",
+        "e03_06",
+        "e01_04",
+        "e08_10",
+        "e07_08",
+        "e01_05",
+        "e05_06",
+        "e06_07",
+        "e04_06",
+        "e03_08",
+        "e05_09",
+        "e09_10",
+        "e05_10",
+        "e02_09",
+        "e01_10",
+        "e07_09",
+        "e06_10",
+        "e04_05",
+        "e06_09",
+        "e02_08",
+        "e02_05",
+        "e04_09",
+        "e00_01",
+        "e02_07"
+      ],
+      "catalog_status": "PASS",
+      "configuration_id": "dmv11-all-random-01",
+      "create_statement_candidate_ids": [
+        "e04_07",
+        "e00_09",
+        "e00_03",
+        "e03_07",
+        "e00_05",
+        "e01_06",
+        "e06_08",
+        "e03_05",
+        "e04_10",
+        "e05_08",
+        "e01_03",
+        "e07_10",
+        "e01_07",
+        "e01_02",
+        "e02_03",
+        "e08_09",
+        "e00_10",
+        "e00_06",
+        "e03_09",
+        "e02_04",
+        "e00_04",
+        "e00_07",
+        "e03_04",
+        "e05_07",
+        "e04_08",
+        "e01_08",
+        "e01_09",
+        "e02_10",
+        "e02_06",
+        "e00_08",
+        "e00_02",
+        "e03_10",
+        "e03_06",
+        "e01_04",
+        "e08_10",
+        "e07_08",
+        "e01_05",
+        "e05_06",
+        "e06_07",
+        "e04_06",
+        "e03_08",
+        "e05_09",
+        "e09_10",
+        "e05_10",
+        "e02_09",
+        "e01_10",
+        "e07_09",
+        "e06_10",
+        "e04_05",
+        "e06_09",
+        "e02_08",
+        "e02_05",
+        "e04_09",
+        "e00_01",
+        "e02_07"
+      ],
+      "diagnostics_integrity": {
+        "complete": 10000,
+        "expected": 10000,
+        "extension_status_counts": {
+          "complete": 10000
+        },
+        "status": "PASS",
+        "structural_status_counts": {
+          "PASS": 10000
+        }
+      },
+      "ordinary_column_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+      "payload_state_counts": {
+        "POPULATED": 55
+      },
+      "permutation_sha256": "3e18988a5e28b6fedf88486ff113863780280f5d93e6a523bf6a2d29de7a3e13",
+      "plan_rows_integrity": {
+        "expected": 10000,
+        "status": "PASS",
+        "valid": 10000
+      },
+      "sample_header": {
+        "alignof": 8,
+        "blcksz": 8192,
+        "file_bytes": 8820422,
+        "format_version": 1,
+        "item_pointer_size": 6,
+        "natts": 11,
+        "relation_filenode": 16384,
+        "relation_identity": "6:public5:dmv11",
+        "relation_oid": 16384,
+        "relation_pages": 131744,
+        "sample_target": 90000,
+        "server_version": "16.14",
+        "server_version_num": 160014,
+        "tuple_count": 90000,
+        "tuple_header_size": 24,
+        "tuple_size": 24
+      },
+      "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "table_identity": {
+        "columns": [
+          [
+            1,
+            "record_type",
+            "character varying(64)"
+          ],
+          [
+            2,
+            "registration_class",
+            "character varying(64)"
+          ],
+          [
+            3,
+            "state",
+            "character varying(64)"
+          ],
+          [
+            4,
+            "county",
+            "character varying(64)"
+          ],
+          [
+            5,
+            "body_type",
+            "character varying(64)"
+          ],
+          [
+            6,
+            "fuel_type",
+            "character varying(64)"
+          ],
+          [
+            7,
+            "reg_valid_date",
+            "double precision"
+          ],
+          [
+            8,
+            "color",
+            "character varying(64)"
+          ],
+          [
+            9,
+            "scofflaw_indicator",
+            "character varying(64)"
+          ],
+          [
+            10,
+            "suspension_indicator",
+            "character varying(64)"
+          ],
+          [
+            11,
+            "revocation_indicator",
+            "character varying(64)"
+          ]
+        ],
+        "relation_oid": "16384",
+        "relfilenode": "16384",
+        "row_count": 11591877
+      },
+      "test_status": "COMPLETE"
+    },
+    {
+      "candidate_id_attribution": {
+        "complete": 10000,
+        "expected": 10000,
+        "status": "PASS",
+        "status_counts": {
+          "PASS": 9098,
+          "PASS_EMPTY": 902
+        },
+        "unknown_stat_oid_event_count": 0
+      },
+      "catalog": [
+        {
+          "attnames": [
+            "record_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e00_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d5577dc5fde2df531af93c52baf9692df596bdd8aa3055439d104490d06e92fe",
+          "mcv_item_count": 5,
+          "mcv_payload_present": true,
+          "oid": 16467,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_09",
+          "statistics_target": 300,
+          "stxkeys": "1 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "color"
+          ],
+          "candidate_id": "e06_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2446b1153fd9af93453ce7ec62cd5afd475e9f85098845776202f1d7b62f4d9",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16468,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_07",
+          "statistics_target": 300,
+          "stxkeys": "7 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e00_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96ae9c4007a080b22d531889cea2e1744b710e3ad93216d8934f0ad9e702df73",
+          "mcv_item_count": 4,
+          "mcv_payload_present": true,
+          "oid": 16469,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_08",
+          "statistics_target": 300,
+          "stxkeys": "1 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e04_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d08472734674f47e4269ee232b836fe6d9ba0f9338ba0326994f3b9fcf83245",
+          "mcv_item_count": 33,
+          "mcv_payload_present": true,
+          "oid": 16470,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_09",
+          "statistics_target": 300,
+          "stxkeys": "5 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e04_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "a08d1b9d622b19d7d61c129e8dc1369151a9dbfc51eed7bb4db6ff26c2c65aad",
+          "mcv_item_count": 30,
+          "mcv_payload_present": true,
+          "oid": 16471,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_08",
+          "statistics_target": 300,
+          "stxkeys": "5 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e04_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7e7576c7d440dc31407000992dd7208a9be42cf927dcede9cc6b499dd5123b26",
+          "mcv_item_count": 32,
+          "mcv_payload_present": true,
+          "oid": 16472,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_10",
+          "statistics_target": 300,
+          "stxkeys": "5 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "candidate_id": "e04_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "mcv_payload_present": true,
+          "oid": 16473,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300,
+          "stxkeys": "5 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e05_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6059d7ca1709cfc9f282967bc60391a6b01b1b3447002b0c92d612c31c6d5fd4",
+          "mcv_item_count": 8,
+          "mcv_payload_present": true,
+          "oid": 16474,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_10",
+          "statistics_target": 300,
+          "stxkeys": "6 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "registration_class"
+          ],
+          "candidate_id": "e00_01",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc0b9a2287736b02099ef597caddf4acc026290544afa396336a543391be9e19",
+          "mcv_item_count": 34,
+          "mcv_payload_present": true,
+          "oid": 16475,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_01",
+          "statistics_target": 300,
+          "stxkeys": "1 2",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "fuel_type"
+          ],
+          "candidate_id": "e02_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "80250ae3561ebe72b50a4c8362f770e91bd1666bd7be3323663ad9ad70cd5f02",
+          "mcv_item_count": 20,
+          "mcv_payload_present": true,
+          "oid": 16476,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_05",
+          "statistics_target": 300,
+          "stxkeys": "3 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e01_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d7c86c8a14d0a397c3bc675bdb90dd1b23d06c4e9b31fa62e602698814641475",
+          "mcv_item_count": 36,
+          "mcv_payload_present": true,
+          "oid": 16477,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_09",
+          "statistics_target": 300,
+          "stxkeys": "2 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "color"
+          ],
+          "candidate_id": "e03_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bf47df0b76ae70c615229c3254a2e7829371cbd74711a5ebf9fd34203abbbd62",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16478,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_07",
+          "statistics_target": 300,
+          "stxkeys": "4 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e02_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b07b429250d1cb45552d5c2b2785a01d195ce115fc5bc85988038df18331def9",
+          "mcv_item_count": 14,
+          "mcv_payload_present": true,
+          "oid": 16479,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_10",
+          "statistics_target": 300,
+          "stxkeys": "3 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e04_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4cd5f61154fe58a4350edf9e4b20299e3a98046589d9a91b7324bde6fac5063c",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16480,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_06",
+          "statistics_target": 300,
+          "stxkeys": "5 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e01_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "eebe3916b1c8a4fc9487660d4a76f6caea9368469bacc995bdfbd6b1f81fa72e",
+          "mcv_item_count": 35,
+          "mcv_payload_present": true,
+          "oid": 16481,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_10",
+          "statistics_target": 300,
+          "stxkeys": "2 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e03_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "71e9afe5def610e757d239f1e6870c33a33293500cf6310e76d96dfa05a34e9b",
+          "mcv_item_count": 121,
+          "mcv_payload_present": true,
+          "oid": 16482,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_06",
+          "statistics_target": 300,
+          "stxkeys": "4 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "candidate_id": "e01_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "mcv_payload_present": true,
+          "oid": 16483,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300,
+          "stxkeys": "2 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "body_type"
+          ],
+          "candidate_id": "e02_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "265e51cf9037d31d70189c51d0f299d8493394c89727904484a51bd60f26d05a",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16484,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_04",
+          "statistics_target": 300,
+          "stxkeys": "3 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "candidate_id": "e02_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "mcv_payload_present": true,
+          "oid": 16485,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300,
+          "stxkeys": "3 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "scofflaw_indicator",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e08_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1aa6503a302bc4b2d164d06620f5e482f7a7b24fe4fc81386c42e8db17580fef",
+          "mcv_item_count": 2,
+          "mcv_payload_present": true,
+          "oid": 16486,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_10",
+          "statistics_target": 300,
+          "stxkeys": "9 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e02_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6953e4366de4b5e976b191372641362dcd28bcf43532c6aafa0b9b452b9ff43c",
+          "mcv_item_count": 13,
+          "mcv_payload_present": true,
+          "oid": 16487,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_08",
+          "statistics_target": 300,
+          "stxkeys": "3 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e05_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "226e9b3773e9a5aa69836f8053dbda11ff53a73edfa78de66b1a223911c8f949",
+          "mcv_item_count": 7,
+          "mcv_payload_present": true,
+          "oid": 16488,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_08",
+          "statistics_target": 300,
+          "stxkeys": "6 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e00_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b3e6cf00fcd26d027c9f8d1ec93213ce38d1514c65f8738eff7791f57c82c114",
+          "mcv_item_count": 5,
+          "mcv_payload_present": true,
+          "oid": 16489,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_10",
+          "statistics_target": 300,
+          "stxkeys": "1 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e03_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b31e2c8a6502fd9279db1dd32511892c8ef8b23d51987d1f48041ae9aaf2738d",
+          "mcv_item_count": 67,
+          "mcv_payload_present": true,
+          "oid": 16490,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_10",
+          "statistics_target": 300,
+          "stxkeys": "4 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "fuel_type"
+          ],
+          "candidate_id": "e03_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b4a15824040564dca7a5a26c5700893c9f67ad1e5a87ab50a7e6d53c62857739",
+          "mcv_item_count": 155,
+          "mcv_payload_present": true,
+          "oid": 16491,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_05",
+          "statistics_target": 300,
+          "stxkeys": "4 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "county"
+          ],
+          "candidate_id": "e00_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "3be7057d72419ffa0a1a2e1cc94f1538aa49ebbd8a92aa1c8c551a5baa9d6318",
+          "mcv_item_count": 153,
+          "mcv_payload_present": true,
+          "oid": 16492,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_03",
+          "statistics_target": 300,
+          "stxkeys": "1 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "body_type"
+          ],
+          "candidate_id": "e00_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8b0c6c15fadbcceb21e2427a15480c2e575b824517b4756e49e12821ca3be304",
+          "mcv_item_count": 35,
+          "mcv_payload_present": true,
+          "oid": 16493,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_04",
+          "statistics_target": 300,
+          "stxkeys": "1 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "state"
+          ],
+          "candidate_id": "e01_02",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "9a558e9622582f8ddb34130a30bc2b8af84bec9c85a6851ebb0426e56161be8e",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16494,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_02",
+          "statistics_target": 300,
+          "stxkeys": "2 3",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e05_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ddfe57a859dc1a8f84e4d13589783294ec61e002231e9ed9b92a512a94cdae22",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16495,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_06",
+          "statistics_target": 300,
+          "stxkeys": "6 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "state"
+          ],
+          "candidate_id": "e00_02",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "00f8ca1ffa26eff1c603d4c2174a28907689c84702826476b26aa5106dd6be04",
+          "mcv_item_count": 17,
+          "mcv_payload_present": true,
+          "oid": 16496,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_02",
+          "statistics_target": 300,
+          "stxkeys": "1 3",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e03_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4463a6f65af4774907ec414926ef605a567f1bb40d9e625fa52938592aa5e806",
+          "mcv_item_count": 63,
+          "mcv_payload_present": true,
+          "oid": 16497,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_08",
+          "statistics_target": 300,
+          "stxkeys": "4 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e02_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8ba8c12a0c1cc37a5915e186461f6a78f980a0adcf35f0b600a44ee5b4d57abe",
+          "mcv_item_count": 14,
+          "mcv_payload_present": true,
+          "oid": 16498,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_09",
+          "statistics_target": 300,
+          "stxkeys": "3 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e01_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d01002dd1325e615e37d1bcf8541d9d3b4000ae4f8e293176fec24c0f855f072",
+          "mcv_item_count": 34,
+          "mcv_payload_present": true,
+          "oid": 16499,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_08",
+          "statistics_target": 300,
+          "stxkeys": "2 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e02_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5e8ca644bbe9bc01288d302caafea65c9101665d29f1e9c3a4e5af4b9a453de4",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16500,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_06",
+          "statistics_target": 300,
+          "stxkeys": "3 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "color"
+          ],
+          "candidate_id": "e05_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bbe814b685466922ca7b847563538c158c550de70fae60142fae565e701725d0",
+          "mcv_item_count": 59,
+          "mcv_payload_present": true,
+          "oid": 16501,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_07",
+          "statistics_target": 300,
+          "stxkeys": "6 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e07_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc2857ba9f54cabebe0c2e10870a01cc79b71352cfcafc535c1adaef0d38e7b3",
+          "mcv_item_count": 39,
+          "mcv_payload_present": true,
+          "oid": 16502,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_09",
+          "statistics_target": 300,
+          "stxkeys": "8 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "body_type"
+          ],
+          "candidate_id": "e03_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8433dbbed0c72231fded2200f4f4c0b91eafba70f9380877cd6e170a1f8d23ce",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16503,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_04",
+          "statistics_target": 300,
+          "stxkeys": "4 5",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e00_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "2f894662249549bee3be206fe4ce78d4a42517d94b059044be518a86a1b317fa",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16504,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_06",
+          "statistics_target": 300,
+          "stxkeys": "1 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "suspension_indicator",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e09_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ff67e01f00e4e432a11d048bb530bfdfe48da18eface5cc3771f799dad78cff9",
+          "mcv_item_count": 3,
+          "mcv_payload_present": true,
+          "oid": 16505,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e09_10",
+          "statistics_target": 300,
+          "stxkeys": "10 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e06_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ab0b6d5ed660d8099c1fa4d7e44796f41cbcd5099d1468fa5d9f7d819fdffc2d",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16506,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_10",
+          "statistics_target": 300,
+          "stxkeys": "7 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "body_type",
+            "fuel_type"
+          ],
+          "candidate_id": "e04_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f4c635e7b5a540a040dea74b84df1122a930360d219830259d66fac5e4a031cd",
+          "mcv_item_count": 47,
+          "mcv_payload_present": true,
+          "oid": 16507,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_05",
+          "statistics_target": 300,
+          "stxkeys": "5 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "color"
+          ],
+          "candidate_id": "e00_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a611b094c4e0bb0465776e1164ffcbf95be9d91a2cb721f06360077a284edee",
+          "mcv_item_count": 45,
+          "mcv_payload_present": true,
+          "oid": 16508,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_07",
+          "statistics_target": 300,
+          "stxkeys": "1 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "reg_valid_date"
+          ],
+          "candidate_id": "e01_06",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "75949acc11cd61cfe70509a5648c7fa10b8b5058082edad5a8ab362ccf4db212",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16509,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_06",
+          "statistics_target": 300,
+          "stxkeys": "2 7",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "county",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e03_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5d18f5e4adccae76492174a828cb482b76b64b696edb6e2f92b39a48f212b6be",
+          "mcv_item_count": 74,
+          "mcv_payload_present": true,
+          "oid": 16510,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_09",
+          "statistics_target": 300,
+          "stxkeys": "4 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e06_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "63ee338f263c2b910c59ba829e98eaa5dd5d2c9ef0adcdc9844ade7d0df5d4c6",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16511,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_09",
+          "statistics_target": 300,
+          "stxkeys": "7 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "scofflaw_indicator",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e08_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2c2a2d629ebd0dce5eee869bcb0591e75f1724a060e4a4c749255a7eadf921b",
+          "mcv_item_count": 2,
+          "mcv_payload_present": true,
+          "oid": 16512,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_09",
+          "statistics_target": 300,
+          "stxkeys": "9 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "revocation_indicator"
+          ],
+          "candidate_id": "e07_10",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d0eee2e73237077802f46e294e1efc6caab1c7a938d346668c494a2be746b857",
+          "mcv_item_count": 36,
+          "mcv_payload_present": true,
+          "oid": 16513,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_10",
+          "statistics_target": 300,
+          "stxkeys": "8 11",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "color"
+          ],
+          "candidate_id": "e02_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7ea058392002cfbfd608e6955ddf1572df7ddea87d13012aa5d50e0c5a477132",
+          "mcv_item_count": 49,
+          "mcv_payload_present": true,
+          "oid": 16514,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_07",
+          "statistics_target": 300,
+          "stxkeys": "3 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "reg_valid_date",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e06_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b3463ae1aa1b861f3b5df575dbd7c9c76739811f161000dc631ad1c5c49b493",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16515,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_08",
+          "statistics_target": 300,
+          "stxkeys": "7 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "fuel_type",
+            "suspension_indicator"
+          ],
+          "candidate_id": "e05_09",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6efd02212dbb1c5609fc1599f620847fbd28db6cfffba9da60d1bcccf74c456c",
+          "mcv_item_count": 8,
+          "mcv_payload_present": true,
+          "oid": 16516,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_09",
+          "statistics_target": 300,
+          "stxkeys": "6 10",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "fuel_type"
+          ],
+          "candidate_id": "e01_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b2202249c18cd704f8a6447f6bfe21c2016c020c9e66e545abd45ab9d023d78",
+          "mcv_item_count": 44,
+          "mcv_payload_present": true,
+          "oid": 16517,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_05",
+          "statistics_target": 300,
+          "stxkeys": "2 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "color",
+            "scofflaw_indicator"
+          ],
+          "candidate_id": "e07_08",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "073bfc25910245d217f57b25266ad1f2e022b41df7149da8d578b992fa91202e",
+          "mcv_item_count": 33,
+          "mcv_payload_present": true,
+          "oid": 16518,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_08",
+          "statistics_target": 300,
+          "stxkeys": "8 9",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "county"
+          ],
+          "candidate_id": "e01_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8e735ac2bee28d11bf4d893df03a004846c514022093ad9e105dbd3b0f9d0aa5",
+          "mcv_item_count": 300,
+          "mcv_payload_present": true,
+          "oid": 16519,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_03",
+          "statistics_target": 300,
+          "stxkeys": "2 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "candidate_id": "e00_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "mcv_payload_present": true,
+          "oid": 16520,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300,
+          "stxkeys": "1 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "candidate_id": "e01_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "mcv_payload_present": true,
+          "oid": 16521,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300,
+          "stxkeys": "2 8",
+          "stxkind": "{m}"
+        }
+      ],
+      "catalog_oid_order": [
+        {
+          "candidate_id": "e00_09",
+          "oid": 16467,
+          "statistic_name": "ess_issue99_dmv11_e00_09"
+        },
+        {
+          "candidate_id": "e06_07",
+          "oid": 16468,
+          "statistic_name": "ess_issue99_dmv11_e06_07"
+        },
+        {
+          "candidate_id": "e00_08",
+          "oid": 16469,
+          "statistic_name": "ess_issue99_dmv11_e00_08"
+        },
+        {
+          "candidate_id": "e04_09",
+          "oid": 16470,
+          "statistic_name": "ess_issue99_dmv11_e04_09"
+        },
+        {
+          "candidate_id": "e04_08",
+          "oid": 16471,
+          "statistic_name": "ess_issue99_dmv11_e04_08"
+        },
+        {
+          "candidate_id": "e04_10",
+          "oid": 16472,
+          "statistic_name": "ess_issue99_dmv11_e04_10"
+        },
+        {
+          "candidate_id": "e04_07",
+          "oid": 16473,
+          "statistic_name": "ess_issue99_dmv11_e04_07"
+        },
+        {
+          "candidate_id": "e05_10",
+          "oid": 16474,
+          "statistic_name": "ess_issue99_dmv11_e05_10"
+        },
+        {
+          "candidate_id": "e00_01",
+          "oid": 16475,
+          "statistic_name": "ess_issue99_dmv11_e00_01"
+        },
+        {
+          "candidate_id": "e02_05",
+          "oid": 16476,
+          "statistic_name": "ess_issue99_dmv11_e02_05"
+        },
+        {
+          "candidate_id": "e01_09",
+          "oid": 16477,
+          "statistic_name": "ess_issue99_dmv11_e01_09"
+        },
+        {
+          "candidate_id": "e03_07",
+          "oid": 16478,
+          "statistic_name": "ess_issue99_dmv11_e03_07"
+        },
+        {
+          "candidate_id": "e02_10",
+          "oid": 16479,
+          "statistic_name": "ess_issue99_dmv11_e02_10"
+        },
+        {
+          "candidate_id": "e04_06",
+          "oid": 16480,
+          "statistic_name": "ess_issue99_dmv11_e04_06"
+        },
+        {
+          "candidate_id": "e01_10",
+          "oid": 16481,
+          "statistic_name": "ess_issue99_dmv11_e01_10"
+        },
+        {
+          "candidate_id": "e03_06",
+          "oid": 16482,
+          "statistic_name": "ess_issue99_dmv11_e03_06"
+        },
+        {
+          "candidate_id": "e01_04",
+          "oid": 16483,
+          "statistic_name": "ess_issue99_dmv11_e01_04"
+        },
+        {
+          "candidate_id": "e02_04",
+          "oid": 16484,
+          "statistic_name": "ess_issue99_dmv11_e02_04"
+        },
+        {
+          "candidate_id": "e02_03",
+          "oid": 16485,
+          "statistic_name": "ess_issue99_dmv11_e02_03"
+        },
+        {
+          "candidate_id": "e08_10",
+          "oid": 16486,
+          "statistic_name": "ess_issue99_dmv11_e08_10"
+        },
+        {
+          "candidate_id": "e02_08",
+          "oid": 16487,
+          "statistic_name": "ess_issue99_dmv11_e02_08"
+        },
+        {
+          "candidate_id": "e05_08",
+          "oid": 16488,
+          "statistic_name": "ess_issue99_dmv11_e05_08"
+        },
+        {
+          "candidate_id": "e00_10",
+          "oid": 16489,
+          "statistic_name": "ess_issue99_dmv11_e00_10"
+        },
+        {
+          "candidate_id": "e03_10",
+          "oid": 16490,
+          "statistic_name": "ess_issue99_dmv11_e03_10"
+        },
+        {
+          "candidate_id": "e03_05",
+          "oid": 16491,
+          "statistic_name": "ess_issue99_dmv11_e03_05"
+        },
+        {
+          "candidate_id": "e00_03",
+          "oid": 16492,
+          "statistic_name": "ess_issue99_dmv11_e00_03"
+        },
+        {
+          "candidate_id": "e00_04",
+          "oid": 16493,
+          "statistic_name": "ess_issue99_dmv11_e00_04"
+        },
+        {
+          "candidate_id": "e01_02",
+          "oid": 16494,
+          "statistic_name": "ess_issue99_dmv11_e01_02"
+        },
+        {
+          "candidate_id": "e05_06",
+          "oid": 16495,
+          "statistic_name": "ess_issue99_dmv11_e05_06"
+        },
+        {
+          "candidate_id": "e00_02",
+          "oid": 16496,
+          "statistic_name": "ess_issue99_dmv11_e00_02"
+        },
+        {
+          "candidate_id": "e03_08",
+          "oid": 16497,
+          "statistic_name": "ess_issue99_dmv11_e03_08"
+        },
+        {
+          "candidate_id": "e02_09",
+          "oid": 16498,
+          "statistic_name": "ess_issue99_dmv11_e02_09"
+        },
+        {
+          "candidate_id": "e01_08",
+          "oid": 16499,
+          "statistic_name": "ess_issue99_dmv11_e01_08"
+        },
+        {
+          "candidate_id": "e02_06",
+          "oid": 16500,
+          "statistic_name": "ess_issue99_dmv11_e02_06"
+        },
+        {
+          "candidate_id": "e05_07",
+          "oid": 16501,
+          "statistic_name": "ess_issue99_dmv11_e05_07"
+        },
+        {
+          "candidate_id": "e07_09",
+          "oid": 16502,
+          "statistic_name": "ess_issue99_dmv11_e07_09"
+        },
+        {
+          "candidate_id": "e03_04",
+          "oid": 16503,
+          "statistic_name": "ess_issue99_dmv11_e03_04"
+        },
+        {
+          "candidate_id": "e00_06",
+          "oid": 16504,
+          "statistic_name": "ess_issue99_dmv11_e00_06"
+        },
+        {
+          "candidate_id": "e09_10",
+          "oid": 16505,
+          "statistic_name": "ess_issue99_dmv11_e09_10"
+        },
+        {
+          "candidate_id": "e06_10",
+          "oid": 16506,
+          "statistic_name": "ess_issue99_dmv11_e06_10"
+        },
+        {
+          "candidate_id": "e04_05",
+          "oid": 16507,
+          "statistic_name": "ess_issue99_dmv11_e04_05"
+        },
+        {
+          "candidate_id": "e00_07",
+          "oid": 16508,
+          "statistic_name": "ess_issue99_dmv11_e00_07"
+        },
+        {
+          "candidate_id": "e01_06",
+          "oid": 16509,
+          "statistic_name": "ess_issue99_dmv11_e01_06"
+        },
+        {
+          "candidate_id": "e03_09",
+          "oid": 16510,
+          "statistic_name": "ess_issue99_dmv11_e03_09"
+        },
+        {
+          "candidate_id": "e06_09",
+          "oid": 16511,
+          "statistic_name": "ess_issue99_dmv11_e06_09"
+        },
+        {
+          "candidate_id": "e08_09",
+          "oid": 16512,
+          "statistic_name": "ess_issue99_dmv11_e08_09"
+        },
+        {
+          "candidate_id": "e07_10",
+          "oid": 16513,
+          "statistic_name": "ess_issue99_dmv11_e07_10"
+        },
+        {
+          "candidate_id": "e02_07",
+          "oid": 16514,
+          "statistic_name": "ess_issue99_dmv11_e02_07"
+        },
+        {
+          "candidate_id": "e06_08",
+          "oid": 16515,
+          "statistic_name": "ess_issue99_dmv11_e06_08"
+        },
+        {
+          "candidate_id": "e05_09",
+          "oid": 16516,
+          "statistic_name": "ess_issue99_dmv11_e05_09"
+        },
+        {
+          "candidate_id": "e01_05",
+          "oid": 16517,
+          "statistic_name": "ess_issue99_dmv11_e01_05"
+        },
+        {
+          "candidate_id": "e07_08",
+          "oid": 16518,
+          "statistic_name": "ess_issue99_dmv11_e07_08"
+        },
+        {
+          "candidate_id": "e01_03",
+          "oid": 16519,
+          "statistic_name": "ess_issue99_dmv11_e01_03"
+        },
+        {
+          "candidate_id": "e00_05",
+          "oid": 16520,
+          "statistic_name": "ess_issue99_dmv11_e00_05"
+        },
+        {
+          "candidate_id": "e01_07",
+          "oid": 16521,
+          "statistic_name": "ess_issue99_dmv11_e01_07"
+        }
+      ],
+      "catalog_oid_order_candidate_ids": [
+        "e00_09",
+        "e06_07",
+        "e00_08",
+        "e04_09",
+        "e04_08",
+        "e04_10",
+        "e04_07",
+        "e05_10",
+        "e00_01",
+        "e02_05",
+        "e01_09",
+        "e03_07",
+        "e02_10",
+        "e04_06",
+        "e01_10",
+        "e03_06",
+        "e01_04",
+        "e02_04",
+        "e02_03",
+        "e08_10",
+        "e02_08",
+        "e05_08",
+        "e00_10",
+        "e03_10",
+        "e03_05",
+        "e00_03",
+        "e00_04",
+        "e01_02",
+        "e05_06",
+        "e00_02",
+        "e03_08",
+        "e02_09",
+        "e01_08",
+        "e02_06",
+        "e05_07",
+        "e07_09",
+        "e03_04",
+        "e00_06",
+        "e09_10",
+        "e06_10",
+        "e04_05",
+        "e00_07",
+        "e01_06",
+        "e03_09",
+        "e06_09",
+        "e08_09",
+        "e07_10",
+        "e02_07",
+        "e06_08",
+        "e05_09",
+        "e01_05",
+        "e07_08",
+        "e01_03",
+        "e00_05",
+        "e01_07"
+      ],
+      "catalog_status": "PASS",
+      "configuration_id": "dmv11-all-random-02",
+      "create_statement_candidate_ids": [
+        "e00_09",
+        "e06_07",
+        "e00_08",
+        "e04_09",
+        "e04_08",
+        "e04_10",
+        "e04_07",
+        "e05_10",
+        "e00_01",
+        "e02_05",
+        "e01_09",
+        "e03_07",
+        "e02_10",
+        "e04_06",
+        "e01_10",
+        "e03_06",
+        "e01_04",
+        "e02_04",
+        "e02_03",
+        "e08_10",
+        "e02_08",
+        "e05_08",
+        "e00_10",
+        "e03_10",
+        "e03_05",
+        "e00_03",
+        "e00_04",
+        "e01_02",
+        "e05_06",
+        "e00_02",
+        "e03_08",
+        "e02_09",
+        "e01_08",
+        "e02_06",
+        "e05_07",
+        "e07_09",
+        "e03_04",
+        "e00_06",
+        "e09_10",
+        "e06_10",
+        "e04_05",
+        "e00_07",
+        "e01_06",
+        "e03_09",
+        "e06_09",
+        "e08_09",
+        "e07_10",
+        "e02_07",
+        "e06_08",
+        "e05_09",
+        "e01_05",
+        "e07_08",
+        "e01_03",
+        "e00_05",
+        "e01_07"
+      ],
+      "diagnostics_integrity": {
+        "complete": 10000,
+        "expected": 10000,
+        "extension_status_counts": {
+          "complete": 10000
+        },
+        "status": "PASS",
+        "structural_status_counts": {
+          "PASS": 10000
+        }
+      },
+      "ordinary_column_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+      "payload_state_counts": {
+        "POPULATED": 55
+      },
+      "permutation_sha256": "c8aeac03b9e2e9f9b9bf90ed1e147ae85e4ba70b8744290c21731f322ef49e53",
+      "plan_rows_integrity": {
+        "expected": 10000,
+        "status": "PASS",
+        "valid": 10000
+      },
+      "sample_header": {
+        "alignof": 8,
+        "blcksz": 8192,
+        "file_bytes": 8820422,
+        "format_version": 1,
+        "item_pointer_size": 6,
+        "natts": 11,
+        "relation_filenode": 16384,
+        "relation_identity": "6:public5:dmv11",
+        "relation_oid": 16384,
+        "relation_pages": 131744,
+        "sample_target": 90000,
+        "server_version": "16.14",
+        "server_version_num": 160014,
+        "tuple_count": 90000,
+        "tuple_header_size": 24,
+        "tuple_size": 24
+      },
+      "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "table_identity": {
+        "columns": [
+          [
+            1,
+            "record_type",
+            "character varying(64)"
+          ],
+          [
+            2,
+            "registration_class",
+            "character varying(64)"
+          ],
+          [
+            3,
+            "state",
+            "character varying(64)"
+          ],
+          [
+            4,
+            "county",
+            "character varying(64)"
+          ],
+          [
+            5,
+            "body_type",
+            "character varying(64)"
+          ],
+          [
+            6,
+            "fuel_type",
+            "character varying(64)"
+          ],
+          [
+            7,
+            "reg_valid_date",
+            "double precision"
+          ],
+          [
+            8,
+            "color",
+            "character varying(64)"
+          ],
+          [
+            9,
+            "scofflaw_indicator",
+            "character varying(64)"
+          ],
+          [
+            10,
+            "suspension_indicator",
+            "character varying(64)"
+          ],
+          [
+            11,
+            "revocation_indicator",
+            "character varying(64)"
+          ]
+        ],
+        "relation_oid": "16384",
+        "relfilenode": "16384",
+        "row_count": 11591877
+      },
+      "test_status": "COMPLETE"
+    },
+    {
+      "candidate_id_attribution": {
+        "complete": 10000,
+        "expected": 10000,
+        "status": "PASS",
+        "status_counts": {
+          "PASS": 6684,
+          "PASS_EMPTY": 3316
+        },
+        "unknown_stat_oid_event_count": 0
+      },
+      "catalog": [
+        {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "candidate_id": "e04_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "mcv_payload_present": true,
+          "oid": 16545,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300,
+          "stxkeys": "5 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "candidate_id": "e00_05",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "mcv_payload_present": true,
+          "oid": 16546,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300,
+          "stxkeys": "1 6",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "candidate_id": "e01_07",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "mcv_payload_present": true,
+          "oid": 16547,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300,
+          "stxkeys": "2 8",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "candidate_id": "e02_03",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "mcv_payload_present": true,
+          "oid": 16548,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300,
+          "stxkeys": "3 4",
+          "stxkind": "{m}"
+        },
+        {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "candidate_id": "e01_04",
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "mcv_payload_present": true,
+          "oid": 16549,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300,
+          "stxkeys": "2 5",
+          "stxkind": "{m}"
+        }
+      ],
+      "catalog_oid_order": [
+        {
+          "candidate_id": "e04_07",
+          "oid": 16545,
+          "statistic_name": "ess_issue99_dmv11_e04_07"
+        },
+        {
+          "candidate_id": "e00_05",
+          "oid": 16546,
+          "statistic_name": "ess_issue99_dmv11_e00_05"
+        },
+        {
+          "candidate_id": "e01_07",
+          "oid": 16547,
+          "statistic_name": "ess_issue99_dmv11_e01_07"
+        },
+        {
+          "candidate_id": "e02_03",
+          "oid": 16548,
+          "statistic_name": "ess_issue99_dmv11_e02_03"
+        },
+        {
+          "candidate_id": "e01_04",
+          "oid": 16549,
+          "statistic_name": "ess_issue99_dmv11_e01_04"
+        }
+      ],
+      "catalog_oid_order_candidate_ids": [
+        "e04_07",
+        "e00_05",
+        "e01_07",
+        "e02_03",
+        "e01_04"
+      ],
+      "catalog_status": "PASS",
+      "configuration_id": "dmv11-b5-nominal-matched",
+      "create_statement_candidate_ids": [
+        "e04_07",
+        "e00_05",
+        "e01_07",
+        "e02_03",
+        "e01_04"
+      ],
+      "diagnostics_integrity": {
+        "complete": 10000,
+        "expected": 10000,
+        "extension_status_counts": {
+          "complete": 10000
+        },
+        "status": "PASS",
+        "structural_status_counts": {
+          "PASS": 10000
+        }
+      },
+      "ordinary_column_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+      "payload_state_counts": {
+        "POPULATED": 5
+      },
+      "permutation_sha256": "3bca05ed9e9e8707716ca1f4b3270904941fd32918469ef925586501f97d1e3a",
+      "plan_rows_integrity": {
+        "expected": 10000,
+        "status": "PASS",
+        "valid": 10000
+      },
+      "sample_header": {
+        "alignof": 8,
+        "blcksz": 8192,
+        "file_bytes": 8820422,
+        "format_version": 1,
+        "item_pointer_size": 6,
+        "natts": 11,
+        "relation_filenode": 16384,
+        "relation_identity": "6:public5:dmv11",
+        "relation_oid": 16384,
+        "relation_pages": 131744,
+        "sample_target": 90000,
+        "server_version": "16.14",
+        "server_version_num": 160014,
+        "tuple_count": 90000,
+        "tuple_header_size": 24,
+        "tuple_size": 24
+      },
+      "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "table_identity": {
+        "columns": [
+          [
+            1,
+            "record_type",
+            "character varying(64)"
+          ],
+          [
+            2,
+            "registration_class",
+            "character varying(64)"
+          ],
+          [
+            3,
+            "state",
+            "character varying(64)"
+          ],
+          [
+            4,
+            "county",
+            "character varying(64)"
+          ],
+          [
+            5,
+            "body_type",
+            "character varying(64)"
+          ],
+          [
+            6,
+            "fuel_type",
+            "character varying(64)"
+          ],
+          [
+            7,
+            "reg_valid_date",
+            "double precision"
+          ],
+          [
+            8,
+            "color",
+            "character varying(64)"
+          ],
+          [
+            9,
+            "scofflaw_indicator",
+            "character varying(64)"
+          ],
+          [
+            10,
+            "suspension_indicator",
+            "character varying(64)"
+          ],
+          [
+            11,
+            "revocation_indicator",
+            "character varying(64)"
+          ]
+        ],
+        "relation_oid": "16384",
+        "relfilenode": "16384",
+        "row_count": 11591877
+      },
+      "test_status": "COMPLETE"
+    }
+  ],
+  "pretest_state_comparisons": [
+    {
+      "candidate_count_compared": 55,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-all-random-02 vs dmv11-all-random-01",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    },
+    {
+      "candidate_count_compared": 5,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-b5-nominal-matched vs dmv11-all-random-01",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    },
+    {
+      "candidate_count_compared": 5,
+      "candidate_id_keyed_mcv_state_content_and_target_equal": true,
+      "contrast": "dmv11-b5-nominal-matched vs dmv11-all-random-02",
+      "status": "PASS",
+      "table_sample_ordinary_stats_equal": true
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,38 @@
+{
+  "analysis_attempt_history": [
+    {
+      "attempt": "offline summary generation",
+      "error": "KeyError: ordinary_column_stats_sha256; fixed to read the catalog audit ordinary_column_stats.sha256 field",
+      "outcome": "failed before completing output"
+    },
+    {
+      "attempt": "offline summary generation",
+      "error": "KeyError: random02_b5_projection; fixed to read the frozen order_pins.random02_b5_projection field",
+      "outcome": "failed during findings rendering after derived JSON files were written"
+    },
+    {
+      "attempt": "final offline recomputation",
+      "checks": [
+        "whole raw archive SHA-256",
+        "all three gzip member boundaries and SHA-256",
+        "30,000 query rows and common query order",
+        "Q-error metrics equal Issue #101/#105 helper",
+        "all three physical-state comparisons PASS"
+      ],
+      "outcome": "PASS"
+    }
+  ],
+  "format": "ess-issue133-minimal-dmv11-postrun-analysis-amendment-v1",
+  "frozen_analyzer_sha256": "ad1a02bdafb7b48ce9f9f48022b907f44185876b819b06f5ee9c80b5c80088f6",
+  "new_postrun_postgresql_or_analyze_or_explain": false,
+  "note": "These were post-run analysis-code corrections only. They did not change the frozen protocol, physical measurements, Q-error definitions, candidate set, orders, or any PostgreSQL state.",
+  "physical_data_unchanged": true,
+  "physical_protocol_sha256": "643588b20be23687b8be6395cda8e549ed2aaccb1be0c9343ad92389e49440a8",
+  "physical_run_manifest_sha256": "f4d178ffbc2db8cbed6c4a022dbe57064faf9dab363f576a8a47e1f71ea480da",
+  "physical_run_status": "COMPLETE",
+  "raw_archive_sha256": "69a2202d815c1db991ffdfbfc431d2fa447ddeffc31de898d4ae87d3f5101dbe",
+  "results_analyzer_path": "analyze_minimal_dmv11_results.py",
+  "results_analyzer_sha256": "7bec95e294fef1b4fe39c658f9a5606a5b4988068db4528e181a4840c5e58016",
+  "run_id": "20261029T0300Z-issue133-dmv11-three-arm",
+  "source_commit_before_test": "45f55a02244294a8cb6c1b25ba8b3c01b9676c02"
+}
