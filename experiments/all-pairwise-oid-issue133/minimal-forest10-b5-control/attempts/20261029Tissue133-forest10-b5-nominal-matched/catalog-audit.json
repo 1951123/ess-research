@@ -1,0 +1,364 @@
+{
+  "analyze_count": 1,
+  "candidate_payload_state_counts": {
+    "POPULATED": 5
+  },
+  "catalog": [
+    {
+      "attnames": [
+        "slope",
+        "hillshade_3pm"
+      ],
+      "candidate_id": "e02_08",
+      "kinds": [
+        "m"
+      ],
+      "mcv_content_sha256": "0c4adb9689fb4b8f3e6770c2cf81a339768085c8d0ea72afd326f49843c341dc",
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16387,
+      "payload_state": "POPULATED",
+      "resolved_attnames": [
+        "slope",
+        "hillshade_3pm"
+      ],
+      "statistic_name": "ess_issue99_forest10_e02_08",
+      "statistics_target": 300,
+      "stxkeys": "3 9",
+      "stxkind": "{m}"
+    },
+    {
+      "attnames": [
+        "horizontal_distance_to_hydrology",
+        "vertical_distance_to_hydrology"
+      ],
+      "candidate_id": "e03_04",
+      "kinds": [
+        "m"
+      ],
+      "mcv_content_sha256": "f14ce573146c4c773ac618a0c659dacc719925e955beda1a76960274a1f4a796",
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16388,
+      "payload_state": "POPULATED",
+      "resolved_attnames": [
+        "horizontal_distance_to_hydrology",
+        "vertical_distance_to_hydrology"
+      ],
+      "statistic_name": "ess_issue99_forest10_e03_04",
+      "statistics_target": 300,
+      "stxkeys": "4 5",
+      "stxkind": "{m}"
+    },
+    {
+      "attnames": [
+        "slope",
+        "hillshade_noon"
+      ],
+      "candidate_id": "e02_07",
+      "kinds": [
+        "m"
+      ],
+      "mcv_content_sha256": "b32358a7174ff17afe18c2c5fba58307c7a110f7b8285a7049f3f041c605d19e",
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16389,
+      "payload_state": "POPULATED",
+      "resolved_attnames": [
+        "slope",
+        "hillshade_noon"
+      ],
+      "statistic_name": "ess_issue99_forest10_e02_07",
+      "statistics_target": 300,
+      "stxkeys": "3 8",
+      "stxkind": "{m}"
+    },
+    {
+      "attnames": [
+        "aspect",
+        "hillshade_9am"
+      ],
+      "candidate_id": "e01_06",
+      "kinds": [
+        "m"
+      ],
+      "mcv_content_sha256": "5a9f0bbbb2f78f862e62741c6de0ea261873ce363a4f001c4c6d13d8a98bf2e4",
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16390,
+      "payload_state": "POPULATED",
+      "resolved_attnames": [
+        "aspect",
+        "hillshade_9am"
+      ],
+      "statistic_name": "ess_issue99_forest10_e01_06",
+      "statistics_target": 300,
+      "stxkeys": "2 7",
+      "stxkind": "{m}"
+    },
+    {
+      "attnames": [
+        "hillshade_9am",
+        "hillshade_3pm"
+      ],
+      "candidate_id": "e06_08",
+      "kinds": [
+        "m"
+      ],
+      "mcv_content_sha256": "18ae78d07830e86f4c055297bc499523a03fe88d160c8c89463f0de59486c7bb",
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16391,
+      "payload_state": "POPULATED",
+      "resolved_attnames": [
+        "hillshade_9am",
+        "hillshade_3pm"
+      ],
+      "statistic_name": "ess_issue99_forest10_e06_08",
+      "statistics_target": 300,
+      "stxkeys": "7 9",
+      "stxkind": "{m}"
+    }
+  ],
+  "catalog_oid_order": [
+    {
+      "candidate_id": "e02_08",
+      "oid": 16387,
+      "statistic_name": "ess_issue99_forest10_e02_08"
+    },
+    {
+      "candidate_id": "e03_04",
+      "oid": 16388,
+      "statistic_name": "ess_issue99_forest10_e03_04"
+    },
+    {
+      "candidate_id": "e02_07",
+      "oid": 16389,
+      "statistic_name": "ess_issue99_forest10_e02_07"
+    },
+    {
+      "candidate_id": "e01_06",
+      "oid": 16390,
+      "statistic_name": "ess_issue99_forest10_e01_06"
+    },
+    {
+      "candidate_id": "e06_08",
+      "oid": 16391,
+      "statistic_name": "ess_issue99_forest10_e06_08"
+    }
+  ],
+  "catalog_oid_order_candidate_ids": [
+    "e02_08",
+    "e03_04",
+    "e02_07",
+    "e01_06",
+    "e06_08"
+  ],
+  "cluster_identity": [
+    "/home/wqts/ess-runtime/ess-research/issue133/runs/20261029Tissue133-forest10-b5-nominal-matched/clusters/forest10-b5-nominal-matched-random01/pgdata",
+    "39349",
+    "postgres",
+    "PostgreSQL 16.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+  ],
+  "comparison_key": "stable candidate_id; numeric OIDs are local to each configuration",
+  "configuration_id": "forest10-b5-nominal-matched-random01",
+  "create_count": 5,
+  "create_statement_candidate_ids": [
+    "e02_08",
+    "e03_04",
+    "e02_07",
+    "e01_06",
+    "e06_08"
+  ],
+  "helper_ledger": [
+    {
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16387,
+      "statistic_name": "ess_issue99_forest10_e02_08",
+      "statistics_target": 300,
+      "stxkeys": "3 9"
+    },
+    {
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16388,
+      "statistic_name": "ess_issue99_forest10_e03_04",
+      "statistics_target": 300,
+      "stxkeys": "4 5"
+    },
+    {
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16389,
+      "statistic_name": "ess_issue99_forest10_e02_07",
+      "statistics_target": 300,
+      "stxkeys": "3 8"
+    },
+    {
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16390,
+      "statistic_name": "ess_issue99_forest10_e01_06",
+      "statistics_target": 300,
+      "stxkeys": "2 7"
+    },
+    {
+      "mcv_item_count": 300,
+      "mcv_payload_present": true,
+      "oid": 16391,
+      "statistic_name": "ess_issue99_forest10_e06_08",
+      "statistics_target": 300,
+      "stxkeys": "7 9"
+    }
+  ],
+  "issue135_ordinary_stats_match": true,
+  "issue135_sample_match": true,
+  "issue135_shared_candidate_content_match": true,
+  "issue135_table_logical_identity_match": true,
+  "oid_to_candidate_id": {
+    "16387": "e02_08",
+    "16388": "e03_04",
+    "16389": "e02_07",
+    "16390": "e01_06",
+    "16391": "e06_08"
+  },
+  "ordinary_column_stats": {
+    "column_count": 10,
+    "sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e"
+  },
+  "sample_header": {
+    "alignof": 8,
+    "blcksz": 8192,
+    "file_bytes": 10620460,
+    "format_version": 1,
+    "item_pointer_size": 6,
+    "natts": 10,
+    "relation_filenode": 16384,
+    "relation_identity": "6:public8:forest10",
+    "relation_oid": 16384,
+    "relation_pages": 7792,
+    "sample_target": 90000,
+    "server_version": "16.14",
+    "server_version_num": 160014,
+    "tuple_count": 90000,
+    "tuple_header_size": 24,
+    "tuple_size": 24
+  },
+  "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+  "setup_elapsed_seconds": 0.31,
+  "status": "PASS",
+  "table_identity": {
+    "columns": [
+      [
+        1,
+        "elevation",
+        "double precision"
+      ],
+      [
+        2,
+        "aspect",
+        "double precision"
+      ],
+      [
+        3,
+        "slope",
+        "double precision"
+      ],
+      [
+        4,
+        "horizontal_distance_to_hydrology",
+        "double precision"
+      ],
+      [
+        5,
+        "vertical_distance_to_hydrology",
+        "double precision"
+      ],
+      [
+        6,
+        "horizontal_distance_to_roadways",
+        "double precision"
+      ],
+      [
+        7,
+        "hillshade_9am",
+        "double precision"
+      ],
+      [
+        8,
+        "hillshade_noon",
+        "double precision"
+      ],
+      [
+        9,
+        "hillshade_3pm",
+        "double precision"
+      ],
+      [
+        10,
+        "horizontal_distance_to_fire_points",
+        "double precision"
+      ]
+    ],
+    "relation_oid": "16384",
+    "relfilenode": "16384",
+    "row_count": 581012
+  },
+  "table_logical_identity": {
+    "columns": [
+      [
+        1,
+        "elevation",
+        "double precision"
+      ],
+      [
+        2,
+        "aspect",
+        "double precision"
+      ],
+      [
+        3,
+        "slope",
+        "double precision"
+      ],
+      [
+        4,
+        "horizontal_distance_to_hydrology",
+        "double precision"
+      ],
+      [
+        5,
+        "vertical_distance_to_hydrology",
+        "double precision"
+      ],
+      [
+        6,
+        "horizontal_distance_to_roadways",
+        "double precision"
+      ],
+      [
+        7,
+        "hillshade_9am",
+        "double precision"
+      ],
+      [
+        8,
+        "hillshade_noon",
+        "double precision"
+      ],
+      [
+        9,
+        "hillshade_3pm",
+        "double precision"
+      ],
+      [
+        10,
+        "horizontal_distance_to_fire_points",
+        "double precision"
+      ]
+    ],
+    "row_count": 581012
+  },
+  "target_count": 5
+}
