@@ -311,6 +311,68 @@ def signature_for_candidate_rows(rows: list[dict[str, Any]]) -> dict[str, dict[s
     return {row["candidate_id"]: catalog_row_signature(row) for row in rows}
 
 
+def recover_event_ids_from_catalog(rows: list[dict[str, Any]],
+                                   catalog_rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Resolve saved numeric event OIDs to candidate IDs without editing raw rows on disk.
+
+    Preserve each parsed diagnostics_status verbatim. In particular, this does
+    not infer an original extension status that the first parser overwrote.
+    """
+    oid_to_id: dict[int, str] = {}
+    for catalog_row in catalog_rows:
+        oid = int(catalog_row["oid"])
+        candidate_id = catalog_row["candidate_id"]
+        if oid in oid_to_id or candidate_id in oid_to_id.values():
+            raise Inconclusive("saved catalog has duplicate OID or candidate ID")
+        oid_to_id[oid] = candidate_id
+    repaired: list[dict[str, Any]] = []
+    original_status_counts = Counter(row.get("diagnostics_status") for row in rows)
+    mapped_events = 0
+    observed_oids: Counter[int] = Counter()
+    for source in rows:
+        row = dict(source)
+        events = []
+        selections = []
+        estimates = []
+        for source_event in source.get("mcv_events", []):
+            event = dict(source_event)
+            oid_value = event.get("stat_oid")
+            if isinstance(oid_value, bool) or not isinstance(oid_value, int):
+                raise Inconclusive("saved MCV event lacks an integer stat_oid")
+            observed_oids[oid_value] += 1
+            candidate_id = oid_to_id.get(oid_value)
+            if candidate_id is None:
+                raise Inconclusive(f"saved MCV event OID {oid_value} is absent from B5 catalog")
+            if event.get("candidate_id") not in (None, candidate_id):
+                raise Inconclusive("saved MCV event candidate ID conflicts with catalog OID mapping")
+            event["candidate_id"] = candidate_id
+            events.append(event)
+            mapped_events += 1
+            if event.get("type") == "mcv_selection":
+                selections.append(candidate_id)
+            elif event.get("type") == "mcv_estimate":
+                estimates.append(candidate_id)
+        row["mcv_events"] = events
+        row["mcv_selection_ids"] = selections
+        row["mcv_estimate_ids"] = estimates
+        repaired.append(row)
+    return repaired, {
+        "status": "PASS_EVENT_OID_MAPPING",
+        "method": "re-map each saved integer stat_oid using the same-arm five-row catalog audit",
+        "catalog_oid_to_candidate_id": {str(oid): candidate_id for oid, candidate_id in oid_to_id.items()},
+        "observed_mcv_event_count": mapped_events,
+        "observed_stat_oid_event_counts": {
+            str(oid): count for oid, count in sorted(observed_oids.items())
+        },
+        "unmapped_stat_oids": [],
+        "source_diagnostics_status_counts": dict(sorted(original_status_counts.items())),
+        "status_handling": (
+            "Original ESS Diagnostics.Status was overwritten by UNKNOWN_SELECTED_STAT_OID "
+            "in the source parsed rows and is not reconstructed; repaired rows preserve that status."
+        ),
+    }
+
+
 def build_b5_catalog_audit(protocol: dict[str, Any], all_evidence: dict[str, Any],
                            schedule: dict[str, Any], candidates: dict[str, dict[str, Any]],
                            helper_ledger: list[dict[str, Any]], helpers: Any,
@@ -427,7 +489,9 @@ def build_b5_catalog_audit(protocol: dict[str, Any], all_evidence: dict[str, Any
         "ordinary_column_stats": ordinary,
         "sample_sha256": sample_sha,
         "sample_header": header,
-        "oid_to_candidate_id": {str(oid): candidate_id for oid, candidate_id in oid_map.items()},
+        # Keep integer keys in memory because Issue #105 parses integer stat_oid
+        # values. JSON serialization will encode object keys as strings later.
+        "oid_to_candidate_id": oid_map,
         "create_count": 5,
         "target_count": 5,
         "analyze_count": 1,

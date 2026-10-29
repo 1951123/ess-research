@@ -1,0 +1,690 @@
+{
+  "actual_test_explain_calls": 10000,
+  "all_raw_archive_sha256": "d088a9b8cb33d62a507dc9cef0fb8e7cc73c12f8116e91ce528a9123d98b7318",
+  "b5_catalog_audit_sha256": "56eedc5b22b819a69497ab2f384f0c1d7ab33d7c9a4bdc75f147613740114618",
+  "b5_raw_archive_path_under_ess_runtime_parent": "ess-research/issue133/runs/20261029Tissue133-forest10-b5-nominal-matched/raw-observations.jsonl.gz",
+  "b5_raw_archive_sha256": "43a4ee6e53106768cef26fefa2b797ed948199451f2ac431f9040cde881ef0b4",
+  "diagnostic_remap": {
+    "catalog_oid_to_candidate_id": {
+      "16387": "e02_08",
+      "16388": "e03_04",
+      "16389": "e02_07",
+      "16390": "e01_06",
+      "16391": "e06_08"
+    },
+    "method": "re-map each saved integer stat_oid using the same-arm five-row catalog audit",
+    "observed_mcv_event_count": 66446,
+    "observed_stat_oid_event_counts": {
+      "16387": 20765,
+      "16388": 19706,
+      "16389": 4601,
+      "16390": 19456,
+      "16391": 1918
+    },
+    "source_diagnostics_status_counts": {
+      "UNKNOWN_SELECTED_STAT_OID": 6648,
+      "complete": 3352
+    },
+    "status": "PASS_EVENT_OID_MAPPING",
+    "status_handling": "Original ESS Diagnostics.Status was overwritten by UNKNOWN_SELECTED_STAT_OID in the source parsed rows and is not reconstructed; repaired rows preserve that status.",
+    "unmapped_stat_oids": []
+  },
+  "diagnostic_status_limit": "The original ESS Diagnostics.Status for 6,648 rows was overwritten by the runner's UNKNOWN_SELECTED_STAT_OID attribution error. The saved numeric event OIDs were mapped to the same-arm catalog, but the overwritten extension status is not inferred.",
+  "format": "ess-issue133-forest10-all-vs-nominal-b5-comparison-v1",
+  "interpretation_scope": "one fixed Forest10 workload/configuration contrast; no permutation expectation",
+  "metrics_by_configuration": {
+    "forest10-all-random-01": {
+      "diagnostics_status_counts": {
+        "complete": 10000
+      },
+      "mcv_estimate_event_count": 16775,
+      "mcv_selection_event_count": 16775,
+      "qerror": {
+        "max": 9492.0,
+        "mean": 6.687501968656185,
+        "p50": 1.1804512559972935,
+        "p95": 15.0,
+        "p99": 65.01000000000022
+      },
+      "queries_with_mcv_estimate": 8344,
+      "queries_with_mcv_selection": 8344,
+      "query_count": 10000,
+      "status": "COMPLETE",
+      "unresolved_count": 0,
+      "unresolved_status_counts": {},
+      "valid_count": 10000,
+      "zero_cases": {
+        "both_positive": 9376,
+        "both_zero": 0,
+        "estimate_zero_truth_positive": 0,
+        "truth_zero_estimate_positive": 624
+      }
+    },
+    "forest10-all-random-02": {
+      "diagnostics_status_counts": {
+        "complete": 10000
+      },
+      "mcv_estimate_event_count": 17090,
+      "mcv_selection_event_count": 17090,
+      "qerror": {
+        "max": 9369.0,
+        "mean": 6.708283813517734,
+        "p50": 1.1794969657076213,
+        "p95": 15.0,
+        "p99": 63.01000000000022
+      },
+      "queries_with_mcv_estimate": 8344,
+      "queries_with_mcv_selection": 8344,
+      "query_count": 10000,
+      "status": "COMPLETE",
+      "unresolved_count": 0,
+      "unresolved_status_counts": {},
+      "valid_count": 10000,
+      "zero_cases": {
+        "both_positive": 9376,
+        "both_zero": 0,
+        "estimate_zero_truth_positive": 0,
+        "truth_zero_estimate_positive": 624
+      }
+    },
+    "forest10-b5-nominal-matched-random01": {
+      "diagnostics_status_counts": {
+        "UNKNOWN_SELECTED_STAT_OID": 6648,
+        "complete": 3352
+      },
+      "mcv_estimate_event_count": 12315,
+      "mcv_selection_event_count": 12315,
+      "qerror": {
+        "max": 9364.0,
+        "mean": 6.490653490329585,
+        "p50": 1.1904948609896286,
+        "p95": 14.0,
+        "p99": 61.506200000000135
+      },
+      "queries_with_mcv_estimate": 6648,
+      "queries_with_mcv_selection": 6648,
+      "query_count": 10000,
+      "status": "COMPLETE",
+      "unresolved_count": 0,
+      "unresolved_status_counts": {},
+      "valid_count": 10000,
+      "zero_cases": {
+        "both_positive": 9376,
+        "both_zero": 0,
+        "estimate_zero_truth_positive": 0,
+        "truth_zero_estimate_positive": 624
+      }
+    }
+  },
+  "paired_comparison": {
+    "all_minus_b5_p95": 1.0,
+    "all_new_candidate_usage": {
+      "forest10-all-random-01": {
+        "queries_with_any_new_candidate_estimated": 7766,
+        "queries_with_any_new_candidate_selected": 7766,
+        "queries_with_any_new_candidate_selected_or_estimated": 7766,
+        "top_new_candidates_by_estimate_queries": [
+          {
+            "candidate_id": "e02_06",
+            "queries": 3689
+          },
+          {
+            "candidate_id": "e04_07",
+            "queries": 3164
+          },
+          {
+            "candidate_id": "e01_03",
+            "queries": 1972
+          },
+          {
+            "candidate_id": "e01_04",
+            "queries": 1309
+          },
+          {
+            "candidate_id": "e03_08",
+            "queries": 1176
+          },
+          {
+            "candidate_id": "e02_03",
+            "queries": 957
+          },
+          {
+            "candidate_id": "e06_07",
+            "queries": 920
+          },
+          {
+            "candidate_id": "e01_07",
+            "queries": 686
+          },
+          {
+            "candidate_id": "e01_08",
+            "queries": 670
+          },
+          {
+            "candidate_id": "e03_06",
+            "queries": 274
+          }
+        ],
+        "top_new_candidates_by_selection_queries": [
+          {
+            "candidate_id": "e02_06",
+            "queries": 3689
+          },
+          {
+            "candidate_id": "e04_07",
+            "queries": 3164
+          },
+          {
+            "candidate_id": "e01_03",
+            "queries": 1972
+          },
+          {
+            "candidate_id": "e01_04",
+            "queries": 1309
+          },
+          {
+            "candidate_id": "e03_08",
+            "queries": 1176
+          },
+          {
+            "candidate_id": "e02_03",
+            "queries": 957
+          },
+          {
+            "candidate_id": "e06_07",
+            "queries": 920
+          },
+          {
+            "candidate_id": "e01_07",
+            "queries": 686
+          },
+          {
+            "candidate_id": "e01_08",
+            "queries": 670
+          },
+          {
+            "candidate_id": "e03_06",
+            "queries": 274
+          }
+        ]
+      },
+      "forest10-all-random-02": {
+        "queries_with_any_new_candidate_estimated": 8041,
+        "queries_with_any_new_candidate_selected": 8041,
+        "queries_with_any_new_candidate_selected_or_estimated": 8041,
+        "top_new_candidates_by_estimate_queries": [
+          {
+            "candidate_id": "e03_08",
+            "queries": 3704
+          },
+          {
+            "candidate_id": "e02_04",
+            "queries": 3699
+          },
+          {
+            "candidate_id": "e01_07",
+            "queries": 2960
+          },
+          {
+            "candidate_id": "e01_08",
+            "queries": 935
+          },
+          {
+            "candidate_id": "e00_04",
+            "queries": 929
+          },
+          {
+            "candidate_id": "e02_06",
+            "queries": 927
+          },
+          {
+            "candidate_id": "e03_06",
+            "queries": 696
+          },
+          {
+            "candidate_id": "e06_07",
+            "queries": 674
+          },
+          {
+            "candidate_id": "e07_08",
+            "queries": 335
+          },
+          {
+            "candidate_id": "e01_02",
+            "queries": 307
+          }
+        ],
+        "top_new_candidates_by_selection_queries": [
+          {
+            "candidate_id": "e03_08",
+            "queries": 3704
+          },
+          {
+            "candidate_id": "e02_04",
+            "queries": 3699
+          },
+          {
+            "candidate_id": "e01_07",
+            "queries": 2960
+          },
+          {
+            "candidate_id": "e01_08",
+            "queries": 935
+          },
+          {
+            "candidate_id": "e00_04",
+            "queries": 929
+          },
+          {
+            "candidate_id": "e02_06",
+            "queries": 927
+          },
+          {
+            "candidate_id": "e03_06",
+            "queries": 696
+          },
+          {
+            "candidate_id": "e06_07",
+            "queries": 674
+          },
+          {
+            "candidate_id": "e07_08",
+            "queries": 335
+          },
+          {
+            "candidate_id": "e01_02",
+            "queries": 307
+          }
+        ]
+      }
+    },
+    "limitations": [
+      "Fixed Forest10 official Test workload and these configurations only; no Test-population uncertainty interval.",
+      "The two compared configurations have matched relative order only for the five shared B5 candidates; additional ALL objects may precede and interact with them.",
+      "This is an installed-set contrast at a fixed shared-object priority, not proof that a specific MCV object blocked another.",
+      "Issue #135 random-02 is an unmatched-order secondary description.",
+      "No PESS/EMPTY arm, additional dataset, repeated configuration, or significance test was run."
+    ],
+    "mcv_estimate_sequence_changed_count": 7766,
+    "mcv_selection_sequence_changed_count": 7766,
+    "mcv_usage_by_shared_candidate_id": {
+      "e01_06": {
+        "forest10-all-random-01": {
+          "estimate_event_count": 101,
+          "queries_with_mcv_estimate": 101,
+          "queries_with_mcv_selection": 101,
+          "selection_event_count": 101
+        },
+        "forest10-all-random-02": {
+          "estimate_event_count": 403,
+          "queries_with_mcv_estimate": 403,
+          "queries_with_mcv_selection": 403,
+          "selection_event_count": 403
+        },
+        "forest10-b5-nominal-matched-random01": {
+          "estimate_event_count": 3684,
+          "queries_with_mcv_estimate": 3684,
+          "queries_with_mcv_selection": 3684,
+          "selection_event_count": 3684
+        }
+      },
+      "e02_07": {
+        "forest10-all-random-01": {
+          "estimate_event_count": 56,
+          "queries_with_mcv_estimate": 56,
+          "queries_with_mcv_selection": 56,
+          "selection_event_count": 56
+        },
+        "forest10-all-random-02": {
+          "estimate_event_count": 77,
+          "queries_with_mcv_estimate": 77,
+          "queries_with_mcv_selection": 77,
+          "selection_event_count": 77
+        },
+        "forest10-b5-nominal-matched-random01": {
+          "estimate_event_count": 880,
+          "queries_with_mcv_estimate": 880,
+          "queries_with_mcv_selection": 880,
+          "selection_event_count": 880
+        }
+      },
+      "e02_08": {
+        "forest10-all-random-01": {
+          "estimate_event_count": 377,
+          "queries_with_mcv_estimate": 377,
+          "queries_with_mcv_selection": 377,
+          "selection_event_count": 377
+        },
+        "forest10-all-random-02": {
+          "estimate_event_count": 54,
+          "queries_with_mcv_estimate": 54,
+          "queries_with_mcv_selection": 54,
+          "selection_event_count": 54
+        },
+        "forest10-b5-nominal-matched-random01": {
+          "estimate_event_count": 3748,
+          "queries_with_mcv_estimate": 3748,
+          "queries_with_mcv_selection": 3748,
+          "selection_event_count": 3748
+        }
+      },
+      "e03_04": {
+        "forest10-all-random-01": {
+          "estimate_event_count": 369,
+          "queries_with_mcv_estimate": 369,
+          "queries_with_mcv_selection": 369,
+          "selection_event_count": 369
+        },
+        "forest10-all-random-02": {
+          "estimate_event_count": 83,
+          "queries_with_mcv_estimate": 83,
+          "queries_with_mcv_selection": 83,
+          "selection_event_count": 83
+        },
+        "forest10-b5-nominal-matched-random01": {
+          "estimate_event_count": 3653,
+          "queries_with_mcv_estimate": 3653,
+          "queries_with_mcv_selection": 3653,
+          "selection_event_count": 3653
+        }
+      },
+      "e06_08": {
+        "forest10-all-random-01": {
+          "estimate_event_count": 148,
+          "queries_with_mcv_estimate": 148,
+          "queries_with_mcv_selection": 148,
+          "selection_event_count": 148
+        },
+        "forest10-all-random-02": {
+          "estimate_event_count": 123,
+          "queries_with_mcv_estimate": 123,
+          "queries_with_mcv_selection": 123,
+          "selection_event_count": 123
+        },
+        "forest10-b5-nominal-matched-random01": {
+          "estimate_event_count": 350,
+          "queries_with_mcv_estimate": 350,
+          "queries_with_mcv_selection": 350,
+          "selection_event_count": 350
+        }
+      }
+    },
+    "p95_neighborhood": {
+      "all_random01_window_size": 201,
+      "b5_window_size": 201,
+      "largest_absolute_qerror_differences": [
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_03",
+            "e04_07"
+          ],
+          "all_random01_plan_rows": 1,
+          "all_random01_qerror": 71.0,
+          "all_random01_rank_in_ascending_qerror": 9914,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e03_04"
+          ],
+          "b5_plan_rows": 5,
+          "b5_qerror": 14.2,
+          "b5_rank_in_ascending_qerror": 9523,
+          "qerror_delta_all_minus_b5": 56.8,
+          "query_id": "arecel:forest10:test:006667"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_06",
+            "e01_03"
+          ],
+          "all_random01_plan_rows": 9,
+          "all_random01_qerror": 47.666666666666664,
+          "all_random01_rank_in_ascending_qerror": 9851,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e01_06"
+          ],
+          "b5_plan_rows": 31,
+          "b5_qerror": 13.838709677419354,
+          "b5_rank_in_ascending_qerror": 9495,
+          "qerror_delta_all_minus_b5": 33.82795698924731,
+          "query_id": "arecel:forest10:test:005819"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_03",
+            "e04_07",
+            "e01_08"
+          ],
+          "all_random01_plan_rows": 3,
+          "all_random01_qerror": 14.666666666666666,
+          "all_random01_rank_in_ascending_qerror": 9494,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e03_04"
+          ],
+          "b5_plan_rows": 1,
+          "b5_qerror": 44.0,
+          "b5_rank_in_ascending_qerror": 9852,
+          "qerror_delta_all_minus_b5": -29.333333333333336,
+          "query_id": "arecel:forest10:test:007681"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e01_07"
+          ],
+          "all_random01_plan_rows": 12,
+          "all_random01_qerror": 13.833333333333334,
+          "all_random01_rank_in_ascending_qerror": 9446,
+          "b5_mcv_selection_ids": [],
+          "b5_plan_rows": 4,
+          "b5_qerror": 41.5,
+          "b5_rank_in_ascending_qerror": 9840,
+          "qerror_delta_all_minus_b5": -27.666666666666664,
+          "query_id": "arecel:forest10:test:007807"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e01_07"
+          ],
+          "all_random01_plan_rows": 5,
+          "all_random01_qerror": 17.6,
+          "all_random01_rank_in_ascending_qerror": 9582,
+          "b5_mcv_selection_ids": [],
+          "b5_plan_rows": 2,
+          "b5_qerror": 44.0,
+          "b5_rank_in_ascending_qerror": 9853,
+          "qerror_delta_all_minus_b5": -26.4,
+          "query_id": "arecel:forest10:test:009452"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_06",
+            "e01_07",
+            "e03_08"
+          ],
+          "all_random01_plan_rows": 1,
+          "all_random01_qerror": 37.0,
+          "all_random01_rank_in_ascending_qerror": 9810,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e01_06"
+          ],
+          "b5_plan_rows": 3,
+          "b5_qerror": 12.333333333333334,
+          "b5_rank_in_ascending_qerror": 9443,
+          "qerror_delta_all_minus_b5": 24.666666666666664,
+          "query_id": "arecel:forest10:test:008719"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e06_07",
+            "e01_04"
+          ],
+          "all_random01_plan_rows": 30,
+          "all_random01_qerror": 37.8,
+          "all_random01_rank_in_ascending_qerror": 9813,
+          "b5_mcv_selection_ids": [
+            "e01_06"
+          ],
+          "b5_plan_rows": 83,
+          "b5_qerror": 13.662650602409638,
+          "b5_rank_in_ascending_qerror": 9489,
+          "qerror_delta_all_minus_b5": 24.13734939759036,
+          "query_id": "arecel:forest10:test:006113"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_06",
+            "e04_07",
+            "e01_03"
+          ],
+          "all_random01_plan_rows": 1,
+          "all_random01_qerror": 35.0,
+          "all_random01_rank_in_ascending_qerror": 9799,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e03_04",
+            "e01_06"
+          ],
+          "b5_plan_rows": 3,
+          "b5_qerror": 11.666666666666666,
+          "b5_rank_in_ascending_qerror": 9409,
+          "qerror_delta_all_minus_b5": 23.333333333333336,
+          "query_id": "arecel:forest10:test:002128"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_06",
+            "e01_07"
+          ],
+          "all_random01_plan_rows": 81,
+          "all_random01_qerror": 15.222222222222221,
+          "all_random01_rank_in_ascending_qerror": 9524,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e01_06"
+          ],
+          "b5_plan_rows": 32,
+          "b5_qerror": 38.53125,
+          "b5_rank_in_ascending_qerror": 9830,
+          "qerror_delta_all_minus_b5": -23.30902777777778,
+          "query_id": "arecel:forest10:test:002105"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e06_07",
+            "e01_04",
+            "e03_08"
+          ],
+          "all_random01_plan_rows": 7,
+          "all_random01_qerror": 37.0,
+          "all_random01_rank_in_ascending_qerror": 9809,
+          "b5_mcv_selection_ids": [
+            "e03_04",
+            "e01_06"
+          ],
+          "b5_plan_rows": 18,
+          "b5_qerror": 14.38888888888889,
+          "b5_rank_in_ascending_qerror": 9527,
+          "qerror_delta_all_minus_b5": 22.61111111111111,
+          "query_id": "arecel:forest10:test:006480"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e02_06",
+            "e03_04"
+          ],
+          "all_random01_plan_rows": 2,
+          "all_random01_qerror": 17.0,
+          "all_random01_rank_in_ascending_qerror": 9561,
+          "b5_mcv_selection_ids": [
+            "e02_08",
+            "e03_04"
+          ],
+          "b5_plan_rows": 1,
+          "b5_qerror": 34.0,
+          "b5_rank_in_ascending_qerror": 9812,
+          "qerror_delta_all_minus_b5": -17.0,
+          "query_id": "arecel:forest10:test:000406"
+        },
+        {
+          "all_random01_mcv_selection_ids": [
+            "e06_07",
+            "e01_04",
+            "e03_08"
+          ],
+          "all_random01_plan_rows": 7,
+          "all_random01_qerror": 28.571428571428573,
+          "all_random01_rank_in_ascending_qerror": 9748,
+          "b5_mcv_selection_ids": [
+            "e03_04",
+            "e01_06"
+          ],
+          "b5_plan_rows": 17,
+          "b5_qerror": 11.764705882352942,
+          "b5_rank_in_ascending_qerror": 9411,
+          "qerror_delta_all_minus_b5": 16.80672268907563,
+          "query_id": "arecel:forest10:test:002584"
+        }
+      ],
+      "overlap_query_count": 119,
+      "plan_rows_changed_in_union": 134,
+      "qerror_changed_in_union": 134,
+      "rank_window_zero_based_inclusive": [
+        9400,
+        9600
+      ],
+      "sort_order": "Q-error ascending, query_id ascending for ties",
+      "union_query_count": 283
+    },
+    "paired_query_count": 10000,
+    "plan_rows_changed_count": 4539,
+    "primary_comparison": "ALL random-01 minus B5 matched priority",
+    "qerror_degraded_for_all_count": 2415,
+    "qerror_delta_all_minus_b5_distribution": {
+      "count": 10000,
+      "max": 201.0,
+      "mean": 0.19684847832660063,
+      "min": -256.0,
+      "p01": -2.4208924402957166,
+      "p05": -0.40019387519196237,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "p95": 1.0733830816665046,
+      "p99": 8.250833333333352
+    },
+    "qerror_improved_for_all_count": 2124,
+    "qerror_unchanged_count": 5461,
+    "secondary_unmatched_random02": {
+      "mean": 6.708283813517734,
+      "p50": 1.1794969657076213,
+      "p95": 15.0,
+      "p99": 63.01000000000022,
+      "role": "descriptive only; shared-object OID order differs from B5"
+    },
+    "status": "COMPLETE"
+  },
+  "parallel_explain_clients": 6,
+  "primary_comparison": "P95(ALL random-01) - P95(B5 matched priority)",
+  "protocol_sha256": "d5a28e8489a30e6625a8a227ba900d23695ee584b3d775eecf0f25eb704cfd6a",
+  "resource_usage": {
+    "cpu_note": "runner process CPU/RSS only; PostgreSQL backend CPU is not separately attributed",
+    "early_or_hard_stop_reason": null,
+    "elapsed_wall_seconds": 5.935,
+    "final_run_directory_allocated_bytes": 197906432,
+    "minimum_global_filesystem_free_bytes": 53147361280,
+    "peak_run_directory_allocated_bytes": 197906432,
+    "runner_peak_rss_kib": 702548,
+    "runner_process_cpu_seconds": 4.312
+  },
+  "source_commit_before_test": "537f88073587535018dc84e38456c2608e491b7f",
+  "source_diagnostics_status_counts": {
+    "UNKNOWN_SELECTED_STAT_OID": 6648,
+    "complete": 3352
+  },
+  "source_run_id": "20261029Tissue133-forest10-b5-nominal-matched",
+  "source_run_manifest_status": "INCOMPLETE",
+  "status": "QERROR_COMPARISON_COMPLETE_WITH_DIAGNOSTIC_STATUS_LIMIT",
+  "valid_plan_rows": 10000
+}

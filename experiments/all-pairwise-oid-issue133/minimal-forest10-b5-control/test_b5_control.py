@@ -41,6 +41,38 @@ class FrozenDesignTests(unittest.TestCase):
         self.assertNotEqual(populated, runner.catalog_row_signature(null_payload))
         self.assertNotEqual(populated, runner.catalog_row_signature(changed_payload))
 
+    def test_integer_oid_map_resolves_issue105_diagnostics(self) -> None:
+        payload = runner.json.dumps([{
+            "Plan": {"Plan Rows": 7},
+            "ESS Diagnostics": {
+                "Status": "complete",
+                "Event Count": 1,
+                "Events": [{"sequence": 1, "type": "mcv_selection", "stat_oid": 16387}],
+            },
+        }])
+        resolved = runner.issue105.explain_payload(payload, {16387: "e02_08"})
+        unresolved = runner.issue105.explain_payload(payload, {"16387": "e02_08"})
+        self.assertEqual(resolved["diagnostics_status"], "complete")
+        self.assertEqual(resolved["mcv_selection_ids"], ["e02_08"])
+        self.assertEqual(unresolved["diagnostics_status"], "UNKNOWN_SELECTED_STAT_OID")
+
+    def test_saved_numeric_oids_remap_without_claiming_original_status(self) -> None:
+        source = [{
+            "diagnostics_status": "UNKNOWN_SELECTED_STAT_OID",
+            "mcv_events": [{"type": "mcv_selection", "stat_oid": 16387,
+                            "candidate_id": None}],
+            "mcv_selection_ids": [None],
+            "mcv_estimate_ids": [],
+        }]
+        mapped, audit = runner.recover_event_ids_from_catalog(source, [
+            {"oid": 16387, "candidate_id": "e02_08"},
+        ])
+        self.assertEqual(mapped[0]["mcv_selection_ids"], ["e02_08"])
+        self.assertEqual(mapped[0]["diagnostics_status"], "UNKNOWN_SELECTED_STAT_OID")
+        self.assertEqual(source[0]["mcv_selection_ids"], [None])
+        self.assertEqual(audit["observed_mcv_event_count"], 1)
+        self.assertEqual(audit["unmapped_stat_oids"], [])
+
 
 class PairingLogicTests(unittest.TestCase):
     @staticmethod

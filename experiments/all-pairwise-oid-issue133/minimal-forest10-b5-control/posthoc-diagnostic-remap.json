@@ -1,0 +1,25 @@
+{
+  "catalog_oid_to_candidate_id": {
+    "16387": "e02_08",
+    "16388": "e03_04",
+    "16389": "e02_07",
+    "16390": "e01_06",
+    "16391": "e06_08"
+  },
+  "method": "re-map each saved integer stat_oid using the same-arm five-row catalog audit",
+  "observed_mcv_event_count": 66446,
+  "observed_stat_oid_event_counts": {
+    "16387": 20765,
+    "16388": 19706,
+    "16389": 4601,
+    "16390": 19456,
+    "16391": 1918
+  },
+  "source_diagnostics_status_counts": {
+    "UNKNOWN_SELECTED_STAT_OID": 6648,
+    "complete": 3352
+  },
+  "status": "PASS_EVENT_OID_MAPPING",
+  "status_handling": "Original ESS Diagnostics.Status was overwritten by UNKNOWN_SELECTED_STAT_OID in the source parsed rows and is not reconstructed; repaired rows preserve that status.",
+  "unmapped_stat_oids": []
+}
