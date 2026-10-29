@@ -1,0 +1,4993 @@
+{
+  "20261028T1408Z-issue133-forest10-random01-02": {
+    "aggregate_valid_record_count": 20000,
+    "archive_bytes": 2768796,
+    "archive_path_relative_to_runtime_parent": "ess-research/issue133/runs/20261028T1408Z-issue133-forest10-random01-02/raw-observations.jsonl.gz",
+    "archive_sha256_matches_expected": true,
+    "arm_metadata": {
+      "forest10-all-random-01": {
+        "actual_oid_order_candidate_ids": [
+          "e05_07",
+          "e00_05",
+          "e02_06",
+          "e06_07",
+          "e02_03",
+          "e04_07",
+          "e02_08",
+          "e01_04",
+          "e03_09",
+          "e04_05",
+          "e01_02",
+          "e01_07",
+          "e00_06",
+          "e03_04",
+          "e03_06",
+          "e02_07",
+          "e01_06",
+          "e04_08",
+          "e04_06",
+          "e01_03",
+          "e01_09",
+          "e00_07",
+          "e00_03",
+          "e07_09",
+          "e00_04",
+          "e02_09",
+          "e03_08",
+          "e04_09",
+          "e01_05",
+          "e03_05",
+          "e06_09",
+          "e07_08",
+          "e08_09",
+          "e05_08",
+          "e00_08",
+          "e02_04",
+          "e02_05",
+          "e06_08",
+          "e00_09",
+          "e01_08",
+          "e05_09",
+          "e03_07",
+          "e05_06",
+          "e00_01",
+          "e00_02"
+        ],
+        "analyze_count": 1,
+        "create_count": 45,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "permutation_sha256": "3bdaea2042c5415d2a6f45fa7521c54e1c7dd089e566c1ebf7c5a15fd7a56db5",
+        "requested_create_order_candidate_ids": [
+          "e05_07",
+          "e00_05",
+          "e02_06",
+          "e06_07",
+          "e02_03",
+          "e04_07",
+          "e02_08",
+          "e01_04",
+          "e03_09",
+          "e04_05",
+          "e01_02",
+          "e01_07",
+          "e00_06",
+          "e03_04",
+          "e03_06",
+          "e02_07",
+          "e01_06",
+          "e04_08",
+          "e04_06",
+          "e01_03",
+          "e01_09",
+          "e00_07",
+          "e00_03",
+          "e07_09",
+          "e00_04",
+          "e02_09",
+          "e03_08",
+          "e04_09",
+          "e01_05",
+          "e03_05",
+          "e06_09",
+          "e07_08",
+          "e08_09",
+          "e05_08",
+          "e00_08",
+          "e02_04",
+          "e02_05",
+          "e06_08",
+          "e00_09",
+          "e01_08",
+          "e05_09",
+          "e03_07",
+          "e05_06",
+          "e00_01",
+          "e00_02"
+        ],
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 45
+      },
+      "forest10-all-random-02": {
+        "actual_oid_order_candidate_ids": [
+          "e05_08",
+          "e03_08",
+          "e00_07",
+          "e00_01",
+          "e02_04",
+          "e02_06",
+          "e01_08",
+          "e03_09",
+          "e00_03",
+          "e01_02",
+          "e02_03",
+          "e00_02",
+          "e01_07",
+          "e07_09",
+          "e00_04",
+          "e00_06",
+          "e03_06",
+          "e04_06",
+          "e02_07",
+          "e02_05",
+          "e01_05",
+          "e04_07",
+          "e03_04",
+          "e07_08",
+          "e00_09",
+          "e00_08",
+          "e01_04",
+          "e03_05",
+          "e02_09",
+          "e00_05",
+          "e05_09",
+          "e06_08",
+          "e03_07",
+          "e08_09",
+          "e06_09",
+          "e05_06",
+          "e04_08",
+          "e05_07",
+          "e02_08",
+          "e06_07",
+          "e01_03",
+          "e04_09",
+          "e01_06",
+          "e04_05",
+          "e01_09"
+        ],
+        "analyze_count": 1,
+        "create_count": 45,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "permutation_sha256": "1ad1fd03dd77b5268783de0e86799c14f5fad8082688c1070dec57b7ad373364",
+        "requested_create_order_candidate_ids": [
+          "e05_08",
+          "e03_08",
+          "e00_07",
+          "e00_01",
+          "e02_04",
+          "e02_06",
+          "e01_08",
+          "e03_09",
+          "e00_03",
+          "e01_02",
+          "e02_03",
+          "e00_02",
+          "e01_07",
+          "e07_09",
+          "e00_04",
+          "e00_06",
+          "e03_06",
+          "e04_06",
+          "e02_07",
+          "e02_05",
+          "e01_05",
+          "e04_07",
+          "e03_04",
+          "e07_08",
+          "e00_09",
+          "e00_08",
+          "e01_04",
+          "e03_05",
+          "e02_09",
+          "e00_05",
+          "e05_09",
+          "e06_08",
+          "e03_07",
+          "e08_09",
+          "e06_09",
+          "e05_06",
+          "e04_08",
+          "e05_07",
+          "e02_08",
+          "e06_07",
+          "e01_03",
+          "e04_09",
+          "e01_06",
+          "e04_05",
+          "e01_09"
+        ],
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 45
+      }
+    },
+    "candidate_catalogs_by_stable_candidate_id": {
+      "forest10-all-random-01": {
+        "e00_01": {
+          "attnames": [
+            "elevation",
+            "aspect"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16430,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_01",
+          "statistics_target": 300
+        },
+        "e00_02": {
+          "attnames": [
+            "elevation",
+            "slope"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d192aeb93e8098d45f6afcea52e1200e8e9f9bfb686a00605725e2fb1929f730",
+          "mcv_item_count": 23,
+          "oid": 16431,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e00_02",
+          "statistics_target": 300
+        },
+        "e00_03": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16409,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_03",
+          "statistics_target": 300
+        },
+        "e00_04": {
+          "attnames": [
+            "elevation",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d87f34de4f3b7f417136f018b097c92a28b8aa9c74c1175203347d287f5ee27",
+          "mcv_item_count": 4,
+          "oid": 16411,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e00_04",
+          "statistics_target": 300
+        },
+        "e00_05": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16388,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_05",
+          "statistics_target": 300
+        },
+        "e00_06": {
+          "attnames": [
+            "elevation",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16399,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_06",
+          "statistics_target": 300
+        },
+        "e00_07": {
+          "attnames": [
+            "elevation",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16408,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_07",
+          "statistics_target": 300
+        },
+        "e00_08": {
+          "attnames": [
+            "elevation",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16421,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_08",
+          "statistics_target": 300
+        },
+        "e00_09": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16425,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_09",
+          "statistics_target": 300
+        },
+        "e01_02": {
+          "attnames": [
+            "aspect",
+            "slope"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "e3fccc8869cda045b557bc5e59252b0bf396b84750bd609d8eb73630173b525a",
+          "mcv_item_count": 300,
+          "oid": 16397,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_02",
+          "statistics_target": 300
+        },
+        "e01_03": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "192ba5473ee6a3684017d48eebe1c05b74bdb610321702c3f232a23d0de43764",
+          "mcv_item_count": 113,
+          "oid": 16406,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_03",
+          "statistics_target": 300
+        },
+        "e01_04": {
+          "attnames": [
+            "aspect",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "97c1f4d174518283baed1985bfa41f0f278129fbd498064fba5e9bf35d8e2af4",
+          "mcv_item_count": 107,
+          "oid": 16394,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_04",
+          "statistics_target": 300
+        },
+        "e01_05": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16415,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e01_05",
+          "statistics_target": 300
+        },
+        "e01_06": {
+          "attnames": [
+            "aspect",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5a9f0bbbb2f78f862e62741c6de0ea261873ce363a4f001c4c6d13d8a98bf2e4",
+          "mcv_item_count": 300,
+          "oid": 16403,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_06",
+          "statistics_target": 300
+        },
+        "e01_07": {
+          "attnames": [
+            "aspect",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "949c88471f69c019f5a056fd635cbc2d5fe5bb20bc6453287e5e14040d2e823f",
+          "mcv_item_count": 300,
+          "oid": 16398,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_07",
+          "statistics_target": 300
+        },
+        "e01_08": {
+          "attnames": [
+            "aspect",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ecaf3413d587c401b86aa6b88815d10e00310ba2d81901574108064a3ea7e05f",
+          "mcv_item_count": 300,
+          "oid": 16426,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_08",
+          "statistics_target": 300
+        },
+        "e01_09": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16407,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e01_09",
+          "statistics_target": 300
+        },
+        "e02_03": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "dc5dcd3a0efa581260e5e466e1d02e4691a6a84718c04e684f816a63e100eac7",
+          "mcv_item_count": 300,
+          "oid": 16391,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_03",
+          "statistics_target": 300
+        },
+        "e02_04": {
+          "attnames": [
+            "slope",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "e413f0950caa208b497f416323d1671f0a1f32693f145d45dcbcb6673ed2b383",
+          "mcv_item_count": 300,
+          "oid": 16422,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_04",
+          "statistics_target": 300
+        },
+        "e02_05": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16423,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e02_05",
+          "statistics_target": 300
+        },
+        "e02_06": {
+          "attnames": [
+            "slope",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8fc2d41641eb50eb957151df58a1f0d9d769580cec08be48751c7be6dad6d063",
+          "mcv_item_count": 300,
+          "oid": 16389,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_06",
+          "statistics_target": 300
+        },
+        "e02_07": {
+          "attnames": [
+            "slope",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b32358a7174ff17afe18c2c5fba58307c7a110f7b8285a7049f3f041c605d19e",
+          "mcv_item_count": 300,
+          "oid": 16402,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_07",
+          "statistics_target": 300
+        },
+        "e02_08": {
+          "attnames": [
+            "slope",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0c4adb9689fb4b8f3e6770c2cf81a339768085c8d0ea72afd326f49843c341dc",
+          "mcv_item_count": 300,
+          "oid": 16393,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_08",
+          "statistics_target": 300
+        },
+        "e02_09": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16412,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e02_09",
+          "statistics_target": 300
+        },
+        "e03_04": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f14ce573146c4c773ac618a0c659dacc719925e955beda1a76960274a1f4a796",
+          "mcv_item_count": 300,
+          "oid": 16400,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_04",
+          "statistics_target": 300
+        },
+        "e03_05": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16416,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e03_05",
+          "statistics_target": 300
+        },
+        "e03_06": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "74416b8642a781ee268c80c6ba13a04610d8edd30c7a11e14df63cb9fb4e2c37",
+          "mcv_item_count": 300,
+          "oid": 16401,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_06",
+          "statistics_target": 300
+        },
+        "e03_07": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "583831490af6752e79bdd9fe7d6b23d16563f255417317b19475b5a548dc336e",
+          "mcv_item_count": 300,
+          "oid": 16428,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_07",
+          "statistics_target": 300
+        },
+        "e03_08": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5ee68dbe82d0fed6922cf8e34ac0c19d735fa7dfb4eb90282757646542543e6c",
+          "mcv_item_count": 300,
+          "oid": 16413,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_08",
+          "statistics_target": 300
+        },
+        "e03_09": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16395,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e03_09",
+          "statistics_target": 300
+        },
+        "e04_05": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16396,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e04_05",
+          "statistics_target": 300
+        },
+        "e04_06": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ea180860b6bb2c1326132db25a5733039f0634489bd3d239a4bed31fdba3765e",
+          "mcv_item_count": 300,
+          "oid": 16405,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_06",
+          "statistics_target": 300
+        },
+        "e04_07": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "c4ffadc375006a9aa1abf7a43a8dacf7865e783da06b412b0b93ecc589e8c245",
+          "mcv_item_count": 300,
+          "oid": 16392,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_07",
+          "statistics_target": 300
+        },
+        "e04_08": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96fa0638e736224cc0706e624578884225b5f7601c1174686f6c5507146ff51b",
+          "mcv_item_count": 165,
+          "oid": 16404,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_08",
+          "statistics_target": 300
+        },
+        "e04_09": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16414,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e04_09",
+          "statistics_target": 300
+        },
+        "e05_06": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16429,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_06",
+          "statistics_target": 300
+        },
+        "e05_07": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16387,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_07",
+          "statistics_target": 300
+        },
+        "e05_08": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16420,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_08",
+          "statistics_target": 300
+        },
+        "e05_09": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16427,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_09",
+          "statistics_target": 300
+        },
+        "e06_07": {
+          "attnames": [
+            "hillshade_9am",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "446165310e2b84b3d90e8487fae8af38e7ee39565155e17f35375cbf58e9490d",
+          "mcv_item_count": 300,
+          "oid": 16390,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e06_07",
+          "statistics_target": 300
+        },
+        "e06_08": {
+          "attnames": [
+            "hillshade_9am",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "18ae78d07830e86f4c055297bc499523a03fe88d160c8c89463f0de59486c7bb",
+          "mcv_item_count": 300,
+          "oid": 16424,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e06_08",
+          "statistics_target": 300
+        },
+        "e06_09": {
+          "attnames": [
+            "hillshade_9am",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16417,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e06_09",
+          "statistics_target": 300
+        },
+        "e07_08": {
+          "attnames": [
+            "hillshade_noon",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "29640c5ab748fe507a8093bd35f5bd42df6cf05e356b0c417b8f729b78304685",
+          "mcv_item_count": 300,
+          "oid": 16418,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e07_08",
+          "statistics_target": 300
+        },
+        "e07_09": {
+          "attnames": [
+            "hillshade_noon",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16410,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e07_09",
+          "statistics_target": 300
+        },
+        "e08_09": {
+          "attnames": [
+            "hillshade_3pm",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16419,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e08_09",
+          "statistics_target": 300
+        }
+      },
+      "forest10-all-random-02": {
+        "e00_01": {
+          "attnames": [
+            "elevation",
+            "aspect"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16390,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_01",
+          "statistics_target": 300
+        },
+        "e00_02": {
+          "attnames": [
+            "elevation",
+            "slope"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d192aeb93e8098d45f6afcea52e1200e8e9f9bfb686a00605725e2fb1929f730",
+          "mcv_item_count": 23,
+          "oid": 16398,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e00_02",
+          "statistics_target": 300
+        },
+        "e00_03": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16395,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_03",
+          "statistics_target": 300
+        },
+        "e00_04": {
+          "attnames": [
+            "elevation",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d87f34de4f3b7f417136f018b097c92a28b8aa9c74c1175203347d287f5ee27",
+          "mcv_item_count": 4,
+          "oid": 16401,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e00_04",
+          "statistics_target": 300
+        },
+        "e00_05": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16416,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_05",
+          "statistics_target": 300
+        },
+        "e00_06": {
+          "attnames": [
+            "elevation",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16402,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_06",
+          "statistics_target": 300
+        },
+        "e00_07": {
+          "attnames": [
+            "elevation",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16389,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_07",
+          "statistics_target": 300
+        },
+        "e00_08": {
+          "attnames": [
+            "elevation",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16412,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_08",
+          "statistics_target": 300
+        },
+        "e00_09": {
+          "attnames": [
+            "elevation",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16411,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e00_09",
+          "statistics_target": 300
+        },
+        "e01_02": {
+          "attnames": [
+            "aspect",
+            "slope"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "e3fccc8869cda045b557bc5e59252b0bf396b84750bd609d8eb73630173b525a",
+          "mcv_item_count": 300,
+          "oid": 16396,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_02",
+          "statistics_target": 300
+        },
+        "e01_03": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "192ba5473ee6a3684017d48eebe1c05b74bdb610321702c3f232a23d0de43764",
+          "mcv_item_count": 113,
+          "oid": 16427,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_03",
+          "statistics_target": 300
+        },
+        "e01_04": {
+          "attnames": [
+            "aspect",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "97c1f4d174518283baed1985bfa41f0f278129fbd498064fba5e9bf35d8e2af4",
+          "mcv_item_count": 107,
+          "oid": 16413,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_04",
+          "statistics_target": 300
+        },
+        "e01_05": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16407,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e01_05",
+          "statistics_target": 300
+        },
+        "e01_06": {
+          "attnames": [
+            "aspect",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5a9f0bbbb2f78f862e62741c6de0ea261873ce363a4f001c4c6d13d8a98bf2e4",
+          "mcv_item_count": 300,
+          "oid": 16429,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_06",
+          "statistics_target": 300
+        },
+        "e01_07": {
+          "attnames": [
+            "aspect",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "949c88471f69c019f5a056fd635cbc2d5fe5bb20bc6453287e5e14040d2e823f",
+          "mcv_item_count": 300,
+          "oid": 16399,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_07",
+          "statistics_target": 300
+        },
+        "e01_08": {
+          "attnames": [
+            "aspect",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ecaf3413d587c401b86aa6b88815d10e00310ba2d81901574108064a3ea7e05f",
+          "mcv_item_count": 300,
+          "oid": 16393,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_08",
+          "statistics_target": 300
+        },
+        "e01_09": {
+          "attnames": [
+            "aspect",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16431,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e01_09",
+          "statistics_target": 300
+        },
+        "e02_03": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "dc5dcd3a0efa581260e5e466e1d02e4691a6a84718c04e684f816a63e100eac7",
+          "mcv_item_count": 300,
+          "oid": 16397,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_03",
+          "statistics_target": 300
+        },
+        "e02_04": {
+          "attnames": [
+            "slope",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "e413f0950caa208b497f416323d1671f0a1f32693f145d45dcbcb6673ed2b383",
+          "mcv_item_count": 300,
+          "oid": 16391,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_04",
+          "statistics_target": 300
+        },
+        "e02_05": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16406,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e02_05",
+          "statistics_target": 300
+        },
+        "e02_06": {
+          "attnames": [
+            "slope",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8fc2d41641eb50eb957151df58a1f0d9d769580cec08be48751c7be6dad6d063",
+          "mcv_item_count": 300,
+          "oid": 16392,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_06",
+          "statistics_target": 300
+        },
+        "e02_07": {
+          "attnames": [
+            "slope",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b32358a7174ff17afe18c2c5fba58307c7a110f7b8285a7049f3f041c605d19e",
+          "mcv_item_count": 300,
+          "oid": 16405,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_07",
+          "statistics_target": 300
+        },
+        "e02_08": {
+          "attnames": [
+            "slope",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0c4adb9689fb4b8f3e6770c2cf81a339768085c8d0ea72afd326f49843c341dc",
+          "mcv_item_count": 300,
+          "oid": 16425,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_08",
+          "statistics_target": 300
+        },
+        "e02_09": {
+          "attnames": [
+            "slope",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16415,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e02_09",
+          "statistics_target": 300
+        },
+        "e03_04": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f14ce573146c4c773ac618a0c659dacc719925e955beda1a76960274a1f4a796",
+          "mcv_item_count": 300,
+          "oid": 16409,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_04",
+          "statistics_target": 300
+        },
+        "e03_05": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16414,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e03_05",
+          "statistics_target": 300
+        },
+        "e03_06": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "74416b8642a781ee268c80c6ba13a04610d8edd30c7a11e14df63cb9fb4e2c37",
+          "mcv_item_count": 300,
+          "oid": 16403,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_06",
+          "statistics_target": 300
+        },
+        "e03_07": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "583831490af6752e79bdd9fe7d6b23d16563f255417317b19475b5a548dc336e",
+          "mcv_item_count": 300,
+          "oid": 16419,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_07",
+          "statistics_target": 300
+        },
+        "e03_08": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5ee68dbe82d0fed6922cf8e34ac0c19d735fa7dfb4eb90282757646542543e6c",
+          "mcv_item_count": 300,
+          "oid": 16388,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_08",
+          "statistics_target": 300
+        },
+        "e03_09": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16394,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e03_09",
+          "statistics_target": 300
+        },
+        "e04_05": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_roadways"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16430,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e04_05",
+          "statistics_target": 300
+        },
+        "e04_06": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ea180860b6bb2c1326132db25a5733039f0634489bd3d239a4bed31fdba3765e",
+          "mcv_item_count": 300,
+          "oid": 16404,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_06",
+          "statistics_target": 300
+        },
+        "e04_07": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "c4ffadc375006a9aa1abf7a43a8dacf7865e783da06b412b0b93ecc589e8c245",
+          "mcv_item_count": 300,
+          "oid": 16408,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_07",
+          "statistics_target": 300
+        },
+        "e04_08": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96fa0638e736224cc0706e624578884225b5f7601c1174686f6c5507146ff51b",
+          "mcv_item_count": 165,
+          "oid": 16423,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e04_08",
+          "statistics_target": 300
+        },
+        "e04_09": {
+          "attnames": [
+            "vertical_distance_to_hydrology",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16428,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e04_09",
+          "statistics_target": 300
+        },
+        "e05_06": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16422,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_06",
+          "statistics_target": 300
+        },
+        "e05_07": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16424,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_07",
+          "statistics_target": 300
+        },
+        "e05_08": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16387,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_08",
+          "statistics_target": 300
+        },
+        "e05_09": {
+          "attnames": [
+            "horizontal_distance_to_roadways",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16417,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e05_09",
+          "statistics_target": 300
+        },
+        "e06_07": {
+          "attnames": [
+            "hillshade_9am",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "446165310e2b84b3d90e8487fae8af38e7ee39565155e17f35375cbf58e9490d",
+          "mcv_item_count": 300,
+          "oid": 16426,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e06_07",
+          "statistics_target": 300
+        },
+        "e06_08": {
+          "attnames": [
+            "hillshade_9am",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "18ae78d07830e86f4c055297bc499523a03fe88d160c8c89463f0de59486c7bb",
+          "mcv_item_count": 300,
+          "oid": 16418,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e06_08",
+          "statistics_target": 300
+        },
+        "e06_09": {
+          "attnames": [
+            "hillshade_9am",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16421,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e06_09",
+          "statistics_target": 300
+        },
+        "e07_08": {
+          "attnames": [
+            "hillshade_noon",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "29640c5ab748fe507a8093bd35f5bd42df6cf05e356b0c417b8f729b78304685",
+          "mcv_item_count": 300,
+          "oid": 16410,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e07_08",
+          "statistics_target": 300
+        },
+        "e07_09": {
+          "attnames": [
+            "hillshade_noon",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16400,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e07_09",
+          "statistics_target": 300
+        },
+        "e08_09": {
+          "attnames": [
+            "hillshade_3pm",
+            "horizontal_distance_to_fire_points"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1c2e26e6228376760d64a9c3f1aa7996689350e7003bdeb2bc7a40161ca07b03",
+          "mcv_item_count": 0,
+          "oid": 16420,
+          "payload_state": "NULL",
+          "statistic_name": "ess_issue99_forest10_e08_09",
+          "statistics_target": 300
+        }
+      }
+    },
+    "candidate_id_attribution_status_counts": {
+      "forest10-all-random-01": {
+        "NOT_RECORDED": 10000
+      },
+      "forest10-all-random-02": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "catalog_checks": {
+      "forest10-all-random-01": {
+        "actual_oid_order_candidate_ids": [
+          "e05_07",
+          "e00_05",
+          "e02_06",
+          "e06_07",
+          "e02_03",
+          "e04_07",
+          "e02_08",
+          "e01_04",
+          "e03_09",
+          "e04_05",
+          "e01_02",
+          "e01_07",
+          "e00_06",
+          "e03_04",
+          "e03_06",
+          "e02_07",
+          "e01_06",
+          "e04_08",
+          "e04_06",
+          "e01_03",
+          "e01_09",
+          "e00_07",
+          "e00_03",
+          "e07_09",
+          "e00_04",
+          "e02_09",
+          "e03_08",
+          "e04_09",
+          "e01_05",
+          "e03_05",
+          "e06_09",
+          "e07_08",
+          "e08_09",
+          "e05_08",
+          "e00_08",
+          "e02_04",
+          "e02_05",
+          "e06_08",
+          "e00_09",
+          "e01_08",
+          "e05_09",
+          "e03_07",
+          "e05_06",
+          "e00_01",
+          "e00_02"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 45,
+        "catalog_status": null,
+        "configuration_id": "forest10-all-random-01",
+        "create_count": 45,
+        "errors": [],
+        "expected_object_count": 45,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "payload_state_counts": {
+          "NULL": 22,
+          "POPULATED": 23
+        },
+        "permutation_sha256": "3bdaea2042c5415d2a6f45fa7521c54e1c7dd089e566c1ebf7c5a15fd7a56db5",
+        "requested_create_order_candidate_ids": [
+          "e05_07",
+          "e00_05",
+          "e02_06",
+          "e06_07",
+          "e02_03",
+          "e04_07",
+          "e02_08",
+          "e01_04",
+          "e03_09",
+          "e04_05",
+          "e01_02",
+          "e01_07",
+          "e00_06",
+          "e03_04",
+          "e03_06",
+          "e02_07",
+          "e01_06",
+          "e04_08",
+          "e04_06",
+          "e01_03",
+          "e01_09",
+          "e00_07",
+          "e00_03",
+          "e07_09",
+          "e00_04",
+          "e02_09",
+          "e03_08",
+          "e04_09",
+          "e01_05",
+          "e03_05",
+          "e06_09",
+          "e07_08",
+          "e08_09",
+          "e05_08",
+          "e00_08",
+          "e02_04",
+          "e02_05",
+          "e06_08",
+          "e00_09",
+          "e01_08",
+          "e05_09",
+          "e03_07",
+          "e05_06",
+          "e00_01",
+          "e00_02"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 45
+      },
+      "forest10-all-random-02": {
+        "actual_oid_order_candidate_ids": [
+          "e05_08",
+          "e03_08",
+          "e00_07",
+          "e00_01",
+          "e02_04",
+          "e02_06",
+          "e01_08",
+          "e03_09",
+          "e00_03",
+          "e01_02",
+          "e02_03",
+          "e00_02",
+          "e01_07",
+          "e07_09",
+          "e00_04",
+          "e00_06",
+          "e03_06",
+          "e04_06",
+          "e02_07",
+          "e02_05",
+          "e01_05",
+          "e04_07",
+          "e03_04",
+          "e07_08",
+          "e00_09",
+          "e00_08",
+          "e01_04",
+          "e03_05",
+          "e02_09",
+          "e00_05",
+          "e05_09",
+          "e06_08",
+          "e03_07",
+          "e08_09",
+          "e06_09",
+          "e05_06",
+          "e04_08",
+          "e05_07",
+          "e02_08",
+          "e06_07",
+          "e01_03",
+          "e04_09",
+          "e01_06",
+          "e04_05",
+          "e01_09"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 45,
+        "catalog_status": null,
+        "configuration_id": "forest10-all-random-02",
+        "create_count": 45,
+        "errors": [],
+        "expected_object_count": 45,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "payload_state_counts": {
+          "NULL": 22,
+          "POPULATED": 23
+        },
+        "permutation_sha256": "1ad1fd03dd77b5268783de0e86799c14f5fad8082688c1070dec57b7ad373364",
+        "requested_create_order_candidate_ids": [
+          "e05_08",
+          "e03_08",
+          "e00_07",
+          "e00_01",
+          "e02_04",
+          "e02_06",
+          "e01_08",
+          "e03_09",
+          "e00_03",
+          "e01_02",
+          "e02_03",
+          "e00_02",
+          "e01_07",
+          "e07_09",
+          "e00_04",
+          "e00_06",
+          "e03_06",
+          "e04_06",
+          "e02_07",
+          "e02_05",
+          "e01_05",
+          "e04_07",
+          "e03_04",
+          "e07_08",
+          "e00_09",
+          "e00_08",
+          "e01_04",
+          "e03_05",
+          "e02_09",
+          "e00_05",
+          "e05_09",
+          "e06_08",
+          "e03_07",
+          "e08_09",
+          "e06_09",
+          "e05_06",
+          "e04_08",
+          "e05_07",
+          "e02_08",
+          "e06_07",
+          "e01_03",
+          "e04_09",
+          "e01_06",
+          "e04_05",
+          "e01_09"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 45
+      }
+    },
+    "cross_arm_control_comparisons": {
+      "forest10-all-random-01__vs__forest10-all-random-02": {
+        "candidate_id_keyed_mcv_state_itemcount_fingerprint_target_attrs_match": true,
+        "ordinary_stats_sha256_equal": true,
+        "sample_sha256_equal": true,
+        "shared_candidate_count": 45
+      }
+    },
+    "dataset": "forest10",
+    "diagnostics_integrity_status_counts": {
+      "forest10-all-random-01": {
+        "NOT_RECORDED": 10000
+      },
+      "forest10-all-random-02": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "execution_source_checks": {
+      "execution_source_commit": "55a5188fa4d08904d26114330c215596a0266b0e",
+      "protocol_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-forest10/protocol-v1.json",
+      "protocol_sha256_from_git_object": "5168554019cf40438ccdde4826c6fb9147aade96518ad2f8d5bbd41a9ba78a70",
+      "protocol_sha256_matches_run_manifest": true,
+      "runner_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-forest10/run_minimal_forest10.py",
+      "runner_sha256_from_git_object": "f3e39b423c16d7fbf3a95b5368679238abf5f912ba653ac04fc475649e7a4e64"
+    },
+    "execution_source_commit": "55a5188fa4d08904d26114330c215596a0266b0e",
+    "expected_archive_sha256": "d088a9b8cb33d62a507dc9cef0fb8e7cc73c12f8116e91ce528a9123d98b7318",
+    "expected_record_count": 20000,
+    "extension_diagnostics_status_counts": {
+      "forest10-all-random-01": {
+        "NOT_RECORDED": 10000
+      },
+      "forest10-all-random-02": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "gzip_member_count": 2,
+    "gzip_members": [
+      {
+        "compressed_bytes": 1373228,
+        "compressed_sha256": "24e11dcf63b5081463a237621783eae20a1b8739e5eb3278a8a87681b770e98f",
+        "configuration_id": "forest10-all-random-01",
+        "gzip_eof_crc_checked": true,
+        "index": 0,
+        "offset": 0,
+        "row_count": 10000
+      },
+      {
+        "compressed_bytes": 1395568,
+        "compressed_sha256": "3ac6f5899224f26b1948ef919f9cc7d41360610cb2cd7216f0b7fe1f7ef44e71",
+        "configuration_id": "forest10-all-random-02",
+        "gzip_eof_crc_checked": true,
+        "index": 1,
+        "offset": 1373228,
+        "row_count": 10000
+      }
+    ],
+    "input_identity": {
+      "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "dataset": "forest10",
+      "query_ids_sha256": "2d78f84909b5722f8b02ba6bc871ac337fc9d5c7a45ca667ea27ab48cbf6f3a5",
+      "rendered_test_sql_sha256": "307f741da68ea570026ebf1b9f4494141b7030e29a8d2618357747e1a8adb24c",
+      "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+      "source_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "test_truth_canonical_sha256": "7c3cdb46422bb6238c35704dc4a7c52fd0528a5900a7cb607d414046a56d2bf7"
+    },
+    "manifest_status_preserved": "COMPLETE",
+    "numpy_version_recorded": "2.3.4",
+    "observed_archive_sha256": "d088a9b8cb33d62a507dc9cef0fb8e7cc73c12f8116e91ce528a9123d98b7318",
+    "plan_rows_integrity_status_counts": {
+      "forest10-all-random-01": {
+        "NOT_RECORDED": 10000
+      },
+      "forest10-all-random-02": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "postgresql_binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "protocol_sha256": "5168554019cf40438ccdde4826c6fb9147aade96518ad2f8d5bbd41a9ba78a70",
+    "raw_diagnostics_status_counts": {
+      "forest10-all-random-01": {
+        "complete": 10000
+      },
+      "forest10-all-random-02": {
+        "complete": 10000
+      }
+    },
+    "run_id": "20261028T1408Z-issue133-forest10-random01-02",
+    "run_manifest_vs_catalog_audit_checks": {
+      "forest10-all-random-01": {
+        "analyze_count": true,
+        "catalog_oid_order_candidate_ids": true,
+        "create_count": true,
+        "create_statement_candidate_ids": true,
+        "sample_sha256": true,
+        "target_count": true
+      },
+      "forest10-all-random-02": {
+        "analyze_count": true,
+        "catalog_oid_order_candidate_ids": true,
+        "create_count": true,
+        "create_statement_candidate_ids": true,
+        "sample_sha256": true,
+        "target_count": true
+      }
+    },
+    "run_manifest_vs_input_preflight_identity_checks": {
+      "csv_sha256": true,
+      "dataset": true,
+      "query_count": true,
+      "query_ids_sha256": true,
+      "rendered_test_sql_sha256": true,
+      "sample_sha256": true,
+      "test_truth_canonical_sha256": true
+    },
+    "unknown_stat_oid_counts": {
+      "forest10-all-random-01": 0,
+      "forest10-all-random-02": 0
+    }
+  },
+  "20261029T0300Z-issue133-dmv11-three-arm": {
+    "aggregate_valid_record_count": 30000,
+    "archive_bytes": 6502206,
+    "archive_path_relative_to_runtime_parent": "ess-research/issue133/runs/20261029T0300Z-issue133-dmv11-three-arm/raw-observations.jsonl.gz",
+    "archive_sha256_matches_expected": true,
+    "arm_metadata": {
+      "dmv11-all-random-01": {
+        "actual_oid_order_candidate_ids": [
+          "e04_07",
+          "e00_09",
+          "e00_03",
+          "e03_07",
+          "e00_05",
+          "e01_06",
+          "e06_08",
+          "e03_05",
+          "e04_10",
+          "e05_08",
+          "e01_03",
+          "e07_10",
+          "e01_07",
+          "e01_02",
+          "e02_03",
+          "e08_09",
+          "e00_10",
+          "e00_06",
+          "e03_09",
+          "e02_04",
+          "e00_04",
+          "e00_07",
+          "e03_04",
+          "e05_07",
+          "e04_08",
+          "e01_08",
+          "e01_09",
+          "e02_10",
+          "e02_06",
+          "e00_08",
+          "e00_02",
+          "e03_10",
+          "e03_06",
+          "e01_04",
+          "e08_10",
+          "e07_08",
+          "e01_05",
+          "e05_06",
+          "e06_07",
+          "e04_06",
+          "e03_08",
+          "e05_09",
+          "e09_10",
+          "e05_10",
+          "e02_09",
+          "e01_10",
+          "e07_09",
+          "e06_10",
+          "e04_05",
+          "e06_09",
+          "e02_08",
+          "e02_05",
+          "e04_09",
+          "e00_01",
+          "e02_07"
+        ],
+        "analyze_count": 1,
+        "create_count": 55,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "permutation_sha256": null,
+        "requested_create_order_candidate_ids": [
+          "e04_07",
+          "e00_09",
+          "e00_03",
+          "e03_07",
+          "e00_05",
+          "e01_06",
+          "e06_08",
+          "e03_05",
+          "e04_10",
+          "e05_08",
+          "e01_03",
+          "e07_10",
+          "e01_07",
+          "e01_02",
+          "e02_03",
+          "e08_09",
+          "e00_10",
+          "e00_06",
+          "e03_09",
+          "e02_04",
+          "e00_04",
+          "e00_07",
+          "e03_04",
+          "e05_07",
+          "e04_08",
+          "e01_08",
+          "e01_09",
+          "e02_10",
+          "e02_06",
+          "e00_08",
+          "e00_02",
+          "e03_10",
+          "e03_06",
+          "e01_04",
+          "e08_10",
+          "e07_08",
+          "e01_05",
+          "e05_06",
+          "e06_07",
+          "e04_06",
+          "e03_08",
+          "e05_09",
+          "e09_10",
+          "e05_10",
+          "e02_09",
+          "e01_10",
+          "e07_09",
+          "e06_10",
+          "e04_05",
+          "e06_09",
+          "e02_08",
+          "e02_05",
+          "e04_09",
+          "e00_01",
+          "e02_07"
+        ],
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 55
+      },
+      "dmv11-all-random-02": {
+        "actual_oid_order_candidate_ids": [
+          "e00_09",
+          "e06_07",
+          "e00_08",
+          "e04_09",
+          "e04_08",
+          "e04_10",
+          "e04_07",
+          "e05_10",
+          "e00_01",
+          "e02_05",
+          "e01_09",
+          "e03_07",
+          "e02_10",
+          "e04_06",
+          "e01_10",
+          "e03_06",
+          "e01_04",
+          "e02_04",
+          "e02_03",
+          "e08_10",
+          "e02_08",
+          "e05_08",
+          "e00_10",
+          "e03_10",
+          "e03_05",
+          "e00_03",
+          "e00_04",
+          "e01_02",
+          "e05_06",
+          "e00_02",
+          "e03_08",
+          "e02_09",
+          "e01_08",
+          "e02_06",
+          "e05_07",
+          "e07_09",
+          "e03_04",
+          "e00_06",
+          "e09_10",
+          "e06_10",
+          "e04_05",
+          "e00_07",
+          "e01_06",
+          "e03_09",
+          "e06_09",
+          "e08_09",
+          "e07_10",
+          "e02_07",
+          "e06_08",
+          "e05_09",
+          "e01_05",
+          "e07_08",
+          "e01_03",
+          "e00_05",
+          "e01_07"
+        ],
+        "analyze_count": 1,
+        "create_count": 55,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "permutation_sha256": null,
+        "requested_create_order_candidate_ids": [
+          "e00_09",
+          "e06_07",
+          "e00_08",
+          "e04_09",
+          "e04_08",
+          "e04_10",
+          "e04_07",
+          "e05_10",
+          "e00_01",
+          "e02_05",
+          "e01_09",
+          "e03_07",
+          "e02_10",
+          "e04_06",
+          "e01_10",
+          "e03_06",
+          "e01_04",
+          "e02_04",
+          "e02_03",
+          "e08_10",
+          "e02_08",
+          "e05_08",
+          "e00_10",
+          "e03_10",
+          "e03_05",
+          "e00_03",
+          "e00_04",
+          "e01_02",
+          "e05_06",
+          "e00_02",
+          "e03_08",
+          "e02_09",
+          "e01_08",
+          "e02_06",
+          "e05_07",
+          "e07_09",
+          "e03_04",
+          "e00_06",
+          "e09_10",
+          "e06_10",
+          "e04_05",
+          "e00_07",
+          "e01_06",
+          "e03_09",
+          "e06_09",
+          "e08_09",
+          "e07_10",
+          "e02_07",
+          "e06_08",
+          "e05_09",
+          "e01_05",
+          "e07_08",
+          "e01_03",
+          "e00_05",
+          "e01_07"
+        ],
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 55
+      },
+      "dmv11-b5-nominal-matched": {
+        "actual_oid_order_candidate_ids": [
+          "e04_07",
+          "e00_05",
+          "e01_07",
+          "e02_03",
+          "e01_04"
+        ],
+        "analyze_count": 1,
+        "create_count": 5,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "permutation_sha256": "3bca05ed9e9e8707716ca1f4b3270904941fd32918469ef925586501f97d1e3a",
+        "requested_create_order_candidate_ids": [
+          "e04_07",
+          "e00_05",
+          "e01_07",
+          "e02_03",
+          "e01_04"
+        ],
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 5
+      }
+    },
+    "candidate_catalogs_by_stable_candidate_id": {
+      "dmv11-all-random-01": {
+        "e00_01": {
+          "attnames": [
+            "record_type",
+            "registration_class"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc0b9a2287736b02099ef597caddf4acc026290544afa396336a543391be9e19",
+          "mcv_item_count": 34,
+          "oid": 16442,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_01",
+          "statistics_target": 300
+        },
+        "e00_02": {
+          "attnames": [
+            "record_type",
+            "state"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "00f8ca1ffa26eff1c603d4c2174a28907689c84702826476b26aa5106dd6be04",
+          "mcv_item_count": 17,
+          "oid": 16419,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_02",
+          "statistics_target": 300
+        },
+        "e00_03": {
+          "attnames": [
+            "record_type",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "3be7057d72419ffa0a1a2e1cc94f1538aa49ebbd8a92aa1c8c551a5baa9d6318",
+          "mcv_item_count": 153,
+          "oid": 16391,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_03",
+          "statistics_target": 300
+        },
+        "e00_04": {
+          "attnames": [
+            "record_type",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8b0c6c15fadbcceb21e2427a15480c2e575b824517b4756e49e12821ca3be304",
+          "mcv_item_count": 35,
+          "oid": 16409,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_04",
+          "statistics_target": 300
+        },
+        "e00_05": {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "oid": 16393,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300
+        },
+        "e00_06": {
+          "attnames": [
+            "record_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "2f894662249549bee3be206fe4ce78d4a42517d94b059044be518a86a1b317fa",
+          "mcv_item_count": 300,
+          "oid": 16406,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_06",
+          "statistics_target": 300
+        },
+        "e00_07": {
+          "attnames": [
+            "record_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a611b094c4e0bb0465776e1164ffcbf95be9d91a2cb721f06360077a284edee",
+          "mcv_item_count": 45,
+          "oid": 16410,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_07",
+          "statistics_target": 300
+        },
+        "e00_08": {
+          "attnames": [
+            "record_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96ae9c4007a080b22d531889cea2e1744b710e3ad93216d8934f0ad9e702df73",
+          "mcv_item_count": 4,
+          "oid": 16418,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_08",
+          "statistics_target": 300
+        },
+        "e00_09": {
+          "attnames": [
+            "record_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d5577dc5fde2df531af93c52baf9692df596bdd8aa3055439d104490d06e92fe",
+          "mcv_item_count": 5,
+          "oid": 16390,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_09",
+          "statistics_target": 300
+        },
+        "e00_10": {
+          "attnames": [
+            "record_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b3e6cf00fcd26d027c9f8d1ec93213ce38d1514c65f8738eff7791f57c82c114",
+          "mcv_item_count": 5,
+          "oid": 16405,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_10",
+          "statistics_target": 300
+        },
+        "e01_02": {
+          "attnames": [
+            "registration_class",
+            "state"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "9a558e9622582f8ddb34130a30bc2b8af84bec9c85a6851ebb0426e56161be8e",
+          "mcv_item_count": 45,
+          "oid": 16402,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_02",
+          "statistics_target": 300
+        },
+        "e01_03": {
+          "attnames": [
+            "registration_class",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8e735ac2bee28d11bf4d893df03a004846c514022093ad9e105dbd3b0f9d0aa5",
+          "mcv_item_count": 300,
+          "oid": 16399,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_03",
+          "statistics_target": 300
+        },
+        "e01_04": {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "oid": 16422,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300
+        },
+        "e01_05": {
+          "attnames": [
+            "registration_class",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b2202249c18cd704f8a6447f6bfe21c2016c020c9e66e545abd45ab9d023d78",
+          "mcv_item_count": 44,
+          "oid": 16425,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_05",
+          "statistics_target": 300
+        },
+        "e01_06": {
+          "attnames": [
+            "registration_class",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "75949acc11cd61cfe70509a5648c7fa10b8b5058082edad5a8ab362ccf4db212",
+          "mcv_item_count": 300,
+          "oid": 16394,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_06",
+          "statistics_target": 300
+        },
+        "e01_07": {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "oid": 16401,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300
+        },
+        "e01_08": {
+          "attnames": [
+            "registration_class",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d01002dd1325e615e37d1bcf8541d9d3b4000ae4f8e293176fec24c0f855f072",
+          "mcv_item_count": 34,
+          "oid": 16414,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_08",
+          "statistics_target": 300
+        },
+        "e01_09": {
+          "attnames": [
+            "registration_class",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d7c86c8a14d0a397c3bc675bdb90dd1b23d06c4e9b31fa62e602698814641475",
+          "mcv_item_count": 36,
+          "oid": 16415,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_09",
+          "statistics_target": 300
+        },
+        "e01_10": {
+          "attnames": [
+            "registration_class",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "eebe3916b1c8a4fc9487660d4a76f6caea9368469bacc995bdfbd6b1f81fa72e",
+          "mcv_item_count": 35,
+          "oid": 16434,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_10",
+          "statistics_target": 300
+        },
+        "e02_03": {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "oid": 16403,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300
+        },
+        "e02_04": {
+          "attnames": [
+            "state",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "265e51cf9037d31d70189c51d0f299d8493394c89727904484a51bd60f26d05a",
+          "mcv_item_count": 45,
+          "oid": 16408,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_04",
+          "statistics_target": 300
+        },
+        "e02_05": {
+          "attnames": [
+            "state",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "80250ae3561ebe72b50a4c8362f770e91bd1666bd7be3323663ad9ad70cd5f02",
+          "mcv_item_count": 20,
+          "oid": 16440,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_05",
+          "statistics_target": 300
+        },
+        "e02_06": {
+          "attnames": [
+            "state",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5e8ca644bbe9bc01288d302caafea65c9101665d29f1e9c3a4e5af4b9a453de4",
+          "mcv_item_count": 300,
+          "oid": 16417,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_06",
+          "statistics_target": 300
+        },
+        "e02_07": {
+          "attnames": [
+            "state",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7ea058392002cfbfd608e6955ddf1572df7ddea87d13012aa5d50e0c5a477132",
+          "mcv_item_count": 49,
+          "oid": 16443,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_07",
+          "statistics_target": 300
+        },
+        "e02_08": {
+          "attnames": [
+            "state",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6953e4366de4b5e976b191372641362dcd28bcf43532c6aafa0b9b452b9ff43c",
+          "mcv_item_count": 13,
+          "oid": 16439,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_08",
+          "statistics_target": 300
+        },
+        "e02_09": {
+          "attnames": [
+            "state",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8ba8c12a0c1cc37a5915e186461f6a78f980a0adcf35f0b600a44ee5b4d57abe",
+          "mcv_item_count": 14,
+          "oid": 16433,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_09",
+          "statistics_target": 300
+        },
+        "e02_10": {
+          "attnames": [
+            "state",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b07b429250d1cb45552d5c2b2785a01d195ce115fc5bc85988038df18331def9",
+          "mcv_item_count": 14,
+          "oid": 16416,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_10",
+          "statistics_target": 300
+        },
+        "e03_04": {
+          "attnames": [
+            "county",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8433dbbed0c72231fded2200f4f4c0b91eafba70f9380877cd6e170a1f8d23ce",
+          "mcv_item_count": 300,
+          "oid": 16411,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_04",
+          "statistics_target": 300
+        },
+        "e03_05": {
+          "attnames": [
+            "county",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b4a15824040564dca7a5a26c5700893c9f67ad1e5a87ab50a7e6d53c62857739",
+          "mcv_item_count": 155,
+          "oid": 16396,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_05",
+          "statistics_target": 300
+        },
+        "e03_06": {
+          "attnames": [
+            "county",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "71e9afe5def610e757d239f1e6870c33a33293500cf6310e76d96dfa05a34e9b",
+          "mcv_item_count": 121,
+          "oid": 16421,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_06",
+          "statistics_target": 300
+        },
+        "e03_07": {
+          "attnames": [
+            "county",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bf47df0b76ae70c615229c3254a2e7829371cbd74711a5ebf9fd34203abbbd62",
+          "mcv_item_count": 300,
+          "oid": 16392,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_07",
+          "statistics_target": 300
+        },
+        "e03_08": {
+          "attnames": [
+            "county",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4463a6f65af4774907ec414926ef605a567f1bb40d9e625fa52938592aa5e806",
+          "mcv_item_count": 63,
+          "oid": 16429,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_08",
+          "statistics_target": 300
+        },
+        "e03_09": {
+          "attnames": [
+            "county",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5d18f5e4adccae76492174a828cb482b76b64b696edb6e2f92b39a48f212b6be",
+          "mcv_item_count": 74,
+          "oid": 16407,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_09",
+          "statistics_target": 300
+        },
+        "e03_10": {
+          "attnames": [
+            "county",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b31e2c8a6502fd9279db1dd32511892c8ef8b23d51987d1f48041ae9aaf2738d",
+          "mcv_item_count": 67,
+          "oid": 16420,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_10",
+          "statistics_target": 300
+        },
+        "e04_05": {
+          "attnames": [
+            "body_type",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f4c635e7b5a540a040dea74b84df1122a930360d219830259d66fac5e4a031cd",
+          "mcv_item_count": 47,
+          "oid": 16437,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_05",
+          "statistics_target": 300
+        },
+        "e04_06": {
+          "attnames": [
+            "body_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4cd5f61154fe58a4350edf9e4b20299e3a98046589d9a91b7324bde6fac5063c",
+          "mcv_item_count": 300,
+          "oid": 16428,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_06",
+          "statistics_target": 300
+        },
+        "e04_07": {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "oid": 16389,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300
+        },
+        "e04_08": {
+          "attnames": [
+            "body_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "a08d1b9d622b19d7d61c129e8dc1369151a9dbfc51eed7bb4db6ff26c2c65aad",
+          "mcv_item_count": 30,
+          "oid": 16413,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_08",
+          "statistics_target": 300
+        },
+        "e04_09": {
+          "attnames": [
+            "body_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d08472734674f47e4269ee232b836fe6d9ba0f9338ba0326994f3b9fcf83245",
+          "mcv_item_count": 33,
+          "oid": 16441,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_09",
+          "statistics_target": 300
+        },
+        "e04_10": {
+          "attnames": [
+            "body_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7e7576c7d440dc31407000992dd7208a9be42cf927dcede9cc6b499dd5123b26",
+          "mcv_item_count": 32,
+          "oid": 16397,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_10",
+          "statistics_target": 300
+        },
+        "e05_06": {
+          "attnames": [
+            "fuel_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ddfe57a859dc1a8f84e4d13589783294ec61e002231e9ed9b92a512a94cdae22",
+          "mcv_item_count": 300,
+          "oid": 16426,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_06",
+          "statistics_target": 300
+        },
+        "e05_07": {
+          "attnames": [
+            "fuel_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bbe814b685466922ca7b847563538c158c550de70fae60142fae565e701725d0",
+          "mcv_item_count": 59,
+          "oid": 16412,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_07",
+          "statistics_target": 300
+        },
+        "e05_08": {
+          "attnames": [
+            "fuel_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "226e9b3773e9a5aa69836f8053dbda11ff53a73edfa78de66b1a223911c8f949",
+          "mcv_item_count": 7,
+          "oid": 16398,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_08",
+          "statistics_target": 300
+        },
+        "e05_09": {
+          "attnames": [
+            "fuel_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6efd02212dbb1c5609fc1599f620847fbd28db6cfffba9da60d1bcccf74c456c",
+          "mcv_item_count": 8,
+          "oid": 16430,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_09",
+          "statistics_target": 300
+        },
+        "e05_10": {
+          "attnames": [
+            "fuel_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6059d7ca1709cfc9f282967bc60391a6b01b1b3447002b0c92d612c31c6d5fd4",
+          "mcv_item_count": 8,
+          "oid": 16432,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_10",
+          "statistics_target": 300
+        },
+        "e06_07": {
+          "attnames": [
+            "reg_valid_date",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2446b1153fd9af93453ce7ec62cd5afd475e9f85098845776202f1d7b62f4d9",
+          "mcv_item_count": 300,
+          "oid": 16427,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_07",
+          "statistics_target": 300
+        },
+        "e06_08": {
+          "attnames": [
+            "reg_valid_date",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b3463ae1aa1b861f3b5df575dbd7c9c76739811f161000dc631ad1c5c49b493",
+          "mcv_item_count": 300,
+          "oid": 16395,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_08",
+          "statistics_target": 300
+        },
+        "e06_09": {
+          "attnames": [
+            "reg_valid_date",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "63ee338f263c2b910c59ba829e98eaa5dd5d2c9ef0adcdc9844ade7d0df5d4c6",
+          "mcv_item_count": 300,
+          "oid": 16438,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_09",
+          "statistics_target": 300
+        },
+        "e06_10": {
+          "attnames": [
+            "reg_valid_date",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ab0b6d5ed660d8099c1fa4d7e44796f41cbcd5099d1468fa5d9f7d819fdffc2d",
+          "mcv_item_count": 300,
+          "oid": 16436,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_10",
+          "statistics_target": 300
+        },
+        "e07_08": {
+          "attnames": [
+            "color",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "073bfc25910245d217f57b25266ad1f2e022b41df7149da8d578b992fa91202e",
+          "mcv_item_count": 33,
+          "oid": 16424,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_08",
+          "statistics_target": 300
+        },
+        "e07_09": {
+          "attnames": [
+            "color",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc2857ba9f54cabebe0c2e10870a01cc79b71352cfcafc535c1adaef0d38e7b3",
+          "mcv_item_count": 39,
+          "oid": 16435,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_09",
+          "statistics_target": 300
+        },
+        "e07_10": {
+          "attnames": [
+            "color",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d0eee2e73237077802f46e294e1efc6caab1c7a938d346668c494a2be746b857",
+          "mcv_item_count": 36,
+          "oid": 16400,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_10",
+          "statistics_target": 300
+        },
+        "e08_09": {
+          "attnames": [
+            "scofflaw_indicator",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2c2a2d629ebd0dce5eee869bcb0591e75f1724a060e4a4c749255a7eadf921b",
+          "mcv_item_count": 2,
+          "oid": 16404,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_09",
+          "statistics_target": 300
+        },
+        "e08_10": {
+          "attnames": [
+            "scofflaw_indicator",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1aa6503a302bc4b2d164d06620f5e482f7a7b24fe4fc81386c42e8db17580fef",
+          "mcv_item_count": 2,
+          "oid": 16423,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_10",
+          "statistics_target": 300
+        },
+        "e09_10": {
+          "attnames": [
+            "suspension_indicator",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ff67e01f00e4e432a11d048bb530bfdfe48da18eface5cc3771f799dad78cff9",
+          "mcv_item_count": 3,
+          "oid": 16431,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e09_10",
+          "statistics_target": 300
+        }
+      },
+      "dmv11-all-random-02": {
+        "e00_01": {
+          "attnames": [
+            "record_type",
+            "registration_class"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc0b9a2287736b02099ef597caddf4acc026290544afa396336a543391be9e19",
+          "mcv_item_count": 34,
+          "oid": 16475,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_01",
+          "statistics_target": 300
+        },
+        "e00_02": {
+          "attnames": [
+            "record_type",
+            "state"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "00f8ca1ffa26eff1c603d4c2174a28907689c84702826476b26aa5106dd6be04",
+          "mcv_item_count": 17,
+          "oid": 16496,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_02",
+          "statistics_target": 300
+        },
+        "e00_03": {
+          "attnames": [
+            "record_type",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "3be7057d72419ffa0a1a2e1cc94f1538aa49ebbd8a92aa1c8c551a5baa9d6318",
+          "mcv_item_count": 153,
+          "oid": 16492,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_03",
+          "statistics_target": 300
+        },
+        "e00_04": {
+          "attnames": [
+            "record_type",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8b0c6c15fadbcceb21e2427a15480c2e575b824517b4756e49e12821ca3be304",
+          "mcv_item_count": 35,
+          "oid": 16493,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_04",
+          "statistics_target": 300
+        },
+        "e00_05": {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "oid": 16520,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300
+        },
+        "e00_06": {
+          "attnames": [
+            "record_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "2f894662249549bee3be206fe4ce78d4a42517d94b059044be518a86a1b317fa",
+          "mcv_item_count": 300,
+          "oid": 16504,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_06",
+          "statistics_target": 300
+        },
+        "e00_07": {
+          "attnames": [
+            "record_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a611b094c4e0bb0465776e1164ffcbf95be9d91a2cb721f06360077a284edee",
+          "mcv_item_count": 45,
+          "oid": 16508,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_07",
+          "statistics_target": 300
+        },
+        "e00_08": {
+          "attnames": [
+            "record_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "96ae9c4007a080b22d531889cea2e1744b710e3ad93216d8934f0ad9e702df73",
+          "mcv_item_count": 4,
+          "oid": 16469,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_08",
+          "statistics_target": 300
+        },
+        "e00_09": {
+          "attnames": [
+            "record_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d5577dc5fde2df531af93c52baf9692df596bdd8aa3055439d104490d06e92fe",
+          "mcv_item_count": 5,
+          "oid": 16467,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_09",
+          "statistics_target": 300
+        },
+        "e00_10": {
+          "attnames": [
+            "record_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b3e6cf00fcd26d027c9f8d1ec93213ce38d1514c65f8738eff7791f57c82c114",
+          "mcv_item_count": 5,
+          "oid": 16489,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_10",
+          "statistics_target": 300
+        },
+        "e01_02": {
+          "attnames": [
+            "registration_class",
+            "state"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "9a558e9622582f8ddb34130a30bc2b8af84bec9c85a6851ebb0426e56161be8e",
+          "mcv_item_count": 45,
+          "oid": 16494,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_02",
+          "statistics_target": 300
+        },
+        "e01_03": {
+          "attnames": [
+            "registration_class",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8e735ac2bee28d11bf4d893df03a004846c514022093ad9e105dbd3b0f9d0aa5",
+          "mcv_item_count": 300,
+          "oid": 16519,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_03",
+          "statistics_target": 300
+        },
+        "e01_04": {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "oid": 16483,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300
+        },
+        "e01_05": {
+          "attnames": [
+            "registration_class",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b2202249c18cd704f8a6447f6bfe21c2016c020c9e66e545abd45ab9d023d78",
+          "mcv_item_count": 44,
+          "oid": 16517,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_05",
+          "statistics_target": 300
+        },
+        "e01_06": {
+          "attnames": [
+            "registration_class",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "75949acc11cd61cfe70509a5648c7fa10b8b5058082edad5a8ab362ccf4db212",
+          "mcv_item_count": 300,
+          "oid": 16509,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_06",
+          "statistics_target": 300
+        },
+        "e01_07": {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "oid": 16521,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300
+        },
+        "e01_08": {
+          "attnames": [
+            "registration_class",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d01002dd1325e615e37d1bcf8541d9d3b4000ae4f8e293176fec24c0f855f072",
+          "mcv_item_count": 34,
+          "oid": 16499,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_08",
+          "statistics_target": 300
+        },
+        "e01_09": {
+          "attnames": [
+            "registration_class",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d7c86c8a14d0a397c3bc675bdb90dd1b23d06c4e9b31fa62e602698814641475",
+          "mcv_item_count": 36,
+          "oid": 16477,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_09",
+          "statistics_target": 300
+        },
+        "e01_10": {
+          "attnames": [
+            "registration_class",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "eebe3916b1c8a4fc9487660d4a76f6caea9368469bacc995bdfbd6b1f81fa72e",
+          "mcv_item_count": 35,
+          "oid": 16481,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_10",
+          "statistics_target": 300
+        },
+        "e02_03": {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "oid": 16485,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300
+        },
+        "e02_04": {
+          "attnames": [
+            "state",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "265e51cf9037d31d70189c51d0f299d8493394c89727904484a51bd60f26d05a",
+          "mcv_item_count": 45,
+          "oid": 16484,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_04",
+          "statistics_target": 300
+        },
+        "e02_05": {
+          "attnames": [
+            "state",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "80250ae3561ebe72b50a4c8362f770e91bd1666bd7be3323663ad9ad70cd5f02",
+          "mcv_item_count": 20,
+          "oid": 16476,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_05",
+          "statistics_target": 300
+        },
+        "e02_06": {
+          "attnames": [
+            "state",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5e8ca644bbe9bc01288d302caafea65c9101665d29f1e9c3a4e5af4b9a453de4",
+          "mcv_item_count": 300,
+          "oid": 16500,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_06",
+          "statistics_target": 300
+        },
+        "e02_07": {
+          "attnames": [
+            "state",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7ea058392002cfbfd608e6955ddf1572df7ddea87d13012aa5d50e0c5a477132",
+          "mcv_item_count": 49,
+          "oid": 16514,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_07",
+          "statistics_target": 300
+        },
+        "e02_08": {
+          "attnames": [
+            "state",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6953e4366de4b5e976b191372641362dcd28bcf43532c6aafa0b9b452b9ff43c",
+          "mcv_item_count": 13,
+          "oid": 16487,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_08",
+          "statistics_target": 300
+        },
+        "e02_09": {
+          "attnames": [
+            "state",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8ba8c12a0c1cc37a5915e186461f6a78f980a0adcf35f0b600a44ee5b4d57abe",
+          "mcv_item_count": 14,
+          "oid": 16498,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_09",
+          "statistics_target": 300
+        },
+        "e02_10": {
+          "attnames": [
+            "state",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b07b429250d1cb45552d5c2b2785a01d195ce115fc5bc85988038df18331def9",
+          "mcv_item_count": 14,
+          "oid": 16479,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_10",
+          "statistics_target": 300
+        },
+        "e03_04": {
+          "attnames": [
+            "county",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "8433dbbed0c72231fded2200f4f4c0b91eafba70f9380877cd6e170a1f8d23ce",
+          "mcv_item_count": 300,
+          "oid": 16503,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_04",
+          "statistics_target": 300
+        },
+        "e03_05": {
+          "attnames": [
+            "county",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b4a15824040564dca7a5a26c5700893c9f67ad1e5a87ab50a7e6d53c62857739",
+          "mcv_item_count": 155,
+          "oid": 16491,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_05",
+          "statistics_target": 300
+        },
+        "e03_06": {
+          "attnames": [
+            "county",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "71e9afe5def610e757d239f1e6870c33a33293500cf6310e76d96dfa05a34e9b",
+          "mcv_item_count": 121,
+          "oid": 16482,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_06",
+          "statistics_target": 300
+        },
+        "e03_07": {
+          "attnames": [
+            "county",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bf47df0b76ae70c615229c3254a2e7829371cbd74711a5ebf9fd34203abbbd62",
+          "mcv_item_count": 300,
+          "oid": 16478,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_07",
+          "statistics_target": 300
+        },
+        "e03_08": {
+          "attnames": [
+            "county",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4463a6f65af4774907ec414926ef605a567f1bb40d9e625fa52938592aa5e806",
+          "mcv_item_count": 63,
+          "oid": 16497,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_08",
+          "statistics_target": 300
+        },
+        "e03_09": {
+          "attnames": [
+            "county",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5d18f5e4adccae76492174a828cb482b76b64b696edb6e2f92b39a48f212b6be",
+          "mcv_item_count": 74,
+          "oid": 16510,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_09",
+          "statistics_target": 300
+        },
+        "e03_10": {
+          "attnames": [
+            "county",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b31e2c8a6502fd9279db1dd32511892c8ef8b23d51987d1f48041ae9aaf2738d",
+          "mcv_item_count": 67,
+          "oid": 16490,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e03_10",
+          "statistics_target": 300
+        },
+        "e04_05": {
+          "attnames": [
+            "body_type",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f4c635e7b5a540a040dea74b84df1122a930360d219830259d66fac5e4a031cd",
+          "mcv_item_count": 47,
+          "oid": 16507,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_05",
+          "statistics_target": 300
+        },
+        "e04_06": {
+          "attnames": [
+            "body_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4cd5f61154fe58a4350edf9e4b20299e3a98046589d9a91b7324bde6fac5063c",
+          "mcv_item_count": 300,
+          "oid": 16480,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_06",
+          "statistics_target": 300
+        },
+        "e04_07": {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "oid": 16473,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300
+        },
+        "e04_08": {
+          "attnames": [
+            "body_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "a08d1b9d622b19d7d61c129e8dc1369151a9dbfc51eed7bb4db6ff26c2c65aad",
+          "mcv_item_count": 30,
+          "oid": 16471,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_08",
+          "statistics_target": 300
+        },
+        "e04_09": {
+          "attnames": [
+            "body_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "4d08472734674f47e4269ee232b836fe6d9ba0f9338ba0326994f3b9fcf83245",
+          "mcv_item_count": 33,
+          "oid": 16470,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_09",
+          "statistics_target": 300
+        },
+        "e04_10": {
+          "attnames": [
+            "body_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7e7576c7d440dc31407000992dd7208a9be42cf927dcede9cc6b499dd5123b26",
+          "mcv_item_count": 32,
+          "oid": 16472,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_10",
+          "statistics_target": 300
+        },
+        "e05_06": {
+          "attnames": [
+            "fuel_type",
+            "reg_valid_date"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ddfe57a859dc1a8f84e4d13589783294ec61e002231e9ed9b92a512a94cdae22",
+          "mcv_item_count": 300,
+          "oid": 16495,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_06",
+          "statistics_target": 300
+        },
+        "e05_07": {
+          "attnames": [
+            "fuel_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "bbe814b685466922ca7b847563538c158c550de70fae60142fae565e701725d0",
+          "mcv_item_count": 59,
+          "oid": 16501,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_07",
+          "statistics_target": 300
+        },
+        "e05_08": {
+          "attnames": [
+            "fuel_type",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "226e9b3773e9a5aa69836f8053dbda11ff53a73edfa78de66b1a223911c8f949",
+          "mcv_item_count": 7,
+          "oid": 16488,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_08",
+          "statistics_target": 300
+        },
+        "e05_09": {
+          "attnames": [
+            "fuel_type",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6efd02212dbb1c5609fc1599f620847fbd28db6cfffba9da60d1bcccf74c456c",
+          "mcv_item_count": 8,
+          "oid": 16516,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_09",
+          "statistics_target": 300
+        },
+        "e05_10": {
+          "attnames": [
+            "fuel_type",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6059d7ca1709cfc9f282967bc60391a6b01b1b3447002b0c92d612c31c6d5fd4",
+          "mcv_item_count": 8,
+          "oid": 16474,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e05_10",
+          "statistics_target": 300
+        },
+        "e06_07": {
+          "attnames": [
+            "reg_valid_date",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2446b1153fd9af93453ce7ec62cd5afd475e9f85098845776202f1d7b62f4d9",
+          "mcv_item_count": 300,
+          "oid": 16468,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_07",
+          "statistics_target": 300
+        },
+        "e06_08": {
+          "attnames": [
+            "reg_valid_date",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "7b3463ae1aa1b861f3b5df575dbd7c9c76739811f161000dc631ad1c5c49b493",
+          "mcv_item_count": 300,
+          "oid": 16515,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_08",
+          "statistics_target": 300
+        },
+        "e06_09": {
+          "attnames": [
+            "reg_valid_date",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "63ee338f263c2b910c59ba829e98eaa5dd5d2c9ef0adcdc9844ade7d0df5d4c6",
+          "mcv_item_count": 300,
+          "oid": 16511,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_09",
+          "statistics_target": 300
+        },
+        "e06_10": {
+          "attnames": [
+            "reg_valid_date",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ab0b6d5ed660d8099c1fa4d7e44796f41cbcd5099d1468fa5d9f7d819fdffc2d",
+          "mcv_item_count": 300,
+          "oid": 16506,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e06_10",
+          "statistics_target": 300
+        },
+        "e07_08": {
+          "attnames": [
+            "color",
+            "scofflaw_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "073bfc25910245d217f57b25266ad1f2e022b41df7149da8d578b992fa91202e",
+          "mcv_item_count": 33,
+          "oid": 16518,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_08",
+          "statistics_target": 300
+        },
+        "e07_09": {
+          "attnames": [
+            "color",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "cc2857ba9f54cabebe0c2e10870a01cc79b71352cfcafc535c1adaef0d38e7b3",
+          "mcv_item_count": 39,
+          "oid": 16502,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_09",
+          "statistics_target": 300
+        },
+        "e07_10": {
+          "attnames": [
+            "color",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "d0eee2e73237077802f46e294e1efc6caab1c7a938d346668c494a2be746b857",
+          "mcv_item_count": 36,
+          "oid": 16513,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e07_10",
+          "statistics_target": 300
+        },
+        "e08_09": {
+          "attnames": [
+            "scofflaw_indicator",
+            "suspension_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f2c2a2d629ebd0dce5eee869bcb0591e75f1724a060e4a4c749255a7eadf921b",
+          "mcv_item_count": 2,
+          "oid": 16512,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_09",
+          "statistics_target": 300
+        },
+        "e08_10": {
+          "attnames": [
+            "scofflaw_indicator",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1aa6503a302bc4b2d164d06620f5e482f7a7b24fe4fc81386c42e8db17580fef",
+          "mcv_item_count": 2,
+          "oid": 16486,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e08_10",
+          "statistics_target": 300
+        },
+        "e09_10": {
+          "attnames": [
+            "suspension_indicator",
+            "revocation_indicator"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "ff67e01f00e4e432a11d048bb530bfdfe48da18eface5cc3771f799dad78cff9",
+          "mcv_item_count": 3,
+          "oid": 16505,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e09_10",
+          "statistics_target": 300
+        }
+      },
+      "dmv11-b5-nominal-matched": {
+        "e00_05": {
+          "attnames": [
+            "record_type",
+            "fuel_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "6a015fd9aee7235cf049065a65b7cc0a8cb56911dcb0ec05788d5c1422b9a171",
+          "mcv_item_count": 11,
+          "oid": 16546,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e00_05",
+          "statistics_target": 300
+        },
+        "e01_04": {
+          "attnames": [
+            "registration_class",
+            "body_type"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "43af67b9ce723e59cd330dcf0395b51d06837ea00721a323ee368bfaef634cd7",
+          "mcv_item_count": 75,
+          "oid": 16549,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_04",
+          "statistics_target": 300
+        },
+        "e01_07": {
+          "attnames": [
+            "registration_class",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "1f02164410df13eae73e4b19624a000a8ddb1fb1a504eee91b52510f6f9b0df6",
+          "mcv_item_count": 127,
+          "oid": 16547,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e01_07",
+          "statistics_target": 300
+        },
+        "e02_03": {
+          "attnames": [
+            "state",
+            "county"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "df29e48d623589088da9087a15f4ce272abc1d9695596506b629e18fc6822e0f",
+          "mcv_item_count": 71,
+          "oid": 16548,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e02_03",
+          "statistics_target": 300
+        },
+        "e04_07": {
+          "attnames": [
+            "body_type",
+            "color"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0e1a3f98671ea51ee9241d8d6c4779724eeae94f22bf5c37839e2de40739d788",
+          "mcv_item_count": 141,
+          "oid": 16545,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_dmv11_e04_07",
+          "statistics_target": 300
+        }
+      }
+    },
+    "candidate_id_attribution_status_counts": {
+      "dmv11-all-random-01": {
+        "PASS": 9098,
+        "PASS_EMPTY": 902
+      },
+      "dmv11-all-random-02": {
+        "PASS": 9098,
+        "PASS_EMPTY": 902
+      },
+      "dmv11-b5-nominal-matched": {
+        "PASS": 6684,
+        "PASS_EMPTY": 3316
+      }
+    },
+    "catalog_checks": {
+      "dmv11-all-random-01": {
+        "actual_oid_order_candidate_ids": [
+          "e04_07",
+          "e00_09",
+          "e00_03",
+          "e03_07",
+          "e00_05",
+          "e01_06",
+          "e06_08",
+          "e03_05",
+          "e04_10",
+          "e05_08",
+          "e01_03",
+          "e07_10",
+          "e01_07",
+          "e01_02",
+          "e02_03",
+          "e08_09",
+          "e00_10",
+          "e00_06",
+          "e03_09",
+          "e02_04",
+          "e00_04",
+          "e00_07",
+          "e03_04",
+          "e05_07",
+          "e04_08",
+          "e01_08",
+          "e01_09",
+          "e02_10",
+          "e02_06",
+          "e00_08",
+          "e00_02",
+          "e03_10",
+          "e03_06",
+          "e01_04",
+          "e08_10",
+          "e07_08",
+          "e01_05",
+          "e05_06",
+          "e06_07",
+          "e04_06",
+          "e03_08",
+          "e05_09",
+          "e09_10",
+          "e05_10",
+          "e02_09",
+          "e01_10",
+          "e07_09",
+          "e06_10",
+          "e04_05",
+          "e06_09",
+          "e02_08",
+          "e02_05",
+          "e04_09",
+          "e00_01",
+          "e02_07"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 55,
+        "catalog_status": "PASS",
+        "configuration_id": "dmv11-all-random-01",
+        "create_count": 55,
+        "errors": [],
+        "expected_object_count": 55,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "payload_state_counts": {
+          "POPULATED": 55
+        },
+        "permutation_sha256": null,
+        "requested_create_order_candidate_ids": [
+          "e04_07",
+          "e00_09",
+          "e00_03",
+          "e03_07",
+          "e00_05",
+          "e01_06",
+          "e06_08",
+          "e03_05",
+          "e04_10",
+          "e05_08",
+          "e01_03",
+          "e07_10",
+          "e01_07",
+          "e01_02",
+          "e02_03",
+          "e08_09",
+          "e00_10",
+          "e00_06",
+          "e03_09",
+          "e02_04",
+          "e00_04",
+          "e00_07",
+          "e03_04",
+          "e05_07",
+          "e04_08",
+          "e01_08",
+          "e01_09",
+          "e02_10",
+          "e02_06",
+          "e00_08",
+          "e00_02",
+          "e03_10",
+          "e03_06",
+          "e01_04",
+          "e08_10",
+          "e07_08",
+          "e01_05",
+          "e05_06",
+          "e06_07",
+          "e04_06",
+          "e03_08",
+          "e05_09",
+          "e09_10",
+          "e05_10",
+          "e02_09",
+          "e01_10",
+          "e07_09",
+          "e06_10",
+          "e04_05",
+          "e06_09",
+          "e02_08",
+          "e02_05",
+          "e04_09",
+          "e00_01",
+          "e02_07"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 55
+      },
+      "dmv11-all-random-02": {
+        "actual_oid_order_candidate_ids": [
+          "e00_09",
+          "e06_07",
+          "e00_08",
+          "e04_09",
+          "e04_08",
+          "e04_10",
+          "e04_07",
+          "e05_10",
+          "e00_01",
+          "e02_05",
+          "e01_09",
+          "e03_07",
+          "e02_10",
+          "e04_06",
+          "e01_10",
+          "e03_06",
+          "e01_04",
+          "e02_04",
+          "e02_03",
+          "e08_10",
+          "e02_08",
+          "e05_08",
+          "e00_10",
+          "e03_10",
+          "e03_05",
+          "e00_03",
+          "e00_04",
+          "e01_02",
+          "e05_06",
+          "e00_02",
+          "e03_08",
+          "e02_09",
+          "e01_08",
+          "e02_06",
+          "e05_07",
+          "e07_09",
+          "e03_04",
+          "e00_06",
+          "e09_10",
+          "e06_10",
+          "e04_05",
+          "e00_07",
+          "e01_06",
+          "e03_09",
+          "e06_09",
+          "e08_09",
+          "e07_10",
+          "e02_07",
+          "e06_08",
+          "e05_09",
+          "e01_05",
+          "e07_08",
+          "e01_03",
+          "e00_05",
+          "e01_07"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 55,
+        "catalog_status": "PASS",
+        "configuration_id": "dmv11-all-random-02",
+        "create_count": 55,
+        "errors": [],
+        "expected_object_count": 55,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "payload_state_counts": {
+          "POPULATED": 55
+        },
+        "permutation_sha256": null,
+        "requested_create_order_candidate_ids": [
+          "e00_09",
+          "e06_07",
+          "e00_08",
+          "e04_09",
+          "e04_08",
+          "e04_10",
+          "e04_07",
+          "e05_10",
+          "e00_01",
+          "e02_05",
+          "e01_09",
+          "e03_07",
+          "e02_10",
+          "e04_06",
+          "e01_10",
+          "e03_06",
+          "e01_04",
+          "e02_04",
+          "e02_03",
+          "e08_10",
+          "e02_08",
+          "e05_08",
+          "e00_10",
+          "e03_10",
+          "e03_05",
+          "e00_03",
+          "e00_04",
+          "e01_02",
+          "e05_06",
+          "e00_02",
+          "e03_08",
+          "e02_09",
+          "e01_08",
+          "e02_06",
+          "e05_07",
+          "e07_09",
+          "e03_04",
+          "e00_06",
+          "e09_10",
+          "e06_10",
+          "e04_05",
+          "e00_07",
+          "e01_06",
+          "e03_09",
+          "e06_09",
+          "e08_09",
+          "e07_10",
+          "e02_07",
+          "e06_08",
+          "e05_09",
+          "e01_05",
+          "e07_08",
+          "e01_03",
+          "e00_05",
+          "e01_07"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 55
+      },
+      "dmv11-b5-nominal-matched": {
+        "actual_oid_order_candidate_ids": [
+          "e04_07",
+          "e00_05",
+          "e01_07",
+          "e02_03",
+          "e01_04"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 5,
+        "catalog_status": "PASS",
+        "configuration_id": "dmv11-b5-nominal-matched",
+        "create_count": 5,
+        "errors": [],
+        "expected_object_count": 5,
+        "ordinary_stats_sha256": "4763ab61d14d912a9709454bbfa2936de4313590f7e4f5798f34eee9cfb6178d",
+        "payload_state_counts": {
+          "POPULATED": 5
+        },
+        "permutation_sha256": "3bca05ed9e9e8707716ca1f4b3270904941fd32918469ef925586501f97d1e3a",
+        "requested_create_order_candidate_ids": [
+          "e04_07",
+          "e00_05",
+          "e01_07",
+          "e02_03",
+          "e01_04"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+        "table_logical_identity": null,
+        "target_count": 5
+      }
+    },
+    "cross_arm_control_comparisons": {
+      "dmv11-all-random-01__vs__dmv11-all-random-02": {
+        "candidate_id_keyed_mcv_state_itemcount_fingerprint_target_attrs_match": true,
+        "ordinary_stats_sha256_equal": true,
+        "sample_sha256_equal": true,
+        "shared_candidate_count": 55
+      },
+      "dmv11-all-random-02__vs__dmv11-b5-nominal-matched": {
+        "candidate_id_keyed_mcv_state_itemcount_fingerprint_target_attrs_match": true,
+        "ordinary_stats_sha256_equal": true,
+        "sample_sha256_equal": true,
+        "shared_candidate_count": 5
+      }
+    },
+    "dataset": "dmv11",
+    "diagnostics_integrity_status_counts": {
+      "dmv11-all-random-01": {
+        "PASS": 10000
+      },
+      "dmv11-all-random-02": {
+        "PASS": 10000
+      },
+      "dmv11-b5-nominal-matched": {
+        "PASS": 10000
+      }
+    },
+    "execution_source_checks": {
+      "execution_source_commit": "45f55a02244294a8cb6c1b25ba8b3c01b9676c02",
+      "protocol_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-dmv11/protocol-v1.json",
+      "protocol_sha256_from_git_object": "643588b20be23687b8be6395cda8e549ed2aaccb1be0c9343ad92389e49440a8",
+      "protocol_sha256_matches_run_manifest": true,
+      "runner_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-dmv11/run_minimal_dmv11.py",
+      "runner_sha256_from_git_object": "25b23650a123ac9ee9b7b8951fbf5cb6915a023c00732650f3f3f074edaf7648"
+    },
+    "execution_source_commit": "45f55a02244294a8cb6c1b25ba8b3c01b9676c02",
+    "expected_archive_sha256": "69a2202d815c1db991ffdfbfc431d2fa447ddeffc31de898d4ae87d3f5101dbe",
+    "expected_record_count": 30000,
+    "extension_diagnostics_status_counts": {
+      "dmv11-all-random-01": {
+        "complete": 10000
+      },
+      "dmv11-all-random-02": {
+        "complete": 10000
+      },
+      "dmv11-b5-nominal-matched": {
+        "complete": 10000
+      }
+    },
+    "gzip_member_count": 3,
+    "gzip_members": [
+      {
+        "compressed_bytes": 2606934,
+        "compressed_sha256": "9e3ab04fb73553b7d7fc1d2509bb3d979a1458c7838206030540f518b18b375d",
+        "configuration_id": "dmv11-all-random-01",
+        "gzip_eof_crc_checked": true,
+        "index": 0,
+        "offset": 0,
+        "row_count": 10000
+      },
+      {
+        "compressed_bytes": 2581144,
+        "compressed_sha256": "9a1603c987780bfe812e0e70b0b79a144005db22099a140a6a4622fe7f8cb92b",
+        "configuration_id": "dmv11-all-random-02",
+        "gzip_eof_crc_checked": true,
+        "index": 1,
+        "offset": 2606934,
+        "row_count": 10000
+      },
+      {
+        "compressed_bytes": 1314128,
+        "compressed_sha256": "77255ff11516b856f6105f9141a2823963488d10b97f0c6a29e35bc41aadc5ce",
+        "configuration_id": "dmv11-b5-nominal-matched",
+        "gzip_eof_crc_checked": true,
+        "index": 2,
+        "offset": 5188078,
+        "row_count": 10000
+      }
+    ],
+    "input_identity": {
+      "csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+      "dataset": "dmv11",
+      "query_ids_sha256": "48f3a9cc476145580a02da8f371ed2110bb2d8f12bb270a602aa24d4968c64db",
+      "rendered_test_sql_sha256": "491a665cdb080c5d5ae11456abcf308918eb7eb85c4f70c5f73999d4094becae",
+      "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+      "source_csv_sha256": null,
+      "test_truth_canonical_sha256": "0d24d1236fe58daa090950d6133d3f8f4e67ad59370b28622c86fda03757a73c"
+    },
+    "manifest_status_preserved": "COMPLETE",
+    "numpy_version_recorded": "2.3.4",
+    "observed_archive_sha256": "69a2202d815c1db991ffdfbfc431d2fa447ddeffc31de898d4ae87d3f5101dbe",
+    "plan_rows_integrity_status_counts": {
+      "dmv11-all-random-01": {
+        "VALID": 10000
+      },
+      "dmv11-all-random-02": {
+        "VALID": 10000
+      },
+      "dmv11-b5-nominal-matched": {
+        "VALID": 10000
+      }
+    },
+    "postgresql_binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "protocol_sha256": "643588b20be23687b8be6395cda8e549ed2aaccb1be0c9343ad92389e49440a8",
+    "raw_diagnostics_status_counts": {
+      "dmv11-all-random-01": {
+        "complete": 10000
+      },
+      "dmv11-all-random-02": {
+        "complete": 10000
+      },
+      "dmv11-b5-nominal-matched": {
+        "complete": 10000
+      }
+    },
+    "run_id": "20261029T0300Z-issue133-dmv11-three-arm",
+    "run_manifest_vs_catalog_audit_checks": {
+      "dmv11-all-random-01": {
+        "analyze_count": true,
+        "catalog_fingerprint_sha256": true,
+        "catalog_oid_order_candidate_ids": true,
+        "create_count": true,
+        "create_statement_candidate_ids": true,
+        "ordinary_stats_sha256": true,
+        "sample_sha256": true,
+        "statistics_target_count": true
+      },
+      "dmv11-all-random-02": {
+        "analyze_count": true,
+        "catalog_fingerprint_sha256": true,
+        "catalog_oid_order_candidate_ids": true,
+        "create_count": true,
+        "create_statement_candidate_ids": true,
+        "ordinary_stats_sha256": true,
+        "sample_sha256": true,
+        "statistics_target_count": true
+      },
+      "dmv11-b5-nominal-matched": {
+        "analyze_count": true,
+        "catalog_fingerprint_sha256": true,
+        "catalog_oid_order_candidate_ids": true,
+        "create_count": true,
+        "create_statement_candidate_ids": true,
+        "ordinary_stats_sha256": true,
+        "sample_sha256": true,
+        "statistics_target_count": true
+      }
+    },
+    "run_manifest_vs_input_preflight_identity_checks": {
+      "candidate_universe_sha256": true,
+      "csv_sha256": true,
+      "dataset": true,
+      "order_sample_sha256": true,
+      "query_count": true,
+      "query_ids_sha256": true,
+      "rendered_test_sql_sha256": true,
+      "sample_sha256": true,
+      "test_truth_canonical_sha256": true
+    },
+    "unknown_stat_oid_counts": {
+      "dmv11-all-random-01": 0,
+      "dmv11-all-random-02": 0,
+      "dmv11-b5-nominal-matched": 0
+    }
+  },
+  "20261029Tissue133-forest10-b5-nominal-matched": {
+    "aggregate_valid_record_count": 10000,
+    "archive_bytes": 924394,
+    "archive_path_relative_to_runtime_parent": "ess-research/issue133/runs/20261029Tissue133-forest10-b5-nominal-matched/raw-observations.jsonl.gz",
+    "archive_sha256_matches_expected": true,
+    "arm_metadata": {
+      "forest10-b5-nominal-matched-random01": {
+        "actual_oid_order_candidate_ids": [
+          "e02_08",
+          "e03_04",
+          "e02_07",
+          "e01_06",
+          "e06_08"
+        ],
+        "analyze_count": 1,
+        "create_count": 5,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "permutation_sha256": "6aba403c6bd839e0f20059f0793f11322886dc0fcf3af811d1a8b4fc04d9b088",
+        "requested_create_order_candidate_ids": [
+          "e02_08",
+          "e03_04",
+          "e02_07",
+          "e01_06",
+          "e06_08"
+        ],
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 5
+      }
+    },
+    "candidate_catalogs_by_stable_candidate_id": {
+      "forest10-b5-nominal-matched-random01": {
+        "e01_06": {
+          "attnames": [
+            "aspect",
+            "hillshade_9am"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "5a9f0bbbb2f78f862e62741c6de0ea261873ce363a4f001c4c6d13d8a98bf2e4",
+          "mcv_item_count": 300,
+          "oid": 16390,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e01_06",
+          "statistics_target": 300
+        },
+        "e02_07": {
+          "attnames": [
+            "slope",
+            "hillshade_noon"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "b32358a7174ff17afe18c2c5fba58307c7a110f7b8285a7049f3f041c605d19e",
+          "mcv_item_count": 300,
+          "oid": 16389,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_07",
+          "statistics_target": 300
+        },
+        "e02_08": {
+          "attnames": [
+            "slope",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "0c4adb9689fb4b8f3e6770c2cf81a339768085c8d0ea72afd326f49843c341dc",
+          "mcv_item_count": 300,
+          "oid": 16387,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e02_08",
+          "statistics_target": 300
+        },
+        "e03_04": {
+          "attnames": [
+            "horizontal_distance_to_hydrology",
+            "vertical_distance_to_hydrology"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "f14ce573146c4c773ac618a0c659dacc719925e955beda1a76960274a1f4a796",
+          "mcv_item_count": 300,
+          "oid": 16388,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e03_04",
+          "statistics_target": 300
+        },
+        "e06_08": {
+          "attnames": [
+            "hillshade_9am",
+            "hillshade_3pm"
+          ],
+          "kinds": [
+            "m"
+          ],
+          "mcv_content_sha256": "18ae78d07830e86f4c055297bc499523a03fe88d160c8c89463f0de59486c7bb",
+          "mcv_item_count": 300,
+          "oid": 16391,
+          "payload_state": "POPULATED",
+          "statistic_name": "ess_issue99_forest10_e06_08",
+          "statistics_target": 300
+        }
+      }
+    },
+    "candidate_id_attribution_status_counts": {
+      "forest10-b5-nominal-matched-random01": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "catalog_checks": {
+      "forest10-b5-nominal-matched-random01": {
+        "actual_oid_order_candidate_ids": [
+          "e02_08",
+          "e03_04",
+          "e02_07",
+          "e01_06",
+          "e06_08"
+        ],
+        "analyze_count": 1,
+        "candidate_ids_unique": true,
+        "catalog_object_count": 5,
+        "catalog_status": "PASS",
+        "configuration_id": "forest10-b5-nominal-matched-random01",
+        "create_count": 5,
+        "errors": [],
+        "expected_object_count": 5,
+        "ordinary_stats_sha256": "7438a497092f3fe9bc35eff152e476aa3bf48e60f000f9da9de3937d48a5775e",
+        "payload_state_counts": {
+          "POPULATED": 5
+        },
+        "permutation_sha256": "6aba403c6bd839e0f20059f0793f11322886dc0fcf3af811d1a8b4fc04d9b088",
+        "requested_create_order_candidate_ids": [
+          "e02_08",
+          "e03_04",
+          "e02_07",
+          "e01_06",
+          "e06_08"
+        ],
+        "requested_create_order_matches_actual_ascending_oid_order": true,
+        "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+        "table_logical_identity": {
+          "columns": [
+            [
+              1,
+              "elevation",
+              "double precision"
+            ],
+            [
+              2,
+              "aspect",
+              "double precision"
+            ],
+            [
+              3,
+              "slope",
+              "double precision"
+            ],
+            [
+              4,
+              "horizontal_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              5,
+              "vertical_distance_to_hydrology",
+              "double precision"
+            ],
+            [
+              6,
+              "horizontal_distance_to_roadways",
+              "double precision"
+            ],
+            [
+              7,
+              "hillshade_9am",
+              "double precision"
+            ],
+            [
+              8,
+              "hillshade_noon",
+              "double precision"
+            ],
+            [
+              9,
+              "hillshade_3pm",
+              "double precision"
+            ],
+            [
+              10,
+              "horizontal_distance_to_fire_points",
+              "double precision"
+            ]
+          ],
+          "row_count": 581012
+        },
+        "target_count": 5
+      }
+    },
+    "cross_arm_control_comparisons": {},
+    "dataset": "forest10",
+    "diagnostics_integrity_status_counts": {
+      "forest10-b5-nominal-matched-random01": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "execution_source_checks": {
+      "execution_source_commit": "537f88073587535018dc84e38456c2608e491b7f",
+      "protocol_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-forest10-b5-control/protocol-v1.json",
+      "protocol_sha256_from_git_object": "d5a28e8489a30e6625a8a227ba900d23695ee584b3d775eecf0f25eb704cfd6a",
+      "protocol_sha256_matches_run_manifest": true,
+      "runner_path_at_execution_commit": "experiments/all-pairwise-oid-issue133/minimal-forest10-b5-control/run_b5_control.py",
+      "runner_sha256_from_git_object": "d6dfb30daa5dba64e225e264e6df9fe9dc49aab511e6b37608b336d368b8727c"
+    },
+    "execution_source_commit": "537f88073587535018dc84e38456c2608e491b7f",
+    "expected_archive_sha256": "43a4ee6e53106768cef26fefa2b797ed948199451f2ac431f9040cde881ef0b4",
+    "expected_record_count": 10000,
+    "extension_diagnostics_status_counts": {
+      "forest10-b5-nominal-matched-random01": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "gzip_member_count": 1,
+    "gzip_members": [
+      {
+        "compressed_bytes": 924394,
+        "compressed_sha256": "43a4ee6e53106768cef26fefa2b797ed948199451f2ac431f9040cde881ef0b4",
+        "configuration_id": "forest10-b5-nominal-matched-random01",
+        "gzip_eof_crc_checked": true,
+        "index": 0,
+        "offset": 0,
+        "row_count": 10000
+      }
+    ],
+    "input_identity": {
+      "csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "dataset": "forest10",
+      "query_ids_sha256": "2d78f84909b5722f8b02ba6bc871ac337fc9d5c7a45ca667ea27ab48cbf6f3a5",
+      "rendered_test_sql_sha256": "307f741da68ea570026ebf1b9f4494141b7030e29a8d2618357747e1a8adb24c",
+      "sample_sha256": "95670277a138f577a7e21eb1567e0f6e1bce1ac489c10907c4a5662577d1aff8",
+      "source_csv_sha256": "3484f3037f890f6bae46ae51fb387ee883351119667139c5894654276789a73c",
+      "test_truth_canonical_sha256": "7c3cdb46422bb6238c35704dc4a7c52fd0528a5900a7cb607d414046a56d2bf7"
+    },
+    "manifest_status_preserved": "INCOMPLETE",
+    "numpy_version_recorded": "2.3.4",
+    "observed_archive_sha256": "43a4ee6e53106768cef26fefa2b797ed948199451f2ac431f9040cde881ef0b4",
+    "plan_rows_integrity_status_counts": {
+      "forest10-b5-nominal-matched-random01": {
+        "NOT_RECORDED": 10000
+      }
+    },
+    "postgresql_binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "postgresql_source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "postgresql_version": "16.14",
+    "protocol_sha256": "d5a28e8489a30e6625a8a227ba900d23695ee584b3d775eecf0f25eb704cfd6a",
+    "raw_diagnostics_status_counts": {
+      "forest10-b5-nominal-matched-random01": {
+        "UNKNOWN_SELECTED_STAT_OID": 6648,
+        "complete": 3352
+      }
+    },
+    "run_id": "20261029Tissue133-forest10-b5-nominal-matched",
+    "run_manifest_vs_catalog_audit_checks": {
+      "forest10-b5-nominal-matched-random01": {
+        "sample_sha256": true
+      }
+    },
+    "run_manifest_vs_input_preflight_identity_checks": {
+      "csv_sha256": true,
+      "dataset": true,
+      "query_count": true,
+      "query_ids_sha256": true,
+      "rendered_test_sql_sha256": true,
+      "sample_sha256": true,
+      "test_truth_canonical_sha256": true
+    },
+    "unknown_stat_oid_counts": {
+      "forest10-b5-nominal-matched-random01": 0
+    }
+  }
+}
