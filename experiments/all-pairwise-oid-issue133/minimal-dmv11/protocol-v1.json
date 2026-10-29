@@ -1,0 +1,330 @@
+{
+  "candidate_universe": {
+    "all_objects_static_ordinary_two_column_mcv_target_300": true,
+    "candidate_map_compact_json_sha256": "8feab245abc557251d7446ff25d25ead1f43bdf0f39fbc591b19228a8e9d0f5d",
+    "candidate_map_runtime_path_under_ess_runtime_parent": "ess-research/issue99/runs/20261025T083515Z-issue99-dmv11-16fd8a/train/candidate-map.json",
+    "candidate_map_runtime_sha256": "ada69993ab2e91acbe0fceaa79c8b95f61d73c3088794df609d485f6a300c0ed",
+    "candidate_order_sha256": "88d96d9a64de771133d0a3383db2aaec28803f5341596b63f3893ad68e3e0f25",
+    "collection_manifest_path_under_ess_runtime_parent": "ess-research/issue99/runs/20261025T083515Z-issue99-dmv11-16fd8a/collection-manifest.json",
+    "collection_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3",
+    "collection_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+    "dataset_candidate_count": 55,
+    "full_csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+    "full_source_rows": 11591877,
+    "full_table": "public.dmv11",
+    "physical_payload_success_claimed_in_M0": false,
+    "source_path": "experiments/all-pairwise-oid-issue133/candidate-universe-manifest.json",
+    "source_sha256": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104"
+  },
+  "diagnostics": {
+    "complete_arm_requires": {
+      "candidate_id_attribution_pass_or_empty": 10000,
+      "diagnostics_integrity_and_extension_status_complete_or_empty": 10000,
+      "plan_rows_valid": 10000
+    },
+    "extension_status_field": "extension_diagnostics_status (preserved exactly from ESS Diagnostics.Status)",
+    "json_string_oid_keys_normalized_before_lookup": true,
+    "oid_map_in_memory_key_type": "integer",
+    "separate_completeness_fields": [
+      "plan_rows_integrity_status",
+      "diagnostics_integrity_status",
+      "candidate_id_attribution_status"
+    ],
+    "unknown_oid_policy": "retain the raw ESS diagnostics object and event, set candidate_id_attribution_status=UNKNOWN_STAT_OID, mark arm incomplete, and stop before the next configuration; never replace the original extension status or drop the event"
+  },
+  "execution": {
+    "active_configs_at_once": 1,
+    "full_table_loaded_once_and_not_modified_between_arms": true,
+    "issue99_run_config_drops_prior_candidate_statistics_then_creates_requested_arm_and_replays_fixed_analyze_sample": true,
+    "one_isolated_postgresql_cluster_reused_across_arms": true,
+    "pre_test_comparisons": "after each setup and before its Test arm, compare actual catalog order and candidate-ID-keyed MCV state, table identity, sample, and ordinary column stats against every applicable prior reference arm; re-audit live state immediately before EXPLAIN",
+    "query_clients": 6
+  },
+  "failure_policy": {
+    "candidate_or_order_mismatch": "stop before Test and mark INCONCLUSIVE",
+    "ddl_or_analyze_failure": "retain logs/audits; do not issue Test for failed arm",
+    "orders_or_configuration_count": "never replace, redraw, or add an arm",
+    "table_sample_ordinary_stats_or_candidate_mcv_mismatch": "stop before affected comparison Test and mark INCONCLUSIVE",
+    "timeout_or_resource_limit": "terminate only this owned worker/cluster, retain observations and failed phase; do not retry automatically",
+    "unknown_or_incomplete_diagnostics": "retain rows and original extension status; mark INCOMPLETE and do not begin next arm"
+  },
+  "format": "ess-issue133-minimal-dmv11-three-arm-v1",
+  "frozen_nominal_b5": {
+    "b5_create_order": [
+      "e04_07",
+      "e00_05",
+      "e01_07",
+      "e02_03",
+      "e01_04"
+    ],
+    "budget": 5,
+    "case_id": "dmv11-nominal-b5",
+    "objective": "nominal",
+    "selected_candidate_ids": [
+      "e00_05",
+      "e01_04",
+      "e01_07",
+      "e02_03",
+      "e04_07"
+    ],
+    "selected_ids_sha256": "c76e6d369e30c80ac0e3526a4e9f27c68e494d2f00cff59f329f357f88e79580",
+    "selection_manifest_sha256": "9efcab45b2ef2164bc38c7948d6fd75e33a4d93612f7d015d0c1d7635730de79",
+    "source_path": "experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json",
+    "source_sha256": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+    "split": "train"
+  },
+  "implementation": {
+    "analyzer_sha256": "ad1a02bdafb7b48ce9f9f48022b907f44185876b819b06f5ee9c80b5c80088f6",
+    "runner_sha256": "25b23650a123ac9ee9b7b8951fbf5cb6915a023c00732650f3f3f074edaf7648",
+    "tests_sha256": "d02ec74fee0f735d5a154ccf11e1187e2eb6e8eddeae0e7773d5a28f0b389ca9"
+  },
+  "input_pins": {
+    "arecel_archive_sha256": "5cd33cba7f3d7182ef497e60e7346fb2a7546941590a90a4444913a944958f79",
+    "arecel_upstream_commit": "aa52da7768023270bad884232972e0b77ec6534a",
+    "candidate_universe_sha256": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104",
+    "catalog_columns": [
+      "record_type",
+      "registration_class",
+      "state",
+      "county",
+      "body_type",
+      "fuel_type",
+      "reg_valid_date",
+      "color",
+      "scofflaw_indicator",
+      "suspension_indicator",
+      "revocation_indicator"
+    ],
+    "csv_rows": 11591877,
+    "csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+    "labels_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+    "labels_split_explicitly_dereferenced": "test",
+    "non_test_label_values_indexed_serialized_or_used": false,
+    "order_sample_sha256": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c",
+    "repository_files": {
+      "experiments/add-only-greedy-issue99/frozen-train-resources-issue96-v1.json": "2dfa3268e3cbdf145be2521498115dc10e67bd8b03b523fe151363ba77645eca",
+      "experiments/all-pairwise-oid-issue133/all-order-sample-v1.json": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c",
+      "experiments/all-pairwise-oid-issue133/candidate-universe-manifest.json": "20fd045a1391e6b0308d36ec581e128db185b892bc6e7384540e77c483572104",
+      "experiments/all-pairwise-oid-issue133/minimal-forest10/protocol-v1.json": "5168554019cf40438ccdde4826c6fb9147aade96518ad2f8d5bbd41a9ba78a70",
+      "experiments/all-pairwise-oid-issue133/minimal-forest10/run_minimal_forest10.py": "f3e39b423c16d7fbf3a95b5368679238abf5f912ba653ac04fc475649e7a4e64",
+      "experiments/arecel-test-generalization-issue101/protocol-v1.json": "7bd11b3743c5ca0467b4268cf47e8328f2bbe500fd53cea45a8efe3eab415787",
+      "experiments/arecel-test-generalization-issue101/run_issue101.py": "894b8276f58d36d7d513138e574a9832aa03b8e8a21f3dd84494dbc0367b9244",
+      "experiments/oid-order-stress-test-issue105/protocol-amendment-v1.md": "58b2a15b6fee0f86212c27482aa646c25a9d0b1024ddd79a17520db6ab870e8b",
+      "experiments/oid-order-stress-test-issue105/protocol-v1.md": "3afe7853a891f177ed836993bef2cd77a232f35e5398843d0019b12b384653d6",
+      "experiments/oid-order-stress-test-issue105/run_issue105.py": "84c821dd3188750737b6156bbe675c82f22c3fbe30dfa7af75068b6ff5fb5627"
+    },
+    "sample_bytes": 8820422,
+    "sample_collection_manifest_sha256": "72bfea7ac977876c2a134806fd9ead82ee3aaf1ce318e12e0d00e3abf0fad2c3",
+    "sample_relation_identity": "6:public5:dmv11",
+    "sample_rows": 90000,
+    "sample_sha256": "fc1013bb57547aaed5e15bab4de0f126ce21d0e781b5a66d7eabe21423fee249",
+    "sample_source_issue99_run_id": "20261025T083515Z-issue99-dmv11-16fd8a",
+    "sample_target": 90000,
+    "schema_columns": [
+      "Record_Type",
+      "Registration_Class",
+      "State",
+      "County",
+      "Body_Type",
+      "Fuel_Type",
+      "Reg_Valid_Date",
+      "Color",
+      "Scofflaw_Indicator",
+      "Suspension_Indicator",
+      "Revocation_Indicator"
+    ],
+    "test_query_count": 10000,
+    "test_truth_canonical_sha256": "0d24d1236fe58daa090950d6133d3f8f4e67ad59370b28622c86fda03757a73c",
+    "trusted_pickle_materializes_other_split_containers": true,
+    "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc"
+  },
+  "issue101_source_run": {
+    "input_identity_reused_for_pretest_checks": {
+      "catalog_columns": [
+        "record_type",
+        "registration_class",
+        "state",
+        "county",
+        "body_type",
+        "fuel_type",
+        "reg_valid_date",
+        "color",
+        "scofflaw_indicator",
+        "suspension_indicator",
+        "revocation_indicator"
+      ],
+      "container_deserialization_materializes_all_split_objects": true,
+      "csv_rows": 11591877,
+      "csv_sha256": "ae310972b7ac08629d135a1da7c580e3fe603bfc2e665e1969005bd481d4605a",
+      "dataset": "dmv11",
+      "explicitly_dereferenced_label_split": "test",
+      "labels_pickle_sha256": "14b29cc7f28aab5dd85f3bec2e49fe841d4194b7417dcc881459a1d9d9f98d65",
+      "non_test_label_values_indexed_serialized_or_used": false,
+      "query_count": 10000,
+      "schema_columns": [
+        "Record_Type",
+        "Registration_Class",
+        "State",
+        "County",
+        "Body_Type",
+        "Fuel_Type",
+        "Reg_Valid_Date",
+        "Color",
+        "Scofflaw_Indicator",
+        "Suspension_Indicator",
+        "Revocation_Indicator"
+      ],
+      "split": "test",
+      "test_truth_canonical_sha256": "0d24d1236fe58daa090950d6133d3f8f4e67ad59370b28622c86fda03757a73c",
+      "truth_count": 10000,
+      "workload_pickle_sha256": "e37136725ace8f60a6dfcf55529da328ab202d74988538726cff8589ccec65dc"
+    },
+    "run_id": "20261025T-issue101-full-test-v1",
+    "run_manifest_sha256": "a50b3f71a34ed880fa6fbab8ea98ccc32915326a967fcfacecfefbe8e9f29385"
+  },
+  "metrics": {
+    "h1": "ALL random-02 minus ALL random-01 P95; report paired query Plan Rows, Q-error, selection and estimate sequence changes",
+    "h2": "ALL random-01 minus matched B5 P95; report paired query Plan Rows and Q-error direction, MCV sequences, shared and ALL-only use",
+    "inferential_claims": "three frozen configurations only; no all-55! order expectation, confidence interval, best/worst order, or blocker-causality claim",
+    "pairing": "same immutable query_id, source_index and true_cardinality; no pooling across arms",
+    "primary_per_arm": "P95 over that configuration’s 10,000 official DMV11 Test zero-aware Q-errors",
+    "qerror_implementation": "Issue #101 qerror_for_plan_rows including zero-aware handling and NumPy rounding",
+    "quantiles": "Issue #101/#105 NumPy median/percentile implementation; compute each arm separately",
+    "secondary": [
+      "P50",
+      "P99",
+      "arithmetic_mean",
+      "query counts with changed Plan Rows/Q-error/MCV selection/estimate sequences",
+      "shared-object and ALL-only observed MCV usage"
+    ]
+  },
+  "minimal_sufficiency": "Reuse the frozen Issue #99 DMV11 full-table inputs, 90,000-row sample, candidate map and train-only Nominal B5; reuse Issue #134 random orders and Issue #101/#105 PostgreSQL, Q-error and catalog helpers. The minimum observations are three complete 10,000-query arms with candidate-ID-keyed catalog/sample fingerprints and query-level paired rows.",
+  "order_pins": {
+    "all_orders": {
+      "dmv11-all-random-01": {
+        "child_seed_hex": "e55fbdfa144e7b82",
+        "length": 55,
+        "order_id": "random-01",
+        "permutation_sha256": "3e18988a5e28b6fedf88486ff113863780280f5d93e6a523bf6a2d29de7a3e13"
+      },
+      "dmv11-all-random-02": {
+        "child_seed_hex": "252c0250b744a9f1",
+        "length": 55,
+        "order_id": "random-02",
+        "permutation_sha256": "c8aeac03b9e2e9f9b9bf90ed1e147ae85e4ba70b8744290c21731f322ef49e53"
+      }
+    },
+    "b5_order": [
+      "e04_07",
+      "e00_05",
+      "e01_07",
+      "e02_03",
+      "e01_04"
+    ],
+    "b5_order_sha256": "3bca05ed9e9e8707716ca1f4b3270904941fd32918469ef925586501f97d1e3a",
+    "h1_contrast": "P95(Q_ALL_random02) - P95(Q_ALL_random01)",
+    "h2_contrast": "P95(Q_ALL_random01) - P95(Q_B5_matched)",
+    "no_selection_by_new_Test_results": true,
+    "primary_comparison": "dmv11-all-random-01 minus dmv11-b5-nominal-matched",
+    "python_version_at_generation": "3.12.3",
+    "random01_nominal_b5_projection": [
+      "e04_07",
+      "e00_05",
+      "e01_07",
+      "e02_03",
+      "e01_04"
+    ],
+    "random02_b5_projection": [
+      "e04_07",
+      "e01_04",
+      "e02_03",
+      "e00_05",
+      "e01_07"
+    ],
+    "random02_nominal_b5_projection": [
+      "e04_07",
+      "e01_04",
+      "e02_03",
+      "e00_05",
+      "e01_07"
+    ],
+    "random02_projection_equals_b5": false,
+    "random_design": "successive uniform Fisher-Yates draws with rejection of fixed/previously drawn orders; hence SRSWOR from S_n excluding the two fixed orders",
+    "rng_version": "ess-splitmix64-fisher-yates-direct-v1",
+    "root_seed": 4017865097189414557,
+    "source_path": "experiments/all-pairwise-oid-issue133/all-order-sample-v1.json",
+    "source_sha256": "6e53e60083426a0f6fedb7147eae418ceb69aa826e01484d8794b95a80546d9c"
+  },
+  "pinned_code": {
+    "issue101_protocol_sha256": "7bd11b3743c5ca0467b4268cf47e8328f2bbe500fd53cea45a8efe3eab415787",
+    "issue101_runner_sha256": "894b8276f58d36d7d513138e574a9832aa03b8e8a21f3dd84494dbc0367b9244",
+    "issue105_amendment_sha256": "58b2a15b6fee0f86212c27482aa646c25a9d0b1024ddd79a17520db6ab870e8b",
+    "issue105_protocol_sha256": "3afe7853a891f177ed836993bef2cd77a232f35e5398843d0019b12b384653d6",
+    "issue105_runner_sha256": "84c821dd3188750737b6156bbe675c82f22c3fbe30dfa7af75068b6ff5fb5627",
+    "issue99_helper_commit": "76106024611ae91505f1f05bdc35aed44d9c38c4",
+    "shared_cluster_protocol_sha256": "5168554019cf40438ccdde4826c6fb9147aade96518ad2f8d5bbd41a9ba78a70",
+    "shared_cluster_runner_sha256": "f3e39b423c16d7fbf3a95b5368679238abf5f912ba653ac04fc475649e7a4e64"
+  },
+  "postgresql": {
+    "binary_sha256": {
+      "initdb": "c232387858268df20d4d4c261fb9f51fedd2608bb0a2514bd7fc38b34ce15286",
+      "pg_config": "747a18bedbbf6587be91d156223c129f8819a21b3a38549f4decca67bf197d4f",
+      "pg_ctl": "a5fb11ada7f6a64ec1f66e6a1cee9a8c71282502fa03f38f140373f1baa2dca6",
+      "postgres": "e64838843db45dfee8823f35cae3d78f90f29295799de24522066ec57dcc73f8",
+      "psql": "1ced815ec9f00f85c4e6035df856b05164395204511be47c7e980f1bfd79ad8a"
+    },
+    "binary_source_run_id": "20261025T-issue101-full-test-v1",
+    "build_flags": [
+      "--without-readline",
+      "--without-zlib",
+      "make -j2"
+    ],
+    "explain": "EXPLAIN (FORMAT JSON, SUMMARY OFF, ESS_DIAGNOSTICS true)",
+    "plan_options": "-c client_min_messages=warning -c plan_cache_mode=force_custom_plan -c max_parallel_workers_per_gather=0",
+    "source_commit": "f1bf37b5dd3d3a7087fc0af5de550ca31035854c",
+    "version": "16.14"
+  },
+  "resource_envelope": {
+    "early_stop_bytes": 8589934592,
+    "early_stop_seconds": 21600,
+    "hard_stop_bytes": 10737418240,
+    "hard_stop_seconds": 28800,
+    "maximum_active_configurations": 1,
+    "maximum_parallel_explain_clients": 6,
+    "minimum_free_bytes": 5368709120,
+    "monitoring_scope": "allocated bytes under this unique runtime directory and global filesystem free-space health"
+  },
+  "scientific_question": "On the fixed official DMV11 Test workload, separately measure (H1) the paired effect of two frozen OID orders on the same full set of 55 two-column MCV objects and (H2) ALL random-01 versus the frozen Nominal B5 set at matched shared-object relative order, under identical measured data/sample/statistics state.",
+  "scope": {
+    "adaptive_order_or_reselection": false,
+    "analyze_runs": 3,
+    "automatic_retry": false,
+    "candidate_count": 55,
+    "candidate_kind": [
+      "mcv"
+    ],
+    "canonical_reverse": false,
+    "configuration_candidate_counts": {
+      "dmv11-all-random-01": 55,
+      "dmv11-all-random-02": 55,
+      "dmv11-b5-nominal-matched": 5
+    },
+    "configurations": [
+      "dmv11-all-random-01",
+      "dmv11-all-random-02",
+      "dmv11-b5-nominal-matched"
+    ],
+    "create_statistics_statements": 115,
+    "dataset": "dmv11",
+    "empty": false,
+    "expressions": false,
+    "maximum_explain_calls": 30000,
+    "official_test_queries_per_configuration": 10000,
+    "ordinary_two_column_statistics_only": true,
+    "other_datasets": false,
+    "pess": false,
+    "statistics_target": 300,
+    "statistics_target_statements": 115
+  },
+  "status": "FROZEN_BEFORE_TEST_EXECUTION"
+}
